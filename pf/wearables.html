@@ -41,7 +41,7 @@
     .section-label { font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: #D70030; margin-bottom: 14px; margin-top: 28px; }
 
     /* Chat card — IA-first config */
-    .chat-card { background: #FFF; border-radius: 24px; border: 1px solid rgba(0,0,0,0.04); padding: 24px; margin-top: 28px; box-shadow: 0 2px 20px rgba(0,0,0,0.03); }
+    .chat-card { background: #FFF; border-radius: 24px; border: 1px solid rgba(0,0,0,0.04); padding: 24px; margin-bottom: 24px; box-shadow: 0 2px 20px rgba(0,0,0,0.03); }
     .chat-label { font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: #D70030; margin-bottom: 14px; display: flex; align-items: center; gap: 8px; }
     .chat-dot { width: 6px; height: 6px; border-radius: 50%; background: #30D158; animation: pulse 2s infinite; }
     .chat-msgs { display: flex; flex-direction: column; gap: 10px; margin-bottom: 16px; }
@@ -80,8 +80,31 @@
     <h1 class="fade-in">Seus Dispositivos</h1>
     <p class="sub fade-in">Seus sentidos digitais. Quanto mais conectado, mais seus mentores entendem voce.</p>
 
+    <!-- CHAT — IA-first, always first in hierarchy -->
+    <div class="chat-card fade-in" style="animation-delay:0.05s">
+      <div class="chat-label"><div class="chat-dot"></div> Yumi — Seus dispositivos</div>
+      <div class="chat-msgs" id="chatMsgs">
+        <div class="chat-msg chat-msg-ai">
+          <div class="chat-sender">Yumi — Mentora</div>
+          Voce tem 2 dispositivos conectados (Apple Watch + Oura Ring). Quer adicionar mais algum? Relogio, pulseira, oculos inteligente — me conta que eu conecto.
+          <div class="chat-suggestions">
+            <span class="chat-sug" onclick="quickMsg('Tenho um Garmin')">Tenho um Garmin</span>
+            <span class="chat-sug" onclick="quickMsg('Uso Whoop')">Uso Whoop</span>
+            <span class="chat-sug" onclick="quickMsg('Quero conectar Meta Ray-Ban')">Meta Ray-Ban</span>
+            <span class="chat-sug" onclick="quickMsg('Como esta minha saude?')">Como esta minha saude?</span>
+          </div>
+        </div>
+      </div>
+      <div class="chat-input-wrap">
+        <input type="text" class="chat-input" id="chatInput" placeholder="Falar com Yumi sobre dispositivos..." onkeydown="if(event.key==='Enter')sendMsg()">
+        <button class="chat-send" onclick="sendMsg()">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+        </button>
+      </div>
+    </div>
+
     <!-- CONNECTED — visual display -->
-    <p class="section-label fade-in">Conectados</p>
+    <p class="section-label fade-in" style="animation-delay:0.1s">Conectados</p>
 
     <!-- Apple Watch -->
     <div class="device fade-in" style="animation-delay:0.05s">
@@ -134,29 +157,6 @@
         <span class="data-tag"><svg viewBox="0 0 24 24" fill="none" stroke="#FF9F0A" stroke-width="1.5"><path d="M14 14.76V3.5a2.5 2.5 0 00-5 0v11.26a4.5 4.5 0 105 0z"/></svg> Temperatura</span>
       </div>
       <div class="sync-row">Ultima sync: <strong>ha 12 min</strong> · Conectado via conversa com Yumi em 18/Mar</div>
-    </div>
-
-    <!-- CHAT — IA-first to add devices -->
-    <div class="chat-card fade-in" style="animation-delay:0.15s">
-      <div class="chat-label"><div class="chat-dot"></div> Adicionar dispositivo</div>
-      <div class="chat-msgs" id="chatMsgs">
-        <div class="chat-msg chat-msg-ai">
-          <div class="chat-sender">Yumi — Mentora</div>
-          Voce usa algum outro dispositivo? Relogio, pulseira, oculos inteligente? Me conta que eu conecto pra voce.
-          <div class="chat-suggestions">
-            <span class="chat-sug" onclick="quickMsg('Tenho um Garmin')">Tenho um Garmin</span>
-            <span class="chat-sug" onclick="quickMsg('Uso Whoop')">Uso Whoop</span>
-            <span class="chat-sug" onclick="quickMsg('Quero conectar Meta Ray-Ban')">Meta Ray-Ban</span>
-            <span class="chat-sug" onclick="quickMsg('Nao uso outros')">Nao uso outros</span>
-          </div>
-        </div>
-      </div>
-      <div class="chat-input-wrap">
-        <input type="text" class="chat-input" id="chatInput" placeholder="Diga qual dispositivo voce usa..." onkeydown="if(event.key==='Enter')sendMsg()">
-        <button class="chat-send" onclick="sendMsg()">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
-        </button>
-      </div>
     </div>
 
     <!-- Compatible (visual reference — greyed) -->
