@@ -1,37 +1,229 @@
-<!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>Relacionamentos — KTANA</title><link rel="stylesheet" href="../shared.css"><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Zen+Dots&display=swap" rel="stylesheet">
-<style>body{min-height:100vh;background:#F5F5F7;padding:40px 24px}.container{max-width:580px;margin:0 auto}.back{position:fixed;top:20px;left:24px;font-family:'Inter',sans-serif;font-size:12px;color:#86868B}h1{font-family:'Zen Dots',cursive;font-size:24px;color:#1D1D1F;text-align:center;margin-bottom:4px}.sub{font-family:'Satoshi',sans-serif;font-size:14px;color:#86868B;text-align:center;margin-bottom:28px}.card{background:#FFF;border-radius:20px;border:1px solid rgba(0,0,0,0.04);padding:22px;margin-bottom:12px}.card-label{font-family:'Inter',sans-serif;font-size:11px;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;color:#D70030;margin-bottom:12px}
-.mentor{display:flex;align-items:center;gap:14px;margin-bottom:14px}.mentor-avatar{width:44px;height:44px;border-radius:50%;border:1.5px solid rgba(215,0,48,0.15);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}.mentor-name{font-family:'Satoshi',sans-serif;font-size:15px;font-weight:500;color:#1D1D1F}.mentor-desc{font-family:'Satoshi',sans-serif;font-size:12px;color:#86868B;margin-top:2px}
-.ref{font-family:'Satoshi',sans-serif;font-size:13px;color:#86868B;padding:4px 0;display:flex;align-items:center;gap:8px}.ref::before{content:'';width:4px;height:4px;border-radius:50%;background:#D70030;flex-shrink:0}
-.spec{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:0.5px solid rgba(0,0,0,0.03)}.spec:last-child{border-bottom:none}.spec-avatar{width:28px;height:28px;border-radius:50%;border:1px solid #D2D2D7;display:flex;align-items:center;justify-content:center;font-family:'Inter',sans-serif;font-size:11px;color:#86868B;flex-shrink:0}.spec-name{font-family:'Satoshi',sans-serif;font-size:13px;color:#1D1D1F}.spec-status{font-family:'Inter',sans-serif;font-size:11px;color:#86868B;margin-left:auto;display:flex;align-items:center;gap:4px}.spec-status::before{content:'';width:5px;height:5px;border-radius:50%;background:#30D158}
-.goal{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:0.5px solid rgba(0,0,0,0.03)}.goal:last-child{border-bottom:none}.goal-text{font-family:'Satoshi',sans-serif;font-size:13px;color:#1D1D1F}.goal-status{font-family:'Inter',sans-serif;font-size:12px;color:#86868B}
-.btn-chat{font-family:'Inter',sans-serif;display:block;width:100%;padding:16px;border-radius:14px;background:#1D1D1F;color:#F5F5F7;font-size:14px;font-weight:500;border:none;cursor:pointer;text-align:center;margin-top:16px;min-height:52px}
-.disclaimer{font-family:'Inter',sans-serif;font-size:11px;color:#AEAEB2;text-align:center;margin-top:16px;line-height:1.5}</style></head>
-<body><a href="onboarding.html" class="back">← Areas</a><div class="container">
-<div style="text-align:center;font-size:36px;margin-bottom:12px;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg></div>
-<h1 class="fade-in">Relacionamentos</h1>
-<p class="sub fade-in">Comunicacao, familia, networking, vinculos</p>
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Relacionamentos — KTANA</title>
+  <link rel="stylesheet" href="../shared.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Zen+Dots&display=swap" rel="stylesheet">
+  <style>
+    body { min-height: 100vh; background: #F5F5F7; }
 
-<div class="card fade-in" style="animation-delay:0.1s"><p class="card-label">Mentor</p>
-<div class="mentor"><div class="mentor-avatar"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg></div><div><p class="mentor-name">Sensei Yuna</p><p class="mentor-desc">Mentor de Relacionamentos</p></div></div>
-<p style="font-family:'Inter',sans-serif;font-size:11px;color:#86868B;margin-bottom:8px;">Referencias clonadas:</p>
-<div class='ref'>Brene Brown (vulnerabilidade)</div>
-<div class='ref'>Dale Carnegie (relacoes)</div>
-<div class='ref'>Esther Perel (vinculos)</div>
-</div>
+    .back { position: fixed; top: 20px; left: 24px; font-family: 'Inter', sans-serif; font-size: 12px; color: #86868B; z-index: 20; }
 
-<div class="card fade-in" style="animation-delay:0.15s"><p class="card-label">Especialistas</p>
-<div class="spec"><div class="spec-avatar">1</div><p class="spec-name">Facilitador de Comunicacao</p><span class="spec-status">Online</span></div>
-<div class="spec"><div class="spec-avatar">2</div><p class="spec-name">Assistente de Networking</p><span class="spec-status">Online</span></div>
-<div class="spec"><div class="spec-avatar">3</div><p class="spec-name">Organizador Social</p><span class="spec-status">Online</span></div>
-</div>
+    .container { max-width: 620px; margin: 0 auto; padding: 56px 24px 80px; }
 
-<div class="card fade-in" style="animation-delay:0.2s"><p class="card-label">Metas esta semana</p>
-<div class="goal"><span class="goal-text">Jantar em familia 2x/sem (1/2)</span></div>
-<div class="goal"><span class="goal-text">Mensagem para 3 contatos/sem (2/3)</span></div>
-<div class="goal"><span class="goal-text">Aniversarios do mes preparados</span></div>
-</div>
+    .area-header { text-align: center; margin-bottom: 40px; }
+    .area-icon { width: 56px; height: 56px; border-radius: 16px; background: rgba(215,0,48,0.04); display: flex; align-items: center; justify-content: center; margin: 0 auto 16px; font-size: 26px; }
+    .area-header h1 { font-family: 'Zen Dots', cursive; font-size: 26px; color: #1D1D1F; margin-bottom: 6px; }
+    .area-header p { font-family: 'Satoshi', sans-serif; font-size: 14px; color: #86868B; line-height: 1.5; }
 
-<button class="btn-chat fade-in" style="animation-delay:0.25s" onclick="location.href='../tenant/agent/chat.html'">Conversar com Sensei Yuna</button>
-<p class="disclaimer fade-in" style="animation-delay:0.3s">Assistentes de IA nao substituem profissionais habilitados. Em emergencias ligue 192 (SAMU) ou 188 (CVV).</p>
-</div></body></html>
-<script src="../shared-nav.js?v=1774781877"></script>
+    .card { background: #FFF; border-radius: 20px; border: 1px solid rgba(0,0,0,0.04); padding: 28px; margin-bottom: 16px; }
+    .card-label { font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: #D70030; margin-bottom: 16px; }
+
+    /* Mentor card */
+    .mentor { display: flex; align-items: flex-start; gap: 16px; }
+    .mentor-avatar { width: 52px; height: 52px; border-radius: 16px; border: 1.5px solid rgba(215,0,48,0.2); display: flex; align-items: center; justify-content: center; flex-shrink: 0; background: rgba(215,0,48,0.03); }
+    .mentor-avatar span { font-family: 'Zen Dots', cursive; font-size: 16px; color: #D70030; }
+    .mentor-info h3 { font-family: 'Satoshi', sans-serif; font-size: 16px; font-weight: 600; color: #1D1D1F; margin-bottom: 2px; }
+    .mentor-role { font-family: 'Inter', sans-serif; font-size: 11px; color: #D70030; font-weight: 500; margin-bottom: 6px; }
+    .mentor-desc { font-family: 'Satoshi', sans-serif; font-size: 13px; color: #86868B; line-height: 1.5; }
+    .mentor-refs { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+    .mentor-ref { font-family: 'Inter', sans-serif; padding: 4px 10px; border-radius: 980px; background: rgba(0,0,0,0.03); font-size: 11px; color: #86868B; }
+
+    /* Specialists */
+    .specialist-list { display: flex; flex-direction: column; gap: 12px; }
+    .specialist-item { display: flex; align-items: center; gap: 14px; padding: 16px; border-radius: 14px; background: rgba(0,0,0,0.01); border: 0.5px solid rgba(0,0,0,0.04); transition: box-shadow 0.2s; }
+    .specialist-item:hover { box-shadow: 0 2px 12px rgba(0,0,0,0.03); }
+    .specialist-icon { width: 40px; height: 40px; border-radius: 12px; background: rgba(0,0,0,0.02); display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; }
+    .specialist-info { flex: 1; }
+    .specialist-info h4 { font-family: 'Satoshi', sans-serif; font-size: 14px; font-weight: 500; color: #1D1D1F; margin-bottom: 2px; }
+    .specialist-info p { font-family: 'Satoshi', sans-serif; font-size: 12px; color: #86868B; line-height: 1.4; }
+    .specialist-status { font-family: 'Inter', sans-serif; font-size: 11px; color: #30D158; display: flex; align-items: center; gap: 4px; flex-shrink: 0; }
+    .specialist-status::before { content: ''; width: 5px; height: 5px; border-radius: 50%; background: #30D158; }
+
+    /* Goals */
+    .goal-row { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 0.5px solid rgba(0,0,0,0.04); }
+    .goal-row:last-child { border-bottom: none; }
+    .goal-label { font-family: 'Satoshi', sans-serif; font-size: 13px; color: #1D1D1F; }
+    .goal-value { font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 500; }
+    .goal-ok { color: #30D158; }
+    .goal-warn { color: #FF9500; }
+    .goal-miss { color: #D70030; }
+
+    .goal-bar { width: 80px; height: 4px; border-radius: 2px; background: rgba(0,0,0,0.04); margin-left: 12px; }
+    .goal-bar-fill { height: 100%; border-radius: 2px; transition: width 0.6s ease; }
+    .goal-progress { display: flex; align-items: center; }
+
+    /* Activity */
+    .activity-item { display: flex; align-items: center; gap: 10px; padding: 8px 0; border-bottom: 0.5px solid rgba(0,0,0,0.03); }
+    .activity-item:last-child { border-bottom: none; }
+    .activity-time { font-family: 'Inter', sans-serif; font-size: 11px; color: #AEAEB2; width: 40px; flex-shrink: 0; }
+    .activity-agent { font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 600; color: #86868B; width: 60px; flex-shrink: 0; }
+    .activity-desc { font-family: 'Satoshi', sans-serif; font-size: 13px; color: #86868B; }
+
+    /* Disclaimer */
+    .disclaimer { background: rgba(215,0,48,0.02); border: 0.5px solid rgba(215,0,48,0.08); border-radius: 14px; padding: 16px 20px; margin-top: 24px; }
+    .disclaimer-icon { font-size: 14px; margin-bottom: 6px; }
+    .disclaimer p { font-family: 'Inter', sans-serif; font-size: 11px; color: #86868B; line-height: 1.6; }
+    .disclaimer strong { color: #86868B; }
+
+    .btn-edit { font-family: 'Inter', sans-serif; width: 100%; padding: 16px; border-radius: 16px; background: #1D1D1F; color: #F5F5F7; font-size: 15px; font-weight: 500; border: none; cursor: pointer; margin-top: 24px; min-height: 64px; transition: opacity 0.15s; }
+    .btn-edit:hover { opacity: 0.9; }
+
+    .btn-chat { font-family: 'Inter', sans-serif; width: 100%; padding: 14px; border-radius: 14px; background: transparent; color: #D70030; font-size: 14px; font-weight: 500; border: 1px solid rgba(215,0,48,0.15); cursor: pointer; margin-top: 10px; transition: background 0.15s; min-height: 52px; }
+    .btn-chat:hover { background: rgba(215,0,48,0.02); }
+
+    /* Staggered animations */
+    .stagger-1 { animation: fadeUp 0.5s cubic-bezier(0.25,0.1,0.25,1) 0.05s both; }
+    .stagger-2 { animation: fadeUp 0.5s cubic-bezier(0.25,0.1,0.25,1) 0.12s both; }
+    .stagger-3 { animation: fadeUp 0.5s cubic-bezier(0.25,0.1,0.25,1) 0.19s both; }
+    .stagger-4 { animation: fadeUp 0.5s cubic-bezier(0.25,0.1,0.25,1) 0.26s both; }
+    .stagger-5 { animation: fadeUp 0.5s cubic-bezier(0.25,0.1,0.25,1) 0.33s both; }
+    .stagger-6 { animation: fadeUp 0.5s cubic-bezier(0.25,0.1,0.25,1) 0.40s both; }
+    .stagger-7 { animation: fadeUp 0.5s cubic-bezier(0.25,0.1,0.25,1) 0.47s both; }
+  </style>
+</head>
+<body>
+  <a href="onboarding.html" class="back">← Areas</a>
+
+  <div class="container">
+
+    <!-- Header -->
+    <div class="area-header stagger-1">
+      <div class="area-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg></div>
+      <h1>Relacionamentos</h1>
+      <p>Familia, amigos, parceiro(a), networking, comunicacao</p>
+    </div>
+
+    <!-- Mentor Card -->
+    <div class="card stagger-2">
+      <p class="card-label">Mentor principal</p>
+      <div class="mentor">
+        <div class="mentor-avatar"><span>S</span></div>
+        <div class="mentor-info">
+          <h3>Sakura</h3>
+          <p class="mentor-role">Mentora de Relacionamentos</p>
+          <p class="mentor-desc">Supervisiona toda a area de relacionamentos. Abordagem acolhedora e empatica, focada em vinculos autenticos e comunicacao consciente. Faz check-in semanal quarta 19:00.</p>
+          <div class="mentor-refs">
+            <span class="mentor-ref">Esther Perel</span>
+            <span class="mentor-ref">John Gottman</span>
+            <span class="mentor-ref">Dale Carnegie</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Specialists -->
+    <div class="card stagger-3">
+      <p class="card-label">Especialistas (reportam a Sakura)</p>
+      <div class="specialist-list">
+        <div class="specialist-item">
+          <div class="specialist-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg></div>
+          <div class="specialist-info">
+            <h4>Hana — Especialista em Comunicacao</h4>
+            <p>Comunicacao nao-violenta, resolucao de conflitos, escuta ativa. Ajuda a transformar conversas dificeis em conexoes.</p>
+          </div>
+          <div class="specialist-status">Ativo</div>
+        </div>
+        <div class="specialist-item">
+          <div class="specialist-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg></div>
+          <div class="specialist-info">
+            <h4>Riko — Mentora Social</h4>
+            <p>Networking estrategico, manutencao de amizades, eventos sociais. Garante que conexoes importantes nao esfriem.</p>
+          </div>
+          <div class="specialist-status">Ativo</div>
+        </div>
+        <div class="specialist-item">
+          <div class="specialist-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div>
+          <div class="specialist-info">
+            <h4>Aki — Guia de Familia</h4>
+            <p>Dinamicas familiares, presenca de qualidade, datas importantes, tradicoes. Fortalece os lacos que mais importam.</p>
+          </div>
+          <div class="specialist-status">Ativo</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Weekly Goals -->
+    <div class="card stagger-4">
+      <p class="card-label">Metas desta semana</p>
+      <div class="goal-row">
+        <span class="goal-label">Ligar pra familia 2x</span>
+        <div class="goal-progress">
+          <span class="goal-value goal-warn">1/2</span>
+          <div class="goal-bar"><div class="goal-bar-fill" style="width:50%;background:#FF9500;"></div></div>
+        </div>
+      </div>
+      <div class="goal-row">
+        <span class="goal-label">Date night com parceiro(a)</span>
+        <div class="goal-progress">
+          <span class="goal-value goal-miss">0/1</span>
+          <div class="goal-bar"><div class="goal-bar-fill" style="width:0%;background:#D70030;"></div></div>
+        </div>
+      </div>
+      <div class="goal-row">
+        <span class="goal-label">Mensagem para 3 amigos</span>
+        <div class="goal-progress">
+          <span class="goal-value goal-warn">2/3</span>
+          <div class="goal-bar"><div class="goal-bar-fill" style="width:67%;background:#FF9500;"></div></div>
+        </div>
+      </div>
+      <div class="goal-row">
+        <span class="goal-label">Jantar em familia</span>
+        <div class="goal-progress">
+          <span class="goal-value goal-ok">1/1</span>
+          <div class="goal-bar"><div class="goal-bar-fill" style="width:100%;background:#30D158;"></div></div>
+        </div>
+      </div>
+      <div class="goal-row">
+        <span class="goal-label">Ouvir mais que falar</span>
+        <div class="goal-progress">
+          <span class="goal-value goal-ok">5/7</span>
+          <div class="goal-bar"><div class="goal-bar-fill" style="width:71%;background:#30D158;"></div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Recent Activity -->
+    <div class="card stagger-5">
+      <p class="card-label">Atividade recente</p>
+      <div class="activity-item">
+        <span class="activity-time">19:00</span>
+        <span class="activity-agent">Sakura</span>
+        <span class="activity-desc">Check-in semanal: revisou qualidade dos vinculos</span>
+      </div>
+      <div class="activity-item">
+        <span class="activity-time">18:30</span>
+        <span class="activity-agent">Aki</span>
+        <span class="activity-desc">Lembrete: aniversario da mae em 3 dias</span>
+      </div>
+      <div class="activity-item">
+        <span class="activity-time">14:15</span>
+        <span class="activity-agent">Riko</span>
+        <span class="activity-desc">Sugeriu mensagem para amigo que nao fala ha 2 semanas</span>
+      </div>
+      <div class="activity-item">
+        <span class="activity-time">12:00</span>
+        <span class="activity-agent">Hana</span>
+        <span class="activity-desc">Dica de escuta ativa para reuniao da tarde</span>
+      </div>
+      <div class="activity-item">
+        <span class="activity-time">09:30</span>
+        <span class="activity-agent">Sakura</span>
+        <span class="activity-desc">Marcou date night na agenda de sexta</span>
+      </div>
+    </div>
+
+    <!-- Disclaimer -->
+    <div class="disclaimer stagger-6">
+      <div class="disclaimer-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0zM12 9v4M12 17h.01"/></svg></div>
+      <p><strong>Aviso importante:</strong> Mentores de relacionamento sao assistentes de inteligencia artificial. Nao substituem terapia de casal ou acompanhamento psicologico. Em crises emocionais, ligue <strong>188 (CVV)</strong>.</p>
+    </div>
+
+    <!-- Actions -->
+    <button class="btn-edit stagger-7" onclick="location.href='mentor-config.html'">Editar mentor e especialistas</button>
+    <button class="btn-chat stagger-7" onclick="location.href='../tenant/agent/chat.html'">Conversar com Sakura</button>
+  </div>
+</body>
+</html><script src="../shared-nav.js?v=1774781877"></script>
