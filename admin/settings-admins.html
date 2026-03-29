@@ -1,21 +1,276 @@
 <!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>Admin Users — KTANA Admin</title><link rel="stylesheet" href="../shared.css"><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Zen+Dots&display=swap" rel="stylesheet">
-<style>body{min-height:100vh;background:#0A0A0A;color:#F5F5F7;display:flex}.sidebar{position:fixed;left:0;top:0;bottom:0;width:220px;background:#111;border-right:0.5px solid rgba(255,255,255,0.04);padding:20px 0;display:flex;flex-direction:column}.sidebar-logo{padding:0 20px 16px;font-family:'Zen Dots',cursive;font-size:14px;color:#D70030;border-bottom:0.5px solid rgba(255,255,255,0.04);margin-bottom:12px;display:flex;align-items:center;gap:6px}.sidebar-logo span{font-family:'Inter',sans-serif;font-size:11px;color:#AEAEB2}.sidebar a{display:block;padding:8px 20px;font-family:'Inter',sans-serif;font-size:12px;color:#8E8E93;transition:all 0.15s}.sidebar a:hover,.sidebar a.active{color:#F5F5F7;background:rgba(255,255,255,0.04)}.main{margin-left:220px;flex:1;padding:32px}.main h1{font-family:'Satoshi',sans-serif;font-size:20px;font-weight:600;margin-bottom:24px}.card{background:#1C1C1E;border:1px solid rgba(255,255,255,0.04);border-radius:16px;padding:24px;margin-bottom:12px}.card-label{font-family:'Inter',sans-serif;font-size:11px;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;color:#AEAEB2;margin-bottom:14px}.row{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:0.5px solid rgba(255,255,255,0.03);font-size:13px}.row:last-child{border-bottom:none}.row-label{font-family:'Satoshi',sans-serif;color:#8E8E93}.row-value{font-family:'Inter',sans-serif;color:#D2D2D7}.placeholder{font-family:'Satoshi',sans-serif;font-size:14px;color:#AEAEB2;text-align:center;padding:48px 0}</style></head>
+<style>
+body{min-height:100vh;background:#0A0A0A;color:#F5F5F7;display:flex;margin:0;font-family:'Inter',sans-serif}
+.sidebar{position:fixed;left:0;top:0;bottom:0;width:220px;background:#111;border-right:0.5px solid rgba(255,255,255,0.04);padding:20px 0;display:flex;flex-direction:column;z-index:10}
+.sidebar-logo{padding:0 20px 16px;font-family:'Zen Dots',cursive;font-size:14px;color:#D70030;border-bottom:0.5px solid rgba(255,255,255,0.04);margin-bottom:12px;display:flex;align-items:center;gap:6px}
+.sidebar-logo span{font-family:'Inter',sans-serif;font-size:11px;color:#AEAEB2}
+.sidebar a{display:block;padding:8px 20px;font-family:'Inter',sans-serif;font-size:12px;color:#8E8E93;text-decoration:none;transition:all 0.15s}
+.sidebar a:hover,.sidebar a.active{color:#F5F5F7;background:rgba(255,255,255,0.04)}
+.main{margin-left:220px;flex:1;padding:32px;max-width:1000px}
+.main h1{font-family:'Zen Dots',cursive;font-size:20px;font-weight:600;margin-bottom:8px}
+.breadcrumb{font-size:12px;color:#8E8E93;margin-bottom:24px}
+.breadcrumb a{color:#D70030;text-decoration:none}
+.card{background:#1C1C1E;border:1px solid rgba(255,255,255,0.04);border-radius:16px;padding:24px;margin-bottom:16px}
+.card-label{font-family:'Inter',sans-serif;font-size:11px;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;color:#AEAEB2;margin-bottom:14px}
+.stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:20px}
+.stat-mini{background:#1C1C1E;border:1px solid rgba(255,255,255,0.04);border-radius:16px;padding:16px;text-align:center}
+.stat-mini-val{font-family:'Zen Dots',cursive;font-size:20px;color:#F5F5F7}
+.stat-mini-label{font-size:11px;color:#8E8E93;text-transform:uppercase;letter-spacing:0.04em;margin-top:4px}
+table{width:100%;border-collapse:collapse;font-size:13px}
+thead th{text-align:left;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.04em;color:#AEAEB2;padding:10px 12px;border-bottom:1px solid rgba(255,255,255,0.06)}
+tbody tr{border-bottom:0.5px solid rgba(255,255,255,0.03);transition:background 0.15s}
+tbody tr:hover{background:rgba(255,255,255,0.02)}
+tbody td{padding:12px;vertical-align:middle}
+.user-info{display:flex;align-items:center;gap:12px}
+.user-avatar{width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;flex-shrink:0}
+.user-name{font-weight:600;color:#F5F5F7}
+.user-email{font-size:12px;color:#8E8E93}
+.badge{display:inline-flex;align-items:center;gap:4px;font-size:11px;font-weight:600;padding:3px 10px;border-radius:20px;text-transform:uppercase;letter-spacing:0.02em}
+.badge-super{background:rgba(215,0,48,0.12);color:#D70030}
+.badge-admin{background:rgba(0,122,255,0.12);color:#0A84FF}
+.badge-readonly{background:rgba(142,142,147,0.12);color:#8E8E93}
+.tfa-on{color:#34C759;font-weight:600;font-size:12px;display:flex;align-items:center;gap:4px}
+.tfa-off{color:#D70030;font-weight:600;font-size:12px;display:flex;align-items:center;gap:4px}
+.dot{width:6px;height:6px;border-radius:50%;display:inline-block}
+.btn{padding:8px 20px;border-radius:8px;border:none;font-size:12px;cursor:pointer;font-family:'Inter',sans-serif;font-weight:600;transition:all 0.15s}
+.btn-primary{background:#D70030;color:#fff}
+.btn-primary:hover{background:#B80028}
+.btn-ghost{background:transparent;border:1px solid rgba(255,255,255,0.08);color:#AEAEB2}
+.btn-ghost:hover{color:#F5F5F7;border-color:rgba(255,255,255,0.15)}
+.btn-sm{padding:5px 12px;font-size:11px}
+.btn-danger{background:transparent;border:1px solid rgba(215,0,48,0.2);color:#D70030}
+.btn-danger:hover{background:rgba(215,0,48,0.08)}
+.add-form{background:rgba(215,0,48,0.03);border:1px solid rgba(215,0,48,0.1);border-radius:12px;padding:20px;margin-top:16px}
+.form-group{margin-bottom:14px}
+.form-label{display:block;font-size:12px;font-weight:600;color:#AEAEB2;margin-bottom:6px;text-transform:uppercase;letter-spacing:0.04em}
+.form-input{width:100%;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:8px;padding:10px 14px;font-size:13px;color:#F5F5F7;font-family:'Inter',sans-serif;box-sizing:border-box;transition:border-color 0.15s}
+.form-input:focus{outline:none;border-color:rgba(215,0,48,0.5)}
+.form-input::placeholder{color:#8E8E93}
+select.form-input{appearance:auto}
+select.form-input option{background:#1C1C1E;color:#F5F5F7}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.row{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:0.5px solid rgba(255,255,255,0.03);font-size:13px}
+.row:last-child{border-bottom:none}
+.row-label{color:#8E8E93}
+.row-value{color:#D2D2D7}
+.session-item{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:0.5px solid rgba(255,255,255,0.03);font-size:12px}
+.session-item:last-child{border-bottom:none}
+.session-device{font-weight:600;color:#F5F5F7;min-width:120px}
+.session-ip{color:#8E8E93;min-width:120px;font-family:monospace;font-size:11px}
+.session-time{color:#8E8E93;flex:1}
+.session-current{font-size:10px;font-weight:600;padding:2px 8px;border-radius:4px;background:rgba(52,199,89,0.12);color:#34C759}
+</style></head>
 <body>
 <nav class="sidebar">
 <div class="sidebar-logo">KTANA <span>ADMIN</span></div>
 <a href="index.html">Overview</a>
-<a href="index.html">Agent Flow</a>
-<a href="index.html">Tenants</a>
-<a href="index.html">Agentes</a>
-<a href="index.html">Health</a>
-<a href="index.html">Billing</a>
-<a href="index.html">Compliance</a>
-<a href="index.html">Catalogo</a>
-<a href="index.html">Config</a>
+<a href="flow.html">Agent Flow</a>
+<a href="tenants.html">Tenants</a>
+<a href="agents.html">Agentes</a>
+<a href="health.html">Health</a>
+<a href="billing.html">Billing</a>
+<a href="compliance.html">Compliance</a>
+<a href="catalog.html">Catalogo</a>
+<a class="active" href="settings.html">Config</a>
 </nav>
 <main class="main">
-<h1 class="fade-in">Admin Users</h1>
-<div class="card fade-in"><p class="card-label">Detalhes</p><p class="placeholder">Tela detalhada do modulo Admin Users.<br>Dados de exemplo serao preenchidos conforme especificacao.</p></div>
-<div class="card fade-in" style="animation-delay:0.1s"><p class="card-label">Acoes</p><div class="row"><span class="row-label">Voltar</span><span class="row-value"><a href="index.html" style="color:#D70030;">← Admin</a></span></div></div>
+<div class="breadcrumb"><a href="index.html">Admin</a> / <a href="settings.html">Config</a> / Admins</div>
+<h1>Usuarios Admin</h1>
+<p style="font-size:13px;color:#8E8E93;margin-bottom:24px">Gerenciamento de acesso ao painel administrativo da plataforma</p>
+
+<div class="stats-row">
+  <div class="stat-mini"><div class="stat-mini-val">5</div><div class="stat-mini-label">Total Admins</div></div>
+  <div class="stat-mini"><div class="stat-mini-val" style="color:#D70030">2</div><div class="stat-mini-label">Superadmins</div></div>
+  <div class="stat-mini"><div class="stat-mini-val" style="color:#34C759">4/5</div><div class="stat-mini-label">2FA Ativo</div></div>
+  <div class="stat-mini"><div class="stat-mini-val">3</div><div class="stat-mini-label">Online Agora</div></div>
+</div>
+
+<div class="card">
+  <p class="card-label">Usuarios Administrativos</p>
+  <table>
+    <thead>
+      <tr>
+        <th>Usuario</th>
+        <th>Role</th>
+        <th>Ultimo Login</th>
+        <th>2FA</th>
+        <th>Sessoes</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>
+          <div class="user-info">
+            <div class="user-avatar" style="background:rgba(215,0,48,0.12);color:#D70030">JC</div>
+            <div>
+              <div class="user-name">Julio Cesar</div>
+              <div class="user-email">julio@ktana.ai</div>
+            </div>
+          </div>
+        </td>
+        <td><span class="badge badge-super">Superadmin</span></td>
+        <td>
+          <div style="font-size:13px;color:#F5F5F7">Agora</div>
+          <div style="font-size:11px;color:#8E8E93">IP: 189.44.72.31</div>
+        </td>
+        <td><span class="tfa-on"><span class="dot" style="background:#34C759"></span> TOTP</span></td>
+        <td style="color:#F5F5F7">2</td>
+        <td><button class="btn-sm btn-ghost">Editar</button></td>
+      </tr>
+      <tr>
+        <td>
+          <div class="user-info">
+            <div class="user-avatar" style="background:rgba(215,0,48,0.12);color:#D70030">RC</div>
+            <div>
+              <div class="user-name">Renata Campos</div>
+              <div class="user-email">renata@ktana.ai</div>
+            </div>
+          </div>
+        </td>
+        <td><span class="badge badge-super">Superadmin</span></td>
+        <td>
+          <div style="font-size:13px;color:#F5F5F7">29 Mar, 11:45</div>
+          <div style="font-size:11px;color:#8E8E93">IP: 177.22.41.88</div>
+        </td>
+        <td><span class="tfa-on"><span class="dot" style="background:#34C759"></span> TOTP</span></td>
+        <td style="color:#F5F5F7">1</td>
+        <td><button class="btn-sm btn-ghost">Editar</button></td>
+      </tr>
+      <tr>
+        <td>
+          <div class="user-info">
+            <div class="user-avatar" style="background:rgba(0,122,255,0.12);color:#0A84FF">FL</div>
+            <div>
+              <div class="user-name">Felipe Lima</div>
+              <div class="user-email">felipe@ktana.ai</div>
+            </div>
+          </div>
+        </td>
+        <td><span class="badge badge-admin">Admin</span></td>
+        <td>
+          <div style="font-size:13px;color:#F5F5F7">29 Mar, 13:20</div>
+          <div style="font-size:11px;color:#8E8E93">IP: 200.158.33.12</div>
+        </td>
+        <td><span class="tfa-on"><span class="dot" style="background:#34C759"></span> TOTP</span></td>
+        <td style="color:#F5F5F7">1</td>
+        <td><button class="btn-sm btn-ghost">Editar</button></td>
+      </tr>
+      <tr>
+        <td>
+          <div class="user-info">
+            <div class="user-avatar" style="background:rgba(0,122,255,0.12);color:#0A84FF">MS</div>
+            <div>
+              <div class="user-name">Marina Santos</div>
+              <div class="user-email">marina@ktana.ai</div>
+            </div>
+          </div>
+        </td>
+        <td><span class="badge badge-admin">Admin</span></td>
+        <td>
+          <div style="font-size:13px;color:#F5F5F7">28 Mar, 17:30</div>
+          <div style="font-size:11px;color:#8E8E93">IP: 191.7.115.44</div>
+        </td>
+        <td><span class="tfa-on"><span class="dot" style="background:#34C759"></span> TOTP</span></td>
+        <td style="color:#F5F5F7">0</td>
+        <td><button class="btn-sm btn-ghost">Editar</button></td>
+      </tr>
+      <tr>
+        <td>
+          <div class="user-info">
+            <div class="user-avatar" style="background:rgba(142,142,147,0.12);color:#8E8E93">TA</div>
+            <div>
+              <div class="user-name">Thiago Alves</div>
+              <div class="user-email">thiago@ktana.ai</div>
+            </div>
+          </div>
+        </td>
+        <td><span class="badge badge-readonly">Readonly</span></td>
+        <td>
+          <div style="font-size:13px;color:#F5F5F7">25 Mar, 09:15</div>
+          <div style="font-size:11px;color:#8E8E93">IP: 177.38.92.71</div>
+        </td>
+        <td><span class="tfa-off"><span class="dot" style="background:#D70030"></span> Desativado</span></td>
+        <td style="color:#F5F5F7">0</td>
+        <td>
+          <button class="btn-sm btn-ghost">Editar</button>
+          <button class="btn-sm btn-danger" style="margin-left:4px">Remover</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="card">
+  <p class="card-label">Adicionar Novo Admin</p>
+  <div class="add-form">
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">Nome Completo</label>
+        <input type="text" class="form-input" placeholder="Ex: Ana Oliveira">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Email</label>
+        <input type="email" class="form-input" placeholder="email@ktana.ai">
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">Role</label>
+        <select class="form-input">
+          <option>Selecione...</option>
+          <option>Superadmin — Acesso total + gestao de admins</option>
+          <option>Admin — Acesso total, sem gestao de admins</option>
+          <option>Readonly — Apenas visualizacao</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">2FA Obrigatorio</label>
+        <select class="form-input">
+          <option selected>Sim — Configurar TOTP no primeiro login</option>
+          <option>Nao — Opcional (nao recomendado)</option>
+        </select>
+      </div>
+    </div>
+    <div style="display:flex;gap:12px;justify-content:flex-end;margin-top:8px">
+      <button class="btn btn-ghost">Cancelar</button>
+      <button class="btn btn-primary">Enviar Convite</button>
+    </div>
+  </div>
+</div>
+
+<div class="card">
+  <p class="card-label">Sessoes Ativas Agora</p>
+  <div class="session-item">
+    <span class="session-device">Julio Cesar</span>
+    <span class="session-ip">189.44.72.31</span>
+    <span class="session-time">Chrome 124 / macOS — desde 29 Mar, 09:00</span>
+    <span class="session-current">Sessao Atual</span>
+  </div>
+  <div class="session-item">
+    <span class="session-device">Julio Cesar</span>
+    <span class="session-ip">189.44.72.31</span>
+    <span class="session-time">Claude Code CLI — desde 29 Mar, 12:30</span>
+    <span style="font-size:10px;font-weight:600;padding:2px 8px;border-radius:4px;background:rgba(0,122,255,0.12);color:#0A84FF">API</span>
+  </div>
+  <div class="session-item">
+    <span class="session-device">Felipe Lima</span>
+    <span class="session-ip">200.158.33.12</span>
+    <span class="session-time">Firefox 125 / Linux — desde 29 Mar, 13:20</span>
+    <button class="btn-sm btn-danger">Revogar</button>
+  </div>
+</div>
+
+<div class="card">
+  <p class="card-label">Politicas de Seguranca</p>
+  <div class="row"><span class="row-label">Autenticacao</span><span class="row-value">Email + Senha + 2FA (TOTP)</span></div>
+  <div class="row"><span class="row-label">Forca minima de senha</span><span class="row-value">12 caracteres, 1 maiuscula, 1 numero, 1 especial</span></div>
+  <div class="row"><span class="row-label">Expiracao de sessao</span><span class="row-value">24h (renovavel com atividade)</span></div>
+  <div class="row"><span class="row-label">Max tentativas de login</span><span class="row-value">5 (lockout de 15min)</span></div>
+  <div class="row"><span class="row-label">Rotacao de senha</span><span class="row-value">Obrigatoria a cada 90 dias</span></div>
+  <div class="row"><span class="row-label">SSO disponivel</span><span class="row-value">Google Workspace (ktana.ai)</span></div>
+  <div class="row"><span class="row-label">IP Allowlist</span><span class="row-value" style="color:#8E8E93">Desativado (ativar para restricao)</span></div>
+</div>
+
 </main>
 </body></html>

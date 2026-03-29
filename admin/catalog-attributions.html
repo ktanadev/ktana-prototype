@@ -1,21 +1,389 @@
 <!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>Atribuicoes do Cargo — KTANA Admin</title><link rel="stylesheet" href="../shared.css"><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Zen+Dots&display=swap" rel="stylesheet">
-<style>body{min-height:100vh;background:#0A0A0A;color:#F5F5F7;display:flex}.sidebar{position:fixed;left:0;top:0;bottom:0;width:220px;background:#111;border-right:0.5px solid rgba(255,255,255,0.04);padding:20px 0;display:flex;flex-direction:column}.sidebar-logo{padding:0 20px 16px;font-family:'Zen Dots',cursive;font-size:14px;color:#D70030;border-bottom:0.5px solid rgba(255,255,255,0.04);margin-bottom:12px;display:flex;align-items:center;gap:6px}.sidebar-logo span{font-family:'Inter',sans-serif;font-size:11px;color:#AEAEB2}.sidebar a{display:block;padding:8px 20px;font-family:'Inter',sans-serif;font-size:12px;color:#8E8E93;transition:all 0.15s}.sidebar a:hover,.sidebar a.active{color:#F5F5F7;background:rgba(255,255,255,0.04)}.main{margin-left:220px;flex:1;padding:32px}.main h1{font-family:'Satoshi',sans-serif;font-size:20px;font-weight:600;margin-bottom:24px}.card{background:#1C1C1E;border:1px solid rgba(255,255,255,0.04);border-radius:16px;padding:24px;margin-bottom:12px}.card-label{font-family:'Inter',sans-serif;font-size:11px;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;color:#AEAEB2;margin-bottom:14px}.row{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:0.5px solid rgba(255,255,255,0.03);font-size:13px}.row:last-child{border-bottom:none}.row-label{font-family:'Satoshi',sans-serif;color:#8E8E93}.row-value{font-family:'Inter',sans-serif;color:#D2D2D7}.placeholder{font-family:'Satoshi',sans-serif;font-size:14px;color:#AEAEB2;text-align:center;padding:48px 0}</style></head>
+<style>
+body{min-height:100vh;background:#0A0A0A;color:#F5F5F7;display:flex;margin:0;font-family:'Inter',sans-serif}
+.sidebar{position:fixed;left:0;top:0;bottom:0;width:220px;background:#111;border-right:0.5px solid rgba(255,255,255,0.04);padding:20px 0;display:flex;flex-direction:column;z-index:10}
+.sidebar-logo{padding:0 20px 16px;font-family:'Zen Dots',cursive;font-size:14px;color:#D70030;border-bottom:0.5px solid rgba(255,255,255,0.04);margin-bottom:12px;display:flex;align-items:center;gap:6px}
+.sidebar-logo span{font-family:'Inter',sans-serif;font-size:11px;color:#AEAEB2}
+.sidebar a{display:block;padding:8px 20px;font-family:'Inter',sans-serif;font-size:12px;color:#8E8E93;text-decoration:none;transition:all 0.15s}
+.sidebar a:hover,.sidebar a.active{color:#F5F5F7;background:rgba(255,255,255,0.04)}
+.main{margin-left:220px;flex:1;padding:32px;max-width:960px}
+.main h1{font-family:'Zen Dots',cursive;font-size:20px;font-weight:600;margin-bottom:8px}
+.breadcrumb{font-size:12px;color:#8E8E93;margin-bottom:24px}
+.breadcrumb a{color:#D70030;text-decoration:none}
+.card{background:#1C1C1E;border:1px solid rgba(255,255,255,0.04);border-radius:16px;padding:24px;margin-bottom:16px}
+.card-label{font-family:'Inter',sans-serif;font-size:11px;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;color:#AEAEB2;margin-bottom:14px}
+.attribution-group{margin-bottom:24px}
+.attribution-header{display:flex;align-items:center;justify-content:space-between;padding:12px 16px;background:rgba(215,0,48,0.04);border:1px solid rgba(215,0,48,0.12);border-radius:12px;margin-bottom:8px;cursor:pointer}
+.attribution-title{font-family:'Zen Dots',cursive;font-size:14px;color:#D70030;display:flex;align-items:center;gap:8px}
+.attribution-count{font-size:11px;color:#8E8E93;font-family:'Inter',sans-serif}
+.attribution-actions{display:flex;gap:6px}
+.task-list{padding:0 0 0 20px}
+.task-item{display:flex;align-items:center;gap:12px;padding:10px 16px;border-bottom:0.5px solid rgba(255,255,255,0.03);font-size:13px;transition:background 0.15s}
+.task-item:hover{background:rgba(255,255,255,0.02)}
+.task-item:last-child{border-bottom:none}
+.task-handle{cursor:grab;color:#8E8E93;font-size:16px;user-select:none;width:20px;text-align:center}
+.task-handle:active{cursor:grabbing}
+.task-number{font-size:11px;color:#AEAEB2;font-family:monospace;min-width:24px}
+.task-text{flex:1;color:#F5F5F7}
+.task-freq{font-size:11px;color:#8E8E93;min-width:70px;text-align:right}
+.task-actions{display:flex;gap:4px}
+.btn-icon{width:28px;height:28px;border-radius:6px;border:1px solid rgba(255,255,255,0.06);background:transparent;color:#8E8E93;cursor:pointer;font-size:12px;display:flex;align-items:center;justify-content:center;transition:all 0.15s}
+.btn-icon:hover{color:#F5F5F7;border-color:rgba(255,255,255,0.15)}
+.btn-icon.delete:hover{color:#D70030;border-color:rgba(215,0,48,0.3)}
+.btn{padding:8px 20px;border-radius:8px;border:none;font-size:12px;cursor:pointer;font-family:'Inter',sans-serif;font-weight:600;transition:all 0.15s}
+.btn-primary{background:#D70030;color:#fff}
+.btn-ghost{background:transparent;border:1px solid rgba(255,255,255,0.08);color:#AEAEB2}
+.btn-ghost:hover{color:#F5F5F7;border-color:rgba(255,255,255,0.15)}
+.btn-add{display:flex;align-items:center;gap:6px;padding:8px 16px;border-radius:8px;border:1px dashed rgba(255,255,255,0.08);background:transparent;color:#8E8E93;font-size:12px;cursor:pointer;font-family:'Inter',sans-serif;width:100%;justify-content:center;transition:all 0.15s;margin-top:8px}
+.btn-add:hover{color:#D70030;border-color:rgba(215,0,48,0.3)}
+.summary-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:20px}
+.summary-item{background:#1C1C1E;border:1px solid rgba(255,255,255,0.04);border-radius:16px;padding:16px;text-align:center}
+.summary-val{font-family:'Zen Dots',cursive;font-size:20px;color:#F5F5F7;margin-bottom:4px}
+.summary-label{font-size:11px;color:#8E8E93;text-transform:uppercase;letter-spacing:0.04em}
+</style></head>
 <body>
 <nav class="sidebar">
 <div class="sidebar-logo">KTANA <span>ADMIN</span></div>
 <a href="index.html">Overview</a>
-<a href="index.html">Agent Flow</a>
-<a href="index.html">Tenants</a>
-<a href="index.html">Agentes</a>
-<a href="index.html">Health</a>
-<a href="index.html">Billing</a>
-<a href="index.html">Compliance</a>
-<a href="index.html">Catalogo</a>
-<a href="index.html">Config</a>
+<a href="flow.html">Agent Flow</a>
+<a href="tenants.html">Tenants</a>
+<a href="agents.html">Agentes</a>
+<a href="health.html">Health</a>
+<a href="billing.html">Billing</a>
+<a href="compliance.html">Compliance</a>
+<a class="active" href="catalog.html">Catalogo</a>
+<a href="settings.html">Config</a>
 </nav>
 <main class="main">
-<h1 class="fade-in">Atribuicoes do Cargo</h1>
-<div class="card fade-in"><p class="card-label">Detalhes</p><p class="placeholder">Tela detalhada do modulo Atribuicoes do Cargo.<br>Dados de exemplo serao preenchidos conforme especificacao.</p></div>
-<div class="card fade-in" style="animation-delay:0.1s"><p class="card-label">Acoes</p><div class="row"><span class="row-label">Voltar</span><span class="row-value"><a href="index.html" style="color:#D70030;">← Admin</a></span></div></div>
+<div class="breadcrumb"><a href="index.html">Admin</a> / <a href="catalog.html">Catalogo</a> / <a href="catalog-edit.html">Product Owner Autonomo</a> / Atribuicoes</div>
+<h1>Atribuicoes — Product Owner Autonomo</h1>
+<p style="font-size:13px;color:#8E8E93;margin-bottom:24px">Arvore de atribuicoes e tarefas do cargo. Arraste para reordenar, clique para editar.</p>
+
+<div class="summary-grid">
+  <div class="summary-item"><div class="summary-val">5</div><div class="summary-label">Atribuicoes</div></div>
+  <div class="summary-item"><div class="summary-val">22</div><div class="summary-label">Tarefas</div></div>
+  <div class="summary-item"><div class="summary-val">L3</div><div class="summary-label">Autonomia</div></div>
+  <div class="summary-item"><div class="summary-val">3</div><div class="summary-label">Dependencias</div></div>
+</div>
+
+<div class="card">
+  <div class="attribution-group">
+    <div class="attribution-header">
+      <div class="attribution-title">
+        <span style="font-size:16px">1</span> Gestao de Backlog
+      </div>
+      <div style="display:flex;align-items:center;gap:12px">
+        <span class="attribution-count">6 tarefas</span>
+        <div class="attribution-actions">
+          <button class="btn-icon" title="Editar">E</button>
+          <button class="btn-icon delete" title="Remover">X</button>
+        </div>
+      </div>
+    </div>
+    <div class="task-list">
+      <div class="task-item">
+        <span class="task-handle">&#8942;</span>
+        <span class="task-number">1.1</span>
+        <span class="task-text">Coletar requisitos de stakeholders e transformar em backlog items</span>
+        <span class="task-freq">Diario</span>
+        <div class="task-actions">
+          <button class="btn-icon" title="Editar">E</button>
+          <button class="btn-icon delete" title="Remover">X</button>
+        </div>
+      </div>
+      <div class="task-item">
+        <span class="task-handle">&#8942;</span>
+        <span class="task-number">1.2</span>
+        <span class="task-text">Priorizar items usando framework RICE (Reach, Impact, Confidence, Effort)</span>
+        <span class="task-freq">Diario</span>
+        <div class="task-actions">
+          <button class="btn-icon" title="Editar">E</button>
+          <button class="btn-icon delete" title="Remover">X</button>
+        </div>
+      </div>
+      <div class="task-item">
+        <span class="task-handle">&#8942;</span>
+        <span class="task-number">1.3</span>
+        <span class="task-text">Mapear dependencias entre items e identificar bloqueios</span>
+        <span class="task-freq">Semanal</span>
+        <div class="task-actions">
+          <button class="btn-icon" title="Editar">E</button>
+          <button class="btn-icon delete" title="Remover">X</button>
+        </div>
+      </div>
+      <div class="task-item">
+        <span class="task-handle">&#8942;</span>
+        <span class="task-number">1.4</span>
+        <span class="task-text">Grooming de backlog — refinar estimativas e detalhamento</span>
+        <span class="task-freq">Semanal</span>
+        <div class="task-actions">
+          <button class="btn-icon" title="Editar">E</button>
+          <button class="btn-icon delete" title="Remover">X</button>
+        </div>
+      </div>
+      <div class="task-item">
+        <span class="task-handle">&#8942;</span>
+        <span class="task-number">1.5</span>
+        <span class="task-text">Arquivar items que estao ha mais de 90 dias sem movimentacao</span>
+        <span class="task-freq">Mensal</span>
+        <div class="task-actions">
+          <button class="btn-icon" title="Editar">E</button>
+          <button class="btn-icon delete" title="Remover">X</button>
+        </div>
+      </div>
+      <div class="task-item">
+        <span class="task-handle">&#8942;</span>
+        <span class="task-number">1.6</span>
+        <span class="task-text">Gerar relatorio de velocidade e previsibilidade do backlog</span>
+        <span class="task-freq">Quinzenal</span>
+        <div class="task-actions">
+          <button class="btn-icon" title="Editar">E</button>
+          <button class="btn-icon delete" title="Remover">X</button>
+        </div>
+      </div>
+      <button class="btn-add">+ Adicionar tarefa</button>
+    </div>
+  </div>
+
+  <div class="attribution-group">
+    <div class="attribution-header">
+      <div class="attribution-title">
+        <span style="font-size:16px">2</span> Especificacao Tecnica
+      </div>
+      <div style="display:flex;align-items:center;gap:12px">
+        <span class="attribution-count">5 tarefas</span>
+        <div class="attribution-actions">
+          <button class="btn-icon" title="Editar">E</button>
+          <button class="btn-icon delete" title="Remover">X</button>
+        </div>
+      </div>
+    </div>
+    <div class="task-list">
+      <div class="task-item">
+        <span class="task-handle">&#8942;</span>
+        <span class="task-number">2.1</span>
+        <span class="task-text">Gerar user stories com formato "Como [persona], quero [acao], para [resultado]"</span>
+        <span class="task-freq">Diario</span>
+        <div class="task-actions">
+          <button class="btn-icon" title="Editar">E</button>
+          <button class="btn-icon delete" title="Remover">X</button>
+        </div>
+      </div>
+      <div class="task-item">
+        <span class="task-handle">&#8942;</span>
+        <span class="task-number">2.2</span>
+        <span class="task-text">Criar acceptance criteria claros e testaveis (max 3 por story)</span>
+        <span class="task-freq">Diario</span>
+        <div class="task-actions">
+          <button class="btn-icon" title="Editar">E</button>
+          <button class="btn-icon delete" title="Remover">X</button>
+        </div>
+      </div>
+      <div class="task-item">
+        <span class="task-handle">&#8942;</span>
+        <span class="task-number">2.3</span>
+        <span class="task-text">Executar spec-builder para gerar documentos tecnicos detalhados</span>
+        <span class="task-freq">Diario</span>
+        <div class="task-actions">
+          <button class="btn-icon" title="Editar">E</button>
+          <button class="btn-icon delete" title="Remover">X</button>
+        </div>
+      </div>
+      <div class="task-item">
+        <span class="task-handle">&#8942;</span>
+        <span class="task-number">2.4</span>
+        <span class="task-text">Validar specs com Sensei-Arch para viabilidade tecnica</span>
+        <span class="task-freq">Diario</span>
+        <div class="task-actions">
+          <button class="btn-icon" title="Editar">E</button>
+          <button class="btn-icon delete" title="Remover">X</button>
+        </div>
+      </div>
+      <div class="task-item">
+        <span class="task-handle">&#8942;</span>
+        <span class="task-number">2.5</span>
+        <span class="task-text">Revisar specs com feedback do tenant antes de finalizar</span>
+        <span class="task-freq">Diario</span>
+        <div class="task-actions">
+          <button class="btn-icon" title="Editar">E</button>
+          <button class="btn-icon delete" title="Remover">X</button>
+        </div>
+      </div>
+      <button class="btn-add">+ Adicionar tarefa</button>
+    </div>
+  </div>
+
+  <div class="attribution-group">
+    <div class="attribution-header">
+      <div class="attribution-title">
+        <span style="font-size:16px">3</span> Sprint Planning & Roadmap
+      </div>
+      <div style="display:flex;align-items:center;gap:12px">
+        <span class="attribution-count">4 tarefas</span>
+        <div class="attribution-actions">
+          <button class="btn-icon" title="Editar">E</button>
+          <button class="btn-icon delete" title="Remover">X</button>
+        </div>
+      </div>
+    </div>
+    <div class="task-list">
+      <div class="task-item">
+        <span class="task-handle">&#8942;</span>
+        <span class="task-number">3.1</span>
+        <span class="task-text">Selecionar stories para sprint baseado em velocidade e capacidade do time</span>
+        <span class="task-freq">Quinzenal</span>
+        <div class="task-actions">
+          <button class="btn-icon" title="Editar">E</button>
+          <button class="btn-icon delete" title="Remover">X</button>
+        </div>
+      </div>
+      <div class="task-item">
+        <span class="task-handle">&#8942;</span>
+        <span class="task-number">3.2</span>
+        <span class="task-text">Atualizar roadmap com progresso e reestimativas</span>
+        <span class="task-freq">Semanal</span>
+        <div class="task-actions">
+          <button class="btn-icon" title="Editar">E</button>
+          <button class="btn-icon delete" title="Remover">X</button>
+        </div>
+      </div>
+      <div class="task-item">
+        <span class="task-handle">&#8942;</span>
+        <span class="task-number">3.3</span>
+        <span class="task-text">Gerar analise de dependencias entre epics e identificar caminhos criticos</span>
+        <span class="task-freq">Quinzenal</span>
+        <div class="task-actions">
+          <button class="btn-icon" title="Editar">E</button>
+          <button class="btn-icon delete" title="Remover">X</button>
+        </div>
+      </div>
+      <div class="task-item">
+        <span class="task-handle">&#8942;</span>
+        <span class="task-number">3.4</span>
+        <span class="task-text">Comunicar mudancas de escopo e timeline para stakeholders</span>
+        <span class="task-freq">Sob demanda</span>
+        <div class="task-actions">
+          <button class="btn-icon" title="Editar">E</button>
+          <button class="btn-icon delete" title="Remover">X</button>
+        </div>
+      </div>
+      <button class="btn-add">+ Adicionar tarefa</button>
+    </div>
+  </div>
+
+  <div class="attribution-group">
+    <div class="attribution-header">
+      <div class="attribution-title">
+        <span style="font-size:16px">4</span> Metricas & Acompanhamento
+      </div>
+      <div style="display:flex;align-items:center;gap:12px">
+        <span class="attribution-count">4 tarefas</span>
+        <div class="attribution-actions">
+          <button class="btn-icon" title="Editar">E</button>
+          <button class="btn-icon delete" title="Remover">X</button>
+        </div>
+      </div>
+    </div>
+    <div class="task-list">
+      <div class="task-item">
+        <span class="task-handle">&#8942;</span>
+        <span class="task-number">4.1</span>
+        <span class="task-text">Monitorar lead time, cycle time e throughput do time</span>
+        <span class="task-freq">Diario</span>
+        <div class="task-actions">
+          <button class="btn-icon" title="Editar">E</button>
+          <button class="btn-icon delete" title="Remover">X</button>
+        </div>
+      </div>
+      <div class="task-item">
+        <span class="task-handle">&#8942;</span>
+        <span class="task-number">4.2</span>
+        <span class="task-text">Coletar e analisar feedback de NPS e satisfacao do usuario</span>
+        <span class="task-freq">Semanal</span>
+        <div class="task-actions">
+          <button class="btn-icon" title="Editar">E</button>
+          <button class="btn-icon delete" title="Remover">X</button>
+        </div>
+      </div>
+      <div class="task-item">
+        <span class="task-handle">&#8942;</span>
+        <span class="task-number">4.3</span>
+        <span class="task-text">Identificar patterns de retrabalho e propor melhorias de processo</span>
+        <span class="task-freq">Quinzenal</span>
+        <div class="task-actions">
+          <button class="btn-icon" title="Editar">E</button>
+          <button class="btn-icon delete" title="Remover">X</button>
+        </div>
+      </div>
+      <div class="task-item">
+        <span class="task-handle">&#8942;</span>
+        <span class="task-number">4.4</span>
+        <span class="task-text">Gerar sprint retrospective report com insights acionaveis</span>
+        <span class="task-freq">Quinzenal</span>
+        <div class="task-actions">
+          <button class="btn-icon" title="Editar">E</button>
+          <button class="btn-icon delete" title="Remover">X</button>
+        </div>
+      </div>
+      <button class="btn-add">+ Adicionar tarefa</button>
+    </div>
+  </div>
+
+  <div class="attribution-group">
+    <div class="attribution-header">
+      <div class="attribution-title">
+        <span style="font-size:16px">5</span> Comunicacao & Colaboracao
+      </div>
+      <div style="display:flex;align-items:center;gap:12px">
+        <span class="attribution-count">3 tarefas</span>
+        <div class="attribution-actions">
+          <button class="btn-icon" title="Editar">E</button>
+          <button class="btn-icon delete" title="Remover">X</button>
+        </div>
+      </div>
+    </div>
+    <div class="task-list">
+      <div class="task-item">
+        <span class="task-handle">&#8942;</span>
+        <span class="task-number">5.1</span>
+        <span class="task-text">Sincronizar prioridades com Shogun-Lead para alinhamento do time</span>
+        <span class="task-freq">Diario</span>
+        <div class="task-actions">
+          <button class="btn-icon" title="Editar">E</button>
+          <button class="btn-icon delete" title="Remover">X</button>
+        </div>
+      </div>
+      <div class="task-item">
+        <span class="task-handle">&#8942;</span>
+        <span class="task-number">5.2</span>
+        <span class="task-text">Consultar Geisha-UX para validacao de experiencia em features criticas</span>
+        <span class="task-freq">Sob demanda</span>
+        <div class="task-actions">
+          <button class="btn-icon" title="Editar">E</button>
+          <button class="btn-icon delete" title="Remover">X</button>
+        </div>
+      </div>
+      <div class="task-item">
+        <span class="task-handle">&#8942;</span>
+        <span class="task-number">5.3</span>
+        <span class="task-text">Reportar status do produto para o tenant em formato executivo</span>
+        <span class="task-freq">Semanal</span>
+        <div class="task-actions">
+          <button class="btn-icon" title="Editar">E</button>
+          <button class="btn-icon delete" title="Remover">X</button>
+        </div>
+      </div>
+      <button class="btn-add">+ Adicionar tarefa</button>
+    </div>
+  </div>
+
+  <button class="btn-add" style="margin-top:16px;padding:14px;border-radius:12px;font-size:13px">+ Adicionar Nova Atribuicao</button>
+</div>
+
+<div style="display:flex;gap:12px;justify-content:flex-end;margin-top:8px">
+  <button class="btn btn-ghost">Cancelar</button>
+  <button class="btn btn-primary">Salvar Atribuicoes</button>
+</div>
+
 </main>
 </body></html>

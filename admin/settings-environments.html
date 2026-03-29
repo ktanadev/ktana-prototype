@@ -1,21 +1,199 @@
 <!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>Ambientes — KTANA Admin</title><link rel="stylesheet" href="../shared.css"><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Zen+Dots&display=swap" rel="stylesheet">
-<style>body{min-height:100vh;background:#0A0A0A;color:#F5F5F7;display:flex}.sidebar{position:fixed;left:0;top:0;bottom:0;width:220px;background:#111;border-right:0.5px solid rgba(255,255,255,0.04);padding:20px 0;display:flex;flex-direction:column}.sidebar-logo{padding:0 20px 16px;font-family:'Zen Dots',cursive;font-size:14px;color:#D70030;border-bottom:0.5px solid rgba(255,255,255,0.04);margin-bottom:12px;display:flex;align-items:center;gap:6px}.sidebar-logo span{font-family:'Inter',sans-serif;font-size:11px;color:#AEAEB2}.sidebar a{display:block;padding:8px 20px;font-family:'Inter',sans-serif;font-size:12px;color:#8E8E93;transition:all 0.15s}.sidebar a:hover,.sidebar a.active{color:#F5F5F7;background:rgba(255,255,255,0.04)}.main{margin-left:220px;flex:1;padding:32px}.main h1{font-family:'Satoshi',sans-serif;font-size:20px;font-weight:600;margin-bottom:24px}.card{background:#1C1C1E;border:1px solid rgba(255,255,255,0.04);border-radius:16px;padding:24px;margin-bottom:12px}.card-label{font-family:'Inter',sans-serif;font-size:11px;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;color:#AEAEB2;margin-bottom:14px}.row{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:0.5px solid rgba(255,255,255,0.03);font-size:13px}.row:last-child{border-bottom:none}.row-label{font-family:'Satoshi',sans-serif;color:#8E8E93}.row-value{font-family:'Inter',sans-serif;color:#D2D2D7}.placeholder{font-family:'Satoshi',sans-serif;font-size:14px;color:#AEAEB2;text-align:center;padding:48px 0}</style></head>
+<style>
+body{min-height:100vh;background:#0A0A0A;color:#F5F5F7;display:flex;margin:0;font-family:'Inter',sans-serif}
+.sidebar{position:fixed;left:0;top:0;bottom:0;width:220px;background:#111;border-right:0.5px solid rgba(255,255,255,0.04);padding:20px 0;display:flex;flex-direction:column;z-index:10}
+.sidebar-logo{padding:0 20px 16px;font-family:'Zen Dots',cursive;font-size:14px;color:#D70030;border-bottom:0.5px solid rgba(255,255,255,0.04);margin-bottom:12px;display:flex;align-items:center;gap:6px}
+.sidebar-logo span{font-family:'Inter',sans-serif;font-size:11px;color:#AEAEB2}
+.sidebar a{display:block;padding:8px 20px;font-family:'Inter',sans-serif;font-size:12px;color:#8E8E93;text-decoration:none;transition:all 0.15s}
+.sidebar a:hover,.sidebar a.active{color:#F5F5F7;background:rgba(255,255,255,0.04)}
+.main{margin-left:220px;flex:1;padding:32px}
+.main h1{font-family:'Zen Dots',cursive;font-size:20px;font-weight:600;margin-bottom:8px}
+.breadcrumb{font-size:12px;color:#8E8E93;margin-bottom:24px}
+.breadcrumb a{color:#D70030;text-decoration:none}
+.card{background:#1C1C1E;border:1px solid rgba(255,255,255,0.04);border-radius:16px;padding:24px;margin-bottom:16px}
+.card-label{font-family:'Inter',sans-serif;font-size:11px;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;color:#AEAEB2;margin-bottom:14px}
+.env-card{background:#1C1C1E;border:1px solid rgba(255,255,255,0.04);border-radius:16px;padding:24px;margin-bottom:16px;position:relative;overflow:hidden}
+.env-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px}
+.env-dev::before{background:#0A84FF}
+.env-staging::before{background:#FF9F0A}
+.env-prod::before{background:#34C759}
+.env-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px}
+.env-name{font-family:'Zen Dots',cursive;font-size:16px;display:flex;align-items:center;gap:10px}
+.env-badge{font-size:10px;font-weight:600;padding:3px 10px;border-radius:20px;text-transform:uppercase;letter-spacing:0.04em}
+.badge-dev{background:rgba(0,122,255,0.12);color:#0A84FF}
+.badge-staging{background:rgba(255,159,10,0.12);color:#FF9F0A}
+.badge-prod{background:rgba(52,199,89,0.12);color:#34C759}
+.badge-offline{background:rgba(142,142,147,0.12);color:#8E8E93}
+.status-dot{width:8px;height:8px;border-radius:50%;display:inline-block}
+.row{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:0.5px solid rgba(255,255,255,0.03);font-size:13px}
+.row:last-child{border-bottom:none}
+.row-label{color:#8E8E93;min-width:160px}
+.row-value{color:#D2D2D7;font-family:monospace;font-size:12px}
+.row-status{display:flex;align-items:center;gap:6px}
+.btn{padding:8px 20px;border-radius:8px;border:none;font-size:12px;cursor:pointer;font-family:'Inter',sans-serif;font-weight:600;transition:all 0.15s}
+.btn-primary{background:#D70030;color:#fff}
+.btn-ghost{background:transparent;border:1px solid rgba(255,255,255,0.08);color:#AEAEB2}
+.btn-ghost:hover{color:#F5F5F7;border-color:rgba(255,255,255,0.15)}
+.btn-sm{padding:5px 12px;font-size:11px}
+.env-actions{display:flex;gap:8px}
+.comparison-table{width:100%;border-collapse:collapse;font-size:12px}
+.comparison-table thead th{text-align:left;font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:0.04em;color:#AEAEB2;padding:10px 12px;border-bottom:1px solid rgba(255,255,255,0.06)}
+.comparison-table tbody td{padding:10px 12px;border-bottom:0.5px solid rgba(255,255,255,0.03);font-family:monospace;font-size:11px}
+.comparison-table tbody td:first-child{font-family:'Inter',sans-serif;font-size:12px;color:#8E8E93;font-weight:600}
+</style></head>
 <body>
 <nav class="sidebar">
 <div class="sidebar-logo">KTANA <span>ADMIN</span></div>
 <a href="index.html">Overview</a>
-<a href="index.html">Agent Flow</a>
-<a href="index.html">Tenants</a>
-<a href="index.html">Agentes</a>
-<a href="index.html">Health</a>
-<a href="index.html">Billing</a>
-<a href="index.html">Compliance</a>
-<a href="index.html">Catalogo</a>
-<a href="index.html">Config</a>
+<a href="flow.html">Agent Flow</a>
+<a href="tenants.html">Tenants</a>
+<a href="agents.html">Agentes</a>
+<a href="health.html">Health</a>
+<a href="billing.html">Billing</a>
+<a href="compliance.html">Compliance</a>
+<a href="catalog.html">Catalogo</a>
+<a class="active" href="settings.html">Config</a>
 </nav>
 <main class="main">
-<h1 class="fade-in">Ambientes</h1>
-<div class="card fade-in"><p class="card-label">Detalhes</p><p class="placeholder">Tela detalhada do modulo Ambientes.<br>Dados de exemplo serao preenchidos conforme especificacao.</p></div>
-<div class="card fade-in" style="animation-delay:0.1s"><p class="card-label">Acoes</p><div class="row"><span class="row-label">Voltar</span><span class="row-value"><a href="index.html" style="color:#D70030;">← Admin</a></span></div></div>
+<div class="breadcrumb"><a href="index.html">Admin</a> / <a href="settings.html">Config</a> / Ambientes</div>
+<h1>Ambientes</h1>
+<p style="font-size:13px;color:#8E8E93;margin-bottom:24px">Configuracao de infraestrutura por ambiente — database, cache, memory API e LLM defaults</p>
+
+<div class="env-card env-prod">
+  <div class="env-header">
+    <div class="env-name">
+      <span class="status-dot" style="background:#34C759"></span>
+      Production
+      <span class="env-badge badge-prod">Live</span>
+    </div>
+    <div class="env-actions">
+      <button class="btn btn-ghost btn-sm">Editar</button>
+      <button class="btn btn-ghost btn-sm">Logs</button>
+    </div>
+  </div>
+  <div class="row"><span class="row-label">Database Host</span><span class="row-value">pg-prod.ktana-internal.io:5432</span></div>
+  <div class="row"><span class="row-label">Database</span><span class="row-value">ktana_prod (PostgreSQL 16.2 + pgvector)</span></div>
+  <div class="row"><span class="row-label">Redis Host</span><span class="row-value">redis-prod.ktana-internal.io:6379</span></div>
+  <div class="row"><span class="row-label">Redis Mode</span><span class="row-value">Cluster (3 nodes, 6GB)</span></div>
+  <div class="row"><span class="row-label">Memory API URL</span><span class="row-value">https://memory.ktana.ai</span></div>
+  <div class="row"><span class="row-label">LLM Default</span><span class="row-value">claude-sonnet-4 (Anthropic)</span></div>
+  <div class="row"><span class="row-label">LLM Fallback</span><span class="row-value">gpt-4o (OpenAI)</span></div>
+  <div class="row"><span class="row-label">VPS</span><span class="row-value">960192 — 82.29.62.106 (KVM 4, 16GB)</span></div>
+  <div class="row">
+    <span class="row-label">Status</span>
+    <span class="row-status"><span class="status-dot" style="background:#34C759"></span> <span style="color:#34C759;font-size:12px;font-weight:600">Operacional</span> <span style="color:#8E8E93;font-size:11px;margin-left:8px">Uptime: 99.97% (30d)</span></span>
+  </div>
+</div>
+
+<div class="env-card env-staging">
+  <div class="env-header">
+    <div class="env-name">
+      <span class="status-dot" style="background:#FF9F0A"></span>
+      Staging
+      <span class="env-badge badge-staging">Active</span>
+    </div>
+    <div class="env-actions">
+      <button class="btn btn-ghost btn-sm">Editar</button>
+      <button class="btn btn-ghost btn-sm">Promote to Prod</button>
+    </div>
+  </div>
+  <div class="row"><span class="row-label">Database Host</span><span class="row-value">pg-staging.ktana-internal.io:5432</span></div>
+  <div class="row"><span class="row-label">Database</span><span class="row-value">ktana_staging (PostgreSQL 16.2 + pgvector)</span></div>
+  <div class="row"><span class="row-label">Redis Host</span><span class="row-value">redis-staging.ktana-internal.io:6379</span></div>
+  <div class="row"><span class="row-label">Redis Mode</span><span class="row-value">Standalone (2GB)</span></div>
+  <div class="row"><span class="row-label">Memory API URL</span><span class="row-value">https://memory-staging.ktana.ai</span></div>
+  <div class="row"><span class="row-label">LLM Default</span><span class="row-value">claude-sonnet-4 (Anthropic)</span></div>
+  <div class="row"><span class="row-label">LLM Fallback</span><span class="row-value">gpt-4o-mini (OpenAI)</span></div>
+  <div class="row"><span class="row-label">VPS</span><span class="row-value">960192 — 82.29.62.106 (compartilhado)</span></div>
+  <div class="row">
+    <span class="row-label">Status</span>
+    <span class="row-status"><span class="status-dot" style="background:#FF9F0A"></span> <span style="color:#FF9F0A;font-size:12px;font-weight:600">Deploy em andamento</span> <span style="color:#8E8E93;font-size:11px;margin-left:8px">Build #1248</span></span>
+  </div>
+</div>
+
+<div class="env-card env-dev">
+  <div class="env-header">
+    <div class="env-name">
+      <span class="status-dot" style="background:#0A84FF"></span>
+      Development
+      <span class="env-badge badge-dev">Dev</span>
+    </div>
+    <div class="env-actions">
+      <button class="btn btn-ghost btn-sm">Editar</button>
+      <button class="btn btn-ghost btn-sm">Reset DB</button>
+    </div>
+  </div>
+  <div class="row"><span class="row-label">Database Host</span><span class="row-value">localhost:5432</span></div>
+  <div class="row"><span class="row-label">Database</span><span class="row-value">ktana_dev (PostgreSQL 16.2 + pgvector)</span></div>
+  <div class="row"><span class="row-label">Redis Host</span><span class="row-value">localhost:6379</span></div>
+  <div class="row"><span class="row-label">Redis Mode</span><span class="row-value">Standalone (512MB)</span></div>
+  <div class="row"><span class="row-label">Memory API URL</span><span class="row-value">http://localhost:8000</span></div>
+  <div class="row"><span class="row-label">LLM Default</span><span class="row-value">claude-haiku-3.5 (custo otimizado)</span></div>
+  <div class="row"><span class="row-label">LLM Fallback</span><span class="row-value">llama-3.3-70b (Groq, gratis)</span></div>
+  <div class="row"><span class="row-label">Ambiente</span><span class="row-value">Docker Compose local</span></div>
+  <div class="row">
+    <span class="row-label">Status</span>
+    <span class="row-status"><span class="status-dot" style="background:#0A84FF"></span> <span style="color:#0A84FF;font-size:12px;font-weight:600">Operacional</span> <span style="color:#8E8E93;font-size:11px;margin-left:8px">Seed data: 15 Mar 2026</span></span>
+  </div>
+</div>
+
+<div class="card">
+  <p class="card-label">Comparacao de Ambientes</p>
+  <table class="comparison-table">
+    <thead>
+      <tr><th>Configuracao</th><th>Development</th><th>Staging</th><th>Production</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Max Agents/Tenant</td>
+        <td>50</td>
+        <td>20</td>
+        <td>20</td>
+      </tr>
+      <tr>
+        <td>Token Limit/Dia</td>
+        <td>Ilimitado</td>
+        <td>2M</td>
+        <td>5M</td>
+      </tr>
+      <tr>
+        <td>Dream Engine</td>
+        <td style="color:#8E8E93">Desativado</td>
+        <td style="color:#FF9F0A">Manual</td>
+        <td style="color:#34C759">Diario 04:00</td>
+      </tr>
+      <tr>
+        <td>Audit Logging</td>
+        <td style="color:#8E8E93">Console only</td>
+        <td style="color:#FF9F0A">DB (7d retention)</td>
+        <td style="color:#34C759">DB (90d retention)</td>
+      </tr>
+      <tr>
+        <td>LGPD Compliance</td>
+        <td style="color:#8E8E93">Mock</td>
+        <td style="color:#FF9F0A">Simulado</td>
+        <td style="color:#34C759">Ativo (ANPD)</td>
+      </tr>
+      <tr>
+        <td>SSL/TLS</td>
+        <td style="color:#8E8E93">Self-signed</td>
+        <td style="color:#34C759">Let's Encrypt</td>
+        <td style="color:#34C759">Let's Encrypt</td>
+      </tr>
+      <tr>
+        <td>Rate Limiting</td>
+        <td style="color:#8E8E93">Desativado</td>
+        <td>100 req/min</td>
+        <td>500 req/min</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<div style="display:flex;gap:12px;justify-content:flex-end">
+  <button class="btn btn-ghost">Exportar Configuracoes</button>
+  <button class="btn btn-primary">Adicionar Ambiente</button>
+</div>
+
 </main>
 </body></html>
