@@ -56,6 +56,14 @@
     .btn-cta-primary { background: #D70030; color: #FFF; }
     .btn-cta-secondary { background: transparent; color: #1D1D1F; border: 1px solid rgba(0,0,0,0.08); }
 
+    /* Radar Chart */
+    .radar-card .radar-wrap { display: flex; justify-content: center; }
+    .radar-card .radar-wrap svg { max-width: 340px; width: 100%; height: auto; }
+    .radar-score { display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; margin-top: 16px; padding-top: 16px; border-top: 1px solid rgba(0,0,0,0.04); }
+    .score-item { text-align: center; }
+    .score-val { font-family: 'Zen Dots', cursive; font-size: 20px; color: #D70030; }
+    .score-label { font-family: 'Inter', sans-serif; font-size: 11px; color: #86868B; margin-top: 2px; }
+
     .fade-in { animation: fadeIn 0.3s cubic-bezier(0.25,0.1,0.25,1) both; }
     @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
   </style>
@@ -80,8 +88,58 @@
       <button class="settings-tab" onclick="location.href='ethics.html'">Etica</button>
     </div>
 
+    <!-- Posicionamento da Empresa — Radar Chart -->
+    <div class="card radar-card fade-in" style="animation-delay:0.05s">
+      <p class="card-label">Posicionamento estrategico</p>
+      <div class="radar-wrap">
+        <svg viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
+          <!-- Concentric octagon rings -->
+          <polygon points="200,165 224.75,175.25 235,200 224.75,224.75 200,235 175.25,224.75 165,200 175.25,175.25" fill="none" stroke="rgba(0,0,0,0.04)" stroke-width="0.75"/>
+          <polygon points="200,130 249.5,150.5 270,200 249.5,249.5 200,270 150.5,249.5 130,200 150.5,150.5" fill="none" stroke="rgba(0,0,0,0.04)" stroke-width="0.75"/>
+          <polygon points="200,95 274.25,125.75 305,200 274.25,274.25 200,305 125.75,274.25 95,200 125.75,125.75" fill="none" stroke="rgba(0,0,0,0.04)" stroke-width="0.75"/>
+          <polygon points="200,60 299,101 340,200 299,299 200,340 101,299 60,200 101,101" fill="none" stroke="rgba(0,0,0,0.04)" stroke-width="0.75"/>
+          <!-- Axis lines -->
+          <line x1="200" y1="200" x2="200" y2="60" stroke="rgba(0,0,0,0.04)" stroke-width="0.75"/>
+          <line x1="200" y1="200" x2="299" y2="101" stroke="rgba(0,0,0,0.04)" stroke-width="0.75"/>
+          <line x1="200" y1="200" x2="340" y2="200" stroke="rgba(0,0,0,0.04)" stroke-width="0.75"/>
+          <line x1="200" y1="200" x2="299" y2="299" stroke="rgba(0,0,0,0.04)" stroke-width="0.75"/>
+          <line x1="200" y1="200" x2="200" y2="340" stroke="rgba(0,0,0,0.04)" stroke-width="0.75"/>
+          <line x1="200" y1="200" x2="101" y2="299" stroke="rgba(0,0,0,0.04)" stroke-width="0.75"/>
+          <line x1="200" y1="200" x2="60" y2="200" stroke="rgba(0,0,0,0.04)" stroke-width="0.75"/>
+          <line x1="200" y1="200" x2="101" y2="101" stroke="rgba(0,0,0,0.04)" stroke-width="0.75"/>
+          <!-- Data: Produto 9, Tecnologia 8, Marca 6, Vendas 7, Cultura 8, Financeiro 7, Clientes 9, Operacoes 6 -->
+          <polygon points="200,74 269.3,130.7 326,200 249.2,269.2 200,312 121.1,279.1 116,200 130.3,130.3"
+            fill="#D70030" fill-opacity="0.08" stroke="#D70030" stroke-width="1.5" stroke-linejoin="round"/>
+          <!-- Data points -->
+          <circle cx="200" cy="74" r="4" fill="#D70030"/>
+          <circle cx="269.3" cy="130.7" r="4" fill="#D70030"/>
+          <circle cx="326" cy="200" r="4" fill="#D70030"/>
+          <circle cx="249.2" cy="269.2" r="4" fill="#D70030"/>
+          <circle cx="200" cy="312" r="4" fill="#D70030"/>
+          <circle cx="121.1" cy="279.1" r="4" fill="#D70030"/>
+          <circle cx="116" cy="200" r="4" fill="#D70030"/>
+          <circle cx="130.3" cy="130.3" r="4" fill="#D70030"/>
+          <!-- Labels -->
+          <text x="200" y="50" text-anchor="middle" font-family="Inter,sans-serif" font-size="11" fill="#1D1D1F" font-weight="500">Produto 9</text>
+          <text x="306" y="120" text-anchor="start" font-family="Inter,sans-serif" font-size="11" fill="#1D1D1F" font-weight="500">Tech 8</text>
+          <text x="350" y="204" text-anchor="start" font-family="Inter,sans-serif" font-size="11" fill="#1D1D1F" font-weight="500">Vendas 7</text>
+          <text x="306" y="290" text-anchor="start" font-family="Inter,sans-serif" font-size="11" fill="#1D1D1F" font-weight="500">Clientes 9</text>
+          <text x="200" y="362" text-anchor="middle" font-family="Inter,sans-serif" font-size="11" fill="#1D1D1F" font-weight="500">Cultura 8</text>
+          <text x="94" y="290" text-anchor="end" font-family="Inter,sans-serif" font-size="11" fill="#1D1D1F" font-weight="500">Financeiro 7</text>
+          <text x="50" y="204" text-anchor="end" font-family="Inter,sans-serif" font-size="11" fill="#1D1D1F" font-weight="500">Operacoes 6</text>
+          <text x="94" y="120" text-anchor="end" font-family="Inter,sans-serif" font-size="11" fill="#1D1D1F" font-weight="500">Marca 6</text>
+        </svg>
+      </div>
+      <div class="radar-score">
+        <div class="score-item"><div class="score-val">7.5</div><div class="score-label">Media geral</div></div>
+        <div class="score-item"><div class="score-val">9</div><div class="score-label">Mais forte</div></div>
+        <div class="score-item"><div class="score-val">6</div><div class="score-label">A fortalecer</div></div>
+        <div class="score-item"><div class="score-val">B+</div><div class="score-label">Maturidade</div></div>
+      </div>
+    </div>
+
     <!-- Missao -->
-    <div class="card fade-in" style="animation-delay:0.05s">
+    <div class="card fade-in" style="animation-delay:0.1s">
       <p class="card-label">Missao</p>
       <div class="spirit-text" contenteditable="true">Democratizar o acesso a servicos financeiros atraves de tecnologia Banking-as-a-Service, permitindo que qualquer empresa ofereca produtos bancarios aos seus clientes.</div>
       <div class="edit-row">
