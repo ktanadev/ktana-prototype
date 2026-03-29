@@ -45,41 +45,18 @@
     /* Divider */
     .sidebar-divider { padding: 8px 18px; font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: #AEAEB2; background: #F5F5F7; }
 
-    /* WhatsApp iframe area */
-    .wa-frame { flex: 1; display: flex; flex-direction: column; background: #E5DDD5; position: relative; }
+    /* WhatsApp frame — now dark with ambient glow */
+    .wa-frame { flex: 1; display: flex; flex-direction: column; position: relative; }
 
-    /* Simulated WhatsApp interface */
-    .wa-header { height: 52px; background: #075E54; display: flex; align-items: center; gap: 12px; padding: 0 16px; }
+    /* WA Header stays clean/light */
+    .wa-header { height: 52px; background: #075E54; display: flex; align-items: center; gap: 12px; padding: 0 16px; position: relative; z-index: 10; }
     .wa-header-avatar { width: 36px; height: 36px; border-radius: 50%; background: rgba(255,255,255,0.15); display: flex; align-items: center; justify-content: center; }
     .wa-header-avatar span { font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 500; color: #FFF; }
     .wa-header-info h3 { font-family: 'Satoshi', sans-serif; font-size: 14px; font-weight: 500; color: #FFF; }
     .wa-header-info p { font-family: 'Inter', sans-serif; font-size: 11px; color: rgba(255,255,255,0.7); }
 
-    /* Chat area */
-    .wa-chat { flex: 1; padding: 16px 60px; overflow-y: auto; background: #E5DDD5 url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23c8c8c8' fill-opacity='0.08'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E"); display: flex; flex-direction: column; gap: 8px; }
-
-    .wa-msg { max-width: 65%; padding: 8px 12px; border-radius: 8px; position: relative; }
-    .wa-msg-in { background: #FFF; align-self: flex-start; border-top-left-radius: 0; box-shadow: 0 1px 1px rgba(0,0,0,0.05); }
-    .wa-msg-out { background: #DCF8C6; align-self: flex-end; border-top-right-radius: 0; box-shadow: 0 1px 1px rgba(0,0,0,0.05); }
-    .wa-msg p { font-family: 'Satoshi', sans-serif; font-size: 14px; line-height: 1.5; color: #303030; }
-    .wa-msg-time { font-family: 'Inter', sans-serif; font-size: 11px; color: rgba(0,0,0,0.35); text-align: right; margin-top: 4px; }
-    .wa-msg-name { font-family: 'Inter', sans-serif; font-size: 12px; font-weight: 500; color: #D70030; margin-bottom: 4px; }
-
-    /* Separator */
-    .wa-date { font-family: 'Inter', sans-serif; font-size: 11px; color: rgba(0,0,0,0.4); background: rgba(255,255,255,0.8); padding: 4px 12px; border-radius: 6px; align-self: center; margin: 8px 0; }
-
-    /* Input */
-    .wa-input { height: 52px; background: #F0F0F0; display: flex; align-items: center; gap: 8px; padding: 0 12px; }
-    .wa-input input { font-family: 'Satoshi', sans-serif; flex: 1; padding: 10px 16px; border-radius: 20px; border: none; background: #FFF; font-size: 14px; color: #303030; outline: none; }
-    .wa-input input::placeholder { color: #86868B; }
-    .wa-input button { width: 40px; height: 40px; border-radius: 50%; background: #075E54; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; }
-    .wa-input button svg { width: 18px; height: 18px; stroke: #FFF; fill: none; stroke-width: 2; }
-
-    /* KTANA overlay badge */
-    .ktana-badge { position: absolute; top: 8px; right: 12px; font-family: 'Inter', sans-serif; font-size: 11px; color: rgba(255,255,255,0.6); background: rgba(0,0,0,0.15); padding: 3px 10px; border-radius: 6px; backdrop-filter: blur(10px); }
-
-    /* Pipeline Stages */
-    .pipeline-stages { display: flex; align-items: center; gap: 0; padding: 8px 16px; background: rgba(7,94,84,0.95); backdrop-filter: blur(10px); }
+    /* Pipeline Stages — stays on header area */
+    .pipeline-stages { display: flex; align-items: center; gap: 0; padding: 8px 16px; background: rgba(7,94,84,0.95); backdrop-filter: blur(10px); position: relative; z-index: 10; }
     .pipeline-step { display: flex; align-items: center; gap: 6px; flex: 1; }
     .pipeline-step:not(:last-child)::after { content: ''; flex: 1; height: 2px; background: rgba(255,255,255,0.15); margin: 0 6px; min-width: 12px; }
     .pipeline-step.active:not(:last-child)::after { background: linear-gradient(90deg, #25D366, rgba(255,255,255,0.15)); }
@@ -93,46 +70,196 @@
     .pipeline-step.active .pipeline-label { color: #25D366; font-weight: 500; }
     .pipeline-step.done .pipeline-label { color: rgba(255,255,255,0.7); }
 
-    /* Agent Badge (WhatsApp style) */
-    .wa-agent-badge { display: inline-flex; align-items: center; gap: 4px; padding: 2px 8px; border-radius: 4px; background: rgba(215,0,48,0.06); font-family: 'Inter', sans-serif; font-size: 10px; font-weight: 500; color: #D70030; margin-bottom: 4px; }
-    .wa-agent-badge-dot { width: 4px; height: 4px; border-radius: 50%; background: #25D366; }
-    .wa-agent-badge-icon { width: 14px; height: 14px; border-radius: 50%; background: rgba(215,0,48,0.1); display: flex; align-items: center; justify-content: center; font-family: 'Inter', sans-serif; font-size: 7px; font-weight: 600; color: #D70030; }
+    /* KTANA overlay badge */
+    .ktana-badge { position: absolute; top: 8px; right: 12px; font-family: 'Inter', sans-serif; font-size: 11px; color: rgba(255,255,255,0.6); background: rgba(0,0,0,0.15); padding: 3px 10px; border-radius: 6px; backdrop-filter: blur(10px); }
 
-    /* Channel Indicator */
-    .channel-indicator { display: inline-flex; align-items: center; gap: 4px; font-family: 'Inter', sans-serif; font-size: 10px; color: rgba(0,0,0,0.4); margin-left: 6px; }
+    /* ═══ CHAT ZONE — DARK WITH AMBIENT GLOW ═══ */
+    .chat-zone { flex: 1; background: #0A0A0A; position: relative; overflow: hidden; display: flex; flex-direction: column; }
+    .ambient-glow {
+      position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none;
+    }
+    .ambient-glow-orb {
+      position: absolute; border-radius: 50%; pointer-events: none;
+      filter: blur(80px);
+    }
+    .ambient-glow-orb:nth-child(1) {
+      width: 60%; height: 50%;
+      top: 10%; left: -10%;
+      background: radial-gradient(ellipse at center, rgba(215,0,48,0.16) 0%, transparent 70%);
+      animation: orbDrift1 10s ease-in-out infinite;
+    }
+    .ambient-glow-orb:nth-child(2) {
+      width: 50%; height: 45%;
+      top: 30%; right: -15%;
+      background: radial-gradient(ellipse at center, rgba(160,15,5,0.13) 0%, transparent 70%);
+      animation: orbDrift2 14s ease-in-out infinite;
+    }
+    .ambient-glow-orb:nth-child(3) {
+      width: 55%; height: 50%;
+      bottom: 5%; left: 20%;
+      background: radial-gradient(ellipse at center, rgba(220,80,25,0.11) 0%, transparent 70%);
+      animation: orbDrift3 12s ease-in-out infinite;
+    }
+    @keyframes orbDrift1 { 0%,100% { transform: translate(0,0); } 33% { transform: translate(10%,8%); } 66% { transform: translate(-5%,-5%); } }
+    @keyframes orbDrift2 { 0%,100% { transform: translate(0,0); } 50% { transform: translate(-12%,6%); } }
+    @keyframes orbDrift3 { 0%,100% { transform: translate(0,0); } 33% { transform: translate(8%,-8%); } 66% { transform: translate(-6%,4%); } }
+
+    /* ═══ DARK CHAT AREA ═══ */
+    .wa-chat { flex: 1; padding: 16px 60px; overflow-y: auto; background: transparent; display: flex; flex-direction: column; gap: 8px; position: relative; z-index: 1; }
+
+    /* Dark date separator */
+    .wa-date { font-family: 'Inter', sans-serif; font-size: 11px; color: rgba(255,255,255,0.4); background: rgba(255,255,255,0.06); padding: 4px 12px; border-radius: 6px; align-self: center; margin: 8px 0; }
+
+    /* ═══ DARK BUBBLES ═══ */
+    .wa-msg { max-width: 65%; padding: 8px 12px; border-radius: 8px; position: relative; }
+    .wa-msg-in {
+      background: rgba(255,255,255,0.04);
+      backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255,255,255,0.06);
+      align-self: flex-start; border-top-left-radius: 0;
+      box-shadow: none;
+    }
+    .wa-msg-out {
+      background: rgba(215,0,48,0.12);
+      border: 1px solid rgba(215,0,48,0.18);
+      align-self: flex-end; border-top-right-radius: 0;
+      box-shadow: none;
+    }
+    .wa-msg p { font-family: 'Satoshi', sans-serif; font-size: 14px; line-height: 1.5; color: #E5E5EA; }
+    .wa-msg p strong { color: #F5F5F7; }
+    .wa-msg p em { color: rgba(255,255,255,0.7); }
+    .wa-msg-time { font-family: 'Inter', sans-serif; font-size: 11px; color: rgba(255,255,255,0.25); text-align: right; margin-top: 4px; }
+    .wa-msg-name { font-family: 'Inter', sans-serif; font-size: 12px; font-weight: 500; color: #D70030; margin-bottom: 4px; }
+
+    /* Agent Badge (dark variant) */
+    .wa-agent-badge { display: inline-flex; align-items: center; gap: 4px; padding: 2px 8px; border-radius: 4px; background: rgba(215,0,48,0.08); font-family: 'Inter', sans-serif; font-size: 10px; font-weight: 500; color: #D70030; margin-bottom: 4px; }
+    .wa-agent-badge-dot { width: 4px; height: 4px; border-radius: 50%; background: #25D366; }
+    .wa-agent-badge-icon { width: 14px; height: 14px; border-radius: 50%; background: rgba(215,0,48,0.12); display: flex; align-items: center; justify-content: center; font-family: 'Inter', sans-serif; font-size: 7px; font-weight: 600; color: #D70030; }
+
+    /* Channel Indicator (dark) */
+    .channel-indicator { display: inline-flex; align-items: center; gap: 4px; font-family: 'Inter', sans-serif; font-size: 10px; color: rgba(255,255,255,0.4); margin-left: 6px; }
     .channel-indicator svg { width: 12px; height: 12px; fill: currentColor; flex-shrink: 0; }
     .channel-indicator.channel-whatsapp { color: #25D366; }
     .channel-indicator.channel-instagram { color: #E1306C; }
     .channel-indicator.channel-telegram { color: #0088CC; }
 
-    /* Tool Indicator (WhatsApp style) */
-    .wa-tool-indicator { display: inline-flex; align-items: center; gap: 4px; padding: 3px 8px; border-radius: 4px; background: rgba(0,0,0,0.03); font-family: 'Inter', sans-serif; font-size: 10px; color: rgba(0,0,0,0.4); margin-top: 4px; }
-    .wa-tool-indicator svg { width: 10px; height: 10px; stroke: rgba(0,0,0,0.35); fill: none; stroke-width: 2; flex-shrink: 0; }
-    .wa-tool-indicator-name { font-weight: 500; color: rgba(0,0,0,0.55); }
+    /* Tool Indicator (dark) */
+    .wa-tool-indicator { display: inline-flex; align-items: center; gap: 4px; padding: 3px 8px; border-radius: 4px; background: rgba(255,255,255,0.04); font-family: 'Inter', sans-serif; font-size: 10px; color: rgba(255,255,255,0.35); margin-top: 4px; }
+    .wa-tool-indicator svg { width: 10px; height: 10px; stroke: rgba(255,255,255,0.3); fill: none; stroke-width: 2; flex-shrink: 0; }
+    .wa-tool-indicator-name { font-weight: 500; color: rgba(255,255,255,0.55); }
 
-    /* Quick Actions (WhatsApp) */
-    .wa-quick-actions { display: flex; gap: 6px; flex-wrap: wrap; padding: 8px 12px; background: #E8E8E8; border-top: 0.5px solid rgba(0,0,0,0.06); }
-    .wa-quick-action { display: flex; align-items: center; gap: 4px; padding: 6px 12px; border-radius: 16px; background: #FFF; border: 0.5px solid rgba(0,0,0,0.1); font-family: 'Inter', sans-serif; font-size: 11px; color: #303030; cursor: pointer; transition: all 0.15s ease; }
-    .wa-quick-action:hover { border-color: #075E54; color: #075E54; }
-    .wa-quick-action:hover svg { stroke: #075E54; }
-    .wa-quick-action svg { width: 12px; height: 12px; stroke: #86868B; fill: none; stroke-width: 2; flex-shrink: 0; }
-    .wa-quick-action-critical { border-color: rgba(215,0,48,0.2); color: #D70030; }
-    .wa-quick-action-critical svg { stroke: #D70030; }
-    .wa-quick-action-critical:hover { background: rgba(215,0,48,0.04); border-color: #D70030; }
-    .wa-quick-action-success { border-color: rgba(37,211,102,0.3); color: #128C7E; }
-    .wa-quick-action-success svg { stroke: #128C7E; }
-    .wa-quick-action-success:hover { background: rgba(37,211,102,0.06); border-color: #128C7E; }
-
-    /* Enhanced Typing (WhatsApp) */
-    .wa-typing { display: none; align-self: flex-start; max-width: 65%; padding: 8px 12px; border-radius: 8px; background: #FFF; border-top-left-radius: 0; box-shadow: 0 1px 1px rgba(0,0,0,0.05); }
+    /* ═══ DARK TYPING INDICATOR ═══ */
+    .wa-typing { display: none; align-self: flex-start; max-width: 65%; padding: 8px 12px; border-radius: 8px; background: rgba(255,255,255,0.04); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,0.06); border-top-left-radius: 0; }
     .wa-typing-inner { display: flex; align-items: center; gap: 8px; }
     .wa-typing-dots { display: flex; gap: 3px; }
-    .wa-typing-dot { width: 5px; height: 5px; border-radius: 50%; background: #B0B0B0; animation: waTypeBounce 1.4s ease infinite; }
+    .wa-typing-dot { width: 5px; height: 5px; border-radius: 50%; background: rgba(215,0,48,0.4); animation: waTypeBounce 1.4s ease infinite; }
     .wa-typing-dot:nth-child(2) { animation-delay: 0.2s; }
     .wa-typing-dot:nth-child(3) { animation-delay: 0.4s; }
     @keyframes waTypeBounce { 0%,60%,100% { transform: translateY(0); opacity: 0.4; } 30% { transform: translateY(-3px); opacity: 1; } }
-    .wa-typing-text { font-family: 'Inter', sans-serif; font-size: 11px; color: rgba(0,0,0,0.4); }
+    .wa-typing-text { font-family: 'Inter', sans-serif; font-size: 11px; color: rgba(255,255,255,0.35); }
     .wa-typing-agent { font-weight: 500; color: #D70030; }
+
+    /* ═══ DARK QUICK ACTIONS ═══ */
+    .wa-quick-actions { display: flex; gap: 6px; flex-wrap: wrap; padding: 8px 12px; background: transparent; border-top: 1px solid rgba(255,255,255,0.04); position: relative; z-index: 2; }
+    .wa-quick-action { display: flex; align-items: center; gap: 4px; padding: 6px 12px; border-radius: 16px; background: rgba(255,255,255,0.03); border: 0.5px solid rgba(255,255,255,0.1); font-family: 'Inter', sans-serif; font-size: 11px; color: rgba(255,255,255,0.5); cursor: pointer; transition: all 0.15s ease; }
+    .wa-quick-action:hover { border-color: rgba(215,0,48,0.3); color: #F5F5F7; background: rgba(215,0,48,0.12); }
+    .wa-quick-action:hover svg { stroke: #F5F5F7; }
+    .wa-quick-action svg { width: 12px; height: 12px; stroke: rgba(255,255,255,0.4); fill: none; stroke-width: 2; flex-shrink: 0; }
+    .wa-quick-action-critical { border-color: rgba(215,0,48,0.2); color: #FF453A; }
+    .wa-quick-action-critical svg { stroke: #FF453A; }
+    .wa-quick-action-critical:hover { background: rgba(215,0,48,0.12); border-color: rgba(215,0,48,0.4); color: #FF453A; }
+    .wa-quick-action-success { border-color: rgba(48,209,88,0.2); color: #30D158; }
+    .wa-quick-action-success svg { stroke: #30D158; }
+    .wa-quick-action-success:hover { background: rgba(48,209,88,0.08); border-color: rgba(48,209,88,0.3); color: #30D158; }
+
+    /* ═══ DARK SUGGESTIONS ═══ */
+    .suggestions { display: flex; gap: 10px; overflow-x: auto; padding: 12px 0 10px; -webkit-overflow-scrolling: touch; }
+    .suggestion { font-family: 'Inter', sans-serif; white-space: nowrap; padding: 8px 16px; border-radius: 20px; border: 0.5px solid rgba(255,255,255,0.1); font-size: 12px; color: rgba(255,255,255,0.4); cursor: pointer; transition: all 0.15s; flex-shrink: 0; background: rgba(255,255,255,0.03); }
+    .suggestion:hover { background: rgba(215,0,48,0.12); color: #F5F5F7; border-color: rgba(215,0,48,0.25); }
+
+    /* ═══ INPUT AREA — DARK WITH GRADIENT BORDER ═══ */
+    .input-area { padding: 12px 20px 28px; border-top: none; background: transparent; position: relative; z-index: 2; }
+    .input-row { display: flex; gap: 8px; max-width: 720px; margin: 0 auto; align-items: flex-end; }
+    .input-wrapper {
+      flex: 1; position: relative; border-radius: 16px;
+    }
+    /* Glow vivo — se movimenta como aurora */
+    .input-glow {
+      position: absolute;
+      top: 50%; left: 50%;
+      width: 130%; height: 200%;
+      transform: translate(-50%, -50%);
+      pointer-events: none;
+      z-index: 0;
+      filter: blur(35px);
+      opacity: 0.7;
+      background:
+        radial-gradient(ellipse 50% 50% at 30% 40%, rgba(215,0,48,0.5) 0%, transparent 70%),
+        radial-gradient(ellipse 45% 50% at 70% 50%, rgba(160,15,5,0.4) 0%, transparent 65%),
+        radial-gradient(ellipse 40% 45% at 50% 55%, rgba(220,80,25,0.3) 0%, transparent 60%);
+      animation: glowMove 8s ease-in-out infinite;
+    }
+    @keyframes glowMove {
+      0%   { transform: translate(-50%, -50%) rotate(0deg); }
+      25%  { transform: translate(-45%, -53%) rotate(2deg); }
+      50%  { transform: translate(-55%, -47%) rotate(-1deg); }
+      75%  { transform: translate(-48%, -52%) rotate(1.5deg); }
+      100% { transform: translate(-50%, -50%) rotate(0deg); }
+    }
+    /* Borda circulante — elemento rotativo com gradiente */
+    .input-border-spin {
+      position: absolute; inset: -1px; border-radius: 15px; z-index: 1;
+      overflow: hidden; pointer-events: none;
+    }
+    .input-border-spin::before {
+      content: ''; position: absolute;
+      top: -50%; left: -50%; width: 200%; height: 200%;
+      background: conic-gradient(transparent 30%, rgba(140,10,5,0.6) 38%, rgba(215,0,48,0.8) 42%, rgba(220,80,25,0.5) 48%, transparent 55%, transparent 80%, rgba(180,30,8,0.3) 87%, rgba(215,0,48,0.5) 92%, transparent 97%);
+      animation: rotateLine 5s linear infinite;
+    }
+    @keyframes rotateLine { to { transform: rotate(360deg); } }
+    /* Mascara para mostrar so a borda de 1px */
+    .input-border-spin::after {
+      content: ''; position: absolute;
+      inset: 1px; border-radius: 14px;
+      background: #111;
+    }
+    /* Input card — multi-linha */
+    .input-card {
+      background: #111; border-radius: 14px; position: relative; z-index: 2;
+      display: flex; flex-direction: column;
+    }
+    .chat-input {
+      font-family: 'Satoshi', sans-serif; width: 100%;
+      padding: 18px 20px 60px; border-radius: 14px;
+      border: none; background: transparent;
+      font-size: 15px; color: #E5E5EA; outline: none;
+      min-height: 120px; max-height: 200px; resize: none;
+    }
+    .chat-input::placeholder { color: rgba(255,255,255,0.25); }
+    /* Footer dentro do input card */
+    .input-footer {
+      position: absolute; bottom: 0; left: 0; right: 0;
+      padding: 10px 16px; display: flex; align-items: center; gap: 8px;
+      border-top: 1px solid rgba(255,255,255,0.04);
+    }
+    .input-add-btn { width: 32px; height: 32px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.1); background: transparent; color: rgba(255,255,255,0.4); display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 18px; transition: all 0.15s; }
+    .input-add-btn:hover { background: rgba(255,255,255,0.06); color: rgba(255,255,255,0.7); }
+    .input-agent-select { font-family: 'Inter', sans-serif; font-size: 12px; color: rgba(255,255,255,0.5); background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; padding: 6px 12px; cursor: pointer; appearance: none; -webkit-appearance: none; }
+    .input-footer .send-btn { margin-left: auto; width: 36px; height: 36px; border-radius: 10px; }
+    .input-footer .send-btn svg { width: 16px; height: 16px; }
+    .send-btn {
+      font-family: 'Inter', sans-serif;
+      width: 48px; height: 48px; border-radius: 50%;
+      background: #D70030; color: #F5F5F7;
+      font-size: 18px; border: none; cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      transition: background 0.15s, transform 0.1s;
+      flex-shrink: 0;
+    }
+    .send-btn:hover { background: #E5003A; }
+    .send-btn:active { transform: scale(0.93); }
+    .send-btn svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
 
     @media (max-width: 768px) {
       .sidebar { width: 72px; }
@@ -144,43 +271,6 @@
       .wa-quick-actions { gap: 4px; }
       .wa-quick-action { font-size: 10px; padding: 5px 10px; }
     }
-  
-    /* Chat Section */
-    .chat-section { max-width: 720px; margin: 0 auto; padding: 0 24px 28px; }
-    .chat-divider { display: flex; align-items: center; gap: 12px; margin-bottom: 20px; }
-    .chat-divider-line { flex: 1; height: 1px; background: rgba(0,0,0,0.06); }
-    .chat-divider-label { font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 500; color: #D70030; letter-spacing: 0.04em; display: flex; align-items: center; gap: 6px; }
-    .chat-divider-dot { width: 6px; height: 6px; border-radius: 50%; background: #30D158; }
-    .chat-container { background: #FFF; border-radius: 20px; border: 1px solid rgba(0,0,0,0.04); overflow: hidden; }
-    .chat-messages { padding: 20px; display: flex; flex-direction: column; gap: 14px; max-height: 400px; overflow-y: auto; }
-    .c-msg { display: flex; gap: 10px; max-width: 88%; opacity: 0; animation: cSlide 0.4s cubic-bezier(0.25,0.1,0.25,1) forwards; animation-delay: 0.2s; }
-    @keyframes cSlide { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-    .c-msg-user { align-self: flex-end; flex-direction: row-reverse; gap: 0; }
-    .c-av { width: 28px; height: 28px; border-radius: 50%; border: 1px solid rgba(215,0,48,0.12); display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 2px; background: #FFF; }
-    .c-av span { font-family: 'Zen Dots', cursive; font-size: 6px; color: #D70030; }
-    .c-bbl { border-radius: 18px; padding: 12px 16px; }
-    .c-bbl-a { background: #FAFAFA; border: 0.5px solid rgba(0,0,0,0.04); border-top-left-radius: 6px; }
-    .c-bbl-u { background: #1D1D1F; color: #F5F5F7; border-bottom-right-radius: 6px; }
-    .c-bbl p { font-family: 'Satoshi', sans-serif; font-size: 14px; line-height: 1.5; }
-    .c-meta { font-family: 'Inter', sans-serif; font-size: 10px; color: #AEAEB2; margin-top: 4px; }
-    .c-qk { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 8px; }
-    .c-qb { font-family: 'Inter', sans-serif; padding: 6px 14px; border-radius: 10px; background: rgba(0,0,0,0.02); border: 0.5px solid rgba(0,0,0,0.08); font-size: 12px; color: #1D1D1F; cursor: pointer; transition: all 0.15s; }
-    .c-qb:hover { background: #1D1D1F; color: #F5F5F7; border-color: #1D1D1F; }
-    .c-ty { display: none; align-items: center; gap: 8px; padding: 4px 0; }
-    .c-ty-dots { display: flex; gap: 3px; }
-    .c-ty-d { width: 5px; height: 5px; border-radius: 50%; background: #D2D2D7; animation: cBnc 1.4s ease infinite; }
-    .c-ty-d:nth-child(2) { animation-delay: 0.2s; }
-    .c-ty-d:nth-child(3) { animation-delay: 0.4s; }
-    @keyframes cBnc { 0%,60%,100% { transform: translateY(0); } 30% { transform: translateY(-3px); } }
-    .c-ty-t { font-family: 'Inter', sans-serif; font-size: 10px; color: #AEAEB2; }
-    .c-inp-area { padding: 12px 16px; border-top: 0.5px solid rgba(0,0,0,0.04); display: flex; gap: 8px; align-items: flex-end; }
-    .c-inp { font-family: 'Satoshi', sans-serif; flex: 1; padding: 12px 18px; border-radius: 22px; border: 0.5px solid rgba(0,0,0,0.08); background: #FAFAFA; font-size: 14px; color: #1D1D1F; outline: none; min-height: 44px; max-height: 100px; resize: none; }
-    .c-inp:focus { border-color: rgba(215,0,48,0.2); background: #FFF; }
-    .c-inp::placeholder { color: #AEAEB2; }
-    .c-snd { width: 44px; height: 44px; border-radius: 50%; background: #1D1D1F; color: #F5F5F7; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
-    .c-snd:hover { background: #000; }
-    .c-snd:active { transform: scale(0.93); }
-    .c-snd svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
   </style>
 </head>
 <body>
@@ -255,7 +345,7 @@
           <div class="contact-avatar"><span>Y</span><div class="contact-status"></div></div>
           <div class="contact-info">
             <p class="contact-name">Yuki (Controller)</p>
-            <p class="contact-last">Cobranca enviada para Cliente Y ✓</p>
+            <p class="contact-last">Cobranca enviada para Cliente Y</p>
           </div>
           <div class="contact-meta">
             <span class="contact-time">14:33</span>
@@ -306,7 +396,7 @@
       </div>
     </div>
 
-    <!-- WhatsApp-style chat -->
+    <!-- WhatsApp-style chat — now dark with ambient glow -->
     <div class="wa-frame">
       <div class="wa-header">
         <div class="wa-header-avatar"><span>A</span></div>
@@ -337,154 +427,195 @@
         </div>
       </div>
 
-      <div class="wa-chat">
-        <div class="wa-date">Hoje</div>
-
-        <!-- Akira briefing -->
-        <div class="wa-msg wa-msg-in">
-          <div class="wa-agent-badge">
-            <div class="wa-agent-badge-icon">A</div>
-            <span>Akira</span>
-            <div class="wa-agent-badge-dot"></div>
-            CEO Samurai
-          </div>
-          <p class="wa-msg-name">Akira
-            <span class="channel-indicator channel-whatsapp">
-              <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 2C6.477 2 2 6.477 2 12c0 1.89.525 3.66 1.438 5.168L2 22l4.832-1.438A9.955 9.955 0 0012 22c5.523 0 10-4.477 10-10S17.523 2 12 2z"/></svg>
-              WhatsApp
-            </span>
-          </p>
-          <p>Bom dia, Julio. Aqui o resumo do dia:</p>
-          <p class="wa-msg-time">07:30 ✓✓</p>
+      <!-- DARK CHAT ZONE with ambient glow -->
+      <div class="chat-zone">
+        <div class="ambient-glow">
+          <div class="ambient-glow-orb"></div>
+          <div class="ambient-glow-orb"></div>
+          <div class="ambient-glow-orb"></div>
         </div>
 
-        <div class="wa-msg wa-msg-in">
-          <div class="wa-tool-indicator">
-            <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M16 13H8"/><path d="M16 17H8"/><path d="M10 9H8"/></svg>
-            <span>via</span> <span class="wa-tool-indicator-name">Briefing Diario Auto</span>
-          </div>
-          <p><strong>3 coisas precisam de voce:</strong></p>
-          <p>1. Yuki quer cobrar Cliente Y (R$12k) — acima da alcada<br>2. Hana precisa aprovar email pro investidor<br>3. Sprint 12 fecha sexta, 2 tasks atrasadas</p>
-          <p>Fora isso, tudo sob controle. 4 samurais online.</p>
-          <p class="wa-msg-time">07:30 ✓✓</p>
-        </div>
+        <div class="wa-chat">
+          <div class="wa-date">Hoje</div>
 
-        <div class="wa-msg wa-msg-out">
-          <p>Pode aprovar a cobranca da Yuki com juros de 2%</p>
-          <p class="wa-msg-time">08:15 ✓✓</p>
-        </div>
-
-        <div class="wa-msg wa-msg-in">
-          <div class="wa-agent-badge">
-            <div class="wa-agent-badge-icon">A</div>
-            <span>Akira</span>
-            <div class="wa-agent-badge-dot"></div>
-            CEO Samurai
-          </div>
-          <p class="wa-msg-name">Akira
-            <span class="channel-indicator channel-whatsapp">
-              <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 2C6.477 2 2 6.477 2 12c0 1.89.525 3.66 1.438 5.168L2 22l4.832-1.438A9.955 9.955 0 0012 22c5.523 0 10-4.477 10-10S17.523 2 12 2z"/></svg>
-              WhatsApp
-            </span>
-          </p>
-          <p>Feito. Passei pra Yuki, ela ja enviou a cobranca (email + WhatsApp). R$12.240 com juros. Prazo 5 dias.</p>
-          <p>Sobre o email do investidor — Hana preparou um rascunho. Quer que eu mande aqui pra voce ver?</p>
-          <div class="wa-tool-indicator">
-            <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><path d="M22 4L12 14.01l-3-3"/></svg>
-            <span>via</span> <span class="wa-tool-indicator-name">SAC Auto</span> <span>|</span> <span>Delegado para Yuki</span>
-          </div>
-          <p class="wa-msg-time">08:16 ✓✓</p>
-        </div>
-
-        <div class="wa-msg wa-msg-out">
-          <p>Manda sim</p>
-          <p class="wa-msg-time">08:20 ✓✓</p>
-        </div>
-
-        <div class="wa-msg wa-msg-in">
-          <div class="wa-agent-badge">
-            <div class="wa-agent-badge-icon">A</div>
-            <span>Akira</span>
-            <div class="wa-agent-badge-dot"></div>
-            CEO Samurai
-          </div>
-          <p class="wa-msg-name">Akira
-            <span class="channel-indicator channel-whatsapp">
-              <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 2C6.477 2 2 6.477 2 12c0 1.89.525 3.66 1.438 5.168L2 22l4.832-1.438A9.955 9.955 0 0012 22c5.523 0 10-4.477 10-10S17.523 2 12 2z"/></svg>
-              WhatsApp
-            </span>
-          </p>
-          <p>Rascunho da Hana:</p>
-          <p><em>"Prezado Sr. Silva, confirmamos a reuniao de 02/04 as 14h. Segue em anexo a pauta atualizada conforme discutido na ultima call."</em></p>
-          <p>Aprova ou quer editar?</p>
-          <div class="wa-tool-indicator">
-            <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><path d="M22 6l-10 7L2 6"/></svg>
-            <span>via</span> <span class="wa-tool-indicator-name">Secretaria Auto (Hana)</span>
-          </div>
-          <p class="wa-msg-time">08:21 ✓✓</p>
-        </div>
-
-        <div class="wa-msg wa-msg-out">
-          <p>Aprova. Ta perfeito.</p>
-          <p class="wa-msg-time">08:22 ✓✓</p>
-        </div>
-
-        <div class="wa-msg wa-msg-in">
-          <div class="wa-agent-badge">
-            <div class="wa-agent-badge-icon">A</div>
-            <span>Akira</span>
-            <div class="wa-agent-badge-dot"></div>
-            CEO Samurai
-          </div>
-          <p class="wa-msg-name">Akira</p>
-          <p>Enviado.</p>
-          <p>Resumo ate agora: 2 de 3 resolvidos. Falta so o sprint — Haruki esta acompanhando as 2 tasks atrasadas. Te atualizo as 18h.</p>
-          <div class="wa-tool-indicator">
-            <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M16 13H8"/><path d="M16 17H8"/><path d="M10 9H8"/></svg>
-            <span>via</span> <span class="wa-tool-indicator-name">Status Tracker</span> <span>|</span> <span>2/3 resolvidos</span>
-          </div>
-          <p class="wa-msg-time">08:22 ✓✓</p>
-        </div>
-
-        <!-- Enhanced Typing -->
-        <div class="wa-typing" id="waTypingIndicator">
-          <div class="wa-typing-inner">
-            <div class="wa-typing-dots">
-              <div class="wa-typing-dot"></div>
-              <div class="wa-typing-dot"></div>
-              <div class="wa-typing-dot"></div>
+          <!-- Akira briefing -->
+          <div class="wa-msg wa-msg-in">
+            <div class="wa-agent-badge">
+              <div class="wa-agent-badge-icon">A</div>
+              <span>Akira</span>
+              <div class="wa-agent-badge-dot"></div>
+              CEO Samurai
             </div>
-            <span class="wa-typing-text"><span class="wa-typing-agent" id="waTypingAgent">Akira</span> esta processando...</span>
+            <p class="wa-msg-name">Akira
+              <span class="channel-indicator channel-whatsapp">
+                <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 2C6.477 2 2 6.477 2 12c0 1.89.525 3.66 1.438 5.168L2 22l4.832-1.438A9.955 9.955 0 0012 22c5.523 0 10-4.477 10-10S17.523 2 12 2z"/></svg>
+                WhatsApp
+              </span>
+            </p>
+            <p>Bom dia, Julio. Aqui o resumo do dia:</p>
+            <p class="wa-msg-time">07:30</p>
+          </div>
+
+          <div class="wa-msg wa-msg-in">
+            <div class="wa-tool-indicator">
+              <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M16 13H8"/><path d="M16 17H8"/><path d="M10 9H8"/></svg>
+              <span>via</span> <span class="wa-tool-indicator-name">Briefing Diario Auto</span>
+            </div>
+            <p><strong>3 coisas precisam de voce:</strong></p>
+            <p>1. Yuki quer cobrar Cliente Y (R$12k) — acima da alcada<br>2. Hana precisa aprovar email pro investidor<br>3. Sprint 12 fecha sexta, 2 tasks atrasadas</p>
+            <p>Fora isso, tudo sob controle. 4 samurais online.</p>
+            <p class="wa-msg-time">07:30</p>
+          </div>
+
+          <div class="wa-msg wa-msg-out">
+            <p>Pode aprovar a cobranca da Yuki com juros de 2%</p>
+            <p class="wa-msg-time">08:15</p>
+          </div>
+
+          <div class="wa-msg wa-msg-in">
+            <div class="wa-agent-badge">
+              <div class="wa-agent-badge-icon">A</div>
+              <span>Akira</span>
+              <div class="wa-agent-badge-dot"></div>
+              CEO Samurai
+            </div>
+            <p class="wa-msg-name">Akira
+              <span class="channel-indicator channel-whatsapp">
+                <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 2C6.477 2 2 6.477 2 12c0 1.89.525 3.66 1.438 5.168L2 22l4.832-1.438A9.955 9.955 0 0012 22c5.523 0 10-4.477 10-10S17.523 2 12 2z"/></svg>
+                WhatsApp
+              </span>
+            </p>
+            <p>Feito. Passei pra Yuki, ela ja enviou a cobranca (email + WhatsApp). R$12.240 com juros. Prazo 5 dias.</p>
+            <p>Sobre o email do investidor — Hana preparou um rascunho. Quer que eu mande aqui pra voce ver?</p>
+            <div class="wa-tool-indicator">
+              <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><path d="M22 4L12 14.01l-3-3"/></svg>
+              <span>via</span> <span class="wa-tool-indicator-name">SAC Auto</span> <span>|</span> <span>Delegado para Yuki</span>
+            </div>
+            <p class="wa-msg-time">08:16</p>
+          </div>
+
+          <div class="wa-msg wa-msg-out">
+            <p>Manda sim</p>
+            <p class="wa-msg-time">08:20</p>
+          </div>
+
+          <div class="wa-msg wa-msg-in">
+            <div class="wa-agent-badge">
+              <div class="wa-agent-badge-icon">A</div>
+              <span>Akira</span>
+              <div class="wa-agent-badge-dot"></div>
+              CEO Samurai
+            </div>
+            <p class="wa-msg-name">Akira
+              <span class="channel-indicator channel-whatsapp">
+                <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 2C6.477 2 2 6.477 2 12c0 1.89.525 3.66 1.438 5.168L2 22l4.832-1.438A9.955 9.955 0 0012 22c5.523 0 10-4.477 10-10S17.523 2 12 2z"/></svg>
+                WhatsApp
+              </span>
+            </p>
+            <p>Rascunho da Hana:</p>
+            <p><em>"Prezado Sr. Silva, confirmamos a reuniao de 02/04 as 14h. Segue em anexo a pauta atualizada conforme discutido na ultima call."</em></p>
+            <p>Aprova ou quer editar?</p>
+            <div class="wa-tool-indicator">
+              <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><path d="M22 6l-10 7L2 6"/></svg>
+              <span>via</span> <span class="wa-tool-indicator-name">Secretaria Auto (Hana)</span>
+            </div>
+            <p class="wa-msg-time">08:21</p>
+          </div>
+
+          <div class="wa-msg wa-msg-out">
+            <p>Aprova. Ta perfeito.</p>
+            <p class="wa-msg-time">08:22</p>
+          </div>
+
+          <div class="wa-msg wa-msg-in">
+            <div class="wa-agent-badge">
+              <div class="wa-agent-badge-icon">A</div>
+              <span>Akira</span>
+              <div class="wa-agent-badge-dot"></div>
+              CEO Samurai
+            </div>
+            <p class="wa-msg-name">Akira</p>
+            <p>Enviado.</p>
+            <p>Resumo ate agora: 2 de 3 resolvidos. Falta so o sprint — Haruki esta acompanhando as 2 tasks atrasadas. Te atualizo as 18h.</p>
+            <div class="wa-tool-indicator">
+              <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M16 13H8"/><path d="M16 17H8"/><path d="M10 9H8"/></svg>
+              <span>via</span> <span class="wa-tool-indicator-name">Status Tracker</span> <span>|</span> <span>2/3 resolvidos</span>
+            </div>
+            <p class="wa-msg-time">08:22</p>
+          </div>
+
+          <!-- Enhanced Typing -->
+          <div class="wa-typing" id="waTypingIndicator">
+            <div class="wa-typing-inner">
+              <div class="wa-typing-dots">
+                <div class="wa-typing-dot"></div>
+                <div class="wa-typing-dot"></div>
+                <div class="wa-typing-dot"></div>
+              </div>
+              <span class="wa-typing-text"><span class="wa-typing-agent" id="waTypingAgent">Akira</span> esta processando...</span>
+            </div>
           </div>
         </div>
-      </div>
 
-      <!-- Quick Actions -->
-      <div class="wa-quick-actions">
-        <button class="wa-quick-action" onclick="handleWaAction('responder')">
-          <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-          Responder manualmente
-        </button>
-        <button class="wa-quick-action wa-quick-action-critical" onclick="handleWaAction('escalar')">
-          <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
-          Escalar para humano
-        </button>
-        <button class="wa-quick-action wa-quick-action-success" onclick="handleWaAction('resolver')">
-          <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><path d="M22 4L12 14.01l-3-3"/></svg>
-          Marcar como resolvido
-        </button>
-      </div>
+        <!-- Quick Actions (dark) -->
+        <div class="wa-quick-actions">
+          <button class="wa-quick-action" onclick="handleWaAction('responder')">
+            <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+            Responder manualmente
+          </button>
+          <button class="wa-quick-action wa-quick-action-critical" onclick="handleWaAction('escalar')">
+            <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+            Escalar para humano
+          </button>
+          <button class="wa-quick-action wa-quick-action-success" onclick="handleWaAction('resolver')">
+            <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><path d="M22 4L12 14.01l-3-3"/></svg>
+            Marcar como resolvido
+          </button>
+        </div>
 
-      <div class="wa-input">
-        <input type="text" placeholder="Mensagem..." id="waInput">
-        <button id="waSendBtn">
-          <svg viewBox="0 0 24 24"><path d="M22 2L11 13"/><path d="M22 2L15 22L11 13L2 9L22 2Z"/></svg>
-        </button>
-      </div>
+        <!-- Input area — dark with gradient border -->
+        <div class="input-area">
+          <div style="max-width: 720px; margin: 0 auto;">
+            <!-- Suggested prompts -->
+            <div class="suggestions" id="suggestions">
+              <button class="suggestion" onclick="sendSuggestion(this)">Resumo do dia</button>
+              <button class="suggestion" onclick="sendSuggestion(this)">Quais pendencias restam?</button>
+              <button class="suggestion" onclick="sendSuggestion(this)">Status de todos os samurais</button>
+              <button class="suggestion" onclick="sendSuggestion(this)">Agendar reuniao</button>
+            </div>
+
+            <div class="input-row">
+              <div class="input-wrapper">
+                <div class="input-glow"></div>
+                <div class="input-border-spin"></div>
+                <div class="input-card">
+                  <textarea class="chat-input" id="waInput" placeholder="Mensagem para Akira..." rows="3" onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();sendWa()}" oninput="autoResize(this)"></textarea>
+                  <div class="input-footer">
+                    <button class="input-add-btn" title="Anexar">+</button>
+                    <select class="input-agent-select">
+                      <option>Akira CEO</option>
+                      <option>SAC Auto</option>
+                      <option>SDR Bot</option>
+                    </select>
+                    <button class="send-btn" onclick="sendWa()">
+                      <svg viewBox="0 0 24 24"><path d="M12 19V5M5 12l7-7 7 7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div><!-- /chat-zone -->
     </div>
   </div>
 
   <script>
+    function autoResize(el) {
+      el.style.height = 'auto';
+      el.style.height = Math.min(el.scrollHeight, 120) + 'px';
+    }
+
     // Pipeline animation
     function runWaPipeline() {
       const steps = document.querySelectorAll('#waPipelineStages .pipeline-step');
@@ -529,10 +660,14 @@
 
       const msg = document.createElement('div');
       msg.className = 'wa-msg wa-msg-out';
-      msg.innerHTML = '<p>' + text + '</p><p class="wa-msg-time">' + now + ' ✓✓</p>';
+      msg.innerHTML = '<p>' + text + '</p><p class="wa-msg-time">' + now + '</p>';
       chat.insertBefore(msg, typingEl);
       input.value = '';
+      input.style.height = 'auto';
       chat.scrollTop = chat.scrollHeight;
+
+      // Hide suggestions after first message
+      document.getElementById('suggestions').style.display = 'none';
 
       runWaPipeline();
 
@@ -559,11 +694,16 @@
             <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><path d="M22 4L12 14.01l-3-3"/></svg>
             <span>via</span> <span class="wa-tool-indicator-name">CEO Auto</span>
           </div>
-          <p class="wa-msg-time">${replyNow} ✓✓</p>
+          <p class="wa-msg-time">${replyNow}</p>
         `;
         chat.insertBefore(reply, typingEl);
         chat.scrollTop = chat.scrollHeight;
       }, 4000);
+    }
+
+    function sendSuggestion(btn) {
+      document.getElementById('waInput').value = btn.textContent;
+      sendWa();
     }
 
     // Quick actions handler
@@ -574,13 +714,12 @@
 
       if (action === 'responder') {
         document.getElementById('waInput').focus();
-        document.getElementById('waInput').placeholder = 'Digitando resposta manual...';
       }
 
       if (action === 'escalar') {
         const msg = document.createElement('div');
         msg.className = 'wa-msg wa-msg-out';
-        msg.innerHTML = '<p>Escalar conversa para atendimento humano</p><p class="wa-msg-time">' + now + ' ✓✓</p>';
+        msg.innerHTML = '<p>Escalar conversa para atendimento humano</p><p class="wa-msg-time">' + now + '</p>';
         chat.insertBefore(msg, typingEl);
 
         runWaPipeline();
@@ -602,7 +741,7 @@
               <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
               <span>via</span> <span class="wa-tool-indicator-name">Escalacao Humana</span> <span>|</span> <span>Slack notificado</span>
             </div>
-            <p class="wa-msg-time">${replyNow} ✓✓</p>
+            <p class="wa-msg-time">${replyNow}</p>
           `;
           chat.insertBefore(reply, typingEl);
           chat.scrollTop = chat.scrollHeight;
@@ -614,7 +753,7 @@
       if (action === 'resolver') {
         const msg = document.createElement('div');
         msg.className = 'wa-msg wa-msg-out';
-        msg.innerHTML = '<p>Marcar todas as pendencias como resolvidas</p><p class="wa-msg-time">' + now + ' ✓✓</p>';
+        msg.innerHTML = '<p>Marcar todas as pendencias como resolvidas</p><p class="wa-msg-time">' + now + '</p>';
         chat.insertBefore(msg, typingEl);
 
         setTimeout(() => {
@@ -636,7 +775,7 @@
               <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><path d="M22 4L12 14.01l-3-3"/></svg>
               <span>via</span> <span class="wa-tool-indicator-name">Status Tracker</span> <span>|</span> <span>3/3 completos</span>
             </div>
-            <p class="wa-msg-time">${replyNow} ✓✓</p>
+            <p class="wa-msg-time">${replyNow}</p>
           `;
           chat.insertBefore(reply, typingEl);
           chat.scrollTop = chat.scrollHeight;
@@ -651,13 +790,7 @@
       document.querySelectorAll('.contact').forEach(c => c.classList.remove('active'));
       event.currentTarget.classList.add('active');
     }
-
-    // Bind events
-    document.getElementById('waSendBtn').addEventListener('click', sendWa);
-    document.getElementById('waInput').addEventListener('keydown', function(e) {
-      if (e.key === 'Enter') sendWa();
-    });
   </script>
-<script src="../shared-nav.js?v=1774805559"></script>
+<script src="../shared-nav.js?v=1774999999"></script>
 </body>
 </html>

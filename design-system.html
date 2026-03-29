@@ -271,39 +271,41 @@
     .ds-toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(60px); font-family: 'Inter', sans-serif; font-size: 12px; padding: 8px 16px; background: #1D1D1F; color: #FFF; border-radius: 8px; opacity: 0; transition: all 0.3s; z-index: 100; pointer-events: none; }
     .ds-toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
 
-    /* ═══ AMBIENT GLOW ═══ */
-    .ambient-glow { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; pointer-events: none; overflow: hidden; }
-    .ambient-orb { position: absolute; border-radius: 50%; filter: blur(100px); opacity: 0.35; will-change: transform; }
-    .ambient-orb-1 { width: 400px; height: 400px; background: radial-gradient(circle, rgba(215,0,48,0.35) 0%, transparent 70%); top: -10%; left: -5%; animation: ambientFloat1 8s ease-in-out infinite; }
-    .ambient-orb-2 { width: 350px; height: 350px; background: radial-gradient(circle, rgba(180,30,10,0.3) 0%, transparent 70%); bottom: -15%; right: -10%; animation: ambientFloat2 12s ease-in-out infinite; opacity: 0.4; }
-    .ambient-orb-3 { width: 300px; height: 300px; background: radial-gradient(circle, rgba(200,80,20,0.25) 0%, transparent 70%); top: 40%; left: 50%; animation: ambientFloat3 10s ease-in-out infinite 2s; opacity: 0.3; }
-    @keyframes ambientFloat1 {
-      0%, 100% { transform: translate(0, 0) scale(1); }
-      25% { transform: translate(30%, 20%) scale(1.1); }
-      50% { transform: translate(60%, -10%) scale(0.9); }
-      75% { transform: translate(20%, 30%) scale(1.05); }
-    }
-    @keyframes ambientFloat2 {
-      0%, 100% { transform: translate(0, 0) scale(1); }
-      33% { transform: translate(-40%, -30%) scale(1.15); }
-      66% { transform: translate(-20%, 20%) scale(0.85); }
-    }
-    @keyframes ambientFloat3 {
-      0%, 100% { transform: translate(-50%, -50%) scale(1); }
-      25% { transform: translate(-30%, -60%) scale(1.2); }
-      50% { transform: translate(-70%, -40%) scale(0.8); }
-      75% { transform: translate(-40%, -30%) scale(1.1); }
-    }
-    /* Glow intensifica quando agente processa */
-    .ambient-glow.active .ambient-orb-1 { opacity: 0.55; animation-duration: 4s; }
-    .ambient-glow.active .ambient-orb-2 { opacity: 0.5; animation-duration: 6s; }
-    .ambient-glow.active .ambient-orb-3 { opacity: 0.45; animation-duration: 5s; }
+    /* ═══ AMBIENT GLOW (Aprovado 29/Mar) ═══ */
+    /* FULL — chat pages, tela principal */
+    .chat-zone { background: #0A0A0A; position: relative; overflow: hidden; }
+    .ambient-glow { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; }
+    .ambient-glow-orb { position: absolute; border-radius: 50%; pointer-events: none; filter: blur(80px); }
+    .ambient-glow-orb:nth-child(1) { width: 60%; height: 50%; top: 10%; left: -10%; background: radial-gradient(ellipse at center, rgba(215,0,48,0.16) 0%, transparent 70%); animation: orbDrift1 10s ease-in-out infinite; }
+    .ambient-glow-orb:nth-child(2) { width: 50%; height: 45%; top: 30%; right: -15%; background: radial-gradient(ellipse at center, rgba(160,15,5,0.13) 0%, transparent 70%); animation: orbDrift2 14s ease-in-out infinite; }
+    .ambient-glow-orb:nth-child(3) { width: 55%; height: 50%; bottom: 5%; left: 20%; background: radial-gradient(ellipse at center, rgba(220,80,25,0.11) 0%, transparent 70%); animation: orbDrift3 12s ease-in-out infinite; }
+    @keyframes orbDrift1 { 0%,100% { transform: translate(0,0); } 33% { transform: translate(10%,8%); } 66% { transform: translate(-5%,-5%); } }
+    @keyframes orbDrift2 { 0%,100% { transform: translate(0,0); } 50% { transform: translate(-12%,6%); } }
+    @keyframes orbDrift3 { 0%,100% { transform: translate(0,0); } 33% { transform: translate(8%,-8%); } 66% { transform: translate(-6%,4%); } }
 
-    /* Variacao compact — para widgets de chat pequenos */
-    .ambient-glow.compact .ambient-orb { filter: blur(60px); }
-    .ambient-glow.compact .ambient-orb-1 { width: 200px; height: 200px; }
-    .ambient-glow.compact .ambient-orb-2 { width: 160px; height: 160px; }
-    .ambient-glow.compact .ambient-orb-3 { width: 140px; height: 140px; }
+    /* INPUT GLOW — aurora morfica atras do input */
+    .input-glow { position: absolute; top: 50%; left: 50%; width: 130%; height: 200%; transform: translate(-50%,-50%); pointer-events: none; z-index: 0; filter: blur(35px); opacity: 0.7; background: radial-gradient(ellipse 50% 50% at 30% 40%, rgba(215,0,48,0.5) 0%, transparent 70%), radial-gradient(ellipse 45% 50% at 70% 50%, rgba(160,15,5,0.4) 0%, transparent 65%), radial-gradient(ellipse 40% 45% at 50% 55%, rgba(220,80,25,0.3) 0%, transparent 60%); animation: glowMove 8s ease-in-out infinite; }
+    @keyframes glowMove { 0% { transform: translate(-50%,-50%) rotate(0deg); } 25% { transform: translate(-45%,-53%) rotate(2deg); } 50% { transform: translate(-55%,-47%) rotate(-1deg); } 75% { transform: translate(-48%,-52%) rotate(1.5deg); } 100% { transform: translate(-50%,-50%) rotate(0deg); } }
+
+    /* BORDA CIRCULANTE — linha fina 1px rodando */
+    .input-border-spin { position: absolute; inset: -1px; border-radius: 15px; z-index: 1; overflow: hidden; pointer-events: none; }
+    .input-border-spin::before { content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: conic-gradient(transparent 30%, rgba(140,10,5,0.6) 38%, rgba(215,0,48,0.8) 42%, rgba(220,80,25,0.5) 48%, transparent 55%, transparent 80%, rgba(180,30,8,0.3) 87%, rgba(215,0,48,0.5) 92%, transparent 97%); animation: rotateLine 5s linear infinite; }
+    @keyframes rotateLine { to { transform: rotate(360deg); } }
+    .input-border-spin::after { content: ''; position: absolute; inset: 1px; border-radius: 14px; background: #111; }
+
+    /* COMPACT — widget de chat em cards/dashboards */
+    .chat-zone.compact { border-radius: 16px; }
+    .chat-zone.compact .ambient-glow-orb { filter: blur(50px); }
+    .chat-zone.compact .ambient-glow-orb:nth-child(1) { width: 40%; height: 35%; }
+    .chat-zone.compact .ambient-glow-orb:nth-child(2) { width: 35%; height: 30%; }
+    .chat-zone.compact .ambient-glow-orb:nth-child(3) { width: 30%; height: 28%; }
+    .chat-zone.compact .input-glow { width: 110%; height: 160%; filter: blur(25px); opacity: 0.5; }
+
+    /* DARK BUBBLES */
+    .chat-zone .bubble-agent { background: rgba(255,255,255,0.04); backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,0.06); }
+    .chat-zone .bubble-user { background: rgba(215,0,48,0.12); border: 1px solid rgba(215,0,48,0.18); }
+    .chat-zone .bubble p { color: #E5E5EA; }
+    .chat-zone .bubble-meta { color: rgba(255,255,255,0.3); }
 
     /* ═══ NEON LINE ═══ */
     .ds-neon-line { height: 1px; background: linear-gradient(90deg, transparent 0%, rgba(215,0,48,0.06) 15%, rgba(215,0,48,0.2) 50%, rgba(215,0,48,0.06) 85%, transparent 100%); margin: 48px 0; position: relative; }
@@ -1110,31 +1112,34 @@
           </div>
         </div>
 
-        <!-- Compact variation -->
+        <!-- Variacoes: Compact + Widget -->
         <div style="margin-top:16px;display:grid;grid-template-columns:1fr 1fr;gap:16px;">
-          <div style="position:relative;height:200px;border-radius:16px;overflow:hidden;background:#0A0A0A;">
-            <div class="ambient-glow compact">
-              <div class="ambient-orb ambient-orb-1"></div>
-              <div class="ambient-orb ambient-orb-2"></div>
-              <div class="ambient-orb ambient-orb-3"></div>
+          <div class="chat-zone compact" style="height:200px;border-radius:16px;">
+            <div class="ambient-glow">
+              <div class="ambient-glow-orb"></div>
+              <div class="ambient-glow-orb"></div>
+              <div class="ambient-glow-orb"></div>
             </div>
             <div style="position:relative;z-index:2;padding:20px;display:flex;flex-direction:column;gap:10px;">
-              <div style="font-family:'Inter',sans-serif;font-size:9px;font-weight:600;color:rgba(215,0,48,0.5);text-transform:uppercase;letter-spacing:0.08em;">Compact</div>
+              <div style="font-family:'Inter',sans-serif;font-size:9px;font-weight:600;color:rgba(215,0,48,0.5);text-transform:uppercase;letter-spacing:0.08em;">Compact — Dashboard Widget</div>
               <div style="background:rgba(255,255,255,0.04);backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,0.06);border-radius:12px;padding:10px 14px;">
-                <p style="font-family:'Satoshi',sans-serif;font-size:12px;color:#E5E5EA;">Widget de chat em cards e paineis pequenos.</p>
+                <p style="font-family:'Satoshi',sans-serif;font-size:12px;color:#E5E5EA;">Chat widget em cards. Glow reduzido, blur 50px.</p>
               </div>
             </div>
           </div>
-          <div style="position:relative;height:200px;border-radius:16px;overflow:hidden;background:#0A0A0A;">
-            <div class="ambient-glow active">
-              <div class="ambient-orb ambient-orb-1"></div>
-              <div class="ambient-orb ambient-orb-2"></div>
-              <div class="ambient-orb ambient-orb-3"></div>
+          <div class="chat-zone" style="height:200px;border-radius:16px;">
+            <div class="ambient-glow">
+              <div class="ambient-glow-orb"></div>
+              <div class="ambient-glow-orb"></div>
+              <div class="ambient-glow-orb"></div>
             </div>
-            <div style="position:relative;z-index:2;padding:20px;display:flex;flex-direction:column;gap:10px;">
-              <div style="font-family:'Inter',sans-serif;font-size:9px;font-weight:600;color:rgba(215,0,48,0.5);text-transform:uppercase;letter-spacing:0.08em;">Active (processando)</div>
-              <div style="background:rgba(255,255,255,0.04);backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,0.06);border-radius:12px;padding:10px 14px;">
-                <p style="font-family:'Satoshi',sans-serif;font-size:12px;color:#E5E5EA;">Glow intensificado enquanto IA trabalha.</p>
+            <div style="position:relative;z-index:2;padding:20px;">
+              <div style="font-family:'Inter',sans-serif;font-size:9px;font-weight:600;color:rgba(215,0,48,0.5);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:10px;">Input com borda circulante</div>
+              <div style="position:relative;border-radius:14px;height:50px;">
+                <div class="input-border-spin" style="position:absolute;inset:-1px;border-radius:15px;"></div>
+                <div style="position:relative;z-index:2;background:#111;border-radius:14px;height:100%;display:flex;align-items:center;padding:0 16px;">
+                  <span style="font-family:'Satoshi',sans-serif;font-size:13px;color:rgba(255,255,255,0.25);">Mensagem para agente...</span>
+                </div>
               </div>
             </div>
           </div>
@@ -1143,18 +1148,28 @@
         <div style="margin-top:16px;padding:16px;background:#FFF;border-radius:12px;border:1px solid rgba(0,0,0,0.04);">
           <div style="font-family:'Inter',sans-serif;font-size:10px;font-weight:600;color:#86868B;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:8px;">Especificacao</div>
           <div style="font-family:'JetBrains Mono',monospace;font-size:10px;color:#AEAEB2;line-height:1.8;">
-            Container: background #0A0A0A, position relative, overflow hidden<br>
-            3 orbs: radial-gradient, filter blur(80-120px), opacity 0.2-0.5<br>
-            Orb 1: rgba(215,0,48) KTANA red — animacao 8s ease-in-out infinite<br>
-            Orb 2: rgba(180,30,10) deep warm red — animacao 12s ease-in-out infinite<br>
-            Orb 3: rgba(200,80,20) warm orange — animacao 10s ease-in-out infinite 2s delay<br>
-            Paleta: APENAS tons quentes (vermelho → vermelho-laranja → laranja)<br>
-            Full: orbs 350-500px, blur 90-120px<br>
-            Compact: orbs 140-200px, blur 60px<br>
-            Active: opacity +40%, animation-duration -50%<br>
-            Input border: gradient 135deg #D70030 → #A3001A → #8B1A00 → #C85020, size 400%, animacao 8s<br>
-            Bubbles: backdrop-filter blur(12px), bg rgba(255,255,255,0.04), border rgba(255,255,255,0.06)<br>
-            User bubble: bg rgba(215,0,48,0.12), border rgba(215,0,48,0.18)
+            <strong style="color:#D70030;">3 VARIACOES:</strong><br><br>
+            <strong>FULL</strong> (chat pages):<br>
+            Container: .chat-zone, bg #0A0A0A, overflow hidden<br>
+            3 orbs: .ambient-glow-orb, 50-60% width, blur 80px<br>
+            Orb 1: rgba(215,0,48,0.16) drift 10s<br>
+            Orb 2: rgba(160,15,5,0.13) drift 14s<br>
+            Orb 3: rgba(220,80,25,0.11) drift 12s<br>
+            Input glow: .input-glow, 3 radiais, blur 35px, glowMove 8s<br>
+            Borda: .input-border-spin, conic-gradient rotate 5s<br><br>
+            <strong>COMPACT</strong> (dashboard widgets):<br>
+            .chat-zone.compact, border-radius 16px<br>
+            Orbs: 30-40% width, blur 50px<br>
+            Input glow: 110% width, blur 25px, opacity 0.5<br><br>
+            <strong>CORES</strong> (APENAS tons quentes KTANA):<br>
+            Vermelho: #D70030 / rgba(215,0,48)<br>
+            Vermelho escuro: rgba(140,10,5) / rgba(160,15,5)<br>
+            Laranja quente: rgba(220,80,25) / rgba(200,70,20)<br>
+            NUNCA azul, roxo ou frio<br><br>
+            <strong>BUBBLES DARK:</strong><br>
+            Agent: bg rgba(255,255,255,0.04), backdrop blur 12px, border rgba(255,255,255,0.06)<br>
+            User: bg rgba(215,0,48,0.12), border rgba(215,0,48,0.18)<br>
+            Text: #E5E5EA, meta: rgba(255,255,255,0.3)
           </div>
         </div>
       </section>

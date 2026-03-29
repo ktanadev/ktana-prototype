@@ -45,14 +45,94 @@
     .agent-info h4 { font-family: 'Satoshi', sans-serif; font-size: 13px; font-weight: 500; color: #1D1D1F; }
     .agent-info p { font-family: 'Satoshi', sans-serif; font-size: 11px; color: #86868B; }
 
-    /* Input area */
-    .input-area { padding: 16px 24px 24px; border-top: 0.5px solid rgba(0,0,0,0.06); background: #F5F5F7; }
-    .input-row { display: flex; gap: 10px; max-width: 680px; margin: 0 auto; }
-    .chat-input { font-family: 'Satoshi', sans-serif; flex: 1; padding: 14px 18px; border-radius: 24px; border: 0.5px solid rgba(0,0,0,0.08); background: #FFF; font-size: 15px; color: #1D1D1F; outline: none; transition: border-color 0.15s; }
-    .chat-input:focus { border-color: rgba(215,0,48,0.3); }
-    .chat-input::placeholder { color: #AEAEB2; }
-    .send-btn { font-family: 'Inter', sans-serif; padding: 14px 24px; border-radius: 24px; background: #1D1D1F; color: #F5F5F7; font-size: 14px; font-weight: 500; border: none; cursor: pointer; transition: background 0.15s; white-space: nowrap; }
-    .send-btn:hover { background: #000; }
+    /* Input area -- Dark Ambient Glow */
+    .input-area {
+      padding: 0;
+      background: #0A0A0A;
+      position: relative;
+      overflow: hidden;
+    }
+    .input-area .ambient-glow {
+      position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none;
+    }
+    .input-area .ambient-glow-orb {
+      position: absolute; border-radius: 50%; pointer-events: none; filter: blur(60px);
+    }
+    .input-area .ambient-glow-orb:nth-child(1) {
+      width: 55%; height: 45%; top: 0%; left: -10%;
+      background: radial-gradient(ellipse at center, rgba(215,0,48,0.22) 0%, transparent 70%);
+      animation: orbDriftC1 10s ease-in-out infinite;
+    }
+    .input-area .ambient-glow-orb:nth-child(2) {
+      width: 45%; height: 40%; top: 20%; right: -10%;
+      background: radial-gradient(ellipse at center, rgba(160,15,5,0.18) 0%, transparent 70%);
+      animation: orbDriftC2 14s ease-in-out infinite;
+    }
+    .input-area .ambient-glow-orb:nth-child(3) {
+      width: 40%; height: 45%; bottom: -5%; left: 20%;
+      background: radial-gradient(ellipse at center, rgba(220,80,25,0.15) 0%, transparent 70%);
+      animation: orbDriftC3 12s ease-in-out infinite;
+    }
+    @keyframes orbDriftC1 { 0%,100% { transform: translate(0,0); } 33% { transform: translate(8%,6%); } 66% { transform: translate(-4%,-4%); } }
+    @keyframes orbDriftC2 { 0%,100% { transform: translate(0,0); } 50% { transform: translate(-10%,5%); } }
+    @keyframes orbDriftC3 { 0%,100% { transform: translate(0,0); } 33% { transform: translate(6%,-6%); } 66% { transform: translate(-5%,3%); } }
+    .input-area-inner { position: relative; z-index: 1; padding: 16px 24px 24px; max-width: 680px; margin: 0 auto; }
+
+    .cmd-input-outer { position: relative; border-radius: 14px; }
+    .cmd-input-glow {
+      position: absolute; top: 50%; left: 50%; width: 110%; height: 180%;
+      transform: translate(-50%, -50%); pointer-events: none; z-index: 0; filter: blur(30px); opacity: 0.65;
+      background:
+        radial-gradient(ellipse 50% 50% at 30% 40%, rgba(215,0,48,0.45) 0%, transparent 70%),
+        radial-gradient(ellipse 45% 50% at 70% 50%, rgba(160,15,5,0.35) 0%, transparent 65%),
+        radial-gradient(ellipse 40% 45% at 50% 55%, rgba(220,80,25,0.25) 0%, transparent 60%);
+      animation: glowMoveC 8s ease-in-out infinite;
+    }
+    @keyframes glowMoveC {
+      0%   { transform: translate(-50%, -50%) rotate(0deg); }
+      25%  { transform: translate(-45%, -53%) rotate(2deg); }
+      50%  { transform: translate(-55%, -47%) rotate(-1deg); }
+      75%  { transform: translate(-48%, -52%) rotate(1.5deg); }
+      100% { transform: translate(-50%, -50%) rotate(0deg); }
+    }
+    .cmd-input-border-spin {
+      position: absolute; inset: -1px; border-radius: 15px; z-index: 1; overflow: hidden; pointer-events: none;
+    }
+    .cmd-input-border-spin::before {
+      content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%;
+      background: conic-gradient(transparent 30%, rgba(140,10,5,0.6) 38%, rgba(215,0,48,0.8) 42%, rgba(220,80,25,0.5) 48%, transparent 55%, transparent 80%, rgba(180,30,8,0.3) 87%, rgba(215,0,48,0.5) 92%, transparent 97%);
+      animation: rotateLine 5s linear infinite;
+    }
+    @keyframes rotateLine { to { transform: rotate(360deg); } }
+    .cmd-input-border-spin::after {
+      content: ''; position: absolute; inset: 1px; border-radius: 14px; background: #111;
+    }
+    .cmd-input-card {
+      background: #111; border-radius: 14px; position: relative; z-index: 2; display: flex; flex-direction: column;
+    }
+    .chat-input {
+      font-family: 'Satoshi', sans-serif; width: 100%;
+      padding: 14px 18px 48px; border-radius: 14px;
+      border: none; background: transparent;
+      font-size: 15px; color: #E5E5EA; outline: none;
+      min-height: 56px; max-height: 120px; resize: none; box-sizing: border-box;
+    }
+    .chat-input::placeholder { color: rgba(255,255,255,0.25); }
+    .cmd-input-footer {
+      position: absolute; bottom: 0; left: 0; right: 0;
+      padding: 8px 14px; display: flex; align-items: center; gap: 8px;
+      border-top: 1px solid rgba(255,255,255,0.04);
+    }
+    .send-btn {
+      margin-left: auto; width: 34px; height: 34px; border-radius: 10px;
+      background: #D70030; border: none; cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      transition: transform 0.1s, background 0.15s; flex-shrink: 0; color: #F5F5F7;
+    }
+    .send-btn:hover { background: #E5003A; }
+    .send-btn:active { transform: scale(0.92); }
+    .send-btn svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+    .send-btn-label { font-family: 'Inter', sans-serif; font-size: 12px; color: rgba(255,255,255,0.5); margin-right: auto; }
 
     /* Progress dots */
     .progress { display: flex; justify-content: center; gap: 6px; padding: 8px 0; }
@@ -235,11 +315,27 @@
 
   </div>
 
-  <!-- Input -->
+  <!-- Input -- Dark Ambient Glow -->
   <div class="input-area">
-    <div class="input-row">
-      <input type="text" class="chat-input" placeholder="Digite sua resposta...">
-      <button class="send-btn" onclick="location.href='team.html'">Seguir</button>
+    <div class="ambient-glow">
+      <div class="ambient-glow-orb"></div>
+      <div class="ambient-glow-orb"></div>
+      <div class="ambient-glow-orb"></div>
+    </div>
+    <div class="input-area-inner">
+      <div class="cmd-input-outer">
+        <div class="cmd-input-glow"></div>
+        <div class="cmd-input-border-spin"></div>
+        <div class="cmd-input-card">
+          <textarea class="chat-input" placeholder="Digite sua resposta..." rows="1"></textarea>
+          <div class="cmd-input-footer">
+            <span class="send-btn-label">Yumi</span>
+            <button class="send-btn" onclick="location.href='team.html'">
+              <svg viewBox="0 0 24 24"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
+            </button>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 

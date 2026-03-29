@@ -59,37 +59,133 @@
     .fade-in { animation: fadeIn 0.3s cubic-bezier(0.25,0.1,0.25,1) both; }
     @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
 
-    /* Chat Section */
-    .msg { display: flex; gap: 10px; max-width: 88%; opacity: 0; animation: msgSlide 0.4s cubic-bezier(0.25,0.1,0.25,1) forwards; }
-    .msg:nth-child(1) { animation-delay: 0.2s; }
-    .msg:nth-child(2) { animation-delay: 0.6s; }
-    @keyframes msgSlide { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-    .msg-user { align-self: flex-end; flex-direction: row-reverse; gap: 0; }
-    .msg-avatar { width: 28px; height: 28px; border-radius: 50%; border: 1px solid rgba(215,0,48,0.12); display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 2px; background: #FFF; }
-    .msg-avatar span { font-family: 'Zen Dots', cursive; font-size: 6px; color: #D70030; }
-    .bubble { border-radius: 18px; padding: 12px 16px; }
-    .bubble-agent { background: #FAFAFA; border: 0.5px solid rgba(0,0,0,0.04); border-top-left-radius: 6px; }
-    .bubble-user { background: #1D1D1F; color: #F5F5F7; border-bottom-right-radius: 6px; }
-    .bubble p { font-family: 'Satoshi', sans-serif; font-size: 14px; line-height: 1.5; }
-    .bubble-meta { font-family: 'Inter', sans-serif; font-size: 10px; color: #AEAEB2; margin-top: 4px; }
-    .quick-actions { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 8px; }
-    .quick-btn { font-family: 'Inter', sans-serif; padding: 6px 14px; border-radius: 10px; background: rgba(0,0,0,0.02); border: 0.5px solid rgba(0,0,0,0.08); font-size: 12px; color: #1D1D1F; cursor: pointer; transition: all 0.15s; }
-    .quick-btn:hover { background: #1D1D1F; color: #F5F5F7; border-color: #1D1D1F; }
-    .typing { display: none; align-items: center; gap: 8px; padding: 4px 0; }
-    .typing-dots { display: flex; gap: 3px; }
-    .typing-dot { width: 5px; height: 5px; border-radius: 50%; background: #D2D2D7; animation: typingBounce 1.4s ease infinite; }
-    .typing-dot:nth-child(2) { animation-delay: 0.2s; }
-    .typing-dot:nth-child(3) { animation-delay: 0.4s; }
-    @keyframes typingBounce { 0%,60%,100% { transform: translateY(0); } 30% { transform: translateY(-3px); } }
-    .typing-text { font-family: 'Inter', sans-serif; font-size: 10px; color: #AEAEB2; }
-    .chat-input-area { padding: 12px 16px; border-top: 0.5px solid rgba(0,0,0,0.04); display: flex; gap: 8px; align-items: flex-end; }
-    .chat-input { font-family: 'Satoshi', sans-serif; flex: 1; padding: 12px 18px; border-radius: 22px; border: 0.5px solid rgba(0,0,0,0.08); background: #FAFAFA; font-size: 14px; color: #1D1D1F; outline: none; min-height: 44px; max-height: 100px; resize: none; transition: border-color 0.15s; }
-    .chat-input:focus { border-color: rgba(215,0,48,0.2); background: #FFF; }
-    .chat-input::placeholder { color: #AEAEB2; }
-    .send-btn { width: 44px; height: 44px; border-radius: 50%; background: #1D1D1F; color: #F5F5F7; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.15s; flex-shrink: 0; }
-    .send-btn:hover { background: #000; }
-    .send-btn:active { transform: scale(0.93); }
-    .send-btn svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+    /* COMPACT CHAT ZONE — Dark Ambient Glow Widget */
+    .chat-zone.compact {
+      background: #0A0A0A;
+      border-radius: 16px;
+      position: relative;
+      overflow: hidden;
+      margin-bottom: 28px;
+      padding: 0;
+      box-shadow: 0 4px 32px rgba(0,0,0,0.18), 0 0 0 1px rgba(255,255,255,0.04);
+    }
+    .chat-zone.compact .ambient-glow {
+      position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none;
+    }
+    .chat-zone.compact .ambient-glow-orb {
+      position: absolute; border-radius: 50%; pointer-events: none;
+      filter: blur(60px);
+    }
+    .chat-zone.compact .ambient-glow-orb:nth-child(1) {
+      width: 55%; height: 45%;
+      top: 0%; left: -10%;
+      background: radial-gradient(ellipse at center, rgba(215,0,48,0.22) 0%, transparent 70%);
+      animation: orbDriftC1 10s ease-in-out infinite;
+    }
+    .chat-zone.compact .ambient-glow-orb:nth-child(2) {
+      width: 45%; height: 40%;
+      top: 20%; right: -10%;
+      background: radial-gradient(ellipse at center, rgba(160,15,5,0.18) 0%, transparent 70%);
+      animation: orbDriftC2 14s ease-in-out infinite;
+    }
+    .chat-zone.compact .ambient-glow-orb:nth-child(3) {
+      width: 40%; height: 45%;
+      bottom: -5%; left: 20%;
+      background: radial-gradient(ellipse at center, rgba(220,80,25,0.15) 0%, transparent 70%);
+      animation: orbDriftC3 12s ease-in-out infinite;
+    }
+    @keyframes orbDriftC1 { 0%,100% { transform: translate(0,0); } 33% { transform: translate(8%,6%); } 66% { transform: translate(-4%,-4%); } }
+    @keyframes orbDriftC2 { 0%,100% { transform: translate(0,0); } 50% { transform: translate(-10%,5%); } }
+    @keyframes orbDriftC3 { 0%,100% { transform: translate(0,0); } 33% { transform: translate(6%,-6%); } 66% { transform: translate(-5%,3%); } }
+
+    .chat-zone.compact .cmd-inner { position: relative; z-index: 1; padding: 20px 22px 18px; }
+
+    .cmd-label { font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: #D70030; margin-bottom: 14px; display: flex; align-items: center; gap: 8px; }
+    .cmd-label .cmd-dot { width: 6px; height: 6px; border-radius: 50%; background: #30D158; animation: pulse-cmd 2s infinite; }
+    @keyframes pulse-cmd { 0%,100% { opacity:1; } 50% { opacity:0.3; } }
+
+    .cmd-messages { max-height: 200px; overflow-y: auto; margin-bottom: 16px; display: flex; flex-direction: column; gap: 10px; }
+    .cmd-msg { max-width: 85%; padding: 12px 16px; border-radius: 16px; font-family: 'Satoshi', sans-serif; font-size: 14px; line-height: 1.5; animation: fadeIn 0.3s ease; }
+    .cmd-msg-ai { background: rgba(255,255,255,0.04); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,0.06); color: #E5E5EA; border-bottom-left-radius: 4px; align-self: flex-start; }
+    .cmd-msg-user { background: rgba(215,0,48,0.12); border: 1px solid rgba(215,0,48,0.18); color: #F5F5F7; border-bottom-right-radius: 4px; align-self: flex-end; }
+    .cmd-msg-ai .cmd-sender { font-family: 'Inter', sans-serif; font-size: 11px; color: #D70030; font-weight: 500; margin-bottom: 4px; }
+
+    .cmd-shortcuts { display: flex; gap: 6px; margin-top: 14px; flex-wrap: wrap; }
+    .cmd-shortcut { font-family: 'Inter', sans-serif; font-size: 12px; color: rgba(255,255,255,0.4); background: rgba(255,255,255,0.03); border: 0.5px solid rgba(255,255,255,0.1); border-radius: 980px; padding: 6px 14px; cursor: pointer; transition: all 0.15s; }
+    .cmd-shortcut:hover { background: rgba(215,0,48,0.12); color: #F5F5F7; border-color: rgba(215,0,48,0.25); }
+
+    .cmd-input-outer { position: relative; border-radius: 14px; margin-top: 16px; }
+    .cmd-input-glow {
+      position: absolute;
+      top: 50%; left: 50%;
+      width: 110%; height: 180%;
+      transform: translate(-50%, -50%);
+      pointer-events: none; z-index: 0;
+      filter: blur(30px);
+      opacity: 0.65;
+      background:
+        radial-gradient(ellipse 50% 50% at 30% 40%, rgba(215,0,48,0.45) 0%, transparent 70%),
+        radial-gradient(ellipse 45% 50% at 70% 50%, rgba(160,15,5,0.35) 0%, transparent 65%),
+        radial-gradient(ellipse 40% 45% at 50% 55%, rgba(220,80,25,0.25) 0%, transparent 60%);
+      animation: glowMoveC 8s ease-in-out infinite;
+    }
+    @keyframes glowMoveC {
+      0%   { transform: translate(-50%, -50%) rotate(0deg); }
+      25%  { transform: translate(-45%, -53%) rotate(2deg); }
+      50%  { transform: translate(-55%, -47%) rotate(-1deg); }
+      75%  { transform: translate(-48%, -52%) rotate(1.5deg); }
+      100% { transform: translate(-50%, -50%) rotate(0deg); }
+    }
+    .cmd-input-border-spin {
+      position: absolute; inset: -1px; border-radius: 15px; z-index: 1;
+      overflow: hidden; pointer-events: none;
+    }
+    .cmd-input-border-spin::before {
+      content: ''; position: absolute;
+      top: -50%; left: -50%; width: 200%; height: 200%;
+      background: conic-gradient(transparent 30%, rgba(140,10,5,0.6) 38%, rgba(215,0,48,0.8) 42%, rgba(220,80,25,0.5) 48%, transparent 55%, transparent 80%, rgba(180,30,8,0.3) 87%, rgba(215,0,48,0.5) 92%, transparent 97%);
+      animation: rotateLine 5s linear infinite;
+    }
+    @keyframes rotateLine { to { transform: rotate(360deg); } }
+    .cmd-input-border-spin::after {
+      content: ''; position: absolute;
+      inset: 1px; border-radius: 14px;
+      background: #111;
+    }
+
+    .cmd-input-card {
+      background: #111; border-radius: 14px; position: relative; z-index: 2;
+      display: flex; flex-direction: column;
+    }
+    .cmd-input {
+      font-family: 'Satoshi', sans-serif; width: 100%;
+      padding: 14px 18px 48px; border-radius: 14px;
+      border: none; background: transparent;
+      font-size: 15px; color: #E5E5EA; outline: none;
+      min-height: 56px; max-height: 120px; resize: none;
+      box-sizing: border-box;
+    }
+    .cmd-input::placeholder { color: rgba(255,255,255,0.25); }
+    .cmd-input-footer {
+      position: absolute; bottom: 0; left: 0; right: 0;
+      padding: 8px 14px; display: flex; align-items: center; gap: 8px;
+      border-top: 1px solid rgba(255,255,255,0.04);
+    }
+    .cmd-add-btn { width: 30px; height: 30px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.1); background: transparent; color: rgba(255,255,255,0.4); display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 16px; transition: all 0.15s; }
+    .cmd-add-btn:hover { background: rgba(255,255,255,0.06); color: rgba(255,255,255,0.7); }
+    .cmd-agent-select { font-family: 'Inter', sans-serif; font-size: 12px; color: rgba(255,255,255,0.5); background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; padding: 5px 10px; cursor: pointer; appearance: none; -webkit-appearance: none; }
+    .cmd-send { margin-left: auto; width: 34px; height: 34px; border-radius: 10px; background: #D70030; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: transform 0.1s, background 0.15s; flex-shrink: 0; color: #F5F5F7; }
+    .cmd-send:hover { background: #E5003A; }
+    .cmd-send:active { transform: scale(0.92); }
+
+    .cmd-typing { display: none; align-items: center; gap: 8px; padding: 6px 0; margin-bottom: 8px; }
+    .cmd-typing.active { display: flex; }
+    .cmd-typing-dots { display: flex; gap: 4px; }
+    .cmd-typing-dot { width: 5px; height: 5px; border-radius: 50%; background: rgba(215,0,48,0.4); animation: typingBounceC 1.4s ease infinite; }
+    .cmd-typing-dot:nth-child(2) { animation-delay: 0.2s; }
+    .cmd-typing-dot:nth-child(3) { animation-delay: 0.4s; }
+    @keyframes typingBounceC { 0%,60%,100% { transform: translateY(0); } 30% { transform: translateY(-3px); } }
+    .cmd-typing-text { font-family: 'Inter', sans-serif; font-size: 11px; color: rgba(255,255,255,0.35); }
   </style>
 </head>
 <body>
@@ -267,42 +363,77 @@
 
   </main>
 
-  <!-- ═══ CHAT CONSELHO ═══ -->
-  <section class="chat-section">
-    <div class="chat-divider"><div class="chat-divider-line"></div><div class="chat-divider-label"><div class="chat-divider-dot"></div> Buffett · Conselho · Online</div><div class="chat-divider-line"></div></div>
-    <div class="chat-container">
-      <div class="chat-messages" id="chat">
-        <div class="c-msg"><div class="c-av"><span>W</span></div><div><div class="c-bbl c-bbl-a"><p>Os 5 insights tem um tema: <strong>voce cresce mais rapido do que a estrutura suporta</strong>. SDR gera mais do que Closer fecha, CMO faz trabalho do SDR. Precisa ajustar.</p><div class="c-qk"><button class="c-qb" onclick="cQ(this)">Qual e mais urgente?</button><button class="c-qb" onclick="cQ(this)">Falar com Musk</button><button class="c-qb" onclick="cQ(this)">Plano de acao</button></div></div><p class="c-meta">Buffett · agora</p></div></div>
-        <div class="c-ty" id="typing"><div class="c-av"><span>W</span></div><div class="c-ty-dots"><div class="c-ty-d"></div><div class="c-ty-d"></div><div class="c-ty-d"></div></div><span class="c-ty-t">Buffett processando...</span></div>
+  <section style="max-width:720px;margin:0 auto;padding:0 24px 28px;">
+    <div class="chat-zone compact">
+      <div class="ambient-glow">
+        <div class="ambient-glow-orb"></div>
+        <div class="ambient-glow-orb"></div>
+        <div class="ambient-glow-orb"></div>
       </div>
-      <div class="c-inp-area">
-        <textarea class="c-inp" id="chatInput" placeholder="Converse com o Conselho..." rows="1" onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();cM()}" oninput="this.style.height='auto';this.style.height=Math.min(this.scrollHeight,100)+'px'"></textarea>
-        <button class="c-snd" onclick="cM()"><svg viewBox="0 0 24 24"><path d="M22 2L11 13"/><path d="M22 2L15 22L11 13L2 9L22 2Z"/></svg></button>
+      <div class="cmd-inner">
+        <div class="cmd-label">
+          <div class="cmd-dot"></div>
+          Buffett · Conselho
+        </div>
+        <div class="cmd-messages" id="cmdMessages">
+          <div class="cmd-msg cmd-msg-ai">
+            <div class="cmd-sender">Buffett — Conselho</div>
+            Os 5 insights tem um tema: <strong>voce cresce mais rapido do que a estrutura suporta</strong>. SDR gera mais do que Closer fecha, CMO faz trabalho do SDR. Precisa ajustar.
+          </div>
+        </div>
+        <div class="cmd-typing" id="cmdTyping">
+          <div class="cmd-typing-dots">
+            <div class="cmd-typing-dot"></div>
+            <div class="cmd-typing-dot"></div>
+            <div class="cmd-typing-dot"></div>
+          </div>
+          <span class="cmd-typing-text">Buffett processando...</span>
+        </div>
+        <div class="cmd-input-outer">
+          <div class="cmd-input-glow"></div>
+          <div class="cmd-input-border-spin"></div>
+          <div class="cmd-input-card">
+            <textarea class="cmd-input" id="cmdInput" placeholder="Converse com o Conselho..." rows="1" onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();sendCmd()}" oninput="cmdAutoResize(this)"></textarea>
+            <div class="cmd-input-footer">
+              <button class="cmd-add-btn" title="Anexar">+</button>
+              <button class="cmd-send" onclick="sendCmd()">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="cmd-shortcuts">
+          <span class="cmd-shortcut" onclick="quickCmd('Qual e mais urgente?')">Qual e mais urgente?</span>
+          <span class="cmd-shortcut" onclick="quickCmd('Falar com Musk')">Falar com Musk</span>
+          <span class="cmd-shortcut" onclick="quickCmd('Plano de acao')">Plano de acao</span>
+        </div>
       </div>
     </div>
   </section>
   <script>
-    function addAgentMessage(text) {
-      const chat = document.getElementById('chat'), typing = document.getElementById('typing');
-      typing.style.display = 'flex'; chat.scrollTop = chat.scrollHeight;
-      setTimeout(() => {
-        typing.style.display = 'none';
-        const msg = document.createElement('div'); msg.className = 'msg'; msg.style.animation = 'msgSlide 0.4s ease forwards';
-        msg.innerHTML = '<div class="msg-avatar"><span>W</span></div><div><div class="bubble bubble-agent"><p>' + text + '</p></div><p class="bubble-meta">Conselho · ' + new Date().toLocaleTimeString('pt-BR', {hour:'2-digit', minute:'2-digit'}) + '</p></div>';
-        chat.insertBefore(msg, typing); chat.scrollTop = chat.scrollHeight;
+    function cmdAutoResize(el) { el.style.height = 'auto'; el.style.height = Math.min(el.scrollHeight, 120) + 'px'; }
+    function sendCmd() {
+      var i = document.getElementById('cmdInput'), t = i.value.trim();
+      if (!t) return;
+      var m = document.getElementById('cmdMessages'), ty = document.getElementById('cmdTyping');
+      var u = document.createElement('div');
+      u.className = 'cmd-msg cmd-msg-user';
+      u.textContent = t;
+      m.appendChild(u);
+      i.value = ''; i.style.height = 'auto';
+      m.scrollTop = m.scrollHeight;
+      ty.style.display = 'flex';
+      setTimeout(function() {
+        ty.style.display = 'none';
+        var r = document.createElement('div');
+        r.className = 'cmd-msg cmd-msg-ai';
+        r.innerHTML = '<div class="cmd-sender">Buffett</div>Entendido. Processando...';
+        m.appendChild(r);
+        m.scrollTop = m.scrollHeight;
       }, 1200);
     }
-    function sendMessage() {
-      const input = document.getElementById('chatInput'), text = input.value.trim(); if (!text) return;
-      const chat = document.getElementById('chat'), typing = document.getElementById('typing');
-      const userMsg = document.createElement('div'); userMsg.className = 'msg msg-user'; userMsg.style.animation = 'msgSlide 0.3s ease forwards';
-      userMsg.innerHTML = '<div><div class="bubble bubble-user"><p>' + text + '</p></div><p class="bubble-meta" style="text-align:right;">' + new Date().toLocaleTimeString('pt-BR', {hour:'2-digit', minute:'2-digit'}) + '</p></div>';
-      chat.insertBefore(userMsg, typing); input.value = ''; input.style.height = 'auto';
-      addAgentMessage('Analisando com o conselho... Um momento.');
-      chat.scrollTop = chat.scrollHeight;
-    }
-    function sendSuggestion(btn) { document.getElementById('chatInput').value = btn.textContent; sendMessage(); }
+    function quickCmd(text) { document.getElementById('cmdInput').value = text; sendCmd(); }
   </script>
-<script src="../../shared-nav.js?v=1774805559"></script>
+<script src="../../shared-nav.js?v=1774999999"></script>
 </body>
 </html>

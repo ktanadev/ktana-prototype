@@ -30,73 +30,190 @@
     .metric-num { font-family: 'Zen Dots', cursive; font-size: 18px; color: #1D1D1F; }
     .metric-label { font-family: 'Inter', sans-serif; font-size: 11px; color: #AEAEB2; margin-top: 2px; }
 
+    /* ═══ CHAT ZONE — Dark with ambient glow ═══ */
+    .chat-zone { flex: 1; background: #0A0A0A; position: relative; overflow: hidden; display: flex; flex-direction: column; }
+    .ambient-glow {
+      position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none;
+    }
+    .ambient-glow-orb {
+      position: absolute; border-radius: 50%; pointer-events: none;
+      filter: blur(80px);
+    }
+    .ambient-glow-orb:nth-child(1) {
+      width: 60%; height: 50%;
+      top: 10%; left: -10%;
+      background: radial-gradient(ellipse at center, rgba(215,0,48,0.16) 0%, transparent 70%);
+      animation: orbDrift1 10s ease-in-out infinite;
+    }
+    .ambient-glow-orb:nth-child(2) {
+      width: 50%; height: 45%;
+      top: 30%; right: -15%;
+      background: radial-gradient(ellipse at center, rgba(160,15,5,0.13) 0%, transparent 70%);
+      animation: orbDrift2 14s ease-in-out infinite;
+    }
+    .ambient-glow-orb:nth-child(3) {
+      width: 55%; height: 50%;
+      bottom: 5%; left: 20%;
+      background: radial-gradient(ellipse at center, rgba(220,80,25,0.11) 0%, transparent 70%);
+      animation: orbDrift3 12s ease-in-out infinite;
+    }
+    @keyframes orbDrift1 { 0%,100% { transform: translate(0,0); } 33% { transform: translate(10%,8%); } 66% { transform: translate(-5%,-5%); } }
+    @keyframes orbDrift2 { 0%,100% { transform: translate(0,0); } 50% { transform: translate(-12%,6%); } }
+    @keyframes orbDrift3 { 0%,100% { transform: translate(0,0); } 33% { transform: translate(8%,-8%); } 66% { transform: translate(-6%,4%); } }
+
+    /* Chat layout with sidebar */
+    .chat-layout {
+      display: flex;
+      flex: 1;
+      min-height: 0;
+      overflow: hidden;
+      position: relative;
+      z-index: 1;
+    }
+    .chat-main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+    }
+
     /* Chat */
-    .chat { flex: 1; max-width: 720px; width: 100%; margin: 0 auto; padding: 16px 20px; overflow-y: auto; display: flex; flex-direction: column; gap: 16px; }
+    .chat { flex: 1; max-width: 720px; width: 100%; margin: 0 auto; padding: 16px 20px; overflow-y: auto; display: flex; flex-direction: column; gap: 16px; position: relative; z-index: 1; }
 
     /* Message */
     .msg { display: flex; gap: 10px; max-width: 88%; }
     .msg-user { align-self: flex-end; flex-direction: row-reverse; gap: 0; }
-    .msg-avatar-letter { width: 30px; height: 30px; border-radius: 50%; border: 1px solid rgba(215,0,48,0.15); display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 2px; background: #FFF; }
-    .msg-avatar-letter span { font-family: 'Zen Dots', cursive; font-size: 8px; color: #D70030; }
+    .msg-avatar-letter { width: 30px; height: 30px; border-radius: 50%; border: 1.5px solid rgba(215,0,48,0.2); display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 2px; background: rgba(215,0,48,0.06); }
+    .msg-avatar-letter span { font-family: 'Zen Dots', cursive; font-size: 8px; font-weight: 500; color: #D70030; }
 
+    /* ═══ DARK THEME BUBBLES ═══ */
     .bubble { border-radius: 20px; padding: 12px 16px; position: relative; }
-    .bubble-agent { background: #FFF; border: 0.5px solid rgba(0,0,0,0.04); border-top-left-radius: 6px; box-shadow: 0 1px 3px rgba(0,0,0,0.03); }
-    .bubble-user { background: #1D1D1F; color: #F5F5F7; border-bottom-right-radius: 6px; }
-    .bubble p { font-family: 'Satoshi', sans-serif; font-size: 15px; line-height: 1.55; }
+    .bubble-agent { background: rgba(255,255,255,0.04); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,0.06); border-top-left-radius: 6px; }
+    .bubble-user { background: rgba(215,0,48,0.12); border: 1px solid rgba(215,0,48,0.18); color: #F5F5F7; border-bottom-right-radius: 6px; }
+    .bubble p { font-family: 'Satoshi', sans-serif; font-size: 15px; line-height: 1.55; color: #E5E5EA; }
     .bubble p + p { margin-top: 8px; }
-    .bubble-meta { font-family: 'Inter', sans-serif; font-size: 11px; color: #AEAEB2; margin-top: 6px; }
-    .bubble-user .bubble-meta { color: rgba(255,255,255,0.35); }
+    .bubble p strong { color: #F5F5F7; }
+    .bubble ul { font-family: 'Satoshi', sans-serif; font-size: 14px; color: #AEAEB2; margin: 8px 0 0 0; padding-left: 16px; line-height: 1.6; }
+    .bubble-meta { font-family: 'Inter', sans-serif; font-size: 11px; color: rgba(255,255,255,0.3); margin-top: 6px; }
+    .bubble-user .bubble-meta { color: rgba(255,255,255,0.25); }
 
     /* Interactive components inside chat */
     .bubble-action { display: inline-flex; align-items: center; gap: 5px; padding: 6px 14px; border-radius: 10px; font-family: 'Inter', sans-serif; font-size: 12px; font-weight: 500; margin-top: 10px; cursor: default; }
-    .action-done { background: rgba(48,209,88,0.08); color: #248A3D; }
-    .action-sync { background: rgba(0,122,255,0.06); color: #0071E3; }
+    .action-done { background: rgba(48,209,88,0.1); color: #30D158; }
+    .action-pending { background: rgba(215,0,48,0.1); color: #FF453A; }
+    .action-pending::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: #D70030; animation: pulse 1.5s ease infinite; }
+    @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.3; } }
+    .action-sync { background: rgba(0,122,255,0.1); color: #64D2FF; }
 
-    /* Quick actions */
+    /* Action icons row */
+    .bubble-actions-row { display: flex; gap: 8px; margin-top: 10px; }
+    .bubble-act-icon { width: 28px; height: 28px; border-radius: 8px; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.15s; background: transparent; border: none; color: rgba(255,255,255,0.25); }
+    .bubble-act-icon:hover { background: rgba(255,255,255,0.06); color: rgba(255,255,255,0.6); }
+    .bubble-act-icon svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
+
+    /* Quick actions — dark theme */
     .quick-actions { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 10px; }
-    .quick-btn { font-family: 'Inter', sans-serif; padding: 8px 16px; border-radius: 12px; background: rgba(0,0,0,0.02); border: 0.5px solid rgba(0,0,0,0.08); font-size: 13px; color: #1D1D1F; cursor: pointer; transition: all 0.15s; }
-    .quick-btn:hover { background: #1D1D1F; color: #F5F5F7; border-color: #1D1D1F; }
+    .quick-btn { font-family: 'Inter', sans-serif; padding: 8px 16px; border-radius: 12px; background: rgba(255,255,255,0.04); border: 0.5px solid rgba(255,255,255,0.1); font-size: 13px; color: #E5E5EA; cursor: pointer; transition: all 0.15s; }
+    .quick-btn:hover { background: rgba(215,0,48,0.15); color: #F5F5F7; border-color: rgba(215,0,48,0.3); }
     .quick-btn:active { transform: scale(0.97); }
 
-    /* Typing indicator */
+    /* Typing indicator — dark theme */
     .typing { display: flex; align-items: center; gap: 10px; padding: 8px 0; }
     .typing-dots { display: flex; gap: 4px; }
-    .typing-dot { width: 6px; height: 6px; border-radius: 50%; background: #D2D2D7; animation: typingBounce 1.4s ease infinite; }
+    .typing-dot { width: 6px; height: 6px; border-radius: 50%; background: rgba(215,0,48,0.4); animation: typingBounce 1.4s ease infinite; }
     .typing-dot:nth-child(2) { animation-delay: 0.2s; }
     .typing-dot:nth-child(3) { animation-delay: 0.4s; }
     @keyframes typingBounce { 0%,60%,100% { transform: translateY(0); } 30% { transform: translateY(-4px); } }
-    .typing-text { font-family: 'Inter', sans-serif; font-size: 11px; color: #AEAEB2; }
+    .typing-text { font-family: 'Inter', sans-serif; font-size: 11px; color: rgba(255,255,255,0.35); }
 
-    /* Input area */
-    .input-area { padding: 12px 20px 28px; border-top: 0.5px solid rgba(0,0,0,0.06); background: rgba(245,245,247,0.9); backdrop-filter: blur(20px); }
+    /* ═══ INPUT AREA — dark with gradient border ═══ */
+    .input-area { padding: 12px 20px 28px; border-top: none; background: transparent; position: relative; z-index: 2; }
     .input-row { display: flex; gap: 8px; max-width: 720px; margin: 0 auto; align-items: flex-end; }
-    .chat-input {
-      font-family: 'Satoshi', sans-serif; flex: 1;
-      padding: 14px 20px; border-radius: 24px;
-      border: 0.5px solid rgba(0,0,0,0.08); background: #FFF;
-      font-size: 15px; color: #1D1D1F; outline: none;
-      min-height: 48px; max-height: 120px; resize: none;
-      transition: border-color 0.15s, box-shadow 0.15s;
+    .input-wrapper {
+      flex: 1; position: relative; border-radius: 16px;
     }
-    .chat-input:focus { border-color: rgba(215,0,48,0.2); box-shadow: 0 0 0 3px rgba(215,0,48,0.04); }
-    .chat-input::placeholder { color: #AEAEB2; }
+    /* Glow vivo — se movimenta como aurora */
+    .input-glow {
+      position: absolute;
+      top: 50%; left: 50%;
+      width: 130%; height: 200%;
+      transform: translate(-50%, -50%);
+      pointer-events: none;
+      z-index: 0;
+      filter: blur(35px);
+      opacity: 0.7;
+      background:
+        radial-gradient(ellipse 50% 50% at 30% 40%, rgba(215,0,48,0.5) 0%, transparent 70%),
+        radial-gradient(ellipse 45% 50% at 70% 50%, rgba(160,15,5,0.4) 0%, transparent 65%),
+        radial-gradient(ellipse 40% 45% at 50% 55%, rgba(220,80,25,0.3) 0%, transparent 60%);
+      animation: glowMove 8s ease-in-out infinite;
+    }
+    @keyframes glowMove {
+      0%   { transform: translate(-50%, -50%) rotate(0deg); }
+      25%  { transform: translate(-45%, -53%) rotate(2deg); }
+      50%  { transform: translate(-55%, -47%) rotate(-1deg); }
+      75%  { transform: translate(-48%, -52%) rotate(1.5deg); }
+      100% { transform: translate(-50%, -50%) rotate(0deg); }
+    }
+    /* Borda circulante — elemento rotativo com gradiente */
+    .input-border-spin {
+      position: absolute; inset: -1px; border-radius: 15px; z-index: 1;
+      overflow: hidden; pointer-events: none;
+    }
+    .input-border-spin::before {
+      content: ''; position: absolute;
+      top: -50%; left: -50%; width: 200%; height: 200%;
+      background: conic-gradient(transparent 30%, rgba(140,10,5,0.6) 38%, rgba(215,0,48,0.8) 42%, rgba(220,80,25,0.5) 48%, transparent 55%, transparent 80%, rgba(180,30,8,0.3) 87%, rgba(215,0,48,0.5) 92%, transparent 97%);
+      animation: rotateLine 5s linear infinite;
+    }
+    @keyframes rotateLine { to { transform: rotate(360deg); } }
+    /* Mascara pra mostrar so a borda de 1px */
+    .input-border-spin::after {
+      content: ''; position: absolute;
+      inset: 1px; border-radius: 14px;
+      background: #111;
+    }
+    /* Input card — grande, multi-linha */
+    .input-card {
+      background: #111; border-radius: 14px; position: relative; z-index: 2;
+      display: flex; flex-direction: column;
+    }
+    .chat-input {
+      font-family: 'Satoshi', sans-serif; width: 100%;
+      padding: 18px 20px 60px; border-radius: 14px;
+      border: none; background: transparent;
+      font-size: 15px; color: #E5E5EA; outline: none;
+      min-height: 120px; max-height: 200px; resize: none;
+    }
+    .chat-input::placeholder { color: rgba(255,255,255,0.25); }
+    /* Footer dentro do input card */
+    .input-footer {
+      position: absolute; bottom: 0; left: 0; right: 0;
+      padding: 10px 16px; display: flex; align-items: center; gap: 8px;
+      border-top: 1px solid rgba(255,255,255,0.04);
+    }
+    .input-add-btn { width: 32px; height: 32px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.1); background: transparent; color: rgba(255,255,255,0.4); display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 18px; transition: all 0.15s; }
+    .input-add-btn:hover { background: rgba(255,255,255,0.06); color: rgba(255,255,255,0.7); }
+    .input-agent-select { font-family: 'Inter', sans-serif; font-size: 12px; color: rgba(255,255,255,0.5); background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; padding: 6px 12px; cursor: pointer; appearance: none; -webkit-appearance: none; }
+    .input-footer .send-btn { margin-left: auto; width: 36px; height: 36px; border-radius: 10px; }
+    .input-footer .send-btn svg { width: 16px; height: 16px; }
     .send-btn {
       font-family: 'Inter', sans-serif;
       width: 48px; height: 48px; border-radius: 50%;
-      background: #1D1D1F; color: #F5F5F7;
+      background: #D70030; color: #F5F5F7;
       font-size: 18px; border: none; cursor: pointer;
       display: flex; align-items: center; justify-content: center;
       transition: background 0.15s, transform 0.1s;
       flex-shrink: 0;
     }
-    .send-btn:hover { background: #000; }
+    .send-btn:hover { background: #E5003A; }
     .send-btn:active { transform: scale(0.93); }
     .send-btn svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
 
-    /* Suggested prompts */
-    .suggestions { display: flex; gap: 6px; overflow-x: auto; padding: 8px 0 4px; -webkit-overflow-scrolling: touch; }
-    .suggestion { font-family: 'Inter', sans-serif; white-space: nowrap; padding: 8px 16px; border-radius: 20px; border: 0.5px solid rgba(0,0,0,0.08); font-size: 12px; color: #86868B; cursor: pointer; transition: all 0.15s; flex-shrink: 0; background: #FFF; }
-    .suggestion:hover { background: #1D1D1F; color: #F5F5F7; border-color: #1D1D1F; }
+    /* Suggested prompts — dark theme */
+    .suggestions { display: flex; gap: 10px; overflow-x: auto; padding: 12px 0 10px; -webkit-overflow-scrolling: touch; }
+    .suggestion { font-family: 'Inter', sans-serif; white-space: nowrap; padding: 12px 16px; border-radius: 20px; border: 0.5px solid rgba(255,255,255,0.1); font-size: 12px; color: rgba(255,255,255,0.4); cursor: pointer; transition: all 0.15s; flex-shrink: 0; background: rgba(255,255,255,0.03); }
+    .suggestion:hover { background: rgba(215,0,48,0.12); color: #F5F5F7; border-color: rgba(215,0,48,0.25); }
 
     /* Message animations */
     .msg { opacity: 0; animation: msgSlide 0.4s cubic-bezier(0.25,0.1,0.25,1) forwards; }
@@ -130,7 +247,7 @@
       font-family: 'Inter', sans-serif;
       font-size: 11px;
       font-weight: 500;
-      color: #AEAEB2;
+      color: rgba(255,255,255,0.35);
       transition: color 0.3s ease;
       white-space: nowrap;
     }
@@ -138,7 +255,7 @@
       width: 8px;
       height: 8px;
       border-radius: 50%;
-      background: #D2D2D7;
+      background: rgba(255,255,255,0.15);
       flex-shrink: 0;
       transition: background 0.3s ease, box-shadow 0.3s ease;
     }
@@ -146,7 +263,7 @@
       flex: 1;
       min-width: 16px;
       height: 1.5px;
-      background: #E5E5EA;
+      background: rgba(255,255,255,0.08);
       margin: 0 8px;
       position: relative;
       overflow: hidden;
@@ -163,15 +280,15 @@
       width: 100%;
     }
     .pipeline-stages .stage.active {
-      color: #1D1D1F;
+      color: #F5F5F7;
     }
     .pipeline-stages .stage.active .stage-dot {
       background: #D70030;
-      box-shadow: 0 0 0 3px rgba(215,0,48,0.15);
+      box-shadow: 0 0 0 3px rgba(215,0,48,0.25);
       animation: pipelinePulse 1.2s ease infinite;
     }
     .pipeline-stages .stage.done {
-      color: #248A3D;
+      color: #30D158;
     }
     .pipeline-stages .stage.done .stage-dot {
       background: #30D158;
@@ -179,11 +296,11 @@
       animation: none;
     }
     .pipeline-stages .stage.pending {
-      color: #AEAEB2;
+      color: rgba(255,255,255,0.35);
     }
     @keyframes pipelinePulse {
-      0%, 100% { box-shadow: 0 0 0 3px rgba(215,0,48,0.15); }
-      50% { box-shadow: 0 0 0 6px rgba(215,0,48,0.08); }
+      0%, 100% { box-shadow: 0 0 0 3px rgba(215,0,48,0.25); }
+      50% { box-shadow: 0 0 0 6px rgba(215,0,48,0.1); }
     }
     .pipeline-stages .stage-check {
       display: none;
@@ -212,9 +329,9 @@
       font-family: 'Inter', sans-serif;
       font-size: 10px;
       font-weight: 500;
-      color: #86868B;
-      background: rgba(0,0,0,0.03);
-      border: 0.5px solid rgba(0,0,0,0.06);
+      color: rgba(255,255,255,0.4);
+      background: rgba(255,255,255,0.03);
+      border: 0.5px solid rgba(255,255,255,0.06);
       border-radius: 20px;
       padding: 3px 10px 3px 6px;
       margin-bottom: 8px;
@@ -227,7 +344,7 @@
       flex-shrink: 0;
     }
     .agent-badge-name {
-      color: #1D1D1F;
+      color: #F5F5F7;
       font-weight: 600;
     }
     .mentor-mention {
@@ -237,8 +354,8 @@
       font-family: 'Inter', sans-serif;
       font-size: 12px;
       font-weight: 500;
-      color: #0071E3;
-      background: rgba(0,122,255,0.06);
+      color: #64D2FF;
+      background: rgba(100,210,255,0.08);
       border-radius: 4px;
       padding: 1px 5px;
       cursor: default;
@@ -251,14 +368,14 @@
       gap: 4px;
       font-family: 'Inter', sans-serif;
       font-size: 10px;
-      color: #AEAEB2;
+      color: rgba(255,255,255,0.3);
       margin-top: 6px;
       padding-left: 2px;
     }
     .tool-indicator svg {
       width: 10px;
       height: 10px;
-      stroke: #AEAEB2;
+      stroke: rgba(255,255,255,0.3);
       flex-shrink: 0;
     }
 
@@ -280,7 +397,7 @@
     .typing-enhanced .typing-text-enhanced {
       font-family: 'Inter', sans-serif;
       font-size: 11px;
-      color: #86868B;
+      color: rgba(255,255,255,0.35);
       font-weight: 500;
     }
     .typing-enhanced .typing-pipeline {
@@ -295,7 +412,7 @@
       gap: 4px;
       font-family: 'Inter', sans-serif;
       font-size: 10px;
-      color: #AEAEB2;
+      color: rgba(255,255,255,0.3);
       white-space: nowrap;
       transition: color 0.3s;
     }
@@ -303,24 +420,24 @@
       width: 6px;
       height: 6px;
       border-radius: 50%;
-      background: #D2D2D7;
+      background: rgba(255,255,255,0.15);
       transition: background 0.3s, box-shadow 0.3s;
     }
     .typing-enhanced .tp-line {
       width: 12px;
       height: 1px;
-      background: #E5E5EA;
+      background: rgba(255,255,255,0.08);
       margin: 0 6px;
     }
     .typing-enhanced .tp-stage.active {
-      color: #1D1D1F;
+      color: #F5F5F7;
     }
     .typing-enhanced .tp-stage.active .tp-dot {
       background: #D70030;
       animation: pipelinePulse 1.2s ease infinite;
     }
     .typing-enhanced .tp-stage.done {
-      color: #248A3D;
+      color: #30D158;
     }
     .typing-enhanced .tp-stage.done .tp-dot {
       background: #30D158;
@@ -328,18 +445,6 @@
     }
 
     /* ═══ CONTEXTUAL SIDEBAR ═══ */
-    .chat-layout {
-      display: flex;
-      flex: 1;
-      min-height: 0;
-      overflow: hidden;
-    }
-    .chat-main {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      min-width: 0;
-    }
     .sidebar-toggle {
       position: fixed;
       right: 16px;
@@ -348,9 +453,9 @@
       width: 36px;
       height: 36px;
       border-radius: 50%;
-      background: #FFF;
-      border: 0.5px solid rgba(0,0,0,0.08);
-      box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+      background: rgba(255,255,255,0.06);
+      border: 0.5px solid rgba(255,255,255,0.1);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.3);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -358,15 +463,12 @@
       transition: all 0.2s;
     }
     .sidebar-toggle:hover {
-      background: #1D1D1F;
-      color: #F5F5F7;
-      border-color: #1D1D1F;
+      background: rgba(255,255,255,0.1);
     }
-    .sidebar-toggle:hover svg { stroke: #F5F5F7; }
     .sidebar-toggle svg {
       width: 16px;
       height: 16px;
-      stroke: #86868B;
+      stroke: rgba(255,255,255,0.5);
       fill: none;
       stroke-width: 1.5;
       stroke-linecap: round;
@@ -375,8 +477,8 @@
     }
     .context-sidebar {
       width: 280px;
-      border-left: 0.5px solid rgba(0,0,0,0.06);
-      background: #FAFAFA;
+      border-left: 0.5px solid rgba(255,255,255,0.06);
+      background: rgba(15,15,15,0.95);
       overflow-y: auto;
       padding: 20px 16px;
       flex-shrink: 0;
@@ -398,7 +500,7 @@
       font-weight: 600;
       text-transform: uppercase;
       letter-spacing: 0.5px;
-      color: #86868B;
+      color: rgba(255,255,255,0.35);
       margin-bottom: 10px;
     }
     .sidebar-metric {
@@ -406,38 +508,38 @@
       align-items: center;
       justify-content: space-between;
       padding: 8px 10px;
-      background: #FFF;
+      background: rgba(255,255,255,0.03);
       border-radius: 10px;
-      border: 0.5px solid rgba(0,0,0,0.04);
+      border: 0.5px solid rgba(255,255,255,0.06);
       margin-bottom: 6px;
     }
     .sidebar-metric-label {
       font-family: 'Inter', sans-serif;
       font-size: 12px;
-      color: #6E6E73;
+      color: rgba(255,255,255,0.5);
     }
     .sidebar-metric-value {
       font-family: 'Zen Dots', cursive;
       font-size: 13px;
-      color: #1D1D1F;
+      color: #F5F5F7;
     }
     .sidebar-metric-value.warning {
       color: #FF9500;
     }
     .sidebar-metric-value.danger {
-      color: #D70030;
+      color: #FF453A;
     }
     .sidebar-metric-value.ok {
-      color: #248A3D;
+      color: #30D158;
     }
     .sidebar-rec {
       display: flex;
       align-items: flex-start;
       gap: 8px;
       padding: 10px;
-      background: #FFF;
+      background: rgba(255,255,255,0.03);
       border-radius: 10px;
-      border: 0.5px solid rgba(0,0,0,0.04);
+      border: 0.5px solid rgba(255,255,255,0.06);
       margin-bottom: 6px;
     }
     .sidebar-rec-dot {
@@ -452,24 +554,24 @@
       font-family: 'Inter', sans-serif;
       font-size: 12px;
       line-height: 1.4;
-      color: #1D1D1F;
+      color: #E5E5EA;
     }
     .sidebar-mentor {
       display: flex;
       align-items: center;
       gap: 10px;
       padding: 8px 10px;
-      background: #FFF;
+      background: rgba(255,255,255,0.03);
       border-radius: 10px;
-      border: 0.5px solid rgba(0,0,0,0.04);
+      border: 0.5px solid rgba(255,255,255,0.06);
       margin-bottom: 6px;
     }
     .sidebar-mentor-avatar {
       width: 28px;
       height: 28px;
       border-radius: 50%;
-      background: #F5F5F7;
-      border: 1px solid rgba(215,0,48,0.1);
+      background: rgba(215,0,48,0.06);
+      border: 1px solid rgba(215,0,48,0.15);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -487,12 +589,12 @@
       font-family: 'Satoshi', sans-serif;
       font-size: 13px;
       font-weight: 600;
-      color: #1D1D1F;
+      color: #F5F5F7;
     }
     .sidebar-mentor-role {
       font-family: 'Inter', sans-serif;
       font-size: 10px;
-      color: #86868B;
+      color: rgba(255,255,255,0.4);
     }
     .sidebar-mentor-status {
       width: 6px;
@@ -543,270 +645,293 @@
     <div class="metric"><p class="metric-num">89%</p><p class="metric-label">satisfacao</p></div>
   </div>
 
-  <!-- Sidebar toggle (desktop only) -->
-  <button class="sidebar-toggle" id="sidebarToggle" onclick="toggleSidebar()" title="Painel de contexto">
-    <svg viewBox="0 0 24 24"><path d="M21 3H3v18h18V3z"/><path d="M15 3v18"/></svg>
-  </button>
-
-  <!-- Chat layout with sidebar -->
-  <div class="chat-layout">
-    <div class="chat-main">
-
-  <!-- Pipeline stages (appears during processing) -->
-  <div class="pipeline-stages" id="pipelineStages">
-    <div class="stage pending" data-stage="1">
-      <span class="stage-dot"></span>
-      <span class="stage-check"><svg viewBox="0 0 24 24" fill="none" stroke="#30D158" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span>
-      <span class="stage-label">Analisando...</span>
+  <!-- ═══ CHAT ZONE — Dark with ambient glow ═══ -->
+  <div class="chat-zone">
+    <div class="ambient-glow">
+      <div class="ambient-glow-orb"></div>
+      <div class="ambient-glow-orb"></div>
+      <div class="ambient-glow-orb"></div>
     </div>
-    <div class="stage-line"></div>
-    <div class="stage pending" data-stage="2">
-      <span class="stage-dot"></span>
-      <span class="stage-check"><svg viewBox="0 0 24 24" fill="none" stroke="#30D158" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span>
-      <span class="stage-label">Consultando dados</span>
-    </div>
-    <div class="stage-line"></div>
-    <div class="stage pending" data-stage="3">
-      <span class="stage-dot"></span>
-      <span class="stage-check"><svg viewBox="0 0 24 24" fill="none" stroke="#30D158" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span>
-      <span class="stage-label">Preparando resposta</span>
-    </div>
-    <div class="stage-line"></div>
-    <div class="stage pending" data-stage="4">
-      <span class="stage-dot"></span>
-      <span class="stage-check"><svg viewBox="0 0 24 24" fill="none" stroke="#30D158" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span>
-      <span class="stage-label">Pronto</span>
-    </div>
-  </div>
 
-  <!-- Chat -->
-  <div class="chat" id="chat">
+    <!-- Sidebar toggle (desktop only) -->
+    <button class="sidebar-toggle" id="sidebarToggle" onclick="toggleSidebar()" title="Painel de contexto">
+      <svg viewBox="0 0 24 24"><path d="M21 3H3v18h18V3z"/><path d="M15 3v18"/></svg>
+    </button>
 
-    <!-- Kenji message 1 -->
-    <div class="msg">
-      <div class="msg-avatar-letter"><span>K</span></div>
-      <div>
-        <div class="bubble bubble-agent">
-          <div class="agent-badge">
-            <span class="agent-badge-dot"></span>
-            <span class="agent-badge-name">Dr. Kenji</span> &middot; Mentor Saude
-          </div>
-          <p>Bom dia, Julio. Notei que seu sono foi de <strong>5h30</strong> ontem. Isso impacta recuperacao muscular e foco cognitivo. Recomendo trocar o treino HIIT por caminhada de 20min hoje.</p>
-          <div class="quick-actions">
-            <button class="quick-btn" onclick="approve(this)">Aceitar recomendacao</button>
-            <button class="quick-btn" onclick="this.textContent='Abrindo...'; ">Ver dados de sono</button>
-          </div>
-          <div class="tool-indicator">
-            <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 8v4l3 3"/><circle cx="12" cy="12" r="10"/></svg>
-            via Apple Watch
-          </div>
-        </div>
-        <p class="bubble-meta">Dr. Kenji &middot; 07:15</p>
+    <!-- Chat layout with sidebar -->
+    <div class="chat-layout">
+      <div class="chat-main">
+
+    <!-- Pipeline stages (appears during processing) -->
+    <div class="pipeline-stages" id="pipelineStages">
+      <div class="stage pending" data-stage="1">
+        <span class="stage-dot"></span>
+        <span class="stage-check"><svg viewBox="0 0 24 24" fill="none" stroke="#30D158" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span>
+        <span class="stage-label">Analisando...</span>
+      </div>
+      <div class="stage-line"></div>
+      <div class="stage pending" data-stage="2">
+        <span class="stage-dot"></span>
+        <span class="stage-check"><svg viewBox="0 0 24 24" fill="none" stroke="#30D158" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span>
+        <span class="stage-label">Consultando dados</span>
+      </div>
+      <div class="stage-line"></div>
+      <div class="stage pending" data-stage="3">
+        <span class="stage-dot"></span>
+        <span class="stage-check"><svg viewBox="0 0 24 24" fill="none" stroke="#30D158" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span>
+        <span class="stage-label">Preparando resposta</span>
+      </div>
+      <div class="stage-line"></div>
+      <div class="stage pending" data-stage="4">
+        <span class="stage-dot"></span>
+        <span class="stage-check"><svg viewBox="0 0 24 24" fill="none" stroke="#30D158" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span>
+        <span class="stage-label">Pronto</span>
       </div>
     </div>
 
-    <!-- User message 1 -->
-    <div class="msg msg-user">
-      <div>
-        <div class="bubble bubble-user">
-          <p>Faz sentido. E a alimentacao?</p>
-        </div>
-        <p class="bubble-meta" style="text-align: right;">07:16</p>
-      </div>
-    </div>
+    <!-- Chat -->
+    <div class="chat" id="chat">
 
-    <!-- Kenji message 2 -->
-    <div class="msg">
-      <div class="msg-avatar-letter"><span>K</span></div>
-      <div>
-        <div class="bubble bubble-agent">
-          <div class="agent-badge">
-            <span class="agent-badge-dot"></span>
-            <span class="agent-badge-name">Dr. Kenji</span> &middot; Mentor Saude
+      <!-- Kenji message 1 -->
+      <div class="msg">
+        <div class="msg-avatar-letter"><span>K</span></div>
+        <div>
+          <div class="bubble bubble-agent">
+            <div class="agent-badge">
+              <span class="agent-badge-dot"></span>
+              <span class="agent-badge-name">Dr. Kenji</span> &middot; Mentor Saude
+            </div>
+            <p>Bom dia, Julio. Notei que seu sono foi de <strong>5h30</strong> ontem. Isso impacta recuperacao muscular e foco cognitivo. Recomendo trocar o treino HIIT por caminhada de 20min hoje.</p>
+            <div class="quick-actions">
+              <button class="quick-btn" onclick="approve(this)">Aceitar recomendacao</button>
+              <button class="quick-btn" onclick="this.textContent='Abrindo...'; ">Ver dados de sono</button>
+            </div>
+            <div class="tool-indicator">
+              <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 8v4l3 3"/><circle cx="12" cy="12" r="10"/></svg>
+              via Apple Watch
+            </div>
           </div>
-          <p><span class="mentor-mention">Yui</span> preparou cardapio adaptado: cafe reforcado com ovos e abacate, almoce proteina + legumes, e no jantar adicione magnesio (castanhas do para). Evite cafeina apos 14h.</p>
-          <div class="tool-indicator">
-            <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3h18v18H3z"/><path d="M3 9h18"/><path d="M9 21V9"/></svg>
-            via Nutricao DB
+          <p class="bubble-meta">Dr. Kenji &middot; 07:15</p>
+        </div>
+      </div>
+
+      <!-- User message 1 -->
+      <div class="msg msg-user">
+        <div>
+          <div class="bubble bubble-user">
+            <p>Faz sentido. E a alimentacao?</p>
+          </div>
+          <p class="bubble-meta" style="text-align: right;">07:16</p>
+        </div>
+      </div>
+
+      <!-- Kenji message 2 -->
+      <div class="msg">
+        <div class="msg-avatar-letter"><span>K</span></div>
+        <div>
+          <div class="bubble bubble-agent">
+            <div class="agent-badge">
+              <span class="agent-badge-dot"></span>
+              <span class="agent-badge-name">Dr. Kenji</span> &middot; Mentor Saude
+            </div>
+            <p><span class="mentor-mention">Yui</span> preparou cardapio adaptado: cafe reforcado com ovos e abacate, almoce proteina + legumes, e no jantar adicione magnesio (castanhas do para). Evite cafeina apos 14h.</p>
+            <div class="tool-indicator">
+              <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3h18v18H3z"/><path d="M3 9h18"/><path d="M9 21V9"/></svg>
+              via Nutricao DB
+            </div>
+          </div>
+          <p class="bubble-meta">Dr. Kenji &middot; 07:16</p>
+        </div>
+      </div>
+
+      <!-- User message 2 -->
+      <div class="msg msg-user">
+        <div>
+          <div class="bubble bubble-user">
+            <p>Ok, aprovado</p>
+          </div>
+          <p class="bubble-meta" style="text-align: right;">07:17</p>
+        </div>
+      </div>
+
+      <!-- Kenji message 3 — confirmation with action badges -->
+      <div class="msg">
+        <div class="msg-avatar-letter"><span>K</span></div>
+        <div>
+          <div class="bubble bubble-agent">
+            <div class="agent-badge">
+              <span class="agent-badge-dot"></span>
+              <span class="agent-badge-name">Dr. Kenji</span> &middot; Mentor Saude
+            </div>
+            <p>Perfeito. Ajustei seu plano e notifiquei <span class="mentor-mention">Ryu</span> (treino) e <span class="mentor-mention">Aiko</span> (sono). Check-in amanha 07:30.</p>
+            <div class="bubble-action action-done">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+              Plano ajustado
+            </div>
+            <div class="bubble-action action-sync" style="margin-left: 4px;">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 1l4 4-4 4"/><path d="M3 11V9a4 4 0 014-4h14"/><path d="M7 23l-4-4 4-4"/><path d="M21 13v2a4 4 0 01-4 4H3"/></svg>
+              Ryu e Aiko notificados
+            </div>
+            <div class="tool-indicator">
+              <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 8v4l3 3"/><circle cx="12" cy="12" r="10"/></svg>
+              via Health Data
+            </div>
+          </div>
+          <p class="bubble-meta">Dr. Kenji &middot; 07:17</p>
+        </div>
+      </div>
+
+      <!-- Enhanced typing indicator -->
+      <div class="typing-enhanced" id="typingEnhanced">
+        <div class="typing-header">
+          <div class="msg-avatar-letter"><span>K</span></div>
+          <div class="typing-dots">
+            <div class="typing-dot"></div>
+            <div class="typing-dot"></div>
+            <div class="typing-dot"></div>
+          </div>
+          <span class="typing-text-enhanced">Dr. Kenji esta analisando seus dados...</span>
+        </div>
+        <div class="typing-pipeline">
+          <div class="tp-stage pending" data-tp="1">
+            <span class="tp-dot"></span>
+            <span>Analisando</span>
+          </div>
+          <div class="tp-line"></div>
+          <div class="tp-stage pending" data-tp="2">
+            <span class="tp-dot"></span>
+            <span>Dados</span>
+          </div>
+          <div class="tp-line"></div>
+          <div class="tp-stage pending" data-tp="3">
+            <span class="tp-dot"></span>
+            <span>Resposta</span>
+          </div>
+          <div class="tp-line"></div>
+          <div class="tp-stage pending" data-tp="4">
+            <span class="tp-dot"></span>
+            <span>Pronto</span>
           </div>
         </div>
-        <p class="bubble-meta">Dr. Kenji &middot; 07:16</p>
       </div>
-    </div>
 
-    <!-- User message 2 -->
-    <div class="msg msg-user">
-      <div>
-        <div class="bubble bubble-user">
-          <p>Ok, aprovado</p>
-        </div>
-        <p class="bubble-meta" style="text-align: right;">07:17</p>
-      </div>
-    </div>
-
-    <!-- Kenji message 3 — confirmation with action badges -->
-    <div class="msg">
-      <div class="msg-avatar-letter"><span>K</span></div>
-      <div>
-        <div class="bubble bubble-agent">
-          <div class="agent-badge">
-            <span class="agent-badge-dot"></span>
-            <span class="agent-badge-name">Dr. Kenji</span> &middot; Mentor Saude
-          </div>
-          <p>Perfeito. Ajustei seu plano e notifiquei <span class="mentor-mention">Ryu</span> (treino) e <span class="mentor-mention">Aiko</span> (sono). Check-in amanha 07:30.</p>
-          <div class="bubble-action action-done">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
-            Plano ajustado
-          </div>
-          <div class="bubble-action action-sync" style="margin-left: 4px;">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 1l4 4-4 4"/><path d="M3 11V9a4 4 0 014-4h14"/><path d="M7 23l-4-4 4-4"/><path d="M21 13v2a4 4 0 01-4 4H3"/></svg>
-            Ryu e Aiko notificados
-          </div>
-          <div class="tool-indicator">
-            <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 8v4l3 3"/><circle cx="12" cy="12" r="10"/></svg>
-            via Health Data
-          </div>
-        </div>
-        <p class="bubble-meta">Dr. Kenji &middot; 07:17</p>
-      </div>
-    </div>
-
-    <!-- Enhanced typing indicator -->
-    <div class="typing-enhanced" id="typingEnhanced">
-      <div class="typing-header">
+      <!-- Legacy typing indicator (hidden, kept for compat) -->
+      <div class="typing" id="typing" style="display: none;">
         <div class="msg-avatar-letter"><span>K</span></div>
         <div class="typing-dots">
           <div class="typing-dot"></div>
           <div class="typing-dot"></div>
           <div class="typing-dot"></div>
         </div>
-        <span class="typing-text-enhanced">Dr. Kenji esta analisando seus dados...</span>
-      </div>
-      <div class="typing-pipeline">
-        <div class="tp-stage pending" data-tp="1">
-          <span class="tp-dot"></span>
-          <span>Analisando</span>
-        </div>
-        <div class="tp-line"></div>
-        <div class="tp-stage pending" data-tp="2">
-          <span class="tp-dot"></span>
-          <span>Dados</span>
-        </div>
-        <div class="tp-line"></div>
-        <div class="tp-stage pending" data-tp="3">
-          <span class="tp-dot"></span>
-          <span>Resposta</span>
-        </div>
-        <div class="tp-line"></div>
-        <div class="tp-stage pending" data-tp="4">
-          <span class="tp-dot"></span>
-          <span>Pronto</span>
-        </div>
+        <span class="typing-text">Dr. Kenji esta digitando...</span>
       </div>
     </div>
 
-    <!-- Legacy typing indicator (hidden, kept for compat) -->
-    <div class="typing" id="typing" style="display: none;">
-      <div class="msg-avatar-letter"><span>K</span></div>
-      <div class="typing-dots">
-        <div class="typing-dot"></div>
-        <div class="typing-dot"></div>
-        <div class="typing-dot"></div>
-      </div>
-      <span class="typing-text">Dr. Kenji esta digitando...</span>
-    </div>
-  </div>
+      </div><!-- /chat-main -->
 
-    </div><!-- /chat-main -->
-
-    <!-- Contextual Sidebar (desktop only) -->
-    <div class="context-sidebar" id="contextSidebar">
-      <div class="sidebar-section">
-        <div class="sidebar-section-title">Metricas atuais</div>
-        <div class="sidebar-metric">
-          <span class="sidebar-metric-label">Sono</span>
-          <span class="sidebar-metric-value warning">5h30</span>
-        </div>
-        <div class="sidebar-metric">
-          <span class="sidebar-metric-label">Freq. Cardiaca</span>
-          <span class="sidebar-metric-value ok">68 bpm</span>
-        </div>
-        <div class="sidebar-metric">
-          <span class="sidebar-metric-label">Hidratacao</span>
-          <span class="sidebar-metric-value danger">1.2L</span>
-        </div>
-        <div class="sidebar-metric">
-          <span class="sidebar-metric-label">Estresse</span>
-          <span class="sidebar-metric-value warning">Elevado</span>
-        </div>
-        <div class="sidebar-metric">
-          <span class="sidebar-metric-label">Passos hoje</span>
-          <span class="sidebar-metric-value">2.340</span>
-        </div>
-      </div>
-
-      <div class="sidebar-section">
-        <div class="sidebar-section-title">Recomendacoes ativas (2)</div>
-        <div class="sidebar-rec">
-          <span class="sidebar-rec-dot"></span>
-          <span class="sidebar-rec-text">Trocar HIIT por caminhada 20min devido ao sono insuficiente</span>
-        </div>
-        <div class="sidebar-rec">
-          <span class="sidebar-rec-dot"></span>
-          <span class="sidebar-rec-text">Aumentar hidratacao para 2.5L e evitar cafeina apos 14h</span>
-        </div>
-      </div>
-
-      <div class="sidebar-section">
-        <div class="sidebar-section-title">Mentores conectados</div>
-        <div class="sidebar-mentor">
-          <div class="sidebar-mentor-avatar"><span>R</span></div>
-          <div class="sidebar-mentor-info">
-            <div class="sidebar-mentor-name">Ryu</div>
-            <div class="sidebar-mentor-role">Treino e Performance</div>
+      <!-- Contextual Sidebar (desktop only) -->
+      <div class="context-sidebar" id="contextSidebar">
+        <div class="sidebar-section">
+          <div class="sidebar-section-title">Metricas atuais</div>
+          <div class="sidebar-metric">
+            <span class="sidebar-metric-label">Sono</span>
+            <span class="sidebar-metric-value warning">5h30</span>
           </div>
-          <div class="sidebar-mentor-status"></div>
-        </div>
-        <div class="sidebar-mentor">
-          <div class="sidebar-mentor-avatar"><span>A</span></div>
-          <div class="sidebar-mentor-info">
-            <div class="sidebar-mentor-name">Aiko</div>
-            <div class="sidebar-mentor-role">Sono e Recuperacao</div>
+          <div class="sidebar-metric">
+            <span class="sidebar-metric-label">Freq. Cardiaca</span>
+            <span class="sidebar-metric-value ok">68 bpm</span>
           </div>
-          <div class="sidebar-mentor-status"></div>
-        </div>
-        <div class="sidebar-mentor">
-          <div class="sidebar-mentor-avatar"><span>Y</span></div>
-          <div class="sidebar-mentor-info">
-            <div class="sidebar-mentor-name">Yui</div>
-            <div class="sidebar-mentor-role">Nutricao e Dieta</div>
+          <div class="sidebar-metric">
+            <span class="sidebar-metric-label">Hidratacao</span>
+            <span class="sidebar-metric-value danger">1.2L</span>
           </div>
-          <div class="sidebar-mentor-status"></div>
+          <div class="sidebar-metric">
+            <span class="sidebar-metric-label">Estresse</span>
+            <span class="sidebar-metric-value warning">Elevado</span>
+          </div>
+          <div class="sidebar-metric">
+            <span class="sidebar-metric-label">Passos hoje</span>
+            <span class="sidebar-metric-value">2.340</span>
+          </div>
+        </div>
+
+        <div class="sidebar-section">
+          <div class="sidebar-section-title">Recomendacoes ativas (2)</div>
+          <div class="sidebar-rec">
+            <span class="sidebar-rec-dot"></span>
+            <span class="sidebar-rec-text">Trocar HIIT por caminhada 20min devido ao sono insuficiente</span>
+          </div>
+          <div class="sidebar-rec">
+            <span class="sidebar-rec-dot"></span>
+            <span class="sidebar-rec-text">Aumentar hidratacao para 2.5L e evitar cafeina apos 14h</span>
+          </div>
+        </div>
+
+        <div class="sidebar-section">
+          <div class="sidebar-section-title">Mentores conectados</div>
+          <div class="sidebar-mentor">
+            <div class="sidebar-mentor-avatar"><span>R</span></div>
+            <div class="sidebar-mentor-info">
+              <div class="sidebar-mentor-name">Ryu</div>
+              <div class="sidebar-mentor-role">Treino e Performance</div>
+            </div>
+            <div class="sidebar-mentor-status"></div>
+          </div>
+          <div class="sidebar-mentor">
+            <div class="sidebar-mentor-avatar"><span>A</span></div>
+            <div class="sidebar-mentor-info">
+              <div class="sidebar-mentor-name">Aiko</div>
+              <div class="sidebar-mentor-role">Sono e Recuperacao</div>
+            </div>
+            <div class="sidebar-mentor-status"></div>
+          </div>
+          <div class="sidebar-mentor">
+            <div class="sidebar-mentor-avatar"><span>Y</span></div>
+            <div class="sidebar-mentor-info">
+              <div class="sidebar-mentor-name">Yui</div>
+              <div class="sidebar-mentor-role">Nutricao e Dieta</div>
+            </div>
+            <div class="sidebar-mentor-status"></div>
+          </div>
+        </div>
+      </div>
+    </div><!-- /chat-layout -->
+
+    <!-- Input area (inside chat-zone) -->
+    <div class="input-area">
+      <div style="max-width: 720px; margin: 0 auto;">
+        <!-- Suggested prompts — dark theme -->
+        <div class="suggestions" id="suggestions">
+          <button class="suggestion" onclick="sendSuggestion(this)">Resumo da minha saude hoje</button>
+          <button class="suggestion" onclick="sendSuggestion(this)">Como melhorar meu sono?</button>
+          <button class="suggestion" onclick="sendSuggestion(this)">Sugestao de treino leve</button>
+          <button class="suggestion" onclick="sendSuggestion(this)">O que comer no jantar?</button>
+          <button class="suggestion" onclick="sendSuggestion(this)">Nivel de estresse</button>
+        </div>
+
+        <div class="input-row">
+          <div class="input-wrapper">
+            <div class="input-glow"></div>
+            <div class="input-border-spin"></div>
+            <div class="input-card">
+              <textarea class="chat-input" id="chatInput" placeholder="Mensagem para Dr. Kenji..." rows="3" onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();sendMessage()}" oninput="autoResize(this)"></textarea>
+              <div class="input-footer">
+                <button class="input-add-btn" title="Anexar">+</button>
+                <select class="input-agent-select">
+                  <option>Mentor Saude</option>
+                  <option>Treino</option>
+                  <option>Nutricao</option>
+                </select>
+                <button class="send-btn" onclick="sendMessage()">
+                  <svg viewBox="0 0 24 24"><path d="M12 19V5M5 12l7-7 7 7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </button>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
-  </div><!-- /chat-layout -->
-
-  <!-- Input area -->
-  <div class="input-area">
-    <div style="max-width: 720px; margin: 0 auto;">
-      <!-- Suggested prompts -->
-      <div class="suggestions" id="suggestions">
-        <button class="suggestion" onclick="sendSuggestion(this)">Resumo da minha saude hoje</button>
-        <button class="suggestion" onclick="sendSuggestion(this)">Como melhorar meu sono?</button>
-        <button class="suggestion" onclick="sendSuggestion(this)">Sugestao de treino leve</button>
-        <button class="suggestion" onclick="sendSuggestion(this)">O que comer no jantar?</button>
-        <button class="suggestion" onclick="sendSuggestion(this)">Nivel de estresse</button>
-      </div>
-
-      <div class="input-row">
-        <textarea class="chat-input" id="chatInput" placeholder="Mensagem para Dr. Kenji..." rows="1" onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();sendMessage()}" oninput="autoResize(this)"></textarea>
-        <button class="send-btn" onclick="sendMessage()">
-          <svg viewBox="0 0 24 24"><path d="M22 2L11 13"/><path d="M22 2L15 22L11 13L2 9L22 2Z"/></svg>
-        </button>
-      </div>
-    </div>
-  </div>
+  </div><!-- /chat-zone -->
 
   <script>
     /* Simulated responses from Dr. Kenji */
@@ -899,7 +1024,7 @@
 
     function autoResize(el) {
       el.style.height = 'auto';
-      el.style.height = Math.min(el.scrollHeight, 120) + 'px';
+      el.style.height = Math.min(el.scrollHeight, 200) + 'px';
     }
 
     /* ═══ SEND MESSAGE (updated with pipeline animation) ═══ */
@@ -1002,8 +1127,8 @@
 
     function approve(btn) {
       btn.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg> Aceito';
-      btn.style.background = 'rgba(48,209,88,0.08)';
-      btn.style.color = '#248A3D';
+      btn.style.background = 'rgba(48,209,88,0.1)';
+      btn.style.color = '#30D158';
       btn.style.pointerEvents = 'none';
       btn.parentElement.querySelectorAll('.quick-btn').forEach(function (b) {
         if (b !== btn) b.style.display = 'none';
@@ -1020,6 +1145,6 @@
       return div.innerHTML;
     }
   </script>
-  <script src="../shared-nav.js"></script>
+  <script src="../shared-nav.js?v=1774999999"></script>
 </body>
 </html>

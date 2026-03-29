@@ -119,6 +119,144 @@
 
     /* ═══ COUNT-UP ANIMATION UTILITY ═══ */
     .count-up { display: inline-block; }
+
+    /* ═══ CHAT DARK ZONE — Compact Ambient Glow ═══ */
+    .chat-zone {
+      background: #0A0A0A;
+      position: relative;
+      overflow: hidden;
+      border-radius: 24px;
+      margin: 0 auto;
+      max-width: 680px;
+      width: 100%;
+      padding: 0;
+    }
+    .ambient-glow.compact {
+      position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none;
+    }
+    .ambient-glow.compact .ambient-glow-orb {
+      position: absolute; border-radius: 50%; pointer-events: none;
+      filter: blur(50px);
+    }
+    .ambient-glow.compact .ambient-glow-orb:nth-child(1) {
+      width: 30%; height: 40%;
+      top: 10%; left: -5%;
+      background: radial-gradient(ellipse at center, rgba(215,0,48,0.14) 0%, transparent 70%);
+      animation: orbDriftC1 10s ease-in-out infinite;
+    }
+    .ambient-glow.compact .ambient-glow-orb:nth-child(2) {
+      width: 25%; height: 35%;
+      top: 30%; right: -8%;
+      background: radial-gradient(ellipse at center, rgba(160,15,5,0.11) 0%, transparent 70%);
+      animation: orbDriftC2 14s ease-in-out infinite;
+    }
+    .ambient-glow.compact .ambient-glow-orb:nth-child(3) {
+      width: 20%; height: 30%;
+      bottom: 5%; left: 25%;
+      background: radial-gradient(ellipse at center, rgba(220,80,25,0.09) 0%, transparent 70%);
+      animation: orbDriftC3 12s ease-in-out infinite;
+    }
+    @keyframes orbDriftC1 { 0%,100% { transform: translate(0,0); } 33% { transform: translate(8%,6%); } 66% { transform: translate(-4%,-4%); } }
+    @keyframes orbDriftC2 { 0%,100% { transform: translate(0,0); } 50% { transform: translate(-10%,5%); } }
+    @keyframes orbDriftC3 { 0%,100% { transform: translate(0,0); } 33% { transform: translate(6%,-6%); } 66% { transform: translate(-4%,3%); } }
+
+    /* Chat section — dark context */
+    .chat-section { max-width: 720px; margin: 0 auto; padding: 20px 24px 28px; }
+    .chat-divider { display: flex; align-items: center; gap: 12px; margin-bottom: 20px; }
+    .chat-divider-line { flex: 1; height: 1px; background: rgba(255,255,255,0.06); }
+    .chat-divider-label { font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 500; color: #D70030; letter-spacing: 0.04em; display: flex; align-items: center; gap: 6px; }
+    .chat-divider-dot { width: 6px; height: 6px; border-radius: 50%; background: #30D158; }
+    .chat-container { background: transparent; border-radius: 20px; overflow: hidden; position: relative; z-index: 1; }
+    .chat-messages { padding: 20px; display: flex; flex-direction: column; gap: 14px; max-height: 400px; overflow-y: auto; }
+
+    /* Messages — dark theme bubbles */
+    .c-msg { display: flex; gap: 10px; max-width: 88%; opacity: 0; animation: cSlide 0.4s cubic-bezier(0.25,0.1,0.25,1) forwards; animation-delay: 0.2s; }
+    @keyframes cSlide { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    .c-msg-user { align-self: flex-end; flex-direction: row-reverse; gap: 0; }
+    .c-av { width: 28px; height: 28px; border-radius: 50%; border: 1px solid rgba(215,0,48,0.2); display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 2px; background: rgba(215,0,48,0.06); }
+    .c-av span { font-family: 'Zen Dots', cursive; font-size: 6px; color: #D70030; }
+    .c-bbl { border-radius: 18px; padding: 12px 16px; }
+    .c-bbl-a { background: rgba(255,255,255,0.04); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,0.06); border-top-left-radius: 6px; }
+    .c-bbl-u { background: rgba(215,0,48,0.12); border: 1px solid rgba(215,0,48,0.18); color: #F5F5F7; border-bottom-right-radius: 6px; }
+    .c-bbl p { font-family: 'Satoshi', sans-serif; font-size: 14px; line-height: 1.5; color: #E5E5EA; }
+    .c-bbl p strong { color: #F5F5F7; }
+    .c-meta { font-family: 'Inter', sans-serif; font-size: 10px; color: rgba(255,255,255,0.3); margin-top: 4px; }
+    .c-qk { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 8px; }
+    .c-qb { font-family: 'Inter', sans-serif; padding: 6px 14px; border-radius: 10px; background: rgba(255,255,255,0.04); border: 0.5px solid rgba(255,255,255,0.1); font-size: 12px; color: #E5E5EA; cursor: pointer; transition: all 0.15s; }
+    .c-qb:hover { background: rgba(215,0,48,0.15); color: #F5F5F7; border-color: rgba(215,0,48,0.3); }
+
+    /* Typing indicator — dark */
+    .c-ty { display: none; align-items: center; gap: 8px; padding: 4px 0; }
+    .c-ty-dots { display: flex; gap: 3px; }
+    .c-ty-d { width: 5px; height: 5px; border-radius: 50%; background: rgba(215,0,48,0.4); animation: cBnc 1.4s ease infinite; }
+    .c-ty-d:nth-child(2) { animation-delay: 0.2s; }
+    .c-ty-d:nth-child(3) { animation-delay: 0.4s; }
+    @keyframes cBnc { 0%,60%,100% { transform: translateY(0); } 30% { transform: translateY(-3px); } }
+    .c-ty-t { font-family: 'Inter', sans-serif; font-size: 10px; color: rgba(255,255,255,0.35); }
+
+    /* Input area — dark with rotating border + compact glow */
+    .c-inp-area { padding: 12px 16px; display: flex; gap: 8px; align-items: flex-end; position: relative; z-index: 2; }
+    .c-inp-wrapper { flex: 1; position: relative; border-radius: 22px; }
+
+    /* Compact input glow */
+    .c-inp-glow {
+      position: absolute;
+      top: 50%; left: 50%;
+      width: 120%; height: 180%;
+      transform: translate(-50%, -50%);
+      pointer-events: none;
+      z-index: 0;
+      filter: blur(25px);
+      opacity: 0.5;
+      background:
+        radial-gradient(ellipse 45% 45% at 30% 40%, rgba(215,0,48,0.4) 0%, transparent 70%),
+        radial-gradient(ellipse 40% 45% at 70% 50%, rgba(160,15,5,0.3) 0%, transparent 65%),
+        radial-gradient(ellipse 35% 40% at 50% 55%, rgba(220,80,25,0.2) 0%, transparent 60%);
+      animation: cGlowMove 8s ease-in-out infinite;
+    }
+    @keyframes cGlowMove {
+      0%   { transform: translate(-50%, -50%) rotate(0deg); }
+      25%  { transform: translate(-45%, -53%) rotate(2deg); }
+      50%  { transform: translate(-55%, -47%) rotate(-1deg); }
+      75%  { transform: translate(-48%, -52%) rotate(1.5deg); }
+      100% { transform: translate(-50%, -50%) rotate(0deg); }
+    }
+
+    /* Rotating border — compact */
+    .c-inp-border-spin {
+      position: absolute; inset: -1px; border-radius: 23px; z-index: 1;
+      overflow: hidden; pointer-events: none;
+    }
+    .c-inp-border-spin::before {
+      content: ''; position: absolute;
+      top: -50%; left: -50%; width: 200%; height: 200%;
+      background: conic-gradient(transparent 30%, rgba(140,10,5,0.5) 38%, rgba(215,0,48,0.7) 42%, rgba(220,80,25,0.4) 48%, transparent 55%, transparent 80%, rgba(180,30,8,0.25) 87%, rgba(215,0,48,0.4) 92%, transparent 97%);
+      animation: cRotateLine 5s linear infinite;
+    }
+    @keyframes cRotateLine { to { transform: rotate(360deg); } }
+    .c-inp-border-spin::after {
+      content: ''; position: absolute;
+      inset: 1px; border-radius: 22px;
+      background: #111;
+    }
+
+    /* Input field — dark */
+    .c-inp {
+      font-family: 'Satoshi', sans-serif;
+      flex: 1; width: 100%;
+      padding: 12px 18px;
+      border-radius: 22px;
+      border: none;
+      background: #111;
+      font-size: 14px; color: #E5E5EA; outline: none;
+      min-height: 44px; max-height: 100px; resize: none;
+      position: relative; z-index: 2;
+    }
+    .c-inp::placeholder { color: rgba(255,255,255,0.25); }
+    .c-snd { width: 44px; height: 44px; border-radius: 50%; background: #D70030; color: #F5F5F7; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: all 0.15s; }
+    .c-snd:hover { background: #E5003A; }
+    .c-snd:active { transform: scale(0.93); }
+    .c-snd svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
   </style>
 </head>
 <body>
@@ -387,6 +525,12 @@
     <button class="btn-edit fade-in" style="animation-delay:0.4s" onclick="location.href='config.html'">Editar perfil</button>
   </main>
 
+    <div class="chat-zone">
+    <div class="ambient-glow compact">
+      <div class="ambient-glow-orb"></div>
+      <div class="ambient-glow-orb"></div>
+      <div class="ambient-glow-orb"></div>
+    </div>
     <section class="chat-section">
     <div class="chat-divider"><div class="chat-divider-line"></div><div class="chat-divider-label"><div class="chat-divider-dot"></div> Agente · Perfil · Online</div><div class="chat-divider-line"></div></div>
     <div class="chat-container">
@@ -395,11 +539,16 @@
         <div class="c-ty" id="cTy"><div class="c-av"><span>Y</span></div><div class="c-ty-dots"><div class="c-ty-d"></div><div class="c-ty-d"></div><div class="c-ty-d"></div></div><span class="c-ty-t">Agente processando...</span></div>
       </div>
       <div class="c-inp-area">
-        <textarea class="c-inp" id="cInp" placeholder="Pergunte sobre este agente..." rows="1" onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();cM()}" oninput="this.style.height='auto';this.style.height=Math.min(this.scrollHeight,100)+'px'"></textarea>
+        <div class="c-inp-wrapper">
+          <div class="c-inp-glow"></div>
+          <div class="c-inp-border-spin"></div>
+          <textarea class="c-inp" id="cInp" placeholder="Pergunte sobre este agente..." rows="1" onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();cM()}" oninput="this.style.height='auto';this.style.height=Math.min(this.scrollHeight,100)+'px'"></textarea>
+        </div>
         <button class="c-snd" onclick="cM()"><svg viewBox="0 0 24 24"><path d="M22 2L11 13"/><path d="M22 2L15 22L11 13L2 9L22 2Z"/></svg></button>
       </div>
     </div>
   </section>
+  </div>
 <script>
   /* ═══ COUNT-UP ANIMATION ═══ */
   function animateCountUp() {
@@ -535,6 +684,6 @@
     animateStatBars();
   });
   </script>
-<script src="../../shared-nav.js?v=1774805559"></script>
+<script src="../../shared-nav.js?v=1774999999"></script>
 </body>
 </html>

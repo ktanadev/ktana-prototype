@@ -31,13 +31,36 @@
     .metric-num { font-family: 'Zen Dots', cursive; font-size: 18px; color: #1D1D1F; }
     .metric-label { font-family: 'Inter', sans-serif; font-size: 11px; color: #AEAEB2; margin-top: 2px; }
 
-    /* Chat — Dark zone with subtle ambient glow */
+    /* Chat — Dark zone with ambient glow morfologico no fundo todo */
     .chat-zone { flex: 1; background: #0A0A0A; position: relative; overflow: hidden; }
-    .ambient-glow { position: absolute; bottom: 0; left: 0; width: 100%; height: 60%; z-index: 0; pointer-events: none; background: radial-gradient(ellipse 80% 50% at 50% 100%, rgba(215,0,48,0.06) 0%, rgba(180,30,10,0.03) 30%, transparent 70%); animation: ambientPulse 8s ease-in-out infinite; }
-    .ambient-glow::before { content: ''; position: absolute; bottom: 0; left: 20%; width: 60%; height: 40%; background: radial-gradient(ellipse at 50% 100%, rgba(200,60,20,0.04) 0%, transparent 70%); animation: ambientShift 12s ease-in-out infinite; }
-    .ambient-glow::after { content: ''; position: absolute; bottom: 0; right: 10%; width: 50%; height: 35%; background: radial-gradient(ellipse at 70% 100%, rgba(215,0,48,0.035) 0%, transparent 65%); animation: ambientShift 10s ease-in-out infinite reverse; }
-    @keyframes ambientPulse { 0%,100% { opacity: 0.8; } 50% { opacity: 1; } }
-    @keyframes ambientShift { 0%,100% { transform: translateX(0); } 50% { transform: translateX(5%); } }
+    .ambient-glow {
+      position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none;
+    }
+    .ambient-glow-orb {
+      position: absolute; border-radius: 50%; pointer-events: none;
+      filter: blur(80px);
+    }
+    .ambient-glow-orb:nth-child(1) {
+      width: 60%; height: 50%;
+      top: 10%; left: -10%;
+      background: radial-gradient(ellipse at center, rgba(215,0,48,0.16) 0%, transparent 70%);
+      animation: orbDrift1 10s ease-in-out infinite;
+    }
+    .ambient-glow-orb:nth-child(2) {
+      width: 50%; height: 45%;
+      top: 30%; right: -15%;
+      background: radial-gradient(ellipse at center, rgba(160,15,5,0.13) 0%, transparent 70%);
+      animation: orbDrift2 14s ease-in-out infinite;
+    }
+    .ambient-glow-orb:nth-child(3) {
+      width: 55%; height: 50%;
+      bottom: 5%; left: 20%;
+      background: radial-gradient(ellipse at center, rgba(220,80,25,0.11) 0%, transparent 70%);
+      animation: orbDrift3 12s ease-in-out infinite;
+    }
+    @keyframes orbDrift1 { 0%,100% { transform: translate(0,0); } 33% { transform: translate(10%,8%); } 66% { transform: translate(-5%,-5%); } }
+    @keyframes orbDrift2 { 0%,100% { transform: translate(0,0); } 50% { transform: translate(-12%,6%); } }
+    @keyframes orbDrift3 { 0%,100% { transform: translate(0,0); } 33% { transform: translate(8%,-8%); } 66% { transform: translate(-6%,4%); } }
 
     .chat { flex: 1; max-width: 720px; width: 100%; margin: 0 auto; padding: 16px 20px; overflow-y: auto; display: flex; flex-direction: column; gap: 16px; position: relative; z-index: 1; }
 
@@ -90,20 +113,74 @@
     /* Input area — dark with gradient border */
     .input-area { padding: 12px 20px 28px; border-top: none; background: transparent; position: relative; z-index: 2; }
     .input-row { display: flex; gap: 8px; max-width: 720px; margin: 0 auto; align-items: flex-end; }
-    .input-wrapper { flex: 1; position: relative; border-radius: 24px; padding: 1px; background: linear-gradient(var(--border-angle, 0deg), rgba(215,0,48,0.5), rgba(180,40,10,0.3), rgba(200,70,20,0.2), rgba(215,0,48,0.5)); animation: rotateBorder 6s linear infinite; }
-    @property --border-angle { syntax: '<angle>'; initial-value: 0deg; inherits: false; }
-    @keyframes rotateBorder { to { --border-angle: 360deg; } }
-    @keyframes gradientBorder { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
+    .input-wrapper {
+      flex: 1; position: relative; border-radius: 16px;
+    }
+    /* Glow vivo — se movimenta como aurora, nao pulsa */
+    .input-glow {
+      position: absolute;
+      top: 50%; left: 50%;
+      width: 130%; height: 200%;
+      transform: translate(-50%, -50%);
+      pointer-events: none;
+      z-index: 0;
+      filter: blur(35px);
+      opacity: 0.7;
+      background:
+        radial-gradient(ellipse 50% 50% at 30% 40%, rgba(215,0,48,0.5) 0%, transparent 70%),
+        radial-gradient(ellipse 45% 50% at 70% 50%, rgba(160,15,5,0.4) 0%, transparent 65%),
+        radial-gradient(ellipse 40% 45% at 50% 55%, rgba(220,80,25,0.3) 0%, transparent 60%);
+      animation: glowMove 8s ease-in-out infinite;
+    }
+    @keyframes glowMove {
+      0%   { transform: translate(-50%, -50%) rotate(0deg); }
+      25%  { transform: translate(-45%, -53%) rotate(2deg); }
+      50%  { transform: translate(-55%, -47%) rotate(-1deg); }
+      75%  { transform: translate(-48%, -52%) rotate(1.5deg); }
+      100% { transform: translate(-50%, -50%) rotate(0deg); }
+    }
+    /* Borda circulante — elemento rotativo com gradiente */
+    .input-border-spin {
+      position: absolute; inset: -1px; border-radius: 15px; z-index: 1;
+      overflow: hidden; pointer-events: none;
+    }
+    .input-border-spin::before {
+      content: ''; position: absolute;
+      top: -50%; left: -50%; width: 200%; height: 200%;
+      background: conic-gradient(transparent 30%, rgba(140,10,5,0.6) 38%, rgba(215,0,48,0.8) 42%, rgba(220,80,25,0.5) 48%, transparent 55%, transparent 80%, rgba(180,30,8,0.3) 87%, rgba(215,0,48,0.5) 92%, transparent 97%);
+      animation: rotateLine 5s linear infinite;
+    }
+    @keyframes rotateLine { to { transform: rotate(360deg); } }
+    /* Mascara pra mostrar so a borda de 1px */
+    .input-border-spin::after {
+      content: ''; position: absolute;
+      inset: 1px; border-radius: 14px;
+      background: #111;
+    }
+    /* Input card — grande, multi-linha, como BulIQ */
+    .input-card {
+      background: #111; border-radius: 14px; position: relative; z-index: 2;
+      display: flex; flex-direction: column;
+    }
     .chat-input {
       font-family: 'Satoshi', sans-serif; width: 100%;
-      padding: 14px 20px; border-radius: 22px;
-      border: none; background: #0A0A0A;
+      padding: 18px 20px 60px; border-radius: 14px;
+      border: none; background: transparent;
       font-size: 15px; color: #E5E5EA; outline: none;
-      min-height: 48px; max-height: 120px; resize: none;
-      transition: box-shadow 0.15s;
+      min-height: 120px; max-height: 200px; resize: none;
     }
-    .chat-input:focus { box-shadow: 0 0 20px rgba(215,0,48,0.08); }
-    .chat-input::placeholder { color: rgba(255,255,255,0.3); }
+    .chat-input::placeholder { color: rgba(255,255,255,0.25); }
+    /* Footer dentro do input card */
+    .input-footer {
+      position: absolute; bottom: 0; left: 0; right: 0;
+      padding: 10px 16px; display: flex; align-items: center; gap: 8px;
+      border-top: 1px solid rgba(255,255,255,0.04);
+    }
+    .input-add-btn { width: 32px; height: 32px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.1); background: transparent; color: rgba(255,255,255,0.4); display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 18px; transition: all 0.15s; }
+    .input-add-btn:hover { background: rgba(255,255,255,0.06); color: rgba(255,255,255,0.7); }
+    .input-agent-select { font-family: 'Inter', sans-serif; font-size: 12px; color: rgba(255,255,255,0.5); background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; padding: 6px 12px; cursor: pointer; appearance: none; -webkit-appearance: none; }
+    .input-footer .send-btn { margin-left: auto; width: 36px; height: 36px; border-radius: 10px; }
+    .input-footer .send-btn svg { width: 16px; height: 16px; }
     .send-btn {
       font-family: 'Inter', sans-serif;
       width: 48px; height: 48px; border-radius: 50%;
@@ -118,7 +195,7 @@
     .send-btn svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
 
     /* Suggested prompts */
-    .suggestions { display: flex; gap: 6px; overflow-x: auto; padding: 8px 0 4px; -webkit-overflow-scrolling: touch; }
+    .suggestions { display: flex; gap: 10px; overflow-x: auto; padding: 12px 0 10px; -webkit-overflow-scrolling: touch; }
     .suggestion { font-family: 'Inter', sans-serif; white-space: nowrap; padding: 8px 16px; border-radius: 20px; border: 0.5px solid rgba(255,255,255,0.1); font-size: 12px; color: rgba(255,255,255,0.4); cursor: pointer; transition: all 0.15s; flex-shrink: 0; background: rgba(255,255,255,0.03); }
     .suggestion:hover { background: rgba(215,0,48,0.12); color: #F5F5F7; border-color: rgba(215,0,48,0.25); }
 
@@ -324,7 +401,11 @@
 
   <!-- Chat zone — dark with subtle ambient glow -->
   <div class="chat-zone">
-    <div class="ambient-glow"></div>
+    <div class="ambient-glow">
+      <div class="ambient-glow-orb"></div>
+      <div class="ambient-glow-orb"></div>
+      <div class="ambient-glow-orb"></div>
+    </div>
   <div class="chat" id="chat">
 
     <!-- User message -->
@@ -483,11 +564,23 @@
 
       <div class="input-row">
         <div class="input-wrapper">
-          <textarea class="chat-input" id="chatInput" placeholder="Mensagem para Yuki..." rows="1" onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();sendMessage()}" oninput="autoResize(this)"></textarea>
+          <div class="input-glow"></div>
+          <div class="input-border-spin"></div>
+          <div class="input-card">
+            <textarea class="chat-input" id="chatInput" placeholder="Mensagem para Yuki..." rows="3" onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();sendMessage()}" oninput="autoResize(this)"></textarea>
+            <div class="input-footer">
+              <button class="input-add-btn" title="Anexar">+</button>
+              <select class="input-agent-select">
+                <option>Controller</option>
+                <option>Analista</option>
+                <option>Cobrador</option>
+              </select>
+              <button class="send-btn" onclick="sendMessage()">
+                <svg viewBox="0 0 24 24"><path d="M12 19V5M5 12l7-7 7 7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </button>
+            </div>
+          </div>
         </div>
-        <button class="send-btn" onclick="sendMessage()">
-          <svg viewBox="0 0 24 24"><path d="M22 2L11 13"/><path d="M22 2L15 22L11 13L2 9L22 2Z"/></svg>
-        </button>
       </div>
     </div>
   </div>
@@ -696,6 +789,6 @@
       };
     }
   </script>
-<script src="../../shared-nav.js?v=1774805559"></script>
+<script src="../../shared-nav.js?v=1774999999"></script>
 </body>
 </html>

@@ -83,26 +83,140 @@
 
     .view-all { font-family: 'Inter', sans-serif; font-size: 12px; color: #D70030; margin-top: 12px; display: inline-block; cursor: pointer; }
 
-    /* Central Command Chat */
-    .cmd-chat { background: #FFF; border-radius: 24px; border: 1px solid rgba(0,0,0,0.04); padding: 24px; margin-bottom: 28px; box-shadow: 0 2px 20px rgba(0,0,0,0.03); }
+    /* ═══ COMPACT CHAT ZONE — Dark Ambient Glow Widget ═══ */
+    .chat-zone.compact {
+      background: #0A0A0A;
+      border-radius: 16px;
+      position: relative;
+      overflow: hidden;
+      margin-bottom: 28px;
+      padding: 0;
+      box-shadow: 0 4px 32px rgba(0,0,0,0.18), 0 0 0 1px rgba(255,255,255,0.04);
+    }
+    .chat-zone.compact .ambient-glow {
+      position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none;
+    }
+    .chat-zone.compact .ambient-glow-orb {
+      position: absolute; border-radius: 50%; pointer-events: none;
+      filter: blur(60px);
+    }
+    .chat-zone.compact .ambient-glow-orb:nth-child(1) {
+      width: 55%; height: 45%;
+      top: 0%; left: -10%;
+      background: radial-gradient(ellipse at center, rgba(215,0,48,0.22) 0%, transparent 70%);
+      animation: orbDriftC1 10s ease-in-out infinite;
+    }
+    .chat-zone.compact .ambient-glow-orb:nth-child(2) {
+      width: 45%; height: 40%;
+      top: 20%; right: -10%;
+      background: radial-gradient(ellipse at center, rgba(160,15,5,0.18) 0%, transparent 70%);
+      animation: orbDriftC2 14s ease-in-out infinite;
+    }
+    .chat-zone.compact .ambient-glow-orb:nth-child(3) {
+      width: 40%; height: 45%;
+      bottom: -5%; left: 20%;
+      background: radial-gradient(ellipse at center, rgba(220,80,25,0.15) 0%, transparent 70%);
+      animation: orbDriftC3 12s ease-in-out infinite;
+    }
+    @keyframes orbDriftC1 { 0%,100% { transform: translate(0,0); } 33% { transform: translate(8%,6%); } 66% { transform: translate(-4%,-4%); } }
+    @keyframes orbDriftC2 { 0%,100% { transform: translate(0,0); } 50% { transform: translate(-10%,5%); } }
+    @keyframes orbDriftC3 { 0%,100% { transform: translate(0,0); } 33% { transform: translate(6%,-6%); } 66% { transform: translate(-5%,3%); } }
+
+    .chat-zone.compact .cmd-inner { position: relative; z-index: 1; padding: 20px 22px 18px; }
+
+    /* Label */
     .cmd-label { font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: #D70030; margin-bottom: 14px; display: flex; align-items: center; gap: 8px; }
     .cmd-label .cmd-dot { width: 6px; height: 6px; border-radius: 50%; background: #30D158; animation: pulse-cmd 2s infinite; }
     @keyframes pulse-cmd { 0%,100% { opacity:1; } 50% { opacity:0.3; } }
-    .cmd-messages { max-height: 180px; overflow-y: auto; margin-bottom: 16px; display: flex; flex-direction: column; gap: 10px; }
+
+    /* Dark messages */
+    .cmd-messages { max-height: 200px; overflow-y: auto; margin-bottom: 16px; display: flex; flex-direction: column; gap: 10px; }
     .cmd-msg { max-width: 85%; padding: 12px 16px; border-radius: 16px; font-family: 'Satoshi', sans-serif; font-size: 14px; line-height: 1.5; animation: fadeIn 0.3s ease; }
-    .cmd-msg-ai { background: #F5F5F7; color: #1D1D1F; border-bottom-left-radius: 4px; align-self: flex-start; }
-    .cmd-msg-user { background: #1D1D1F; color: #F5F5F7; border-bottom-right-radius: 4px; align-self: flex-end; }
+    .cmd-msg-ai { background: rgba(255,255,255,0.04); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,0.06); color: #E5E5EA; border-bottom-left-radius: 4px; align-self: flex-start; }
+    .cmd-msg-user { background: rgba(215,0,48,0.12); border: 1px solid rgba(215,0,48,0.18); color: #F5F5F7; border-bottom-right-radius: 4px; align-self: flex-end; }
     .cmd-msg-ai .cmd-sender { font-family: 'Inter', sans-serif; font-size: 11px; color: #D70030; font-weight: 500; margin-bottom: 4px; }
-    .cmd-input-wrap { display: flex; gap: 10px; align-items: center; }
-    .cmd-input { flex: 1; font-family: 'Satoshi', sans-serif; background: #F5F5F7; border: 1px solid rgba(0,0,0,0.06); border-radius: 16px; padding: 14px 18px; font-size: 15px; color: #1D1D1F; outline: none; transition: border-color 0.15s; }
-    .cmd-input:focus { border-color: rgba(215,0,48,0.3); }
-    .cmd-input::placeholder { color: #AEAEB2; }
-    .cmd-send { width: 48px; height: 48px; border-radius: 50%; background: #D70030; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: transform 0.1s, opacity 0.15s; flex-shrink: 0; }
-    .cmd-send:hover { opacity: 0.9; }
+
+    /* Dark suggestions */
+    .cmd-shortcuts { display: flex; gap: 6px; margin-top: 14px; flex-wrap: wrap; }
+    .cmd-shortcut { font-family: 'Inter', sans-serif; font-size: 12px; color: rgba(255,255,255,0.4); background: rgba(255,255,255,0.03); border: 0.5px solid rgba(255,255,255,0.1); border-radius: 980px; padding: 6px 14px; cursor: pointer; transition: all 0.15s; }
+    .cmd-shortcut:hover { background: rgba(215,0,48,0.12); color: #F5F5F7; border-color: rgba(215,0,48,0.25); }
+
+    /* Input wrapper with glow + rotating border */
+    .cmd-input-outer { position: relative; border-radius: 14px; margin-top: 16px; }
+    .cmd-input-glow {
+      position: absolute;
+      top: 50%; left: 50%;
+      width: 110%; height: 180%;
+      transform: translate(-50%, -50%);
+      pointer-events: none; z-index: 0;
+      filter: blur(30px);
+      opacity: 0.65;
+      background:
+        radial-gradient(ellipse 50% 50% at 30% 40%, rgba(215,0,48,0.45) 0%, transparent 70%),
+        radial-gradient(ellipse 45% 50% at 70% 50%, rgba(160,15,5,0.35) 0%, transparent 65%),
+        radial-gradient(ellipse 40% 45% at 50% 55%, rgba(220,80,25,0.25) 0%, transparent 60%);
+      animation: glowMoveC 8s ease-in-out infinite;
+    }
+    @keyframes glowMoveC {
+      0%   { transform: translate(-50%, -50%) rotate(0deg); }
+      25%  { transform: translate(-45%, -53%) rotate(2deg); }
+      50%  { transform: translate(-55%, -47%) rotate(-1deg); }
+      75%  { transform: translate(-48%, -52%) rotate(1.5deg); }
+      100% { transform: translate(-50%, -50%) rotate(0deg); }
+    }
+    .cmd-input-border-spin {
+      position: absolute; inset: -1px; border-radius: 15px; z-index: 1;
+      overflow: hidden; pointer-events: none;
+    }
+    .cmd-input-border-spin::before {
+      content: ''; position: absolute;
+      top: -50%; left: -50%; width: 200%; height: 200%;
+      background: conic-gradient(transparent 30%, rgba(140,10,5,0.6) 38%, rgba(215,0,48,0.8) 42%, rgba(220,80,25,0.5) 48%, transparent 55%, transparent 80%, rgba(180,30,8,0.3) 87%, rgba(215,0,48,0.5) 92%, transparent 97%);
+      animation: rotateLine 5s linear infinite;
+    }
+    @keyframes rotateLine { to { transform: rotate(360deg); } }
+    .cmd-input-border-spin::after {
+      content: ''; position: absolute;
+      inset: 1px; border-radius: 14px;
+      background: #111;
+    }
+
+    /* Input card */
+    .cmd-input-card {
+      background: #111; border-radius: 14px; position: relative; z-index: 2;
+      display: flex; flex-direction: column;
+    }
+    .cmd-input {
+      font-family: 'Satoshi', sans-serif; width: 100%;
+      padding: 14px 18px 48px; border-radius: 14px;
+      border: none; background: transparent;
+      font-size: 15px; color: #E5E5EA; outline: none;
+      min-height: 56px; max-height: 120px; resize: none;
+      box-sizing: border-box;
+    }
+    .cmd-input::placeholder { color: rgba(255,255,255,0.25); }
+    /* Footer inside input card */
+    .cmd-input-footer {
+      position: absolute; bottom: 0; left: 0; right: 0;
+      padding: 8px 14px; display: flex; align-items: center; gap: 8px;
+      border-top: 1px solid rgba(255,255,255,0.04);
+    }
+    .cmd-add-btn { width: 30px; height: 30px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.1); background: transparent; color: rgba(255,255,255,0.4); display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 16px; transition: all 0.15s; }
+    .cmd-add-btn:hover { background: rgba(255,255,255,0.06); color: rgba(255,255,255,0.7); }
+    .cmd-agent-select { font-family: 'Inter', sans-serif; font-size: 12px; color: rgba(255,255,255,0.5); background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; padding: 5px 10px; cursor: pointer; appearance: none; -webkit-appearance: none; }
+    .cmd-send { margin-left: auto; width: 34px; height: 34px; border-radius: 10px; background: #D70030; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: transform 0.1s, background 0.15s; flex-shrink: 0; color: #F5F5F7; }
+    .cmd-send:hover { background: #E5003A; }
     .cmd-send:active { transform: scale(0.92); }
-    .cmd-shortcuts { display: flex; gap: 6px; margin-top: 12px; flex-wrap: wrap; }
-    .cmd-shortcut { font-family: 'Inter', sans-serif; font-size: 12px; color: #86868B; background: rgba(0,0,0,0.03); border: 1px solid rgba(0,0,0,0.04); border-radius: 980px; padding: 6px 14px; cursor: pointer; transition: all 0.15s; }
-    .cmd-shortcut:hover { background: rgba(215,0,48,0.04); border-color: rgba(215,0,48,0.12); color: #D70030; }
+
+    /* Typing indicator compact */
+    .cmd-typing { display: none; align-items: center; gap: 8px; padding: 6px 0; margin-bottom: 8px; }
+    .cmd-typing.active { display: flex; }
+    .cmd-typing-dots { display: flex; gap: 4px; }
+    .cmd-typing-dot { width: 5px; height: 5px; border-radius: 50%; background: rgba(215,0,48,0.4); animation: typingBounceC 1.4s ease infinite; }
+    .cmd-typing-dot:nth-child(2) { animation-delay: 0.2s; }
+    .cmd-typing-dot:nth-child(3) { animation-delay: 0.4s; }
+    @keyframes typingBounceC { 0%,60%,100% { transform: translateY(0); } 30% { transform: translateY(-3px); } }
+    .cmd-typing-text { font-family: 'Inter', sans-serif; font-size: 11px; color: rgba(255,255,255,0.35); }
 
     @media (max-width: 640px) {
       .team-grid { grid-template-columns: repeat(2, 1fr); }
@@ -131,29 +245,57 @@
       </div>
     </div>
 
-    <!-- Central Command Chat -->
-    <div class="cmd-chat fade-in" style="animation-delay: 0.08s;">
-      <div class="cmd-label">
-        <div class="cmd-dot"></div>
-        Comando central
+    <!-- Central Command Chat — Dark Ambient Glow Widget -->
+    <div class="chat-zone compact fade-in" style="animation-delay: 0.08s;">
+      <div class="ambient-glow">
+        <div class="ambient-glow-orb"></div>
+        <div class="ambient-glow-orb"></div>
+        <div class="ambient-glow-orb"></div>
       </div>
-      <div class="cmd-messages" id="cmdMessages">
-        <div class="cmd-msg cmd-msg-ai">
-          <div class="cmd-sender">Akira — CEO</div>
-          Bom dia, Julio. Yuki tem uma cobranca urgente esperando aprovacao (R$12.000). Hana redigiu resposta ao investidor. Quer que eu priorize algo?
+      <div class="cmd-inner">
+        <div class="cmd-label">
+          <div class="cmd-dot"></div>
+          Falar com Akira
         </div>
-      </div>
-      <div class="cmd-input-wrap">
-        <input type="text" class="cmd-input" id="cmdInput" placeholder="De uma ordem aos seus samurais..." onkeydown="if(event.key==='Enter')sendCmd()">
-        <button class="cmd-send" onclick="sendCmd()">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
-        </button>
-      </div>
-      <div class="cmd-shortcuts">
-        <span class="cmd-shortcut" onclick="quickCmd('Quanto lucrei esta semana?')">Quanto lucrei?</span>
-        <span class="cmd-shortcut" onclick="quickCmd('Quem esta atrasado?')">Quem esta atrasado?</span>
-        <span class="cmd-shortcut" onclick="quickCmd('Aprovar tudo pendente')">Aprovar tudo</span>
-        <span class="cmd-shortcut" onclick="quickCmd('Resumo do dia')">Resumo do dia</span>
+        <div class="cmd-messages" id="cmdMessages">
+          <div class="cmd-msg cmd-msg-ai">
+            <div class="cmd-sender">Akira — CEO</div>
+            Bom dia, Julio. Yuki tem uma cobranca urgente esperando aprovacao (R$12.000). Hana redigiu resposta ao investidor. Quer que eu priorize algo?
+          </div>
+        </div>
+        <div class="cmd-typing" id="cmdTyping">
+          <div class="cmd-typing-dots">
+            <div class="cmd-typing-dot"></div>
+            <div class="cmd-typing-dot"></div>
+            <div class="cmd-typing-dot"></div>
+          </div>
+          <span class="cmd-typing-text">Akira esta pensando...</span>
+        </div>
+        <div class="cmd-input-outer">
+          <div class="cmd-input-glow"></div>
+          <div class="cmd-input-border-spin"></div>
+          <div class="cmd-input-card">
+            <textarea class="cmd-input" id="cmdInput" placeholder="De uma ordem aos seus samurais..." rows="1" onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();sendCmd()}" oninput="cmdAutoResize(this)"></textarea>
+            <div class="cmd-input-footer">
+              <button class="cmd-add-btn" title="Anexar">+</button>
+              <select class="cmd-agent-select">
+                <option>Akira — CEO</option>
+                <option>Hana — Secretaria</option>
+                <option>Yuki — Controller</option>
+                <option>Haruki — PM</option>
+              </select>
+              <button class="cmd-send" onclick="sendCmd()">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="cmd-shortcuts">
+          <span class="cmd-shortcut" onclick="quickCmd('Quanto lucrei esta semana?')">Quanto lucrei?</span>
+          <span class="cmd-shortcut" onclick="quickCmd('Quem esta atrasado?')">Quem esta atrasado?</span>
+          <span class="cmd-shortcut" onclick="quickCmd('Aprovar tudo pendente')">Aprovar tudo</span>
+          <span class="cmd-shortcut" onclick="quickCmd('Resumo do dia')">Resumo do dia</span>
+        </div>
       </div>
     </div>
 
@@ -287,28 +429,43 @@
       if (drop && !e.target.closest('.nav-more')) drop.classList.remove('open');
     });
 
-    // Central Command Chat
+    // Central Command Chat — Dark Widget
     const cmdResponses = {
-      'Quanto lucrei?': 'Yuki reporta: esta semana voce lucrou R$4.280 liquidos. Receita bruta R$12.400, custos operacionais R$8.120. ROI dos samurais: 340%.',
+      'Quanto lucrei esta semana?': 'Yuki reporta: esta semana voce lucrou R$4.280 liquidos. Receita bruta R$12.400, custos operacionais R$8.120. ROI dos samurais: 340%.',
       'Quem esta atrasado?': 'Verificando... Cliente Y tem fatura de R$12.000 com 15 dias de atraso. Yuki ja preparou cobranca com juros. Quer que eu aprove o envio?',
-      'Aprovar tudo': 'Entendido. Aprovando: (1) Cobranca Cliente Y R$12.000 com juros 2% — enviado por Yuki. (2) Resposta ao investidor — enviado por Hana. Tudo feito.',
+      'Aprovar tudo pendente': 'Entendido. Aprovando: (1) Cobranca Cliente Y R$12.000 com juros 2% — enviado por Yuki. (2) Resposta ao investidor — enviado por Hana. Tudo feito.',
       'Resumo do dia': '147 acoes executadas. 4 samurais online. 3 pagamentos conciliados. 14 emails filtrados. 1 cobranca pendente. DRE mensal 85% pronto. Nenhum alerta critico.'
     };
+
+    function cmdAutoResize(el) {
+      el.style.height = 'auto';
+      el.style.height = Math.min(el.scrollHeight, 80) + 'px';
+    }
 
     function sendCmd() {
       const input = document.getElementById('cmdInput');
       const val = input.value.trim();
       if (!val) return;
       const msgs = document.getElementById('cmdMessages');
+      const typing = document.getElementById('cmdTyping');
+
+      // Add user message (dark bubble)
       msgs.innerHTML += '<div class="cmd-msg cmd-msg-user">' + val + '</div>';
       input.value = '';
+      input.style.height = 'auto';
       msgs.scrollTop = msgs.scrollHeight;
 
+      // Show typing indicator
+      typing.classList.add('active');
+
       setTimeout(function() {
+        // Hide typing
+        typing.classList.remove('active');
+
         const response = cmdResponses[val] || 'Entendido, Julio. Vou direcionar para o samurai mais adequado. Um momento...';
         msgs.innerHTML += '<div class="cmd-msg cmd-msg-ai"><div class="cmd-sender">Akira — CEO</div>' + response + '</div>';
         msgs.scrollTop = msgs.scrollHeight;
-      }, 600);
+      }, 800 + Math.random() * 400);
     }
 
     function quickCmd(text) {
@@ -316,6 +473,6 @@
       sendCmd();
     }
   </script>
-<script src="../../shared-nav.js?v=1774805559"></script>
+<script src="../../shared-nav.js?v=1774999999"></script>
 </body>
 </html>
