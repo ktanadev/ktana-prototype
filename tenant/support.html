@@ -1,0 +1,98 @@
+<!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>Suporte — KTANA</title><link rel="stylesheet" href="../shared.css"><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Zen+Dots&display=swap" rel="stylesheet">
+<style>body{min-height:100vh;background:#F5F5F7;display:flex;flex-direction:column}.nav{position:sticky;top:0;z-index:50;height:48px;display:flex;align-items:center;justify-content:center;background:rgba(245,245,247,0.72);backdrop-filter:saturate(180%) blur(20px);border-bottom:0.5px solid rgba(0,0,0,0.06)}.nav-inner{width:100%;max-width:720px;padding:0 24px;display:flex;align-items:center;justify-content:space-between}.nav-logo{font-family:'Zen Dots',cursive;font-size:14px;color:#D70030}.nav-links a{font-family:'Inter',sans-serif;font-size:12px;color:#1D1D1F;opacity:0.4;margin-left:20px}.nav-links a.active{opacity:1}
+.main{flex:1;max-width:720px;margin:0 auto;padding:32px 24px 80px;width:100%}h1{font-family:'Satoshi',sans-serif;font-size:22px;font-weight:700;color:#1D1D1F;margin-bottom:6px}.sub{font-family:'Satoshi',sans-serif;font-size:14px;color:#86868B;margin-bottom:28px}
+.options{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-bottom:32px}.option{background:#FFF;border-radius:20px;border:1px solid rgba(0,0,0,0.04);padding:28px 22px;cursor:pointer;transition:box-shadow 0.2s,transform 0.15s;text-align:center}.option:hover{box-shadow:0 4px 20px rgba(0,0,0,0.04);transform:translateY(-1px)}.option-icon{font-size:28px;margin-bottom:12px}.option h3{font-family:'Satoshi',sans-serif;font-size:15px;font-weight:500;color:#1D1D1F;margin-bottom:4px}.option p{font-family:'Satoshi',sans-serif;font-size:12px;color:#86868B;line-height:1.5}
+.card{background:#FFF;border-radius:20px;border:1px solid rgba(0,0,0,0.04);padding:22px;margin-bottom:12px}.card-label{font-family:'Inter',sans-serif;font-size:11px;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;color:#D70030;margin-bottom:12px}
+.ticket{display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:0.5px solid rgba(0,0,0,0.03)}.ticket:last-child{border-bottom:none}.ticket-id{font-family:'Inter',sans-serif;font-size:11px;color:#AEAEB2;width:48px;flex-shrink:0}.ticket-title{font-family:'Satoshi',sans-serif;font-size:13px;color:#1D1D1F;flex:1}.ticket-status{font-family:'Inter',sans-serif;font-size:11px;font-weight:500;padding:3px 10px;border-radius:6px}.st-open{background:rgba(215,0,48,0.06);color:#D70030}.st-progress{background:rgba(255,159,10,0.06);color:#FF9F0A}.st-resolved{background:rgba(48,209,88,0.06);color:#248A3D}.ticket-date{font-family:'Inter',sans-serif;font-size:11px;color:#AEAEB2;width:60px;text-align:right}
+.chat-preview{background:#F5F5F7;border-radius:14px;padding:16px;margin-top:12px}.chat-msg{font-family:'Satoshi',sans-serif;font-size:14px;color:#1D1D1F;line-height:1.6}.chat-from{font-family:'Inter',sans-serif;font-size:11px;color:#86868B;margin-top:6px}
+.btn-new{font-family:'Inter',sans-serif;display:block;width:100%;padding:16px;border-radius:14px;background:#1D1D1F;color:#F5F5F7;font-size:14px;font-weight:500;border:none;cursor:pointer;text-align:center;min-height:52px;margin-top:20px}
+.faq-item{padding:12px 0;border-bottom:0.5px solid rgba(0,0,0,0.03);cursor:pointer}.faq-item:last-child{border-bottom:none}.faq-q{font-family:'Satoshi',sans-serif;font-size:14px;color:#1D1D1F;display:flex;justify-content:space-between;align-items:center}.faq-q::after{content:'+';color:#AEAEB2;font-size:16px}.faq-a{font-family:'Satoshi',sans-serif;font-size:13px;color:#86868B;line-height:1.6;margin-top:8px;display:none}
+</style></head>
+<body><nav class="nav"><div class="nav-inner"><a href="dashboard/home.html" class="nav-logo">KTANA</a><div class="nav-links"><a href="dashboard/home.html">Painel</a><a href="support.html" class="active">Suporte</a><a href="settings/general.html">Config</a></div></div></nav>
+<main class="main">
+<h1 class="fade-in">Suporte</h1>
+<p class="sub fade-in">Estamos aqui pra ajudar. Escolha como prefere.</p>
+
+<div class="options fade-in" style="animation-delay:0.1s">
+<div class="option" onclick="document.getElementById('chat-section').style.display='block';this.parentElement.style.display='none';">
+<div class="option-icon">&#x1F4AC;</div>
+<h3>Chat com IA</h3>
+<p>Resposta instantanea para duvidas sobre configuracao, uso e problemas comuns.</p>
+</div>
+<div class="option" onclick="document.getElementById('ticket-section').scrollIntoView({behavior:'smooth'})">
+<div class="option-icon">&#x1F4E9;</div>
+<h3>Abrir ticket</h3>
+<p>Para problemas que precisam de atencao humana. Resposta em ate 4h uteis.</p>
+</div>
+</div>
+
+<!-- Chat IA section (hidden by default) -->
+<div id="chat-section" style="display:none;" class="card fade-in">
+<p class="card-label">Chat com suporte IA</p>
+<div class="chat-preview">
+<p class="chat-msg">Oi! Sou o assistente de suporte da KTANA. Como posso ajudar?</p>
+<p class="chat-from">Suporte KTANA · agora</p>
+</div>
+<div style="display:flex;gap:8px;margin-top:12px;">
+<input type="text" placeholder="Descreva seu problema..." style="font-family:'Satoshi',sans-serif;flex:1;padding:12px 16px;border-radius:14px;border:0.5px solid rgba(0,0,0,0.06);background:#FFF;font-size:14px;outline:none;">
+<button style="font-family:'Inter',sans-serif;padding:12px 20px;border-radius:14px;background:#1D1D1F;color:#F5F5F7;border:none;font-size:13px;font-weight:500;cursor:pointer;">Enviar</button>
+</div>
+<div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:12px;">
+<button style="font-family:'Inter',sans-serif;padding:6px 14px;border-radius:20px;border:0.5px solid rgba(0,0,0,0.06);background:#FFF;font-size:12px;color:#86868B;cursor:pointer;">Conexao quebrou</button>
+<button style="font-family:'Inter',sans-serif;padding:6px 14px;border-radius:20px;border:0.5px solid rgba(0,0,0,0.06);background:#FFF;font-size:12px;color:#86868B;cursor:pointer;">Samurai nao responde</button>
+<button style="font-family:'Inter',sans-serif;padding:6px 14px;border-radius:20px;border:0.5px solid rgba(0,0,0,0.06);background:#FFF;font-size:12px;color:#86868B;cursor:pointer;">Mudar plano</button>
+<button style="font-family:'Inter',sans-serif;padding:6px 14px;border-radius:20px;border:0.5px solid rgba(0,0,0,0.06);background:#FFF;font-size:12px;color:#86868B;cursor:pointer;">Problema de cobranca</button>
+</div>
+</div>
+
+<!-- Tickets section -->
+<div id="ticket-section" class="card fade-in" style="animation-delay:0.15s">
+<p class="card-label">Seus tickets</p>
+<div class="ticket">
+<span class="ticket-id">#0042</span>
+<span class="ticket-title">WhatsApp desconectou apos 3 dias</span>
+<span class="ticket-status st-progress">Em andamento</span>
+<span class="ticket-date">28/03</span>
+</div>
+<div class="ticket">
+<span class="ticket-id">#0038</span>
+<span class="ticket-title">Yuki cobrou valor errado do Cliente X</span>
+<span class="ticket-status st-resolved">Resolvido</span>
+<span class="ticket-date">25/03</span>
+</div>
+<div class="ticket">
+<span class="ticket-id">#0031</span>
+<span class="ticket-title">Como conectar Omie ERP</span>
+<span class="ticket-status st-resolved">Resolvido</span>
+<span class="ticket-date">20/03</span>
+</div>
+<button class="btn-new">Abrir novo ticket</button>
+</div>
+
+<!-- FAQ -->
+<div class="card fade-in" style="animation-delay:0.2s">
+<p class="card-label">Perguntas frequentes</p>
+<div class="faq-item" onclick="this.querySelector('.faq-a').style.display=this.querySelector('.faq-a').style.display==='block'?'none':'block'">
+<p class="faq-q">Como reconectar o WhatsApp?</p>
+<p class="faq-a">Va em Configuracoes > Conexoes > WhatsApp > Reconectar. Escaneie o QR code novamente.</p>
+</div>
+<div class="faq-item" onclick="this.querySelector('.faq-a').style.display=this.querySelector('.faq-a').style.display==='block'?'none':'block'">
+<p class="faq-q">Meu samurai cobrou o valor errado. O que faco?</p>
+<p class="faq-a">Va no perfil do samurai > Atividade > encontre a acao. Clique e selecione "Reportar erro". O sistema corrigira e o samurai aprendera com o feedback.</p>
+</div>
+<div class="faq-item" onclick="this.querySelector('.faq-a').style.display=this.querySelector('.faq-a').style.display==='block'?'none':'block'">
+<p class="faq-q">Como mudar meu plano?</p>
+<p class="faq-a">Configuracoes > Plano & Uso > Mudar plano. O upgrade e imediato, o downgrade entra no proximo ciclo.</p>
+</div>
+<div class="faq-item" onclick="this.querySelector('.faq-a').style.display=this.querySelector('.faq-a').style.display==='block'?'none':'block'">
+<p class="faq-q">Posso pausar um samurai sem perder a memoria?</p>
+<p class="faq-a">Sim. Ao pausar, o samurai para de agir mas sua memoria, configuracao e historico sao preservados. Reative a qualquer momento.</p>
+</div>
+<div class="faq-item" onclick="this.querySelector('.faq-a').style.display=this.querySelector('.faq-a').style.display==='block'?'none':'block'">
+<p class="faq-q">Meus dados estao seguros?</p>
+<p class="faq-a">Sim. Criptografia AES-256 por tenant, dados no Brasil, audit log imutavel, KYC facial, kill switch. Detalhes em Configuracoes > Seguranca.</p>
+</div>
+</div>
+
+<p style="font-family:'Inter',sans-serif;font-size:11px;color:#AEAEB2;text-align:center;margin-top:24px;">Horario de atendimento humano: Seg-Sex 9h-18h · IA disponivel 24/7<br>Email: suporte@ktana.ai · SLA: 4h uteis</p>
+</main></body></html>

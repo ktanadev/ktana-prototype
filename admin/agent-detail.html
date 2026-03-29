@@ -1,21 +1,196 @@
 <!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>Detalhe do Agente — KTANA Admin</title><link rel="stylesheet" href="../shared.css"><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Zen+Dots&display=swap" rel="stylesheet">
-<style>body{min-height:100vh;background:#0A0A0A;color:#F5F5F7;display:flex}.sidebar{position:fixed;left:0;top:0;bottom:0;width:220px;background:#111;border-right:0.5px solid rgba(255,255,255,0.04);padding:20px 0;display:flex;flex-direction:column}.sidebar-logo{padding:0 20px 16px;font-family:'Zen Dots',cursive;font-size:14px;color:#D70030;border-bottom:0.5px solid rgba(255,255,255,0.04);margin-bottom:12px;display:flex;align-items:center;gap:6px}.sidebar-logo span{font-family:'Inter',sans-serif;font-size:11px;color:#AEAEB2}.sidebar a{display:block;padding:8px 20px;font-family:'Inter',sans-serif;font-size:12px;color:#8E8E93;transition:all 0.15s}.sidebar a:hover,.sidebar a.active{color:#F5F5F7;background:rgba(255,255,255,0.04)}.main{margin-left:220px;flex:1;padding:32px}.main h1{font-family:'Satoshi',sans-serif;font-size:20px;font-weight:600;margin-bottom:24px}.card{background:#1C1C1E;border:1px solid rgba(255,255,255,0.04);border-radius:16px;padding:24px;margin-bottom:12px}.card-label{font-family:'Inter',sans-serif;font-size:11px;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;color:#AEAEB2;margin-bottom:14px}.row{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:0.5px solid rgba(255,255,255,0.03);font-size:13px}.row:last-child{border-bottom:none}.row-label{font-family:'Satoshi',sans-serif;color:#8E8E93}.row-value{font-family:'Inter',sans-serif;color:#D2D2D7}.placeholder{font-family:'Satoshi',sans-serif;font-size:14px;color:#AEAEB2;text-align:center;padding:48px 0}</style></head>
+<style>
+body{min-height:100vh;background:#0A0A0A;color:#F5F5F7;display:flex;margin:0;font-family:'Inter',sans-serif}
+.sidebar{position:fixed;left:0;top:0;bottom:0;width:220px;background:#111;border-right:0.5px solid rgba(255,255,255,0.04);padding:20px 0;display:flex;flex-direction:column;z-index:10}
+.sidebar-logo{padding:0 20px 16px;font-family:'Zen Dots',cursive;font-size:14px;color:#D70030;border-bottom:0.5px solid rgba(255,255,255,0.04);margin-bottom:12px;display:flex;align-items:center;gap:6px}
+.sidebar-logo span{font-family:'Inter',sans-serif;font-size:11px;color:#AEAEB2}
+.sidebar a{display:block;padding:8px 20px;font-family:'Inter',sans-serif;font-size:12px;color:#8E8E93;text-decoration:none;transition:all 0.15s}
+.sidebar a:hover,.sidebar a.active{color:#F5F5F7;background:rgba(255,255,255,0.04)}
+.main{margin-left:220px;flex:1;padding:32px;max-width:1100px}
+.main h1{font-family:'Zen Dots',cursive;font-size:20px;font-weight:600;margin-bottom:8px}
+.breadcrumb{font-size:12px;color:#8E8E93;margin-bottom:24px}
+.breadcrumb a{color:#D70030;text-decoration:none}
+.card{background:#1C1C1E;border:1px solid rgba(255,255,255,0.04);border-radius:16px;padding:24px;margin-bottom:16px}
+.card-label{font-family:'Inter',sans-serif;font-size:11px;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;color:#AEAEB2;margin-bottom:14px}
+.agent-header{display:flex;align-items:center;gap:20px;margin-bottom:8px}
+.agent-avatar{width:56px;height:56px;border-radius:14px;background:linear-gradient(135deg,#D70030 0%,#8B0000 100%);display:flex;align-items:center;justify-content:center;font-family:'Zen Dots',cursive;font-size:20px;color:#fff;flex-shrink:0}
+.agent-meta h2{font-family:'Zen Dots',cursive;font-size:18px;margin:0 0 4px}
+.agent-meta p{font-size:13px;color:#8E8E93;margin:0}
+.status-badge{display:inline-flex;align-items:center;gap:5px;font-size:11px;font-weight:600;padding:3px 10px;border-radius:20px;text-transform:uppercase;letter-spacing:0.04em}
+.status-active{background:rgba(52,199,89,0.12);color:#34C759}
+.status-idle{background:rgba(255,159,10,0.12);color:#FF9F0A}
+.status-error{background:rgba(215,0,48,0.12);color:#D70030}
+.dot{width:6px;height:6px;border-radius:50%}
+.dot-green{background:#34C759}
+.dot-yellow{background:#FF9F0A}
+.dot-red{background:#D70030}
+.stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:16px}
+.stat-box{background:#1C1C1E;border:1px solid rgba(255,255,255,0.04);border-radius:16px;padding:20px;text-align:center}
+.stat-value{font-family:'Zen Dots',cursive;font-size:22px;color:#F5F5F7;margin-bottom:4px}
+.stat-label{font-size:11px;color:#8E8E93;text-transform:uppercase;letter-spacing:0.04em}
+.tabs{display:flex;gap:0;border-bottom:1px solid rgba(255,255,255,0.06);margin-bottom:20px}
+.tab{padding:10px 20px;font-size:12px;font-weight:600;color:#8E8E93;cursor:pointer;border-bottom:2px solid transparent;transition:all 0.2s;text-transform:uppercase;letter-spacing:0.04em}
+.tab.active{color:#D70030;border-bottom-color:#D70030}
+.tab:hover{color:#F5F5F7}
+.timeline{position:relative;padding-left:24px}
+.timeline::before{content:'';position:absolute;left:6px;top:8px;bottom:8px;width:1px;background:rgba(255,255,255,0.06)}
+.timeline-item{position:relative;padding:0 0 20px 0}
+.timeline-item::before{content:'';position:absolute;left:-20px;top:6px;width:8px;height:8px;border-radius:50%;background:#D70030;border:2px solid #0A0A0A}
+.timeline-time{font-size:11px;color:#AEAEB2;margin-bottom:2px}
+.timeline-text{font-size:13px;color:#F5F5F7}
+.timeline-tag{display:inline-block;font-size:10px;font-weight:600;padding:2px 8px;border-radius:4px;margin-left:8px;text-transform:uppercase;letter-spacing:0.02em}
+.tag-execute{background:rgba(0,122,255,0.12);color:#0A84FF}
+.tag-decide{background:rgba(191,90,242,0.12);color:#BF5AF2}
+.tag-reflect{background:rgba(255,159,10,0.12);color:#FF9F0A}
+.tag-memory{background:rgba(52,199,89,0.12);color:#34C759}
+.section-title{font-family:'Zen Dots',cursive;font-size:14px;margin-bottom:12px;color:#F5F5F7}
+.row{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:0.5px solid rgba(255,255,255,0.03);font-size:13px}
+.row:last-child{border-bottom:none}
+.row-label{color:#8E8E93}
+.row-value{color:#D2D2D7}
+.reflection-box{background:rgba(215,0,48,0.05);border:1px solid rgba(215,0,48,0.15);border-radius:12px;padding:16px;font-size:13px;color:#AEAEB2;line-height:1.6;font-style:italic}
+</style></head>
 <body>
 <nav class="sidebar">
 <div class="sidebar-logo">KTANA <span>ADMIN</span></div>
 <a href="index.html">Overview</a>
-<a href="index.html">Agent Flow</a>
-<a href="index.html">Tenants</a>
-<a href="index.html">Agentes</a>
-<a href="index.html">Health</a>
-<a href="index.html">Billing</a>
-<a href="index.html">Compliance</a>
-<a href="index.html">Catalogo</a>
-<a href="index.html">Config</a>
+<a href="flow.html">Agent Flow</a>
+<a href="tenants.html">Tenants</a>
+<a class="active" href="agents.html">Agentes</a>
+<a href="health.html">Health</a>
+<a href="billing.html">Billing</a>
+<a href="compliance.html">Compliance</a>
+<a href="catalog.html">Catalogo</a>
+<a href="settings.html">Config</a>
 </nav>
 <main class="main">
-<h1 class="fade-in">Detalhe do Agente</h1>
-<div class="card fade-in"><p class="card-label">Detalhes</p><p class="placeholder">Tela detalhada do modulo Detalhe do Agente.<br>Dados de exemplo serao preenchidos conforme especificacao.</p></div>
-<div class="card fade-in" style="animation-delay:0.1s"><p class="card-label">Acoes</p><div class="row"><span class="row-label">Voltar</span><span class="row-value"><a href="index.html" style="color:#D70030;">← Admin</a></span></div></div>
+<div class="breadcrumb"><a href="index.html">Admin</a> / <a href="agents.html">Agentes</a> / Ronin-PO</div>
+<div class="card">
+  <div class="agent-header">
+    <div class="agent-avatar">R</div>
+    <div class="agent-meta">
+      <h2>Ronin-PO</h2>
+      <p>Product Owner Autonomo &middot; Tenant: KTANA &middot; <span class="status-badge status-active"><span class="dot dot-green"></span> Executando</span></p>
+    </div>
+  </div>
+</div>
+
+<div class="stats-grid">
+  <div class="stat-box"><div class="stat-value">147</div><div class="stat-label">Acoes Hoje</div></div>
+  <div class="stat-box"><div class="stat-value">23.4k</div><div class="stat-label">Tokens Usados</div></div>
+  <div class="stat-box"><div class="stat-value">96.2%</div><div class="stat-label">Alinhamento</div></div>
+  <div class="stat-box"><div class="stat-value">342</div><div class="stat-label">Fatos na Memoria</div></div>
+</div>
+
+<div class="card">
+  <div class="tabs">
+    <div class="tab active">Atividade</div>
+    <div class="tab">Configuracao</div>
+    <div class="tab">Memoria</div>
+    <div class="tab">Metricas</div>
+  </div>
+
+  <div class="section-title">Timeline de Atividade</div>
+  <div class="timeline">
+    <div class="timeline-item">
+      <div class="timeline-time">29 Mar 2026 — 14:32:08</div>
+      <div class="timeline-text">Executou spec-builder para feature "Dashboard Analytics v2" <span class="timeline-tag tag-execute">execute</span></div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-time">29 Mar 2026 — 14:28:44</div>
+      <div class="timeline-text">Decidiu priorizar backlog item #187 sobre #192 baseado em impacto <span class="timeline-tag tag-decide">decide</span></div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-time">29 Mar 2026 — 14:15:21</div>
+      <div class="timeline-text">Reflexao metacognitiva: "Minha taxa de acerto em priorizacao subiu 4% apos aprender pattern de stakeholder feedback" <span class="timeline-tag tag-reflect">reflect</span></div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-time">29 Mar 2026 — 13:58:03</div>
+      <div class="timeline-text">Consolidou 12 fatos episodicos em 3 fatos semanticos sobre preferencias do tenant <span class="timeline-tag tag-memory">memory</span></div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-time">29 Mar 2026 — 13:42:17</div>
+      <div class="timeline-text">Gerou user stories para epic "Onboarding Simplificado" — 8 stories criadas <span class="timeline-tag tag-execute">execute</span></div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-time">29 Mar 2026 — 13:30:00</div>
+      <div class="timeline-text">Router encaminhou tarefa de priorizacao — confianca 94% <span class="timeline-tag tag-decide">decide</span></div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-time">29 Mar 2026 — 12:55:42</div>
+      <div class="timeline-text">Executou analise de dependencias entre 5 epics do roadmap Q2 <span class="timeline-tag tag-execute">execute</span></div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-time">29 Mar 2026 — 12:20:11</div>
+      <div class="timeline-text">Reflexao: "Percebi que specs com mais de 3 acceptance criteria tem 2x mais retrabalho — vou simplificar" <span class="timeline-tag tag-reflect">reflect</span></div>
+    </div>
+  </div>
+</div>
+
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+  <div class="card">
+    <p class="card-label">Acao Atual</p>
+    <div class="row"><span class="row-label">Tarefa</span><span class="row-value">spec-builder: Dashboard Analytics v2</span></div>
+    <div class="row"><span class="row-label">Inicio</span><span class="row-value">14:32:08</span></div>
+    <div class="row"><span class="row-label">Modelo LLM</span><span class="row-value">claude-sonnet-4-20250514</span></div>
+    <div class="row"><span class="row-label">Tokens estimados</span><span class="row-value">~4,200</span></div>
+    <div class="row"><span class="row-label">Confianca do Router</span><span class="row-value" style="color:#34C759">94%</span></div>
+  </div>
+
+  <div class="card">
+    <p class="card-label">Ultima Reflexao Metacognitiva</p>
+    <div class="reflection-box">
+      "Nos ultimos 50 ciclos, minha eficiencia em gerar specs aumentou 18%. O principal fator foi incorporar feedback loops mais curtos — agora valido cada spec com o tenant antes de finalizar. Ponto de atencao: preciso melhorar a estimativa de complexidade em tasks que envolvem integracao com APIs externas."
+    </div>
+    <div style="margin-top:12px">
+      <div class="row"><span class="row-label">Ciclo</span><span class="row-value">#847</span></div>
+      <div class="row"><span class="row-label">Score de autoavaliacao</span><span class="row-value">8.4 / 10</span></div>
+      <div class="row"><span class="row-label">Proxima reflexao em</span><span class="row-value">~23 min</span></div>
+    </div>
+  </div>
+</div>
+
+<div class="card">
+  <p class="card-label">Memoria do Agente</p>
+  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:16px">
+    <div style="text-align:center;padding:12px;background:rgba(255,255,255,0.02);border-radius:12px">
+      <div style="font-family:'Zen Dots',cursive;font-size:28px;color:#D70030">342</div>
+      <div style="font-size:11px;color:#8E8E93;text-transform:uppercase">Fatos Totais</div>
+    </div>
+    <div style="text-align:center;padding:12px;background:rgba(255,255,255,0.02);border-radius:12px">
+      <div style="font-family:'Zen Dots',cursive;font-size:28px;color:#F5F5F7">89</div>
+      <div style="font-size:11px;color:#8E8E93;text-transform:uppercase">Fatos Compartilhados</div>
+    </div>
+    <div style="text-align:center;padding:12px;background:rgba(255,255,255,0.02);border-radius:12px">
+      <div style="font-family:'Zen Dots',cursive;font-size:28px;color:#F5F5F7">253</div>
+      <div style="font-size:11px;color:#8E8E93;text-transform:uppercase">Fatos Privados</div>
+    </div>
+  </div>
+  <div class="row"><span class="row-label">Episodios armazenados</span><span class="row-value">1,247</span></div>
+  <div class="row"><span class="row-label">Embeddings gerados</span><span class="row-value">2,891</span></div>
+  <div class="row"><span class="row-label">Ultima consolidacao (dream)</span><span class="row-value">29 Mar 2026, 04:00</span></div>
+  <div class="row"><span class="row-label">Fatos decaidos (esquecidos)</span><span class="row-value">34</span></div>
+</div>
+
+<div class="card">
+  <p class="card-label">Configuracao do Agente</p>
+  <div class="row"><span class="row-label">ID</span><span class="row-value" style="font-family:monospace;font-size:12px">agt_ronin_po_ktana_001</span></div>
+  <div class="row"><span class="row-label">Cargo Template</span><span class="row-value">product-owner-autonomo</span></div>
+  <div class="row"><span class="row-label">Departamento</span><span class="row-value">Produto</span></div>
+  <div class="row"><span class="row-label">Nivel de autonomia</span><span class="row-value">Alto (L3)</span></div>
+  <div class="row"><span class="row-label">Modelo padrao</span><span class="row-value">claude-sonnet-4-20250514</span></div>
+  <div class="row"><span class="row-label">Modelo para decisoes criticas</span><span class="row-value">claude-opus-4-20250514</span></div>
+  <div class="row"><span class="row-label">Max tokens/dia</span><span class="row-value">500,000</span></div>
+  <div class="row"><span class="row-label">Constituicao vinculada</span><span class="row-value">v2.4 (24 regras)</span></div>
+  <div class="row"><span class="row-label">Criado em</span><span class="row-value">15 Jan 2026</span></div>
+  <div class="row"><span class="row-label">Ultima atualizacao</span><span class="row-value">27 Mar 2026</span></div>
+</div>
+
+<div class="card" style="display:flex;gap:12px;justify-content:flex-end">
+  <button style="padding:8px 20px;border-radius:8px;border:1px solid rgba(255,255,255,0.1);background:transparent;color:#F5F5F7;font-size:12px;cursor:pointer;font-family:'Inter',sans-serif">Pausar Agente</button>
+  <button style="padding:8px 20px;border-radius:8px;border:1px solid rgba(255,255,255,0.1);background:transparent;color:#F5F5F7;font-size:12px;cursor:pointer;font-family:'Inter',sans-serif">Forcar Reflexao</button>
+  <button style="padding:8px 20px;border-radius:8px;border:none;background:#D70030;color:#fff;font-size:12px;cursor:pointer;font-weight:600;font-family:'Inter',sans-serif">Editar Configuracao</button>
+</div>
+
 </main>
 </body></html>

@@ -1,21 +1,178 @@
 <!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>Agentes do Tenant — KTANA Admin</title><link rel="stylesheet" href="../shared.css"><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Zen+Dots&display=swap" rel="stylesheet">
-<style>body{min-height:100vh;background:#0A0A0A;color:#F5F5F7;display:flex}.sidebar{position:fixed;left:0;top:0;bottom:0;width:220px;background:#111;border-right:0.5px solid rgba(255,255,255,0.04);padding:20px 0;display:flex;flex-direction:column}.sidebar-logo{padding:0 20px 16px;font-family:'Zen Dots',cursive;font-size:14px;color:#D70030;border-bottom:0.5px solid rgba(255,255,255,0.04);margin-bottom:12px;display:flex;align-items:center;gap:6px}.sidebar-logo span{font-family:'Inter',sans-serif;font-size:11px;color:#AEAEB2}.sidebar a{display:block;padding:8px 20px;font-family:'Inter',sans-serif;font-size:12px;color:#8E8E93;transition:all 0.15s}.sidebar a:hover,.sidebar a.active{color:#F5F5F7;background:rgba(255,255,255,0.04)}.main{margin-left:220px;flex:1;padding:32px}.main h1{font-family:'Satoshi',sans-serif;font-size:20px;font-weight:600;margin-bottom:24px}.card{background:#1C1C1E;border:1px solid rgba(255,255,255,0.04);border-radius:16px;padding:24px;margin-bottom:12px}.card-label{font-family:'Inter',sans-serif;font-size:11px;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;color:#AEAEB2;margin-bottom:14px}.row{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:0.5px solid rgba(255,255,255,0.03);font-size:13px}.row:last-child{border-bottom:none}.row-label{font-family:'Satoshi',sans-serif;color:#8E8E93}.row-value{font-family:'Inter',sans-serif;color:#D2D2D7}.placeholder{font-family:'Satoshi',sans-serif;font-size:14px;color:#AEAEB2;text-align:center;padding:48px 0}</style></head>
+<style>
+body{min-height:100vh;background:#0A0A0A;color:#F5F5F7;display:flex;margin:0;font-family:'Inter',sans-serif}
+.sidebar{position:fixed;left:0;top:0;bottom:0;width:220px;background:#111;border-right:0.5px solid rgba(255,255,255,0.04);padding:20px 0;display:flex;flex-direction:column;z-index:10}
+.sidebar-logo{padding:0 20px 16px;font-family:'Zen Dots',cursive;font-size:14px;color:#D70030;border-bottom:0.5px solid rgba(255,255,255,0.04);margin-bottom:12px;display:flex;align-items:center;gap:6px}
+.sidebar-logo span{font-family:'Inter',sans-serif;font-size:11px;color:#AEAEB2}
+.sidebar a{display:block;padding:8px 20px;font-family:'Inter',sans-serif;font-size:12px;color:#8E8E93;text-decoration:none;transition:all 0.15s}
+.sidebar a:hover,.sidebar a.active{color:#F5F5F7;background:rgba(255,255,255,0.04)}
+.main{margin-left:220px;flex:1;padding:32px}
+.main h1{font-family:'Zen Dots',cursive;font-size:20px;font-weight:600;margin-bottom:8px}
+.breadcrumb{font-size:12px;color:#8E8E93;margin-bottom:24px}
+.breadcrumb a{color:#D70030;text-decoration:none}
+.card{background:#1C1C1E;border:1px solid rgba(255,255,255,0.04);border-radius:16px;padding:24px;margin-bottom:16px}
+.card-label{font-family:'Inter',sans-serif;font-size:11px;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;color:#AEAEB2;margin-bottom:14px}
+.stats-row{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-bottom:20px}
+.stat-mini{background:#1C1C1E;border:1px solid rgba(255,255,255,0.04);border-radius:16px;padding:16px;text-align:center}
+.stat-mini-val{font-family:'Zen Dots',cursive;font-size:20px;color:#F5F5F7}
+.stat-mini-label{font-size:11px;color:#8E8E93;text-transform:uppercase;letter-spacing:0.04em;margin-top:4px}
+.toolbar{display:flex;align-items:center;gap:12px;margin-bottom:16px}
+.search-input{background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.06);border-radius:8px;padding:8px 14px;font-size:12px;color:#F5F5F7;width:260px;font-family:'Inter',sans-serif}
+.search-input::placeholder{color:#8E8E93}
+.filter-btn{padding:6px 14px;border-radius:8px;border:1px solid rgba(255,255,255,0.08);background:transparent;color:#8E8E93;font-size:11px;cursor:pointer;font-family:'Inter',sans-serif;transition:all 0.15s}
+.filter-btn:hover,.filter-btn.active{color:#F5F5F7;border-color:rgba(255,255,255,0.15)}
+table{width:100%;border-collapse:collapse;font-size:13px}
+thead th{text-align:left;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.04em;color:#AEAEB2;padding:10px 12px;border-bottom:1px solid rgba(255,255,255,0.06)}
+tbody tr{border-bottom:0.5px solid rgba(255,255,255,0.03);cursor:pointer;transition:background 0.15s}
+tbody tr:hover{background:rgba(255,255,255,0.02)}
+tbody td{padding:12px;vertical-align:middle}
+.agent-name{font-weight:600;color:#F5F5F7}
+.agent-id{font-size:11px;color:#8E8E93;font-family:monospace}
+.badge{display:inline-flex;align-items:center;gap:4px;font-size:11px;font-weight:600;padding:3px 10px;border-radius:20px;text-transform:uppercase;letter-spacing:0.02em}
+.badge-active{background:rgba(52,199,89,0.12);color:#34C759}
+.badge-idle{background:rgba(255,159,10,0.12);color:#FF9F0A}
+.badge-paused{background:rgba(142,142,147,0.12);color:#8E8E93}
+.badge-error{background:rgba(215,0,48,0.12);color:#D70030}
+.dot{width:6px;height:6px;border-radius:50%}
+.dot-green{background:#34C759}
+.dot-yellow{background:#FF9F0A}
+.dot-gray{background:#8E8E93}
+.dot-red{background:#D70030}
+.align-bar{width:60px;height:6px;border-radius:3px;background:rgba(255,255,255,0.06);overflow:hidden;display:inline-block;vertical-align:middle;margin-right:6px}
+.align-fill{height:100%;border-radius:3px}
+.btn-sm{padding:5px 12px;border-radius:6px;border:none;font-size:11px;cursor:pointer;font-family:'Inter',sans-serif;font-weight:500;transition:all 0.15s}
+.btn-primary{background:#D70030;color:#fff}
+.btn-ghost{background:transparent;border:1px solid rgba(255,255,255,0.08);color:#AEAEB2}
+.btn-ghost:hover{color:#F5F5F7;border-color:rgba(255,255,255,0.15)}
+</style></head>
 <body>
 <nav class="sidebar">
 <div class="sidebar-logo">KTANA <span>ADMIN</span></div>
 <a href="index.html">Overview</a>
-<a href="index.html">Agent Flow</a>
-<a href="index.html">Tenants</a>
-<a href="index.html">Agentes</a>
-<a href="index.html">Health</a>
-<a href="index.html">Billing</a>
-<a href="index.html">Compliance</a>
-<a href="index.html">Catalogo</a>
-<a href="index.html">Config</a>
+<a href="flow.html">Agent Flow</a>
+<a href="tenants.html">Tenants</a>
+<a class="active" href="agents.html">Agentes</a>
+<a href="health.html">Health</a>
+<a href="billing.html">Billing</a>
+<a href="compliance.html">Compliance</a>
+<a href="catalog.html">Catalogo</a>
+<a href="settings.html">Config</a>
 </nav>
 <main class="main">
-<h1 class="fade-in">Agentes do Tenant</h1>
-<div class="card fade-in"><p class="card-label">Detalhes</p><p class="placeholder">Tela detalhada do modulo Agentes do Tenant.<br>Dados de exemplo serao preenchidos conforme especificacao.</p></div>
-<div class="card fade-in" style="animation-delay:0.1s"><p class="card-label">Acoes</p><div class="row"><span class="row-label">Voltar</span><span class="row-value"><a href="index.html" style="color:#D70030;">← Admin</a></span></div></div>
+<div class="breadcrumb"><a href="index.html">Admin</a> / <a href="tenants.html">Tenants</a> / KTANA / Agentes</div>
+<h1>Agentes — KTANA</h1>
+
+<div class="stats-row">
+  <div class="stat-mini"><div class="stat-mini-val">8</div><div class="stat-mini-label">Total Agentes</div></div>
+  <div class="stat-mini"><div class="stat-mini-val" style="color:#34C759">5</div><div class="stat-mini-label">Ativos</div></div>
+  <div class="stat-mini"><div class="stat-mini-val" style="color:#FF9F0A">2</div><div class="stat-mini-label">Idle</div></div>
+  <div class="stat-mini"><div class="stat-mini-val" style="color:#8E8E93">1</div><div class="stat-mini-label">Pausado</div></div>
+  <div class="stat-mini"><div class="stat-mini-val">94.1%</div><div class="stat-mini-label">Alinhamento Medio</div></div>
+</div>
+
+<div class="card">
+  <div class="toolbar">
+    <input type="text" class="search-input" placeholder="Buscar agente por nome ou role...">
+    <button class="filter-btn active">Todos</button>
+    <button class="filter-btn">Ativos</button>
+    <button class="filter-btn">Idle</button>
+    <button class="filter-btn">Pausados</button>
+    <button class="btn-sm btn-primary" style="margin-left:auto">+ Novo Agente</button>
+  </div>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Agente</th>
+        <th>Role</th>
+        <th>Status</th>
+        <th>Acoes Hoje</th>
+        <th>Tokens Hoje</th>
+        <th>Alinhamento</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr onclick="location.href='agent-detail.html'">
+        <td><div class="agent-name">Ronin-PO</div><div class="agent-id">agt_ronin_po_001</div></td>
+        <td>Product Owner</td>
+        <td><span class="badge badge-active"><span class="dot dot-green"></span> Executando</span></td>
+        <td>147</td>
+        <td>23,400</td>
+        <td><span class="align-bar"><span class="align-fill" style="width:96%;background:#34C759"></span></span>96.2%</td>
+        <td><button class="btn-sm btn-ghost">Detalhes</button></td>
+      </tr>
+      <tr onclick="location.href='agent-detail.html'">
+        <td><div class="agent-name">Kenshi-Dev</div><div class="agent-id">agt_kenshi_dev_001</div></td>
+        <td>Desenvolvedor Senior</td>
+        <td><span class="badge badge-active"><span class="dot dot-green"></span> Executando</span></td>
+        <td>312</td>
+        <td>87,200</td>
+        <td><span class="align-bar"><span class="align-fill" style="width:98%;background:#34C759"></span></span>98.1%</td>
+        <td><button class="btn-sm btn-ghost">Detalhes</button></td>
+      </tr>
+      <tr onclick="location.href='agent-detail.html'">
+        <td><div class="agent-name">Shinobi-QA</div><div class="agent-id">agt_shinobi_qa_001</div></td>
+        <td>Quality Assurance</td>
+        <td><span class="badge badge-active"><span class="dot dot-green"></span> Executando</span></td>
+        <td>89</td>
+        <td>15,800</td>
+        <td><span class="align-bar"><span class="align-fill" style="width:95%;background:#34C759"></span></span>95.4%</td>
+        <td><button class="btn-sm btn-ghost">Detalhes</button></td>
+      </tr>
+      <tr onclick="location.href='agent-detail.html'">
+        <td><div class="agent-name">Sensei-Arch</div><div class="agent-id">agt_sensei_arch_001</div></td>
+        <td>Arquiteto de Software</td>
+        <td><span class="badge badge-active"><span class="dot dot-green"></span> Executando</span></td>
+        <td>43</td>
+        <td>41,600</td>
+        <td><span class="align-bar"><span class="align-fill" style="width:97%;background:#34C759"></span></span>97.8%</td>
+        <td><button class="btn-sm btn-ghost">Detalhes</button></td>
+      </tr>
+      <tr onclick="location.href='agent-detail.html'">
+        <td><div class="agent-name">Yojimbo-Sec</div><div class="agent-id">agt_yojimbo_sec_001</div></td>
+        <td>Security Engineer</td>
+        <td><span class="badge badge-active"><span class="dot dot-green"></span> Executando</span></td>
+        <td>28</td>
+        <td>9,400</td>
+        <td><span class="align-bar"><span class="align-fill" style="width:99%;background:#34C759"></span></span>99.2%</td>
+        <td><button class="btn-sm btn-ghost">Detalhes</button></td>
+      </tr>
+      <tr onclick="location.href='agent-detail.html'">
+        <td><div class="agent-name">Geisha-UX</div><div class="agent-id">agt_geisha_ux_001</div></td>
+        <td>UX Designer</td>
+        <td><span class="badge badge-idle"><span class="dot dot-yellow"></span> Idle</span></td>
+        <td>67</td>
+        <td>12,100</td>
+        <td><span class="align-bar"><span class="align-fill" style="width:91%;background:#FF9F0A"></span></span>91.3%</td>
+        <td><button class="btn-sm btn-ghost">Detalhes</button></td>
+      </tr>
+      <tr onclick="location.href='agent-detail.html'">
+        <td><div class="agent-name">Shogun-Lead</div><div class="agent-id">agt_shogun_lead_001</div></td>
+        <td>Tech Lead</td>
+        <td><span class="badge badge-idle"><span class="dot dot-yellow"></span> Idle</span></td>
+        <td>55</td>
+        <td>18,300</td>
+        <td><span class="align-bar"><span class="align-fill" style="width:93%;background:#34C759"></span></span>93.7%</td>
+        <td><button class="btn-sm btn-ghost">Detalhes</button></td>
+      </tr>
+      <tr onclick="location.href='agent-detail.html'">
+        <td><div class="agent-name">Tanuki-Data</div><div class="agent-id">agt_tanuki_data_001</div></td>
+        <td>Data Analyst</td>
+        <td><span class="badge badge-paused"><span class="dot dot-gray"></span> Pausado</span></td>
+        <td>0</td>
+        <td>0</td>
+        <td><span class="align-bar"><span class="align-fill" style="width:88%;background:#FF9F0A"></span></span>88.5%</td>
+        <td><button class="btn-sm btn-ghost">Detalhes</button></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="card" style="display:flex;justify-content:space-between;align-items:center;padding:16px 24px">
+  <span style="font-size:12px;color:#8E8E93">Mostrando 8 de 8 agentes</span>
+  <span style="font-size:12px;color:#8E8E93">Tokens totais hoje: 207,800 &middot; Custo estimado: US$ 2.14</span>
+</div>
+
 </main>
 </body></html>

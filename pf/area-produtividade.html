@@ -1,8 +1,36 @@
 <!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>Produtividade — KTANA</title><link rel="stylesheet" href="../shared.css"><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Zen+Dots&display=swap" rel="stylesheet">
-<style>body{min-height:100vh;background:#F5F5F7;padding:48px 24px}.container{max-width:540px;margin:0 auto}.back{position:fixed;top:20px;left:24px;font-family:'Inter',sans-serif;font-size:12px;color:#86868B}h1{font-family:'Zen Dots',cursive;font-size:24px;color:#1D1D1F;text-align:center;margin-bottom:6px}.sub{font-family:'Satoshi',sans-serif;font-size:14px;color:#86868B;text-align:center;margin-bottom:32px}.card{background:#FFF;border-radius:20px;border:1px solid rgba(0,0,0,0.04);padding:24px;margin-bottom:12px;text-align:center}.card p{font-family:'Satoshi',sans-serif;font-size:14px;color:#86868B;line-height:1.6}.btn{font-family:'Inter',sans-serif;margin-top:24px;padding:14px 32px;border-radius:14px;background:#1D1D1F;color:#F5F5F7;font-size:14px;font-weight:500;border:none;cursor:pointer;display:inline-block}.disclaimer{font-family:'Inter',sans-serif;font-size:11px;color:#AEAEB2;text-align:center;margin-top:16px;line-height:1.6}</style></head>
-<body><a href="onboarding.html" class="back">← Areas</a><div class="container fade-in">
-<h1>Produtividade</h1><p class="sub">Rotina, foco, time blocking, energia, organizacao</p>
-<div class="card"><p>Configure seu mentor e especialistas para esta area. Escolha referencias reais para clonar a abordagem e defina o tom de comunicacao.</p></div>
-<a href="mentor-config.html" class="btn">Configurar mentor</a>
-<p class="disclaimer">Assistentes de IA nao substituem profissionais habilitados.</p>
+<style>body{min-height:100vh;background:#F5F5F7;padding:40px 24px}.container{max-width:580px;margin:0 auto}.back{position:fixed;top:20px;left:24px;font-family:'Inter',sans-serif;font-size:12px;color:#86868B}h1{font-family:'Zen Dots',cursive;font-size:24px;color:#1D1D1F;text-align:center;margin-bottom:4px}.sub{font-family:'Satoshi',sans-serif;font-size:14px;color:#86868B;text-align:center;margin-bottom:28px}.card{background:#FFF;border-radius:20px;border:1px solid rgba(0,0,0,0.04);padding:22px;margin-bottom:12px}.card-label{font-family:'Inter',sans-serif;font-size:11px;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;color:#D70030;margin-bottom:12px}
+.mentor{display:flex;align-items:center;gap:14px;margin-bottom:14px}.mentor-avatar{width:44px;height:44px;border-radius:50%;border:1.5px solid rgba(215,0,48,0.15);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}.mentor-name{font-family:'Satoshi',sans-serif;font-size:15px;font-weight:500;color:#1D1D1F}.mentor-desc{font-family:'Satoshi',sans-serif;font-size:12px;color:#86868B;margin-top:2px}
+.ref{font-family:'Satoshi',sans-serif;font-size:13px;color:#86868B;padding:4px 0;display:flex;align-items:center;gap:8px}.ref::before{content:'';width:4px;height:4px;border-radius:50%;background:#D70030;flex-shrink:0}
+.spec{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:0.5px solid rgba(0,0,0,0.03)}.spec:last-child{border-bottom:none}.spec-avatar{width:28px;height:28px;border-radius:50%;border:1px solid #D2D2D7;display:flex;align-items:center;justify-content:center;font-family:'Inter',sans-serif;font-size:11px;color:#86868B;flex-shrink:0}.spec-name{font-family:'Satoshi',sans-serif;font-size:13px;color:#1D1D1F}.spec-status{font-family:'Inter',sans-serif;font-size:11px;color:#86868B;margin-left:auto;display:flex;align-items:center;gap:4px}.spec-status::before{content:'';width:5px;height:5px;border-radius:50%;background:#30D158}
+.goal{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:0.5px solid rgba(0,0,0,0.03)}.goal:last-child{border-bottom:none}.goal-text{font-family:'Satoshi',sans-serif;font-size:13px;color:#1D1D1F}.goal-status{font-family:'Inter',sans-serif;font-size:12px;color:#86868B}
+.btn-chat{font-family:'Inter',sans-serif;display:block;width:100%;padding:16px;border-radius:14px;background:#1D1D1F;color:#F5F5F7;font-size:14px;font-weight:500;border:none;cursor:pointer;text-align:center;margin-top:16px;min-height:52px}
+.disclaimer{font-family:'Inter',sans-serif;font-size:11px;color:#AEAEB2;text-align:center;margin-top:16px;line-height:1.5}</style></head>
+<body><a href="onboarding.html" class="back">← Areas</a><div class="container">
+<div style="text-align:center;font-size:36px;margin-bottom:12px;">&#x23F0;</div>
+<h1 class="fade-in">Produtividade</h1>
+<p class="sub fade-in">Rotina, foco, time blocking, energia</p>
+
+<div class="card fade-in" style="animation-delay:0.1s"><p class="card-label">Mentor</p>
+<div class="mentor"><div class="mentor-avatar">&#x23F0;</div><div><p class="mentor-name">Sensei Kaito</p><p class="mentor-desc">Mentor de Produtividade</p></div></div>
+<p style="font-family:'Inter',sans-serif;font-size:11px;color:#86868B;margin-bottom:8px;">Referencias clonadas:</p>
+<div class='ref'>Cal Newport (deep work)</div>
+<div class='ref'>Ali Abdaal (produtividade)</div>
+<div class='ref'>James Clear (habitos)</div>
+</div>
+
+<div class="card fade-in" style="animation-delay:0.15s"><p class="card-label">Especialistas</p>
+<div class="spec"><div class="spec-avatar">1</div><p class="spec-name">Gestor de Rotina</p><span class="spec-status">Online</span></div>
+<div class="spec"><div class="spec-avatar">2</div><p class="spec-name">Facilitador de Foco</p><span class="spec-status">Online</span></div>
+<div class="spec"><div class="spec-avatar">3</div><p class="spec-name">Organizador Pessoal</p><span class="spec-status">Online</span></div>
+</div>
+
+<div class="card fade-in" style="animation-delay:0.2s"><p class="card-label">Metas esta semana</p>
+<div class="goal"><span class="goal-text">Morning routine consistente (5/7)</span></div>
+<div class="goal"><span class="goal-text">2h deep work/dia (3/5)</span></div>
+<div class="goal"><span class="goal-text">Inbox zero semanal (2/4)</span></div>
+</div>
+
+<button class="btn-chat fade-in" style="animation-delay:0.25s" onclick="location.href='../tenant/agent/chat.html'">Conversar com Sensei Kaito</button>
+<p class="disclaimer fade-in" style="animation-delay:0.3s">Assistentes de IA nao substituem profissionais habilitados. Em emergencias ligue 192 (SAMU) ou 188 (CVV).</p>
 </div></body></html>
