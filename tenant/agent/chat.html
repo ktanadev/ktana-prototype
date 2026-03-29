@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Yuki — KTANA</title>
+  <link rel="stylesheet" href="../../shared.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Zen+Dots&display=swap" rel="stylesheet">
+  <style>
+    body { min-height: 100vh; background: #F5F5F7; display: flex; flex-direction: column; }
+
+    /* Header */
+    .header { position: sticky; top: 0; z-index: 50; background: rgba(245,245,247,0.72); backdrop-filter: saturate(180%) blur(20px); border-bottom: 0.5px solid rgba(0,0,0,0.06); padding: 12px 24px; display: flex; align-items: center; gap: 12px; }
+    .header-back { font-family: 'Inter', sans-serif; font-size: 12px; color: #86868B; }
+    .header-avatar { width: 32px; height: 32px; border-radius: 50%; border: 1.5px solid #D2D2D7; display: flex; align-items: center; justify-content: center; }
+    .header-avatar span { font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 500; color: #6E6E73; }
+    .header-info h2 { font-family: 'Satoshi', sans-serif; font-size: 14px; font-weight: 600; color: #1D1D1F; }
+    .header-info p { font-family: 'Inter', sans-serif; font-size: 10px; color: #86868B; display: flex; align-items: center; gap: 4px; }
+    .header-info p::before { content: ''; width: 5px; height: 5px; border-radius: 50%; background: #30D158; }
+    .header-tabs { margin-left: auto; display: flex; gap: 2px; background: rgba(0,0,0,0.03); border-radius: 8px; padding: 2px; }
+    .tab { font-family: 'Inter', sans-serif; padding: 5px 12px; border-radius: 6px; font-size: 11px; color: #86868B; cursor: pointer; transition: all 0.15s; border: none; background: none; }
+    .tab.active { background: #FFF; color: #1D1D1F; box-shadow: 0 1px 3px rgba(0,0,0,0.06); }
+
+    /* Chat */
+    .chat { flex: 1; max-width: 680px; width: 100%; margin: 0 auto; padding: 20px 24px; overflow-y: auto; }
+    .msg { display: flex; gap: 10px; margin-bottom: 14px; }
+    .msg-user { justify-content: flex-end; }
+    .msg-avatar { width: 26px; height: 26px; border-radius: 50%; border: 1px solid rgba(0,0,0,0.06); display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 2px; }
+    .msg-avatar span { font-family: 'Inter', sans-serif; font-size: 8px; font-weight: 500; color: #6E6E73; }
+    .bubble { border-radius: 18px; padding: 10px 14px; max-width: 75%; }
+    .bubble-agent { background: #FFF; border: 0.5px solid rgba(0,0,0,0.04); border-top-left-radius: 4px; }
+    .bubble-user { background: #1D1D1F; color: #F5F5F7; border-bottom-right-radius: 4px; }
+    .bubble p { font-family: 'Satoshi', sans-serif; font-size: 14px; line-height: 1.55; }
+    .bubble p + p { margin-top: 8px; }
+    .bubble ul { font-family: 'Satoshi', sans-serif; font-size: 13px; color: #86868B; margin-top: 6px; padding-left: 16px; }
+    .bubble ul li { padding: 2px 0; }
+    .bubble-meta { font-family: 'Inter', sans-serif; font-size: 9px; color: #AEAEB2; margin-top: 4px; }
+    .bubble-user .bubble-meta { color: rgba(255,255,255,0.35); }
+    .bubble-action { font-family: 'Inter', sans-serif; display: inline-flex; align-items: center; gap: 4px; padding: 4px 10px; border-radius: 6px; background: rgba(48,209,88,0.08); color: #248A3D; font-size: 11px; font-weight: 500; margin-top: 8px; }
+
+    /* Input */
+    .input-area { padding: 12px 24px 24px; border-top: 0.5px solid rgba(0,0,0,0.06); background: #F5F5F7; }
+    .input-row { display: flex; gap: 8px; max-width: 680px; margin: 0 auto; }
+    .chat-input { font-family: 'Satoshi', sans-serif; flex: 1; padding: 12px 18px; border-radius: 24px; border: 0.5px solid rgba(0,0,0,0.08); background: #FFF; font-size: 14px; color: #1D1D1F; outline: none; }
+    .chat-input:focus { border-color: rgba(215,0,48,0.2); }
+    .chat-input::placeholder { color: #AEAEB2; }
+    .send-btn { font-family: 'Inter', sans-serif; padding: 12px 20px; border-radius: 24px; background: #1D1D1F; color: #F5F5F7; font-size: 13px; font-weight: 500; border: none; cursor: pointer; }
+
+    /* Metrics bar */
+    .metrics { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; max-width: 680px; margin: 0 auto; padding: 0 24px 16px; }
+    .metric { background: #FFF; border-radius: 12px; border: 0.5px solid rgba(0,0,0,0.04); padding: 12px; text-align: center; }
+    .metric-num { font-family: 'Zen Dots', cursive; font-size: 18px; color: #1D1D1F; }
+    .metric-label { font-family: 'Inter', sans-serif; font-size: 9px; color: #AEAEB2; margin-top: 2px; }
+
+    /* Animations */
+    .msg { opacity: 0; animation: msgIn 0.4s ease forwards; }
+    @keyframes msgIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+    .msg:nth-child(1) { animation-delay: 0.1s; }
+    .msg:nth-child(2) { animation-delay: 0.3s; }
+    .msg:nth-child(3) { animation-delay: 0.5s; }
+    .msg:nth-child(4) { animation-delay: 0.7s; }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <div class="header">
+    <a href="../dashboard/home.html" class="header-back">←</a>
+    <div class="header-avatar"><span>Y</span></div>
+    <div class="header-info">
+      <h2>Yuki</h2>
+      <p>Controller · Online</p>
+    </div>
+    <div class="header-tabs">
+      <button class="tab active">Chat</button>
+      <button class="tab" onclick="location.href='activity.html'">Atividade</button>
+      <button class="tab" onclick="location.href='profile.html'">Perfil</button>
+      <button class="tab" onclick="location.href='metrics.html'">Metricas</button>
+    </div>
+  </div>
+
+  <!-- Metrics -->
+  <div class="metrics fade-in">
+    <div class="metric"><p class="metric-num">847</p><p class="metric-label">acoes</p></div>
+    <div class="metric"><p class="metric-num">R$67k</p><p class="metric-label">recuperado</p></div>
+    <div class="metric"><p class="metric-num">78%</p><p class="metric-label">sucesso</p></div>
+    <div class="metric"><p class="metric-num">R$280</p><p class="metric-label">custo/mes</p></div>
+  </div>
+
+  <!-- Chat -->
+  <div class="chat">
+    <div class="msg">
+      <div class="msg-avatar"><span>J</span></div>
+      <div class="bubble bubble-user">
+        <p>Yuki, qual a situacao do Cliente Y?</p>
+        <p class="bubble-meta">14:32</p>
+      </div>
+    </div>
+
+    <div class="msg">
+      <div class="msg-avatar"><span>Y</span></div>
+      <div class="bubble bubble-agent">
+        <p>Cliente Y tem R$12.000 em aberto ha 15 dias. Fatura #892.</p>
+        <p>Historico:</p>
+        <ul>
+          <li>20/03 — 1a cobranca por email. Sem retorno.</li>
+          <li>25/03 — WhatsApp. Visualizou, nao respondeu.</li>
+        </ul>
+        <p>Kaito (CFO) recomenda cobrar com juros de 2%. Rascunho pronto. Quer que eu envie?</p>
+        <p class="bubble-meta">Yuki · 14:32</p>
+      </div>
+    </div>
+
+    <div class="msg">
+      <div class="msg-avatar"><span>J</span></div>
+      <div class="bubble bubble-user">
+        <p>Pode cobrar. Inclui juros de 2%.</p>
+        <p class="bubble-meta">14:33</p>
+      </div>
+    </div>
+
+    <div class="msg">
+      <div class="msg-avatar"><span>Y</span></div>
+      <div class="bubble bubble-agent">
+        <p>Feito. Enviado email + WhatsApp. R$12.240 (com juros). Prazo: 5 dias uteis. Acompanho e te aviso.</p>
+        <div class="bubble-action">Cobranca enviada</div>
+        <p class="bubble-meta">Yuki · 14:33</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Input -->
+  <div class="input-area">
+    <div class="input-row">
+      <input type="text" class="chat-input" placeholder="Mensagem para Yuki...">
+      <button class="send-btn">Enviar</button>
+    </div>
+  </div>
+</body>
+</html>
