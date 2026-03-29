@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>404 — KTANA</title>
+  <link rel="stylesheet" href="shared.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Zen+Dots&display=swap" rel="stylesheet">
+  <style>
+    body { min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 40px 24px; background: #F5F5F7; }
+    .container { width: 100%; max-width: 420px; text-align: center; }
+
+    .error-code { font-family: 'Zen Dots', cursive; font-size: 72px; color: #D70030; line-height: 1; margin-bottom: 8px; opacity: 0.15; }
+    .error-title { font-family: 'Satoshi', sans-serif; font-size: 22px; font-weight: 600; color: #1D1D1F; margin-bottom: 8px; }
+    .error-desc { font-family: 'Satoshi', sans-serif; font-size: 14px; color: #86868B; line-height: 1.6; margin-bottom: 32px; }
+
+    .katana-line { width: 60px; height: 2px; background: linear-gradient(90deg, transparent, #D70030, transparent); margin: 24px auto; border-radius: 1px; }
+
+    .btn-home { font-family: 'Inter', sans-serif; display: inline-block; padding: 14px 32px; border-radius: 14px; background: #1D1D1F; color: #F5F5F7; font-size: 14px; font-weight: 500; border: none; cursor: pointer; text-decoration: none; min-height: 48px; transition: opacity 0.15s; }
+    .btn-home:hover { opacity: 0.9; }
+
+    .btn-back { font-family: 'Inter', sans-serif; display: block; margin-top: 14px; font-size: 12px; color: #86868B; cursor: pointer; background: none; border: none; }
+    .btn-back:hover { color: #D70030; }
+
+    .fade-in { animation: fadeIn 0.4s ease both; }
+    .delay-1 { animation-delay: 0.1s; }
+    .delay-2 { animation-delay: 0.2s; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <p class="error-code fade-in">404</p>
+    <h1 class="error-title fade-in delay-1">Caminho nao encontrado</h1>
+    <p class="error-desc fade-in delay-1">Este samurai se perdeu no caminho. A pagina que voce procura nao existe ou foi movida.</p>
+    <div class="katana-line fade-in delay-1"></div>
+    <a href="index.html" class="btn-home fade-in delay-2">Voltar ao inicio</a>
+    <button class="btn-back fade-in delay-2" onclick="history.back()">ou voltar a pagina anterior</button>
+  </div>
+</body>
+</html>
