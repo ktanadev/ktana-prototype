@@ -110,6 +110,41 @@
     .fw-tag { font-size: 8px; padding: 2px 6px; border-radius: 3px; background: rgba(255,255,255,0.04); color: #636366; }
     .fw-scope { font-size: 9px; color: #48484A; margin-top: 8px; }
 
+    /* Agent Drawer */
+    .drawer-tabs { display: flex; gap: 0; margin-bottom: 12px; border-bottom: 1px solid rgba(255,255,255,0.04); }
+    .drawer-tab { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; padding: 8px 12px; background: none; border: none; color: #636366; cursor: pointer; border-bottom: 2px solid transparent; transition: all 0.15s; }
+    .drawer-tab.active { color: #D70030; border-bottom-color: #D70030; }
+    .drawer-tab:hover { color: #D2D2D7; }
+    .drawer-content { max-height: 360px; overflow-y: auto; }
+    .drawer-subtitle { font-size: 9px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: #48484A; margin-bottom: 8px; }
+    .drawer-chat { display: flex; flex-direction: column; gap: 10px; margin-bottom: 12px; }
+    .dc-msg { max-width: 90%; }
+    .dc-agent { align-self: flex-start; }
+    .dc-user { align-self: flex-end; }
+    .dc-text { font-size: 12px; line-height: 1.5; padding: 10px 14px; border-radius: 14px; }
+    .dc-agent .dc-text { background: #1C1C1E; color: #D2D2D7; border-bottom-left-radius: 4px; }
+    .dc-user .dc-text { background: #D70030; color: #FFF; border-bottom-right-radius: 4px; }
+    .dc-time { font-size: 9px; color: #48484A; margin-top: 3px; }
+    .dc-user .dc-time { text-align: right; }
+    .dc-input-row { display: flex; gap: 6px; }
+    .dc-input { flex: 1; background: #1C1C1E; border: 1px solid rgba(255,255,255,0.06); border-radius: 8px; padding: 8px 12px; font-size: 11px; color: #F5F5F7; outline: none; }
+    .dc-input:focus { border-color: #D70030; }
+    .dc-input::placeholder { color: #48484A; }
+    .dc-send { background: #D70030; color: #FFF; border: none; border-radius: 8px; padding: 8px 14px; font-size: 10px; font-weight: 600; cursor: pointer; transition: opacity 0.15s; }
+    .dc-send:hover { opacity: 0.85; }
+    .train-skills { display: flex; flex-direction: column; gap: 6px; }
+    .train-skill { display: flex; align-items: center; justify-content: space-between; padding: 6px 0; border-bottom: 0.5px solid rgba(255,255,255,0.02); }
+    .train-skill-name { font-size: 11px; color: #AEAEB2; }
+    .train-refs { display: flex; flex-wrap: wrap; gap: 4px; }
+    .train-ref { font-size: 9px; padding: 3px 8px; border-radius: 6px; background: rgba(255,255,255,0.04); color: #8E8E93; cursor: pointer; }
+    .train-ref:last-child { color: #D70030; background: rgba(215,0,48,0.08); }
+    .train-rules { display: flex; flex-direction: column; gap: 4px; }
+    .train-rule { font-size: 11px; color: #8E8E93; padding: 6px 0; border-bottom: 0.5px solid rgba(255,255,255,0.02); }
+    .config-rows { display: flex; flex-direction: column; }
+    .config-row { display: flex; justify-content: space-between; padding: 7px 0; border-bottom: 0.5px solid rgba(255,255,255,0.02); font-size: 11px; }
+    .config-label { color: #636366; }
+    .config-val { color: #D2D2D7; }
+
     /* Agent Flow Canvas */
     .flow-canvas { position: relative; background: #050505; border: 1px solid rgba(255,255,255,0.04); border-radius: 14px; height: 340px; overflow: hidden; }
     .flow-grid { position: absolute; inset: 0; opacity: 0.04; background-image: radial-gradient(circle at 1px 1px, #D70030 0.5px, transparent 0); background-size: 40px 40px; }
@@ -167,39 +202,116 @@
 
       <div class="panel-section">
         <p class="panel-label">Samurais ativos <span class="panel-count">6 online</span></p>
-        <div class="agent-mini active">
+        <div class="agent-mini active" onclick="openAgent('akira')">
           <div class="a-av a-av-ceo">A</div>
           <div><p class="a-name">Akira</p><p class="a-role">CEO</p></div>
           <div class="a-status on"><span class="dot dot-on"></span> 24</div>
         </div>
-        <div class="agent-mini">
+        <div class="agent-mini" onclick="openAgent('yuki')">
           <div class="a-av a-av-def">Y</div>
           <div><p class="a-name">Yuki</p><p class="a-role">Controller</p></div>
           <div class="a-status on"><span class="dot dot-on"></span> 47</div>
         </div>
-        <div class="agent-mini">
+        <div class="agent-mini" onclick="openAgent('hana')">
           <div class="a-av a-av-def">H</div>
           <div><p class="a-name">Hana</p><p class="a-role">Secretaria</p></div>
           <div class="a-status on"><span class="dot dot-on"></span> 58</div>
         </div>
-        <div class="agent-mini">
+        <div class="agent-mini" onclick="openAgent('haruki')">
           <div class="a-av a-av-def">H</div>
           <div><p class="a-name">Haruki</p><p class="a-role">PM</p></div>
           <div class="a-status on"><span class="dot dot-on"></span> 65</div>
         </div>
-        <div class="agent-mini">
+        <div class="agent-mini" onclick="openAgent('kaito')">
           <div class="a-av a-av-def">K</div>
           <div><p class="a-name">Kaito</p><p class="a-role">Builder</p></div>
           <div class="a-status on"><span class="dot dot-on"></span> 12</div>
         </div>
-        <div class="agent-mini">
+        <div class="agent-mini" onclick="openAgent('yumi')">
           <div class="a-av a-av-def">Y</div>
           <div><p class="a-name">Yumi</p><p class="a-role">Mentora PF</p></div>
           <div class="a-status on"><span class="dot dot-on"></span> 8</div>
         </div>
       </div>
 
-      <div class="panel-section" style="border-bottom:none;">
+      <!-- Agent Detail Drawer (hidden by default) -->
+      <div class="panel-section agent-drawer" id="agentDrawer" style="display:none;border-bottom:none;">
+        <p class="panel-label"><span id="drawerTitle">Akira — CEO</span> <span class="panel-count" style="cursor:pointer;" onclick="closeAgent()">✕ Fechar</span></p>
+
+        <!-- Tabs -->
+        <div class="drawer-tabs">
+          <button class="drawer-tab active" onclick="switchDrawerTab(this,'chat')">Chat</button>
+          <button class="drawer-tab" onclick="switchDrawerTab(this,'train')">Treinamento</button>
+          <button class="drawer-tab" onclick="switchDrawerTab(this,'config')">Config</button>
+        </div>
+
+        <!-- Chat Tab -->
+        <div class="drawer-content" id="tab-chat">
+          <div class="drawer-chat">
+            <div class="dc-msg dc-agent">
+              <p class="dc-text">Ola Julio. Estou consolidando o briefing diario. 3 aprovacoes pendentes e 1 escalacao do Haruki sobre API Celcoin. Como quer proceder?</p>
+              <p class="dc-time" id="drawerAgentName">Akira · 17:05</p>
+            </div>
+            <div class="dc-msg dc-user">
+              <p class="dc-text">Aprova o bypass temporario da Celcoin. Quero o sprint fechado ate sexta.</p>
+              <p class="dc-time">Julio · 17:06</p>
+            </div>
+            <div class="dc-msg dc-agent">
+              <p class="dc-text">Entendido. Bypass aprovado. Notifiquei Haruki para retomar as 2 tasks bloqueadas. Sprint sera fechado sexta 18h.</p>
+              <p class="dc-time" id="drawerAgentName2">Akira · 17:06</p>
+            </div>
+          </div>
+          <div class="dc-input-row">
+            <input type="text" class="dc-input" placeholder="Instruir agente...">
+            <button class="dc-send">Enviar</button>
+          </div>
+        </div>
+
+        <!-- Training Tab -->
+        <div class="drawer-content" id="tab-train" style="display:none;">
+          <p class="drawer-subtitle">Skills ativas</p>
+          <div class="train-skills">
+            <div class="train-skill"><span class="train-skill-name">Consolidar briefing diario</span><div class="fw-toggle on" onclick="this.classList.toggle('on')"></div></div>
+            <div class="train-skill"><span class="train-skill-name">Delegar tasks para equipe</span><div class="fw-toggle on" onclick="this.classList.toggle('on')"></div></div>
+            <div class="train-skill"><span class="train-skill-name">Escalar decisoes pro Shogun</span><div class="fw-toggle on" onclick="this.classList.toggle('on')"></div></div>
+            <div class="train-skill"><span class="train-skill-name">Gerar relatorio semanal</span><div class="fw-toggle on" onclick="this.classList.toggle('on')"></div></div>
+            <div class="train-skill"><span class="train-skill-name">Aprovar gastos < R$500</span><div class="fw-toggle" onclick="this.classList.toggle('on')"></div></div>
+          </div>
+          <p class="drawer-subtitle" style="margin-top:16px;">Referencias de personalidade</p>
+          <div class="train-refs">
+            <span class="train-ref">Steve Jobs</span>
+            <span class="train-ref">Elon Musk</span>
+            <span class="train-ref">Ray Dalio</span>
+            <span class="train-ref">+ Adicionar</span>
+          </div>
+          <p class="drawer-subtitle" style="margin-top:16px;">Regras exclusivas</p>
+          <div class="train-rules">
+            <p class="train-rule">Nunca enviar email externo sem aprovacao</p>
+            <p class="train-rule">Sempre incluir ROI estimado nas propostas</p>
+            <p class="train-rule">Check-in diario as 08:00 via WhatsApp</p>
+          </div>
+        </div>
+
+        <!-- Config Tab -->
+        <div class="drawer-content" id="tab-config" style="display:none;">
+          <div class="config-rows">
+            <div class="config-row"><span class="config-label">Modelo LLM</span><span class="config-val">Sonnet 4.6</span></div>
+            <div class="config-row"><span class="config-label">Fallback</span><span class="config-val">Haiku 4.5</span></div>
+            <div class="config-row"><span class="config-label">Temperatura</span><span class="config-val">0.3</span></div>
+            <div class="config-row"><span class="config-label">Max tokens/dia</span><span class="config-val">50.000</span></div>
+            <div class="config-row"><span class="config-label">Custo/mes</span><span class="config-val">R$420</span></div>
+            <div class="config-row"><span class="config-label">Conexoes</span><span class="config-val">Gmail, WhatsApp, ClickUp</span></div>
+            <div class="config-row"><span class="config-label">Nivel confianca</span><span class="config-val" style="color:#30D158;">91%</span></div>
+            <div class="config-row"><span class="config-label">Criado em</span><span class="config-val">29/03/2026</span></div>
+          </div>
+          <div style="display:flex;gap:8px;margin-top:16px;">
+            <button class="dc-send" style="flex:1;" onclick="location.href='../tenant/agent/config.html'">Editar completo</button>
+            <button class="dc-send" style="flex:1;background:#2C2C2E;color:#FF453A;" onclick="">Pausar agente</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel-section" id="feedSection" style="border-bottom:none;">
         <p class="panel-label">Live feed <span class="panel-count">Interacoes entre agentes</span></p>
         <div class="feed">
 
@@ -637,6 +749,56 @@
         } else {
           fw.style.display = 'none';
         }
+      });
+    }
+
+    // Agent Drawer
+    const agents = {
+      akira: { name:'Akira', role:'CEO', model:'Sonnet 4.6', fallback:'Haiku 4.5', temp:'0.3', tokens:'50.000', cost:'R$420', conns:'Gmail, WhatsApp, ClickUp', conf:'91%', skills:['Consolidar briefing diario','Delegar tasks para equipe','Escalar decisoes pro Shogun','Gerar relatorio semanal','Aprovar gastos < R$500'], refs:['Steve Jobs','Elon Musk','Ray Dalio'], rules:['Nunca enviar email externo sem aprovacao','Sempre incluir ROI estimado','Check-in diario 08:00 WhatsApp'] },
+      yuki: { name:'Yuki', role:'Controller', model:'Sonnet 4.6', fallback:'Haiku 4.5', temp:'0.2', tokens:'30.000', cost:'R$280', conns:'Gmail, Bradesco API, Planilhas', conf:'94%', skills:['Conciliar pagamentos','Gerar DRE mensal','Fluxo de caixa semanal','Alerta de inadimplencia','Relatorio fiscal'], refs:['Warren Buffett','Ramit Sethi'], rules:['Nunca aprovar pagamento > R$5000','Sempre conferir com extrato bancario','Enviar DRE ate dia 5'] },
+      hana: { name:'Hana', role:'Secretaria Executiva', model:'Haiku 4.5', fallback:'Haiku 4.5', temp:'0.1', tokens:'20.000', cost:'R$190', conns:'Gmail, Calendar, WhatsApp', conf:'96%', skills:['Filtrar emails','Agendar reunioes','Notificar via WhatsApp','Organizar documentos','Triage de urgencia'], refs:['Marie Kondo','Tim Ferriss'], rules:['Nunca agendar antes das 09:00','Prioridade para reunioes com cliente','Confirmar com Julio antes de cancelar'] },
+      haruki: { name:'Haruki', role:'Gestor de Projetos', model:'Sonnet 4.6', fallback:'Haiku 4.5', temp:'0.3', tokens:'40.000', cost:'R$340', conns:'ClickUp, GitHub, Slack', conf:'89%', skills:['Sprint planning','Task decomposition','Dependency mapping','Weekly review','Escalar bloqueios'], refs:['David Allen','Cal Newport','Basecamp'], rules:['Sprint max 2 semanas','Escalar bloqueio em 24h','Daily standup 09:30'] },
+      kaito: { name:'Kaito', role:'Solutions Builder', model:'Opus 4.6', fallback:'Sonnet 4.6', temp:'0.4', tokens:'60.000', cost:'R$520', conns:'GitHub, Vercel, APIs', conf:'87%', skills:['Criar modulos marketplace','Integrar APIs externas','Prototipar solucoes','Documentar specs','Testar end-to-end'], refs:['Linus Torvalds','DHH'], rules:['Code review obrigatorio','Zero deploy sem teste','Documentar toda API'] },
+      yumi: { name:'Yumi', role:'Mentora PF', model:'Sonnet 4.6', fallback:'Haiku 4.5', temp:'0.5', tokens:'25.000', cost:'R$230', conns:'WhatsApp, Calendar, Health', conf:'92%', skills:['Onboarding pessoal','Configurar mentores','Plano de vida','Check-in semanal','Radar espiritual'], refs:['Brene Brown','James Clear','Viktor Frankl'], rules:['Tom empatico sempre','Nunca julgar escolhas','Respeitar ritmo do usuario'] }
+    };
+
+    function openAgent(id) {
+      const a = agents[id];
+      if (!a) return;
+      document.getElementById('drawerTitle').textContent = a.name + ' — ' + a.role;
+      document.getElementById('feedSection').style.display = 'none';
+      document.getElementById('agentDrawer').style.display = '';
+      // Update config tab
+      const configRows = document.querySelector('#tab-config .config-rows');
+      configRows.innerHTML = [
+        ['Modelo LLM', a.model], ['Fallback', a.fallback], ['Temperatura', a.temp],
+        ['Max tokens/dia', a.tokens], ['Custo/mes', a.cost], ['Conexoes', a.conns],
+        ['Nivel confianca', a.conf]
+      ].map(([l,v]) => `<div class="config-row"><span class="config-label">${l}</span><span class="config-val"${v.includes('%')?` style="color:#30D158"`:``}>${v}</span></div>`).join('');
+      // Update training tab
+      const skillsEl = document.querySelector('#tab-train .train-skills');
+      skillsEl.innerHTML = a.skills.map(s => `<div class="train-skill"><span class="train-skill-name">${s}</span><div class="fw-toggle on" onclick="this.classList.toggle('on')"></div></div>`).join('');
+      const refsEl = document.querySelector('#tab-train .train-refs');
+      refsEl.innerHTML = a.refs.map(r => `<span class="train-ref">${r}</span>`).join('') + '<span class="train-ref" style="color:#D70030;background:rgba(215,0,48,0.08);">+ Adicionar</span>';
+      const rulesEl = document.querySelector('#tab-train .train-rules');
+      rulesEl.innerHTML = a.rules.map(r => `<p class="train-rule">${r}</p>`).join('');
+      // Reset to chat tab
+      switchDrawerTab(document.querySelector('.drawer-tab'), 'chat');
+      // Highlight active agent
+      document.querySelectorAll('.agent-mini').forEach(m => m.classList.remove('active'));
+      event.currentTarget.classList.add('active');
+    }
+
+    function closeAgent() {
+      document.getElementById('agentDrawer').style.display = 'none';
+      document.getElementById('feedSection').style.display = '';
+    }
+
+    function switchDrawerTab(btn, tabId) {
+      document.querySelectorAll('.drawer-tab').forEach(t => t.classList.remove('active'));
+      btn.classList.add('active');
+      ['chat','train','config'].forEach(id => {
+        document.getElementById('tab-' + id).style.display = id === tabId ? '' : 'none';
       });
     }
   </script>
