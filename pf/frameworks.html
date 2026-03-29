@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Frameworks de Vida — KTANA</title>
+  <link rel="stylesheet" href="../shared.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Zen+Dots&display=swap" rel="stylesheet">
+  <style>
+    body { min-height: 100vh; background: #F5F5F7; }
+    .main { max-width: 1080px; margin: 0 auto; padding: 32px 24px 80px; }
+    h1 { font-family: 'Zen Dots', cursive; font-size: 28px; color: #1D1D1F; margin-bottom: 6px; }
+    .sub { font-family: 'Satoshi', sans-serif; font-size: 14px; color: #86868B; margin-bottom: 36px; line-height: 1.5; max-width: 560px; }
+
+    /* Section label */
+    .section-label { font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: #D70030; margin-bottom: 14px; margin-top: 8px; }
+
+    /* Framework cards grid */
+    .fw-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; margin-bottom: 48px; }
+    @media (max-width: 768px) { .fw-grid { grid-template-columns: 1fr; } }
+
+    .fw-card { background: #FFF; border-radius: 20px; border: 1px solid rgba(0,0,0,0.04); padding: 28px; display: flex; flex-direction: column; transition: all 0.25s; }
+    .fw-card:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(0,0,0,0.06); }
+
+    /* Card header */
+    .fw-card-top { display: flex; align-items: center; gap: 14px; margin-bottom: 16px; }
+    .fw-area-icon { width: 44px; height: 44px; border-radius: 14px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .fw-area-icon svg { color: inherit; }
+    .fw-area-name { font-family: 'Inter', sans-serif; font-size: 10px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; }
+    .fw-title { font-family: 'Satoshi', sans-serif; font-size: 17px; font-weight: 700; color: #1D1D1F; margin-top: 2px; }
+
+    /* Methodology ref */
+    .fw-method { display: flex; align-items: center; gap: 8px; margin-bottom: 16px; padding: 8px 12px; background: rgba(0,0,0,0.015); border-radius: 10px; }
+    .fw-method-icon { width: 18px; height: 18px; flex-shrink: 0; color: #86868B; }
+    .fw-method-text { font-family: 'Inter', sans-serif; font-size: 11px; color: #86868B; line-height: 1.4; }
+
+    /* Pillars */
+    .fw-pillars { display: flex; flex-direction: column; gap: 8px; margin-bottom: 18px; flex: 1; }
+    .fw-pillar { display: flex; align-items: flex-start; gap: 10px; }
+    .fw-pillar-num { width: 22px; height: 22px; border-radius: 7px; background: rgba(215,0,48,0.06); display: flex; align-items: center; justify-content: center; font-family: 'Inter', sans-serif; font-size: 10px; font-weight: 600; color: #D70030; flex-shrink: 0; }
+    .fw-pillar-content { flex: 1; }
+    .fw-pillar-name { font-family: 'Satoshi', sans-serif; font-size: 13px; font-weight: 600; color: #1D1D1F; }
+    .fw-pillar-detail { font-family: 'Satoshi', sans-serif; font-size: 12px; color: #AEAEB2; margin-top: 1px; }
+
+    /* Mentor row */
+    .fw-mentor { display: flex; align-items: center; gap: 10px; padding-top: 16px; border-top: 0.5px solid rgba(0,0,0,0.04); }
+    .fw-mentor-avatar { width: 32px; height: 32px; border-radius: 10px; border: 1px solid rgba(215,0,48,0.15); display: flex; align-items: center; justify-content: center; flex-shrink: 0; background: rgba(215,0,48,0.03); }
+    .fw-mentor-avatar span { font-family: 'Zen Dots', cursive; font-size: 11px; color: #D70030; }
+    .fw-mentor-info { flex: 1; }
+    .fw-mentor-name { font-family: 'Satoshi', sans-serif; font-size: 13px; font-weight: 600; color: #1D1D1F; }
+    .fw-mentor-role { font-family: 'Inter', sans-serif; font-size: 10px; color: #86868B; }
+    .fw-btn { font-family: 'Inter', sans-serif; padding: 8px 18px; border-radius: 980px; background: #1D1D1F; color: #F5F5F7; font-size: 12px; font-weight: 500; border: none; cursor: pointer; flex-shrink: 0; transition: opacity 0.15s; text-decoration: none; display: inline-block; }
+    .fw-btn:hover { opacity: 0.85; }
+
+    /* CTA Section */
+    .cta-section { background: #1D1D1F; border-radius: 20px; padding: 32px; display: flex; align-items: center; gap: 20px; }
+    @media (max-width: 640px) { .cta-section { flex-direction: column; text-align: center; } }
+    .cta-icon { width: 56px; height: 56px; border-radius: 16px; background: rgba(215,0,48,0.12); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .cta-info { flex: 1; }
+    .cta-title { font-family: 'Satoshi', sans-serif; font-size: 18px; font-weight: 700; color: #F5F5F7; margin-bottom: 4px; }
+    .cta-desc { font-family: 'Satoshi', sans-serif; font-size: 13px; color: #8E8E93; line-height: 1.5; }
+    .cta-btn { font-family: 'Inter', sans-serif; padding: 14px 28px; border-radius: 980px; background: #D70030; color: #FFF; font-size: 14px; font-weight: 500; border: none; cursor: pointer; flex-shrink: 0; transition: opacity 0.15s; text-decoration: none; display: inline-block; min-height: 48px; }
+    .cta-btn:hover { opacity: 0.9; }
+
+    /* Animations */
+    .fade-in { animation: fadeIn 0.3s cubic-bezier(0.25,0.1,0.25,1) both; }
+    .stagger-1 { animation: fadeUp 0.5s cubic-bezier(0.25,0.1,0.25,1) 0.05s both; }
+    .stagger-2 { animation: fadeUp 0.5s cubic-bezier(0.25,0.1,0.25,1) 0.10s both; }
+    .stagger-3 { animation: fadeUp 0.5s cubic-bezier(0.25,0.1,0.25,1) 0.15s both; }
+    .stagger-4 { animation: fadeUp 0.5s cubic-bezier(0.25,0.1,0.25,1) 0.20s both; }
+    .stagger-5 { animation: fadeUp 0.5s cubic-bezier(0.25,0.1,0.25,1) 0.25s both; }
+    .stagger-6 { animation: fadeUp 0.5s cubic-bezier(0.25,0.1,0.25,1) 0.30s both; }
+    .stagger-7 { animation: fadeUp 0.5s cubic-bezier(0.25,0.1,0.25,1) 0.35s both; }
+    .stagger-8 { animation: fadeUp 0.5s cubic-bezier(0.25,0.1,0.25,1) 0.40s both; }
+    .stagger-9 { animation: fadeUp 0.5s cubic-bezier(0.25,0.1,0.25,1) 0.45s both; }
+  </style>
+</head>
+<body>
+
+  <main class="main">
+    <div class="gradient-header">
+      <h1 class="fade-in">Frameworks de Vida</h1>
+      <p class="sub fade-in">Metodologias comprovadas aplicadas por seus mentores em cada area da vida</p>
+    </div>
+
+    <!-- 8 Framework Cards -->
+    <div class="fw-grid">
+
+      <!-- 1. Saude — Protocolo de Longevidade -->
+      <div class="fw-card stagger-1">
+        <div class="fw-card-top">
+          <div class="fw-area-icon" style="background:rgba(48,209,88,0.08); color:#30D158;">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>
+          </div>
+          <div>
+            <div class="fw-area-name" style="color:#30D158;">Saude</div>
+            <div class="fw-title">Protocolo de Longevidade</div>
+          </div>
+        </div>
+        <div class="fw-method">
+          <svg class="fw-method-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2zM22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/></svg>
+          <span class="fw-method-text">Peter Attia (Outlive) + Andrew Huberman</span>
+        </div>
+        <div class="fw-pillars">
+          <div class="fw-pillar">
+            <div class="fw-pillar-num">1</div>
+            <div class="fw-pillar-content"><div class="fw-pillar-name">Exercicio</div><div class="fw-pillar-detail">VO2max + forca</div></div>
+          </div>
+          <div class="fw-pillar">
+            <div class="fw-pillar-num">2</div>
+            <div class="fw-pillar-content"><div class="fw-pillar-name">Sono</div><div class="fw-pillar-detail">7-9h, ritmo circadiano</div></div>
+          </div>
+          <div class="fw-pillar">
+            <div class="fw-pillar-num">3</div>
+            <div class="fw-pillar-content"><div class="fw-pillar-name">Nutricao</div><div class="fw-pillar-detail">Proteina 1.6g/kg</div></div>
+          </div>
+          <div class="fw-pillar">
+            <div class="fw-pillar-num">4</div>
+            <div class="fw-pillar-content"><div class="fw-pillar-name">Prevencao</div><div class="fw-pillar-detail">Exames anuais</div></div>
+          </div>
+        </div>
+        <div class="fw-mentor">
+          <div class="fw-mentor-avatar"><span>K</span></div>
+          <div class="fw-mentor-info">
+            <div class="fw-mentor-name">Dr. Kenji</div>
+            <div class="fw-mentor-role">Mentor de Saude</div>
+          </div>
+          <a href="area-saude.html" class="fw-btn">Explorar</a>
+        </div>
+      </div>
+
+      <!-- 2. Mente — Framework de Equilibrio Emocional -->
+      <div class="fw-card stagger-2">
+        <div class="fw-card-top">
+          <div class="fw-area-icon" style="background:rgba(191,90,242,0.08); color:#BF5AF2;">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a6 6 0 016 6c0 3-2 5-3 6h-6c-1-1-3-3-3-6a6 6 0 016-6zM9 14v4a2 2 0 002 2h2a2 2 0 002-2v-4M10 22h4"/></svg>
+          </div>
+          <div>
+            <div class="fw-area-name" style="color:#BF5AF2;">Mente</div>
+            <div class="fw-title">Framework de Equilibrio Emocional</div>
+          </div>
+        </div>
+        <div class="fw-method">
+          <svg class="fw-method-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2zM22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/></svg>
+          <span class="fw-method-text">CBT (Terapia Cognitiva) + Mindfulness (Jon Kabat-Zinn)</span>
+        </div>
+        <div class="fw-pillars">
+          <div class="fw-pillar">
+            <div class="fw-pillar-num">1</div>
+            <div class="fw-pillar-content"><div class="fw-pillar-name">Autoconhecimento</div><div class="fw-pillar-detail">Journaling</div></div>
+          </div>
+          <div class="fw-pillar">
+            <div class="fw-pillar-num">2</div>
+            <div class="fw-pillar-content"><div class="fw-pillar-name">Regulacao emocional</div><div class="fw-pillar-detail">Meditacao</div></div>
+          </div>
+          <div class="fw-pillar">
+            <div class="fw-pillar-num">3</div>
+            <div class="fw-pillar-content"><div class="fw-pillar-name">Padroes cognitivos</div><div class="fw-pillar-detail">Reestruturacao</div></div>
+          </div>
+          <div class="fw-pillar">
+            <div class="fw-pillar-num">4</div>
+            <div class="fw-pillar-content"><div class="fw-pillar-name">Resiliencia</div><div class="fw-pillar-detail">Exposicao gradual</div></div>
+          </div>
+        </div>
+        <div class="fw-mentor">
+          <div class="fw-mentor-avatar"><span>S</span></div>
+          <div class="fw-mentor-info">
+            <div class="fw-mentor-name">Sensei Sora</div>
+            <div class="fw-mentor-role">Mentora de Saude Mental</div>
+          </div>
+          <a href="area-mente.html" class="fw-btn">Explorar</a>
+        </div>
+      </div>
+
+      <!-- 3. Carreira — Framework de Crescimento Profissional -->
+      <div class="fw-card stagger-3">
+        <div class="fw-card-top">
+          <div class="fw-area-icon" style="background:rgba(10,132,255,0.08); color:#0A84FF;">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v2"/></svg>
+          </div>
+          <div>
+            <div class="fw-area-name" style="color:#0A84FF;">Carreira</div>
+            <div class="fw-title">Framework de Crescimento Profissional</div>
+          </div>
+        </div>
+        <div class="fw-method">
+          <svg class="fw-method-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2zM22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/></svg>
+          <span class="fw-method-text">Cal Newport (So Good They Can't Ignore You) + Seth Godin</span>
+        </div>
+        <div class="fw-pillars">
+          <div class="fw-pillar">
+            <div class="fw-pillar-num">1</div>
+            <div class="fw-pillar-content"><div class="fw-pillar-name">Capital de carreira</div><div class="fw-pillar-detail">Skills raras</div></div>
+          </div>
+          <div class="fw-pillar">
+            <div class="fw-pillar-num">2</div>
+            <div class="fw-pillar-content"><div class="fw-pillar-name">Deep Work</div><div class="fw-pillar-detail">Foco</div></div>
+          </div>
+          <div class="fw-pillar">
+            <div class="fw-pillar-num">3</div>
+            <div class="fw-pillar-content"><div class="fw-pillar-name">Personal Brand</div><div class="fw-pillar-detail">Visibilidade</div></div>
+          </div>
+          <div class="fw-pillar">
+            <div class="fw-pillar-num">4</div>
+            <div class="fw-pillar-content"><div class="fw-pillar-name">Network estrategico</div><div class="fw-pillar-detail">Conexoes</div></div>
+          </div>
+        </div>
+        <div class="fw-mentor">
+          <div class="fw-mentor-avatar"><span>H</span></div>
+          <div class="fw-mentor-info">
+            <div class="fw-mentor-name">Hiroshi</div>
+            <div class="fw-mentor-role">Mentor de Carreira</div>
+          </div>
+          <a href="area-carreira.html" class="fw-btn">Explorar</a>
+        </div>
+      </div>
+
+      <!-- 4. Financas — Framework de Prosperidade -->
+      <div class="fw-card stagger-4">
+        <div class="fw-card-top">
+          <div class="fw-area-icon" style="background:rgba(255,214,10,0.1); color:#FFD60A;">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1v22M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>
+          </div>
+          <div>
+            <div class="fw-area-name" style="color:#C89B00;">Financas</div>
+            <div class="fw-title">Framework de Prosperidade</div>
+          </div>
+        </div>
+        <div class="fw-method">
+          <svg class="fw-method-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2zM22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/></svg>
+          <span class="fw-method-text">Ramit Sethi (I Will Teach You To Be Rich) + Ray Dalio</span>
+        </div>
+        <div class="fw-pillars">
+          <div class="fw-pillar">
+            <div class="fw-pillar-num">1</div>
+            <div class="fw-pillar-content"><div class="fw-pillar-name">Orcamento consciente</div><div class="fw-pillar-detail">Pague-se primeiro</div></div>
+          </div>
+          <div class="fw-pillar">
+            <div class="fw-pillar-num">2</div>
+            <div class="fw-pillar-content"><div class="fw-pillar-name">Investimento sistematico</div><div class="fw-pillar-detail">DCA</div></div>
+          </div>
+          <div class="fw-pillar">
+            <div class="fw-pillar-num">3</div>
+            <div class="fw-pillar-content"><div class="fw-pillar-name">Eliminacao de dividas</div><div class="fw-pillar-detail">Bola de neve</div></div>
+          </div>
+          <div class="fw-pillar">
+            <div class="fw-pillar-num">4</div>
+            <div class="fw-pillar-content"><div class="fw-pillar-name">Protecao</div><div class="fw-pillar-detail">Reserva 6 meses</div></div>
+          </div>
+        </div>
+        <div class="fw-mentor">
+          <div class="fw-mentor-avatar"><span>T</span></div>
+          <div class="fw-mentor-info">
+            <div class="fw-mentor-name">Takeshi</div>
+            <div class="fw-mentor-role">Mentor de Financas</div>
+          </div>
+          <a href="area-financas.html" class="fw-btn">Explorar</a>
+        </div>
+      </div>
+
+      <!-- 5. Casa — Framework de Organizacao Domestica -->
+      <div class="fw-card stagger-5">
+        <div class="fw-card-top">
+          <div class="fw-area-icon" style="background:rgba(255,159,10,0.08); color:#FF9F0A;">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><path d="M9 22V12h6v10"/></svg>
+          </div>
+          <div>
+            <div class="fw-area-name" style="color:#FF9F0A;">Casa</div>
+            <div class="fw-title">Framework de Organizacao Domestica</div>
+          </div>
+        </div>
+        <div class="fw-method">
+          <svg class="fw-method-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2zM22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/></svg>
+          <span class="fw-method-text">Marie Kondo (KonMari) + Ramit Sethi (automacao)</span>
+        </div>
+        <div class="fw-pillars">
+          <div class="fw-pillar">
+            <div class="fw-pillar-num">1</div>
+            <div class="fw-pillar-content"><div class="fw-pillar-name">Organizacao por categoria</div><div class="fw-pillar-detail">Metodo KonMari</div></div>
+          </div>
+          <div class="fw-pillar">
+            <div class="fw-pillar-num">2</div>
+            <div class="fw-pillar-content"><div class="fw-pillar-name">Automacao de contas</div><div class="fw-pillar-detail">Debito automatico</div></div>
+          </div>
+          <div class="fw-pillar">
+            <div class="fw-pillar-num">3</div>
+            <div class="fw-pillar-content"><div class="fw-pillar-name">Manutencao preventiva</div><div class="fw-pillar-detail">Checklist mensal</div></div>
+          </div>
+          <div class="fw-pillar">
+            <div class="fw-pillar-num">4</div>
+            <div class="fw-pillar-content"><div class="fw-pillar-name">Consumo consciente</div><div class="fw-pillar-detail">Minimalismo funcional</div></div>
+          </div>
+        </div>
+        <div class="fw-mentor">
+          <div class="fw-mentor-avatar"><span>M</span></div>
+          <div class="fw-mentor-info">
+            <div class="fw-mentor-name">Mika</div>
+            <div class="fw-mentor-role">Mentora de Casa</div>
+          </div>
+          <a href="area-casa.html" class="fw-btn">Explorar</a>
+        </div>
+      </div>
+
+      <!-- 6. Produtividade — Framework de Alta Performance -->
+      <div class="fw-card stagger-6">
+        <div class="fw-card-top">
+          <div class="fw-area-icon" style="background:rgba(100,210,255,0.08); color:#64D2FF;">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+          </div>
+          <div>
+            <div class="fw-area-name" style="color:#0A84FF;">Produtividade</div>
+            <div class="fw-title">Framework de Alta Performance</div>
+          </div>
+        </div>
+        <div class="fw-method">
+          <svg class="fw-method-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2zM22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/></svg>
+          <span class="fw-method-text">Cal Newport (Deep Work) + James Clear (Atomic Habits) + David Allen (GTD)</span>
+        </div>
+        <div class="fw-pillars">
+          <div class="fw-pillar">
+            <div class="fw-pillar-num">1</div>
+            <div class="fw-pillar-content"><div class="fw-pillar-name">Blocos de foco</div><div class="fw-pillar-detail">90 minutos</div></div>
+          </div>
+          <div class="fw-pillar">
+            <div class="fw-pillar-num">2</div>
+            <div class="fw-pillar-content"><div class="fw-pillar-name">Habitos atomicos</div><div class="fw-pillar-detail">1% diario</div></div>
+          </div>
+          <div class="fw-pillar">
+            <div class="fw-pillar-num">3</div>
+            <div class="fw-pillar-content"><div class="fw-pillar-name">Sistema GTD</div><div class="fw-pillar-detail">Captura, processo, acao</div></div>
+          </div>
+          <div class="fw-pillar">
+            <div class="fw-pillar-num">4</div>
+            <div class="fw-pillar-content"><div class="fw-pillar-name">Weekly review</div><div class="fw-pillar-detail">Revisao semanal</div></div>
+          </div>
+        </div>
+        <div class="fw-mentor">
+          <div class="fw-mentor-avatar"><span>T</span></div>
+          <div class="fw-mentor-info">
+            <div class="fw-mentor-name">Takeshi</div>
+            <div class="fw-mentor-role">Mentor de Produtividade</div>
+          </div>
+          <a href="area-produtividade.html" class="fw-btn">Explorar</a>
+        </div>
+      </div>
+
+      <!-- 7. Proposito — Framework Ikigai -->
+      <div class="fw-card stagger-7">
+        <div class="fw-card-top">
+          <div class="fw-area-icon" style="background:rgba(215,0,48,0.06); color:#D70030;">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
+          </div>
+          <div>
+            <div class="fw-area-name" style="color:#D70030;">Proposito</div>
+            <div class="fw-title">Framework Ikigai</div>
+          </div>
+        </div>
+        <div class="fw-method">
+          <svg class="fw-method-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2zM22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/></svg>
+          <span class="fw-method-text">Ikigai (filosofia japonesa) + Viktor Frankl (Logoterapia) + Simon Sinek (Why)</span>
+        </div>
+        <div class="fw-pillars">
+          <div class="fw-pillar">
+            <div class="fw-pillar-num">1</div>
+            <div class="fw-pillar-content"><div class="fw-pillar-name">O que amo</div><div class="fw-pillar-detail">Paixao</div></div>
+          </div>
+          <div class="fw-pillar">
+            <div class="fw-pillar-num">2</div>
+            <div class="fw-pillar-content"><div class="fw-pillar-name">O que o mundo precisa</div><div class="fw-pillar-detail">Missao</div></div>
+          </div>
+          <div class="fw-pillar">
+            <div class="fw-pillar-num">3</div>
+            <div class="fw-pillar-content"><div class="fw-pillar-name">O que me pagam</div><div class="fw-pillar-detail">Profissao</div></div>
+          </div>
+          <div class="fw-pillar">
+            <div class="fw-pillar-num">4</div>
+            <div class="fw-pillar-content"><div class="fw-pillar-name">O que sou bom</div><div class="fw-pillar-detail">Vocacao</div></div>
+          </div>
+        </div>
+        <div class="fw-mentor">
+          <div class="fw-mentor-avatar"><span>H</span></div>
+          <div class="fw-mentor-info">
+            <div class="fw-mentor-name">Sensei Hiro</div>
+            <div class="fw-mentor-role">Mentor de Proposito</div>
+          </div>
+          <a href="area-proposito.html" class="fw-btn">Explorar</a>
+        </div>
+      </div>
+
+      <!-- 8. Relacionamentos — Framework de Conexoes Profundas -->
+      <div class="fw-card stagger-8">
+        <div class="fw-card-top">
+          <div class="fw-area-icon" style="background:rgba(255,69,58,0.08); color:#FF453A;">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>
+          </div>
+          <div>
+            <div class="fw-area-name" style="color:#FF453A;">Relacionamentos</div>
+            <div class="fw-title">Framework de Conexoes Profundas</div>
+          </div>
+        </div>
+        <div class="fw-method">
+          <svg class="fw-method-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2zM22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/></svg>
+          <span class="fw-method-text">John Gottman (ciencia do amor) + Esther Perel + Dale Carnegie</span>
+        </div>
+        <div class="fw-pillars">
+          <div class="fw-pillar">
+            <div class="fw-pillar-num">1</div>
+            <div class="fw-pillar-content"><div class="fw-pillar-name">Comunicacao nao-violenta</div><div class="fw-pillar-detail">CNV de Rosenberg</div></div>
+          </div>
+          <div class="fw-pillar">
+            <div class="fw-pillar-num">2</div>
+            <div class="fw-pillar-content"><div class="fw-pillar-name">Presenca de qualidade</div><div class="fw-pillar-detail">Tempo intencional</div></div>
+          </div>
+          <div class="fw-pillar">
+            <div class="fw-pillar-num">3</div>
+            <div class="fw-pillar-content"><div class="fw-pillar-name">Manutencao de vinculos</div><div class="fw-pillar-detail">Rituais de conexao</div></div>
+          </div>
+          <div class="fw-pillar">
+            <div class="fw-pillar-num">4</div>
+            <div class="fw-pillar-content"><div class="fw-pillar-name">Resolucao de conflitos</div><div class="fw-pillar-detail">Metodo Gottman</div></div>
+          </div>
+        </div>
+        <div class="fw-mentor">
+          <div class="fw-mentor-avatar"><span>S</span></div>
+          <div class="fw-mentor-info">
+            <div class="fw-mentor-name">Sakura</div>
+            <div class="fw-mentor-role">Mentora de Relacionamentos</div>
+          </div>
+          <a href="area-relacionamentos.html" class="fw-btn">Explorar</a>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- CTA: Fale com um Especialista -->
+    <p class="section-label stagger-9">Fale com um Especialista</p>
+    <div class="cta-section stagger-9">
+      <div class="cta-icon">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#D70030" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+      </div>
+      <div class="cta-info">
+        <div class="cta-title">Converse com seus mentores</div>
+        <div class="cta-desc">Tire duvidas sobre qualquer framework, peca orientacao personalizada ou explore como aplicar essas metodologias na sua rotina.</div>
+      </div>
+      <a href="chat.html" class="cta-btn">Iniciar conversa</a>
+    </div>
+
+  </main>
+
+<script src="../shared-nav.js?v=1774794914"></script>
+</body>
+</html>

@@ -8,70 +8,87 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Zen+Dots&display=swap" rel="stylesheet">
   <style>
     body { min-height: 100vh; background: #F5F5F7; }
-    .nav { position: sticky; top: 0; z-index: 50; height: 48px; display: flex; align-items: center; justify-content: center; background: rgba(245,245,247,0.72); backdrop-filter: saturate(180%) blur(20px); border-bottom: 0.5px solid rgba(0,0,0,0.06); }
-    .nav-inner { width: 100%; max-width: 980px; padding: 0 24px; display: flex; align-items: center; justify-content: space-between; }
-    .nav-logo { font-family: 'Zen Dots', cursive; font-size: 14px; color: #D70030; }
-    .nav-links a { font-family: 'Inter', sans-serif; font-size: 12px; color: #1D1D1F; opacity: 0.4; margin-left: 24px; }
-    .nav-links a.active { opacity: 1; }
-    .main { max-width: 980px; margin: 0 auto; padding: 32px 24px 80px; }
-    h1 { font-family: 'Satoshi', sans-serif; font-size: 28px; font-weight: 700; color: #1D1D1F; margin-bottom: 4px; }
-    .page-sub { font-family: 'Satoshi', sans-serif; font-size: 14px; color: #86868B; margin-bottom: 28px; line-height: 1.5; }
+    .main { max-width: 1080px; margin: 0 auto; padding: 32px 24px 80px; }
 
-    .chips { display: flex; gap: 6px; margin-bottom: 24px; overflow-x: auto; flex-wrap: wrap; }
-    .chip { font-family: 'Inter', sans-serif; padding: 7px 16px; border-radius: 980px; font-size: 12px; font-weight: 500; color: #86868B; background: #FFF; border: 1px solid rgba(0,0,0,0.06); cursor: pointer; transition: all 0.15s; }
+    /* Header */
+    .page-header { display: flex; align-items: flex-end; justify-content: space-between; margin-bottom: 24px; }
+    h1 { font-family: 'Satoshi', sans-serif; font-size: 28px; font-weight: 700; color: #1D1D1F; }
+    .page-sub { font-family: 'Satoshi', sans-serif; font-size: 14px; color: #86868B; margin-top: 4px; line-height: 1.5; }
+    .header-stats { display: flex; gap: 16px; font-family: 'Inter', sans-serif; font-size: 12px; color: #86868B; }
+    .header-stats strong { color: #D70030; font-weight: 600; }
+
+    /* Search + Filters */
+    .toolbar { display: flex; gap: 12px; margin-bottom: 24px; align-items: center; flex-wrap: wrap; }
+    .search-bar { position: relative; flex: 1; min-width: 200px; }
+    .search-bar input { width: 100%; padding: 10px 14px 10px 38px; background: #FFF; border: 1px solid rgba(0,0,0,0.06); border-radius: 12px; font-family: 'Inter', sans-serif; font-size: 13px; color: #1D1D1F; outline: none; }
+    .search-bar input:focus { border-color: rgba(215,0,48,0.3); }
+    .search-bar input::placeholder { color: #AEAEB2; }
+    .search-bar svg { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: #AEAEB2; }
+    .filter-chips { display: flex; gap: 6px; overflow-x: auto; }
+    .chip { font-family: 'Inter', sans-serif; padding: 7px 14px; border-radius: 980px; font-size: 11px; font-weight: 500; color: #86868B; background: #FFF; border: 1px solid rgba(0,0,0,0.06); cursor: pointer; white-space: nowrap; transition: all 0.15s; }
     .chip:hover { border-color: rgba(0,0,0,0.12); color: #1D1D1F; }
     .chip.active { background: #1D1D1F; color: #FFF; border-color: #1D1D1F; }
 
-    .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-bottom: 32px; }
-    @media (max-width: 768px) { .grid { grid-template-columns: repeat(2, 1fr); } }
-    @media (max-width: 480px) { .grid { grid-template-columns: 1fr; } }
+    /* Solution Grid */
+    .sol-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+    @media (max-width: 768px) { .sol-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 480px) { .sol-grid { grid-template-columns: 1fr; } }
 
-    .card { background: #FFF; border-radius: 20px; border: 1px solid rgba(0,0,0,0.04); padding: 22px; cursor: pointer; transition: all 0.25s; position: relative; }
-    .card:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(0,0,0,0.06); }
-    .card.on { border-color: rgba(48,209,88,0.2); }
-    .card.on::after { content: ''; position: absolute; top: 14px; right: 14px; width: 8px; height: 8px; border-radius: 50%; background: #30D158; box-shadow: 0 0 6px rgba(48,209,88,0.4); }
-    .card-icon { font-size: 28px; margin-bottom: 12px; }
-    .card-cat { font-family: 'Inter', sans-serif; font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; color: #AEAEB2; margin-bottom: 4px; }
-    .card-name { font-family: 'Satoshi', sans-serif; font-size: 16px; font-weight: 600; color: #1D1D1F; margin-bottom: 6px; }
-    .card-desc { font-family: 'Satoshi', sans-serif; font-size: 12px; color: #86868B; line-height: 1.5; margin-bottom: 14px; }
-    .card-foot { display: flex; align-items: center; justify-content: space-between; padding-top: 14px; border-top: 0.5px solid rgba(0,0,0,0.04); }
-    .card-meta { font-family: 'Inter', sans-serif; font-size: 11px; color: #AEAEB2; }
-    .card-btn { font-family: 'Inter', sans-serif; padding: 6px 16px; border-radius: 980px; font-size: 11px; font-weight: 500; border: none; cursor: pointer; }
-    .card-btn.go { background: #1D1D1F; color: #F5F5F7; }
-    .card-btn.go:hover { background: #D70030; }
-    .card-btn.on { background: rgba(48,209,88,0.1); color: #30D158; }
+    /* Solution Card */
+    .sol-card { background: #FFF; border-radius: 20px; border: 1px solid rgba(0,0,0,0.04); padding: 22px; cursor: pointer; transition: all 0.25s cubic-bezier(0.25,0.1,0.25,1); position: relative; }
+    .sol-card:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(0,0,0,0.06); }
+    .sol-card.activated { border-color: rgba(48,209,88,0.2); }
+    .sol-card.activated::after { content: ''; position: absolute; top: 14px; right: 14px; width: 8px; height: 8px; border-radius: 50%; background: #30D158; box-shadow: 0 0 6px rgba(48,209,88,0.4); }
 
-    .section-label { font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: #D70030; margin-bottom: 14px; margin-top: 24px; }
+    .sol-icon { width: 44px; height: 44px; border-radius: 14px; display: flex; align-items: center; justify-content: center; margin-bottom: 14px; }
+    .sol-cat { font-family: 'Inter', sans-serif; font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; color: #AEAEB2; margin-bottom: 6px; }
+    .sol-name { font-family: 'Satoshi', sans-serif; font-size: 16px; font-weight: 600; color: #1D1D1F; margin-bottom: 6px; }
+    .sol-desc { font-family: 'Satoshi', sans-serif; font-size: 12px; color: #86868B; line-height: 1.5; margin-bottom: 14px; }
+    .sol-footer { display: flex; align-items: center; justify-content: space-between; padding-top: 14px; border-top: 0.5px solid rgba(0,0,0,0.04); }
+    .sol-meta { font-family: 'Inter', sans-serif; font-size: 11px; color: #AEAEB2; }
+    .sol-btn { font-family: 'Inter', sans-serif; padding: 6px 16px; border-radius: 980px; font-size: 11px; font-weight: 500; border: none; cursor: pointer; min-height: 32px; }
+    .sol-btn.activate { background: #1D1D1F; color: #F5F5F7; }
+    .sol-btn.activate:hover { background: #D70030; }
+    .sol-btn.active { background: rgba(48,209,88,0.1); color: #30D158; }
 
+    /* Section */
+    .section-label { font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: #D70030; margin-bottom: 14px; margin-top: 32px; }
+    .section-label:first-of-type { margin-top: 0; }
+
+    /* Builder CTA */
     .builder-cta { background: #1D1D1F; border-radius: 20px; padding: 24px 28px; margin-bottom: 28px; display: flex; align-items: center; justify-content: space-between; gap: 20px; cursor: pointer; }
     .builder-cta:hover { background: #000; }
+    @media (max-width: 480px) { .builder-cta { flex-direction: column; align-items: flex-start; } }
 
     .fade-in { animation: fadeIn 0.3s cubic-bezier(0.25,0.1,0.25,1) both; }
     @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+
+    /* Empty state */
+    .empty-state { text-align: center; padding: 48px 24px; }
+    .empty-state p { font-family: 'Satoshi', sans-serif; font-size: 14px; color: #86868B; }
   </style>
 </head>
 <body>
 
-  <nav class="nav">
-    <div class="nav-inner">
-      <a href="../tenant/dashboard/home-pf.html" class="nav-logo">KTANA</a>
-      <div class="nav-links">
-        <a href="../tenant/dashboard/home-pf.html">Painel</a>
-        <a href="solutions.html" class="active">Solucoes</a>
-        <a href="landing.html">Areas</a>
-      </div>
-    </div>
-  </nav>
 
   <main class="main">
-    <h1 class="fade-in">Solucoes para sua vida</h1>
-    <p class="page-sub fade-in">Micro-solucoes que seus mentores ativam para voce. Habitos, rotinas e automacoes personalizadas.</p>
+
+    <div class="page-header fade-in">
+      <div>
+        <h1>Solucoes para sua vida</h1>
+        <p class="page-sub">Automacoes pessoais que seus mentores ativam para voce. Habitos, rotinas e bem-estar.</p>
+      </div>
+      <div class="header-stats">
+        <span><strong>0</strong> ativas</span>
+        <span><strong>30</strong> disponiveis</span>
+      </div>
+    </div>
 
     <!-- Builder CTA -->
     <div class="builder-cta fade-in" onclick="location.href='builder.html'">
       <div style="display:flex;align-items:center;gap:16px;">
         <div style="width:48px;height:48px;border-radius:14px;background:rgba(215,0,48,0.15);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#D70030" stroke-width="2" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#D70030" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
         </div>
         <div>
           <div style="font-family:'Satoshi',sans-serif;font-size:16px;font-weight:600;color:#F5F5F7;margin-bottom:2px;">Criar solucao personalizada</div>
@@ -81,119 +98,529 @@
       <div style="font-family:'Inter',sans-serif;padding:10px 20px;border-radius:980px;background:#D70030;color:#FFF;font-size:13px;font-weight:500;white-space:nowrap;">Abrir Builder</div>
     </div>
 
-    <!-- Filters -->
-    <div class="chips fade-in">
-      <button class="chip active" onclick="filter('all',this)">Todas</button>
-      <button class="chip" onclick="filter('saude',this)">Saude</button>
-      <button class="chip" onclick="filter('mente',this)">Mente</button>
-      <button class="chip" onclick="filter('carreira',this)">Carreira</button>
-      <button class="chip" onclick="filter('financas',this)">Financas</button>
-      <button class="chip" onclick="filter('produtividade',this)">Produtividade</button>
-      <button class="chip" onclick="filter('relacionamentos',this)">Relacionamentos</button>
-      <button class="chip" onclick="filter('casa',this)">Casa</button>
+    <!-- Search + Filters -->
+    <div class="toolbar fade-in">
+      <div class="search-bar">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+        <input type="text" id="searchInput" placeholder="Buscar solucao..." oninput="search(this.value)">
+      </div>
+      <div class="filter-chips">
+        <button class="chip active" data-cat="all">Todas</button>
+        <button class="chip" data-cat="saude">Saude</button>
+        <button class="chip" data-cat="mente">Mente</button>
+        <button class="chip" data-cat="carreira">Carreira</button>
+        <button class="chip" data-cat="financas">Financas</button>
+        <button class="chip" data-cat="casa">Casa</button>
+        <button class="chip" data-cat="produtividade">Produtividade</button>
+        <button class="chip" data-cat="proposito">Proposito</button>
+        <button class="chip" data-cat="relacionamentos">Relacionamentos</button>
+      </div>
     </div>
 
-    <!-- Ativas -->
-    <p class="section-label fade-in">Ativas</p>
-    <div class="grid">
-      <div class="card on fade-in" data-cat="saude"><div class="card-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 5v14M18 5v14M3 8h4M17 8h4M3 16h4M17 16h4M6 12h12"/></svg></div><div class="card-cat">Saude</div><div class="card-name">Plano de Treino Semanal</div><div class="card-desc">Monta treino personalizado toda segunda baseado no seu progresso e disponibilidade.</div><div class="card-foot"><span class="card-meta">4 treinos/sem</span><button class="card-btn on">Ativo</button></div></div>
+    <!-- ============================================ -->
+    <!-- SAUDE -->
+    <!-- ============================================ -->
+    <p class="section-label fade-in" data-section="saude">Saude</p>
+    <div class="sol-grid" data-section-grid="saude">
 
-      <div class="card on fade-in" data-cat="produtividade"><div class="card-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M16 4h2a2 2 0 012 2v14a2 2 0 01-2 2H6a2 2 0 01-2-2V6a2 2 0 012-2h2"/><rect x="8" y="2" width="8" height="4" rx="1"/></svg></div><div class="card-cat">Produtividade</div><div class="card-name">Briefing Matinal</div><div class="card-desc">Todo dia 7h receba um resumo do que fazer hoje: compromissos, prioridades e lembretes.</div><div class="card-foot"><span class="card-meta">Diario 07:00</span><button class="card-btn on">Ativo</button></div></div>
+      <div class="sol-card fade-in" data-cat="saude" data-name="Plano de Treino Adaptativo">
+        <div class="sol-icon" style="background:rgba(215,0,48,0.06);">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#D70030" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 5v14M18 5v14M3 8h4M17 8h4M3 16h4M17 16h4M6 12h12"/></svg>
+        </div>
+        <div class="sol-cat">Saude</div>
+        <div class="sol-name">Plano de Treino Adaptativo</div>
+        <div class="sol-desc">Ajusta exercicio conforme sono, energia e calendario. Integra Apple Health.</div>
+        <div class="sol-footer">
+          <span class="sol-meta">Adaptativo</span>
+          <button class="sol-btn activate">Ativar</button>
+        </div>
+      </div>
 
-      <div class="card on fade-in" data-cat="financas"><div class="card-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1v22M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg></div><div class="card-cat">Financas</div><div class="card-name">Controle de Gastos</div><div class="card-desc">Registra e categoriza seus gastos. Alerta quando estiver perto do limite do mes.</div><div class="card-foot"><span class="card-meta">R$4.2k este mes</span><button class="card-btn on">Ativo</button></div></div>
+      <div class="sol-card fade-in" data-cat="saude" data-name="Nutricao Inteligente">
+        <div class="sol-icon" style="background:rgba(215,0,48,0.06);">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#D70030" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8h1a4 4 0 010 8h-1M2 8h16v9a4 4 0 01-4 4H6a4 4 0 01-4-4V8zM6 1v3M10 1v3M14 1v3"/></svg>
+        </div>
+        <div class="sol-cat">Saude</div>
+        <div class="sol-name">Nutricao Inteligente</div>
+        <div class="sol-desc">Cardapio semanal personalizado, lista de compras automatica, macros calculados.</div>
+        <div class="sol-footer">
+          <span class="sol-meta">Semanal</span>
+          <button class="sol-btn activate">Ativar</button>
+        </div>
+      </div>
+
+      <div class="sol-card fade-in" data-cat="saude" data-name="Monitor de Sono">
+        <div class="sol-icon" style="background:rgba(215,0,48,0.06);">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#D70030" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
+        </div>
+        <div class="sol-cat">Saude</div>
+        <div class="sol-name">Monitor de Sono</div>
+        <div class="sol-desc">Analisa padroes, sugere horarios, alerta sobre sono insuficiente.</div>
+        <div class="sol-footer">
+          <span class="sol-meta">Diario</span>
+          <button class="sol-btn activate">Ativar</button>
+        </div>
+      </div>
+
+      <div class="sol-card fade-in" data-cat="saude" data-name="Agenda de Exames">
+        <div class="sol-icon" style="background:rgba(215,0,48,0.06);">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#D70030" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        </div>
+        <div class="sol-cat">Saude</div>
+        <div class="sol-name">Agenda de Exames</div>
+        <div class="sol-desc">Lembra exames preventivos por idade e genero, agenda automaticamente.</div>
+        <div class="sol-footer">
+          <span class="sol-meta">Preventivo</span>
+          <button class="sol-btn activate">Ativar</button>
+        </div>
+      </div>
+
+      <div class="sol-card fade-in" data-cat="saude" data-name="Suplementacao Guiada">
+        <div class="sol-icon" style="background:rgba(215,0,48,0.06);">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#D70030" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 20V10M12 20V4M6 20v-6"/></svg>
+        </div>
+        <div class="sol-cat">Saude</div>
+        <div class="sol-name">Suplementacao Guiada</div>
+        <div class="sol-desc">Recomenda suplementos baseado em objetivos e exames.</div>
+        <div class="sol-footer">
+          <span class="sol-meta">Personalizado</span>
+          <button class="sol-btn activate">Ativar</button>
+        </div>
+      </div>
+
     </div>
 
-    <!-- Saude -->
-    <p class="section-label fade-in">Saude</p>
-    <div class="grid">
-      <div class="card fade-in" data-cat="saude"><div class="card-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8h1a4 4 0 010 8h-1M2 8h16v9a4 4 0 01-4 4H6a4 4 0 01-4-4V8zM6 1v3M10 1v3M14 1v3"/></svg></div><div class="card-cat">Saude</div><div class="card-name">Plano Alimentar</div><div class="card-desc">Monta cardapio semanal baseado nos seus objetivos, restricoes e preferencias. Lista de compras inclusa.</div><div class="card-foot"><span class="card-meta">Ref: Peter Attia</span><button class="card-btn go">Ativar</button></div></div>
+    <!-- ============================================ -->
+    <!-- MENTE -->
+    <!-- ============================================ -->
+    <p class="section-label fade-in" data-section="mente">Mente</p>
+    <div class="sol-grid" data-section-grid="mente">
 
-      <div class="card fade-in" data-cat="saude"><div class="card-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg></div><div class="card-cat">Saude</div><div class="card-name">Otimizacao do Sono</div><div class="card-desc">Monitora seus padroes de sono e sugere ajustes. Lembrete de rotina noturna e analise semanal.</div><div class="card-foot"><span class="card-meta">Ref: Matt Walker</span><button class="card-btn go">Ativar</button></div></div>
+      <div class="sol-card fade-in" data-cat="mente" data-name="Journaling Guiado">
+        <div class="sol-icon" style="background:rgba(100,210,255,0.08);">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#64D2FF" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6M16 13H8M16 17H8M10 9H8"/></svg>
+        </div>
+        <div class="sol-cat">Mente</div>
+        <div class="sol-name">Journaling Guiado</div>
+        <div class="sol-desc">Perguntas diarias adaptadas ao seu momento, analise de sentimento ao longo do tempo.</div>
+        <div class="sol-footer">
+          <span class="sol-meta">Diario</span>
+          <button class="sol-btn activate">Ativar</button>
+        </div>
+      </div>
 
-      <div class="card fade-in" data-cat="saude"><div class="card-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div><div class="card-cat">Saude</div><div class="card-name">Lembrete de Exames</div><div class="card-desc">Controla datas de exames, vacinas e check-ups. Avisa 30 dias antes e ajuda a agendar.</div><div class="card-foot"><span class="card-meta">Preventivo</span><button class="card-btn go">Ativar</button></div></div>
+      <div class="sol-card fade-in" data-cat="mente" data-name="Meditacao Personalizada">
+        <div class="sol-icon" style="background:rgba(100,210,255,0.08);">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#64D2FF" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2M9 9h.01M15 9h.01"/></svg>
+        </div>
+        <div class="sol-cat">Mente</div>
+        <div class="sol-name">Meditacao Personalizada</div>
+        <div class="sol-desc">Sessoes adaptadas ao nivel de estresse detectado, tecnicas variadas.</div>
+        <div class="sol-footer">
+          <span class="sol-meta">5-20min/dia</span>
+          <button class="sol-btn activate">Ativar</button>
+        </div>
+      </div>
 
-      <div class="card fade-in" data-cat="saude"><div class="card-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 20V10M12 20V4M6 20v-6"/></svg></div><div class="card-cat">Saude</div><div class="card-name">Tracker de Suplementos</div><div class="card-desc">Registra suplementos, horarios e dosagens. Alerta de interacoes e reposicao.</div><div class="card-foot"><span class="card-meta">Ref: Huberman</span><button class="card-btn go">Ativar</button></div></div>
+      <div class="sol-card fade-in" data-cat="mente" data-name="Detector de Burnout">
+        <div class="sol-icon" style="background:rgba(100,210,255,0.08);">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#64D2FF" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+        </div>
+        <div class="sol-cat">Mente</div>
+        <div class="sol-name">Detector de Burnout</div>
+        <div class="sol-desc">Monitora padroes de sono, trabalho e humor, alerta preventivamente.</div>
+        <div class="sol-footer">
+          <span class="sol-meta">Preventivo</span>
+          <button class="sol-btn activate">Ativar</button>
+        </div>
+      </div>
+
+      <div class="sol-card fade-in" data-cat="mente" data-name="Terapia Cognitiva IA">
+        <div class="sol-icon" style="background:rgba(100,210,255,0.08);">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#64D2FF" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+        </div>
+        <div class="sol-cat">Mente</div>
+        <div class="sol-name">Terapia Cognitiva IA</div>
+        <div class="sol-desc">Exercicios CBT guiados para ansiedade e pensamentos disfuncionais.</div>
+        <div class="sol-footer">
+          <span class="sol-meta">Sob demanda</span>
+          <button class="sol-btn activate">Ativar</button>
+        </div>
+      </div>
+
     </div>
 
-    <!-- Mente -->
-    <p class="section-label fade-in">Mente & Emocional</p>
-    <div class="grid">
-      <div class="card fade-in" data-cat="mente"><div class="card-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2M9 9h.01M15 9h.01"/></svg></div><div class="card-cat">Mente</div><div class="card-name">Meditacao Guiada</div><div class="card-desc">Sessoes diarias de 5-15min baseadas no seu nivel de estresse e objetivos. Mindfulness + respiracao.</div><div class="card-foot"><span class="card-meta">5-15min/dia</span><button class="card-btn go">Ativar</button></div></div>
+    <!-- ============================================ -->
+    <!-- CARREIRA -->
+    <!-- ============================================ -->
+    <p class="section-label fade-in" data-section="carreira">Carreira</p>
+    <div class="sol-grid" data-section-grid="carreira">
 
-      <div class="card fade-in" data-cat="mente"><div class="card-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6M16 13H8M16 17H8M10 9H8"/></svg></div><div class="card-cat">Mente</div><div class="card-name">Diario de Gratidao</div><div class="card-desc">Toda noite, 3 perguntas rapidas sobre o dia. Analise mensal de padroes emocionais.</div><div class="card-foot"><span class="card-meta">Ref: Brene Brown</span><button class="card-btn go">Ativar</button></div></div>
+      <div class="sol-card fade-in" data-cat="carreira" data-name="Personal Branding">
+        <div class="sol-icon" style="background:rgba(255,159,10,0.08);">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FF9F0A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+        </div>
+        <div class="sol-cat">Carreira</div>
+        <div class="sol-name">Personal Branding</div>
+        <div class="sol-desc">Gera conteudo LinkedIn, analisa perfil, sugere conexoes estrategicas.</div>
+        <div class="sol-footer">
+          <span class="sol-meta">Semanal</span>
+          <button class="sol-btn activate">Ativar</button>
+        </div>
+      </div>
 
-      <div class="card fade-in" data-cat="mente"><div class="card-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg></div><div class="card-cat">Mente</div><div class="card-name">Check-in Emocional</div><div class="card-desc">Pergunta como voce esta 2x ao dia. Detecta padroes de humor e sugere acoes preventivas.</div><div class="card-foot"><span class="card-meta">2x por dia</span><button class="card-btn go">Ativar</button></div></div>
+      <div class="sol-card fade-in" data-cat="carreira" data-name="Preparacao Entrevista">
+        <div class="sol-icon" style="background:rgba(255,159,10,0.08);">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FF9F0A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v2"/></svg>
+        </div>
+        <div class="sol-cat">Carreira</div>
+        <div class="sol-name">Preparacao Entrevista</div>
+        <div class="sol-desc">Simula entrevistas com IA, feedback em tempo real.</div>
+        <div class="sol-footer">
+          <span class="sol-meta">Mock interview IA</span>
+          <button class="sol-btn activate">Ativar</button>
+        </div>
+      </div>
+
+      <div class="sol-card fade-in" data-cat="carreira" data-name="Mentor de Lideranca">
+        <div class="sol-icon" style="background:rgba(255,159,10,0.08);">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FF9F0A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>
+        </div>
+        <div class="sol-cat">Carreira</div>
+        <div class="sol-name">Mentor de Lideranca</div>
+        <div class="sol-desc">Coaching situacional para desafios do dia a dia no trabalho.</div>
+        <div class="sol-footer">
+          <span class="sol-meta">Sob demanda</span>
+          <button class="sol-btn activate">Ativar</button>
+        </div>
+      </div>
+
+      <div class="sol-card fade-in" data-cat="carreira" data-name="Plano de Carreira 5 Anos">
+        <div class="sol-icon" style="background:rgba(255,159,10,0.08);">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FF9F0A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
+        </div>
+        <div class="sol-cat">Carreira</div>
+        <div class="sol-name">Plano de Carreira 5 Anos</div>
+        <div class="sol-desc">Mapeamento de skills, gaps, certificacoes necessarias.</div>
+        <div class="sol-footer">
+          <span class="sol-meta">Trimestral</span>
+          <button class="sol-btn activate">Ativar</button>
+        </div>
+      </div>
+
     </div>
 
-    <!-- Carreira -->
-    <p class="section-label fade-in">Carreira</p>
-    <div class="grid">
-      <div class="card fade-in" data-cat="carreira"><div class="card-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v2"/></svg></div><div class="card-cat">Carreira</div><div class="card-name">Preparacao para Entrevista</div><div class="card-desc">Simula entrevistas com perguntas reais da empresa. Feedback em tempo real sobre respostas.</div><div class="card-foot"><span class="card-meta">Mock interview IA</span><button class="card-btn go">Ativar</button></div></div>
+    <!-- ============================================ -->
+    <!-- FINANCAS -->
+    <!-- ============================================ -->
+    <p class="section-label fade-in" data-section="financas">Financas Pessoais</p>
+    <div class="sol-grid" data-section-grid="financas">
 
-      <div class="card fade-in" data-cat="carreira"><div class="card-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6M16 13H8M16 17H8M10 9H8"/></svg></div><div class="card-cat">Carreira</div><div class="card-name">Curriculo Otimizado</div><div class="card-desc">Analisa vagas que voce quer e otimiza seu curriculo para cada uma. Keywords ATS incluso.</div><div class="card-foot"><span class="card-meta">+3x callbacks</span><button class="card-btn go">Ativar</button></div></div>
+      <div class="sol-card fade-in" data-cat="financas" data-name="Orcamento Automatico">
+        <div class="sol-icon" style="background:rgba(48,209,88,0.08);">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#30D158" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1v22M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>
+        </div>
+        <div class="sol-cat">Financas</div>
+        <div class="sol-name">Orcamento Automatico</div>
+        <div class="sol-desc">Categoriza gastos do cartao e banco, mostra para onde vai o dinheiro.</div>
+        <div class="sol-footer">
+          <span class="sol-meta">Mensal</span>
+          <button class="sol-btn activate">Ativar</button>
+        </div>
+      </div>
 
-      <div class="card fade-in" data-cat="carreira"><div class="card-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg></div><div class="card-cat">Carreira</div><div class="card-name">LinkedIn Optimizer</div><div class="card-desc">Otimiza seu perfil LinkedIn, sugere posts semanais e monitora alcance. SSI tracking.</div><div class="card-foot"><span class="card-meta">+200% views</span><button class="card-btn go">Ativar</button></div></div>
+      <div class="sol-card fade-in" data-cat="financas" data-name="Investimento Guiado">
+        <div class="sol-icon" style="background:rgba(48,209,88,0.08);">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#30D158" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+        </div>
+        <div class="sol-cat">Financas</div>
+        <div class="sol-name">Investimento Guiado</div>
+        <div class="sol-desc">Analisa perfil de risco, sugere alocacao, monitora carteira.</div>
+        <div class="sol-footer">
+          <span class="sol-meta">Semanal</span>
+          <button class="sol-btn activate">Ativar</button>
+        </div>
+      </div>
 
-      <div class="card fade-in" data-cat="carreira"><div class="card-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg></div><div class="card-cat">Carreira</div><div class="card-name">Plano de Estudos</div><div class="card-desc">Monta trilha de aprendizado personalizada. Cursos, livros e exercicios organizados por semana.</div><div class="card-foot"><span class="card-meta">Personalizado</span><button class="card-btn go">Ativar</button></div></div>
+      <div class="sol-card fade-in" data-cat="financas" data-name="Controle de Dividas">
+        <div class="sol-icon" style="background:rgba(48,209,88,0.08);">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#30D158" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
+        </div>
+        <div class="sol-cat">Financas</div>
+        <div class="sol-name">Controle de Dividas</div>
+        <div class="sol-desc">Plano de quitacao otimizado — metodo bola de neve ou avalanche.</div>
+        <div class="sol-footer">
+          <span class="sol-meta">Mensal</span>
+          <button class="sol-btn activate">Ativar</button>
+        </div>
+      </div>
+
+      <div class="sol-card fade-in" data-cat="financas" data-name="Meta Financeira">
+        <div class="sol-icon" style="background:rgba(48,209,88,0.08);">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#30D158" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 20V10M12 20V4M6 20v-6"/></svg>
+        </div>
+        <div class="sol-cat">Financas</div>
+        <div class="sol-name">Meta Financeira</div>
+        <div class="sol-desc">Simulador de metas (casa propria, aposentadoria, viagem) com plano mensal.</div>
+        <div class="sol-footer">
+          <span class="sol-meta">Gamificado</span>
+          <button class="sol-btn activate">Ativar</button>
+        </div>
+      </div>
+
     </div>
 
-    <!-- Financas -->
-    <p class="section-label fade-in">Financas Pessoais</p>
-    <div class="grid">
-      <div class="card fade-in" data-cat="financas"><div class="card-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1v22M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg></div><div class="card-cat">Financas</div><div class="card-name">Orcamento Mensal</div><div class="card-desc">Cria orcamento baseado na sua renda e objetivos. Categoriza gastos e alerta desvios.</div><div class="card-foot"><span class="card-meta">Ref: Nath Finanças</span><button class="card-btn go">Ativar</button></div></div>
+    <!-- ============================================ -->
+    <!-- CASA -->
+    <!-- ============================================ -->
+    <p class="section-label fade-in" data-section="casa">Casa</p>
+    <div class="sol-grid" data-section-grid="casa">
 
-      <div class="card fade-in" data-cat="financas"><div class="card-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg></div><div class="card-cat">Financas</div><div class="card-name">Monitorar Investimentos</div><div class="card-desc">Acompanha sua carteira, sugere rebalanceamento e alerta sobre oportunidades ou riscos.</div><div class="card-foot"><span class="card-meta">Ref: Ray Dalio</span><button class="card-btn go">Ativar</button></div></div>
+      <div class="sol-card fade-in" data-cat="casa" data-name="Organizador Domestico">
+        <div class="sol-icon" style="background:rgba(175,130,255,0.08);">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#AF82FF" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><path d="M9 22V12h6v10"/></svg>
+        </div>
+        <div class="sol-cat">Casa</div>
+        <div class="sol-name">Organizador Domestico</div>
+        <div class="sol-desc">Rotinas de limpeza, metodo KonMari, manutencao preventiva.</div>
+        <div class="sol-footer">
+          <span class="sol-meta">Semanal</span>
+          <button class="sol-btn activate">Ativar</button>
+        </div>
+      </div>
 
-      <div class="card fade-in" data-cat="financas"><div class="card-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg></div><div class="card-cat">Financas</div><div class="card-name">Meta de Economia</div><div class="card-desc">Define meta, acompanha progresso diario e sugere onde cortar gastos para atingir mais rapido.</div><div class="card-foot"><span class="card-meta">Gamificado</span><button class="card-btn go">Ativar</button></div></div>
+      <div class="sol-card fade-in" data-cat="casa" data-name="Compras Inteligentes">
+        <div class="sol-icon" style="background:rgba(175,130,255,0.08);">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#AF82FF" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 002 1.61h9.72a2 2 0 002-1.61L23 6H6"/></svg>
+        </div>
+        <div class="sol-cat">Casa</div>
+        <div class="sol-name">Compras Inteligentes</div>
+        <div class="sol-desc">Lista automatica, comparacao de precos, historico de consumo.</div>
+        <div class="sol-footer">
+          <span class="sol-meta">Semanal</span>
+          <button class="sol-btn activate">Ativar</button>
+        </div>
+      </div>
+
+      <div class="sol-card fade-in" data-cat="casa" data-name="Contas em Dia">
+        <div class="sol-icon" style="background:rgba(175,130,255,0.08);">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#AF82FF" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg>
+        </div>
+        <div class="sol-cat">Casa</div>
+        <div class="sol-name">Contas em Dia</div>
+        <div class="sol-desc">Lembra vencimentos, paga automaticamente, analisa economia possivel.</div>
+        <div class="sol-footer">
+          <span class="sol-meta">Mensal</span>
+          <button class="sol-btn activate">Ativar</button>
+        </div>
+      </div>
+
     </div>
 
-    <!-- Produtividade -->
-    <p class="section-label fade-in">Produtividade</p>
-    <div class="grid">
-      <div class="card fade-in" data-cat="produtividade"><div class="card-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l2 2M5 3L2 6M22 6l-3-3"/></svg></div><div class="card-cat">Produtividade</div><div class="card-name">Pomodoro Inteligente</div><div class="card-desc">Timer adaptativo que aprende seus ciclos de foco e sugere pausas otimizadas.</div><div class="card-foot"><span class="card-meta">+40% foco</span><button class="card-btn go">Ativar</button></div></div>
+    <!-- ============================================ -->
+    <!-- PRODUTIVIDADE -->
+    <!-- ============================================ -->
+    <p class="section-label fade-in" data-section="produtividade">Produtividade</p>
+    <div class="sol-grid" data-section-grid="produtividade">
 
-      <div class="card fade-in" data-cat="produtividade"><div class="card-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M22 7l-10 7L2 7"/></svg></div><div class="card-cat">Produtividade</div><div class="card-name">Inbox Zero</div><div class="card-desc">Classifica emails por prioridade, responde os simples e arquiva os irrelevantes. Meta: inbox zero diario.</div><div class="card-foot"><span class="card-meta">-80% emails</span><button class="card-btn go">Ativar</button></div></div>
+      <div class="sol-card fade-in" data-cat="produtividade" data-name="Deep Work Coach">
+        <div class="sol-icon" style="background:rgba(255,69,58,0.08);">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FF453A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l2 2M5 3L2 6M22 6l-3-3"/></svg>
+        </div>
+        <div class="sol-cat">Produtividade</div>
+        <div class="sol-name">Deep Work Coach</div>
+        <div class="sol-desc">Bloqueia distracoes, agenda blocos de foco, mede output.</div>
+        <div class="sol-footer">
+          <span class="sol-meta">Diario</span>
+          <button class="sol-btn activate">Ativar</button>
+        </div>
+      </div>
 
-      <div class="card fade-in" data-cat="produtividade"><div class="card-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg></div><div class="card-cat">Produtividade</div><div class="card-name">Revisao Semanal</div><div class="card-desc">Todo domingo a noite: review da semana, planejamento da proxima, ajuste de prioridades.</div><div class="card-foot"><span class="card-meta">Ref: GTD</span><button class="card-btn go">Ativar</button></div></div>
+      <div class="sol-card fade-in" data-cat="produtividade" data-name="GTD Automatizado">
+        <div class="sol-icon" style="background:rgba(255,69,58,0.08);">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FF453A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M16 4h2a2 2 0 012 2v14a2 2 0 01-2 2H6a2 2 0 01-2-2V6a2 2 0 012-2h2"/><rect x="8" y="2" width="8" height="4" rx="1"/></svg>
+        </div>
+        <div class="sol-cat">Produtividade</div>
+        <div class="sol-name">GTD Automatizado</div>
+        <div class="sol-desc">Captura tarefas de qualquer fonte, prioriza, weekly review guiada.</div>
+        <div class="sol-footer">
+          <span class="sol-meta">Ref: GTD</span>
+          <button class="sol-btn activate">Ativar</button>
+        </div>
+      </div>
+
+      <div class="sol-card fade-in" data-cat="produtividade" data-name="Morning Routine">
+        <div class="sol-icon" style="background:rgba(255,69,58,0.08);">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FF453A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+        </div>
+        <div class="sol-cat">Produtividade</div>
+        <div class="sol-name">Morning Routine</div>
+        <div class="sol-desc">Rotina matinal personalizada, tracking de habitos, streaks.</div>
+        <div class="sol-footer">
+          <span class="sol-meta">Diario 06:00</span>
+          <button class="sol-btn activate">Ativar</button>
+        </div>
+      </div>
+
     </div>
 
-    <!-- Relacionamentos -->
-    <p class="section-label fade-in">Relacionamentos</p>
-    <div class="grid">
-      <div class="card fade-in" data-cat="relacionamentos"><div class="card-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg></div><div class="card-cat">Relacionamentos</div><div class="card-name">Date Planner</div><div class="card-desc">Sugere programas criativos baseados nos interesses do casal. Lembrete de datas especiais.</div><div class="card-foot"><span class="card-meta">Semanal</span><button class="card-btn go">Ativar</button></div></div>
+    <!-- ============================================ -->
+    <!-- PROPOSITO -->
+    <!-- ============================================ -->
+    <p class="section-label fade-in" data-section="proposito">Proposito</p>
+    <div class="sol-grid" data-section-grid="proposito">
 
-      <div class="card fade-in" data-cat="relacionamentos"><div class="card-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg></div><div class="card-cat">Relacionamentos</div><div class="card-name">Conexao com Familia</div><div class="card-desc">Lembrete de ligar pra mae, aniversarios e datas importantes. Sugestoes de presentes.</div><div class="card-foot"><span class="card-meta">Ref: Gottman</span><button class="card-btn go">Ativar</button></div></div>
+      <div class="sol-card fade-in" data-cat="proposito" data-name="Ikigai Mapping">
+        <div class="sol-icon" style="background:rgba(215,0,48,0.06);">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#D70030" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        </div>
+        <div class="sol-cat">Proposito</div>
+        <div class="sol-name">Ikigai Mapping</div>
+        <div class="sol-desc">Descobre e refina seu proposito cruzando paixao, missao, profissao e vocacao.</div>
+        <div class="sol-footer">
+          <span class="sol-meta">Trimestral</span>
+          <button class="sol-btn activate">Ativar</button>
+        </div>
+      </div>
+
+      <div class="sol-card fade-in" data-cat="proposito" data-name="Vision Board Digital">
+        <div class="sol-icon" style="background:rgba(215,0,48,0.06);">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#D70030" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+        </div>
+        <div class="sol-cat">Proposito</div>
+        <div class="sol-name">Vision Board Digital</div>
+        <div class="sol-desc">Cria e atualiza board visual de objetivos de vida.</div>
+        <div class="sol-footer">
+          <span class="sol-meta">Mensal</span>
+          <button class="sol-btn activate">Ativar</button>
+        </div>
+      </div>
+
+      <div class="sol-card fade-in" data-cat="proposito" data-name="Mentor de Legado">
+        <div class="sol-icon" style="background:rgba(215,0,48,0.06);">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#D70030" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>
+        </div>
+        <div class="sol-cat">Proposito</div>
+        <div class="sol-name">Mentor de Legado</div>
+        <div class="sol-desc">Planeja impacto social, voluntariado, mentoria reversa.</div>
+        <div class="sol-footer">
+          <span class="sol-meta">Semestral</span>
+          <button class="sol-btn activate">Ativar</button>
+        </div>
+      </div>
+
     </div>
 
-    <!-- Casa -->
-    <p class="section-label fade-in">Casa & Ambiente</p>
-    <div class="grid">
-      <div class="card fade-in" data-cat="casa"><div class="card-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><path d="M9 22V12h6v10"/></svg></div><div class="card-cat">Casa</div><div class="card-name">Manutencao Preventiva</div><div class="card-desc">Calendario de manutencao da casa: filtros, dedetizacao, pintura, revisao eletrica.</div><div class="card-foot"><span class="card-meta">Trimestral</span><button class="card-btn go">Ativar</button></div></div>
+    <!-- ============================================ -->
+    <!-- RELACIONAMENTOS -->
+    <!-- ============================================ -->
+    <p class="section-label fade-in" data-section="relacionamentos">Relacionamentos</p>
+    <div class="sol-grid" data-section-grid="relacionamentos">
 
-      <div class="card fade-in" data-cat="casa"><div class="card-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 002 1.61h9.72a2 2 0 002-1.61L23 6H6"/></svg></div><div class="card-cat">Casa</div><div class="card-name">Lista de Compras</div><div class="card-desc">Gera lista de compras baseada no cardapio da semana. Detecta itens acabando pelo historico.</div><div class="card-foot"><span class="card-meta">Semanal</span><button class="card-btn go">Ativar</button></div></div>
+      <div class="sol-card fade-in" data-cat="relacionamentos" data-name="Agenda Afetiva">
+        <div class="sol-icon" style="background:rgba(255,55,95,0.08);">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FF375F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>
+        </div>
+        <div class="sol-cat">Relacionamentos</div>
+        <div class="sol-name">Agenda Afetiva</div>
+        <div class="sol-desc">Lembra datas importantes, sugere presentes, agenda momentos juntos.</div>
+        <div class="sol-footer">
+          <span class="sol-meta">Automatico</span>
+          <button class="sol-btn activate">Ativar</button>
+        </div>
+      </div>
 
-      <div class="card fade-in" data-cat="casa"><div class="card-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg></div><div class="card-cat">Casa</div><div class="card-name">Rotina de Limpeza</div><div class="card-desc">Distribui tarefas de limpeza pela semana. Tracking do que foi feito e lembretes.</div><div class="card-foot"><span class="card-meta">FlyLady method</span><button class="card-btn go">Ativar</button></div></div>
+      <div class="sol-card fade-in" data-cat="relacionamentos" data-name="Comunicacao Assertiva">
+        <div class="sol-icon" style="background:rgba(255,55,95,0.08);">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FF375F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+        </div>
+        <div class="sol-cat">Relacionamentos</div>
+        <div class="sol-name">Comunicacao Assertiva</div>
+        <div class="sol-desc">Treina comunicacao nao-violenta, resolucao de conflitos.</div>
+        <div class="sol-footer">
+          <span class="sol-meta">Sob demanda</span>
+          <button class="sol-btn activate">Ativar</button>
+        </div>
+      </div>
+
+      <div class="sol-card fade-in" data-cat="relacionamentos" data-name="Network Estrategico">
+        <div class="sol-icon" style="background:rgba(255,55,95,0.08);">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FF375F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>
+        </div>
+        <div class="sol-cat">Relacionamentos</div>
+        <div class="sol-name">Network Estrategico</div>
+        <div class="sol-desc">Manutencao de amizades, follow-up automatico, eventos sociais.</div>
+        <div class="sol-footer">
+          <span class="sol-meta">Semanal</span>
+          <button class="sol-btn activate">Ativar</button>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Empty state for search -->
+    <div class="empty-state" id="emptyState" style="display:none;">
+      <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#AEAEB2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="margin-bottom:16px;"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+      <p>Nenhuma solucao encontrada.</p>
     </div>
 
   </main>
 
   <script>
-    function filter(cat, btn) {
-      document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
-      btn.classList.add('active');
-      document.querySelectorAll('.card').forEach(c => {
-        c.style.display = (cat === 'all' || c.dataset.cat === cat) ? '' : 'none';
+    // Filter chips
+    document.querySelectorAll('.chip').forEach(chip => {
+      chip.addEventListener('click', () => {
+        document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
+        chip.classList.add('active');
+        const cat = chip.dataset.cat;
+        applyFilters(cat, document.getElementById('searchInput').value);
       });
-      document.querySelectorAll('.section-label').forEach(l => {
-        const grid = l.nextElementSibling;
-        if (grid && grid.classList.contains('grid')) {
-          const vis = grid.querySelectorAll('.card:not([style*="display: none"])').length;
-          l.style.display = vis ? '' : 'none';
+    });
+
+    // Search
+    function search(query) {
+      const activeCat = document.querySelector('.chip.active')?.dataset.cat || 'all';
+      applyFilters(activeCat, query);
+    }
+
+    // Combined filter + search
+    function applyFilters(cat, query) {
+      const q = (query || '').toLowerCase().trim();
+      let totalVisible = 0;
+
+      document.querySelectorAll('.sol-card').forEach(card => {
+        const cardCat = card.dataset.cat;
+        const cardName = (card.dataset.name || '').toLowerCase();
+        const cardDesc = (card.querySelector('.sol-desc')?.textContent || '').toLowerCase();
+
+        const matchCat = (cat === 'all' || cardCat === cat);
+        const matchSearch = !q || cardName.includes(q) || cardDesc.includes(q) || cardCat.includes(q);
+
+        if (matchCat && matchSearch) {
+          card.style.display = '';
+          totalVisible++;
+        } else {
+          card.style.display = 'none';
         }
       });
+
+      // Show/hide section labels
+      document.querySelectorAll('.section-label').forEach(label => {
+        const section = label.dataset.section;
+        const grid = document.querySelector(`[data-section-grid="${section}"]`);
+        if (grid) {
+          const visibleCards = grid.querySelectorAll('.sol-card:not([style*="display: none"])').length;
+          label.style.display = visibleCards > 0 ? '' : 'none';
+          grid.style.display = visibleCards > 0 ? '' : 'none';
+        }
+      });
+
+      // Empty state
+      document.getElementById('emptyState').style.display = totalVisible === 0 ? '' : 'none';
     }
   </script>
 
+  <script src="../shared-nav.js"></script>
+
 </body>
 </html>
-<script src="../shared-nav.js?v=1774794914"></script>
