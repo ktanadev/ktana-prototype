@@ -1,0 +1,19 @@
+<!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>Demitir — KTANA</title><link rel="stylesheet" href="../../shared.css"><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Zen+Dots&display=swap" rel="stylesheet">
+<style>body{min-height:100vh;background:#F5F5F7;display:flex;align-items:center;justify-content:center;padding:48px 24px}.container{max-width:420px;text-align:center}.icon{width:56px;height:56px;border-radius:16px;background:rgba(215,0,48,0.06);display:flex;align-items:center;justify-content:center;margin:0 auto 20px;font-size:24px}h1{font-family:'Satoshi',sans-serif;font-size:20px;font-weight:600;color:#1D1D1F;margin-bottom:8px}.desc{font-family:'Satoshi',sans-serif;font-size:14px;color:#86868B;line-height:1.6;margin-bottom:24px}.warning{font-family:'Satoshi',sans-serif;font-size:13px;color:#D70030;line-height:1.6;padding:16px;background:rgba(215,0,48,0.04);border-radius:12px;border:0.5px solid rgba(215,0,48,0.1);margin-bottom:24px;text-align:left}.actions{display:flex;gap:10px;justify-content:center}.btn-cancel{font-family:'Inter',sans-serif;padding:14px 28px;border-radius:14px;background:#1D1D1F;color:#F5F5F7;font-size:14px;font-weight:500;border:none;cursor:pointer}.btn-confirm{font-family:'Inter',sans-serif;padding:14px 28px;border-radius:14px;background:transparent;color:#D70030;font-size:14px;font-weight:500;border:0.5px solid rgba(215,0,48,0.2);cursor:pointer}</style></head>
+<body><div class="container fade-in">
+<div class="icon">&#x26A0;</div>
+<h1>Demitir Megumi?</h1>
+<p class="desc">Esta acao e permanente. Megumi sera removida da sua equipe.</p>
+<div class="warning">
+<strong>O que acontece:</strong><br>
+• Worker para imediatamente<br>
+• Memoria e spec sao deletados<br>
+• Historico de atividade e mantido por 90 dias<br>
+• Alcada e rotinas sao removidas<br>
+• Nao e possivel desfazer
+</div>
+<div class="actions">
+<button class="btn-cancel" onclick="location.href='paused.html'">Cancelar</button>
+<button class="btn-confirm" onclick="this.textContent='Demitida'; this.style.opacity='0.5'; setTimeout(()=>location.href='../team/list.html',1500)">Confirmar demissao</button>
+</div>
+</div></body></html>
