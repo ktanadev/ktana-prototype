@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Equipe — KTANA</title>
+  <link rel="stylesheet" href="../../shared.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Zen+Dots&display=swap" rel="stylesheet">
+  <style>
+    body { min-height: 100vh; background: #F5F5F7; }
+    .nav { position: sticky; top: 0; z-index: 50; height: 48px; display: flex; align-items: center; justify-content: center; background: rgba(245,245,247,0.72); backdrop-filter: saturate(180%) blur(20px); border-bottom: 0.5px solid rgba(0,0,0,0.06); }
+    .nav-inner { width: 100%; max-width: 720px; padding: 0 24px; display: flex; align-items: center; justify-content: space-between; }
+    .nav-logo { font-family: 'Zen Dots', cursive; font-size: 14px; color: #D70030; }
+    .nav-links { display: flex; align-items: center; gap: 24px; }
+    .nav-links a { font-family: 'Inter', sans-serif; font-size: 12px; color: #1D1D1F; opacity: 0.4; }
+    .nav-links a:hover, .nav-links a.active { opacity: 1; }
+
+    .main { max-width: 720px; margin: 0 auto; padding: 40px 24px 80px; }
+    .top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 32px; }
+    h1 { font-family: 'Satoshi', sans-serif; font-size: 22px; font-weight: 700; color: #1D1D1F; }
+    .top-actions { display: flex; gap: 8px; }
+    .btn-hire { font-family: 'Inter', sans-serif; padding: 8px 18px; border-radius: 980px; background: #1D1D1F; color: #F5F5F7; font-size: 12px; font-weight: 500; border: none; cursor: pointer; }
+    .btn-org { font-family: 'Inter', sans-serif; padding: 8px 18px; border-radius: 980px; background: transparent; color: #86868B; font-size: 12px; border: 0.5px solid rgba(0,0,0,0.08); cursor: pointer; }
+
+    .label { font-family: 'Inter', sans-serif; font-size: 10px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: #86868B; margin-bottom: 12px; margin-top: 32px; }
+    .label:first-of-type { margin-top: 0; }
+
+    .agent-row { display: flex; align-items: center; gap: 14px; background: #FFF; border: 1px solid rgba(0,0,0,0.04); border-radius: 16px; padding: 14px 18px; margin-bottom: 8px; cursor: pointer; transition: box-shadow 0.2s, transform 0.15s; }
+    .agent-row:hover { box-shadow: 0 4px 16px rgba(0,0,0,0.04); transform: translateY(-1px); }
+    .agent-avatar { width: 40px; height: 40px; border-radius: 50%; border: 1.5px solid #D2D2D7; display: flex; align-items: center; justify-content: center; flex-shrink: 0; position: relative; }
+    .agent-avatar span { font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 500; color: #6E6E73; }
+    .agent-avatar-ceo { border-color: rgba(215,0,48,0.25); }
+    .agent-avatar-ceo span { color: #D70030; }
+    .status-dot { position: absolute; bottom: -1px; right: -1px; width: 10px; height: 10px; border-radius: 50%; border: 2px solid #FFF; }
+    .status-online { background: #30D158; }
+    .status-paused { background: #8E8E93; }
+    .agent-info { flex: 1; }
+    .agent-name { font-family: 'Satoshi', sans-serif; font-size: 14px; font-weight: 500; color: #1D1D1F; }
+    .agent-meta { font-family: 'Inter', sans-serif; font-size: 11px; color: #86868B; margin-top: 2px; }
+    .agent-stats { text-align: right; }
+    .agent-actions-count { font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 600; color: #1D1D1F; }
+    .agent-actions-label { font-family: 'Inter', sans-serif; font-size: 10px; color: #AEAEB2; }
+    .agent-cost { font-family: 'Inter', sans-serif; font-size: 10px; color: #AEAEB2; margin-top: 2px; }
+
+    .total { font-family: 'Inter', sans-serif; font-size: 11px; color: #AEAEB2; margin-top: 24px; display: flex; justify-content: space-between; padding-top: 16px; border-top: 0.5px solid rgba(0,0,0,0.04); }
+  </style>
+</head>
+<body>
+  <nav class="nav">
+    <div class="nav-inner">
+      <a href="../landing.html" class="nav-logo">KTANA</a>
+      <div class="nav-links">
+        <a href="../dashboard/home.html">Painel</a>
+        <a href="../office/index.html">Escritorio</a>
+        <a href="list.html" class="active">Equipe</a>
+        <a href="../approvals/list.html">Aprovacoes</a>
+      </div>
+    </div>
+  </nav>
+
+  <main class="main">
+    <div class="top fade-in">
+      <h1>Equipe</h1>
+      <div class="top-actions">
+        <button class="btn-org" onclick="location.href='org.html'">Organograma</button>
+        <button class="btn-hire" onclick="location.href='hire-level.html'">+ Contratar</button>
+      </div>
+    </div>
+
+    <p class="label fade-in">CEO</p>
+    <div class="agent-row fade-in" style="animation-delay:0.1s" onclick="location.href='../agent/chat.html'">
+      <div class="agent-avatar agent-avatar-ceo">
+        <span>A</span>
+        <div class="status-dot status-online"></div>
+      </div>
+      <div class="agent-info">
+        <p class="agent-name">Akira</p>
+        <p class="agent-meta">CEO · Orquestra toda empresa</p>
+      </div>
+      <div class="agent-stats">
+        <p class="agent-actions-count">24</p>
+        <p class="agent-actions-label">acoes hoje</p>
+        <p class="agent-cost">R$420/mes</p>
+      </div>
+    </div>
+
+    <p class="label fade-in" style="animation-delay:0.15s">FINANCEIRO</p>
+    <div class="agent-row fade-in" style="animation-delay:0.2s" onclick="location.href='../agent/chat.html'">
+      <div class="agent-avatar"><span>Y</span><div class="status-dot status-online"></div></div>
+      <div class="agent-info">
+        <p class="agent-name">Yuki</p>
+        <p class="agent-meta">Controller · Reporta a Akira (CEO)</p>
+      </div>
+      <div class="agent-stats">
+        <p class="agent-actions-count">47</p>
+        <p class="agent-actions-label">acoes hoje</p>
+        <p class="agent-cost">R$280/mes</p>
+      </div>
+    </div>
+
+    <p class="label fade-in" style="animation-delay:0.25s">ADMINISTRATIVO</p>
+    <div class="agent-row fade-in" style="animation-delay:0.3s" onclick="location.href='../agent/chat.html'">
+      <div class="agent-avatar"><span>H</span><div class="status-dot status-online"></div></div>
+      <div class="agent-info">
+        <p class="agent-name">Hana</p>
+        <p class="agent-meta">Secretaria Executiva · Reporta a Akira (CEO)</p>
+      </div>
+      <div class="agent-stats">
+        <p class="agent-actions-count">58</p>
+        <p class="agent-actions-label">acoes hoje</p>
+        <p class="agent-cost">R$190/mes</p>
+      </div>
+    </div>
+
+    <p class="label fade-in" style="animation-delay:0.35s">PROJETOS</p>
+    <div class="agent-row fade-in" style="animation-delay:0.4s" onclick="location.href='../agent/chat.html'">
+      <div class="agent-avatar"><span>H</span><div class="status-dot status-online"></div></div>
+      <div class="agent-info">
+        <p class="agent-name">Haruki</p>
+        <p class="agent-meta">Gestor de Projetos · Reporta a Akira (CEO)</p>
+      </div>
+      <div class="agent-stats">
+        <p class="agent-actions-count">65</p>
+        <p class="agent-actions-label">acoes hoje</p>
+        <p class="agent-cost">R$340/mes</p>
+      </div>
+    </div>
+
+    <div class="total fade-in" style="animation-delay:0.45s">
+      <span>4 samurais ativos · 194 acoes hoje</span>
+      <span>Total: R$1.230/mes</span>
+    </div>
+  </main>
+</body>
+</html>

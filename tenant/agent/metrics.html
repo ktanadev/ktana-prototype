@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Yuki — Metricas — KTANA</title>
+  <link rel="stylesheet" href="../../shared.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Zen+Dots&display=swap" rel="stylesheet">
+  <style>
+    body { min-height: 100vh; background: #F5F5F7; display: flex; flex-direction: column; }
+    .header { position: sticky; top: 0; z-index: 50; background: rgba(245,245,247,0.72); backdrop-filter: saturate(180%) blur(20px); border-bottom: 0.5px solid rgba(0,0,0,0.06); padding: 12px 24px; display: flex; align-items: center; gap: 12px; }
+    .header-back { font-family: 'Inter', sans-serif; font-size: 12px; color: #86868B; }
+    .header-avatar { width: 32px; height: 32px; border-radius: 50%; border: 1.5px solid #D2D2D7; display: flex; align-items: center; justify-content: center; }
+    .header-avatar span { font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 500; color: #6E6E73; }
+    .header-info h2 { font-family: 'Satoshi', sans-serif; font-size: 14px; font-weight: 600; color: #1D1D1F; }
+    .header-info p { font-family: 'Inter', sans-serif; font-size: 10px; color: #86868B; }
+    .header-tabs { margin-left: auto; display: flex; gap: 2px; background: rgba(0,0,0,0.03); border-radius: 8px; padding: 2px; }
+    .tab { font-family: 'Inter', sans-serif; padding: 5px 12px; border-radius: 6px; font-size: 11px; color: #86868B; cursor: pointer; border: none; background: none; }
+    .tab.active { background: #FFF; color: #1D1D1F; box-shadow: 0 1px 3px rgba(0,0,0,0.06); }
+
+    .main { flex: 1; max-width: 680px; width: 100%; margin: 0 auto; padding: 32px 24px 80px; }
+
+    .period { display: flex; gap: 2px; background: rgba(0,0,0,0.03); border-radius: 8px; padding: 2px; width: fit-content; margin-bottom: 32px; }
+    .period button { font-family: 'Inter', sans-serif; padding: 5px 14px; border-radius: 6px; font-size: 11px; color: #86868B; cursor: pointer; border: none; background: none; }
+    .period button.active { background: #FFF; color: #1D1D1F; box-shadow: 0 1px 3px rgba(0,0,0,0.06); }
+
+    .metrics-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-bottom: 24px; }
+    .metric-card { background: #FFF; border-radius: 16px; border: 1px solid rgba(0,0,0,0.04); padding: 20px; }
+    .metric-value { font-family: 'Zen Dots', cursive; font-size: 28px; color: #1D1D1F; line-height: 1; }
+    .metric-label { font-family: 'Satoshi', sans-serif; font-size: 12px; color: #86868B; margin-top: 6px; }
+    .metric-trend { font-family: 'Inter', sans-serif; font-size: 10px; margin-top: 8px; }
+    .trend-up { color: #248A3D; }
+    .trend-down { color: #D70030; }
+    .trend-neutral { color: #86868B; }
+
+    .card { background: #FFF; border-radius: 20px; border: 1px solid rgba(0,0,0,0.04); padding: 24px; margin-bottom: 12px; }
+    .card-label { font-family: 'Inter', sans-serif; font-size: 10px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: #D70030; margin-bottom: 14px; }
+
+    .bar-row { display: flex; align-items: center; gap: 12px; padding: 6px 0; }
+    .bar-label { font-family: 'Satoshi', sans-serif; font-size: 12px; color: #86868B; width: 100px; flex-shrink: 0; }
+    .bar-track { flex: 1; height: 4px; background: rgba(0,0,0,0.04); border-radius: 2px; overflow: hidden; }
+    .bar-fill { height: 100%; border-radius: 2px; background: #1D1D1F; }
+    .bar-value { font-family: 'Inter', sans-serif; font-size: 11px; color: #6E6E73; width: 48px; text-align: right; flex-shrink: 0; }
+
+    .approval-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+    .approval-stat { text-align: center; padding: 12px; }
+    .approval-stat-num { font-family: 'Zen Dots', cursive; font-size: 20px; color: #1D1D1F; }
+    .approval-stat-label { font-family: 'Inter', sans-serif; font-size: 10px; color: #86868B; margin-top: 4px; }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <a href="../dashboard/home.html" class="header-back">←</a>
+    <div class="header-avatar"><span>Y</span></div>
+    <div class="header-info"><h2>Yuki</h2><p>Controller · Online</p></div>
+    <div class="header-tabs">
+      <button class="tab" onclick="location.href='chat.html'">Chat</button>
+      <button class="tab" onclick="location.href='activity.html'">Atividade</button>
+      <button class="tab" onclick="location.href='profile.html'">Perfil</button>
+      <button class="tab active">Metricas</button>
+    </div>
+  </div>
+
+  <main class="main">
+    <div class="period fade-in">
+      <button>Hoje</button>
+      <button>Semana</button>
+      <button class="active">Mes</button>
+      <button>Trimestre</button>
+    </div>
+
+    <div class="metrics-grid fade-in" style="animation-delay:0.1s">
+      <div class="metric-card">
+        <p class="metric-value">847</p>
+        <p class="metric-label">Acoes executadas</p>
+        <p class="metric-trend trend-up">+12% vs mes anterior</p>
+      </div>
+      <div class="metric-card">
+        <p class="metric-value">R$67k</p>
+        <p class="metric-label">Valor recuperado</p>
+        <p class="metric-trend trend-up">+23% vs mes anterior</p>
+      </div>
+      <div class="metric-card">
+        <p class="metric-value">78%</p>
+        <p class="metric-label">Taxa de sucesso</p>
+        <p class="metric-trend trend-up">+5% vs mes anterior</p>
+      </div>
+      <div class="metric-card">
+        <p class="metric-value">R$280</p>
+        <p class="metric-label">Custo (tokens)</p>
+        <p class="metric-trend trend-neutral">Estavel</p>
+      </div>
+    </div>
+
+    <div class="card fade-in" style="animation-delay:0.2s">
+      <p class="card-label">Aprovacoes</p>
+      <div class="approval-stats">
+        <div class="approval-stat">
+          <p class="approval-stat-num">12</p>
+          <p class="approval-stat-label">Total pedidas</p>
+        </div>
+        <div class="approval-stat">
+          <p class="approval-stat-num">8</p>
+          <p class="approval-stat-label">Aprovadas</p>
+        </div>
+        <div class="approval-stat">
+          <p class="approval-stat-num">3</p>
+          <p class="approval-stat-label">Editadas</p>
+        </div>
+      </div>
+      <p style="font-family:'Inter',sans-serif; font-size:10px; color:#AEAEB2; text-align:center; margin-top:8px;">1 rejeitada</p>
+    </div>
+
+    <div class="card fade-in" style="animation-delay:0.3s">
+      <p class="card-label">Alinhamento com o dono</p>
+      <div class="bar-row">
+        <span class="bar-label">Global</span>
+        <div class="bar-track"><div class="bar-fill" style="width:89%"></div></div>
+        <span class="bar-value">89%</span>
+      </div>
+      <div class="bar-row">
+        <span class="bar-label">Cobrancas</span>
+        <div class="bar-track"><div class="bar-fill" style="width:92%"></div></div>
+        <span class="bar-value">92%</span>
+      </div>
+      <div class="bar-row">
+        <span class="bar-label">Relatorios</span>
+        <div class="bar-track"><div class="bar-fill" style="width:95%"></div></div>
+        <span class="bar-value">95%</span>
+      </div>
+      <div class="bar-row">
+        <span class="bar-label">Tom</span>
+        <div class="bar-track"><div class="bar-fill" style="width:82%"></div></div>
+        <span class="bar-value">82%</span>
+      </div>
+    </div>
+
+    <div class="card fade-in" style="animation-delay:0.4s">
+      <p class="card-label">Uso por tipo de acao</p>
+      <div class="bar-row">
+        <span class="bar-label">Cobrancas</span>
+        <div class="bar-track"><div class="bar-fill" style="width:40%"></div></div>
+        <span class="bar-value">340</span>
+      </div>
+      <div class="bar-row">
+        <span class="bar-label">Conciliacoes</span>
+        <div class="bar-track"><div class="bar-fill" style="width:25%"></div></div>
+        <span class="bar-value">212</span>
+      </div>
+      <div class="bar-row">
+        <span class="bar-label">Relatorios</span>
+        <div class="bar-track"><div class="bar-fill" style="width:15%"></div></div>
+        <span class="bar-value">127</span>
+      </div>
+      <div class="bar-row">
+        <span class="bar-label">Alertas</span>
+        <div class="bar-track"><div class="bar-fill" style="width:12%"></div></div>
+        <span class="bar-value">98</span>
+      </div>
+      <div class="bar-row">
+        <span class="bar-label">Outros</span>
+        <div class="bar-track"><div class="bar-fill" style="width:8%"></div></div>
+        <span class="bar-value">70</span>
+      </div>
+    </div>
+  </main>
+</body>
+</html>

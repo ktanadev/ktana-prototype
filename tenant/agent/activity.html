@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Yuki — Atividade — KTANA</title>
+  <link rel="stylesheet" href="../../shared.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Zen+Dots&display=swap" rel="stylesheet">
+  <style>
+    body { min-height: 100vh; background: #F5F5F7; display: flex; flex-direction: column; }
+    .header { position: sticky; top: 0; z-index: 50; background: rgba(245,245,247,0.72); backdrop-filter: saturate(180%) blur(20px); border-bottom: 0.5px solid rgba(0,0,0,0.06); padding: 12px 24px; display: flex; align-items: center; gap: 12px; }
+    .header-back { font-family: 'Inter', sans-serif; font-size: 12px; color: #86868B; }
+    .header-avatar { width: 32px; height: 32px; border-radius: 50%; border: 1.5px solid #D2D2D7; display: flex; align-items: center; justify-content: center; }
+    .header-avatar span { font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 500; color: #6E6E73; }
+    .header-info h2 { font-family: 'Satoshi', sans-serif; font-size: 14px; font-weight: 600; color: #1D1D1F; }
+    .header-info p { font-family: 'Inter', sans-serif; font-size: 10px; color: #86868B; }
+    .header-tabs { margin-left: auto; display: flex; gap: 2px; background: rgba(0,0,0,0.03); border-radius: 8px; padding: 2px; }
+    .tab { font-family: 'Inter', sans-serif; padding: 5px 12px; border-radius: 6px; font-size: 11px; color: #86868B; cursor: pointer; border: none; background: none; }
+    .tab.active { background: #FFF; color: #1D1D1F; box-shadow: 0 1px 3px rgba(0,0,0,0.06); }
+
+    .main { flex: 1; max-width: 680px; width: 100%; margin: 0 auto; padding: 24px; }
+    .day-label { font-family: 'Inter', sans-serif; font-size: 10px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: #86868B; margin-bottom: 12px; margin-top: 24px; }
+    .day-label:first-child { margin-top: 0; }
+
+    .activity-item { display: flex; gap: 12px; padding: 10px 0; border-bottom: 0.5px solid rgba(0,0,0,0.03); }
+    .activity-item:last-child { border-bottom: none; }
+    .activity-time { font-family: 'Inter', sans-serif; font-size: 11px; color: #AEAEB2; width: 40px; flex-shrink: 0; font-variant-numeric: tabular-nums; padding-top: 1px; }
+    .activity-dot { width: 7px; height: 7px; border-radius: 50%; margin-top: 5px; flex-shrink: 0; }
+    .dot-action { background: #1D1D1F; }
+    .dot-approval { background: #D70030; }
+    .dot-auto { background: #86868B; }
+    .activity-content { flex: 1; }
+    .activity-desc { font-family: 'Satoshi', sans-serif; font-size: 13px; color: #1D1D1F; line-height: 1.4; }
+    .activity-meta { font-family: 'Inter', sans-serif; font-size: 10px; color: #AEAEB2; margin-top: 3px; }
+    .activity-tag { font-family: 'Inter', sans-serif; display: inline-flex; padding: 2px 8px; border-radius: 4px; font-size: 9px; font-weight: 500; }
+    .tag-sent { background: rgba(48,209,88,0.08); color: #248A3D; }
+    .tag-pending { background: rgba(215,0,48,0.06); color: #D70030; }
+    .tag-auto { background: rgba(0,0,0,0.03); color: #86868B; }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <a href="../dashboard/home.html" class="header-back">←</a>
+    <div class="header-avatar"><span>Y</span></div>
+    <div class="header-info"><h2>Yuki</h2><p>Controller · Online</p></div>
+    <div class="header-tabs">
+      <button class="tab" onclick="location.href='chat.html'">Chat</button>
+      <button class="tab active">Atividade</button>
+      <button class="tab" onclick="location.href='profile.html'">Perfil</button>
+      <button class="tab" onclick="location.href='metrics.html'">Metricas</button>
+    </div>
+  </div>
+
+  <main class="main">
+    <p class="day-label fade-in">Hoje</p>
+
+    <div class="activity-item fade-in" style="animation-delay:0.05s">
+      <span class="activity-time">17:02</span>
+      <div class="activity-dot dot-auto"></div>
+      <div class="activity-content">
+        <p class="activity-desc">Relatorio diario enviado para Kaito (CFO)</p>
+        <p class="activity-meta">Rotina automatica · <span class="activity-tag tag-sent">Enviado</span></p>
+      </div>
+    </div>
+
+    <div class="activity-item fade-in" style="animation-delay:0.1s">
+      <span class="activity-time">16:45</span>
+      <div class="activity-dot dot-action"></div>
+      <div class="activity-content">
+        <p class="activity-desc">3 pagamentos conciliados (Cli. A R$5.000, Cli. B R$3.200, Cli. C R$1.800)</p>
+        <p class="activity-meta">Acao automatica · ERP atualizado</p>
+      </div>
+    </div>
+
+    <div class="activity-item fade-in" style="animation-delay:0.15s">
+      <span class="activity-time">14:33</span>
+      <div class="activity-dot dot-action"></div>
+      <div class="activity-content">
+        <p class="activity-desc">Cobranca enviada para Cliente Y — R$12.240 (com juros 2%)</p>
+        <p class="activity-meta">Aprovado por Julio · <span class="activity-tag tag-sent">Email + WhatsApp</span></p>
+      </div>
+    </div>
+
+    <div class="activity-item fade-in" style="animation-delay:0.2s">
+      <span class="activity-time">14:30</span>
+      <div class="activity-dot dot-auto"></div>
+      <div class="activity-content">
+        <p class="activity-desc">Alerta: Fatura #789 vence amanha (R$8.200 — Cliente Z)</p>
+        <p class="activity-meta">Lembrete enviado ao cliente via email</p>
+      </div>
+    </div>
+
+    <div class="activity-item fade-in" style="animation-delay:0.25s">
+      <span class="activity-time">10:15</span>
+      <div class="activity-dot dot-action"></div>
+      <div class="activity-content">
+        <p class="activity-desc">Cobranca enviada para Cliente X — R$3.500 (10 dias atraso)</p>
+        <p class="activity-meta">Dentro da alcada · <span class="activity-tag tag-sent">Automatico</span></p>
+      </div>
+    </div>
+
+    <div class="activity-item fade-in" style="animation-delay:0.3s">
+      <span class="activity-time">10:00</span>
+      <div class="activity-dot dot-approval"></div>
+      <div class="activity-content">
+        <p class="activity-desc">Pediu aprovacao: cobrar Cliente Y (R$12.000 — acima da alcada)</p>
+        <p class="activity-meta">Escalou para Julio · <span class="activity-tag tag-pending">Aguardando</span></p>
+      </div>
+    </div>
+
+    <div class="activity-item fade-in" style="animation-delay:0.35s">
+      <span class="activity-time">08:12</span>
+      <div class="activity-dot dot-auto"></div>
+      <div class="activity-content">
+        <p class="activity-desc">Verificou 23 faturas: 3 vencidas, 5 vencem esta semana, 15 em dia</p>
+        <p class="activity-meta">Rotina matinal · <span class="activity-tag tag-auto">Automatico</span></p>
+      </div>
+    </div>
+
+    <p class="day-label fade-in" style="animation-delay:0.4s">Ontem</p>
+
+    <div class="activity-item fade-in" style="animation-delay:0.45s">
+      <span class="activity-time">17:00</span>
+      <div class="activity-dot dot-auto"></div>
+      <div class="activity-content">
+        <p class="activity-desc">Relatorio diario enviado para Kaito (CFO)</p>
+        <p class="activity-meta">Rotina automatica</p>
+      </div>
+    </div>
+
+    <div class="activity-item fade-in" style="animation-delay:0.5s">
+      <span class="activity-time">11:20</span>
+      <div class="activity-dot dot-action"></div>
+      <div class="activity-content">
+        <p class="activity-desc">Cliente A confirmou pagamento de R$5.000 — registrado no ERP</p>
+        <p class="activity-meta">Conciliacao manual + automatica</p>
+      </div>
+    </div>
+  </main>
+</body>
+</html>

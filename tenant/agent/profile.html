@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Yuki — Perfil — KTANA</title>
+  <link rel="stylesheet" href="../../shared.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Zen+Dots&display=swap" rel="stylesheet">
+  <style>
+    body { min-height: 100vh; background: #F5F5F7; display: flex; flex-direction: column; }
+    .header { position: sticky; top: 0; z-index: 50; background: rgba(245,245,247,0.72); backdrop-filter: saturate(180%) blur(20px); border-bottom: 0.5px solid rgba(0,0,0,0.06); padding: 12px 24px; display: flex; align-items: center; gap: 12px; }
+    .header-back { font-family: 'Inter', sans-serif; font-size: 12px; color: #86868B; }
+    .header-avatar { width: 32px; height: 32px; border-radius: 50%; border: 1.5px solid #D2D2D7; display: flex; align-items: center; justify-content: center; }
+    .header-avatar span { font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 500; color: #6E6E73; }
+    .header-info h2 { font-family: 'Satoshi', sans-serif; font-size: 14px; font-weight: 600; color: #1D1D1F; }
+    .header-info p { font-family: 'Inter', sans-serif; font-size: 10px; color: #86868B; }
+    .header-tabs { margin-left: auto; display: flex; gap: 2px; background: rgba(0,0,0,0.03); border-radius: 8px; padding: 2px; }
+    .tab { font-family: 'Inter', sans-serif; padding: 5px 12px; border-radius: 6px; font-size: 11px; color: #86868B; cursor: pointer; border: none; background: none; }
+    .tab.active { background: #FFF; color: #1D1D1F; box-shadow: 0 1px 3px rgba(0,0,0,0.06); }
+
+    .main { flex: 1; max-width: 680px; width: 100%; margin: 0 auto; padding: 32px 24px 80px; }
+
+    .card { background: #FFF; border-radius: 20px; border: 1px solid rgba(0,0,0,0.04); padding: 24px; margin-bottom: 12px; }
+    .card-label { font-family: 'Inter', sans-serif; font-size: 10px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: #D70030; margin-bottom: 14px; }
+
+    .field { display: flex; justify-content: space-between; align-items: start; padding: 8px 0; border-bottom: 0.5px solid rgba(0,0,0,0.03); }
+    .field:last-child { border-bottom: none; }
+    .field-label { font-family: 'Satoshi', sans-serif; font-size: 13px; color: #86868B; }
+    .field-value { font-family: 'Satoshi', sans-serif; font-size: 13px; color: #1D1D1F; text-align: right; max-width: 60%; }
+
+    .function-text { font-family: 'Satoshi', sans-serif; font-size: 14px; color: #1D1D1F; line-height: 1.6; }
+
+    .ref-item { display: flex; align-items: center; gap: 10px; padding: 8px 0; }
+    .ref-dot { width: 6px; height: 6px; border-radius: 50%; background: #D70030; flex-shrink: 0; }
+    .ref-name { font-family: 'Satoshi', sans-serif; font-size: 13px; font-weight: 500; color: #1D1D1F; }
+    .ref-why { font-family: 'Satoshi', sans-serif; font-size: 11px; color: #86868B; }
+
+    .attr-group { margin-bottom: 12px; }
+    .attr-title { font-family: 'Satoshi', sans-serif; font-size: 13px; font-weight: 500; color: #1D1D1F; padding: 6px 0; }
+    .attr-tasks { padding-left: 16px; }
+    .attr-task { font-family: 'Satoshi', sans-serif; font-size: 12px; color: #86868B; padding: 3px 0; display: flex; align-items: center; gap: 6px; }
+    .attr-task::before { content: ''; width: 3px; height: 3px; border-radius: 50%; background: #D2D2D7; flex-shrink: 0; }
+
+    .traits { display: flex; flex-wrap: wrap; gap: 6px; }
+    .trait { font-family: 'Inter', sans-serif; padding: 4px 12px; border-radius: 980px; border: 0.5px solid rgba(0,0,0,0.06); font-size: 11px; color: #6E6E73; }
+
+    .alcada-row { display: flex; justify-content: space-between; padding: 6px 0; }
+    .alcada-label { font-family: 'Satoshi', sans-serif; font-size: 13px; color: #1D1D1F; }
+    .alcada-value { font-family: 'Inter', sans-serif; font-size: 12px; color: #86868B; }
+    .alcada-value.needs { color: #D70030; }
+
+    .btn-edit { font-family: 'Inter', sans-serif; display: block; width: 100%; padding: 12px; border-radius: 12px; background: transparent; color: #86868B; font-size: 13px; border: 0.5px solid rgba(0,0,0,0.06); cursor: pointer; text-align: center; margin-top: 16px; }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <a href="../dashboard/home.html" class="header-back">←</a>
+    <div class="header-avatar"><span>Y</span></div>
+    <div class="header-info"><h2>Yuki</h2><p>Controller · Online</p></div>
+    <div class="header-tabs">
+      <button class="tab" onclick="location.href='chat.html'">Chat</button>
+      <button class="tab" onclick="location.href='activity.html'">Atividade</button>
+      <button class="tab active">Perfil</button>
+      <button class="tab" onclick="location.href='metrics.html'">Metricas</button>
+    </div>
+  </div>
+
+  <main class="main">
+    <div class="card fade-in">
+      <p class="card-label">Identidade</p>
+      <div class="field"><span class="field-label">Nome</span><span class="field-value">Yuki</span></div>
+      <div class="field"><span class="field-label">Cargo</span><span class="field-value">Controller</span></div>
+      <div class="field"><span class="field-label">Departamento</span><span class="field-value">Financeiro</span></div>
+      <div class="field"><span class="field-label">Reporta a</span><span class="field-value">Akira (CEO)</span></div>
+      <div class="field"><span class="field-label">Contratada em</span><span class="field-value">29/03/2026</span></div>
+      <div class="field"><span class="field-label">Alinhamento</span><span class="field-value">89%</span></div>
+    </div>
+
+    <div class="card fade-in" style="animation-delay:0.1s">
+      <p class="card-label">Funcao</p>
+      <p class="function-text">Responsavel pela execucao financeira diaria. Cobra clientes, emite boletos, controla contas a pagar e receber, gera fluxo de caixa diario e DRE mensal. Avisa quando tem fatura vencendo.</p>
+    </div>
+
+    <div class="card fade-in" style="animation-delay:0.15s">
+      <p class="card-label">Cerebro (referencias)</p>
+      <div class="ref-item"><div class="ref-dot"></div><div><p class="ref-name">Warren Buffett</p><p class="ref-why">Disciplina, visao de longo prazo, rigor</p></div></div>
+      <div class="ref-item"><div class="ref-dot"></div><div><p class="ref-name">Aswath Damodaran</p><p class="ref-why">Rigor analitico, valuation, dados</p></div></div>
+    </div>
+
+    <div class="card fade-in" style="animation-delay:0.2s">
+      <p class="card-label">Atribuicoes</p>
+      <div class="attr-group">
+        <p class="attr-title">Contas a receber</p>
+        <div class="attr-tasks">
+          <p class="attr-task">Emitir cobrancas</p>
+          <p class="attr-task">Acompanhar pagamentos</p>
+          <p class="attr-task">Cobrar inadimplentes</p>
+          <p class="attr-task">Conciliar recebimentos</p>
+        </div>
+      </div>
+      <div class="attr-group">
+        <p class="attr-title">Contas a pagar</p>
+        <div class="attr-tasks">
+          <p class="attr-task">Verificar vencimentos</p>
+          <p class="attr-task">Alertar sobre pagamentos</p>
+        </div>
+      </div>
+      <div class="attr-group">
+        <p class="attr-title">Relatorios</p>
+        <div class="attr-tasks">
+          <p class="attr-task">Fluxo de caixa diario</p>
+          <p class="attr-task">DRE mensal</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="card fade-in" style="animation-delay:0.25s">
+      <p class="card-label">Personalidade</p>
+      <div class="traits">
+        <span class="trait">Organizada</span>
+        <span class="trait">Detalhista</span>
+        <span class="trait">Firme</span>
+        <span class="trait">Proativa</span>
+      </div>
+      <div class="field" style="margin-top: 12px;"><span class="field-label">Tom</span><span class="field-value">Profissional</span></div>
+    </div>
+
+    <div class="card fade-in" style="animation-delay:0.3s">
+      <p class="card-label">Alcada</p>
+      <div class="alcada-row"><span class="alcada-label">Cobrar ate R$5.000</span><span class="alcada-value">Faz sozinha</span></div>
+      <div class="alcada-row"><span class="alcada-label">Cobrar acima de R$5.000</span><span class="alcada-value needs">Pede aprovacao</span></div>
+      <div class="alcada-row"><span class="alcada-label">Emitir boleto</span><span class="alcada-value">Faz sozinha</span></div>
+      <div class="alcada-row"><span class="alcada-label">Dar desconto</span><span class="alcada-value needs">Sempre pede</span></div>
+      <div class="alcada-row"><span class="alcada-label">Negativar cliente</span><span class="alcada-value needs">Sempre pede</span></div>
+    </div>
+
+    <div class="card fade-in" style="animation-delay:0.35s">
+      <p class="card-label">Rotinas</p>
+      <div class="field"><span class="field-label">08:00</span><span class="field-value">Verificar faturas vencidas</span></div>
+      <div class="field"><span class="field-label">10:00</span><span class="field-value">Executar cobrancas do dia</span></div>
+      <div class="field"><span class="field-label">14:00</span><span class="field-value">Conciliacao bancaria</span></div>
+      <div class="field"><span class="field-label">17:00</span><span class="field-value">Fechamento e relatorio</span></div>
+      <div class="field"><span class="field-label">Sex 16:00</span><span class="field-value">Relatorio semanal</span></div>
+    </div>
+
+    <button class="btn-edit fade-in" style="animation-delay:0.4s" onclick="location.href='config.html'">Editar perfil</button>
+  </main>
+</body>
+</html>
