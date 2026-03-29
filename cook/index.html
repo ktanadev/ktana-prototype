@@ -342,20 +342,60 @@
       </div>
       <!-- TAB 1: AGENT FLOW -->
       <div class="right-tab-content active" id="rtab-agentflow">
-        <div class="flow-canvas" id="flowCanvas">
-          <div class="flow-grid"></div>
-          <svg class="flow-svg" id="flowSvg" viewBox="0 0 900 520"><g id="flowLines"></g><g id="flowParticles"></g></svg>
-          <div class="flow-node" id="node-julio" style="left:50%;top:20px;transform:translateX(-50%);" onclick="showThought('julio',this)"><div class="flow-av flow-av-shogun">J</div><p class="flow-name" style="color:#636366;">Julio</p><p class="flow-role-label" style="color:#48484A;">Shogun</p></div>
-          <div class="flow-node" id="node-akira" style="left:50%;top:120px;transform:translateX(-50%);" onclick="showThought('akira',this)"><div class="flow-av flow-av-ceo">A</div><p class="flow-name">Akira</p><p class="flow-role-label">CEO</p><div class="flow-action-tag">Consolidando briefing</div><div class="flow-glow"></div></div>
-          <div class="flow-node" id="node-yuki" style="left:18%;top:270px;transform:translateX(-50%);" onclick="showThought('yuki',this)"><div class="flow-av flow-av-w">Y</div><p class="flow-name">Yuki</p><p class="flow-role-label">Controller</p><div class="flow-action-tag flow-tag-blue">DRE marco 80%</div><div class="flow-glow flow-g-blue"></div></div>
-          <div class="flow-node" id="node-hana" style="left:38%;top:270px;transform:translateX(-50%);" onclick="showThought('hana',this)"><div class="flow-av flow-av-w">H</div><p class="flow-name">Hana</p><p class="flow-role-label">Secretaria</p><div class="flow-action-tag flow-tag-green">23 emails filtrados</div><div class="flow-glow flow-g-green"></div></div>
-          <div class="flow-node" id="node-haruki" style="left:62%;top:270px;transform:translateX(-50%);" onclick="showThought('haruki',this)"><div class="flow-av flow-av-w">H</div><p class="flow-name">Haruki</p><p class="flow-role-label">PM</p><div class="flow-action-tag flow-tag-orange">Sprint 8/10</div><div class="flow-glow flow-g-orange"></div></div>
-          <div class="flow-node" id="node-kaito" style="left:30%;top:400px;transform:translateX(-50%);" onclick="showThought('kaito',this)"><div class="flow-av flow-av-w">K</div><p class="flow-name">Kaito</p><p class="flow-role-label">Builder</p><div class="flow-action-tag flow-tag-purple">3 modulos prontos</div><div class="flow-glow flow-g-purple"></div></div>
-          <div class="flow-node" id="node-yumi" style="left:70%;top:400px;transform:translateX(-50%);" onclick="showThought('yumi',this)"><div class="flow-av flow-av-w">Y</div><p class="flow-name">Yumi</p><p class="flow-role-label">Mentora PF</p><div class="flow-action-tag flow-tag-green">Novo PF onboarded</div><div class="flow-glow flow-g-green"></div></div>
-          <div class="thought-bubble" id="thoughtBubble"><p class="thought-type" id="thoughtType">Pensando</p><p class="thought-text" id="thoughtText"></p></div>
-          <div class="flow-bottom"><span id="flowAgentCount">7 samurais</span><span id="flowActionCount">214 acoes</span><span id="flowCost">R$67 gastos</span><span id="flowLatency">1.2ms latencia</span><span class="flow-live-badge">LIVE</span></div>
+        <style>
+          .af-canvas{position:relative;background:#050505;border:1px solid rgba(255,255,255,0.04);border-radius:14px;min-height:580px;overflow:hidden;}
+          .af-grid{position:absolute;inset:0;opacity:0.03;background-image:radial-gradient(circle at 1px 1px,#D70030 0.5px,transparent 0);background-size:50px 50px;pointer-events:none;}
+          .af-card{background:#0d1117;border:1px solid rgba(255,255,255,0.08);border-radius:10px;padding:10px 14px;margin-bottom:2px;cursor:pointer;transition:all 0.3s ease;position:relative;overflow:hidden;animation:afCardIn 0.5s ease;}
+          .af-card:hover{border-color:rgba(255,255,255,0.15);background:#111820;}
+          .af-card.active{border-color:rgba(215,0,48,0.3);box-shadow:0 0 20px rgba(215,0,48,0.08);}
+          .af-card-head{display:flex;align-items:center;gap:8px;margin-bottom:4px;}
+          .af-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0;animation:afPulse 2s ease infinite;}
+          .af-dot-active{background:#30D158;box-shadow:0 0 6px rgba(48,209,88,0.5);}
+          .af-dot-thinking{background:#FF9F0A;box-shadow:0 0 6px rgba(255,159,10,0.5);animation:afBlink 1s ease infinite;}
+          .af-dot-done{background:#636366;}
+          .af-agent{font-size:11px;font-weight:600;color:#D2D2D7;}
+          .af-tool{font-size:9px;color:#636366;margin-left:auto;font-family:'SF Mono',Consolas,monospace;}
+          .af-action{font-size:12px;color:#8E8E93;font-family:'SF Mono',Consolas,monospace;line-height:1.5;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+          .af-action.typing{border-right:2px solid #D70030;animation:afCursor 0.8s step-end infinite;}
+          .af-meta{display:flex;gap:12px;margin-top:6px;font-size:9px;color:#48484A;}
+          .af-meta span{display:flex;align-items:center;gap:3px;}
+          .af-branch{margin-left:28px;border-left:1px solid rgba(215,0,48,0.15);padding-left:14px;position:relative;}
+          .af-branch::before{content:'';position:absolute;left:-1px;top:0;width:14px;height:1px;background:rgba(215,0,48,0.15);}
+          .af-thought{background:rgba(215,0,48,0.04);border:1px solid rgba(215,0,48,0.1);border-radius:10px;padding:12px 16px;margin-top:8px;margin-bottom:8px;}
+          .af-thought-label{font-size:8px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:#D70030;margin-bottom:4px;}
+          .af-thought-text{font-size:12px;color:#D2D2D7;line-height:1.5;font-family:'SF Mono',Consolas,monospace;}
+          .af-thought-text.typing{border-right:2px solid #D70030;animation:afCursor 0.8s step-end infinite;display:inline;}
+          .af-progress{width:100%;height:2px;background:#1C1C1E;border-radius:1px;margin-top:6px;overflow:hidden;}
+          .af-progress-bar{height:100%;border-radius:1px;transition:width 2s ease;}
+          .af-bottom{position:absolute;bottom:0;left:0;right:0;padding:10px 16px;display:flex;gap:16px;font-size:9px;color:#48484A;background:linear-gradient(transparent,#050505);z-index:5;}
+          .af-live{color:#D70030;font-weight:700;letter-spacing:0.08em;display:flex;align-items:center;gap:4px;margin-left:auto;}
+          .af-live::before{content:'';width:5px;height:5px;border-radius:50%;background:#D70030;animation:pulse 1.5s ease infinite;}
+          @keyframes afCardIn{from{opacity:0;transform:translateY(-8px);}to{opacity:1;transform:translateY(0);}}
+          @keyframes afCursor{0%,100%{border-color:#D70030;}50%{border-color:transparent;}}
+          @keyframes afBlink{0%,100%{opacity:1;}50%{opacity:0.3;}}
+          @keyframes afPulse{0%,100%{transform:scale(1);}50%{transform:scale(1.3);}}
+          .af-transcript{background:#0A0A0A;border:1px solid rgba(255,255,255,0.04);border-radius:10px;padding:12px 14px;margin-top:12px;max-height:130px;overflow-y:auto;}
+          .af-log-item{font-size:10px;font-family:'SF Mono',Consolas,monospace;color:#636366;padding:2px 0;border-bottom:0.5px solid rgba(255,255,255,0.02);animation:afCardIn 0.3s ease;}
+          .af-log-item .time{color:#48484A;margin-right:6px;}
+          .af-log-item .agent{font-weight:600;margin-right:4px;}
+          .af-log-item .act{color:#8E8E93;}
+        </style>
+        <div class="af-canvas" id="afCanvas">
+          <div class="af-grid"></div>
+          <div id="afCards" style="position:relative;z-index:2;padding:20px 16px 40px;"></div>
+          <div class="af-bottom">
+            <span id="afAgentCount">6 ativos</span>
+            <span id="afActionCount">214 acoes</span>
+            <span id="afTokens">11.4k tokens ~R$0.47</span>
+            <span id="afCost">R$67 hoje</span>
+            <span id="afLatency">1.2ms</span>
+            <span class="af-live">LIVE</span>
+          </div>
         </div>
-        <div class="flow-ticker"><p class="flow-ticker-title">Atividade em tempo real</p><div class="ticker-list" id="tickerList"><div class="ticker-item"><span class="ticker-time">17:05</span><span class="ticker-type" style="background:rgba(10,132,255,0.12);color:#0A84FF;">DELEGATE</span><span>Akira &rarr; Yuki: DRE consolidado solicitado</span></div></div></div>
+        <div class="af-transcript">
+          <p style="font-size:9px;font-weight:600;text-transform:uppercase;letter-spacing:0.08em;color:#48484A;margin-bottom:8px;">Transcript</p>
+          <div id="afLog"></div>
+        </div>
       </div>
       <!-- TAB 2: SQUAD -->
       <div class="right-tab-content" id="rtab-squad">

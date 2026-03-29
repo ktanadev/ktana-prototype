@@ -1018,35 +1018,244 @@
   <!-- ========================================== -->
   <div id="catalog" class="screen">
     <header class="px-8 py-5 border-b border-white/[0.04] flex items-center justify-between">
-      <h1 class="text-lg font-semibold">Catalogo de Cargos</h1>
-      <button class="admin-btn px-4 py-1.5 text-xs">+ Novo cargo</button>
+      <h1 class="text-lg font-semibold">Samurais Disponiveis</h1>
+      <div class="flex items-center gap-3">
+        <input type="text" placeholder="Buscar por nome, dept, nivel..." class="admin-input px-3 py-1.5 text-xs w-56">
+        <select class="admin-input px-3 py-1.5 text-xs">
+          <option value="">Todos os departamentos</option>
+          <option value="gestao">Gestao</option>
+          <option value="financeiro">Financeiro</option>
+          <option value="admin">Admin</option>
+          <option value="projetos">Projetos</option>
+          <option value="saude">Saude</option>
+          <option value="pessoal">Pessoal</option>
+        </select>
+        <select class="admin-input px-3 py-1.5 text-xs">
+          <option value="">Todos os niveis</option>
+          <option value="c_level">C-Level</option>
+          <option value="leader">Leader</option>
+          <option value="worker">Worker</option>
+          <option value="mentor">Mentor</option>
+        </select>
+        <button class="admin-btn px-4 py-1.5 text-xs">+ Novo samurai</button>
+      </div>
     </header>
-    <main class="flex-1 px-8 py-8">
-      <div class="admin-card overflow-hidden fade-in">
-        <table class="w-full text-sm">
-          <thead><tr class="text-left text-[10px] text-[#636366] tracking-widest border-b border-white/[0.04]">
-            <th class="px-5 py-3">CARGO</th><th class="px-5 py-3">DEPT</th><th class="px-5 py-3">NIVEL</th><th class="px-5 py-3">TIPO</th><th class="px-5 py-3">ATRIB.</th><th class="px-5 py-3">INSTANCIAS</th>
-          </tr></thead>
-          <tbody class="text-[#D2D2D7]">
-            <tr class="border-b border-white/[0.02] hover:bg-white/[0.02]"><td class="px-5 py-3">CEO</td><td class="px-5 py-3 text-[#8E8E93]">Gestao</td><td class="px-5 py-3 text-[#8E8E93]">c_level</td><td class="px-5 py-3 text-[#8E8E93]">PJ+PF</td><td class="px-5 py-3 tabular-nums text-[#8E8E93]">5</td><td class="px-5 py-3 tabular-nums">124</td></tr>
-            <tr class="border-b border-white/[0.02] hover:bg-white/[0.02]"><td class="px-5 py-3">Controller</td><td class="px-5 py-3 text-[#8E8E93]">Financeiro</td><td class="px-5 py-3 text-[#8E8E93]">worker</td><td class="px-5 py-3 text-[#8E8E93]">PJ</td><td class="px-5 py-3 tabular-nums text-[#8E8E93]">8</td><td class="px-5 py-3 tabular-nums">87</td></tr>
-            <tr class="border-b border-white/[0.02] hover:bg-white/[0.02]"><td class="px-5 py-3">Secretaria Exec.</td><td class="px-5 py-3 text-[#8E8E93]">Admin</td><td class="px-5 py-3 text-[#8E8E93]">worker</td><td class="px-5 py-3 text-[#8E8E93]">PJ+PF</td><td class="px-5 py-3 tabular-nums text-[#8E8E93]">12</td><td class="px-5 py-3 tabular-nums">156</td></tr>
-            <tr class="border-b border-white/[0.02] hover:bg-white/[0.02]"><td class="px-5 py-3">Gestor Projetos</td><td class="px-5 py-3 text-[#8E8E93]">Projetos</td><td class="px-5 py-3 text-[#8E8E93]">leader</td><td class="px-5 py-3 text-[#8E8E93]">PJ</td><td class="px-5 py-3 tabular-nums text-[#8E8E93]">10</td><td class="px-5 py-3 tabular-nums">98</td></tr>
-            <tr class="border-b border-white/[0.02] hover:bg-white/[0.02]"><td class="px-5 py-3">Mentor Saude</td><td class="px-5 py-3 text-[#8E8E93]">Saude</td><td class="px-5 py-3 text-[#8E8E93]">mentor</td><td class="px-5 py-3 text-[#8E8E93]">PF</td><td class="px-5 py-3 tabular-nums text-[#8E8E93]">7</td><td class="px-5 py-3 tabular-nums">43</td></tr>
-            <tr class="border-b border-white/[0.02] hover:bg-white/[0.02]"><td class="px-5 py-3">Coach de Vida</td><td class="px-5 py-3 text-[#8E8E93]">Pessoal</td><td class="px-5 py-3 text-[#8E8E93]">mentor</td><td class="px-5 py-3 text-[#8E8E93]">PF</td><td class="px-5 py-3 tabular-nums text-[#8E8E93]">9</td><td class="px-5 py-3 tabular-nums">67</td></tr>
-          </tbody>
-        </table>
+
+    <main class="flex-1 px-8 py-8 overflow-y-auto">
+      <!-- Agent Cards Grid -->
+      <div class="grid grid-cols-3 gap-4 fade-in">
+        <!-- CEO -->
+        <div class="admin-card p-5 hover:border-white/10 transition-colors cursor-pointer group">
+          <div class="flex items-start justify-between mb-4">
+            <div class="flex items-center gap-3">
+              <div class="w-10 h-10 rounded-full bg-[#D70030]/15 border border-[#D70030]/30 flex items-center justify-center">
+                <span class="text-[#D70030] text-sm font-semibold">C</span>
+              </div>
+              <div>
+                <p class="text-sm font-medium">CEO</p>
+                <p class="text-[10px] text-[#636366]">Gestao</p>
+              </div>
+            </div>
+            <span class="px-2 py-0.5 bg-[#D70030]/10 text-[#D70030] text-[9px] rounded-md font-medium">c_level</span>
+          </div>
+          <div class="space-y-2 mb-4">
+            <div class="flex justify-between text-xs">
+              <span class="text-[#636366]">Instancias ativas</span>
+              <span class="text-[#D2D2D7] tabular-nums font-medium">124</span>
+            </div>
+            <div class="flex justify-between text-xs">
+              <span class="text-[#636366]">Atribuicoes</span>
+              <span class="text-[#8E8E93] tabular-nums">5</span>
+            </div>
+            <div class="flex justify-between text-xs">
+              <span class="text-[#636366]">Tipo</span>
+              <span class="text-[#8E8E93]">PJ + PF</span>
+            </div>
+          </div>
+          <div class="flex gap-2">
+            <a href="catalog-edit.html" class="admin-btn-secondary px-3 py-1.5 text-[10px] flex-1 text-center" style="text-decoration:none">Configurar</a>
+            <a href="catalog-attributions.html" class="admin-btn-secondary px-3 py-1.5 text-[10px] flex-1 text-center" style="text-decoration:none">Atribuicoes</a>
+          </div>
+        </div>
+
+        <!-- Controller -->
+        <div class="admin-card p-5 hover:border-white/10 transition-colors cursor-pointer group">
+          <div class="flex items-start justify-between mb-4">
+            <div class="flex items-center gap-3">
+              <div class="w-10 h-10 rounded-full bg-white/[0.04] border border-white/10 flex items-center justify-center">
+                <span class="text-[#8E8E93] text-sm font-semibold">Y</span>
+              </div>
+              <div>
+                <p class="text-sm font-medium">Controller</p>
+                <p class="text-[10px] text-[#636366]">Financeiro</p>
+              </div>
+            </div>
+            <span class="px-2 py-0.5 bg-white/[0.04] text-[#8E8E93] text-[9px] rounded-md">worker</span>
+          </div>
+          <div class="space-y-2 mb-4">
+            <div class="flex justify-between text-xs">
+              <span class="text-[#636366]">Instancias ativas</span>
+              <span class="text-[#D2D2D7] tabular-nums font-medium">87</span>
+            </div>
+            <div class="flex justify-between text-xs">
+              <span class="text-[#636366]">Atribuicoes</span>
+              <span class="text-[#8E8E93] tabular-nums">8</span>
+            </div>
+            <div class="flex justify-between text-xs">
+              <span class="text-[#636366]">Tipo</span>
+              <span class="text-[#8E8E93]">PJ</span>
+            </div>
+          </div>
+          <div class="flex gap-2">
+            <a href="catalog-edit.html" class="admin-btn-secondary px-3 py-1.5 text-[10px] flex-1 text-center" style="text-decoration:none">Configurar</a>
+            <a href="catalog-attributions.html" class="admin-btn-secondary px-3 py-1.5 text-[10px] flex-1 text-center" style="text-decoration:none">Atribuicoes</a>
+          </div>
+        </div>
+
+        <!-- Secretaria Exec. -->
+        <div class="admin-card p-5 hover:border-white/10 transition-colors cursor-pointer group">
+          <div class="flex items-start justify-between mb-4">
+            <div class="flex items-center gap-3">
+              <div class="w-10 h-10 rounded-full bg-white/[0.04] border border-white/10 flex items-center justify-center">
+                <span class="text-[#8E8E93] text-sm font-semibold">H</span>
+              </div>
+              <div>
+                <p class="text-sm font-medium">Secretaria Exec.</p>
+                <p class="text-[10px] text-[#636366]">Admin</p>
+              </div>
+            </div>
+            <span class="px-2 py-0.5 bg-white/[0.04] text-[#8E8E93] text-[9px] rounded-md">worker</span>
+          </div>
+          <div class="space-y-2 mb-4">
+            <div class="flex justify-between text-xs">
+              <span class="text-[#636366]">Instancias ativas</span>
+              <span class="text-[#D2D2D7] tabular-nums font-medium">156</span>
+            </div>
+            <div class="flex justify-between text-xs">
+              <span class="text-[#636366]">Atribuicoes</span>
+              <span class="text-[#8E8E93] tabular-nums">12</span>
+            </div>
+            <div class="flex justify-between text-xs">
+              <span class="text-[#636366]">Tipo</span>
+              <span class="text-[#8E8E93]">PJ + PF</span>
+            </div>
+          </div>
+          <div class="flex gap-2">
+            <a href="catalog-edit.html" class="admin-btn-secondary px-3 py-1.5 text-[10px] flex-1 text-center" style="text-decoration:none">Configurar</a>
+            <a href="catalog-attributions.html" class="admin-btn-secondary px-3 py-1.5 text-[10px] flex-1 text-center" style="text-decoration:none">Atribuicoes</a>
+          </div>
+        </div>
+
+        <!-- Gestor Projetos -->
+        <div class="admin-card p-5 hover:border-white/10 transition-colors cursor-pointer group">
+          <div class="flex items-start justify-between mb-4">
+            <div class="flex items-center gap-3">
+              <div class="w-10 h-10 rounded-full bg-white/[0.04] border border-white/10 flex items-center justify-center">
+                <span class="text-[#8E8E93] text-sm font-semibold">G</span>
+              </div>
+              <div>
+                <p class="text-sm font-medium">Gestor Projetos</p>
+                <p class="text-[10px] text-[#636366]">Projetos</p>
+              </div>
+            </div>
+            <span class="px-2 py-0.5 bg-[#D70030]/10 text-[#D70030] text-[9px] rounded-md font-medium">leader</span>
+          </div>
+          <div class="space-y-2 mb-4">
+            <div class="flex justify-between text-xs">
+              <span class="text-[#636366]">Instancias ativas</span>
+              <span class="text-[#D2D2D7] tabular-nums font-medium">98</span>
+            </div>
+            <div class="flex justify-between text-xs">
+              <span class="text-[#636366]">Atribuicoes</span>
+              <span class="text-[#8E8E93] tabular-nums">10</span>
+            </div>
+            <div class="flex justify-between text-xs">
+              <span class="text-[#636366]">Tipo</span>
+              <span class="text-[#8E8E93]">PJ</span>
+            </div>
+          </div>
+          <div class="flex gap-2">
+            <a href="catalog-edit.html" class="admin-btn-secondary px-3 py-1.5 text-[10px] flex-1 text-center" style="text-decoration:none">Configurar</a>
+            <a href="catalog-attributions.html" class="admin-btn-secondary px-3 py-1.5 text-[10px] flex-1 text-center" style="text-decoration:none">Atribuicoes</a>
+          </div>
+        </div>
+
+        <!-- Mentor Saude -->
+        <div class="admin-card p-5 hover:border-white/10 transition-colors cursor-pointer group">
+          <div class="flex items-start justify-between mb-4">
+            <div class="flex items-center gap-3">
+              <div class="w-10 h-10 rounded-full bg-white/[0.04] border border-white/10 flex items-center justify-center">
+                <span class="text-[#8E8E93] text-sm font-semibold">M</span>
+              </div>
+              <div>
+                <p class="text-sm font-medium">Mentor Saude</p>
+                <p class="text-[10px] text-[#636366]">Saude</p>
+              </div>
+            </div>
+            <span class="px-2 py-0.5 bg-[#D70030]/10 text-[#D70030]/70 text-[9px] rounded-md">mentor</span>
+          </div>
+          <div class="space-y-2 mb-4">
+            <div class="flex justify-between text-xs">
+              <span class="text-[#636366]">Instancias ativas</span>
+              <span class="text-[#D2D2D7] tabular-nums font-medium">43</span>
+            </div>
+            <div class="flex justify-between text-xs">
+              <span class="text-[#636366]">Atribuicoes</span>
+              <span class="text-[#8E8E93] tabular-nums">7</span>
+            </div>
+            <div class="flex justify-between text-xs">
+              <span class="text-[#636366]">Tipo</span>
+              <span class="text-[#8E8E93]">PF</span>
+            </div>
+          </div>
+          <div class="flex gap-2">
+            <a href="catalog-edit.html" class="admin-btn-secondary px-3 py-1.5 text-[10px] flex-1 text-center" style="text-decoration:none">Configurar</a>
+            <a href="catalog-attributions.html" class="admin-btn-secondary px-3 py-1.5 text-[10px] flex-1 text-center" style="text-decoration:none">Atribuicoes</a>
+          </div>
+        </div>
+
+        <!-- Coach de Vida -->
+        <div class="admin-card p-5 hover:border-white/10 transition-colors cursor-pointer group">
+          <div class="flex items-start justify-between mb-4">
+            <div class="flex items-center gap-3">
+              <div class="w-10 h-10 rounded-full bg-white/[0.04] border border-white/10 flex items-center justify-center">
+                <span class="text-[#8E8E93] text-sm font-semibold">V</span>
+              </div>
+              <div>
+                <p class="text-sm font-medium">Coach de Vida</p>
+                <p class="text-[10px] text-[#636366]">Pessoal</p>
+              </div>
+            </div>
+            <span class="px-2 py-0.5 bg-[#D70030]/10 text-[#D70030]/70 text-[9px] rounded-md">mentor</span>
+          </div>
+          <div class="space-y-2 mb-4">
+            <div class="flex justify-between text-xs">
+              <span class="text-[#636366]">Instancias ativas</span>
+              <span class="text-[#D2D2D7] tabular-nums font-medium">67</span>
+            </div>
+            <div class="flex justify-between text-xs">
+              <span class="text-[#636366]">Atribuicoes</span>
+              <span class="text-[#8E8E93] tabular-nums">9</span>
+            </div>
+            <div class="flex justify-between text-xs">
+              <span class="text-[#636366]">Tipo</span>
+              <span class="text-[#8E8E93]">PF</span>
+            </div>
+          </div>
+          <div class="flex gap-2">
+            <a href="catalog-edit.html" class="admin-btn-secondary px-3 py-1.5 text-[10px] flex-1 text-center" style="text-decoration:none">Configurar</a>
+            <a href="catalog-attributions.html" class="admin-btn-secondary px-3 py-1.5 text-[10px] flex-1 text-center" style="text-decoration:none">Atribuicoes</a>
+          </div>
+        </div>
       </div>
 
-      <div class="grid grid-cols-2 gap-4 mt-6 fade-in" style="animation-delay:0.1s">
-        <a href="catalog-edit.html" class="admin-card p-5 flex items-center justify-between group hover:border-white/10 transition-colors" style="text-decoration:none">
-          <div><p class="text-sm text-[#D2D2D7] group-hover:text-white transition-colors">Editar Cargo</p><p class="text-[10px] text-[#636366] mt-0.5">Prompt base, skills, restricoes, custo por cargo</p></div>
-          <span class="text-[#636366] group-hover:text-[#D70030] transition-colors text-sm">›</span>
-        </a>
-        <a href="catalog-attributions.html" class="admin-card p-5 flex items-center justify-between group hover:border-white/10 transition-colors" style="text-decoration:none">
-          <div><p class="text-sm text-[#D2D2D7] group-hover:text-white transition-colors">Atribuicoes</p><p class="text-[10px] text-[#636366] mt-0.5">Skills, tools, intencoes por cargo</p></div>
-          <span class="text-[#636366] group-hover:text-[#D70030] transition-colors text-sm">›</span>
-        </a>
+      <!-- Summary bar -->
+      <div class="mt-6 flex items-center justify-between text-[10px] text-[#636366] fade-in" style="animation-delay:0.1s">
+        <span>6 tipos de samurai · 575 instancias ativas no total</span>
+        <div class="flex items-center gap-4">
+          <a href="catalog-edit.html" class="hover:text-[#D70030] transition-colors" style="text-decoration:none">Editar cargos</a>
+          <a href="catalog-attributions.html" class="hover:text-[#D70030] transition-colors" style="text-decoration:none">Gerenciar atribuicoes</a>
+        </div>
       </div>
     </main>
   </div>
