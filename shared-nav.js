@@ -22,7 +22,7 @@
   function pf(p) {
     if (path.includes('/pf/')) {
       const segs = path.split('/pf/')[1].split('/');
-      return '../'.repeat(segs.length - 1) + 'pf/' + p;
+      return '../'.repeat(segs.length - 1) + p;
     }
     return 'pf/' + p;
   }
@@ -611,10 +611,12 @@
         codes.forEach(c => full += c.value);
         if (full.length === 6) {
           // Navigate to PF landing
-          const pfPath = path.includes('/tenant/') ? '../pf/landing.html' :
-                         path.includes('/pj/') ? '../pf/landing.html' :
-                         path.includes('/pf/') ? 'landing.html' : 'pf/landing.html';
-          window.location.href = pfPath;
+          // Calculate depth from repo root to get correct relative path to /pf/
+          const segs = path.split('/').filter(s => s.length > 0);
+          const htmlIdx = segs.findIndex(s => s.endsWith('.html'));
+          const depth = htmlIdx > 0 ? htmlIdx : segs.length - 1;
+          const prefix = '../'.repeat(depth);
+          window.location.href = prefix + 'pf/dashboard.html';
         }
       }
     }
