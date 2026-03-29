@@ -1,18 +1,297 @@
-<!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>Departamentos — KTANA</title><link rel="stylesheet" href="../shared.css"><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Zen+Dots&display=swap" rel="stylesheet">
-<style>body{min-height:100vh;background:#F5F5F7;padding:48px 24px}.container{max-width:580px;margin:0 auto;text-align:center}h1{font-family:'Zen Dots',cursive;font-size:28px;color:#1D1D1F;margin-bottom:6px}.sub{font-family:'Satoshi',sans-serif;font-size:15px;color:#86868B;margin-bottom:40px}.depts{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;text-align:left}.dept{background:#FFF;border-radius:16px;border:1px solid rgba(0,0,0,0.04);padding:18px;cursor:pointer;transition:all 0.15s;display:flex;align-items:center;gap:12px}.dept:hover{box-shadow:0 4px 16px rgba(0,0,0,0.04)}.dept.selected{border-color:rgba(215,0,48,0.2);background:rgba(215,0,48,0.02)}.dept-check{width:18px;height:18px;border-radius:4px;border:1.5px solid #D2D2D7;flex-shrink:0;transition:all 0.15s;display:flex;align-items:center;justify-content:center}.dept.selected .dept-check{border-color:#D70030;background:#D70030}.dept.selected .dept-check::after{content:'';width:4px;height:8px;border:solid #FFF;border-width:0 1.5px 1.5px 0;transform:rotate(45deg) translate(-0.5px,-0.5px)}.dept h3{font-family:'Satoshi',sans-serif;font-size:14px;font-weight:500;color:#1D1D1F}.dept p{font-family:'Satoshi',sans-serif;font-size:11px;color:#86868B}.custom-input{font-family:'Satoshi',sans-serif;width:100%;padding:14px;border-radius:14px;border:1px dashed #D2D2D7;background:none;font-size:14px;color:#1D1D1F;outline:none;text-align:center;margin-top:10px}.custom-input:focus{border-color:#D70030}.custom-input::placeholder{color:#AEAEB2}.btn-next{font-family:'Inter',sans-serif;margin-top:32px;padding:14px 40px;border-radius:14px;background:#1D1D1F;color:#F5F5F7;font-size:15px;font-weight:500;border:none;cursor:pointer}</style></head>
-<body><div class="container">
-<h1 class="fade-in">Departamentos.</h1>
-<p class="sub fade-in">Quais areas sua empresa tem?</p>
-<div class="depts fade-in" style="animation-delay:0.1s">
-<div class="dept selected" onclick="this.classList.toggle('selected')"><div class="dept-check"></div><div><h3>Financeiro</h3><p>Cobrancas, contas, relatorios</p></div></div>
-<div class="dept selected" onclick="this.classList.toggle('selected')"><div class="dept-check"></div><div><h3>Administrativo</h3><p>Secretaria, agenda, emails</p></div></div>
-<div class="dept selected" onclick="this.classList.toggle('selected')"><div class="dept-check"></div><div><h3>Projetos / Delivery</h3><p>Sprints, prazos, entregas</p></div></div>
-<div class="dept" onclick="this.classList.toggle('selected')"><div class="dept-check"></div><div><h3>Comercial</h3><p>Vendas, prospecçao, leads</p></div></div>
-<div class="dept" onclick="this.classList.toggle('selected')"><div class="dept-check"></div><div><h3>Marketing</h3><p>Social media, conteudo, campanhas</p></div></div>
-<div class="dept" onclick="this.classList.toggle('selected')"><div class="dept-check"></div><div><h3>RH / Pessoas</h3><p>Vagas, triagem, onboarding</p></div></div>
-<div class="dept" onclick="this.classList.toggle('selected')"><div class="dept-check"></div><div><h3>Juridico</h3><p>Contratos, compliance, orientacao</p></div></div>
-<div class="dept" onclick="this.classList.toggle('selected')"><div class="dept-check"></div><div><h3>Tecnologia</h3><p>Infra, devops, arquitetura</p></div></div>
-</div>
-<input type="text" class="custom-input fade-in" style="animation-delay:0.15s" placeholder="+ Departamento personalizado">
-<br><button class="btn-next fade-in" style="animation-delay:0.2s" onclick="location.href='../tenant/onboarding/yumi.html'">Proximo: configurar CEO</button>
-</div></body></html>
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Departamentos — KTANA</title>
+  <link rel="stylesheet" href="../shared.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Zen+Dots&display=swap" rel="stylesheet">
+  <style>
+    body { min-height: 100vh; background: #F5F5F7; }
+    .container { max-width: 520px; margin: 0 auto; padding: 40px 24px 80px; }
+
+    .progress { display: flex; justify-content: center; gap: 6px; margin-bottom: 40px; }
+    .dot { width: 6px; height: 6px; border-radius: 50%; background: #D2D2D7; }
+    .dot.done { background: #86868B; }
+    .dot.active { background: #D70030; width: 20px; border-radius: 3px; }
+
+    .header { text-align: center; margin-bottom: 32px; }
+    .header h1 { font-family: 'Zen Dots', cursive; font-size: 28px; color: #1D1D1F; margin-bottom: 6px; }
+    .header .sub { font-family: 'Satoshi', sans-serif; font-size: 15px; color: #86868B; }
+    .header .counter { font-family: 'Inter', sans-serif; font-size: 12px; color: #AEAEB2; margin-top: 8px; }
+
+    /* Selected tags bar */
+    .selected-bar { display: flex; gap: 6px; justify-content: center; flex-wrap: wrap; margin-bottom: 24px; min-height: 28px; }
+    .selected-tag { font-family: 'Inter', sans-serif; padding: 5px 14px; border-radius: 980px; background: rgba(215,0,48,0.06); color: #D70030; font-size: 12px; font-weight: 500; }
+
+    /* Department card - big, clear, touchable */
+    .dept-step { display: none; }
+    .dept-step.active { display: block; animation: fadeIn 0.3s ease; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+    .dept-card { background: #FFF; border-radius: 24px; border: 1px solid rgba(0,0,0,0.04); padding: 48px 32px; text-align: center; margin-bottom: 20px; }
+    .dept-icon { font-size: 48px; margin-bottom: 20px; }
+    .dept-name { font-family: 'Zen Dots', cursive; font-size: 24px; color: #1D1D1F; margin-bottom: 8px; }
+    .dept-desc { font-family: 'Satoshi', sans-serif; font-size: 15px; color: #86868B; line-height: 1.6; max-width: 360px; margin: 0 auto; }
+    .dept-roles { margin-top: 20px; display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; }
+    .dept-role { font-family: 'Inter', sans-serif; padding: 6px 16px; border-radius: 980px; border: 0.5px solid rgba(0,0,0,0.06); font-size: 12px; color: #6E6E73; }
+
+    /* BIG buttons - usuario e burro, precisa de alvo grande */
+    .actions { display: flex; gap: 12px; }
+    .btn-yes {
+      font-family: 'Inter', sans-serif;
+      flex: 1; padding: 20px;
+      border-radius: 16px;
+      background: #1D1D1F; color: #F5F5F7;
+      font-size: 16px; font-weight: 600;
+      border: none; cursor: pointer;
+      min-height: 64px;
+      transition: background 0.15s;
+    }
+    .btn-yes:hover { background: #000; }
+    .btn-no {
+      font-family: 'Inter', sans-serif;
+      flex: 1; padding: 20px;
+      border-radius: 16px;
+      background: #FFF; color: #86868B;
+      font-size: 16px; font-weight: 500;
+      border: 1px solid rgba(0,0,0,0.06);
+      cursor: pointer;
+      min-height: 64px;
+      transition: all 0.15s;
+    }
+    .btn-no:hover { background: #F0F0F0; }
+
+    /* Hint text */
+    .hint { font-family: 'Inter', sans-serif; font-size: 11px; color: #AEAEB2; text-align: center; margin-top: 12px; }
+
+    /* Final summary */
+    .final { display: none; text-align: center; }
+    .final.active { display: block; animation: fadeIn 0.3s ease; }
+    .final h2 { font-family: 'Zen Dots', cursive; font-size: 24px; color: #1D1D1F; margin-bottom: 8px; }
+    .final .sub { font-family: 'Satoshi', sans-serif; font-size: 14px; color: #86868B; margin-bottom: 24px; }
+    .final-list { text-align: left; max-width: 360px; margin: 0 auto 24px; }
+    .final-item { display: flex; align-items: center; gap: 12px; padding: 12px 16px; background: #FFF; border-radius: 14px; border: 1px solid rgba(0,0,0,0.04); margin-bottom: 8px; }
+    .final-check { width: 22px; height: 22px; border-radius: 50%; background: #D70030; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .final-check::after { content: ''; width: 5px; height: 9px; border: solid #FFF; border-width: 0 2px 2px 0; transform: rotate(45deg) translate(-0.5px,-0.5px); }
+    .final-name { font-family: 'Satoshi', sans-serif; font-size: 15px; color: #1D1D1F; font-weight: 500; }
+    .final-empty { font-family: 'Satoshi', sans-serif; font-size: 14px; color: #86868B; text-align: center; padding: 24px; }
+    .custom-input { font-family: 'Satoshi', sans-serif; width: 100%; max-width: 360px; padding: 14px 18px; border-radius: 14px; border: 1px dashed #D2D2D7; background: none; font-size: 14px; color: #1D1D1F; outline: none; text-align: center; margin: 0 auto 20px; display: block; }
+    .custom-input:focus { border-color: #D70030; border-style: solid; }
+    .custom-input::placeholder { color: #AEAEB2; }
+    .btn-next { font-family: 'Inter', sans-serif; padding: 20px 48px; border-radius: 16px; background: #1D1D1F; color: #F5F5F7; font-size: 16px; font-weight: 600; border: none; cursor: pointer; min-height: 64px; }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <div class="progress">
+      <div class="dot done"></div>
+      <div class="dot active"></div>
+      <div class="dot"></div>
+      <div class="dot"></div>
+      <div class="dot"></div>
+    </div>
+
+    <div class="header">
+      <h1>Seus departamentos.</h1>
+      <p class="sub">Vamos ver quais areas sua empresa precisa, uma por vez.</p>
+      <p class="counter" id="counter">1 de 8</p>
+    </div>
+
+    <div class="selected-bar" id="selected-bar"></div>
+
+    <!-- Step 1: Financeiro -->
+    <div class="dept-step active" id="step-0">
+      <div class="dept-card">
+        <div class="dept-icon">&#x1F4B0;</div>
+        <p class="dept-name">Financeiro</p>
+        <p class="dept-desc">Cobrancas, contas a pagar e receber, relatorios financeiros, fluxo de caixa, DRE.</p>
+        <div class="dept-roles">
+          <span class="dept-role">Controller</span>
+          <span class="dept-role">Analista Fiscal</span>
+          <span class="dept-role">Tesoureiro</span>
+        </div>
+      </div>
+      <div class="actions">
+        <button class="btn-no" onclick="nextStep(false)">Nao preciso</button>
+        <button class="btn-yes" onclick="nextStep(true)">Preciso desse</button>
+      </div>
+      <p class="hint">Voce pode adicionar ou remover depois</p>
+    </div>
+
+    <!-- Step 2: Administrativo -->
+    <div class="dept-step" id="step-1">
+      <div class="dept-card">
+        <div class="dept-icon">&#x1F4CB;</div>
+        <p class="dept-name">Administrativo</p>
+        <p class="dept-desc">Secretaria executiva, gestao de agenda, emails, reunioes, briefings diarios, organizacao geral.</p>
+        <div class="dept-roles">
+          <span class="dept-role">Secretaria Executiva</span>
+          <span class="dept-role">Assistente</span>
+        </div>
+      </div>
+      <div class="actions">
+        <button class="btn-no" onclick="nextStep(false)">Nao preciso</button>
+        <button class="btn-yes" onclick="nextStep(true)">Preciso desse</button>
+      </div>
+      <p class="hint">Voce pode adicionar ou remover depois</p>
+    </div>
+
+    <!-- Step 3: Projetos -->
+    <div class="dept-step" id="step-2">
+      <div class="dept-card">
+        <div class="dept-icon">&#x1F3AF;</div>
+        <p class="dept-name">Projetos</p>
+        <p class="dept-desc">Sprints, prazos, cobranca de entregas, alocacao de recursos, reports, retrospectivas.</p>
+        <div class="dept-roles">
+          <span class="dept-role">Gestor de Projetos</span>
+          <span class="dept-role">Scrum Master</span>
+        </div>
+      </div>
+      <div class="actions">
+        <button class="btn-no" onclick="nextStep(false)">Nao preciso</button>
+        <button class="btn-yes" onclick="nextStep(true)">Preciso desse</button>
+      </div>
+      <p class="hint">Voce pode adicionar ou remover depois</p>
+    </div>
+
+    <!-- Step 4: Comercial -->
+    <div class="dept-step" id="step-3">
+      <div class="dept-card">
+        <div class="dept-icon">&#x1F4DE;</div>
+        <p class="dept-name">Comercial</p>
+        <p class="dept-desc">Prospeccao de clientes, qualificacao de leads, follow-up, agendamento de reunioes, CRM.</p>
+        <div class="dept-roles">
+          <span class="dept-role">SDR</span>
+          <span class="dept-role">Closer</span>
+          <span class="dept-role">Account Manager</span>
+        </div>
+      </div>
+      <div class="actions">
+        <button class="btn-no" onclick="nextStep(false)">Nao preciso</button>
+        <button class="btn-yes" onclick="nextStep(true)">Preciso desse</button>
+      </div>
+      <p class="hint">Voce pode adicionar ou remover depois</p>
+    </div>
+
+    <!-- Step 5: Marketing -->
+    <div class="dept-step" id="step-4">
+      <div class="dept-card">
+        <div class="dept-icon">&#x1F4E3;</div>
+        <p class="dept-name">Marketing</p>
+        <p class="dept-desc">Social media, producao de conteudo, campanhas, calendario editorial, engajamento.</p>
+        <div class="dept-roles">
+          <span class="dept-role">Social Media Manager</span>
+          <span class="dept-role">Content Creator</span>
+        </div>
+      </div>
+      <div class="actions">
+        <button class="btn-no" onclick="nextStep(false)">Nao preciso</button>
+        <button class="btn-yes" onclick="nextStep(true)">Preciso desse</button>
+      </div>
+      <p class="hint">Voce pode adicionar ou remover depois</p>
+    </div>
+
+    <!-- Step 6: RH -->
+    <div class="dept-step" id="step-5">
+      <div class="dept-card">
+        <div class="dept-icon">&#x1F465;</div>
+        <p class="dept-name">RH / Pessoas</p>
+        <p class="dept-desc">Vagas, triagem de curriculos, agendamento de entrevistas, onboarding, feedback, clima.</p>
+        <div class="dept-roles">
+          <span class="dept-role">Analista de RH</span>
+          <span class="dept-role">Recrutador</span>
+        </div>
+      </div>
+      <div class="actions">
+        <button class="btn-no" onclick="nextStep(false)">Nao preciso</button>
+        <button class="btn-yes" onclick="nextStep(true)">Preciso desse</button>
+      </div>
+      <p class="hint">Voce pode adicionar ou remover depois</p>
+    </div>
+
+    <!-- Step 7: Juridico -->
+    <div class="dept-step" id="step-6">
+      <div class="dept-card">
+        <div class="dept-icon">&#x2696;</div>
+        <p class="dept-name">Juridico</p>
+        <p class="dept-desc">Orientacao sobre contratos, compliance, certidoes, prazos legais, regulatorio.</p>
+        <div class="dept-roles">
+          <span class="dept-role">Consultor de Orientacao</span>
+          <span class="dept-role">Compliance</span>
+        </div>
+      </div>
+      <div class="actions">
+        <button class="btn-no" onclick="nextStep(false)">Nao preciso</button>
+        <button class="btn-yes" onclick="nextStep(true)">Preciso desse</button>
+      </div>
+      <p class="hint">Voce pode adicionar ou remover depois</p>
+    </div>
+
+    <!-- Step 8: Tecnologia -->
+    <div class="dept-step" id="step-7">
+      <div class="dept-card">
+        <div class="dept-icon">&#x1F4BB;</div>
+        <p class="dept-name">Tecnologia</p>
+        <p class="dept-desc">Infra, devops, arquitetura, monitoramento, incidentes, deploy, seguranca de sistemas.</p>
+        <div class="dept-roles">
+          <span class="dept-role">DevOps</span>
+          <span class="dept-role">SRE</span>
+          <span class="dept-role">Tech Lead</span>
+        </div>
+      </div>
+      <div class="actions">
+        <button class="btn-no" onclick="nextStep(false)">Nao preciso</button>
+        <button class="btn-yes" onclick="nextStep(true)">Preciso desse</button>
+      </div>
+      <p class="hint">Voce pode adicionar ou remover depois</p>
+    </div>
+
+    <!-- Final: Summary -->
+    <div class="final" id="final-step">
+      <h2>Perfeito.</h2>
+      <p class="sub">Esses sao os departamentos da sua empresa inteligente.</p>
+      <div class="final-list" id="final-list"></div>
+      <input type="text" class="custom-input" placeholder="+ Adicionar departamento personalizado">
+      <br>
+      <button class="btn-next" onclick="location.href='../tenant/onboarding/yumi.html'">Configurar meu CEO</button>
+      <p class="hint" style="margin-top: 16px;">Proximo passo: Yumi vai montar sua equipe com base nesses departamentos.</p>
+    </div>
+  </div>
+
+  <script>
+    const deptNames = ['Financeiro', 'Administrativo', 'Projetos', 'Comercial', 'Marketing', 'RH / Pessoas', 'Juridico', 'Tecnologia'];
+    const selected = [];
+    let current = 0;
+    const total = deptNames.length;
+
+    function nextStep(accepted) {
+      if (accepted) {
+        selected.push(deptNames[current]);
+        updateSelectedBar();
+      }
+      current++;
+      document.querySelectorAll('.dept-step').forEach(s => s.classList.remove('active'));
+
+      if (current < total) {
+        document.getElementById('step-' + current).classList.add('active');
+        document.getElementById('counter').textContent = (current + 1) + ' de ' + total;
+      } else {
+        document.getElementById('final-step').classList.add('active');
+        document.getElementById('counter').style.display = 'none';
+        const list = document.getElementById('final-list');
+        if (selected.length === 0) {
+          list.innerHTML = '<p class="final-empty">Nenhum departamento selecionado. Voce pode adicionar depois.</p>';
+        } else {
+          list.innerHTML = selected.map(d => '<div class="final-item"><div class="final-check"></div><span class="final-name">' + d + '</span></div>').join('');
+        }
+      }
+    }
+
+    function updateSelectedBar() {
+      document.getElementById('selected-bar').innerHTML = selected.map(d => '<span class="selected-tag">' + d + '</span>').join('');
+    }
+  </script>
+</body>
+</html>
