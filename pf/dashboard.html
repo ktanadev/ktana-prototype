@@ -151,7 +151,6 @@
     @keyframes typingBounceC { 0%,60%,100% { transform: translateY(0); } 30% { transform: translateY(-3px); } }
     .cmd-typing-text { font-family: 'Inter', sans-serif; font-size: 11px; color: rgba(255,255,255,0.35); }
 
-
     /* Recommendation cards */
     .reco { background: #FFF; border-radius: 20px; border: 1px solid rgba(0,0,0,0.04); padding: 18px 20px; margin-bottom: 10px; transition: box-shadow 0.2s; }
     .reco:hover { box-shadow: 0 4px 24px rgba(0,0,0,0.04); }
@@ -230,58 +229,6 @@
     </div>
 
     <!-- 2. Comando Central PF -->
-    <div class="chat-zone compact fade-in" style="animation-delay: 0.08s;">
-      <div class="ambient-glow">
-        <div class="ambient-glow-orb"></div>
-        <div class="ambient-glow-orb"></div>
-        <div class="ambient-glow-orb"></div>
-      </div>
-      <div class="cmd-inner">
-        <div class="cmd-label">
-          <div class="cmd-dot"></div>
-          Comando central
-        </div>
-        <div class="cmd-messages" id="cmdMessages">
-          <div class="cmd-msg cmd-msg-ai">
-            <div class="cmd-sender">Yumi — Mentora</div>
-            Boa tarde! Seu Dr. Kenji reportou que voce dormiu apenas 5h30. Quer que eu ajuste seu treino de hoje?
-          </div>
-        </div>
-        <div class="cmd-typing" id="cmdTyping">
-          <div class="cmd-typing-dots">
-            <div class="cmd-typing-dot"></div>
-            <div class="cmd-typing-dot"></div>
-            <div class="cmd-typing-dot"></div>
-          </div>
-          <span class="cmd-typing-text">Yumi esta pensando...</span>
-        </div>
-        <div class="cmd-input-outer">
-          <div class="cmd-input-glow"></div>
-          <div class="cmd-input-border-spin"></div>
-          <div class="cmd-input-card">
-            <textarea class="cmd-input" id="cmdInput" placeholder="Fale com seus mentores..." rows="1" onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();sendCmd()}" oninput="cmdAutoResize(this)"></textarea>
-            <div class="cmd-input-footer">
-              <button class="cmd-add-btn" title="Anexar">+</button>
-              <select class="cmd-agent-select">
-                <option>Yumi — Mentora</option>
-                <option>Dr. Kenji — Saude</option>
-                <option>Sensei Sora — Mente</option>
-                <option>Takeshi — Produtividade</option>
-              </select>
-              <button class="cmd-send" onclick="sendCmd()">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
-              </button>
-            </div>
-          </div>
-        </div>
-        <div class="cmd-shortcuts">
-          <span class="cmd-shortcut" onclick="quickCmd('Como dormi?')">Como dormi?</span>
-          <span class="cmd-shortcut" onclick="quickCmd('Metas da semana')">Metas da semana</span>
-          <span class="cmd-shortcut" onclick="quickCmd('Falar com Dr. Kenji')">Falar com Dr. Kenji</span>
-          <span class="cmd-shortcut" onclick="quickCmd('Resumo do dia')">Resumo do dia</span>
-        </div>
-      </div>
-    </div>
 
     <!-- 3. Recomendacoes dos mentores -->
     <div class="section-label fade-in" style="animation-delay: 0.15s;">

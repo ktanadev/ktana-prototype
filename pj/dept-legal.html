@@ -399,56 +399,6 @@
 </html>
     <!-- Compact Dark Ambient Glow Chat -->
     <div style="max-width:720px;margin:0 auto;padding:0 24px 28px;">
-    <div class="chat-zone compact fade-in">
-      <div class="ambient-glow">
-        <div class="ambient-glow-orb"></div>
-        <div class="ambient-glow-orb"></div>
-        <div class="ambient-glow-orb"></div>
-      </div>
-      <div class="cmd-inner">
-        <div class="cmd-label">
-          <div class="cmd-dot"></div>
-          Falar com Legal Samurai
-        </div>
-        <div class="cmd-messages" id="cmdMessages">
-          <div class="cmd-msg cmd-msg-ai">
-            <div class="cmd-sender">Legal Samurai — Juridico</div>
-            Dept Juridico: contratos auto, compliance LGPD. Tudo em dia. O que precisa?
-          </div>
-        </div>
-        <div class="cmd-typing" id="cmdTyping">
-          <div class="cmd-typing-dots">
-            <div class="cmd-typing-dot"></div>
-            <div class="cmd-typing-dot"></div>
-            <div class="cmd-typing-dot"></div>
-          </div>
-          <span class="cmd-typing-text" style="font-family:'Inter',sans-serif;font-size:11px;color:rgba(255,255,255,0.35);">Legal Samurai esta pensando...</span>
-        </div>
-        <div class="cmd-input-outer">
-          <div class="cmd-input-glow"></div>
-          <div class="cmd-input-border-spin"></div>
-          <div class="cmd-input-card">
-            <textarea class="cmd-input" id="cmdInput" placeholder="Pergunte ao seu samurai de juridico..." rows="1" onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();sendCmd()}" oninput="this.style.height='auto';this.style.height=Math.min(this.scrollHeight,120)+'px'"></textarea>
-            <div class="cmd-input-footer">
-              <button class="cmd-add-btn" title="Anexar">+</button>
-              <select class="cmd-agent-select">
-                <option>Legal Samurai — Juridico</option>
-                <option>DPO IA — Juridico</option>
-                <option>Contract Reviewer — Juridico</option>
-              </select>
-              <button class="cmd-send" onclick="sendCmd()">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
-              </button>
-            </div>
-          </div>
-        </div>
-        <div class="cmd-shortcuts">
-          <span class="cmd-shortcut" onclick="quickCmd('Listar contratos pendentes')">Ver contratos</span>
-          <span class="cmd-shortcut" onclick="quickCmd('Status compliance LGPD')">Compliance</span>
-          <span class="cmd-shortcut" onclick="quickCmd('Alertas de vencimento')">Alertas</span>
-        </div>
-      </div>
-    </div>
     </div>
 
 <script>
