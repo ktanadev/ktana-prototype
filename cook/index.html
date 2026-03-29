@@ -352,7 +352,7 @@
           @keyframes uafOrbitSpin{from{transform:rotate(0deg);}to{transform:rotate(360deg);}}
 
           /* Glow under nodes */
-          .uaf-glow{position:absolute;top:50%;left:50%;width:50px;height:50px;margin:-25px 0 0 -25px;border-radius:50%;z-index:-1;animation:uafGlowPulse 3s ease-in-out infinite;pointer-events:none;}
+          .uaf-glow{position:absolute;top:50%;left:50%;width:70px;height:70px;margin:-35px 0 0 -35px;border-radius:50%;z-index:-1;animation:uafGlowPulse 3s ease-in-out infinite;pointer-events:none;}
           @keyframes uafGlowPulse{0%,100%{opacity:0.3;}50%{opacity:1;}}
 
           /* Floating animation — multiple keyframes, X+Y movement, organic */
@@ -444,6 +444,7 @@
           <svg class="uaf-svg" id="uafSvg">
             <defs>
               <filter id="uafGlow"><feGaussianBlur stdDeviation="3" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+              <filter id="edgeGlow"><feGaussianBlur stdDeviation="2" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
             </defs>
             <g id="uafEdges"></g>
             <g id="uafParticles"></g>
@@ -461,7 +462,7 @@
 
           <div class="uaf-node uaf-float-1" id="uafn-akira" style="left:50%;top:30%;">
             <div class="uaf-orbital"></div>
-            <div class="uaf-glow" style="box-shadow:0 0 24px rgba(215,0,48,0.3);"></div>
+            <div class="uaf-glow" style="box-shadow:0 0 35px rgba(215,0,48,0.4),0 0 70px rgba(215,0,48,0.12);"></div>
             <div class="uaf-hex uaf-hex-akira">A</div>
             <div class="uaf-node-name">Akira</div>
             <div class="uaf-node-role">CEO</div>
@@ -469,7 +470,7 @@
 
           <div class="uaf-node uaf-float-2" id="uafn-yuki" style="left:18%;top:58%;">
             <div class="uaf-orbital uaf-orbital-blue"></div>
-            <div class="uaf-glow" style="box-shadow:0 0 20px rgba(10,132,255,0.25);"></div>
+            <div class="uaf-glow" style="box-shadow:0 0 30px rgba(10,132,255,0.35),0 0 60px rgba(10,132,255,0.1);"></div>
             <div class="uaf-hex uaf-hex-worker" style="border:1px solid rgba(10,132,255,0.3);">Y</div>
             <div class="uaf-node-name">Yuki</div>
             <div class="uaf-node-role">Controller</div>
@@ -477,7 +478,7 @@
 
           <div class="uaf-node uaf-float-3" id="uafn-hana" style="left:38%;top:58%;">
             <div class="uaf-orbital uaf-orbital-green"></div>
-            <div class="uaf-glow" style="box-shadow:0 0 20px rgba(48,209,88,0.25);"></div>
+            <div class="uaf-glow" style="box-shadow:0 0 30px rgba(48,209,88,0.35),0 0 60px rgba(48,209,88,0.1);"></div>
             <div class="uaf-hex uaf-hex-worker" style="border:1px solid rgba(48,209,88,0.3);">H</div>
             <div class="uaf-node-name">Hana</div>
             <div class="uaf-node-role">Secretaria</div>
@@ -485,7 +486,7 @@
 
           <div class="uaf-node uaf-float-4" id="uafn-haruki" style="left:62%;top:58%;">
             <div class="uaf-orbital uaf-orbital-orange"></div>
-            <div class="uaf-glow" style="box-shadow:0 0 20px rgba(255,159,10,0.25);"></div>
+            <div class="uaf-glow" style="box-shadow:0 0 30px rgba(255,159,10,0.35),0 0 60px rgba(255,159,10,0.1);"></div>
             <div class="uaf-hex uaf-hex-worker" style="border:1px solid rgba(255,159,10,0.3);">H</div>
             <div class="uaf-node-name">Haruki</div>
             <div class="uaf-node-role">PM</div>
@@ -493,7 +494,7 @@
 
           <div class="uaf-node uaf-float-5" id="uafn-kaito" style="left:82%;top:58%;">
             <div class="uaf-orbital uaf-orbital-purple"></div>
-            <div class="uaf-glow" style="box-shadow:0 0 20px rgba(191,90,242,0.25);"></div>
+            <div class="uaf-glow" style="box-shadow:0 0 30px rgba(191,90,242,0.35),0 0 60px rgba(191,90,242,0.1);"></div>
             <div class="uaf-hex uaf-hex-worker" style="border:1px solid rgba(191,90,242,0.3);">K</div>
             <div class="uaf-node-name">Kaito</div>
             <div class="uaf-node-role">Builder</div>
@@ -501,7 +502,7 @@
 
           <div class="uaf-node uaf-float-6" id="uafn-yumi" style="left:50%;top:82%;">
             <div class="uaf-orbital uaf-orbital-green"></div>
-            <div class="uaf-glow" style="box-shadow:0 0 20px rgba(48,209,88,0.25);"></div>
+            <div class="uaf-glow" style="box-shadow:0 0 30px rgba(48,209,88,0.35),0 0 60px rgba(48,209,88,0.1);"></div>
             <div class="uaf-hex uaf-hex-worker" style="border:1px solid rgba(48,209,88,0.3);">Y</div>
             <div class="uaf-node-name">Yumi</div>
             <div class="uaf-node-role">Mentora PF</div>
@@ -657,13 +658,19 @@
             var cp2x=f.x+dx*0.65+perpX, cp2y=f.y+dy*0.65+perpY;
 
             var c = document.createElementNS('http://www.w3.org/2000/svg','circle');
-            c.setAttribute('r','3'); c.setAttribute('fill',e.color);
-            c.style.filter='drop-shadow(0 0 6px '+e.color+')';
+            c.setAttribute('r','4.5'); c.setAttribute('fill',e.color);
+            c.style.filter='drop-shadow(0 0 10px '+e.color+') drop-shadow(0 0 20px '+e.color+')';
             particlesG.appendChild(c);
 
             var tr = document.createElementNS('http://www.w3.org/2000/svg','circle');
-            tr.setAttribute('r','1.5'); tr.setAttribute('fill',e.color); tr.setAttribute('opacity','0.4');
+            tr.setAttribute('r','2.5'); tr.setAttribute('fill',e.color); tr.setAttribute('opacity','0.5');
+            tr.style.filter='drop-shadow(0 0 4px '+e.color+')';
             particlesG.appendChild(tr);
+
+            // Extra trail
+            var tr2 = document.createElementNS('http://www.w3.org/2000/svg','circle');
+            tr2.setAttribute('r','1.5'); tr2.setAttribute('fill',e.color); tr2.setAttribute('opacity','0.2');
+            particlesG.appendChild(tr2);
 
             var dur = 1500+Math.random()*1000, st = performance.now();
             function step(now){
@@ -675,11 +682,15 @@
               var tp = Math.max(0,ease-0.08);
               tr.setAttribute('cx',bezPt(tp,f.x,cp1x,cp2x,t.x));
               tr.setAttribute('cy',bezPt(tp,f.y,cp1y,cp2y,t.y));
-              if(p>0.7){var a=1-((p-0.7)/0.3);c.setAttribute('opacity',a);tr.setAttribute('opacity',a*0.4);}
+              var tp2 = Math.max(0,ease-0.16);
+              tr2.setAttribute('cx',bezPt(tp2,f.x,cp1x,cp2x,t.x));
+              tr2.setAttribute('cy',bezPt(tp2,f.y,cp1y,cp2y,t.y));
+              if(p>0.6){var a=1-((p-0.6)/0.4);c.setAttribute('opacity',a);tr.setAttribute('opacity',a*0.5);tr2.setAttribute('opacity',a*0.2);}
               if(p<1){requestAnimationFrame(step);}
               else{
                 if(c.parentNode) particlesG.removeChild(c);
                 if(tr.parentNode) particlesG.removeChild(tr);
+                if(tr2.parentNode) particlesG.removeChild(tr2);
                 // Pulse destination node
                 var destNode = document.getElementById('uafn-'+e.to);
                 if(destNode){
@@ -1043,6 +1054,57 @@
   // Clock
   function updateClock(){document.getElementById('clock').textContent=new Date().toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit',second:'2-digit'});}
   setInterval(updateClock,1000);updateClock();
+
+  // LIVE FEED — Auto-update chat messages in left panel
+  var liveFeedMsgs = [
+    {from:'Akira',to:'Yuki',msg:'Preciso do forecast Q2 ate amanha.',tags:['DELEGATE','alta prioridade']},
+    {from:'Yuki',to:'Akira',msg:'Forecast 60% pronto. 2 cenarios faltando.',tags:['RESPOND','confianca 88%']},
+    {from:'Hana',to:'Julio',msg:'Investidor confirmou quinta 15h. Calendar atualizado.',tags:['EXECUTE','Calendar']},
+    {from:'Haruki',to:'Kaito',msg:'Priorizar fix do gateway de pagamento.',tags:['DELEGATE','critico']},
+    {from:'Kaito',to:'Haruki',msg:'Fix deployado staging. 4 testes passaram.',tags:['RESPOND','GitHub']},
+    {from:'Akira',to:'Julio',msg:'3 aprovacoes pendentes. 1 acima de R$5000.',tags:['ESCALATE','aguardando']},
+    {from:'Yumi',to:'Akira',msg:'Joao Silva completou onboarding PF. 8 areas mapeadas.',tags:['RESPOND','PF']},
+    {from:'Yuki',to:'Akira',msg:'Alerta: custo Opus subiu 18% esta semana.',tags:['ESCALATE','budget']},
+    {from:'Hana',to:'Haruki',msg:'3 emails do cliente Startup Z aguardando resposta.',tags:['EXECUTE','Gmail']},
+    {from:'Haruki',to:'Akira',msg:'Sprint fechado 9/10 tasks. 1 rollover para proximo.',tags:['DECIDE','sprint']},
+    {from:'Kaito',to:'Akira',msg:'Modulo Objection Breaker v3 publicado marketplace.',tags:['RESPOND','marketplace']},
+    {from:'Akira',to:'Hana',msg:'Agendar demo para Empresa X segunda 10h.',tags:['DELEGATE','Calendar']},
+    {from:'Yumi',to:'Julio',msg:'Check-in Maria: progresso 78%. Meta casa atingida.',tags:['RESPOND','PF coaching']},
+    {from:'Yuki',to:'Julio',msg:'DRE marco finalizado. R$34k MRR confirmado.',tags:['RESPOND','financeiro']},
+  ];
+  var liveFeedIdx = 0;
+  var feedEl = document.querySelector('.feed');
+  var tagColors = {DELEGATE:'tag-delegate',RESPOND:'tag-respond',EXECUTE:'tag-execute',DECIDE:'tag-decide',ESCALATE:'tag-escalate'};
+  setInterval(function(){
+    if(!feedEl) return;
+    var m = liveFeedMsgs[liveFeedIdx % liveFeedMsgs.length];
+    liveFeedIdx++;
+    var now = new Date().toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'});
+    var item = document.createElement('div');
+    item.className = 'f-item';
+    item.style.opacity='0';item.style.transition='opacity 0.4s ease';setTimeout(function(){item.style.opacity='1';},50);
+    var tagsHtml = m.tags.map(function(t){
+      var cls = tagColors[t] || 'tag-meta';
+      return '<span class="f-tag '+cls+'">'+t+'</span>';
+    }).join('');
+    item.innerHTML = '<div class="f-row"><span class="f-from">'+m.from+'</span><span class="f-arrow">&rarr;</span><span class="f-to">'+m.to+'</span><span class="f-time">'+now+'</span></div><p class="f-msg">'+m.msg+'</p><div class="f-tags">'+tagsHtml+'</div>';
+    // Insert after typing indicator or at top
+    var typing = feedEl.querySelector('.typing-line');
+    if(typing) feedEl.insertBefore(item, typing);
+    else feedEl.insertBefore(item, feedEl.firstChild);
+    // Remove old items to keep feed manageable
+    while(feedEl.children.length > 12){
+      var last = feedEl.lastElementChild;
+      if(last && !last.classList.contains('typing-line')) feedEl.removeChild(last);
+      else break;
+    }
+    // Update typing indicator agent name
+    if(typing){
+      var names = ['Akira','Yuki','Hana','Haruki','Kaito','Yumi'];
+      var typSpan = typing.querySelector('span:first-child');
+      if(typSpan) typSpan.textContent = names[Math.floor(Math.random()*names.length)];
+    }
+  }, 4000);
 
   // Right Tabs
   function switchRightTab(btn,tabId){document.querySelectorAll('.right-tab').forEach(function(t){t.classList.remove('active');});btn.classList.add('active');document.querySelectorAll('.right-tab-content').forEach(function(c){c.classList.remove('active');});document.getElementById('rtab-'+tabId).classList.add('active');if(tabId==='metricas')animateMetricBars();}
