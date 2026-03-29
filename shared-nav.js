@@ -621,7 +621,7 @@
   const isDesktop = window.innerWidth > 768;
   let sidebarOpen = isDashboardHome && isDesktop;
   // Chat do agente: skip em telas que já têm chat próprio (builder, dashboard home)
-  const skipChat = path.includes('/builder') || (currentFile === 'home.html' && path.includes('/dashboard/')) || (currentFile === 'chat.html' && path.includes('/agent/')) || currentFile === 'terminal.html';
+  const skipChat = path.includes('/builder') || (currentFile === 'home.html' && path.includes('/dashboard/')) || (currentFile === 'chat.html' && path.includes('/agent/')) || currentFile === 'terminal.html' || currentFile === 'support.html' || currentFile === 'org.html';
   if (skipChat) {
     var chatEl = document.getElementById('ktChat');
     if (chatEl) chatEl.style.display = 'none';
