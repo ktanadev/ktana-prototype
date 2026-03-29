@@ -136,6 +136,26 @@
     .stagger-10 { animation-delay: 0.30s; }
     .stagger-11 { animation-delay: 0.33s; }
     .stagger-12 { animation-delay: 0.36s; }
+
+    /* Open Finance Section */
+    .openfinance-banner { background: linear-gradient(135deg, #0A1628 0%, #1A2744 100%); border-radius: 20px; padding: 24px 28px; margin-bottom: 16px; display: flex; align-items: center; gap: 20px; }
+    .openfinance-banner-icon { width: 56px; height: 56px; border-radius: 16px; background: rgba(255,255,255,0.08); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .openfinance-banner-icon svg { width: 28px; height: 28px; }
+    .openfinance-banner-text h3 { font-family: 'Satoshi', sans-serif; font-size: 16px; font-weight: 700; color: #FFF; margin-bottom: 4px; }
+    .openfinance-banner-text p { font-family: 'Satoshi', sans-serif; font-size: 13px; color: rgba(255,255,255,0.6); line-height: 1.5; margin: 0; }
+    .openfinance-badge { font-family: 'Inter', sans-serif; display: inline-flex; align-items: center; gap: 6px; padding: 4px 10px; border-radius: 980px; font-size: 10px; font-weight: 600; letter-spacing: 0.03em; background: rgba(48,209,88,0.12); color: #30D158; margin-left: auto; flex-shrink: 0; white-space: nowrap; }
+    .openfinance-badge::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: #30D158; }
+
+    .bank-data-tags { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 8px; }
+    .bank-data-tag { font-family: 'Inter', sans-serif; font-size: 9px; font-weight: 500; padding: 3px 8px; border-radius: 980px; background: rgba(0,0,0,0.03); color: #86868B; letter-spacing: 0.02em; text-transform: uppercase; }
+
+    .openfinance-disclaimer { font-family: 'Inter', sans-serif; font-size: 11px; color: #AEAEB2; line-height: 1.6; padding: 16px 20px; background: rgba(0,0,0,0.02); border-radius: 14px; border-left: 3px solid rgba(215,0,48,0.2); margin-bottom: 32px; }
+    .openfinance-disclaimer svg { width: 14px; height: 14px; vertical-align: -2px; margin-right: 6px; color: #86868B; }
+
+    @media (max-width: 640px) {
+      .openfinance-banner { flex-direction: column; text-align: center; gap: 12px; }
+      .openfinance-badge { margin-left: 0; }
+    }
   </style>
 </head>
 <body>
@@ -165,7 +185,7 @@
         <div class="stat-label">Conectadas</div>
       </div>
       <div class="stat-card">
-        <div class="stat-number">18</div>
+        <div class="stat-number">25</div>
         <div class="stat-label">Disponiveis</div>
       </div>
       <div class="stat-card">
@@ -189,6 +209,7 @@
       <button class="filter-chip" onclick="setFilter('crm', this)">CRM & Vendas</button>
       <button class="filter-chip" onclick="setFilter('development', this)">Desenvolvimento</button>
       <button class="filter-chip" onclick="setFilter('custom', this)">Customizadas</button>
+      <button class="filter-chip" onclick="setFilter('openfinance', this)">Open Finance</button>
     </div>
 
     <!-- Connected Section -->
@@ -517,6 +538,192 @@
 
     </div>
 
+    <!-- Open Finance Section -->
+    <div class="section-header fade-in">
+      <span class="section-title">Open Finance</span>
+      <span class="section-count" id="openfinanceCount">7 bancos</span>
+    </div>
+
+    <div class="openfinance-banner fade-in">
+      <div class="openfinance-banner-icon">
+        <svg viewBox="0 0 24 24" fill="none"><path d="M3 21h18M3 10h18M5 6l7-4 7 4" stroke="#FFF" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M4 10v11M20 10v11M8 10v11M12 10v11M16 10v11" stroke="rgba(255,255,255,0.4)" stroke-width="1.5" stroke-linecap="round"/></svg>
+      </div>
+      <div class="openfinance-banner-text">
+        <h3>Conecte suas contas bancarias</h3>
+        <p>Via Open Finance regulamentado pelo Banco Central do Brasil. Dados criptografados, consentimento revogavel a qualquer momento.</p>
+      </div>
+      <span class="openfinance-badge">Regulamentado BCB</span>
+    </div>
+
+    <div class="marketplace-grid" id="openfinanceGrid">
+
+      <!-- Banco do Brasil -->
+      <div class="conn-card fade-in stagger-1" data-category="openfinance" data-name="Banco do Brasil" onclick="openModal('bb')">
+        <div class="conn-card-header">
+          <div class="conn-card-icon" style="background:#FEF3C7;">
+            <svg viewBox="0 0 24 24" fill="none"><path d="M3 21h18M3 10h18M5 6l7-4 7 4" stroke="#FCBA03" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M5 10v11M9 10v11M15 10v11M19 10v11" stroke="#FCBA03" stroke-width="1.5" stroke-linecap="round"/></svg>
+          </div>
+          <div>
+            <div class="conn-card-name">Banco do Brasil</div>
+            <div class="conn-card-desc">Conta corrente, poupanca e investimentos</div>
+          </div>
+        </div>
+        <div class="bank-data-tags">
+          <span class="bank-data-tag">Saldo</span>
+          <span class="bank-data-tag">Extrato</span>
+          <span class="bank-data-tag">Cartoes</span>
+          <span class="bank-data-tag">Investimentos</span>
+        </div>
+        <div class="conn-card-footer">
+          <span class="conn-card-category">Open Finance</span>
+          <button class="conn-card-btn connect" onclick="event.stopPropagation(); simulateBankConnect(this, 'Banco do Brasil')">Conectar</button>
+        </div>
+      </div>
+
+      <!-- Itau -->
+      <div class="conn-card fade-in stagger-2" data-category="openfinance" data-name="Itau" onclick="openModal('itau')">
+        <div class="conn-card-header">
+          <div class="conn-card-icon" style="background:#FEE2E2;">
+            <svg viewBox="0 0 24 24" fill="none"><path d="M3 21h18M3 10h18M5 6l7-4 7 4" stroke="#EC7000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M5 10v11M9 10v11M15 10v11M19 10v11" stroke="#EC7000" stroke-width="1.5" stroke-linecap="round"/></svg>
+          </div>
+          <div>
+            <div class="conn-card-name">Itau</div>
+            <div class="conn-card-desc">Conta corrente, credito e investimentos</div>
+          </div>
+        </div>
+        <div class="bank-data-tags">
+          <span class="bank-data-tag">Saldo</span>
+          <span class="bank-data-tag">Extrato</span>
+          <span class="bank-data-tag">Cartoes</span>
+          <span class="bank-data-tag">Investimentos</span>
+        </div>
+        <div class="conn-card-footer">
+          <span class="conn-card-category">Open Finance</span>
+          <button class="conn-card-btn connect" onclick="event.stopPropagation(); simulateBankConnect(this, 'Itau')">Conectar</button>
+        </div>
+      </div>
+
+      <!-- Bradesco -->
+      <div class="conn-card fade-in stagger-3" data-category="openfinance" data-name="Bradesco" onclick="openModal('bradesco')">
+        <div class="conn-card-header">
+          <div class="conn-card-icon" style="background:#FEE2E2;">
+            <svg viewBox="0 0 24 24" fill="none"><path d="M3 21h18M3 10h18M5 6l7-4 7 4" stroke="#CC092F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M5 10v11M9 10v11M15 10v11M19 10v11" stroke="#CC092F" stroke-width="1.5" stroke-linecap="round"/></svg>
+          </div>
+          <div>
+            <div class="conn-card-name">Bradesco</div>
+            <div class="conn-card-desc">Conta corrente, seguros e investimentos</div>
+          </div>
+        </div>
+        <div class="bank-data-tags">
+          <span class="bank-data-tag">Saldo</span>
+          <span class="bank-data-tag">Extrato</span>
+          <span class="bank-data-tag">Cartoes</span>
+          <span class="bank-data-tag">Investimentos</span>
+        </div>
+        <div class="conn-card-footer">
+          <span class="conn-card-category">Open Finance</span>
+          <button class="conn-card-btn connect" onclick="event.stopPropagation(); simulateBankConnect(this, 'Bradesco')">Conectar</button>
+        </div>
+      </div>
+
+      <!-- Nubank -->
+      <div class="conn-card fade-in stagger-4" data-category="openfinance" data-name="Nubank" onclick="openModal('nubank')">
+        <div class="conn-card-header">
+          <div class="conn-card-icon" style="background:#F3E8FF;">
+            <svg viewBox="0 0 24 24" fill="none"><path d="M3 21h18M3 10h18M5 6l7-4 7 4" stroke="#820AD1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M5 10v11M9 10v11M15 10v11M19 10v11" stroke="#820AD1" stroke-width="1.5" stroke-linecap="round"/></svg>
+          </div>
+          <div>
+            <div class="conn-card-name">Nubank</div>
+            <div class="conn-card-desc">Conta, cartao de credito e investimentos</div>
+          </div>
+        </div>
+        <div class="bank-data-tags">
+          <span class="bank-data-tag">Saldo</span>
+          <span class="bank-data-tag">Extrato</span>
+          <span class="bank-data-tag">Cartoes</span>
+          <span class="bank-data-tag">Investimentos</span>
+        </div>
+        <div class="conn-card-footer">
+          <span class="conn-card-category">Open Finance</span>
+          <button class="conn-card-btn connect" onclick="event.stopPropagation(); simulateBankConnect(this, 'Nubank')">Conectar</button>
+        </div>
+      </div>
+
+      <!-- Inter -->
+      <div class="conn-card fade-in stagger-5" data-category="openfinance" data-name="Inter" onclick="openModal('inter')">
+        <div class="conn-card-header">
+          <div class="conn-card-icon" style="background:#FEE2E2;">
+            <svg viewBox="0 0 24 24" fill="none"><path d="M3 21h18M3 10h18M5 6l7-4 7 4" stroke="#FF7A00" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M5 10v11M9 10v11M15 10v11M19 10v11" stroke="#FF7A00" stroke-width="1.5" stroke-linecap="round"/></svg>
+          </div>
+          <div>
+            <div class="conn-card-name">Inter</div>
+            <div class="conn-card-desc">Conta digital, cartoes e investimentos</div>
+          </div>
+        </div>
+        <div class="bank-data-tags">
+          <span class="bank-data-tag">Saldo</span>
+          <span class="bank-data-tag">Extrato</span>
+          <span class="bank-data-tag">Cartoes</span>
+          <span class="bank-data-tag">Investimentos</span>
+        </div>
+        <div class="conn-card-footer">
+          <span class="conn-card-category">Open Finance</span>
+          <button class="conn-card-btn connect" onclick="event.stopPropagation(); simulateBankConnect(this, 'Inter')">Conectar</button>
+        </div>
+      </div>
+
+      <!-- BTG Pactual -->
+      <div class="conn-card fade-in stagger-6" data-category="openfinance" data-name="BTG Pactual" onclick="openModal('btg')">
+        <div class="conn-card-header">
+          <div class="conn-card-icon" style="background:#DBEAFE;">
+            <svg viewBox="0 0 24 24" fill="none"><path d="M3 21h18M3 10h18M5 6l7-4 7 4" stroke="#00244C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M5 10v11M9 10v11M15 10v11M19 10v11" stroke="#00244C" stroke-width="1.5" stroke-linecap="round"/></svg>
+          </div>
+          <div>
+            <div class="conn-card-name">BTG Pactual</div>
+            <div class="conn-card-desc">Conta digital, banking e investimentos</div>
+          </div>
+        </div>
+        <div class="bank-data-tags">
+          <span class="bank-data-tag">Saldo</span>
+          <span class="bank-data-tag">Extrato</span>
+          <span class="bank-data-tag">Cartoes</span>
+          <span class="bank-data-tag">Investimentos</span>
+        </div>
+        <div class="conn-card-footer">
+          <span class="conn-card-category">Open Finance</span>
+          <button class="conn-card-btn connect" onclick="event.stopPropagation(); simulateBankConnect(this, 'BTG Pactual')">Conectar</button>
+        </div>
+      </div>
+
+      <!-- Santander -->
+      <div class="conn-card fade-in stagger-7" data-category="openfinance" data-name="Santander" onclick="openModal('santander')">
+        <div class="conn-card-header">
+          <div class="conn-card-icon" style="background:#FEE2E2;">
+            <svg viewBox="0 0 24 24" fill="none"><path d="M3 21h18M3 10h18M5 6l7-4 7 4" stroke="#EC0000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M5 10v11M9 10v11M15 10v11M19 10v11" stroke="#EC0000" stroke-width="1.5" stroke-linecap="round"/></svg>
+          </div>
+          <div>
+            <div class="conn-card-name">Santander</div>
+            <div class="conn-card-desc">Conta corrente, credito e investimentos</div>
+          </div>
+        </div>
+        <div class="bank-data-tags">
+          <span class="bank-data-tag">Saldo</span>
+          <span class="bank-data-tag">Extrato</span>
+          <span class="bank-data-tag">Cartoes</span>
+          <span class="bank-data-tag">Investimentos</span>
+        </div>
+        <div class="conn-card-footer">
+          <span class="conn-card-category">Open Finance</span>
+          <button class="conn-card-btn connect" onclick="event.stopPropagation(); simulateBankConnect(this, 'Santander')">Conectar</button>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="openfinance-disclaimer fade-in">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"/><path d="M12 16v-4M12 8h.01"/></svg>Conexao via Open Finance regulamentado pelo Banco Central do Brasil. Seus dados bancarios sao criptografados e nunca armazenados.
+    </div>
+
     <!-- Custom Connection Builder -->
     <div class="section-header fade-in">
       <span class="section-title">Customizadas</span>
@@ -710,6 +917,13 @@
       shopify: { name: 'Shopify', desc: 'E-commerce completo. Gerenciar produtos, pedidos, estoque e atendimento ao cliente automaticamente.', color: '#DCFCE7', features: ['Gerenciar produtos', 'Processar pedidos', 'Controle de estoque', 'Atendimento ao cliente'], connected: false, duration: '3:45', action: 'Conectar' },
       asana: { name: 'Asana', desc: 'Gerenciamento de trabalho em equipe. Tarefas, projetos, timelines e portfolios.', color: '#FEE2E2', features: ['Criar e atribuir tarefas', 'Gerenciar projetos', 'Timeline e dependencias', 'Portfolios e metas'], connected: false, duration: '2:30', action: 'Conectar' },
       gdrive: { name: 'Google Drive', desc: 'Acesso a arquivos e documentos. Seus samurais podem buscar, criar e organizar documentos.', color: '#FEF3C7', features: ['Buscar documentos', 'Criar e editar Docs', 'Organizar pastas', 'Compartilhar arquivos'], connected: false, duration: '2:00', action: 'Conectar' },
+      bb: { name: 'Banco do Brasil', desc: 'Conecte sua conta do Banco do Brasil via Open Finance. Seus samurais terao acesso a saldos, extratos, cartoes e investimentos em tempo real.', color: '#FEF3C7', features: ['Consulta de saldo em tempo real', 'Extrato detalhado (90 dias)', 'Faturas de cartoes de credito', 'Posicao de investimentos'], connected: false, duration: '1:30', action: 'Conectar' },
+      itau: { name: 'Itau', desc: 'Conecte sua conta Itau via Open Finance. Acesso seguro a saldos, movimentacoes, cartoes e investimentos.', color: '#FEE2E2', features: ['Consulta de saldo em tempo real', 'Extrato detalhado (90 dias)', 'Faturas de cartoes de credito', 'Posicao de investimentos'], connected: false, duration: '1:30', action: 'Conectar' },
+      bradesco: { name: 'Bradesco', desc: 'Conecte sua conta Bradesco via Open Finance. Visualize saldos, extratos, cartoes e investimentos de forma unificada.', color: '#FEE2E2', features: ['Consulta de saldo em tempo real', 'Extrato detalhado (90 dias)', 'Faturas de cartoes de credito', 'Posicao de investimentos'], connected: false, duration: '1:30', action: 'Conectar' },
+      nubank: { name: 'Nubank', desc: 'Conecte sua conta Nubank via Open Finance. Acompanhe saldo da NuConta, fatura do cartao e rendimentos.', color: '#F3E8FF', features: ['Consulta de saldo em tempo real', 'Extrato detalhado (90 dias)', 'Fatura do cartao de credito', 'Rendimentos e investimentos'], connected: false, duration: '1:30', action: 'Conectar' },
+      inter: { name: 'Inter', desc: 'Conecte sua conta Inter via Open Finance. Acesse saldo, extrato, cartoes e posicao de investimentos.', color: '#FEE2E2', features: ['Consulta de saldo em tempo real', 'Extrato detalhado (90 dias)', 'Faturas de cartoes de credito', 'Posicao de investimentos'], connected: false, duration: '1:30', action: 'Conectar' },
+      btg: { name: 'BTG Pactual', desc: 'Conecte sua conta BTG Pactual via Open Finance. Acompanhe banking digital e posicao consolidada de investimentos.', color: '#DBEAFE', features: ['Consulta de saldo em tempo real', 'Extrato detalhado (90 dias)', 'Faturas de cartoes de credito', 'Posicao de investimentos'], connected: false, duration: '1:30', action: 'Conectar' },
+      santander: { name: 'Santander', desc: 'Conecte sua conta Santander via Open Finance. Visualize saldos, movimentacoes, cartoes e investimentos.', color: '#FEE2E2', features: ['Consulta de saldo em tempo real', 'Extrato detalhado (90 dias)', 'Faturas de cartoes de credito', 'Posicao de investimentos'], connected: false, duration: '1:30', action: 'Conectar' },
     };
 
     function openModal(id) {
@@ -759,6 +973,23 @@
     // Toggle interactions
     document.querySelectorAll('.toggle').forEach(t => t.addEventListener('click', () => t.classList.toggle('on')));
 
+    // Simulate bank connection via Open Finance
+    function simulateBankConnect(btn, bankName) {
+      const card = btn.closest('.conn-card');
+      btn.textContent = 'Conectando...';
+      btn.style.opacity = '0.6';
+      btn.style.pointerEvents = 'none';
+      setTimeout(() => {
+        card.classList.add('connected');
+        btn.textContent = 'Conectado';
+        btn.classList.remove('connect');
+        btn.classList.add('manage');
+        btn.style.opacity = '1';
+        btn.style.pointerEvents = '';
+        btn.onclick = function(e) { e.stopPropagation(); };
+      }, 2000);
+    }
+
     // Close modals on Escape
     document.addEventListener('keydown', e => {
       if (e.key === 'Escape') { closeModal(); closeBuilderModal(); }
@@ -767,6 +998,6 @@
 
 <script src="settings-assistant.js"></script>
 <script src="settings-tabs.js"></script>
-<script src="../../shared-nav.js?v=1774803832"></script>
+<script src="../../shared-nav.js?v=1774805559"></script>
 </body>
 </html>

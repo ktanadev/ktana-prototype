@@ -47,10 +47,21 @@
   // Create chat widget
   var widget = document.createElement('div');
   widget.className = 'pf-chat-widget';
+  // Unique avatar SVGs per mentor (samurai variations)
+  var avatarSvgs = {
+    'K': '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="' + m.color + '" stroke-width="1.5"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>',
+    'S': '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="' + m.color + '" stroke-width="1.5"><path d="M12 2a7 7 0 017 7c0 3.5-2 5.5-3.5 7h-7C7 14.5 5 12.5 5 9a7 7 0 017-7z"/><circle cx="12" cy="9" r="2"/></svg>',
+    'H': '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="' + m.color + '" stroke-width="1.5"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>',
+    'T': '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="' + m.color + '" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>',
+    'M': '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="' + m.color + '" stroke-width="1.5"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/></svg>',
+    'Y': '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="' + m.color + '" stroke-width="1.5"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>'
+  };
+  var avatarContent = avatarSvgs[m.initial] || '<span style="color:' + m.color + ';">' + m.initial + '</span>';
+
   widget.innerHTML =
     '<div class="pcw-inner">' +
       '<div class="pcw-header">' +
-        '<div class="pcw-avatar" style="border-color:' + m.color + '20;"><span style="color:' + m.color + ';">' + m.initial + '</span></div>' +
+        '<div class="pcw-avatar" style="border-color:' + m.color + '20;">' + avatarContent + '</div>' +
         '<div class="pcw-info"><span class="pcw-name">' + m.name + '</span><span class="pcw-role">' + m.role + ' · <span class="pcw-online">Online</span></span></div>' +
       '</div>' +
       '<div class="pcw-msgs" id="pcwMsgs">' +

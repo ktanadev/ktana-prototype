@@ -73,6 +73,16 @@
     .btn-chat:hover { background: rgba(215,0,48,0.02); }
 
     /* Staggered animations */
+    /* Data viz shared */
+    .chart-header { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 14px; }
+    .chart-header h3 { font-family: 'Zen Dots', cursive; font-size: 15px; color: #1D1D1F; }
+    .chart-period { font-family: 'Inter', sans-serif; font-size: 11px; color: #AEAEB2; }
+    .chart-value-big { font-family: 'Inter', sans-serif; font-size: 28px; font-weight: 700; color: #1D1D1F; line-height: 1; margin-bottom: 4px; }
+    .chart-value-sub { font-family: 'Satoshi', sans-serif; font-size: 12px; color: #86868B; }
+    .data-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .data-grid .card { margin-bottom: 0; }
+    .ring-label { font-family: 'Satoshi', sans-serif; font-size: 13px; color: #86868B; text-align: center; margin-top: 8px; }
+
     .stagger-1 { animation: fadeUp 0.5s cubic-bezier(0.25,0.1,0.25,1) 0.05s both; }
     .stagger-2 { animation: fadeUp 0.5s cubic-bezier(0.25,0.1,0.25,1) 0.12s both; }
     .stagger-3 { animation: fadeUp 0.5s cubic-bezier(0.25,0.1,0.25,1) 0.19s both; }
@@ -80,6 +90,9 @@
     .stagger-5 { animation: fadeUp 0.5s cubic-bezier(0.25,0.1,0.25,1) 0.33s both; }
     .stagger-6 { animation: fadeUp 0.5s cubic-bezier(0.25,0.1,0.25,1) 0.40s both; }
     .stagger-7 { animation: fadeUp 0.5s cubic-bezier(0.25,0.1,0.25,1) 0.47s both; }
+    .stagger-8 { animation: fadeUp 0.5s cubic-bezier(0.25,0.1,0.25,1) 0.54s both; }
+    .stagger-9 { animation: fadeUp 0.5s cubic-bezier(0.25,0.1,0.25,1) 0.61s both; }
+    .stagger-10 { animation: fadeUp 0.5s cubic-bezier(0.25,0.1,0.25,1) 0.68s both; }
   </style>
 </head>
 <body>
@@ -143,8 +156,101 @@
       </div>
     </div>
 
-    <!-- Weekly Goals -->
+    <!-- Health Data: Deep Work Hours -->
     <div class="card stagger-4">
+      <p class="card-label">Deep Work — Horas por dia</p>
+      <div class="chart-header">
+        <h3>Deep Work</h3>
+        <span class="chart-period">Ultimos 7 dias</span>
+      </div>
+      <svg width="100%" height="150" viewBox="0 0 560 150" preserveAspectRatio="xMidYMid meet" style="display:block;">
+        <!-- Grid lines -->
+        <line x1="40" y1="10" x2="540" y2="10" stroke="rgba(0,0,0,0.04)" stroke-width="0.5"/>
+        <line x1="40" y1="42" x2="540" y2="42" stroke="rgba(0,0,0,0.04)" stroke-width="0.5"/>
+        <line x1="40" y1="74" x2="540" y2="74" stroke="rgba(0,0,0,0.04)" stroke-width="0.5"/>
+        <line x1="40" y1="106" x2="540" y2="106" stroke="rgba(0,0,0,0.04)" stroke-width="0.5"/>
+        <!-- Y labels -->
+        <text x="8" y="14" font-family="Inter,sans-serif" font-size="10" fill="#AEAEB2">4h</text>
+        <text x="8" y="46" font-family="Inter,sans-serif" font-size="10" fill="#AEAEB2">3h</text>
+        <text x="8" y="78" font-family="Inter,sans-serif" font-size="10" fill="#AEAEB2">2h</text>
+        <text x="8" y="110" font-family="Inter,sans-serif" font-size="10" fill="#AEAEB2">1h</text>
+        <!-- Bars -->
+        <rect x="60" y="42" width="44" height="94" rx="6" fill="#D70030" opacity="0.15"/>
+        <rect x="60" y="42" width="44" height="94" rx="6" fill="url(#barGrad)" opacity="0.85"/>
+        <text x="82" y="148" font-family="Inter,sans-serif" font-size="10" fill="#86868B" text-anchor="middle">Seg</text>
+
+        <rect x="130" y="74" width="44" height="62" rx="6" fill="#D70030" opacity="0.7"/>
+        <text x="152" y="148" font-family="Inter,sans-serif" font-size="10" fill="#86868B" text-anchor="middle">Ter</text>
+
+        <rect x="200" y="26" width="44" height="110" rx="6" fill="#D70030" opacity="0.9"/>
+        <text x="222" y="148" font-family="Inter,sans-serif" font-size="10" fill="#86868B" text-anchor="middle">Qua</text>
+
+        <rect x="270" y="58" width="44" height="78" rx="6" fill="#D70030" opacity="0.7"/>
+        <text x="292" y="148" font-family="Inter,sans-serif" font-size="10" fill="#86868B" text-anchor="middle">Qui</text>
+
+        <rect x="340" y="42" width="44" height="94" rx="6" fill="#D70030" opacity="0.85"/>
+        <text x="362" y="148" font-family="Inter,sans-serif" font-size="10" fill="#86868B" text-anchor="middle">Sex</text>
+
+        <rect x="410" y="90" width="44" height="46" rx="6" fill="#D70030" opacity="0.5"/>
+        <text x="432" y="148" font-family="Inter,sans-serif" font-size="10" fill="#86868B" text-anchor="middle">Sab</text>
+
+        <rect x="480" y="106" width="44" height="30" rx="6" fill="#D70030" opacity="0.35"/>
+        <text x="502" y="148" font-family="Inter,sans-serif" font-size="10" fill="#86868B" text-anchor="middle">Dom</text>
+
+        <defs>
+          <linearGradient id="barGrad" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#D70030"/>
+            <stop offset="100%" stop-color="#D70030" stop-opacity="0.5"/>
+          </linearGradient>
+        </defs>
+      </svg>
+    </div>
+
+    <!-- Health Data: Network + Goals Ring -->
+    <div class="data-grid stagger-5">
+      <!-- Network Contacts -->
+      <div class="card">
+        <p class="card-label">Network</p>
+        <div class="chart-value-big">142</div>
+        <div class="chart-value-sub">Contatos ativos</div>
+        <svg width="100%" height="70" viewBox="0 0 200 70" preserveAspectRatio="xMidYMid meet" style="display:block;margin-top:12px;">
+          <!-- Area fill -->
+          <polygon points="10,55 40,48 70,42 100,38 130,30 160,24 190,18 190,65 10,65" fill="#D70030" opacity="0.06"/>
+          <!-- Line -->
+          <polyline points="10,55 40,48 70,42 100,38 130,30 160,24 190,18" fill="none" stroke="#D70030" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          <circle cx="10" cy="55" r="2.5" fill="#D70030"/>
+          <circle cx="40" cy="48" r="2.5" fill="#D70030"/>
+          <circle cx="70" cy="42" r="2.5" fill="#D70030"/>
+          <circle cx="100" cy="38" r="2.5" fill="#D70030"/>
+          <circle cx="130" cy="30" r="2.5" fill="#D70030"/>
+          <circle cx="160" cy="24" r="2.5" fill="#D70030"/>
+          <circle cx="190" cy="18" r="3.5" fill="#D70030"/>
+          <text x="10" y="68" font-family="Inter,sans-serif" font-size="9" fill="#AEAEB2">Jan</text>
+          <text x="96" y="68" font-family="Inter,sans-serif" font-size="9" fill="#AEAEB2">Abr</text>
+          <text x="180" y="68" font-family="Inter,sans-serif" font-size="9" fill="#AEAEB2">Hoje</text>
+        </svg>
+      </div>
+
+      <!-- Goals Completion Ring -->
+      <div class="card">
+        <p class="card-label">Metas do Trimestre</p>
+        <svg width="100%" height="120" viewBox="0 0 120 120" preserveAspectRatio="xMidYMid meet" style="display:block;margin:0 auto;">
+          <!-- Background ring -->
+          <circle cx="60" cy="60" r="48" fill="none" stroke="rgba(0,0,0,0.06)" stroke-width="10"/>
+          <!-- Progress ring (72%) -->
+          <circle cx="60" cy="60" r="48" fill="none" stroke="#D70030" stroke-width="10" stroke-linecap="round"
+            stroke-dasharray="301.6" stroke-dashoffset="84.4"
+            transform="rotate(-90 60 60)"/>
+          <!-- Center text -->
+          <text x="60" y="56" font-family="Inter,sans-serif" font-size="24" font-weight="700" fill="#1D1D1F" text-anchor="middle">72%</text>
+          <text x="60" y="72" font-family="Inter,sans-serif" font-size="10" fill="#86868B" text-anchor="middle">concluido</text>
+        </svg>
+        <p class="ring-label">8 de 11 metas</p>
+      </div>
+    </div>
+
+    <!-- Weekly Goals -->
+    <div class="card stagger-6">
       <p class="card-label">Metas desta semana</p>
       <div class="goal-row">
         <span class="goal-label">Publicar 2x no LinkedIn</span>
@@ -177,7 +283,7 @@
     </div>
 
     <!-- Recent Activity -->
-    <div class="card stagger-5">
+    <div class="card stagger-7">
       <p class="card-label">Atividade recente</p>
       <div class="activity-item">
         <span class="activity-time">09:00</span>
@@ -202,13 +308,13 @@
     </div>
 
     <!-- Disclaimer -->
-    <div class="disclaimer stagger-6">
+    <div class="disclaimer stagger-8">
       <p><strong>Nota:</strong> Os mentores e especialistas de carreira sao assistentes de inteligencia artificial. Oferecem orientacao baseada em frameworks e referencias selecionadas, mas nao substituem mentoria profissional presencial, coaching certificado ou aconselhamento juridico-trabalhista. Decisoes de carreira sao de responsabilidade exclusiva do usuario.</p>
     </div>
 
     <!-- Actions -->
-    <button class="btn-edit stagger-7" onclick="location.href='chat.html'" style="display:flex;align-items:center;justify-content:center;gap:8px;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>Falar com Hiroshi</button>
+    <button class="btn-edit stagger-9" onclick="location.href='chat.html'" style="display:flex;align-items:center;justify-content:center;gap:8px;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>Falar com Hiroshi</button>
   </div>
 </body>
-</html><script src="pf-chat-widget.js?v=1774803316"></script>
-<script src="../shared-nav.js?v=1774803832"></script>
+</html><script src="pf-chat-widget.js?v=1774805559"></script>
+<script src="../shared-nav.js?v=1774805559"></script>

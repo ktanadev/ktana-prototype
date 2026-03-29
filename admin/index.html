@@ -77,179 +77,228 @@
   <!-- SCREEN 1: OVERVIEW                         -->
   <!-- ========================================== -->
   <div id="overview" class="screen active">
-    <header class="px-8 py-5 border-b border-white/[0.04] flex items-center justify-between">
-      <h1 class="text-lg font-semibold">Visao Geral</h1>
+    <header class="px-8 py-4 border-b border-white/[0.04] flex items-center justify-between">
+      <h1 class="text-lg font-semibold">Centro de Comando</h1>
       <div class="flex items-center gap-3">
-        <span class="w-2 h-2 rounded-full bg-[#30D158]"></span>
-        <span class="text-xs text-[#8E8E93]">Todos sistemas operacionais</span>
+        <span class="w-2 h-2 rounded-full bg-[#30D158] animate-pulse"></span>
+        <span class="text-xs text-[#8E8E93]">Todos os 847 samurais operacionais</span>
       </div>
     </header>
 
-    <main class="flex-1 px-8 py-8">
-      <!-- Stats -->
-      <div class="grid grid-cols-5 gap-4 mb-10 fade-in">
-        <div class="stat-card p-5">
-          <p class="text-3xl font-bold tabular-nums">124</p>
-          <p class="text-[11px] text-[#8E8E93] mt-1">tenants ativos</p>
+    <main class="flex-1 flex fade-in" style="height: calc(100vh - 57px);">
+      <!-- Main: Agent Activity Feed -->
+      <div class="flex-1 flex flex-col min-w-0">
+        <!-- Activity Feed -->
+        <div class="flex-1 overflow-y-auto px-8 py-6">
+          <div class="flex items-center gap-2 mb-5">
+            <span class="w-1.5 h-1.5 rounded-full bg-[#D70030] glow-active"></span>
+            <p class="text-[10px] text-[#636366] tracking-widest uppercase">Atividade dos Agentes</p>
+          </div>
+
+          <div id="overview-feed" class="space-y-1">
+            <!-- Feed item -->
+            <div class="flex items-start gap-3 py-2.5 px-3 rounded-lg hover:bg-white/[0.02] transition-colors">
+              <div class="w-7 h-7 rounded-full bg-[#D70030]/15 border border-[#D70030]/30 flex items-center justify-center shrink-0 mt-0.5">
+                <span class="text-[#D70030] text-[10px] font-semibold">A</span>
+              </div>
+              <div class="flex-1 min-w-0">
+                <div class="flex items-center gap-2">
+                  <span class="text-sm font-medium">Akira</span>
+                  <span class="text-[10px] text-[#636366]">CEO, KTANA</span>
+                  <span class="text-[10px] text-[#48484A] tabular-nums ml-auto shrink-0">17:04</span>
+                </div>
+                <p class="text-xs text-[#8E8E93] mt-0.5">Relatorio diario consolidado e enviado para todos os stakeholders</p>
+              </div>
+            </div>
+
+            <div class="flex items-start gap-3 py-2.5 px-3 rounded-lg hover:bg-white/[0.02] transition-colors">
+              <div class="w-7 h-7 rounded-full bg-white/[0.04] border border-white/10 flex items-center justify-center shrink-0 mt-0.5">
+                <span class="text-[#8E8E93] text-[10px] font-semibold">Y</span>
+              </div>
+              <div class="flex-1 min-w-0">
+                <div class="flex items-center gap-2">
+                  <span class="text-sm font-medium">Yuki</span>
+                  <span class="text-[10px] text-[#636366]">Controller, KTANA</span>
+                  <span class="text-[10px] text-[#48484A] tabular-nums ml-auto shrink-0">17:02</span>
+                </div>
+                <p class="text-xs text-[#8E8E93] mt-0.5">3 pagamentos conciliados, relatorio financeiro enviado para Kaito</p>
+              </div>
+            </div>
+
+            <div class="flex items-start gap-3 py-2.5 px-3 rounded-lg hover:bg-white/[0.02] transition-colors">
+              <div class="w-7 h-7 rounded-full bg-white/[0.04] border border-white/10 flex items-center justify-center shrink-0 mt-0.5">
+                <span class="text-[#8E8E93] text-[10px] font-semibold">H</span>
+              </div>
+              <div class="flex-1 min-w-0">
+                <div class="flex items-center gap-2">
+                  <span class="text-sm font-medium">Hana</span>
+                  <span class="text-[10px] text-[#636366]">Secretaria, KTANA</span>
+                  <span class="text-[10px] text-[#48484A] tabular-nums ml-auto shrink-0">17:00</span>
+                </div>
+                <p class="text-xs text-[#8E8E93] mt-0.5">23 emails filtrados, 4 reunioes agendadas para amanha</p>
+              </div>
+            </div>
+
+            <div class="flex items-start gap-3 py-2.5 px-3 rounded-lg hover:bg-white/[0.02] transition-colors">
+              <div class="w-7 h-7 rounded-full bg-white/[0.04] border border-white/10 flex items-center justify-center shrink-0 mt-0.5">
+                <span class="text-[#8E8E93] text-[10px] font-semibold">C</span>
+              </div>
+              <div class="flex-1 min-w-0">
+                <div class="flex items-center gap-2">
+                  <span class="text-sm font-medium">CEO-Z</span>
+                  <span class="text-[10px] text-[#636366]">CEO, Startup Z</span>
+                  <span class="text-[10px] text-[#48484A] tabular-nums ml-auto shrink-0">16:58</span>
+                </div>
+                <p class="text-xs text-[#8E8E93] mt-0.5">Briefing consolidado enviado, 3 decisoes pendentes para aprovacao</p>
+              </div>
+            </div>
+
+            <div class="flex items-start gap-3 py-2.5 px-3 rounded-lg hover:bg-white/[0.02] transition-colors">
+              <div class="w-7 h-7 rounded-full bg-white/[0.04] border border-white/10 flex items-center justify-center shrink-0 mt-0.5">
+                <span class="text-[#8E8E93] text-[10px] font-semibold">R</span>
+              </div>
+              <div class="flex-1 min-w-0">
+                <div class="flex items-center gap-2">
+                  <span class="text-sm font-medium">Ren</span>
+                  <span class="text-[10px] text-[#636366]">Sales Lead, KTANA</span>
+                  <span class="text-[10px] text-[#48484A] tabular-nums ml-auto shrink-0">16:55</span>
+                </div>
+                <p class="text-xs text-[#8E8E93] mt-0.5">Proposta enviada para Fintech ABC, valor R$12k/mes</p>
+              </div>
+            </div>
+
+            <div class="flex items-start gap-3 py-2.5 px-3 rounded-lg hover:bg-white/[0.02] transition-colors">
+              <div class="w-7 h-7 rounded-full bg-white/[0.04] border border-white/10 flex items-center justify-center shrink-0 mt-0.5">
+                <span class="text-[#8E8E93] text-[10px] font-semibold">S</span>
+              </div>
+              <div class="flex-1 min-w-0">
+                <div class="flex items-center gap-2">
+                  <span class="text-sm font-medium">SDR-X</span>
+                  <span class="text-[10px] text-[#636366]">SDR, Empresa X</span>
+                  <span class="text-[10px] text-[#48484A] tabular-nums ml-auto shrink-0">16:52</span>
+                </div>
+                <p class="text-xs text-[#8E8E93] mt-0.5">3 leads qualificados, 1 agendamento para demo amanha</p>
+              </div>
+            </div>
+
+            <div class="flex items-start gap-3 py-2.5 px-3 rounded-lg hover:bg-white/[0.02] transition-colors">
+              <div class="w-7 h-7 rounded-full bg-white/[0.04] border border-white/10 flex items-center justify-center shrink-0 mt-0.5">
+                <span class="text-[#8E8E93] text-[10px] font-semibold">K</span>
+              </div>
+              <div class="flex-1 min-w-0">
+                <div class="flex items-center gap-2">
+                  <span class="text-sm font-medium">Kaito</span>
+                  <span class="text-[10px] text-[#636366]">Lead Engineer, KTANA</span>
+                  <span class="text-[10px] text-[#48484A] tabular-nums ml-auto shrink-0">16:48</span>
+                </div>
+                <p class="text-xs text-[#8E8E93] mt-0.5">Deploy v2.4.1 concluido em producao, 0 erros no rollout</p>
+              </div>
+            </div>
+
+            <div class="flex items-start gap-3 py-2.5 px-3 rounded-lg hover:bg-white/[0.02] transition-colors">
+              <div class="w-7 h-7 rounded-full bg-white/[0.04] border border-white/10 flex items-center justify-center shrink-0 mt-0.5">
+                <span class="text-[#8E8E93] text-[10px] font-semibold">M</span>
+              </div>
+              <div class="flex-1 min-w-0">
+                <div class="flex items-center gap-2">
+                  <span class="text-sm font-medium">Mei</span>
+                  <span class="text-[10px] text-[#636366]">Support Lead, KTANA</span>
+                  <span class="text-[10px] text-[#48484A] tabular-nums ml-auto shrink-0">16:45</span>
+                </div>
+                <p class="text-xs text-[#8E8E93] mt-0.5">12 tickets resolvidos hoje, SLA em 99.9%, fila zerada</p>
+              </div>
+            </div>
+
+            <div class="flex items-start gap-3 py-2.5 px-3 rounded-lg hover:bg-white/[0.02] transition-colors">
+              <div class="w-7 h-7 rounded-full bg-white/[0.04] border border-white/10 flex items-center justify-center shrink-0 mt-0.5">
+                <span class="text-[#8E8E93] text-[10px] font-semibold">T</span>
+              </div>
+              <div class="flex-1 min-w-0">
+                <div class="flex items-center gap-2">
+                  <span class="text-sm font-medium">Takeshi</span>
+                  <span class="text-[10px] text-[#636366]">Ops Lead, KTANA</span>
+                  <span class="text-[10px] text-[#48484A] tabular-nums ml-auto shrink-0">16:40</span>
+                </div>
+                <p class="text-xs text-[#8E8E93] mt-0.5">Escala automatica ativada, CPU estabilizada em 34%</p>
+              </div>
+            </div>
+
+            <div class="flex items-start gap-3 py-2.5 px-3 rounded-lg hover:bg-white/[0.02] transition-colors">
+              <div class="w-7 h-7 rounded-full bg-white/[0.04] border border-white/10 flex items-center justify-center shrink-0 mt-0.5">
+                <span class="text-[#8E8E93] text-[10px] font-semibold">N</span>
+              </div>
+              <div class="flex-1 min-w-0">
+                <div class="flex items-center gap-2">
+                  <span class="text-sm font-medium">Naomi</span>
+                  <span class="text-[10px] text-[#636366]">CS, KTANA</span>
+                  <span class="text-[10px] text-[#48484A] tabular-nums ml-auto shrink-0">16:35</span>
+                </div>
+                <p class="text-xs text-[#8E8E93] mt-0.5">Health score atualizado para 45 tenants, 2 em risco de churn identificados</p>
+              </div>
+            </div>
+
+            <div class="flex items-start gap-3 py-2.5 px-3 rounded-lg hover:bg-white/[0.02] transition-colors">
+              <div class="w-7 h-7 rounded-full bg-white/[0.04] border border-white/10 flex items-center justify-center shrink-0 mt-0.5">
+                <span class="text-[#8E8E93] text-[10px] font-semibold">H</span>
+              </div>
+              <div class="flex-1 min-w-0">
+                <div class="flex items-center gap-2">
+                  <span class="text-sm font-medium">Haruki</span>
+                  <span class="text-[10px] text-[#636366]">PM, KTANA</span>
+                  <span class="text-[10px] text-[#48484A] tabular-nums ml-auto shrink-0">16:30</span>
+                </div>
+                <p class="text-xs text-[#8E8E93] mt-0.5">Task "Deploy v2" concluida, sprint atualizada no board</p>
+              </div>
+            </div>
+          </div>
         </div>
-        <div class="stat-card p-5">
-          <p class="text-3xl font-bold tabular-nums">847</p>
-          <p class="text-[11px] text-[#8E8E93] mt-1">samurais ativos</p>
-        </div>
-        <div class="stat-card p-5">
-          <p class="text-3xl font-bold tabular-nums">12.4k</p>
-          <p class="text-[11px] text-[#8E8E93] mt-1">acoes hoje</p>
-        </div>
-        <div class="stat-card p-5">
-          <p class="text-3xl font-bold tabular-nums">R$34k</p>
-          <p class="text-[11px] text-[#8E8E93] mt-1">MRR</p>
-        </div>
-        <div class="stat-card p-5">
-          <p class="text-3xl font-bold tabular-nums">99.2%</p>
-          <p class="text-[11px] text-[#8E8E93] mt-1">uptime</p>
+
+        <!-- Quick Chat Bar -->
+        <div class="px-8 py-4 border-t border-white/[0.04]">
+          <div class="flex items-center gap-3">
+            <div class="flex-1 relative">
+              <input type="text" placeholder="Perguntar aos agentes..." class="admin-input w-full px-4 py-3 text-sm pr-24">
+              <button class="admin-btn px-4 py-1.5 text-xs absolute right-1.5 top-1/2 -translate-y-1/2">Enviar</button>
+            </div>
+          </div>
         </div>
       </div>
 
-      <div class="grid grid-cols-2 gap-6">
-        <!-- Top Tenants -->
-        <div class="admin-card p-6 fade-in" style="animation-delay:0.1s">
-          <p class="text-[10px] text-[#636366] tracking-widest mb-4">TOP TENANTS (por atividade)</p>
+      <!-- Right Side Panel -->
+      <div class="w-56 border-l border-white/[0.04] flex flex-col shrink-0">
+        <!-- Key Numbers -->
+        <div class="px-5 py-5 border-b border-white/[0.04]">
+          <p class="text-[9px] text-[#636366] tracking-widest uppercase mb-4">Numeros</p>
           <div class="space-y-3">
             <div class="flex items-center justify-between">
-              <div class="flex items-center gap-3">
-                <div class="w-2 h-2 rounded-full bg-[#30D158]"></div>
-                <span class="text-sm">KTANA</span>
-              </div>
-              <div class="flex items-center gap-4 text-xs text-[#8E8E93]">
-                <span>GUNDAN</span>
-                <span>8 samurais</span>
-                <span class="tabular-nums">312 acoes</span>
-              </div>
+              <span class="text-[11px] text-[#8E8E93]">Tenants</span>
+              <span class="text-sm font-semibold tabular-nums">124</span>
             </div>
             <div class="flex items-center justify-between">
-              <div class="flex items-center gap-3">
-                <div class="w-2 h-2 rounded-full bg-[#30D158]"></div>
-                <span class="text-sm">Startup Z</span>
-              </div>
-              <div class="flex items-center gap-4 text-xs text-[#8E8E93]">
-                <span>BAKUFU</span>
-                <span>15 samurais</span>
-                <span class="tabular-nums">1.2k acoes</span>
-              </div>
+              <span class="text-[11px] text-[#8E8E93]">Samurais</span>
+              <span class="text-sm font-semibold tabular-nums">847</span>
             </div>
             <div class="flex items-center justify-between">
-              <div class="flex items-center gap-3">
-                <div class="w-2 h-2 rounded-full bg-[#30D158]"></div>
-                <span class="text-sm">Empresa X</span>
-              </div>
-              <div class="flex items-center gap-4 text-xs text-[#8E8E93]">
-                <span>BUSHI</span>
-                <span>3 samurais</span>
-                <span class="tabular-nums">89 acoes</span>
-              </div>
+              <span class="text-[11px] text-[#8E8E93]">Acoes hoje</span>
+              <span class="text-sm font-semibold tabular-nums">12.4k</span>
             </div>
             <div class="flex items-center justify-between">
-              <div class="flex items-center gap-3">
-                <div class="w-2 h-2 rounded-full bg-[#30D158]"></div>
-                <span class="text-sm">Consultoria ABC</span>
-              </div>
-              <div class="flex items-center gap-4 text-xs text-[#8E8E93]">
-                <span>GUNDAN</span>
-                <span>6 samurais</span>
-                <span class="tabular-nums">245 acoes</span>
-              </div>
+              <span class="text-[11px] text-[#8E8E93]">MRR</span>
+              <span class="text-sm font-semibold tabular-nums">R$34k</span>
             </div>
             <div class="flex items-center justify-between">
-              <div class="flex items-center gap-3">
-                <div class="w-2 h-2 rounded-full bg-[#8E8E93]"></div>
-                <span class="text-sm text-[#8E8E93]">Pessoa Y</span>
-              </div>
-              <div class="flex items-center gap-4 text-xs text-[#636366]">
-                <span>RONIN</span>
-                <span>1 samurai</span>
-                <span class="tabular-nums">45 acoes</span>
-              </div>
+              <span class="text-[11px] text-[#8E8E93]">Uptime</span>
+              <span class="text-sm font-semibold tabular-nums">99.2%</span>
             </div>
           </div>
         </div>
 
-        <!-- System Status -->
-        <div class="admin-card p-6 fade-in" style="animation-delay:0.2s">
-          <p class="text-[10px] text-[#636366] tracking-widest mb-4">SYSTEM STATUS</p>
-          <div class="space-y-3">
-            <div class="flex items-center justify-between">
-              <span class="text-sm">Workers</span>
-              <div class="flex items-center gap-3">
-                <div class="w-32 h-1.5 bg-[#2C2C2E] rounded-full overflow-hidden"><div class="h-full bg-[#30D158] rounded-full" style="width:84%"></div></div>
-                <span class="text-xs text-[#8E8E93] tabular-nums">847/1000</span>
-              </div>
-            </div>
-            <div class="flex items-center justify-between">
-              <span class="text-sm">Memory API</span>
-              <div class="flex items-center gap-2">
-                <span class="w-1.5 h-1.5 rounded-full bg-[#30D158]"></span>
-                <span class="text-xs text-[#8E8E93]">1.2ms</span>
-              </div>
-            </div>
-            <div class="flex items-center justify-between">
-              <span class="text-sm">Redis</span>
-              <div class="flex items-center gap-3">
-                <div class="w-32 h-1.5 bg-[#2C2C2E] rounded-full overflow-hidden"><div class="h-full bg-[#30D158] rounded-full" style="width:66%"></div></div>
-                <span class="text-xs text-[#8E8E93] tabular-nums">340/512MB</span>
-              </div>
-            </div>
-            <div class="flex items-center justify-between">
-              <span class="text-sm">PostgreSQL</span>
-              <div class="flex items-center gap-3">
-                <div class="w-32 h-1.5 bg-[#2C2C2E] rounded-full overflow-hidden"><div class="h-full bg-[#30D158] rounded-full" style="width:21%"></div></div>
-                <span class="text-xs text-[#8E8E93] tabular-nums">2.1/10GB</span>
-              </div>
-            </div>
-            <div class="flex items-center justify-between">
-              <span class="text-sm">Oracle VM</span>
-              <div class="flex items-center gap-2">
-                <span class="text-xs text-[#8E8E93]">CPU 34% | RAM 62% | Disk 28%</span>
-              </div>
-            </div>
-            <div class="flex items-center justify-between">
-              <span class="text-sm">LLM APIs</span>
-              <div class="flex items-center gap-2 text-xs">
-                <span class="text-[#30D158]">Anthropic</span>
-                <span class="text-[#30D158]">OpenAI</span>
-                <span class="text-[#30D158]">Google</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Recent activity -->
-      <div class="admin-card p-6 mt-6 fade-in" style="animation-delay:0.3s">
-        <p class="text-[10px] text-[#636366] tracking-widest mb-4">ATIVIDADE GLOBAL</p>
-        <div class="space-y-2">
-          <div class="flex items-center gap-4 py-1.5 text-xs">
-            <span class="text-[#636366] tabular-nums w-12">17:02</span>
-            <span class="text-[#8E8E93] w-24">KTANA</span>
-            <span class="text-[#8E8E93] w-16">Yuki</span>
-            <span class="text-[#D2D2D7]">Relatorio diario enviado</span>
-          </div>
-          <div class="flex items-center gap-4 py-1.5 text-xs">
-            <span class="text-[#636366] tabular-nums w-12">17:00</span>
-            <span class="text-[#8E8E93] w-24">Startup Z</span>
-            <span class="text-[#8E8E93] w-16">CEO-Z</span>
-            <span class="text-[#D2D2D7]">Briefing consolidado enviado</span>
-          </div>
-          <div class="flex items-center gap-4 py-1.5 text-xs">
-            <span class="text-[#636366] tabular-nums w-12">16:58</span>
-            <span class="text-[#8E8E93] w-24">Empresa X</span>
-            <span class="text-[#8E8E93] w-16">SDR-X</span>
-            <span class="text-[#D2D2D7]">3 leads qualificados</span>
-          </div>
-          <div class="flex items-center gap-4 py-1.5 text-xs">
-            <span class="text-[#636366] tabular-nums w-12">16:55</span>
-            <span class="text-[#8E8E93] w-24">KTANA</span>
-            <span class="text-[#8E8E93] w-16">Hana</span>
-            <span class="text-[#D2D2D7]">23 emails filtrados</span>
+        <!-- Agent Alerts -->
+        <div class="px-5 py-5 flex-1">
+          <p class="text-[9px] text-[#636366] tracking-widest uppercase mb-4">Alertas</p>
+          <div class="flex items-center gap-2 py-3 px-3 rounded-lg bg-[#30D158]/5 border border-[#30D158]/10">
+            <span class="w-1.5 h-1.5 rounded-full bg-[#30D158]"></span>
+            <span class="text-[11px] text-[#8E8E93]">Nenhum alerta — tudo calmo</span>
           </div>
         </div>
       </div>
@@ -261,7 +310,7 @@
   <!-- ========================================== -->
   <div id="flow" class="screen">
     <header class="px-8 py-5 border-b border-white/[0.04] flex items-center justify-between">
-      <h1 class="text-lg font-semibold">Fluxo de Agentes</h1>
+      <h1 class="text-lg font-semibold">Rede de Agentes</h1>
       <div class="flex items-center gap-4 text-xs text-[#8E8E93]">
         <span>847 samurais</span>
         <span>124 tenants</span>
@@ -279,7 +328,7 @@
 
           <!-- KTANA Cluster -->
           <div class="absolute left-[15%] top-[20%]">
-            <p class="text-[9px] text-[#636366] tracking-widest mb-3 text-center">KTANA</p>
+            <p class="text-[9px] text-[#636366] tracking-widest mb-3 text-center cursor-pointer hover:text-[#D70030] transition-colors" onclick="show('tenant-detail')">KTANA</p>
             <div class="relative" style="width:200px;height:160px;">
               <div class="absolute left-[40%] top-0 node cursor-pointer" onclick="show('tenant-detail')">
                 <div class="w-10 h-10 rounded-full border border-[#D70030]/40 bg-[#D70030]/10 flex items-center justify-center glow-active"><span class="text-[#D70030] text-xs font-medium">A</span></div>
@@ -308,7 +357,7 @@
 
           <!-- Startup Z Cluster -->
           <div class="absolute right-[10%] top-[15%]">
-            <p class="text-[9px] text-[#636366] tracking-widest mb-3 text-center">STARTUP Z</p>
+            <p class="text-[9px] text-[#636366] tracking-widest mb-3 text-center cursor-pointer hover:text-[#D70030] transition-colors" onclick="show('tenant-detail')">STARTUP Z</p>
             <div class="relative" style="width:240px;height:180px;">
               <div class="absolute left-[42%] top-0 node cursor-pointer">
                 <div class="w-10 h-10 rounded-full border border-[#D70030]/30 bg-[#D70030]/5 flex items-center justify-center glow-active"><span class="text-[#D70030]/70 text-xs font-medium">C</span></div>
@@ -327,7 +376,7 @@
 
           <!-- Empresa X Cluster -->
           <div class="absolute left-[40%] bottom-[15%]">
-            <p class="text-[9px] text-[#636366] tracking-widest mb-3 text-center">EMPRESA X</p>
+            <p class="text-[9px] text-[#636366] tracking-widest mb-3 text-center cursor-pointer hover:text-[#D70030] transition-colors" onclick="show('tenant-detail')">EMPRESA X</p>
             <div class="relative" style="width:140px;height:100px;">
               <div class="absolute left-[35%] top-0 node cursor-pointer">
                 <div class="w-9 h-9 rounded-full border border-[#D70030]/25 bg-[#D70030]/5 flex items-center justify-center glow-active"><span class="text-[#D70030]/60 text-[10px] font-medium">C</span></div>
@@ -339,7 +388,7 @@
 
           <!-- Pessoa Y (single node) -->
           <div class="absolute left-[8%] bottom-[20%]">
-            <div class="node cursor-pointer">
+            <div class="node cursor-pointer" onclick="show('tenant-detail')">
               <div class="w-8 h-8 rounded-full border border-white/8 bg-white/[0.03] flex items-center justify-center glow-active"><span class="text-[#636366] text-[10px]">C</span></div>
               <p class="text-[8px] text-[#48484A] text-center mt-1">Pessoa Y</p>
               <p class="text-[7px] text-[#303030] text-center">RONIN</p>
@@ -348,7 +397,7 @@
 
           <!-- Consultoria ABC Cluster -->
           <div class="absolute right-[5%] bottom-[20%]">
-            <p class="text-[9px] text-[#636366] tracking-widest mb-3 text-center">CONSULTORIA ABC</p>
+            <p class="text-[9px] text-[#636366] tracking-widest mb-3 text-center cursor-pointer hover:text-[#D70030] transition-colors" onclick="show('tenant-detail')">CONSULTORIA ABC</p>
             <div class="relative" style="width:160px;height:120px;">
               <div class="absolute left-[38%] top-0 node cursor-pointer">
                 <div class="w-9 h-9 rounded-full border border-[#D70030]/25 bg-[#D70030]/5 flex items-center justify-center glow-active"><span class="text-[#D70030]/60 text-[10px] font-medium">C</span></div>
@@ -359,6 +408,40 @@
               <div class="absolute left-[15%] bottom-0 node"><div class="w-6 h-6 rounded-full border border-white/6 bg-white/[0.02] flex items-center justify-center"><span class="text-[#48484A] text-[8px]">4</span></div></div>
               <div class="absolute right-[25%] bottom-0 node"><div class="w-6 h-6 rounded-full border border-white/6 bg-white/[0.02] flex items-center justify-center"><span class="text-[#48484A] text-[8px]">5</span></div></div>
             </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Live Feed Sidebar (right) -->
+      <div id="flow-feed-sidebar" class="absolute top-4 right-4 w-72 max-h-[calc(100%-120px)] overflow-hidden">
+        <div class="admin-card p-4 bg-[#1C1C1E]/90 backdrop-blur-sm">
+          <p class="text-[9px] text-[#636366] tracking-widest mb-3 uppercase flex items-center gap-1.5">
+            <span class="w-1 h-1 rounded-full bg-[#D70030] glow-active"></span>LIVE FEED
+          </p>
+          <div id="flow-feed-items" class="space-y-2 text-[10px]">
+            <div class="flex items-start gap-2 py-1">
+              <div class="w-5 h-5 rounded-full bg-[#D70030]/15 border border-[#D70030]/30 flex items-center justify-center shrink-0 mt-0.5"><span class="text-[#D70030] text-[8px]">A</span></div>
+              <div><span class="text-[#8E8E93]">Akira</span> <span class="text-[#D2D2D7]">Relatorio consolidado</span><br><span class="text-[#48484A] tabular-nums">17:04</span></div>
+            </div>
+            <div class="flex items-start gap-2 py-1">
+              <div class="w-5 h-5 rounded-full bg-white/[0.04] border border-white/10 flex items-center justify-center shrink-0 mt-0.5"><span class="text-[#8E8E93] text-[8px]">Y</span></div>
+              <div><span class="text-[#8E8E93]">Yuki</span> <span class="text-[#D2D2D7]">Pagamento conciliado</span><br><span class="text-[#48484A] tabular-nums">17:02</span></div>
+            </div>
+            <div class="flex items-start gap-2 py-1">
+              <div class="w-5 h-5 rounded-full bg-white/[0.04] border border-white/10 flex items-center justify-center shrink-0 mt-0.5"><span class="text-[#8E8E93] text-[8px]">H</span></div>
+              <div><span class="text-[#8E8E93]">Hana</span> <span class="text-[#D2D2D7]">23 emails filtrados</span><br><span class="text-[#48484A] tabular-nums">17:00</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Floating Chat Panel (bottom-right) -->
+      <div class="absolute bottom-16 right-4 w-72">
+        <div class="admin-card p-3 bg-[#1C1C1E]/95 backdrop-blur-sm border border-white/[0.06]">
+          <p class="text-[9px] text-[#636366] tracking-widest mb-2 uppercase">Conversar com agente</p>
+          <div class="flex items-center gap-2">
+            <input type="text" placeholder="Clique um node e pergunte..." class="admin-input w-full px-3 py-2 text-[11px]" id="flow-chat-input">
+            <button class="admin-btn px-3 py-2 text-[10px] shrink-0">Enviar</button>
           </div>
         </div>
       </div>
@@ -696,51 +779,138 @@
   <!-- SCREEN 7: BILLING                          -->
   <!-- ========================================== -->
   <div id="billing" class="screen">
-    <header class="px-8 py-5 border-b border-white/[0.04]"><h1 class="text-lg font-semibold">Faturamento</h1></header>
-    <main class="flex-1 px-8 py-8">
-      <div class="grid grid-cols-4 gap-4 mb-8 fade-in">
-        <div class="stat-card p-5"><p class="text-2xl font-bold">R$34k</p><p class="text-[10px] text-[#636366] mt-1">MRR</p></div>
-        <div class="stat-card p-5"><p class="text-2xl font-bold">R$408k</p><p class="text-[10px] text-[#636366] mt-1">ARR projetado</p></div>
-        <div class="stat-card p-5"><p class="text-2xl font-bold">R$12k</p><p class="text-[10px] text-[#636366] mt-1">custo tokens/mes</p></div>
-        <div class="stat-card p-5"><p class="text-2xl font-bold">65%</p><p class="text-[10px] text-[#636366] mt-1">margem bruta</p></div>
+    <header class="px-8 py-5 border-b border-white/[0.04] flex items-center justify-between">
+      <h1 class="text-lg font-semibold">Faturamento</h1>
+      <div class="flex items-center gap-2">
+        <div class="w-7 h-7 rounded-full bg-white/[0.04] border border-white/10 flex items-center justify-center"><span class="text-[#8E8E93] text-[10px] font-semibold">Y</span></div>
+        <span class="text-xs text-[#8E8E93]">Yuki esta gerenciando as financas</span>
+        <span class="w-1.5 h-1.5 rounded-full bg-[#30D158]"></span>
       </div>
+    </header>
 
-      <div class="admin-card p-6 fade-in" style="animation-delay:0.1s">
-        <p class="text-[10px] text-[#636366] tracking-widest mb-4">RECEITA POR PLANO</p>
-        <div class="space-y-3">
-          <div class="flex items-center justify-between">
-            <span class="text-sm">BAKUFU (R$997)</span>
-            <div class="flex items-center gap-3"><div class="w-48 h-1.5 bg-[#2C2C2E] rounded-full"><div class="h-full bg-[#D70030] rounded-full" style="width:58%"></div></div><span class="text-xs text-[#8E8E93] tabular-nums">12 tenants · R$11.9k</span></div>
+    <main class="flex-1 flex fade-in" style="height: calc(100vh - 57px);">
+      <!-- Conversation View (main area) -->
+      <div class="flex-1 flex flex-col min-w-0">
+        <div class="flex-1 overflow-y-auto px-8 py-6">
+          <div class="flex items-center gap-2 mb-6">
+            <div class="w-8 h-8 rounded-full bg-[#D70030]/15 border border-[#D70030]/30 flex items-center justify-center">
+              <span class="text-[#D70030] text-[10px] font-semibold">Y</span>
+            </div>
+            <div>
+              <p class="text-sm font-medium">Yuki <span class="text-[10px] text-[#636366] font-normal">Controller</span></p>
+              <p class="text-[10px] text-[#48484A]">Ultimo update: agora</p>
+            </div>
           </div>
-          <div class="flex items-center justify-between">
-            <span class="text-sm">GUNDAN (R$297)</span>
-            <div class="flex items-center gap-3"><div class="w-48 h-1.5 bg-[#2C2C2E] rounded-full"><div class="h-full bg-[#D70030]/70 rounded-full" style="width:42%"></div></div><span class="text-xs text-[#8E8E93] tabular-nums">34 tenants · R$10.1k</span></div>
-          </div>
-          <div class="flex items-center justify-between">
-            <span class="text-sm">BUSHI (R$97)</span>
-            <div class="flex items-center gap-3"><div class="w-48 h-1.5 bg-[#2C2C2E] rounded-full"><div class="h-full bg-[#D70030]/40 rounded-full" style="width:28%"></div></div><span class="text-xs text-[#8E8E93] tabular-nums">45 tenants · R$4.4k</span></div>
-          </div>
-          <div class="flex items-center justify-between">
-            <span class="text-sm text-[#636366]">RONIN (free)</span>
-            <div class="flex items-center gap-3"><span class="text-xs text-[#636366] tabular-nums">33 tenants · R$0</span></div>
+
+          <div class="space-y-4 max-w-2xl">
+            <!-- Yuki message 1 -->
+            <div class="admin-card p-4">
+              <p class="text-sm text-[#D2D2D7]">MRR atual: <span class="font-semibold text-white">R$34k</span> <span class="text-[#30D158] text-xs">(+8% vs mes anterior)</span></p>
+              <p class="text-[10px] text-[#636366] mt-1">ARR projetado: R$408k | Consumo extra: R$7.6k/mes</p>
+            </div>
+
+            <!-- Yuki message 2 -->
+            <div class="admin-card p-4">
+              <p class="text-sm text-[#D2D2D7]">Distribuicao por plano:</p>
+              <div class="mt-2 space-y-2">
+                <div class="flex items-center gap-3">
+                  <span class="text-xs text-[#8E8E93] w-20">BAKUFU</span>
+                  <div class="flex-1 h-1.5 bg-[#2C2C2E] rounded-full"><div class="h-full bg-[#D70030] rounded-full" style="width:58%"></div></div>
+                  <span class="text-[10px] text-[#636366] tabular-nums w-28 text-right">12 tenants · R$11.9k</span>
+                </div>
+                <div class="flex items-center gap-3">
+                  <span class="text-xs text-[#8E8E93] w-20">GUNDAN</span>
+                  <div class="flex-1 h-1.5 bg-[#2C2C2E] rounded-full"><div class="h-full bg-[#D70030]/70 rounded-full" style="width:42%"></div></div>
+                  <span class="text-[10px] text-[#636366] tabular-nums w-28 text-right">34 tenants · R$10.1k</span>
+                </div>
+                <div class="flex items-center gap-3">
+                  <span class="text-xs text-[#8E8E93] w-20">BUSHI</span>
+                  <div class="flex-1 h-1.5 bg-[#2C2C2E] rounded-full"><div class="h-full bg-[#D70030]/40 rounded-full" style="width:28%"></div></div>
+                  <span class="text-[10px] text-[#636366] tabular-nums w-28 text-right">45 tenants · R$4.4k</span>
+                </div>
+                <div class="flex items-center gap-3">
+                  <span class="text-xs text-[#636366] w-20">RONIN</span>
+                  <div class="flex-1"></div>
+                  <span class="text-[10px] text-[#48484A] tabular-nums w-28 text-right">33 tenants · R$0</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Yuki message 3 -->
+            <div class="admin-card p-4">
+              <p class="text-sm text-[#D2D2D7]">Churn: <span class="font-semibold text-white">2.1%</span> — dentro do target</p>
+              <p class="text-[10px] text-[#636366] mt-1">LTV medio: R$2.4k | Margem bruta: 65%</p>
+            </div>
+
+            <!-- Yuki message 4 (alert) -->
+            <div class="admin-card p-4 border-[#FF9F0A]/20">
+              <div class="flex items-center gap-2 mb-1">
+                <span class="w-1.5 h-1.5 rounded-full bg-[#FF9F0A]"></span>
+                <p class="text-sm text-[#FF9F0A]">Alerta</p>
+              </div>
+              <p class="text-sm text-[#D2D2D7]">Tenant "Startup Z" esta no limite de tokens do plano BAKUFU. Consumo em 94% — pode precisar de upgrade.</p>
+            </div>
+
+            <!-- Action buttons -->
+            <div class="flex gap-3 pt-2">
+              <button class="admin-btn-secondary px-4 py-2 text-xs">Gerar relatorio mensal</button>
+              <button class="admin-btn-secondary px-4 py-2 text-xs">Ver breakdown de custos</button>
+              <button class="admin-btn-secondary px-4 py-2 text-xs">Alertas de consumo</button>
+            </div>
           </div>
         </div>
-        <div class="mt-4 pt-4 border-t border-white/[0.04] flex justify-between text-xs text-[#636366]">
-          <span>+ Consumo extra: R$7.6k/mes</span>
-          <span>Churn: 2.1%</span>
-          <span>LTV medio: R$2.4k</span>
+
+        <!-- Ask Yuki input -->
+        <div class="px-8 py-4 border-t border-white/[0.04]">
+          <div class="flex items-center gap-3">
+            <div class="flex-1 relative">
+              <input type="text" placeholder="Perguntar para Yuki sobre financas..." class="admin-input w-full px-4 py-3 text-sm pr-24">
+              <button class="admin-btn px-4 py-1.5 text-xs absolute right-1.5 top-1/2 -translate-y-1/2">Enviar</button>
+            </div>
+          </div>
         </div>
       </div>
 
-      <div class="grid grid-cols-2 gap-4 mt-6 fade-in" style="animation-delay:0.2s">
-        <a href="billing-costs.html" class="admin-card p-5 flex items-center justify-between group hover:border-white/10 transition-colors" style="text-decoration:none">
-          <div><p class="text-sm text-[#D2D2D7] group-hover:text-white transition-colors">Custos de Tokens</p><p class="text-[10px] text-[#636366] mt-0.5">Breakdown por provider, tenant e modelo</p></div>
-          <span class="text-[#636366] group-hover:text-[#D70030] transition-colors text-sm">›</span>
-        </a>
-        <a href="billing-revenue.html" class="admin-card p-5 flex items-center justify-between group hover:border-white/10 transition-colors" style="text-decoration:none">
-          <div><p class="text-sm text-[#D2D2D7] group-hover:text-white transition-colors">Receita por Plano</p><p class="text-[10px] text-[#636366] mt-0.5">Distribuicao de revenue e cohort analysis</p></div>
-          <span class="text-[#636366] group-hover:text-[#D70030] transition-colors text-sm">›</span>
-        </a>
+      <!-- Side Panel: Quick Insights -->
+      <div class="w-52 border-l border-white/[0.04] flex flex-col shrink-0">
+        <div class="px-5 py-5 border-b border-white/[0.04]">
+          <p class="text-[9px] text-[#636366] tracking-widest uppercase mb-4">Indicadores</p>
+          <div class="space-y-4">
+            <div>
+              <p class="text-[10px] text-[#636366]">MRR</p>
+              <p class="text-lg font-bold tabular-nums">R$34k</p>
+              <p class="text-[10px] text-[#30D158]">+8% vs anterior</p>
+            </div>
+            <div>
+              <p class="text-[10px] text-[#636366]">ARR</p>
+              <p class="text-lg font-bold tabular-nums">R$408k</p>
+            </div>
+            <div>
+              <p class="text-[10px] text-[#636366]">Margem</p>
+              <p class="text-lg font-bold tabular-nums">65%</p>
+            </div>
+            <div>
+              <p class="text-[10px] text-[#636366]">Churn</p>
+              <p class="text-lg font-bold tabular-nums">2.1%</p>
+              <p class="text-[10px] text-[#30D158]">Dentro do target</p>
+            </div>
+            <div>
+              <p class="text-[10px] text-[#636366]">Custo Tokens</p>
+              <p class="text-lg font-bold tabular-nums">R$12k</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="px-5 py-5 space-y-3">
+          <a href="billing-costs.html" class="block admin-card p-3 group hover:border-white/10 transition-colors" style="text-decoration:none">
+            <p class="text-xs text-[#D2D2D7] group-hover:text-white transition-colors">Custos de Tokens</p>
+            <p class="text-[10px] text-[#636366] mt-0.5">Breakdown detalhado</p>
+          </a>
+          <a href="billing-revenue.html" class="block admin-card p-3 group hover:border-white/10 transition-colors" style="text-decoration:none">
+            <p class="text-xs text-[#D2D2D7] group-hover:text-white transition-colors">Receita por Plano</p>
+            <p class="text-[10px] text-[#636366] mt-0.5">Revenue e cohorts</p>
+          </a>
+        </div>
       </div>
     </main>
   </div>
@@ -749,48 +919,96 @@
   <!-- SCREEN 8: COMPLIANCE                       -->
   <!-- ========================================== -->
   <div id="compliance" class="screen">
-    <header class="px-8 py-5 border-b border-white/[0.04]"><h1 class="text-lg font-semibold">Conformidade</h1></header>
-    <main class="flex-1 px-8 py-8">
-      <div class="grid grid-cols-3 gap-6 fade-in">
-        <div class="admin-card p-6">
-          <p class="text-[10px] text-[#636366] tracking-widest mb-4">LGPD</p>
-          <div class="space-y-3 text-sm">
-            <div class="flex justify-between"><span class="text-[#8E8E93]">Requests pendentes</span><span class="text-[#30D158]">0</span></div>
-            <div class="flex justify-between"><span class="text-[#8E8E93]">Exportacoes (30d)</span><span>3</span></div>
-            <div class="flex justify-between"><span class="text-[#8E8E93]">Delecoes (30d)</span><span>1</span></div>
-            <div class="flex justify-between"><span class="text-[#8E8E93]">DPO</span><span>dpo@ktana.ai</span></div>
-          </div>
-        </div>
-        <div class="admin-card p-6">
-          <p class="text-[10px] text-[#636366] tracking-widest mb-4">AUDITORIA</p>
-          <div class="space-y-3 text-sm">
-            <div class="flex justify-between"><span class="text-[#8E8E93]">Registros totais</span><span class="tabular-nums">2.4M</span></div>
-            <div class="flex justify-between"><span class="text-[#8E8E93]">Integridade</span><span class="text-[#30D158]">Verificada (SHA-256)</span></div>
-            <div class="flex justify-between"><span class="text-[#8E8E93]">Retencao</span><span>2 anos</span></div>
-            <div class="flex justify-between"><span class="text-[#8E8E93]">Ultimo backup</span><span>29/03 03:00</span></div>
-          </div>
-        </div>
-        <div class="admin-card p-6">
-          <p class="text-[10px] text-[#636366] tracking-widest mb-4">SEGURANCA</p>
-          <div class="space-y-3 text-sm">
-            <div class="flex justify-between"><span class="text-[#8E8E93]">KYC verificados</span><span>98%</span></div>
-            <div class="flex justify-between"><span class="text-[#8E8E93]">2FA ativos</span><span>89%</span></div>
-            <div class="flex justify-between"><span class="text-[#8E8E93]">Incidentes (30d)</span><span class="text-[#30D158]">0</span></div>
-            <div class="flex justify-between"><span class="text-[#8E8E93]">Travamentos auto</span><span>0</span></div>
-            <div class="flex justify-between"><span class="text-[#8E8E93]">Kill switches</span><span>0</span></div>
-          </div>
-        </div>
+    <header class="px-8 py-5 border-b border-white/[0.04] flex items-center justify-between">
+      <h1 class="text-lg font-semibold">Conformidade</h1>
+      <div class="flex items-center gap-2">
+        <div class="w-7 h-7 rounded-full bg-white/[0.04] border border-white/10 flex items-center justify-center"><span class="text-[#8E8E93] text-[10px] font-semibold">K</span></div>
+        <span class="text-xs text-[#8E8E93]">Kenzo esta monitorando conformidade</span>
+        <span class="w-1.5 h-1.5 rounded-full bg-[#30D158]"></span>
       </div>
+    </header>
 
-      <div class="grid grid-cols-2 gap-4 mt-6 fade-in" style="animation-delay:0.1s">
-        <a href="compliance-audit.html" class="admin-card p-5 flex items-center justify-between group hover:border-white/10 transition-colors" style="text-decoration:none">
-          <div><p class="text-sm text-[#D2D2D7] group-hover:text-white transition-colors">Audit Logs</p><p class="text-[10px] text-[#636366] mt-0.5">2.4M registros, integridade SHA-256, busca avancada</p></div>
-          <span class="text-[#636366] group-hover:text-[#D70030] transition-colors text-sm">›</span>
-        </a>
-        <a href="compliance-lgpd.html" class="admin-card p-5 flex items-center justify-between group hover:border-white/10 transition-colors" style="text-decoration:none">
-          <div><p class="text-sm text-[#D2D2D7] group-hover:text-white transition-colors">LGPD Requests</p><p class="text-[10px] text-[#636366] mt-0.5">Exportacoes, delecoes, consentimentos, RIPD</p></div>
-          <span class="text-[#636366] group-hover:text-[#D70030] transition-colors text-sm">›</span>
-        </a>
+    <main class="flex-1 flex fade-in" style="height: calc(100vh - 57px);">
+      <!-- Main conversation area -->
+      <div class="flex-1 flex flex-col min-w-0">
+        <div class="flex-1 overflow-y-auto px-8 py-6">
+          <!-- Kenzo header -->
+          <div class="flex items-center gap-3 mb-6">
+            <div class="w-8 h-8 rounded-full bg-[#D70030]/15 border border-[#D70030]/30 flex items-center justify-center">
+              <span class="text-[#D70030] text-[10px] font-semibold">K</span>
+            </div>
+            <div>
+              <p class="text-sm font-medium">Kenzo <span class="text-[10px] text-[#636366] font-normal">QA/Security</span></p>
+              <p class="text-[10px] text-[#48484A]">Monitoramento continuo ativo</p>
+            </div>
+          </div>
+
+          <!-- Compliance Score -->
+          <div class="flex items-center gap-6 mb-8">
+            <div class="admin-card px-8 py-6 flex flex-col items-center">
+              <p class="font-display text-4xl text-[#30D158]">A+</p>
+              <p class="text-[10px] text-[#636366] mt-1">Score de Conformidade</p>
+            </div>
+            <div class="admin-card px-6 py-6 flex-1">
+              <div class="flex items-center gap-2 py-2 px-3 rounded-lg bg-[#30D158]/5 border border-[#30D158]/10">
+                <span class="w-1.5 h-1.5 rounded-full bg-[#30D158]"></span>
+                <span class="text-xs text-[#8E8E93]">Nenhum alerta de conformidade — tudo calmo</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Kenzo reports -->
+          <div class="space-y-4 max-w-2xl">
+            <!-- LGPD -->
+            <div class="admin-card p-4">
+              <div class="flex items-center gap-2 mb-2">
+                <span class="w-1.5 h-1.5 rounded-full bg-[#30D158]"></span>
+                <p class="text-xs text-[#636366] tracking-widest uppercase">LGPD</p>
+              </div>
+              <p class="text-sm text-[#D2D2D7]">0 requests pendentes, tudo em dia. 3 exportacoes e 1 delecao nos ultimos 30 dias. DPO: dpo@ktana.ai</p>
+            </div>
+
+            <!-- Audit -->
+            <div class="admin-card p-4">
+              <div class="flex items-center gap-2 mb-2">
+                <span class="w-1.5 h-1.5 rounded-full bg-[#30D158]"></span>
+                <p class="text-xs text-[#636366] tracking-widest uppercase">Auditoria</p>
+              </div>
+              <p class="text-sm text-[#D2D2D7]">2.4M registros, integridade SHA-256 verificada. Retencao de 2 anos. Ultimo backup: 29/03 03:00</p>
+            </div>
+
+            <!-- Security -->
+            <div class="admin-card p-4">
+              <div class="flex items-center gap-2 mb-2">
+                <span class="w-1.5 h-1.5 rounded-full bg-[#30D158]"></span>
+                <p class="text-xs text-[#636366] tracking-widest uppercase">Seguranca</p>
+              </div>
+              <p class="text-sm text-[#D2D2D7]">0 incidentes nos ultimos 30 dias. KYC: 98% verificados. 2FA: 89% dos tenants. Kill switches: 0 ativados — sistema calmo.</p>
+            </div>
+          </div>
+
+          <!-- Deep links -->
+          <div class="grid grid-cols-2 gap-4 mt-6 max-w-2xl">
+            <a href="compliance-audit.html" class="admin-card p-4 flex items-center justify-between group hover:border-white/10 transition-colors" style="text-decoration:none">
+              <div><p class="text-xs text-[#D2D2D7] group-hover:text-white transition-colors">Audit Logs</p><p class="text-[10px] text-[#636366] mt-0.5">2.4M registros, busca avancada</p></div>
+              <span class="text-[#636366] group-hover:text-[#D70030] transition-colors text-sm">></span>
+            </a>
+            <a href="compliance-lgpd.html" class="admin-card p-4 flex items-center justify-between group hover:border-white/10 transition-colors" style="text-decoration:none">
+              <div><p class="text-xs text-[#D2D2D7] group-hover:text-white transition-colors">LGPD Requests</p><p class="text-[10px] text-[#636366] mt-0.5">Exportacoes, delecoes, RIPD</p></div>
+              <span class="text-[#636366] group-hover:text-[#D70030] transition-colors text-sm">></span>
+            </a>
+          </div>
+        </div>
+
+        <!-- Ask Kenzo input -->
+        <div class="px-8 py-4 border-t border-white/[0.04]">
+          <div class="flex items-center gap-3">
+            <div class="flex-1 relative">
+              <input type="text" placeholder="Perguntar sobre conformidade..." class="admin-input w-full px-4 py-3 text-sm pr-24">
+              <button class="admin-btn px-4 py-1.5 text-xs absolute right-1.5 top-1/2 -translate-y-1/2">Enviar</button>
+            </div>
+          </div>
+        </div>
       </div>
     </main>
   </div>
@@ -1635,4 +1853,4 @@
   </script>
 </body>
 </html>
-<script src="../shared-nav.js?v=1774803832"></script>
+<script src="../shared-nav.js?v=1774805559"></script>

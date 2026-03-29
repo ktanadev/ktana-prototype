@@ -79,6 +79,19 @@
     .btn-chat:hover { background: rgba(215,0,48,0.02); }
 
     /* Staggered animations */
+    /* Data viz shared */
+    .chart-header { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 14px; }
+    .chart-header h3 { font-family: 'Zen Dots', cursive; font-size: 15px; color: #1D1D1F; }
+    .chart-period { font-family: 'Inter', sans-serif; font-size: 11px; color: #AEAEB2; }
+    .chart-value-big { font-family: 'Inter', sans-serif; font-size: 28px; font-weight: 700; color: #1D1D1F; line-height: 1; margin-bottom: 4px; }
+    .chart-value-sub { font-family: 'Satoshi', sans-serif; font-size: 12px; color: #86868B; }
+    .data-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .data-grid .card { margin-bottom: 0; }
+    .gauge-label { font-family: 'Satoshi', sans-serif; font-size: 13px; color: #86868B; text-align: center; margin-top: 8px; }
+    .bar-legend { display: flex; gap: 12px; margin-top: 12px; flex-wrap: wrap; }
+    .bar-legend-item { display: flex; align-items: center; gap: 5px; font-family: 'Inter', sans-serif; font-size: 11px; color: #86868B; }
+    .bar-legend-dot { width: 8px; height: 8px; border-radius: 2px; flex-shrink: 0; }
+
     .stagger-1 { animation: fadeUp 0.5s cubic-bezier(0.25,0.1,0.25,1) 0.05s both; }
     .stagger-2 { animation: fadeUp 0.5s cubic-bezier(0.25,0.1,0.25,1) 0.12s both; }
     .stagger-3 { animation: fadeUp 0.5s cubic-bezier(0.25,0.1,0.25,1) 0.19s both; }
@@ -87,6 +100,9 @@
     .stagger-6 { animation: fadeUp 0.5s cubic-bezier(0.25,0.1,0.25,1) 0.40s both; }
     .stagger-7 { animation: fadeUp 0.5s cubic-bezier(0.25,0.1,0.25,1) 0.47s both; }
     .stagger-8 { animation: fadeUp 0.5s cubic-bezier(0.25,0.1,0.25,1) 0.54s both; }
+    .stagger-9 { animation: fadeUp 0.5s cubic-bezier(0.25,0.1,0.25,1) 0.61s both; }
+    .stagger-10 { animation: fadeUp 0.5s cubic-bezier(0.25,0.1,0.25,1) 0.68s both; }
+    .stagger-11 { animation: fadeUp 0.5s cubic-bezier(0.25,0.1,0.25,1) 0.75s both; }
   </style>
 </head>
 <body>
@@ -150,8 +166,107 @@
       </div>
     </div>
 
-    <!-- Weekly Goals -->
+    <!-- Health Data: Mood Tracker -->
     <div class="card stagger-4">
+      <p class="card-label">Humor — Ultimos 7 dias</p>
+      <div class="chart-header">
+        <h3>Mood Tracker</h3>
+        <span class="chart-period">Semana atual</span>
+      </div>
+      <svg width="100%" height="180" viewBox="0 0 560 180" preserveAspectRatio="xMidYMid meet" style="display:block;">
+        <!-- Y axis labels -->
+        <text x="0" y="18" font-family="Inter,sans-serif" font-size="10" fill="#AEAEB2">Alto</text>
+        <text x="0" y="98" font-family="Inter,sans-serif" font-size="10" fill="#AEAEB2">Medio</text>
+        <text x="0" y="168" font-family="Inter,sans-serif" font-size="10" fill="#AEAEB2">Baixo</text>
+        <!-- Grid lines -->
+        <line x1="40" y1="14" x2="545" y2="14" stroke="rgba(0,0,0,0.04)" stroke-width="0.5"/>
+        <line x1="40" y1="94" x2="545" y2="94" stroke="rgba(0,0,0,0.04)" stroke-width="0.5"/>
+        <line x1="40" y1="164" x2="545" y2="164" stroke="rgba(0,0,0,0.04)" stroke-width="0.5"/>
+        <!-- Bars: Seg -->
+        <rect x="52" y="44" width="22" height="120" rx="4" fill="#5AC8FA" opacity="0.8"/>
+        <rect x="78" y="74" width="22" height="90" rx="4" fill="#FF9500" opacity="0.6"/>
+        <rect x="104" y="114" width="22" height="50" rx="4" fill="#30D158" opacity="0.7"/>
+        <text x="85" y="178" font-family="Inter,sans-serif" font-size="10" fill="#86868B" text-anchor="middle">Seg</text>
+        <!-- Ter -->
+        <rect x="142" y="24" width="22" height="140" rx="4" fill="#5AC8FA" opacity="0.8"/>
+        <rect x="168" y="94" width="22" height="70" rx="4" fill="#FF9500" opacity="0.6"/>
+        <rect x="194" y="124" width="22" height="40" rx="4" fill="#30D158" opacity="0.7"/>
+        <text x="175" y="178" font-family="Inter,sans-serif" font-size="10" fill="#86868B" text-anchor="middle">Ter</text>
+        <!-- Qua -->
+        <rect x="232" y="54" width="22" height="110" rx="4" fill="#5AC8FA" opacity="0.8"/>
+        <rect x="258" y="64" width="22" height="100" rx="4" fill="#FF9500" opacity="0.6"/>
+        <rect x="284" y="134" width="22" height="30" rx="4" fill="#30D158" opacity="0.7"/>
+        <text x="265" y="178" font-family="Inter,sans-serif" font-size="10" fill="#86868B" text-anchor="middle">Qua</text>
+        <!-- Qui -->
+        <rect x="322" y="34" width="22" height="130" rx="4" fill="#5AC8FA" opacity="0.8"/>
+        <rect x="348" y="104" width="22" height="60" rx="4" fill="#FF9500" opacity="0.6"/>
+        <rect x="374" y="114" width="22" height="50" rx="4" fill="#30D158" opacity="0.7"/>
+        <text x="355" y="178" font-family="Inter,sans-serif" font-size="10" fill="#86868B" text-anchor="middle">Qui</text>
+        <!-- Sex -->
+        <rect x="412" y="44" width="22" height="120" rx="4" fill="#5AC8FA" opacity="0.8"/>
+        <rect x="438" y="84" width="22" height="80" rx="4" fill="#FF9500" opacity="0.6"/>
+        <rect x="464" y="104" width="22" height="60" rx="4" fill="#30D158" opacity="0.7"/>
+        <text x="445" y="178" font-family="Inter,sans-serif" font-size="10" fill="#86868B" text-anchor="middle">Sex</text>
+        <!-- Sab -->
+        <rect x="502" y="24" width="22" height="140" rx="4" fill="#5AC8FA" opacity="0.8"/>
+        <rect x="528" y="114" width="22" height="50" rx="4" fill="#FF9500" opacity="0.6"/>
+        <text x="519" y="178" font-family="Inter,sans-serif" font-size="10" fill="#86868B" text-anchor="middle">Sab</text>
+      </svg>
+      <div class="bar-legend">
+        <div class="bar-legend-item"><div class="bar-legend-dot" style="background:#5AC8FA;"></div>Calmo</div>
+        <div class="bar-legend-item"><div class="bar-legend-dot" style="background:#FF9500;"></div>Ansioso</div>
+        <div class="bar-legend-item"><div class="bar-legend-dot" style="background:#30D158;"></div>Energizado</div>
+      </div>
+    </div>
+
+    <!-- Health Data: Meditation + Stress -->
+    <div class="data-grid stagger-5">
+      <!-- Meditation Minutes -->
+      <div class="card">
+        <p class="card-label">Meditacao</p>
+        <div class="chart-value-big">68<span style="font-size:14px;font-weight:500;color:#86868B;"> min</span></div>
+        <div class="chart-value-sub">Esta semana</div>
+        <svg width="100%" height="80" viewBox="0 0 200 80" preserveAspectRatio="xMidYMid meet" style="display:block;margin-top:12px;">
+          <polyline points="10,60 40,45 70,50 100,30 130,35 160,20 190,15" fill="none" stroke="#D70030" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          <circle cx="10" cy="60" r="3" fill="#D70030"/>
+          <circle cx="40" cy="45" r="3" fill="#D70030"/>
+          <circle cx="70" cy="50" r="3" fill="#D70030"/>
+          <circle cx="100" cy="30" r="3" fill="#D70030"/>
+          <circle cx="130" cy="35" r="3" fill="#D70030"/>
+          <circle cx="160" cy="20" r="3" fill="#D70030"/>
+          <circle cx="190" cy="15" r="3" fill="#D70030"/>
+          <text x="10" y="76" font-family="Inter,sans-serif" font-size="9" fill="#AEAEB2">Seg</text>
+          <text x="68" y="76" font-family="Inter,sans-serif" font-size="9" fill="#AEAEB2">Qua</text>
+          <text x="128" y="76" font-family="Inter,sans-serif" font-size="9" fill="#AEAEB2">Sex</text>
+          <text x="180" y="76" font-family="Inter,sans-serif" font-size="9" fill="#AEAEB2">Dom</text>
+        </svg>
+      </div>
+
+      <!-- Stress Level Gauge -->
+      <div class="card">
+        <p class="card-label">Nivel de Estresse</p>
+        <svg width="100%" height="110" viewBox="0 0 160 110" preserveAspectRatio="xMidYMid meet" style="display:block;margin:0 auto;">
+          <!-- Background arc -->
+          <path d="M 20 90 A 60 60 0 0 1 140 90" fill="none" stroke="rgba(0,0,0,0.06)" stroke-width="12" stroke-linecap="round"/>
+          <!-- Green zone -->
+          <path d="M 20 90 A 60 60 0 0 1 50 38" fill="none" stroke="#30D158" stroke-width="12" stroke-linecap="round" opacity="0.3"/>
+          <!-- Yellow zone -->
+          <path d="M 50 38 A 60 60 0 0 1 110 38" fill="none" stroke="#FF9500" stroke-width="12" stroke-linecap="round" opacity="0.3"/>
+          <!-- Red zone -->
+          <path d="M 110 38 A 60 60 0 0 1 140 90" fill="none" stroke="#D70030" stroke-width="12" stroke-linecap="round" opacity="0.3"/>
+          <!-- Active arc (low-medium = ~35%) -->
+          <path d="M 20 90 A 60 60 0 0 1 56 42" fill="none" stroke="#30D158" stroke-width="12" stroke-linecap="round"/>
+          <!-- Needle dot -->
+          <circle cx="56" cy="42" r="5" fill="#30D158"/>
+          <text x="80" y="80" font-family="Inter,sans-serif" font-size="22" font-weight="700" fill="#1D1D1F" text-anchor="middle">3.2</text>
+          <text x="80" y="95" font-family="Inter,sans-serif" font-size="10" fill="#86868B" text-anchor="middle">de 10</text>
+        </svg>
+        <p class="gauge-label">Baixo — Saudavel</p>
+      </div>
+    </div>
+
+    <!-- Weekly Goals -->
+    <div class="card stagger-6">
       <p class="card-label">Metas desta semana</p>
       <div class="goal-row">
         <span class="goal-label">Meditar 10min por dia</span>
@@ -184,7 +299,7 @@
     </div>
 
     <!-- Recent Activity -->
-    <div class="card stagger-5">
+    <div class="card stagger-7">
       <p class="card-label">Atividade recente</p>
       <div class="activity-item">
         <span class="activity-time">08:00</span>
@@ -214,21 +329,21 @@
     </div>
 
     <!-- Professional Disclaimer -->
-    <div class="disclaimer stagger-6">
+    <div class="disclaimer stagger-8">
       <div class="disclaimer-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0zM12 9v4M12 17h.01"/></svg></div>
       <p><strong>Aviso importante:</strong> Os mentores e especialistas de saude mental sao assistentes de inteligencia artificial. Eles nao substituem psicologos, psiquiatras ou qualquer profissional de saude mental habilitado. Nao fazem diagnosticos, nao prescrevem medicamentos e nao conduzem psicoterapia. Procure sempre acompanhamento profissional qualificado.</p>
     </div>
 
     <!-- CVV Disclaimer -->
-    <div class="cvv-card stagger-7">
+    <div class="cvv-card stagger-9">
       <p><strong>Se voce ou alguem que voce conhece esta passando por uma crise emocional:</strong></p>
       <p class="cvv-number">188</p>
       <p><strong>CVV — Centro de Valorizacao da Vida</strong><br>Ligacao gratuita, 24 horas, 7 dias por semana.<br>Tambem disponivel por chat em <strong>cvv.org.br</strong></p>
     </div>
 
     <!-- Actions -->
-    <button class="btn-edit stagger-8" onclick="location.href='chat.html'" style="display:flex;align-items:center;justify-content:center;gap:8px;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>Falar com Sensei Sora</button>
+    <button class="btn-edit stagger-10" onclick="location.href='chat.html'" style="display:flex;align-items:center;justify-content:center;gap:8px;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>Falar com Sensei Sora</button>
   </div>
 </body>
-</html><script src="pf-chat-widget.js?v=1774803316"></script>
-<script src="../shared-nav.js?v=1774803832"></script>
+</html><script src="pf-chat-widget.js?v=1774805559"></script>
+<script src="../shared-nav.js?v=1774805559"></script>

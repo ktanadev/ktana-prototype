@@ -5,8 +5,10 @@
 .hero h1{font-family:'Zen Dots',cursive;font-size:clamp(36px,7vw,72px);font-weight:400;line-height:1.1;margin-bottom:24px;opacity:0;animation:fadeUp 0.8s 0.35s forwards}
 .hero p{font-family:'Satoshi',sans-serif;font-size:clamp(16px,2vw,20px);line-height:1.6;color:#86868B;max-width:480px;margin-bottom:44px;opacity:0;animation:fadeUp 0.8s 0.5s forwards}
 .hero-btn{font-family:'Inter',sans-serif;display:inline-block;padding:14px 28px;border-radius:980px;font-size:15px;font-weight:500;opacity:0;animation:fadeUp 0.8s 0.65s forwards}
-.btn-primary{background:#1D1D1F;color:#F5F5F7}
-.btn-secondary{background:transparent;color:#1D1D1F;border:1px solid rgba(0,0,0,0.12);margin-left:12px}
+.btn-primary{background:#D70030;color:#FFF;font-weight:600;box-shadow:0 4px 16px rgba(215,0,48,0.3);transition:all 0.2s}
+.btn-primary:hover{box-shadow:0 6px 24px rgba(215,0,48,0.45);transform:translateY(-1px)}
+.btn-secondary{background:transparent;color:#1D1D1F;border:1.5px solid rgba(0,0,0,0.15);margin-left:12px;transition:all 0.2s}
+.btn-secondary:hover{border-color:rgba(0,0,0,0.3)}
 @keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
 .s{padding:120px 24px;max-width:980px;margin:0 auto}
 .s-label{font-family:'Inter',sans-serif;font-size:11px;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;color:#86868B;margin-bottom:12px}
@@ -78,7 +80,7 @@
 .footer-links a{font-family:'Inter',sans-serif;font-size:11px;color:#AEAEB2}
 .footer-links a:hover{color:#86868B}
 .footer-copy{font-family:'Satoshi',sans-serif;font-size:11px;color:#AEAEB2}
-@media(max-width:768px){.depts-grid{grid-template-columns:repeat(2,1fr)}.footer-top{flex-direction:column;gap:16px;text-align:center}.footer-links{justify-content:center;flex-wrap:wrap}}
+@media(max-width:768px){.depts-grid{grid-template-columns:repeat(2,1fr)}.footer-top{flex-direction:column;gap:16px;text-align:center}.footer-links{justify-content:center;flex-wrap:wrap}.chat-demo{max-width:100%}.hero{padding:48px 16px}.chat-fab{bottom:20px;right:20px;width:48px;height:48px}.chat-fab svg{width:20px;height:20px}}
 </style></head>
 <body>
 <nav class="nav"><div class="nav-inner"><a href="../tenant/landing.html" class="nav-logo">KTANA</a><div class="nav-links"><a href="solutions.html">Solucoes</a><a href="#como">Como funciona</a><a href="../tenant/auth/signup.html" class="nav-cta">Comecar gratis</a></div></div></nav>
@@ -87,6 +89,22 @@
 <h1>Sua empresa<br>inteligente.</h1>
 <p>Monte uma equipe completa de samurais: CEO, financeiro, secretaria, PM. Eles trabalham 24/7 por uma fracao do custo de um funcionario.</p>
 <div><a href="../tenant/auth/signup.html" class="hero-btn btn-primary">Comecar gratis</a><a href="#como" class="hero-btn btn-secondary">Como funciona</a></div>
+
+<!-- CHAT DEMO — KTANA viva -->
+<div class="chat-demo" id="chatDemo">
+  <div class="chat-header">
+    <div class="chat-avatar"><svg viewBox="0 0 24 24"><path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/></svg></div>
+    <div class="chat-avatar-info">
+      <span class="chat-avatar-name">KTANA</span>
+      <span class="chat-avatar-status">Online agora</span>
+    </div>
+  </div>
+  <div class="chat-body" id="chatBody"></div>
+  <div class="chat-input">
+    <span class="chat-input-field" id="chatInputText">Preciso de ajuda com financeiro...</span>
+    <button class="chat-input-send"><svg viewBox="0 0 24 24"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg></button>
+  </div>
+</div>
 </section>
 <section class="s" id="como">
 <p class="s-label">Departamentos</p>
@@ -145,11 +163,70 @@
 </div>
 </footer>
 
+<!-- FAB FLUTUANTE — KTANA sempre presente -->
+<button class="chat-fab" onclick="window.location.href='../tenant/auth/signup.html'" aria-label="Falar com KTANA">
+  <svg viewBox="0 0 24 24"><path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/></svg>
+  <span class="fab-badge"></span>
+</button>
+
 <script>
 function loadVideo(){
   var c=document.getElementById('videoContainer');
-  // Substituir pelo ID real do video quando tiver
   c.innerHTML='<iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1&rel=0&modestbranding=1" allow="autoplay;encrypted-media" allowfullscreen></iframe>';
 }
+
+// Conversa simulada — mostra que e so conversar
+var chatMsgs=[
+  {type:'user',text:'Preciso de alguem pra cuidar do financeiro da empresa',delay:1800},
+  {type:'typing',delay:1200},
+  {type:'ai',text:'Posso criar um samurai financeiro pra voce. Ele cuida de DRE, fluxo de caixa e cobrancas. Configuro agora?',delay:2400},
+  {type:'user',text:'Sim, configura',delay:1600},
+  {type:'typing',delay:1000},
+  {type:'ai',text:'Pronto. Seu samurai financeiro esta ativo e ja comecou a analisar suas contas. Quer criar mais algum departamento?',delay:2200},
+];
+
+function runChat(){
+  var body=document.getElementById('chatBody');
+  var inputText=document.getElementById('chatInputText');
+  var totalDelay=2000;
+  chatMsgs.forEach(function(msg){
+    totalDelay+=msg.delay;
+    setTimeout(function(){
+      if(msg.type==='typing'){
+        var t=document.createElement('div');
+        t.className='chat-msg chat-msg-ai';
+        t.id='typingIndicator';
+        t.innerHTML='<span class="typing-dot"></span><span class="typing-dot"></span><span class="typing-dot"></span>';
+        body.appendChild(t);
+        body.scrollTop=body.scrollHeight;
+      } else {
+        // Remove typing indicator
+        var ti=document.getElementById('typingIndicator');
+        if(ti)ti.remove();
+        var m=document.createElement('div');
+        m.className='chat-msg chat-msg-'+(msg.type==='ai'?'ai':'user');
+        m.textContent=msg.text;
+        body.appendChild(m);
+        body.scrollTop=body.scrollHeight;
+        // Update input placeholder
+        if(msg.type==='user'){
+          inputText.textContent='Digite sua mensagem...';
+        }
+      }
+    },totalDelay);
+  });
+  // Loop after finish
+  setTimeout(function(){
+    body.innerHTML='';
+    inputText.textContent='Preciso de ajuda com financeiro...';
+    runChat();
+  },totalDelay+4000);
+}
+
+// Start chat animation when visible
+var chatObs=new IntersectionObserver(function(entries){
+  if(entries[0].isIntersecting){runChat();chatObs.disconnect();}
+},{threshold:0.3});
+chatObs.observe(document.getElementById('chatDemo'));
 </script>
 </body></html>

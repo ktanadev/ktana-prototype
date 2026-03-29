@@ -82,6 +82,19 @@
     .btn-chat:hover { background: rgba(215,0,48,0.02); }
 
     /* Staggered animations */
+    /* Data viz shared */
+    .chart-header { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 14px; }
+    .chart-header h3 { font-family: 'Zen Dots', cursive; font-size: 15px; color: #1D1D1F; }
+    .chart-period { font-family: 'Inter', sans-serif; font-size: 11px; color: #AEAEB2; }
+    .chart-value-big { font-family: 'Inter', sans-serif; font-size: 28px; font-weight: 700; color: #1D1D1F; line-height: 1; margin-bottom: 4px; }
+    .chart-value-sub { font-family: 'Satoshi', sans-serif; font-size: 12px; color: #86868B; }
+    .data-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .data-grid .card { margin-bottom: 0; }
+    .ring-label { font-family: 'Satoshi', sans-serif; font-size: 13px; color: #86868B; text-align: center; margin-top: 8px; }
+    .bar-legend { display: flex; gap: 12px; margin-top: 12px; flex-wrap: wrap; }
+    .bar-legend-item { display: flex; align-items: center; gap: 5px; font-family: 'Inter', sans-serif; font-size: 11px; color: #86868B; }
+    .bar-legend-dot { width: 8px; height: 8px; border-radius: 2px; flex-shrink: 0; }
+
     .stagger-1 { animation: fadeUp 0.5s cubic-bezier(0.25,0.1,0.25,1) 0.05s both; }
     .stagger-2 { animation: fadeUp 0.5s cubic-bezier(0.25,0.1,0.25,1) 0.12s both; }
     .stagger-3 { animation: fadeUp 0.5s cubic-bezier(0.25,0.1,0.25,1) 0.19s both; }
@@ -90,6 +103,9 @@
     .stagger-6 { animation: fadeUp 0.5s cubic-bezier(0.25,0.1,0.25,1) 0.40s both; }
     .stagger-7 { animation: fadeUp 0.5s cubic-bezier(0.25,0.1,0.25,1) 0.47s both; }
     .stagger-8 { animation: fadeUp 0.5s cubic-bezier(0.25,0.1,0.25,1) 0.54s both; }
+    .stagger-9 { animation: fadeUp 0.5s cubic-bezier(0.25,0.1,0.25,1) 0.61s both; }
+    .stagger-10 { animation: fadeUp 0.5s cubic-bezier(0.25,0.1,0.25,1) 0.68s both; }
+    .stagger-11 { animation: fadeUp 0.5s cubic-bezier(0.25,0.1,0.25,1) 0.75s both; }
   </style>
 </head>
 <body>
@@ -180,8 +196,96 @@
       </div>
     </div>
 
-    <!-- Weekly Goals -->
+    <!-- Health Data: Monthly Spending by Category -->
     <div class="card stagger-5">
+      <p class="card-label">Gastos Mensais por Categoria</p>
+      <div class="chart-header">
+        <h3>Gastos</h3>
+        <span class="chart-period">Marco 2026</span>
+      </div>
+      <svg width="100%" height="170" viewBox="0 0 560 170" preserveAspectRatio="xMidYMid meet" style="display:block;">
+        <!-- Grid -->
+        <line x1="60" y1="10" x2="540" y2="10" stroke="rgba(0,0,0,0.04)" stroke-width="0.5"/>
+        <line x1="60" y1="50" x2="540" y2="50" stroke="rgba(0,0,0,0.04)" stroke-width="0.5"/>
+        <line x1="60" y1="90" x2="540" y2="90" stroke="rgba(0,0,0,0.04)" stroke-width="0.5"/>
+        <line x1="60" y1="130" x2="540" y2="130" stroke="rgba(0,0,0,0.04)" stroke-width="0.5"/>
+        <!-- Y labels -->
+        <text x="4" y="14" font-family="Inter,sans-serif" font-size="10" fill="#AEAEB2">R$2k</text>
+        <text x="4" y="54" font-family="Inter,sans-serif" font-size="10" fill="#AEAEB2">R$1.5k</text>
+        <text x="4" y="94" font-family="Inter,sans-serif" font-size="10" fill="#AEAEB2">R$1k</text>
+        <text x="4" y="134" font-family="Inter,sans-serif" font-size="10" fill="#AEAEB2">R$500</text>
+        <!-- Moradia -->
+        <rect x="80" y="10" width="52" height="140" rx="6" fill="#D70030" opacity="0.8"/>
+        <text x="106" y="158" font-family="Inter,sans-serif" font-size="10" fill="#86868B" text-anchor="middle">Moradia</text>
+        <!-- Alimentacao -->
+        <rect x="160" y="50" width="52" height="100" rx="6" fill="#FF9500" opacity="0.7"/>
+        <text x="186" y="158" font-family="Inter,sans-serif" font-size="10" fill="#86868B" text-anchor="middle">Comida</text>
+        <!-- Transporte -->
+        <rect x="240" y="90" width="52" height="60" rx="6" fill="#5AC8FA" opacity="0.7"/>
+        <text x="266" y="158" font-family="Inter,sans-serif" font-size="10" fill="#86868B" text-anchor="middle">Transp.</text>
+        <!-- Lazer -->
+        <rect x="320" y="100" width="52" height="50" rx="6" fill="#30D158" opacity="0.7"/>
+        <text x="346" y="158" font-family="Inter,sans-serif" font-size="10" fill="#86868B" text-anchor="middle">Lazer</text>
+        <!-- Saude -->
+        <rect x="400" y="110" width="52" height="40" rx="6" fill="#AF52DE" opacity="0.7"/>
+        <text x="426" y="158" font-family="Inter,sans-serif" font-size="10" fill="#86868B" text-anchor="middle">Saude</text>
+        <!-- Outros -->
+        <rect x="480" y="120" width="52" height="30" rx="6" fill="#86868B" opacity="0.4"/>
+        <text x="506" y="158" font-family="Inter,sans-serif" font-size="10" fill="#86868B" text-anchor="middle">Outros</text>
+      </svg>
+      <div class="bar-legend">
+        <div class="bar-legend-item"><div class="bar-legend-dot" style="background:#D70030;"></div>R$ 2.000</div>
+        <div class="bar-legend-item"><div class="bar-legend-dot" style="background:#FF9500;"></div>R$ 1.200</div>
+        <div class="bar-legend-item"><div class="bar-legend-dot" style="background:#5AC8FA;"></div>R$ 680</div>
+        <div class="bar-legend-item"><div class="bar-legend-dot" style="background:#30D158;"></div>R$ 540</div>
+        <div class="bar-legend-item"><div class="bar-legend-dot" style="background:#AF52DE;"></div>R$ 420</div>
+        <div class="bar-legend-item"><div class="bar-legend-dot" style="background:rgba(134,134,139,0.6);"></div>R$ 280</div>
+      </div>
+    </div>
+
+    <!-- Health Data: Savings Ring + Income vs Expenses -->
+    <div class="data-grid stagger-6">
+      <!-- Savings Progress Ring -->
+      <div class="card">
+        <p class="card-label">Reserva de Emergencia</p>
+        <svg width="100%" height="120" viewBox="0 0 120 120" preserveAspectRatio="xMidYMid meet" style="display:block;margin:0 auto;">
+          <circle cx="60" cy="60" r="48" fill="none" stroke="rgba(0,0,0,0.06)" stroke-width="10"/>
+          <circle cx="60" cy="60" r="48" fill="none" stroke="#30D158" stroke-width="10" stroke-linecap="round"
+            stroke-dasharray="301.6" stroke-dashoffset="90.5"
+            transform="rotate(-90 60 60)"/>
+          <text x="60" y="56" font-family="Inter,sans-serif" font-size="22" font-weight="700" fill="#1D1D1F" text-anchor="middle">70%</text>
+          <text x="60" y="72" font-family="Inter,sans-serif" font-size="10" fill="#86868B" text-anchor="middle">da meta</text>
+        </svg>
+        <p class="ring-label">R$ 21k de R$ 30k</p>
+      </div>
+
+      <!-- Income vs Expenses -->
+      <div class="card">
+        <p class="card-label">Receita vs Gastos</p>
+        <svg width="100%" height="140" viewBox="0 0 180 140" preserveAspectRatio="xMidYMid meet" style="display:block;">
+          <!-- Income bars -->
+          <rect x="15" y="10" width="28" height="95" rx="5" fill="#30D158" opacity="0.7"/>
+          <rect x="55" y="5" width="28" height="100" rx="5" fill="#30D158" opacity="0.7"/>
+          <rect x="95" y="0" width="28" height="105" rx="5" fill="#30D158" opacity="0.8"/>
+          <!-- Expense bars -->
+          <rect x="22" y="40" width="14" height="65" rx="3" fill="#D70030" opacity="0.5"/>
+          <rect x="62" y="32" width="14" height="73" rx="3" fill="#D70030" opacity="0.5"/>
+          <rect x="102" y="35" width="14" height="70" rx="3" fill="#D70030" opacity="0.5"/>
+          <!-- Labels -->
+          <text x="29" y="120" font-family="Inter,sans-serif" font-size="9" fill="#86868B" text-anchor="middle">Jan</text>
+          <text x="69" y="120" font-family="Inter,sans-serif" font-size="9" fill="#86868B" text-anchor="middle">Fev</text>
+          <text x="109" y="120" font-family="Inter,sans-serif" font-size="9" fill="#86868B" text-anchor="middle">Mar</text>
+          <!-- Legend -->
+          <rect x="12" y="132" width="8" height="6" rx="1" fill="#30D158" opacity="0.7"/>
+          <text x="24" y="138" font-family="Inter,sans-serif" font-size="9" fill="#86868B">Receita</text>
+          <rect x="70" y="132" width="8" height="6" rx="1" fill="#D70030" opacity="0.5"/>
+          <text x="82" y="138" font-family="Inter,sans-serif" font-size="9" fill="#86868B">Gastos</text>
+        </svg>
+      </div>
+    </div>
+
+    <!-- Weekly Goals -->
+    <div class="card stagger-7">
       <p class="card-label">Metas desta semana</p>
       <div class="goal-row">
         <span class="goal-label">Nao ultrapassar R$ 200 em delivery</span>
@@ -244,5 +348,5 @@
     <button class="btn-edit stagger-8" onclick="location.href='chat.html'" style="display:flex;align-items:center;justify-content:center;gap:8px;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>Falar com Takeshi</button>
   </div>
 </body>
-</html><script src="pf-chat-widget.js?v=1774803316"></script>
-<script src="../shared-nav.js?v=1774803832"></script>
+</html><script src="pf-chat-widget.js?v=1774805559"></script>
+<script src="../shared-nav.js?v=1774805559"></script>
