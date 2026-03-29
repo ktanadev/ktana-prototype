@@ -153,9 +153,6 @@
     <!-- Top Bar -->
     <header class="kt" id="ktTopBar">
       <div class="kt-inner">
-        <button class="kt-toggle" onclick="toggleSidebar()" title="Menu">
-          ${svg('M4 6h16M4 12h16M4 18h16', 18)}
-        </button>
         <div class="kt-org" onclick="toggleOrgSwitcher()">
           <span class="kt-logo">KTANA</span>
           <span class="kt-client-name" style="font-family:'Inter',sans-serif;font-size:12px;color:rgba(255,255,255,0.65);margin-left:8px;">${isPF ? 'Pessoal' : 'CSB Fintechs'}</span>
@@ -267,10 +264,13 @@
             <span>Sair</span>
           </button>
         </div>
+        <button class="kt-toggle" onclick="toggleSidebar()" title="Menu">
+          ${svg('M4 6h16M4 12h16M4 18h16', 18)}
+        </button>
       </div>
     </header>
 
-    <!-- Sidebar -->
+    <!-- Sidebar (abre pela direita) -->
     <aside class="ks" id="ktSidebar">
       <div class="ks-head">
         <span class="ks-head-label">Menu</span>
@@ -436,8 +436,8 @@
     .kt-org-manage:hover { color: #1D1D1F; }
 
     /* Sidebar */
-    .ks { position: fixed; top: 0; left: 0; bottom: 0; width: 272px; background: #FFF; z-index: 300; transform: translateX(-100%); transition: transform 0.3s cubic-bezier(0.4,0,0.2,1); box-shadow: none; display: flex; flex-direction: column; border-right: 0.5px solid rgba(0,0,0,0.06); }
-    .ks.open { transform: translateX(0); box-shadow: 20px 0 60px rgba(0,0,0,0.08); }
+    .ks { position: fixed; top: 0; right: 0; bottom: 0; width: 272px; background: #FFF; z-index: 300; transform: translateX(100%); transition: transform 0.3s cubic-bezier(0.4,0,0.2,1); box-shadow: none; display: flex; flex-direction: column; border-left: 0.5px solid rgba(0,0,0,0.06); }
+    .ks.open { transform: translateX(0); box-shadow: -20px 0 60px rgba(0,0,0,0.08); }
     .ks-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.2); z-index: 299; opacity: 0; pointer-events: none; transition: opacity 0.3s; }
     .ks-overlay.open { opacity: 1; pointer-events: auto; }
 
@@ -478,8 +478,8 @@
     .ks-foot-link svg { flex-shrink: 0; }
 
     /* CHAT DO AGENTE — Panel escuro lateral direita (estilo dashboard) */
-    .kc { position: fixed; top: 52px; right: 0; width: 380px; height: calc(100vh - 52px); background: #0A0A0A; border-left: 0.5px solid rgba(255,255,255,0.06); z-index: 190; display: flex; flex-direction: column; overflow: hidden; }
-    body.kc-open { margin-right: 380px; transition: margin-right 0.3s ease; }
+    .kc { position: fixed; top: 52px; left: 0; width: 380px; height: calc(100vh - 52px); background: #0A0A0A; border-right: 0.5px solid rgba(255,255,255,0.06); z-index: 190; display: flex; flex-direction: column; overflow: hidden; }
+    body.kc-open { margin-left: 380px; transition: margin-left 0.3s ease; }
 
     /* Ambient Glow */
     .kc-glow { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; }
@@ -589,16 +589,15 @@
 
     /* Active item left accent */
     .ks-item-active { position: relative; }
-    .ks-item-active::before { content: ''; position: absolute; left: 0; top: 50%; transform: translateY(-50%); width: 3px; height: 16px; background: #D70030; border-radius: 0 2px 2px 0; }
+    .ks-item-active::before { content: ''; position: absolute; right: 0; top: 50%; transform: translateY(-50%); width: 3px; height: 16px; background: #D70030; border-radius: 2px 0 0 2px; }
 
     /* Hover glow on AI button */
     .kt-ai-btn { position: relative; overflow: hidden; }
 
     @media (max-width: 640px) {
       .ks { width: 100%; }
-      .kc { width: 100%; position: fixed; top: 52px; height: calc(100vh - 52px); display: none; }
-      .kc.kc-mobile-open { display: flex; }
-      body.kc-open { margin-right: 0; }
+      .kc { display: none; }
+      body.kc-open { margin-left: 0; }
       .kt-ai-label { display: none; }
     }
   `;
