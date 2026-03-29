@@ -37,8 +37,8 @@
     .score-val { font-family: 'Zen Dots', cursive; font-size: 26px; color: #1D1D1F; line-height: 1; margin-bottom: 4px; }
     .score-label { font-family: 'Inter', sans-serif; font-size: 11px; color: #86868B; margin-bottom: 6px; }
     .score-trend { font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 600; }
-    .trend-up { color: #30D158; }
-    .trend-down { color: #FF3B30; }
+    .trend-up { color: #1D1D1F; }
+    .trend-down { color: #D70030; }
     .trend-flat { color: #AEAEB2; }
 
     /* Section label */
@@ -52,16 +52,17 @@
 
     /* SVG line chart */
     .chart-area svg { width: 100%; height: 100%; }
+    /* Monotonal KTANA — variações de vermelho + neutros */
     .chart-line { fill: none; stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; }
-    .chart-line.saude { stroke: #FF3B30; }
-    .chart-line.mente { stroke: #5E6AD2; }
-    .chart-line.social { stroke: #BF5AF2; }
-    .chart-line.energia { stroke: #FF9F0A; }
-    .chart-fill { opacity: 0.06; }
-    .chart-fill.saude { fill: #FF3B30; }
-    .chart-fill.mente { fill: #5E6AD2; }
-    .chart-fill.social { fill: #BF5AF2; }
-    .chart-fill.energia { fill: #FF9F0A; }
+    .chart-line.saude { stroke: #D70030; }
+    .chart-line.mente { stroke: #9B0A2A; }
+    .chart-line.social { stroke: rgba(215,0,48,0.4); }
+    .chart-line.energia { stroke: rgba(0,0,0,0.15); }
+    .chart-fill { opacity: 0.04; }
+    .chart-fill.saude { fill: #D70030; }
+    .chart-fill.mente { fill: #9B0A2A; }
+    .chart-fill.social { fill: #D70030; }
+    .chart-fill.energia { fill: #000; }
 
     .chart-legend { display: flex; gap: 16px; justify-content: center; margin-top: 14px; }
     .legend-item { display: flex; align-items: center; gap: 6px; font-family: 'Inter', sans-serif; font-size: 11px; color: #86868B; }
@@ -78,8 +79,8 @@
     .corr-card:hover { transform: translateX(4px); }
     .corr-icon { width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
     .corr-icon.high { background: rgba(215,0,48,0.08); }
-    .corr-icon.med { background: rgba(255,159,10,0.08); }
-    .corr-icon.low { background: rgba(48,209,88,0.08); }
+    .corr-icon.med { background: rgba(215,0,48,0.05); }
+    .corr-icon.low { background: rgba(0,0,0,0.04); }
     .corr-text { flex: 1; }
     .corr-insight { font-family: 'Satoshi', sans-serif; font-size: 14px; color: #1D1D1F; line-height: 1.5; margin-bottom: 4px; }
     .corr-insight strong { color: #D70030; }
@@ -204,10 +205,10 @@
         <span>Seg</span><span>Ter</span><span>Qua</span><span>Qui</span><span>Sex</span><span>Sab</span><span>Dom</span>
       </div>
       <div class="chart-legend">
-        <div class="legend-item"><div class="legend-dot" style="background:#FF3B30"></div>Saude</div>
-        <div class="legend-item"><div class="legend-dot" style="background:#5E6AD2"></div>Mente</div>
-        <div class="legend-item"><div class="legend-dot" style="background:#BF5AF2"></div>Social</div>
-        <div class="legend-item"><div class="legend-dot" style="background:#FF9F0A"></div>Energia</div>
+        <div class="legend-item"><div class="legend-dot" style="background:#D70030"></div>Saude</div>
+        <div class="legend-item"><div class="legend-dot" style="background:#9B0A2A"></div>Mente</div>
+        <div class="legend-item"><div class="legend-dot" style="background:rgba(215,0,48,0.4)"></div>Social</div>
+        <div class="legend-item"><div class="legend-dot" style="background:rgba(0,0,0,0.15)"></div>Energia</div>
       </div>
     </div>
 
@@ -241,7 +242,7 @@
       </div>
       <div class="corr-card">
         <div class="corr-icon low">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#30D158" stroke-width="2"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/></svg>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#9B0A2A" stroke-width="2"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/></svg>
         </div>
         <div class="corr-text">
           <div class="corr-insight">Apos <strong>treino pela manha</strong>, voce e <strong>2.3x mais produtivo</strong> no deep work.</div>
@@ -251,7 +252,7 @@
       </div>
       <div class="corr-card">
         <div class="corr-icon med">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#FF9F0A" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#73071F" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
         </div>
         <div class="corr-text">
           <div class="corr-insight">Tempo no Instagram <strong>subiu 40%</strong> essa semana. Historicamente indica <strong>padrao de evitacao</strong>.</div>

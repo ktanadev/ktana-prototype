@@ -8,435 +8,270 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Zen+Dots&display=swap" rel="stylesheet">
   <style>
     body { min-height: 100vh; background: #F5F5F7; }
-    .main { max-width: 760px; margin: 0 auto; padding: 32px 20px 100px; }
+    .main { max-width: 760px; margin: 0 auto; padding: 0 20px 100px; }
 
-    /* ═══ HEADER NEUTRAL — warm, clean, Apple ═══ */
-    .page-header { margin-bottom: 28px; }
-    .page-header h1 { font-family: 'Zen Dots', cursive; font-size: 24px; color: #1D1D1F; margin-bottom: 6px; display: flex; align-items: center; gap: 10px; }
-    .page-header h1 .sensei-badge { font-size: 11px; font-family: 'Inter', sans-serif; font-weight: 600; background: rgba(215,0,48,0.08); color: #D70030; padding: 4px 10px; border-radius: 980px; letter-spacing: 0.04em; }
-    .page-header .sub { font-family: 'Satoshi', sans-serif; font-size: 15px; color: #86868B; line-height: 1.5; }
+    /* ═══ CHAT HERO — Dark, full-width, top ═══ */
+    .chat-hero { background: #0A0A0A; position: relative; overflow: hidden; margin: 0 -20px 28px; padding: 0; }
+    .chat-hero .ambient { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; }
+    .chat-hero .orb { position: absolute; border-radius: 50%; filter: blur(70px); pointer-events: none; }
+    .chat-hero .orb:nth-child(1) { width: 45%; height: 60%; top: -15%; left: -5%; background: radial-gradient(ellipse at center, rgba(215,0,48,0.14) 0%, transparent 70%); animation: od1 12s ease-in-out infinite; }
+    .chat-hero .orb:nth-child(2) { width: 35%; height: 50%; bottom: -10%; right: -5%; background: radial-gradient(ellipse at center, rgba(155,10,42,0.1) 0%, transparent 70%); animation: od2 16s ease-in-out infinite; }
+    @keyframes od1{0%,100%{transform:translate(0,0)}50%{transform:translate(4%,3%)}}
+    @keyframes od2{0%,100%{transform:translate(0,0)}50%{transform:translate(-3%,-2%)}}
 
-    /* ═══ STATS BAR — clean Apple metrics ═══ */
-    .stats-bar { display: flex; gap: 8px; margin-bottom: 24px; overflow-x: auto; }
-    .stat-pill { background: #FFF; border: 1px solid rgba(0,0,0,0.04); border-radius: 16px; padding: 14px 18px; text-align: center; flex: 1; min-width: 100px; transition: transform 0.2s; }
-    .stat-pill:hover { transform: translateY(-2px); }
-    .stat-num { font-family: 'Zen Dots', cursive; font-size: 22px; color: #1D1D1F; line-height: 1; }
-    .stat-num.brand { color: #D70030; }
-    .stat-label { font-family: 'Inter', sans-serif; font-size: 11px; color: #86868B; margin-top: 4px; text-transform: uppercase; letter-spacing: 0.04em; }
+    .chat-inner { position: relative; z-index: 1; padding: 28px 24px 24px; max-width: 760px; margin: 0 auto; }
+    .chat-top { display: flex; align-items: center; gap: 12px; margin-bottom: 20px; }
+    .chat-avatar { width: 40px; height: 40px; border-radius: 50%; background: rgba(215,0,48,0.12); border: 1.5px solid rgba(215,0,48,0.25); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .chat-meta .name { font-family: 'Inter', sans-serif; font-size: 14px; font-weight: 600; color: #F5F5F7; }
+    .chat-meta .role { font-family: 'Inter', sans-serif; font-size: 11px; color: rgba(255,255,255,0.35); }
+    .chat-live { width: 6px; height: 6px; border-radius: 50%; background: #30D158; margin-left: auto; animation: pulse 2s infinite; }
+    @keyframes pulse{0%,100%{opacity:1}50%{opacity:0.3}}
 
-    /* ═══ DARK CHAT ZONE — branded, immersive ═══ */
-    .chat-zone { background: #0A0A0A; border-radius: 24px; position: relative; overflow: hidden; margin-bottom: 28px; box-shadow: 0 4px 32px rgba(0,0,0,0.12), 0 0 0 1px rgba(255,255,255,0.03); }
-
-    /* Ambient glow orbs */
-    .ambient-glow { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; }
-    .glow-orb { position: absolute; border-radius: 50%; pointer-events: none; filter: blur(60px); }
-    .glow-orb:nth-child(1) { width: 50%; height: 40%; top: 0; left: -8%; background: radial-gradient(ellipse at center, rgba(215,0,48,0.18) 0%, transparent 70%); animation: orbDrift1 10s ease-in-out infinite; }
-    .glow-orb:nth-child(2) { width: 40%; height: 35%; top: 20%; right: -8%; background: radial-gradient(ellipse at center, rgba(160,15,5,0.14) 0%, transparent 70%); animation: orbDrift2 14s ease-in-out infinite; }
-    .glow-orb:nth-child(3) { width: 35%; height: 40%; bottom: -5%; left: 25%; background: radial-gradient(ellipse at center, rgba(220,80,25,0.12) 0%, transparent 70%); animation: orbDrift3 12s ease-in-out infinite; }
-    @keyframes orbDrift1 { 0%,100%{transform:translate(0,0)}33%{transform:translate(6%,4%)}66%{transform:translate(-3%,-3%)} }
-    @keyframes orbDrift2 { 0%,100%{transform:translate(0,0)}50%{transform:translate(-8%,4%)} }
-    @keyframes orbDrift3 { 0%,100%{transform:translate(0,0)}33%{transform:translate(5%,-5%)}66%{transform:translate(-4%,2%)} }
-
-    .chat-inner { position: relative; z-index: 1; padding: 24px; }
-    .chat-header { display: flex; align-items: center; gap: 10px; margin-bottom: 18px; }
-    .chat-avatar { width: 36px; height: 36px; border-radius: 50%; background: rgba(215,0,48,0.15); border: 1.5px solid rgba(215,0,48,0.3); display: flex; align-items: center; justify-content: center; }
-    .chat-name { font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 600; color: #F5F5F7; }
-    .chat-role { font-family: 'Inter', sans-serif; font-size: 11px; color: rgba(255,255,255,0.4); }
-    .chat-dot { width: 6px; height: 6px; border-radius: 50%; background: #30D158; animation: pulse 2s infinite; margin-left: auto; }
-    @keyframes pulse { 0%,100%{opacity:1}50%{opacity:0.3} }
-
-    .chat-msgs { display: flex; flex-direction: column; gap: 10px; margin-bottom: 18px; max-height: 260px; overflow-y: auto; }
-    .chat-msg { max-width: 88%; padding: 14px 18px; border-radius: 18px; font-family: 'Satoshi', sans-serif; font-size: 14px; line-height: 1.55; animation: msgIn 0.35s ease both; }
+    .chat-msgs { display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px; max-height: 280px; overflow-y: auto; }
+    .msg { max-width: 85%; padding: 14px 18px; border-radius: 18px; font-family: 'Satoshi', sans-serif; font-size: 14px; line-height: 1.55; animation: mi .35s ease both; }
     .msg-ai { background: rgba(255,255,255,0.06); backdrop-filter: blur(12px); color: #F5F5F7; border-bottom-left-radius: 6px; align-self: flex-start; }
+    .msg-ai strong { color: #D70030; }
     .msg-user { background: #D70030; color: #FFF; border-bottom-right-radius: 6px; align-self: flex-end; }
-    @keyframes msgIn { from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)} }
+    @keyframes mi{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
 
-    /* Source chips inside chat */
-    .source-chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
-    .source-chip { display: flex; align-items: center; gap: 8px; padding: 10px 16px; border-radius: 14px; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.08); cursor: pointer; transition: all 0.25s cubic-bezier(0.4,0,0.2,1); }
-    .source-chip:hover { background: rgba(215,0,48,0.12); border-color: rgba(215,0,48,0.3); transform: translateY(-2px); }
-    .source-chip svg { width: 18px; height: 18px; flex-shrink: 0; }
-    .source-chip .chip-name { font-family: 'Inter', sans-serif; font-size: 12px; font-weight: 500; color: #F5F5F7; }
-    .source-chip .chip-status { font-family: 'Inter', sans-serif; font-size: 10px; color: rgba(255,255,255,0.35); }
-    .source-chip.connected { border-color: rgba(48,209,88,0.3); }
-    .source-chip.connected .chip-status { color: #30D158; }
+    /* Source chips inside chat — monotonal */
+    .chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; }
+    .chip { display: flex; align-items: center; gap: 8px; padding: 10px 16px; border-radius: 14px; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.06); cursor: pointer; transition: all .25s; }
+    .chip:hover { background: rgba(215,0,48,0.1); border-color: rgba(215,0,48,0.25); transform: translateY(-2px); }
+    .chip svg { width: 16px; height: 16px; stroke: rgba(255,255,255,0.5); fill: none; stroke-width: 1.5; flex-shrink: 0; }
+    .chip.on svg { stroke: #D70030; }
+    .chip .c-name { font-family: 'Inter', sans-serif; font-size: 12px; font-weight: 500; color: rgba(255,255,255,0.7); }
+    .chip .c-status { font-family: 'Inter', sans-serif; font-size: 10px; color: rgba(255,255,255,0.3); }
+    .chip.on .c-status { color: rgba(215,0,48,0.6); }
 
-    /* Chat input */
-    .chat-input-row { display: flex; gap: 10px; align-items: center; }
-    .chat-input { flex: 1; font-family: 'Satoshi', sans-serif; font-size: 15px; padding: 14px 18px; border-radius: 18px; border: 1.5px solid rgba(255,255,255,0.06); background: rgba(255,255,255,0.04); color: #F5F5F7; outline: none; transition: border-color 0.2s; }
-    .chat-input:focus { border-color: rgba(215,0,48,0.4); }
-    .chat-input::placeholder { color: rgba(255,255,255,0.25); }
-    .chat-send { width: 46px; height: 46px; border-radius: 50%; background: #D70030; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: transform 0.1s, opacity 0.15s; }
-    .chat-send:hover { opacity: 0.9; }
-    .chat-send:active { transform: scale(0.92); }
+    .chat-input-row { display: flex; gap: 10px; }
+    .chat-input { flex: 1; font-family: 'Satoshi', sans-serif; font-size: 15px; padding: 14px 18px; border-radius: 18px; border: 1.5px solid rgba(255,255,255,0.06); background: rgba(255,255,255,0.03); color: #F5F5F7; outline: none; transition: border-color .2s; }
+    .chat-input:focus { border-color: rgba(215,0,48,0.35); }
+    .chat-input::placeholder { color: rgba(255,255,255,0.2); }
+    .chat-send { width: 46px; height: 46px; border-radius: 50%; background: #D70030; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: transform .1s; }
+    .chat-send:active { transform: scale(.92); }
+
+    /* ═══ STATS BAR — clean Apple ═══ */
+    .stats { display: flex; gap: 8px; margin-bottom: 24px; }
+    .stat { background: #FFF; border: 1px solid rgba(0,0,0,0.04); border-radius: 16px; padding: 14px 16px; text-align: center; flex: 1; animation: fu .5s ease both; }
+    .stat:nth-child(1){animation-delay:.1s} .stat:nth-child(2){animation-delay:.15s} .stat:nth-child(3){animation-delay:.2s}
+    .stat-n { font-family: 'Zen Dots', cursive; font-size: 22px; color: #1D1D1F; line-height: 1; }
+    .stat-n.brand { color: #D70030; }
+    .stat-l { font-family: 'Inter', sans-serif; font-size: 10px; color: #86868B; margin-top: 4px; text-transform: uppercase; letter-spacing: .04em; }
+    @keyframes fu{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
 
     /* ═══ SECTION LABEL ═══ */
-    .section-label { font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: #D70030; margin-bottom: 14px; margin-top: 8px; }
+    .sec { font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: #D70030; margin-bottom: 14px; margin-top: 4px; }
 
-    /* ═══ CONNECTED SOURCE CARDS — clean Apple ═══ */
-    .sources-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 28px; }
-    .source-card { background: #FFF; border: 1px solid rgba(0,0,0,0.04); border-radius: 20px; padding: 22px; position: relative; overflow: hidden; transition: transform 0.3s cubic-bezier(0.4,0,0.2,1), box-shadow 0.3s; animation: cardIn 0.5s ease both; }
-    .source-card:nth-child(1) { animation-delay: 0.1s; }
-    .source-card:nth-child(2) { animation-delay: 0.2s; }
-    .source-card:nth-child(3) { animation-delay: 0.3s; }
-    .source-card:nth-child(4) { animation-delay: 0.4s; }
-    .source-card:hover { transform: translateY(-3px); box-shadow: 0 8px 30px rgba(0,0,0,0.06); }
-    @keyframes cardIn { from{opacity:0;transform:translateY(16px) scale(0.97)}to{opacity:1;transform:translateY(0) scale(1)} }
+    /* ═══ SOURCE CARDS — clean, monotonal ═══ */
+    .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 28px; }
+    .src { background: #FFF; border: 1px solid rgba(0,0,0,0.04); border-radius: 20px; padding: 22px; position: relative; overflow: hidden; transition: transform .3s, box-shadow .3s; animation: fu .5s ease both; }
+    .src:nth-child(1){animation-delay:.1s} .src:nth-child(2){animation-delay:.18s} .src:nth-child(3){animation-delay:.26s} .src:nth-child(4){animation-delay:.34s}
+    .src:hover { transform: translateY(-3px); box-shadow: 0 8px 24px rgba(0,0,0,0.05); }
+    .src::after { content:''; position: absolute; bottom: 0; left: 20%; right: 20%; height: 1.5px; background: linear-gradient(90deg, transparent, rgba(215,0,48,0.15), transparent); opacity: 0; transition: opacity .3s; }
+    .src:hover::after { opacity: 1; }
 
-    /* Subtle glow line at bottom of active cards */
-    .source-card::after { content: ''; position: absolute; bottom: 0; left: 15%; right: 15%; height: 2px; background: linear-gradient(90deg, transparent, rgba(215,0,48,0.2), transparent); border-radius: 2px; opacity: 0; transition: opacity 0.3s; }
-    .source-card:hover::after { opacity: 1; }
+    .src-icon { width: 40px; height: 40px; border-radius: 11px; background: rgba(215,0,48,0.05); display: flex; align-items: center; justify-content: center; margin-bottom: 14px; }
+    .src-icon svg { width: 20px; height: 20px; stroke: #D70030; fill: none; stroke-width: 1.5; }
+    .src-name { font-family: 'Satoshi', sans-serif; font-size: 15px; font-weight: 600; color: #1D1D1F; margin-bottom: 2px; }
+    .src-type { font-family: 'Inter', sans-serif; font-size: 11px; color: #86868B; margin-bottom: 12px; }
+    .src-status { display: flex; align-items: center; gap: 6px; margin-bottom: 12px; }
+    .dot-on { width: 5px; height: 5px; border-radius: 50%; background: #D70030; animation: pulse 2s infinite; }
+    .src-status span { font-family: 'Inter', sans-serif; font-size: 11px; color: #86868B; }
 
-    .source-icon { width: 44px; height: 44px; border-radius: 12px; display: flex; align-items: center; justify-content: center; margin-bottom: 14px; }
-    .source-icon.health { background: rgba(255,59,48,0.08); }
-    .source-icon.wearable { background: rgba(0,122,255,0.08); }
-    .source-icon.social { background: rgba(175,82,222,0.08); }
-    .source-icon.audio { background: rgba(255,159,10,0.08); }
-    .source-icon.docs { background: rgba(48,209,88,0.08); }
-    .source-icon.people { background: rgba(90,200,250,0.08); }
+    .mini { display: flex; gap: 6px; flex-wrap: wrap; }
+    .mini-m { background: rgba(0,0,0,0.02); border-radius: 10px; padding: 6px 10px; text-align: center; }
+    .mini-v { font-family: 'Zen Dots', cursive; font-size: 13px; color: #1D1D1F; }
+    .mini-l { font-family: 'Inter', sans-serif; font-size: 9px; color: #AEAEB2; margin-top: 1px; }
+    .tags { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 10px; }
+    .tag { font-family: 'Inter', sans-serif; font-size: 10px; color: #86868B; background: rgba(0,0,0,0.03); border-radius: 6px; padding: 3px 8px; }
 
-    .source-name { font-family: 'Satoshi', sans-serif; font-size: 15px; font-weight: 600; color: #1D1D1F; margin-bottom: 2px; }
-    .source-type { font-family: 'Inter', sans-serif; font-size: 11px; color: #86868B; margin-bottom: 12px; }
-
-    .source-status { display: flex; align-items: center; gap: 6px; margin-bottom: 12px; }
-    .status-dot-sm { width: 6px; height: 6px; border-radius: 50%; }
-    .status-dot-sm.active { background: #30D158; animation: pulse 2s infinite; }
-    .status-dot-sm.pending { background: #FF9F0A; }
-    .status-dot-sm.off { background: #AEAEB2; }
-    .source-status span { font-family: 'Inter', sans-serif; font-size: 11px; color: #86868B; }
-
-    /* Live mini metrics inside card */
-    .mini-metrics { display: flex; gap: 6px; flex-wrap: wrap; }
-    .mini-metric { background: rgba(0,0,0,0.02); border-radius: 10px; padding: 6px 10px; text-align: center; }
-    .mini-val { font-family: 'Zen Dots', cursive; font-size: 13px; color: #1D1D1F; }
-    .mini-label { font-family: 'Inter', sans-serif; font-size: 9px; color: #AEAEB2; margin-top: 1px; }
-
-    /* Data tags */
-    .data-tags { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 10px; }
-    .data-tag { font-family: 'Inter', sans-serif; font-size: 10px; color: #86868B; background: rgba(0,0,0,0.03); border-radius: 6px; padding: 3px 8px; }
-
-    /* ═══ AVAILABLE SOURCES — greyed, elegant ═══ */
-    .available-list { display: flex; flex-direction: column; gap: 2px; }
-    .available-row { display: flex; align-items: center; gap: 14px; padding: 14px 16px; border-radius: 14px; transition: background 0.2s; cursor: pointer; }
-    .available-row:hover { background: rgba(215,0,48,0.03); }
+    /* ═══ AVAILABLE LIST — elegant, subtle ═══ */
+    .avail { display: flex; align-items: center; gap: 14px; padding: 14px 16px; border-radius: 14px; cursor: pointer; transition: background .2s; }
+    .avail:hover { background: rgba(215,0,48,0.03); }
     .avail-icon { width: 36px; height: 36px; border-radius: 10px; background: rgba(0,0,0,0.02); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
-    .avail-name { font-family: 'Satoshi', sans-serif; font-size: 14px; color: #1D1D1F; flex: 1; }
+    .avail-icon svg { width: 16px; height: 16px; stroke: #86868B; fill: none; stroke-width: 1.5; }
+    .avail-text { flex: 1; }
+    .avail-name { font-family: 'Satoshi', sans-serif; font-size: 14px; color: #1D1D1F; }
     .avail-desc { font-family: 'Inter', sans-serif; font-size: 11px; color: #AEAEB2; }
-    .avail-action { font-family: 'Inter', sans-serif; font-size: 12px; color: #D70030; font-weight: 500; flex-shrink: 0; }
+    .avail-act { font-family: 'Inter', sans-serif; font-size: 12px; color: #D70030; font-weight: 500; flex-shrink: 0; }
 
-    /* ═══ INSIGHT BANNER — subtle, clean ═══ */
-    .insight-banner { background: linear-gradient(135deg, rgba(215,0,48,0.04) 0%, rgba(255,255,255,0.8) 100%); border: 1px solid rgba(215,0,48,0.06); border-radius: 16px; padding: 16px 20px; margin-bottom: 28px; display: flex; align-items: center; gap: 14px; animation: cardIn 0.6s ease both; animation-delay: 0.5s; }
-    .insight-icon { width: 36px; height: 36px; border-radius: 50%; background: rgba(215,0,48,0.08); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
-    .insight-text { font-family: 'Satoshi', sans-serif; font-size: 14px; color: #1D1D1F; line-height: 1.5; }
-    .insight-text strong { color: #D70030; font-weight: 600; }
+    .foot { text-align: center; padding: 20px 0; font-family: 'Inter', sans-serif; font-size: 11px; color: #AEAEB2; line-height: 1.6; }
 
-    /* ═══ RESPONSIVE ═══ */
-    @media (max-width: 600px) {
-      .sources-grid { grid-template-columns: 1fr; }
-      .stats-bar { gap: 6px; }
-      .stat-pill { padding: 10px 12px; min-width: 80px; }
-      .stat-num { font-size: 18px; }
-      .source-chips { gap: 6px; }
+    @media(max-width:600px) {
+      .grid { grid-template-columns: 1fr; }
+      .stats { flex-wrap: wrap; }
+      .stat { min-width: calc(33% - 6px); }
     }
-
-    .fade-in { animation: cardIn 0.5s ease both; }
   </style>
 </head>
 <body class="light">
-  <div class="main">
 
-    <!-- HEADER -->
-    <div class="page-header fade-in">
-      <h1>Suas Fontes <span class="sensei-badge">SenseiIA</span></h1>
-      <p class="sub">Seus sentidos digitais. Quanto mais conectado, mais seus mentores entendem voce.</p>
-    </div>
-
-    <!-- STATS BAR -->
-    <div class="stats-bar">
-      <div class="stat-pill fade-in" style="animation-delay:0.1s">
-        <div class="stat-num brand">4</div>
-        <div class="stat-label">Conectadas</div>
-      </div>
-      <div class="stat-pill fade-in" style="animation-delay:0.15s">
-        <div class="stat-num">2</div>
-        <div class="stat-label">Wearables</div>
-      </div>
-      <div class="stat-pill fade-in" style="animation-delay:0.2s">
-        <div class="stat-num">1</div>
-        <div class="stat-label">Social</div>
-      </div>
-      <div class="stat-pill fade-in" style="animation-delay:0.25s">
-        <div class="stat-num">1</div>
-        <div class="stat-label">Saude</div>
-      </div>
-      <div class="stat-pill fade-in" style="animation-delay:0.3s">
-        <div class="stat-num" style="color:#AEAEB2">6</div>
-        <div class="stat-label">Disponiveis</div>
-      </div>
-    </div>
-
-    <!-- INSIGHT BANNER -->
-    <div class="insight-banner">
-      <div class="insight-icon">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#D70030" stroke-width="2"><path d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/></svg>
-      </div>
-      <div class="insight-text">Conectar o <strong>Instagram</strong> desbloquearia correlacoes entre consumo visual e humor. Quer conectar?</div>
-    </div>
-
-    <!-- DARK CHAT ZONE -->
-    <div class="chat-zone fade-in" style="animation-delay:0.2s">
-      <div class="ambient-glow">
-        <div class="glow-orb"></div>
-        <div class="glow-orb"></div>
-        <div class="glow-orb"></div>
-      </div>
-      <div class="chat-inner">
-        <div class="chat-header">
-          <div class="chat-avatar">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#D70030" stroke-width="1.5"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
-          </div>
-          <div>
-            <div class="chat-name">Yumi</div>
-            <div class="chat-role">Sua mentora</div>
-          </div>
-          <div class="chat-dot"></div>
+  <!-- CHAT HERO (Dark, full-width, top) -->
+  <div class="chat-hero">
+    <div class="ambient"><div class="orb"></div><div class="orb"></div></div>
+    <div class="chat-inner">
+      <div class="chat-top">
+        <div class="chat-avatar">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#D70030" stroke-width="1.5"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
         </div>
+        <div class="chat-meta">
+          <div class="name">Yumi</div>
+          <div class="role">Sua mentora</div>
+        </div>
+        <div class="chat-live"></div>
+      </div>
 
-        <div class="chat-msgs" id="chatMsgs">
-          <div class="chat-msg msg-ai">
-            Voce tem <strong>4 fontes ativas</strong> alimentando seu cerebro. Seus mentores ja estao usando esses dados pra te entender melhor.
-          </div>
-          <div class="chat-msg msg-ai" style="animation-delay:0.4s">
-            Quer conectar mais alguma? Toque em qualquer fonte abaixo ou me diga o que voce usa:
-            <div class="source-chips">
-              <div class="source-chip connected" onclick="quickMsg('Status do Apple Watch')">
-                <svg viewBox="0 0 24 24" fill="none" stroke="#30D158" stroke-width="1.5"><rect x="6" y="2" width="12" height="20" rx="4"/><circle cx="12" cy="12" r="3"/></svg>
-                <div><div class="chip-name">Apple Watch</div><div class="chip-status">Conectado</div></div>
-              </div>
-              <div class="source-chip connected" onclick="quickMsg('Status do Oura Ring')">
-                <svg viewBox="0 0 24 24" fill="none" stroke="#30D158" stroke-width="1.5"><circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="4"/></svg>
-                <div><div class="chip-name">Oura Ring</div><div class="chip-status">Conectado</div></div>
-              </div>
-              <div class="source-chip" onclick="quickMsg('Quero conectar meu Instagram')">
-                <svg viewBox="0 0 24 24" fill="none" stroke="#BF5AF2" stroke-width="1.5"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1.5"/></svg>
-                <div><div class="chip-name">Instagram</div><div class="chip-status">Conectar</div></div>
-              </div>
-              <div class="source-chip" onclick="quickMsg('Quero conectar o Zoom')">
-                <svg viewBox="0 0 24 24" fill="none" stroke="#0A84FF" stroke-width="1.5"><rect x="2" y="5" width="14" height="14" rx="2"/><path d="M16 10l4-2v8l-4-2"/></svg>
-                <div><div class="chip-name">Zoom</div><div class="chip-status">Conectar</div></div>
-              </div>
-              <div class="source-chip" onclick="quickMsg('Tenho laudos medicos para enviar')">
-                <svg viewBox="0 0 24 24" fill="none" stroke="#30D158" stroke-width="1.5"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="12" y1="18" x2="12" y2="12"/><line x1="9" y1="15" x2="15" y2="15"/></svg>
-                <div><div class="chip-name">Laudos</div><div class="chip-status">Enviar</div></div>
-              </div>
-              <div class="source-chip" onclick="quickMsg('Quero ativar captacao de audio')">
-                <svg viewBox="0 0 24 24" fill="none" stroke="#FF9F0A" stroke-width="1.5"><path d="M12 1a3 3 0 00-3 3v8a3 3 0 006 0V4a3 3 0 00-3-3z"/><path d="M19 10v2a7 7 0 01-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/></svg>
-                <div><div class="chip-name">Audio</div><div class="chip-status">Ativar</div></div>
-              </div>
+      <div class="chat-msgs" id="chatMsgs">
+        <div class="msg msg-ai">
+          Voce tem <strong>4 fontes ativas</strong> alimentando seu cerebro. Quer conectar mais alguma? Toque abaixo ou me diga o que voce usa:
+          <div class="chips">
+            <div class="chip on" onclick="quickMsg('Status do Apple Watch')">
+              <svg viewBox="0 0 24 24"><rect x="6" y="2" width="12" height="20" rx="4"/></svg>
+              <div><div class="c-name">Watch</div><div class="c-status">Ativo</div></div>
+            </div>
+            <div class="chip on" onclick="quickMsg('Status do Oura Ring')">
+              <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="4"/></svg>
+              <div><div class="c-name">Oura</div><div class="c-status">Ativo</div></div>
+            </div>
+            <div class="chip on" onclick="quickMsg('Status do WhatsApp')">
+              <svg viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z"/></svg>
+              <div><div class="c-name">WhatsApp</div><div class="c-status">Ativo</div></div>
+            </div>
+            <div class="chip" onclick="quickMsg('Quero conectar meu Instagram')">
+              <svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/></svg>
+              <div><div class="c-name">Instagram</div><div class="c-status">Conectar</div></div>
+            </div>
+            <div class="chip" onclick="quickMsg('Tenho laudos medicos')">
+              <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+              <div><div class="c-name">Laudos</div><div class="c-status">Enviar</div></div>
+            </div>
+            <div class="chip" onclick="quickMsg('Quero ativar audio ambiente')">
+              <svg viewBox="0 0 24 24"><path d="M12 1a3 3 0 00-3 3v8a3 3 0 006 0V4a3 3 0 00-3-3z"/><path d="M19 10v2a7 7 0 01-14 0v-2"/></svg>
+              <div><div class="c-name">Audio</div><div class="c-status">Ativar</div></div>
             </div>
           </div>
         </div>
+      </div>
 
-        <div class="chat-input-row">
-          <input class="chat-input" id="chatInput" placeholder="Diga o que quer conectar..." onkeydown="if(event.key==='Enter')sendMsg()">
-          <button class="chat-send" onclick="sendMsg()">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FFF" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
-          </button>
+      <div class="chat-input-row">
+        <input class="chat-input" id="chatInput" placeholder="Diga o que quer conectar..." onkeydown="if(event.key==='Enter')sendMsg()">
+        <button class="chat-send" onclick="sendMsg()">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#FFF" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- CLEAN ZONE -->
+  <div class="main">
+
+    <!-- STATS -->
+    <div class="stats">
+      <div class="stat"><div class="stat-n brand">4</div><div class="stat-l">Conectadas</div></div>
+      <div class="stat"><div class="stat-n">2</div><div class="stat-l">Wearables</div></div>
+      <div class="stat"><div class="stat-n">1</div><div class="stat-l">Social</div></div>
+      <div class="stat"><div class="stat-n">1</div><div class="stat-l">Saude</div></div>
+    </div>
+
+    <!-- CONNECTED SOURCES -->
+    <div class="sec">Fontes ativas</div>
+    <div class="grid">
+      <div class="src">
+        <div class="src-icon"><svg viewBox="0 0 24 24"><rect x="6" y="2" width="12" height="20" rx="4"/><circle cx="12" cy="12" r="3"/></svg></div>
+        <div class="src-name">Apple Watch Ultra 2</div>
+        <div class="src-type">Relogio inteligente</div>
+        <div class="src-status"><div class="dot-on"></div><span>Sincronizado ha 3 min</span></div>
+        <div class="mini">
+          <div class="mini-m"><div class="mini-v">68</div><div class="mini-l">BPM</div></div>
+          <div class="mini-m"><div class="mini-v">8.4k</div><div class="mini-l">Passos</div></div>
+          <div class="mini-m"><div class="mini-v">340</div><div class="mini-l">kcal</div></div>
+          <div class="mini-m"><div class="mini-v">96%</div><div class="mini-l">SpO2</div></div>
         </div>
+        <div class="tags"><span class="tag">FC</span><span class="tag">Sono</span><span class="tag">Atividade</span><span class="tag">ECG</span></div>
+      </div>
+
+      <div class="src">
+        <div class="src-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="4"/></svg></div>
+        <div class="src-name">Oura Ring Gen 3</div>
+        <div class="src-type">Anel inteligente</div>
+        <div class="src-status"><div class="dot-on"></div><span>Sincronizado ha 12 min</span></div>
+        <div class="mini">
+          <div class="mini-m"><div class="mini-v">82</div><div class="mini-l">Ready</div></div>
+          <div class="mini-m"><div class="mini-v">7h12</div><div class="mini-l">Sono</div></div>
+          <div class="mini-m"><div class="mini-v">42ms</div><div class="mini-l">HRV</div></div>
+          <div class="mini-m"><div class="mini-v">36.4</div><div class="mini-l">Temp</div></div>
+        </div>
+        <div class="tags"><span class="tag">Sono profundo</span><span class="tag">HRV</span><span class="tag">Temperatura</span></div>
+      </div>
+
+      <div class="src">
+        <div class="src-icon"><svg viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z"/></svg></div>
+        <div class="src-name">WhatsApp</div>
+        <div class="src-type">Analise de conversas</div>
+        <div class="src-status"><div class="dot-on"></div><span>Observando 234 contatos</span></div>
+        <div class="mini">
+          <div class="mini-m"><div class="mini-v">234</div><div class="mini-l">Contatos</div></div>
+          <div class="mini-m"><div class="mini-v">12</div><div class="mini-l">Frequentes</div></div>
+          <div class="mini-m"><div class="mini-v">78%</div><div class="mini-l">Positivo</div></div>
+        </div>
+        <div class="tags"><span class="tag">Tom</span><span class="tag">Frequencia</span><span class="tag">Padroes</span></div>
+      </div>
+
+      <div class="src">
+        <div class="src-icon"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="12" y1="18" x2="12" y2="12"/><line x1="9" y1="15" x2="15" y2="15"/></svg></div>
+        <div class="src-name">Laudos Medicos</div>
+        <div class="src-type">Exames e diagnosticos</div>
+        <div class="src-status"><div class="dot-on"></div><span>2 laudos processados</span></div>
+        <div class="mini">
+          <div class="mini-m"><div class="mini-v">2</div><div class="mini-l">Laudos</div></div>
+          <div class="mini-m"><div class="mini-v">14</div><div class="mini-l">Marcadores</div></div>
+          <div class="mini-m"><div class="mini-v">OK</div><div class="mini-l">Geral</div></div>
+        </div>
+        <div class="tags"><span class="tag">Hemograma</span><span class="tag">Cortisol</span><span class="tag">Tireoide</span></div>
       </div>
     </div>
 
-    <!-- CONNECTED SOURCES (CLEAN ZONE) -->
-    <div class="section-label">Fontes Ativas</div>
-    <div class="sources-grid">
-
-      <!-- Apple Watch -->
-      <div class="source-card">
-        <div class="source-icon wearable">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#0A84FF" stroke-width="1.5"><rect x="6" y="2" width="12" height="20" rx="4"/><circle cx="12" cy="12" r="3"/></svg>
-        </div>
-        <div class="source-name">Apple Watch Ultra 2</div>
-        <div class="source-type">Relogio inteligente</div>
-        <div class="source-status">
-          <div class="status-dot-sm active"></div>
-          <span>Sincronizado ha 3 min</span>
-        </div>
-        <div class="mini-metrics">
-          <div class="mini-metric"><div class="mini-val">68</div><div class="mini-label">BPM</div></div>
-          <div class="mini-metric"><div class="mini-val">8.4k</div><div class="mini-label">Passos</div></div>
-          <div class="mini-metric"><div class="mini-val">340</div><div class="mini-label">kcal</div></div>
-          <div class="mini-metric"><div class="mini-val">96%</div><div class="mini-label">SpO2</div></div>
-        </div>
-        <div class="data-tags">
-          <span class="data-tag">FC</span>
-          <span class="data-tag">Sono</span>
-          <span class="data-tag">Atividade</span>
-          <span class="data-tag">ECG</span>
-        </div>
-      </div>
-
-      <!-- Oura Ring -->
-      <div class="source-card">
-        <div class="source-icon wearable">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#0A84FF" stroke-width="1.5"><circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="4"/></svg>
-        </div>
-        <div class="source-name">Oura Ring Gen 3</div>
-        <div class="source-type">Anel inteligente</div>
-        <div class="source-status">
-          <div class="status-dot-sm active"></div>
-          <span>Sincronizado ha 12 min</span>
-        </div>
-        <div class="mini-metrics">
-          <div class="mini-metric"><div class="mini-val">82</div><div class="mini-label">Ready</div></div>
-          <div class="mini-metric"><div class="mini-val">7h12</div><div class="mini-label">Sono</div></div>
-          <div class="mini-metric"><div class="mini-val">42ms</div><div class="mini-label">HRV</div></div>
-          <div class="mini-metric"><div class="mini-val">36.4</div><div class="mini-label">Temp</div></div>
-        </div>
-        <div class="data-tags">
-          <span class="data-tag">Sono profundo</span>
-          <span class="data-tag">HRV</span>
-          <span class="data-tag">Temperatura</span>
-        </div>
-      </div>
-
-      <!-- WhatsApp -->
-      <div class="source-card">
-        <div class="source-icon social">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#BF5AF2" stroke-width="1.5"><path d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z"/></svg>
-        </div>
-        <div class="source-name">WhatsApp</div>
-        <div class="source-type">Analise de conversas</div>
-        <div class="source-status">
-          <div class="status-dot-sm active"></div>
-          <span>Observando 234 contatos</span>
-        </div>
-        <div class="mini-metrics">
-          <div class="mini-metric"><div class="mini-val">234</div><div class="mini-label">Contatos</div></div>
-          <div class="mini-metric"><div class="mini-val">12</div><div class="mini-label">Frequentes</div></div>
-          <div class="mini-metric"><div class="mini-val">78%</div><div class="mini-label">Positivo</div></div>
-        </div>
-        <div class="data-tags">
-          <span class="data-tag">Tom</span>
-          <span class="data-tag">Frequencia</span>
-          <span class="data-tag">Padroes</span>
-        </div>
-      </div>
-
-      <!-- Laudos Medicos -->
-      <div class="source-card">
-        <div class="source-icon docs">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#30D158" stroke-width="1.5"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="12" y1="18" x2="12" y2="12"/><line x1="9" y1="15" x2="15" y2="15"/></svg>
-        </div>
-        <div class="source-name">Laudos Medicos</div>
-        <div class="source-type">Exames e diagnosticos</div>
-        <div class="source-status">
-          <div class="status-dot-sm active"></div>
-          <span>2 laudos processados</span>
-        </div>
-        <div class="mini-metrics">
-          <div class="mini-metric"><div class="mini-val">2</div><div class="mini-label">Laudos</div></div>
-          <div class="mini-metric"><div class="mini-val">14</div><div class="mini-label">Marcadores</div></div>
-          <div class="mini-metric"><div class="mini-val">OK</div><div class="mini-label">Geral</div></div>
-        </div>
-        <div class="data-tags">
-          <span class="data-tag">Hemograma</span>
-          <span class="data-tag">Cortisol</span>
-          <span class="data-tag">Tireoide</span>
-        </div>
-      </div>
+    <!-- AVAILABLE -->
+    <div class="sec">Disponiveis</div>
+    <div class="avail" onclick="quickMsg('Quero conectar meu Instagram')">
+      <div class="avail-icon"><svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/></svg></div>
+      <div class="avail-text"><div class="avail-name">Instagram</div><div class="avail-desc">Padroes visuais, interesses, humor</div></div>
+      <div class="avail-act">Conectar</div>
+    </div>
+    <div class="avail" onclick="quickMsg('Quero conectar o LinkedIn')">
+      <div class="avail-icon"><svg viewBox="0 0 24 24"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-4 0v7h-4v-7a6 6 0 016-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg></div>
+      <div class="avail-text"><div class="avail-name">LinkedIn</div><div class="avail-desc">Carreira, rede profissional</div></div>
+      <div class="avail-act">Conectar</div>
+    </div>
+    <div class="avail" onclick="quickMsg('Quero ativar audio ambiente')">
+      <div class="avail-icon"><svg viewBox="0 0 24 24"><path d="M12 1a3 3 0 00-3 3v8a3 3 0 006 0V4a3 3 0 00-3-3z"/><path d="M19 10v2a7 7 0 01-14 0v-2"/></svg></div>
+      <div class="avail-text"><div class="avail-name">Audio Ambiente</div><div class="avail-desc">Reunioes presenciais, tom de voz</div></div>
+      <div class="avail-act">Ativar</div>
+    </div>
+    <div class="avail" onclick="quickMsg('Quero instalar plugin de videoconferencia')">
+      <div class="avail-icon"><svg viewBox="0 0 24 24"><rect x="2" y="5" width="14" height="14" rx="2"/><path d="M16 10l4-2v8l-4-2"/></svg></div>
+      <div class="avail-text"><div class="avail-name">Plugin Videoconferencia</div><div class="avail-desc">Zoom, Meet, Teams</div></div>
+      <div class="avail-act">Instalar</div>
+    </div>
+    <div class="avail" onclick="quickMsg('Quero conectar Google Calendar')">
+      <div class="avail-icon"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></div>
+      <div class="avail-text"><div class="avail-name">Google Calendar</div><div class="avail-desc">Agenda, reunioes, rotina</div></div>
+      <div class="avail-act">Conectar</div>
     </div>
 
-    <!-- AVAILABLE SOURCES -->
-    <div class="section-label">Disponiveis para conectar</div>
-    <div class="available-list fade-in" style="animation-delay:0.5s">
-      <div class="available-row" onclick="quickMsg('Quero conectar meu Instagram')">
-        <div class="avail-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#BF5AF2" stroke-width="1.5"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/></svg></div>
-        <div><div class="avail-name">Instagram</div><div class="avail-desc">Padroes visuais, interesses, humor</div></div>
-        <div class="avail-action">Conectar</div>
-      </div>
-      <div class="available-row" onclick="quickMsg('Quero conectar o LinkedIn')">
-        <div class="avail-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0A84FF" stroke-width="1.5"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg></div>
-        <div><div class="avail-name">LinkedIn</div><div class="avail-desc">Carreira, rede profissional, tendencias</div></div>
-        <div class="avail-action">Conectar</div>
-      </div>
-      <div class="available-row" onclick="quickMsg('Quero ativar captacao de audio')">
-        <div class="avail-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#FF9F0A" stroke-width="1.5"><path d="M12 1a3 3 0 00-3 3v8a3 3 0 006 0V4a3 3 0 00-3-3z"/><path d="M19 10v2a7 7 0 01-14 0v-2"/></svg></div>
-        <div><div class="avail-name">Audio Ambiente</div><div class="avail-desc">Reunioes presenciais, tom de voz, contexto</div></div>
-        <div class="avail-action">Ativar</div>
-      </div>
-      <div class="available-row" onclick="quickMsg('Quero conectar o Zoom')">
-        <div class="avail-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0A84FF" stroke-width="1.5"><rect x="2" y="5" width="14" height="14" rx="2"/><path d="M16 10l4-2v8l-4-2"/></svg></div>
-        <div><div class="avail-name">Plugin Videoconferencia</div><div class="avail-desc">Zoom, Meet, Teams — leitura facial e tom</div></div>
-        <div class="avail-action">Instalar</div>
-      </div>
-      <div class="available-row" onclick="quickMsg('Tenho um Garmin')">
-        <div class="avail-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#86868B" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
-        <div><div class="avail-name">Garmin / Fitbit / Whoop</div><div class="avail-desc">Mais opcoes de wearables</div></div>
-        <div class="avail-action">Conectar</div>
-      </div>
-      <div class="available-row" onclick="quickMsg('Quero conectar meu Google Calendar')">
-        <div class="avail-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#FF375F" stroke-width="1.5"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></div>
-        <div><div class="avail-name">Google Calendar</div><div class="avail-desc">Agenda, reunioes, rotina, disponibilidade</div></div>
-        <div class="avail-action">Conectar</div>
-      </div>
-    </div>
-
-    <!-- FOOTER NOTE -->
-    <div style="text-align:center; padding: 20px 0; font-family: 'Inter', sans-serif; font-size: 11px; color: #AEAEB2; line-height: 1.6;">
-      Todas as conexoes sao criptografadas.<br>
-      A KTANA nao armazena seus dados — apenas orquestra o entendimento.
-    </div>
-
+    <div class="foot">Todas as conexoes sao criptografadas. A KTANA nao armazena seus dados.</div>
   </div>
 
   <script src="../shared-nav.js"></script>
   <script>
-    // Chat logic
-    var chatMsgs = document.getElementById('chatMsgs');
-    var chatInput = document.getElementById('chatInput');
-
-    var responses = {
-      'instagram': 'Otimo! Vou conectar seu Instagram. Voce vai autorizar via login seguro. Eu vou analisar seus padroes de consumo visual, interesses e humor dos posts — nunca vou postar nada. Posso prosseguir?',
-      'linkedin': 'Perfeito. Com o LinkedIn vou entender sua rede profissional, interesses de carreira e tendencias do seu setor. Autorizo via OAuth seguro. Quer conectar agora?',
-      'zoom': 'O plugin de videoconferencia analisa expressoes faciais e tom de voz durante suas calls. Funciona com Zoom, Meet e Teams. Vou te enviar o link de instalacao.',
-      'audio': 'A captacao de audio usa o microfone do celular como sensor passivo durante reunioes presenciais. Voce controla quando ativar. Quer que eu configure as permissoes?',
-      'laudo': 'Pode me enviar a foto ou PDF do laudo. Vou processar via OCR e extrair os marcadores. Seus dados ficam criptografados e nao sao armazenados — apenas os insights.',
-      'garmin': 'Vou conectar seu Garmin via API. Ele compartilha VO2max, sono, stress e atividades. Me diz qual modelo voce tem.',
-      'calendar': 'Com o Google Calendar vou entender sua rotina, identificar periodos de sobrecarga e sugerir otimizacoes de agenda. Autorizo via Google OAuth.',
-      'apple watch': 'Seu Apple Watch esta sincronizado e ativo. Ultimo sync ha 3 minutos. FC: 68bpm, 8.4k passos hoje, SpO2: 96%. Tudo normal.',
-      'oura': 'Seu Oura Ring esta sincronizado. Readiness: 82 (bom). Sono: 7h12 com 1h48 de sono profundo. HRV: 42ms. Temperatura estavel.'
-    };
-
-    function escapeHtml(t) { var d = document.createElement('div'); d.textContent = t; return d.innerHTML; }
-
-    function addMsg(text, isUser) {
-      var el = document.createElement('div');
-      el.className = 'chat-msg ' + (isUser ? 'msg-user' : 'msg-ai');
-      el.innerHTML = isUser ? escapeHtml(text) : text;
-      chatMsgs.appendChild(el);
-      chatMsgs.scrollTop = chatMsgs.scrollHeight;
-    }
-
-    function getResponse(input) {
-      var lower = input.toLowerCase();
-      for (var key in responses) {
-        if (lower.includes(key)) return responses[key];
-      }
-      return 'Entendi! Me conta mais sobre o que voce quer conectar e eu configuro pra voce. Pode ser qualquer app, dispositivo ou servico que voce usa no dia a dia.';
-    }
-
-    function sendMsg() {
-      var val = chatInput.value.trim();
-      if (!val) return;
-      addMsg(val, true);
-      chatInput.value = '';
-      setTimeout(function() { addMsg(getResponse(val), false); }, 600);
-    }
-
-    function quickMsg(text) {
-      addMsg(text, true);
-      setTimeout(function() { addMsg(getResponse(text), false); }, 600);
-    }
+    var chatMsgs=document.getElementById('chatMsgs'),chatInput=document.getElementById('chatInput');
+    var R={'instagram':'Vou conectar seu Instagram. Autorize via login seguro. Analiso padroes visuais e humor — nunca posto nada.','linkedin':'Com o LinkedIn entendo sua rede profissional e tendencias do setor. Autorizo via OAuth.','zoom':'O plugin analisa expressoes e tom durante calls. Funciona com Zoom, Meet e Teams.','video':'O plugin analisa expressoes e tom durante calls. Funciona com Zoom, Meet e Teams.','audio':'Captacao usa o microfone como sensor passivo durante reunioes. Voce controla quando ativar.','laudo':'Pode enviar foto ou PDF. Processo via OCR e extraio marcadores. Dados criptografados.','calendar':'Com o Calendar entendo sua rotina e sugiro otimizacoes de agenda.','watch':'Apple Watch sincronizado. FC: 68bpm, 8.4k passos, SpO2: 96%. Tudo normal.','oura':'Oura Ring sincronizado. Readiness: 82. Sono: 7h12. HRV: 42ms. Tudo estavel.','whatsapp':'WhatsApp ativo. Observando 234 contatos. Sentimento geral: 78% positivo.'};
+    function esc(t){var d=document.createElement('div');d.textContent=t;return d.innerHTML}
+    function add(t,u){var e=document.createElement('div');e.className='msg '+(u?'msg-user':'msg-ai');e.innerHTML=u?esc(t):t;chatMsgs.appendChild(e);chatMsgs.scrollTop=chatMsgs.scrollHeight}
+    function resp(i){var l=i.toLowerCase();for(var k in R)if(l.includes(k))return R[k];return'Entendi! Me conta mais e eu configuro pra voce.'}
+    function sendMsg(){var v=chatInput.value.trim();if(!v)return;add(v,true);chatInput.value='';setTimeout(function(){add(resp(v),false)},500)}
+    function quickMsg(t){add(t,true);setTimeout(function(){add(resp(t),false)},500)}
   </script>
 </body>
 </html>
