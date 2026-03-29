@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>COOK — Command Center — KTANA</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Zen+Dots&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Inter', -apple-system, system-ui, sans-serif; background: #0A0A0A; color: #F5F5F7; min-height: 100vh; -webkit-font-smoothing: antialiased; }
+
+    /* Header */
+    .header { padding: 32px 40px 24px; border-bottom: 0.5px solid rgba(255,255,255,0.04); display: flex; align-items: center; justify-content: space-between; }
+    .header-left { display: flex; align-items: center; gap: 16px; }
+    .logo { font-family: 'Zen Dots', cursive; font-size: 16px; color: #D70030; }
+    .logo-sub { font-family: 'Inter', sans-serif; font-size: 11px; color: #636366; letter-spacing: 0.1em; text-transform: uppercase; }
+    .header-right { display: flex; align-items: center; gap: 16px; font-size: 11px; color: #636366; }
+    .pulse { width: 6px; height: 6px; border-radius: 50%; background: #30D158; animation: pulse 2s ease-in-out infinite; }
+    @keyframes pulse { 0%,100% { box-shadow: 0 0 4px rgba(48,209,88,0.3); } 50% { box-shadow: 0 0 12px rgba(48,209,88,0.6); } }
+
+    /* Sections */
+    .content { padding: 32px 40px 80px; max-width: 1400px; margin: 0 auto; }
+    .section { margin-bottom: 48px; }
+    .section-label { font-size: 10px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: #D70030; margin-bottom: 16px; }
+
+    /* Stats bar */
+    .stats-bar { display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; margin-bottom: 40px; }
+    .stat { background: #1C1C1E; border: 1px solid rgba(255,255,255,0.04); border-radius: 14px; padding: 20px; }
+    .stat-value { font-family: 'Zen Dots', cursive; font-size: 28px; color: #F5F5F7; }
+    .stat-label { font-size: 10px; color: #636366; margin-top: 4px; text-transform: uppercase; letter-spacing: 0.06em; }
+
+    /* Agents live */
+    .agents-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 12px; }
+    .agent-card { background: #1C1C1E; border: 1px solid rgba(255,255,255,0.04); border-radius: 14px; padding: 16px; display: flex; align-items: center; gap: 12px; transition: border-color 0.2s; }
+    .agent-card:hover { border-color: rgba(255,255,255,0.08); }
+    .agent-card.working { border-color: rgba(48,209,88,0.15); }
+    .agent-card.idle { opacity: 0.5; }
+    .agent-avatar { width: 36px; height: 36px; border-radius: 10px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-family: 'Zen Dots', cursive; font-size: 13px; }
+    .avatar-ceo { background: rgba(215,0,48,0.1); color: #D70030; border: 1px solid rgba(215,0,48,0.2); }
+    .avatar-default { background: rgba(255,255,255,0.03); color: #8E8E93; border: 1px solid rgba(255,255,255,0.06); }
+    .agent-info { flex: 1; min-width: 0; }
+    .agent-name { font-size: 13px; font-weight: 500; }
+    .agent-role { font-size: 10px; color: #636366; margin-top: 1px; }
+    .agent-status { font-size: 9px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; display: flex; align-items: center; gap: 4px; margin-top: 4px; }
+    .agent-status.online { color: #30D158; }
+    .agent-status.paused { color: #8E8E93; }
+    .status-dot { width: 5px; height: 5px; border-radius: 50%; }
+    .dot-online { background: #30D158; animation: pulse 2s ease-in-out infinite; }
+    .dot-paused { background: #8E8E93; }
+
+    /* Frameworks grid */
+    .fw-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 12px; }
+    .fw-card { background: #1C1C1E; border: 1px solid rgba(255,255,255,0.04); border-radius: 14px; padding: 20px; transition: border-color 0.2s, transform 0.15s; cursor: default; }
+    .fw-card:hover { border-color: rgba(255,255,255,0.08); transform: translateY(-1px); }
+    .fw-header { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; margin-bottom: 10px; }
+    .fw-name { font-size: 14px; font-weight: 600; color: #F5F5F7; line-height: 1.3; }
+    .fw-type { font-size: 9px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; padding: 3px 8px; border-radius: 6px; flex-shrink: 0; white-space: nowrap; }
+    .type-checklist { background: rgba(0,122,255,0.12); color: #0A84FF; }
+    .type-rule { background: rgba(215,0,48,0.12); color: #D70030; }
+    .type-pattern { background: rgba(191,90,242,0.12); color: #BF5AF2; }
+    .type-template { background: rgba(48,209,88,0.12); color: #30D158; }
+    .type-runbook { background: rgba(255,159,10,0.12); color: #FF9F0A; }
+    .fw-desc { font-size: 12px; color: #8E8E93; line-height: 1.5; margin-bottom: 12px; }
+    .fw-tags { display: flex; flex-wrap: wrap; gap: 4px; }
+    .fw-tag { font-size: 9px; padding: 2px 7px; border-radius: 4px; background: rgba(255,255,255,0.04); color: #636366; }
+    .fw-meta { display: flex; gap: 12px; margin-top: 10px; padding-top: 10px; border-top: 0.5px solid rgba(255,255,255,0.04); font-size: 10px; color: #48484A; }
+
+    /* Execution timeline */
+    .timeline { position: relative; padding-left: 20px; }
+    .timeline::before { content: ''; position: absolute; left: 4px; top: 8px; bottom: 8px; width: 1px; background: rgba(255,255,255,0.06); }
+    .tl-item { position: relative; padding: 0 0 20px; }
+    .tl-item::before { content: ''; position: absolute; left: -18px; top: 6px; width: 7px; height: 7px; border-radius: 50%; border: 1.5px solid #0A0A0A; }
+    .tl-item.done::before { background: #30D158; }
+    .tl-item.active::before { background: #D70030; animation: pulse 2s ease-in-out infinite; }
+    .tl-item.pending::before { background: #48484A; }
+    .tl-time { font-size: 10px; color: #48484A; margin-bottom: 2px; font-variant-numeric: tabular-nums; }
+    .tl-text { font-size: 13px; color: #D2D2D7; }
+    .tl-text.dim { color: #636366; }
+    .tl-agent { font-size: 10px; font-weight: 600; color: #8E8E93; }
+
+    /* Fade animations */
+    .fade-in { animation: fadeIn 0.4s cubic-bezier(0.25,0.1,0.25,1) both; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .content { padding: 24px 16px 80px; }
+      .header { padding: 20px 16px; }
+      .stats-bar { grid-template-columns: repeat(2, 1fr); }
+      .fw-grid { grid-template-columns: 1fr; }
+      .agents-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+  </style>
+</head>
+<body>
+
+  <header class="header">
+    <div class="header-left">
+      <span class="logo">KTANA</span>
+      <span class="logo-sub">COOK — Command Center</span>
+    </div>
+    <div class="header-right">
+      <div class="pulse"></div>
+      <span>Sistema operacional</span>
+      <span>·</span>
+      <span id="clock">--:--:--</span>
+    </div>
+  </header>
+
+  <div class="content">
+
+    <!-- Stats -->
+    <div class="stats-bar fade-in">
+      <div class="stat">
+        <p class="stat-value">44</p>
+        <p class="stat-label">Frameworks</p>
+      </div>
+      <div class="stat">
+        <p class="stat-value">6</p>
+        <p class="stat-label">Agentes ativos</p>
+      </div>
+      <div class="stat">
+        <p class="stat-value">170</p>
+        <p class="stat-label">Telas prototype</p>
+      </div>
+      <div class="stat">
+        <p class="stat-value">472</p>
+        <p class="stat-label">Sessoes memoria</p>
+      </div>
+      <div class="stat">
+        <p class="stat-value">54</p>
+        <p class="stat-label">Facts ativos</p>
+      </div>
+    </div>
+
+    <!-- Agents Live -->
+    <div class="section fade-in" style="animation-delay:0.05s">
+      <p class="section-label">Agentes — Status em tempo real</p>
+      <div class="agents-grid">
+        <div class="agent-card working">
+          <div class="agent-avatar avatar-ceo">A</div>
+          <div class="agent-info">
+            <p class="agent-name">Akira</p>
+            <p class="agent-role">CEO — Orquestracao</p>
+            <p class="agent-status online"><span class="status-dot dot-online"></span> Executando</p>
+          </div>
+        </div>
+        <div class="agent-card working">
+          <div class="agent-avatar avatar-default">Y</div>
+          <div class="agent-info">
+            <p class="agent-name">Yuki</p>
+            <p class="agent-role">Controller — Financeiro</p>
+            <p class="agent-status online"><span class="status-dot dot-online"></span> 47 acoes hoje</p>
+          </div>
+        </div>
+        <div class="agent-card working">
+          <div class="agent-avatar avatar-default">H</div>
+          <div class="agent-info">
+            <p class="agent-name">Hana</p>
+            <p class="agent-role">Secretaria Executiva</p>
+            <p class="agent-status online"><span class="status-dot dot-online"></span> 58 acoes hoje</p>
+          </div>
+        </div>
+        <div class="agent-card working">
+          <div class="agent-avatar avatar-default">H</div>
+          <div class="agent-info">
+            <p class="agent-name">Haruki</p>
+            <p class="agent-role">Gestor de Projetos</p>
+            <p class="agent-status online"><span class="status-dot dot-online"></span> 65 acoes hoje</p>
+          </div>
+        </div>
+        <div class="agent-card working">
+          <div class="agent-avatar avatar-default">K</div>
+          <div class="agent-info">
+            <p class="agent-name">Kaito</p>
+            <p class="agent-role">Solutions Builder PJ</p>
+            <p class="agent-status online"><span class="status-dot dot-online"></span> Marketplace</p>
+          </div>
+        </div>
+        <div class="agent-card working">
+          <div class="agent-avatar avatar-default">Y</div>
+          <div class="agent-info">
+            <p class="agent-name">Yumi</p>
+            <p class="agent-role">Mentora PF</p>
+            <p class="agent-status online"><span class="status-dot dot-online"></span> Onboarding</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Execution Timeline -->
+    <div class="section fade-in" style="animation-delay:0.1s">
+      <p class="section-label">Execucao atual — Timeline</p>
+      <div class="timeline">
+        <div class="tl-item done">
+          <p class="tl-time">16:12</p>
+          <p class="tl-agent">Claude Code</p>
+          <p class="tl-text">Fix team/list.html — SVGs quebrados trocados por iniciais</p>
+        </div>
+        <div class="tl-item done">
+          <p class="tl-time">16:14</p>
+          <p class="tl-agent">Claude Code</p>
+          <p class="tl-text">Alert() removidos de 6 arquivos (config, billing, lgpd, constitution, pf-verify, team)</p>
+        </div>
+        <div class="tl-item done">
+          <p class="tl-time">16:15</p>
+          <p class="tl-agent">Claude Code</p>
+          <p class="tl-text">Admin SPA drill-down — 16 sub-pages agora alcancaveis via cards Ive-style</p>
+        </div>
+        <div class="tl-item done">
+          <p class="tl-time">16:16</p>
+          <p class="tl-agent">Claude Code</p>
+          <p class="tl-text">7 frameworks criados e salvos no segundo cerebro (procedures)</p>
+        </div>
+        <div class="tl-item done">
+          <p class="tl-time">16:17</p>
+          <p class="tl-agent">Claude Code</p>
+          <p class="tl-text">Visual review no browser — 10 tabs admin + auth guard + 404 verificados</p>
+        </div>
+        <div class="tl-item active">
+          <p class="tl-time">16:20</p>
+          <p class="tl-agent">Claude Code</p>
+          <p class="tl-text">COOK dashboard — criando visualizacao de frameworks e status</p>
+        </div>
+        <div class="tl-item pending">
+          <p class="tl-time">—</p>
+          <p class="tl-agent dim">Proximo</p>
+          <p class="tl-text dim">Aguardando instrucao do Shogun</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Frameworks -->
+    <div class="section fade-in" style="animation-delay:0.15s">
+      <p class="section-label">Frameworks cognitivos — 44 procedures no segundo cerebro</p>
+      <div class="fw-grid">
+
+        <!-- Core Operational -->
+        <div class="fw-card">
+          <div class="fw-header">
+            <p class="fw-name">Execution Mode — Ciclo Completo Sem Parar</p>
+            <span class="fw-type type-rule">RULE</span>
+          </div>
+          <p class="fw-desc">NUNCA parar para perguntar. Executar ciclicamente, validar etapas enquanto avanca, entregar 100% completo.</p>
+          <div class="fw-tags"><span class="fw-tag">execution</span><span class="fw-tag">autonomous</span><span class="fw-tag">workflow</span></div>
+          <div class="fw-meta"><span>9 steps</span><span>Scope: global</span></div>
+        </div>
+
+        <div class="fw-card">
+          <div class="fw-header">
+            <p class="fw-name">Admin Panel Review (Ive + Nielsen)</p>
+            <span class="fw-type type-checklist">CHECKLIST</span>
+          </div>
+          <p class="fw-desc">15 itens para avaliar qualquer area admin como Jony Ive (silencio visual) + Jakob Nielsen (10 heuristicas).</p>
+          <div class="fw-tags"><span class="fw-tag">admin</span><span class="fw-tag">review</span><span class="fw-tag">ive</span><span class="fw-tag">nielsen</span></div>
+          <div class="fw-meta"><span>15 steps</span><span>Scope: ktana-prototype</span></div>
+        </div>
+
+        <div class="fw-card">
+          <div class="fw-header">
+            <p class="fw-name">Visual Navigation Review — Browser Flow</p>
+            <span class="fw-type type-checklist">CHECKLIST</span>
+          </div>
+          <p class="fw-desc">Navegar todos os fluxos ponta a ponta no browser real antes de declarar pronto. Puppeteer obrigatorio.</p>
+          <div class="fw-tags"><span class="fw-tag">qa</span><span class="fw-tag">navigation</span><span class="fw-tag">browser</span></div>
+          <div class="fw-meta"><span>9 steps</span><span>Scope: ktana-prototype</span></div>
+        </div>
+
+        <div class="fw-card">
+          <div class="fw-header">
+            <p class="fw-name">Trillion-Dollar Scale Lens</p>
+            <span class="fw-type type-rule">RULE</span>
+          </div>
+          <p class="fw-desc">Pensar como plataforma com milhoes de usuarios. Escala, multi-tenant, flywheel, custo marginal zero, lock-in positivo.</p>
+          <div class="fw-tags"><span class="fw-tag">scale</span><span class="fw-tag">platform</span><span class="fw-tag">trillion</span><span class="fw-tag">strategy</span></div>
+          <div class="fw-meta"><span>10 steps</span><span>Scope: ktana-assistant</span></div>
+        </div>
+
+        <div class="fw-card">
+          <div class="fw-header">
+            <p class="fw-name">AI-First Business Rules — Resultado > Solucao</p>
+            <span class="fw-type type-rule">RULE</span>
+          </div>
+          <p class="fw-desc">Tendencia e ENTREGA DO RESULTADO, nao a solucao agentica. O dono quer trabalho feito, nao ver agentes.</p>
+          <div class="fw-tags"><span class="fw-tag">ai-first</span><span class="fw-tag">business-rules</span><span class="fw-tag">resultado</span><span class="fw-tag">calm-tech</span></div>
+          <div class="fw-meta"><span>10 steps</span><span>Scope: ktana-assistant</span></div>
+        </div>
+
+        <div class="fw-card">
+          <div class="fw-header">
+            <p class="fw-name">Adversity & Risk Scenarios</p>
+            <span class="fw-type type-checklist">CHECKLIST</span>
+          </div>
+          <p class="fw-desc">14 cenarios de falha: LLM cai, tenant abusa, agente alucina, dados vazam, pico de carga, churn, compliance breach.</p>
+          <div class="fw-tags"><span class="fw-tag">risk</span><span class="fw-tag">adversity</span><span class="fw-tag">resilience</span><span class="fw-tag">security</span></div>
+          <div class="fw-meta"><span>14 steps</span><span>Scope: ktana-assistant</span></div>
+        </div>
+
+        <div class="fw-card">
+          <div class="fw-header">
+            <p class="fw-name">Screen Creation — Master Prompt</p>
+            <span class="fw-type type-template">TEMPLATE</span>
+          </div>
+          <p class="fw-desc">Template completo para criar qualquer tela do ktana-prototype do zero com todo contexto, design system e estrutura.</p>
+          <div class="fw-tags"><span class="fw-tag">template</span><span class="fw-tag">creation</span><span class="fw-tag">design-system</span></div>
+          <div class="fw-meta"><span>8 blocks</span><span>Scope: ktana-prototype</span></div>
+        </div>
+
+        <div class="fw-card">
+          <div class="fw-header">
+            <p class="fw-name">IA-First Symbiosis Framework</p>
+            <span class="fw-type type-pattern">PATTERN</span>
+          </div>
+          <p class="fw-desc">Modelo completo de simbiose IA-pessoa para KTANA Assistant PF e PJ. ToM, Calm Tech, Progressive Trust.</p>
+          <div class="fw-tags"><span class="fw-tag">ia-first</span><span class="fw-tag">symbiosis</span><span class="fw-tag">pf</span><span class="fw-tag">pj</span></div>
+          <div class="fw-meta"><span>Pattern</span><span>Scope: ktana-assistant</span></div>
+        </div>
+
+        <div class="fw-card">
+          <div class="fw-header">
+            <p class="fw-name">SUPER CEREBRO — Metamodelo Neural</p>
+            <span class="fw-type type-pattern">PATTERN</span>
+          </div>
+          <p class="fw-desc">O metamodelo neural da KTANA. Arquitetura cognitiva que orquestra todos os outros frameworks.</p>
+          <div class="fw-tags"><span class="fw-tag">neural</span><span class="fw-tag">metamodel</span><span class="fw-tag">cognition</span></div>
+          <div class="fw-meta"><span>Pattern</span><span>Scope: ktana-assistant</span></div>
+        </div>
+
+        <div class="fw-card">
+          <div class="fw-header">
+            <p class="fw-name">METACOGNITION ENGINE</p>
+            <span class="fw-type type-pattern">PATTERN</span>
+          </div>
+          <p class="fw-desc">A maior mente de metacognicao da humanidade. Agentes que pensam sobre como pensam e melhoram continuamente.</p>
+          <div class="fw-tags"><span class="fw-tag">metacognition</span><span class="fw-tag">self-improvement</span></div>
+          <div class="fw-meta"><span>Pattern</span><span>Scope: ktana-assistant</span></div>
+        </div>
+
+        <div class="fw-card">
+          <div class="fw-header">
+            <p class="fw-name">KATANA SHIELD — Defesa Adversarial</p>
+            <span class="fw-type type-pattern">PATTERN</span>
+          </div>
+          <p class="fw-desc">Mente criminal suprema de defesa. Red team, adversarial trinity, ronin hacker etico autonomo.</p>
+          <div class="fw-tags"><span class="fw-tag">security</span><span class="fw-tag">red-team</span><span class="fw-tag">adversarial</span></div>
+          <div class="fw-meta"><span>3 sub-frameworks</span><span>Scope: ktana-assistant</span></div>
+        </div>
+
+        <div class="fw-card">
+          <div class="fw-header">
+            <p class="fw-name">22 Frameworks — Aplicar em cada tela</p>
+            <span class="fw-type type-checklist">CHECKLIST</span>
+          </div>
+          <p class="fw-desc">6 blocos: Mestres(6), HCI(6), Inteligencia(3), Negocio(3), Seguranca(3), Validacao(1). Filtros Ive/Nielsen/Jobs/Musk/Wozniak/Senna.</p>
+          <div class="fw-tags"><span class="fw-tag">ktana</span><span class="fw-tag">frameworks</span><span class="fw-tag">design</span><span class="fw-tag">ux</span></div>
+          <div class="fw-meta"><span>22 frameworks</span><span>Scope: shared</span></div>
+        </div>
+
+        <div class="fw-card">
+          <div class="fw-header">
+            <p class="fw-name">Strategic Trinity — Musk + Jobs + Gates</p>
+            <span class="fw-type type-pattern">PATTERN</span>
+          </div>
+          <p class="fw-desc">Conselho visionario KTANA. Cada decisao estrategica passa pelo filtro dos 3 mestres de escala.</p>
+          <div class="fw-tags"><span class="fw-tag">strategy</span><span class="fw-tag">council</span><span class="fw-tag">vision</span></div>
+          <div class="fw-meta"><span>Pattern</span><span>Scope: ktana-assistant</span></div>
+        </div>
+
+        <div class="fw-card">
+          <div class="fw-header">
+            <p class="fw-name">Deploy Memory API</p>
+            <span class="fw-type type-runbook">RUNBOOK</span>
+          </div>
+          <p class="fw-desc">Passos para fazer deploy seguro da Memory API no VPS 960192. Docker, migrations, health check.</p>
+          <div class="fw-tags"><span class="fw-tag">deploy</span><span class="fw-tag">memory</span><span class="fw-tag">vps</span><span class="fw-tag">docker</span></div>
+          <div class="fw-meta"><span>Runbook</span><span>Scope: shared</span></div>
+        </div>
+
+        <div class="fw-card">
+          <div class="fw-header">
+            <p class="fw-name">Collective Intelligence Engine</p>
+            <span class="fw-type type-pattern">PATTERN</span>
+          </div>
+          <p class="fw-desc">Diversidade cognitiva como motor de acerto. Neurodivergencia, padroes geniais, catalogo de mentes.</p>
+          <div class="fw-tags"><span class="fw-tag">intelligence</span><span class="fw-tag">diversity</span><span class="fw-tag">neurodivergence</span></div>
+          <div class="fw-meta"><span>Pattern</span><span>Scope: ktana-assistant</span></div>
+        </div>
+
+        <div class="fw-card">
+          <div class="fw-header">
+            <p class="fw-name">Multi-LLM Architecture</p>
+            <span class="fw-type type-pattern">PATTERN</span>
+          </div>
+          <p class="fw-desc">Providers segregados e independentes. Anthropic router, OpenAI fallback, Google, Groq fast. Zero vendor lock-in.</p>
+          <div class="fw-tags"><span class="fw-tag">llm</span><span class="fw-tag">multi-provider</span><span class="fw-tag">architecture</span></div>
+          <div class="fw-meta"><span>Pattern</span><span>Scope: ktana-assistant</span></div>
+        </div>
+
+        <div class="fw-card">
+          <div class="fw-header">
+            <p class="fw-name">Infra Migration Path</p>
+            <span class="fw-type type-runbook">RUNBOOK</span>
+          </div>
+          <p class="fw-desc">Hostinger MVP para AWS Producao sem trauma. Fases, rollback, zero downtime.</p>
+          <div class="fw-tags"><span class="fw-tag">infra</span><span class="fw-tag">migration</span><span class="fw-tag">aws</span></div>
+          <div class="fw-meta"><span>Runbook</span><span>Scope: shared</span></div>
+        </div>
+
+        <div class="fw-card">
+          <div class="fw-header">
+            <p class="fw-name">+27 mais no segundo cerebro</p>
+            <span class="fw-type" style="background:rgba(255,255,255,0.04);color:#636366;">...</span>
+          </div>
+          <p class="fw-desc">WhatsApp multi-number, mobile device sync, nomenclatura KTANA, QA validacao, stress test total, Palantir data science, hierarquia Senna+Salomao, e mais.</p>
+          <div class="fw-tags"><span class="fw-tag">memory-api</span><span class="fw-tag">GET /api/v2/procedures</span></div>
+          <div class="fw-meta"><span>44 total</span><span>Consultar via API</span></div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    // Live clock
+    function updateClock() {
+      const now = new Date();
+      document.getElementById('clock').textContent = now.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+    }
+    updateClock();
+    setInterval(updateClock, 1000);
+
+    // Stagger fade-in for cards
+    document.querySelectorAll('.fw-card').forEach((card, i) => {
+      card.style.animation = `fadeIn 0.3s cubic-bezier(0.25,0.1,0.25,1) ${0.2 + i * 0.03}s both`;
+    });
+    document.querySelectorAll('.agent-card').forEach((card, i) => {
+      card.style.animation = `fadeIn 0.3s cubic-bezier(0.25,0.1,0.25,1) ${0.1 + i * 0.05}s both`;
+    });
+  </script>
+</body>
+</html>
