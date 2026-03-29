@@ -9,33 +9,52 @@
   <style>
     body { min-height: 100vh; background: #F5F5F7; color: #1D1D1F; }
 
-    /* Layout */
-    .ds-container { max-width: 1080px; margin: 0 auto; padding: 0 32px 120px; }
-    .ds-topbar { display: flex; align-items: center; gap: 12px; padding: 20px 32px; max-width: 1080px; margin: 0 auto; }
-    .ds-topbar a { text-decoration: none; display: flex; align-items: center; gap: 8px; }
-    .ds-logo { font-family: 'Zen Dots', cursive; font-size: 15px; color: #D70030; }
-    .ds-back { font-family: 'Inter', sans-serif; font-size: 12px; color: #86868B; transition: color 0.15s; }
-    .ds-back:hover { color: #1D1D1F; }
+    /* Layout com sidebar */
+    .ds-layout { display: flex; min-height: 100vh; }
+
+    /* Sidebar */
+    .ds-sidebar { width: 240px; position: fixed; top: 0; left: 0; bottom: 0; background: #FFF; border-right: 1px solid rgba(0,0,0,0.06); padding: 24px 0; overflow-y: auto; z-index: 10; }
+    .ds-sidebar-logo { padding: 0 20px; margin-bottom: 24px; display: flex; align-items: center; gap: 8px; text-decoration: none; }
+    .ds-sidebar-logo span:first-child { font-family: 'Zen Dots', cursive; font-size: 14px; color: #D70030; }
+    .ds-sidebar-logo span:last-child { font-family: 'Inter', sans-serif; font-size: 10px; color: #86868B; background: rgba(0,0,0,0.04); padding: 2px 6px; border-radius: 4px; }
+    .ds-nav-section { margin-bottom: 4px; }
+    .ds-nav-label { font-family: 'Inter', sans-serif; font-size: 9px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: #AEAEB2; padding: 16px 20px 6px; }
+    .ds-nav-item { display: flex; align-items: center; gap: 10px; padding: 8px 20px; font-family: 'Inter', sans-serif; font-size: 12px; color: #6E6E73; text-decoration: none; transition: all 0.15s; border-left: 2px solid transparent; }
+    .ds-nav-item:hover { color: #1D1D1F; background: rgba(0,0,0,0.02); }
+    .ds-nav-item.active { color: #D70030; border-left-color: #D70030; background: rgba(215,0,48,0.03); font-weight: 500; }
+    .ds-nav-item svg { flex-shrink: 0; }
+    .ds-nav-back { display: flex; align-items: center; gap: 8px; padding: 10px 20px; font-family: 'Inter', sans-serif; font-size: 11px; color: #86868B; text-decoration: none; transition: color 0.15s; margin-bottom: 8px; border-bottom: 1px solid rgba(0,0,0,0.04); padding-bottom: 16px; }
+    .ds-nav-back:hover { color: #1D1D1F; }
+
+    /* Main content */
+    .ds-main { margin-left: 240px; flex: 1; }
+    .ds-container { max-width: 960px; margin: 0 auto; padding: 0 40px 120px; }
 
     /* Hero */
-    .ds-hero { text-align: center; padding: 80px 0 64px; }
-    .ds-hero h1 { font-family: 'Zen Dots', cursive; font-size: 36px; color: #1D1D1F; margin-bottom: 8px; letter-spacing: -0.5px; }
-    .ds-hero p { font-family: 'Satoshi', sans-serif; font-size: 16px; color: #86868B; font-weight: 500; }
-    .ds-hero-line { width: 48px; height: 2px; background: #D70030; margin: 24px auto 0; border-radius: 1px; }
+    .ds-hero { text-align: center; padding: 64px 0 56px; }
+    .ds-hero h1 { font-family: 'Zen Dots', cursive; font-size: 32px; color: #1D1D1F; margin-bottom: 8px; letter-spacing: -0.5px; }
+    .ds-hero p { font-family: 'Satoshi', sans-serif; font-size: 15px; color: #86868B; font-weight: 500; }
+    .ds-hero-line { width: 48px; height: 2px; background: #D70030; margin: 20px auto 0; border-radius: 1px; }
+    .ds-hero-stats { display: flex; justify-content: center; gap: 40px; margin-top: 32px; }
+    .ds-hero-stat { text-align: center; }
+    .ds-hero-stat strong { font-family: 'Zen Dots', cursive; font-size: 24px; color: #D70030; display: block; }
+    .ds-hero-stat span { font-family: 'Inter', sans-serif; font-size: 10px; color: #86868B; text-transform: uppercase; letter-spacing: 0.08em; }
 
     /* Section */
-    .ds-section { margin-bottom: 72px; }
+    .ds-section { margin-bottom: 72px; scroll-margin-top: 32px; }
     .ds-section-label { font-family: 'Inter', sans-serif; font-size: 10px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: #D70030; margin-bottom: 6px; }
     .ds-section-title { font-family: 'Zen Dots', cursive; font-size: 20px; color: #1D1D1F; margin-bottom: 8px; }
     .ds-section-desc { font-family: 'Satoshi', sans-serif; font-size: 14px; color: #86868B; line-height: 1.6; margin-bottom: 32px; }
 
     /* Colors */
-    .ds-colors { display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: 16px; }
-    .ds-color { display: flex; flex-direction: column; align-items: center; gap: 10px; }
-    .ds-color-circle { width: 64px; height: 64px; border-radius: 50%; border: 1px solid rgba(0,0,0,0.06); transition: transform 0.2s; }
-    .ds-color-circle:hover { transform: scale(1.08); }
+    .ds-colors { display: grid; grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); gap: 16px; }
+    .ds-color { display: flex; flex-direction: column; align-items: center; gap: 8px; padding: 16px 8px; border-radius: 12px; background: #FFF; border: 1px solid rgba(0,0,0,0.04); transition: all 0.15s; cursor: pointer; }
+    .ds-color:hover { border-color: rgba(215,0,48,0.12); }
+    .ds-color-circle { width: 48px; height: 48px; border-radius: 50%; border: 1px solid rgba(0,0,0,0.06); transition: transform 0.2s; }
+    .ds-color:hover .ds-color-circle { transform: scale(1.1); }
     .ds-color-name { font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 600; color: #1D1D1F; text-align: center; }
-    .ds-color-hex { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: #86868B; }
+    .ds-color-hex { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: #86868B; cursor: pointer; }
+    .ds-color-row-label { font-family: 'Inter', sans-serif; font-size: 10px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: #86868B; margin-bottom: 12px; margin-top: 24px; }
 
     /* Typography */
     .ds-type-block { margin-bottom: 40px; }
@@ -45,9 +64,9 @@
 
     /* Buttons */
     .ds-btn-row { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; margin-bottom: 16px; }
-    .ds-btn-label { font-family: 'Inter', sans-serif; font-size: 11px; color: #86868B; min-width: 80px; }
+    .ds-btn-label { font-family: 'Inter', sans-serif; font-size: 11px; color: #86868B; min-width: 70px; }
 
-    /* Cards showcase */
+    /* Cards */
     .ds-cards-row { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
     @media (max-width: 640px) { .ds-cards-row { grid-template-columns: 1fr; } }
     .ds-card-example { padding: 24px; }
@@ -67,26 +86,28 @@
     .ds-toggle-off .ds-toggle-knob { left: 2px; }
     .ds-toggle-on .ds-toggle-knob { left: 22px; }
     .ds-toggle-disabled .ds-toggle-knob { left: 2px; }
-    .ds-toggle-label { font-family: 'Inter', sans-serif; font-size: 12px; color: #86868B; }
 
     /* Badges */
     .ds-badges { display: flex; flex-wrap: wrap; gap: 10px; }
     .ds-badge { font-family: 'Inter', sans-serif; display: inline-flex; align-items: center; padding: 3px 10px; border-radius: 6px; font-size: 11px; font-weight: 500; }
 
     /* Icons grid */
-    .ds-icons-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(80px, 1fr)); gap: 12px; }
-    .ds-icon-item { display: flex; flex-direction: column; align-items: center; gap: 8px; padding: 16px 8px; border-radius: 12px; background: #FFF; border: 1px solid rgba(0,0,0,0.04); transition: all 0.15s; }
-    .ds-icon-item:hover { border-color: rgba(215,0,48,0.12); background: rgba(215,0,48,0.02); }
+    .ds-icons-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(90px, 1fr)); gap: 10px; }
+    .ds-icon-item { display: flex; flex-direction: column; align-items: center; gap: 6px; padding: 14px 8px 10px; border-radius: 12px; background: #FFF; border: 1px solid rgba(0,0,0,0.04); transition: all 0.15s; cursor: pointer; position: relative; }
+    .ds-icon-item:hover { border-color: rgba(215,0,48,0.15); background: rgba(215,0,48,0.02); transform: translateY(-1px); }
     .ds-icon-item svg { color: #1D1D1F; }
-    .ds-icon-name { font-family: 'Inter', sans-serif; font-size: 9px; color: #86868B; text-align: center; }
+    .ds-icon-name { font-family: 'Inter', sans-serif; font-size: 9px; color: #86868B; text-align: center; line-height: 1.3; }
+    .ds-icon-item .ds-icon-copy { position: absolute; top: 4px; right: 4px; font-family: 'Inter', sans-serif; font-size: 8px; color: #D70030; opacity: 0; transition: opacity 0.15s; }
+    .ds-icon-item:hover .ds-icon-copy { opacity: 1; }
+    .ds-icon-category { font-family: 'Inter', sans-serif; font-size: 10px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: #86868B; margin-bottom: 12px; margin-top: 24px; padding-bottom: 6px; border-bottom: 1px solid rgba(0,0,0,0.04); }
 
-    /* Animations showcase */
-    .ds-anim-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+    /* Animations */
+    .ds-anim-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
     @media (max-width: 640px) { .ds-anim-row { grid-template-columns: 1fr; } }
-    .ds-anim-box { background: #FFF; border-radius: 16px; border: 1px solid rgba(0,0,0,0.04); padding: 32px 24px; text-align: center; }
+    .ds-anim-box { background: #FFF; border-radius: 16px; border: 1px solid rgba(0,0,0,0.04); padding: 24px 20px; text-align: center; }
     .ds-anim-box h4 { font-family: 'Inter', sans-serif; font-size: 12px; font-weight: 600; color: #1D1D1F; margin-bottom: 4px; }
     .ds-anim-box p { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: #AEAEB2; margin-bottom: 16px; }
-    .ds-anim-demo { width: 48px; height: 48px; border-radius: 12px; background: #D70030; margin: 0 auto; }
+    .ds-anim-demo { width: 44px; height: 44px; border-radius: 12px; background: #D70030; margin: 0 auto; }
     .ds-anim-fade { opacity: 0; }
     .ds-anim-fade.visible { animation: dsFadeIn 0.6s cubic-bezier(0.25,0.1,0.25,1) forwards; }
     @keyframes dsFadeIn { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
@@ -102,12 +123,12 @@
     @keyframes dsStaggerIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
 
     /* Spacing */
-    .ds-spacing-row { display: flex; align-items: center; gap: 16px; margin-bottom: 12px; }
-    .ds-spacing-box { background: rgba(215,0,48,0.08); border-radius: 4px; height: 32px; }
-    .ds-spacing-label { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: #86868B; min-width: 60px; }
+    .ds-spacing-row { display: flex; align-items: center; gap: 16px; margin-bottom: 10px; }
+    .ds-spacing-box { background: rgba(215,0,48,0.08); border-radius: 4px; height: 28px; }
+    .ds-spacing-label { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: #86868B; min-width: 50px; }
     .ds-touch-target { width: 44px; height: 44px; border: 2px dashed rgba(215,0,48,0.2); border-radius: 10px; display: flex; align-items: center; justify-content: center; font-family: 'JetBrains Mono', monospace; font-size: 9px; color: #D70030; }
 
-    /* Gradient section */
+    /* Gradient */
     .ds-gradient-demo { border-radius: 20px; overflow: hidden; border: 1px solid rgba(0,0,0,0.04); }
     .ds-gradient-inner { padding: 40px 32px; text-align: center; }
     .ds-gradient-inner h3 { font-family: 'Zen Dots', cursive; font-size: 18px; color: #1D1D1F; margin-bottom: 6px; }
@@ -116,501 +137,559 @@
       background: linear-gradient(90deg, transparent 0%, rgba(215,0,48,0.08) 20%, rgba(215,0,48,0.15) 50%, rgba(215,0,48,0.08) 80%, transparent 100%);
     }
 
+    /* Tokens table */
+    .ds-tokens-table { width: 100%; border-collapse: collapse; }
+    .ds-tokens-table th { font-family: 'Inter', sans-serif; font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; color: #86868B; text-align: left; padding: 8px 12px; border-bottom: 1px solid rgba(0,0,0,0.06); }
+    .ds-tokens-table td { font-family: 'JetBrains Mono', monospace; font-size: 12px; padding: 8px 12px; border-bottom: 1px solid rgba(0,0,0,0.03); color: #1D1D1F; }
+    .ds-tokens-table td:first-child { font-family: 'Inter', sans-serif; font-weight: 500; font-size: 12px; }
+
     /* Scroll reveal */
-    .ds-reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.6s cubic-bezier(0.25,0.1,0.25,1), transform 0.6s cubic-bezier(0.25,0.1,0.25,1); }
+    .ds-reveal { opacity: 0; transform: translateY(20px); transition: opacity 0.5s cubic-bezier(0.25,0.1,0.25,1), transform 0.5s cubic-bezier(0.25,0.1,0.25,1); }
     .ds-reveal.visible { opacity: 1; transform: translateY(0); }
+
+    /* Toast */
+    .ds-toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(60px); font-family: 'Inter', sans-serif; font-size: 12px; padding: 8px 16px; background: #1D1D1F; color: #FFF; border-radius: 8px; opacity: 0; transition: all 0.3s; z-index: 100; pointer-events: none; }
+    .ds-toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+    /* Mobile */
+    @media (max-width: 768px) {
+      .ds-sidebar { display: none; }
+      .ds-main { margin-left: 0; }
+      .ds-container { padding: 0 20px 80px; }
+      .ds-hero-stats { gap: 24px; }
+      .ds-hero h1 { font-size: 24px; }
+    }
   </style>
 </head>
 <body>
 
-  <!-- Top bar -->
-  <div class="ds-topbar">
-    <a href="index.html">
-      <span class="ds-logo">KTANA</span>
-      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#AEAEB2" stroke-width="1.5" stroke-linecap="round"><path d="M9 18l6-6-6-6"/></svg>
-      <span class="ds-back">Design System</span>
+  <!-- Sidebar -->
+  <nav class="ds-sidebar">
+    <a href="index.html" class="ds-nav-back">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M15 18l-6-6 6-6"/></svg>
+      Voltar ao mapa
     </a>
+    <a href="index.html" class="ds-sidebar-logo">
+      <span>KTANA</span>
+      <span>DS v2.0</span>
+    </a>
+
+    <div class="ds-nav-section">
+      <div class="ds-nav-label">Fundamentos</div>
+      <a href="#cores" class="ds-nav-item" data-section="cores">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><circle cx="12" cy="12" r="10"/></svg>
+        Cores
+      </a>
+      <a href="#tipografia" class="ds-nav-item" data-section="tipografia">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M4 7V4h16v3M9 20h6M12 4v16"/></svg>
+        Tipografia
+      </a>
+      <a href="#espacamento" class="ds-nav-item" data-section="espacamento">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M21 6H3M21 12H3M21 18H3"/></svg>
+        Espacamento
+      </a>
+      <a href="#gradiente" class="ds-nav-item" data-section="gradiente">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><rect x="3" y="3" width="18" height="18" rx="2"/></svg>
+        Gradiente
+      </a>
+    </div>
+
+    <div class="ds-nav-section">
+      <div class="ds-nav-label">Componentes</div>
+      <a href="#botoes" class="ds-nav-item" data-section="botoes">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><rect x="3" y="8" width="18" height="8" rx="4"/></svg>
+        Botoes
+      </a>
+      <a href="#cards" class="ds-nav-item" data-section="cards">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><rect x="2" y="3" width="20" height="18" rx="3"/></svg>
+        Cards
+      </a>
+      <a href="#inputs" class="ds-nav-item" data-section="inputs">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M4 7V4h16v3"/><path d="M12 4v16"/></svg>
+        Inputs
+      </a>
+      <a href="#toggles" class="ds-nav-item" data-section="toggles">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><rect x="1" y="5" width="22" height="14" rx="7"/><circle cx="16" cy="12" r="3"/></svg>
+        Toggles
+      </a>
+      <a href="#badges" class="ds-nav-item" data-section="badges">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><circle cx="12" cy="12" r="4"/></svg>
+        Badges
+      </a>
+    </div>
+
+    <div class="ds-nav-section">
+      <div class="ds-nav-label">Biblioteca</div>
+      <a href="#icones" class="ds-nav-item" data-section="icones">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+        Icones (42)
+      </a>
+      <a href="#animacoes" class="ds-nav-item" data-section="animacoes">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+        Animacoes
+      </a>
+      <a href="#tokens" class="ds-nav-item" data-section="tokens">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M16 18l6-6-6-6M8 6l-6 6 6 6"/></svg>
+        CSS Tokens
+      </a>
+    </div>
+  </nav>
+
+  <!-- Main content -->
+  <div class="ds-main">
+    <div class="ds-container">
+
+      <!-- Hero -->
+      <section class="ds-hero">
+        <h1>KTANA Design System</h1>
+        <p>V2.0 — Ive Edition</p>
+        <div class="ds-hero-line"></div>
+        <div class="ds-hero-stats">
+          <div class="ds-hero-stat"><strong>10</strong><span>Cores</span></div>
+          <div class="ds-hero-stat"><strong>42</strong><span>Icones</span></div>
+          <div class="ds-hero-stat"><strong>4</strong><span>Fontes</span></div>
+          <div class="ds-hero-stat"><strong>12</strong><span>Secoes</span></div>
+        </div>
+      </section>
+
+      <!-- 01. Cores -->
+      <section id="cores" class="ds-section ds-reveal">
+        <div class="ds-section-label">01</div>
+        <h2 class="ds-section-title">Cores</h2>
+        <p class="ds-section-desc">Tokens de cor do sistema. Clique para copiar o hex.</p>
+
+        <div class="ds-color-row-label">Light Mode (Tenant)</div>
+        <div class="ds-colors">
+          <div class="ds-color" onclick="copyHex('#F5F5F7')"><div class="ds-color-circle" style="background:#F5F5F7;"></div><span class="ds-color-name">bg</span><span class="ds-color-hex">#F5F5F7</span></div>
+          <div class="ds-color" onclick="copyHex('#1D1D1F')"><div class="ds-color-circle" style="background:#1D1D1F;"></div><span class="ds-color-name">text-1</span><span class="ds-color-hex">#1D1D1F</span></div>
+          <div class="ds-color" onclick="copyHex('#6E6E73')"><div class="ds-color-circle" style="background:#6E6E73;"></div><span class="ds-color-name">text-2</span><span class="ds-color-hex">#6E6E73</span></div>
+          <div class="ds-color" onclick="copyHex('#86868B')"><div class="ds-color-circle" style="background:#86868B;"></div><span class="ds-color-name">text-3</span><span class="ds-color-hex">#86868B</span></div>
+          <div class="ds-color" onclick="copyHex('#AEAEB2')"><div class="ds-color-circle" style="background:#AEAEB2;"></div><span class="ds-color-name">text-4</span><span class="ds-color-hex">#AEAEB2</span></div>
+        </div>
+
+        <div class="ds-color-row-label">Dark Mode (Admin)</div>
+        <div class="ds-colors">
+          <div class="ds-color" onclick="copyHex('#0A0A0A')"><div class="ds-color-circle" style="background:#0A0A0A;"></div><span class="ds-color-name">bg-dark</span><span class="ds-color-hex">#0A0A0A</span></div>
+          <div class="ds-color" onclick="copyHex('#1C1C1E')"><div class="ds-color-circle" style="background:#1C1C1E;"></div><span class="ds-color-name">card-dark</span><span class="ds-color-hex">#1C1C1E</span></div>
+          <div class="ds-color" onclick="copyHex('#F5F5F7')"><div class="ds-color-circle" style="background:#F5F5F7;border-color:rgba(0,0,0,0.1);"></div><span class="ds-color-name">text-w1</span><span class="ds-color-hex">#F5F5F7</span></div>
+          <div class="ds-color" onclick="copyHex('#8E8E93')"><div class="ds-color-circle" style="background:#8E8E93;"></div><span class="ds-color-name">text-w2</span><span class="ds-color-hex">#8E8E93</span></div>
+          <div class="ds-color" onclick="copyHex('#636366')"><div class="ds-color-circle" style="background:#636366;"></div><span class="ds-color-name">text-w3</span><span class="ds-color-hex">#636366</span></div>
+          <div class="ds-color" onclick="copyHex('#48484A')"><div class="ds-color-circle" style="background:#48484A;"></div><span class="ds-color-name">text-w4</span><span class="ds-color-hex">#48484A</span></div>
+        </div>
+
+        <div class="ds-color-row-label">Acentos & Status</div>
+        <div class="ds-colors">
+          <div class="ds-color" onclick="copyHex('#D70030')"><div class="ds-color-circle" style="background:#D70030;"></div><span class="ds-color-name">brand</span><span class="ds-color-hex">#D70030</span></div>
+          <div class="ds-color" onclick="copyHex('#30D158')"><div class="ds-color-circle" style="background:#30D158;"></div><span class="ds-color-name">success</span><span class="ds-color-hex">#30D158</span></div>
+          <div class="ds-color" onclick="copyHex('#FF9F0A')"><div class="ds-color-circle" style="background:#FF9F0A;"></div><span class="ds-color-name">warning</span><span class="ds-color-hex">#FF9F0A</span></div>
+          <div class="ds-color" onclick="copyHex('#FF453A')"><div class="ds-color-circle" style="background:#FF453A;"></div><span class="ds-color-name">error</span><span class="ds-color-hex">#FF453A</span></div>
+          <div class="ds-color" onclick="copyHex('#0A84FF')"><div class="ds-color-circle" style="background:#0A84FF;"></div><span class="ds-color-name">info</span><span class="ds-color-hex">#0A84FF</span></div>
+        </div>
+      </section>
+
+      <!-- 02. Tipografia -->
+      <section id="tipografia" class="ds-section ds-reveal">
+        <div class="ds-section-label">02</div>
+        <h2 class="ds-section-title">Tipografia</h2>
+        <p class="ds-section-desc">Quatro familias com funcoes distintas. Zen Dots para headlines, Satoshi para body, Inter para UI, JetBrains Mono para codigo.</p>
+
+        <div class="ds-type-block">
+          <div class="ds-type-font-label">Zen Dots — Headlines & brand</div>
+          <div class="ds-type-row"><span class="ds-type-meta">36px</span><span style="font-family:'Zen Dots',cursive;font-size:36px;color:#1D1D1F;">KTANA Assistant</span></div>
+          <div class="ds-type-row"><span class="ds-type-meta">24px</span><span style="font-family:'Zen Dots',cursive;font-size:24px;color:#1D1D1F;">Modulos prontos</span></div>
+          <div class="ds-type-row"><span class="ds-type-meta">18px</span><span style="font-family:'Zen Dots',cursive;font-size:18px;color:#1D1D1F;">Painel de controle</span></div>
+          <div class="ds-type-row"><span class="ds-type-meta">14px</span><span style="font-family:'Zen Dots',cursive;font-size:14px;color:#1D1D1F;">Card label</span></div>
+        </div>
+
+        <div class="ds-type-block">
+          <div class="ds-type-font-label">Satoshi — Body text</div>
+          <div class="ds-type-row"><span class="ds-type-meta">18px bold</span><span style="font-family:'Satoshi',sans-serif;font-size:18px;font-weight:700;color:#1D1D1F;">Texto principal em destaque</span></div>
+          <div class="ds-type-row"><span class="ds-type-meta">15px</span><span style="font-family:'Satoshi',sans-serif;font-size:15px;color:#1D1D1F;">Corpo de texto padrao com boa legibilidade.</span></div>
+          <div class="ds-type-row"><span class="ds-type-meta">13px</span><span style="font-family:'Satoshi',sans-serif;font-size:13px;color:#6E6E73;">Texto secundario para descricoes.</span></div>
+          <div class="ds-type-row"><span class="ds-type-meta">11px</span><span style="font-family:'Satoshi',sans-serif;font-size:11px;color:#86868B;">Texto auxiliar para metadados.</span></div>
+        </div>
+
+        <div class="ds-type-block">
+          <div class="ds-type-font-label">Inter — UI elements</div>
+          <div class="ds-type-row"><span class="ds-type-meta">14px 500</span><span style="font-family:'Inter',sans-serif;font-size:14px;font-weight:500;color:#1D1D1F;">Botao ou label principal</span></div>
+          <div class="ds-type-row"><span class="ds-type-meta">13px 400</span><span style="font-family:'Inter',sans-serif;font-size:13px;color:#1D1D1F;">Item de menu ou navegacao</span></div>
+          <div class="ds-type-row"><span class="ds-type-meta">11px 600</span><span style="font-family:'Inter',sans-serif;font-size:11px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:#86868B;">Section label</span></div>
+          <div class="ds-type-row"><span class="ds-type-meta">10px 500</span><span style="font-family:'Inter',sans-serif;font-size:10px;font-weight:500;color:#AEAEB2;">Badge ou caption</span></div>
+        </div>
+
+        <div class="ds-type-block">
+          <div class="ds-type-font-label">JetBrains Mono — Code</div>
+          <div class="ds-type-row"><span class="ds-type-meta">14px</span><span style="font-family:'JetBrains Mono',monospace;font-size:14px;color:#1D1D1F;">const samurai = new KTANA();</span></div>
+          <div class="ds-type-row"><span class="ds-type-meta">12px</span><span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#6E6E73;">api.deploy({ env: 'production' })</span></div>
+          <div class="ds-type-row"><span class="ds-type-meta">10px</span><span style="font-family:'JetBrains Mono',monospace;font-size:10px;color:#AEAEB2;">#D70030 | rgba(215,0,48,1)</span></div>
+        </div>
+      </section>
+
+      <!-- 03. Botoes -->
+      <section id="botoes" class="ds-section ds-reveal">
+        <div class="ds-section-label">03</div>
+        <h2 class="ds-section-title">Botoes</h2>
+        <p class="ds-section-desc">Quatro variantes em tres tamanhos. Touch targets minimos de 44px.</p>
+
+        <div class="ds-btn-row"><span class="ds-btn-label">Large</span>
+          <button class="btn btn-primary" style="padding:16px 32px;font-size:15px;border-radius:14px;">Primary</button>
+          <button class="btn btn-brand" style="padding:16px 32px;font-size:15px;border-radius:14px;">Brand</button>
+          <button class="btn btn-secondary" style="padding:16px 32px;font-size:15px;border-radius:14px;">Secondary</button>
+          <button class="btn btn-ghost" style="padding:16px 32px;font-size:15px;border-radius:14px;">Ghost</button>
+        </div>
+        <div class="ds-btn-row"><span class="ds-btn-label">Medium</span>
+          <button class="btn btn-primary">Primary</button>
+          <button class="btn btn-brand">Brand</button>
+          <button class="btn btn-secondary">Secondary</button>
+          <button class="btn btn-ghost">Ghost</button>
+        </div>
+        <div class="ds-btn-row"><span class="ds-btn-label">Small</span>
+          <button class="btn btn-primary btn-sm">Primary</button>
+          <button class="btn btn-brand btn-sm">Brand</button>
+          <button class="btn btn-secondary btn-sm">Secondary</button>
+          <button class="btn btn-ghost btn-sm">Ghost</button>
+        </div>
+      </section>
+
+      <!-- 04. Cards -->
+      <section id="cards" class="ds-section ds-reveal">
+        <div class="ds-section-label">04</div>
+        <h2 class="ds-section-title">Cards</h2>
+        <p class="ds-section-desc">Containers com radius 20px. Variante clara (tenant) e escura (admin).</p>
+
+        <div class="ds-cards-row">
+          <div class="card ds-card-example">
+            <h3 style="color:#1D1D1F;">Standard Card</h3>
+            <p style="color:#6E6E73;">Background branco, borda sutil rgba(0,0,0,0.04), radius 20px.</p>
+            <div style="margin-top:16px;display:flex;gap:8px;">
+              <span class="badge badge-brand">Ativo</span>
+              <span class="badge badge-neutral">v2.0</span>
+            </div>
+          </div>
+          <div class="card-dark ds-card-example" style="border-radius:20px;">
+            <h3 style="color:#F5F5F7;">Dark Card</h3>
+            <p style="color:#8E8E93;">Background #1C1C1E com borda rgba(255,255,255,0.04).</p>
+            <div style="margin-top:16px;display:flex;gap:8px;">
+              <span style="font-family:'Inter',sans-serif;display:inline-flex;align-items:center;padding:3px 10px;border-radius:6px;font-size:11px;font-weight:500;background:rgba(215,0,48,0.15);color:#FF453A;">Brand</span>
+              <span style="font-family:'Inter',sans-serif;display:inline-flex;align-items:center;padding:3px 10px;border-radius:6px;font-size:11px;font-weight:500;background:rgba(255,255,255,0.06);color:#8E8E93;">Neutral</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 05. Inputs -->
+      <section id="inputs" class="ds-section ds-reveal">
+        <div class="ds-section-label">05</div>
+        <h2 class="ds-section-title">Inputs</h2>
+        <p class="ds-section-desc">Campos de formulario com focus state em brand color.</p>
+
+        <div class="ds-inputs">
+          <div>
+            <label style="font-family:'Inter',sans-serif;font-size:11px;font-weight:600;color:#86868B;display:block;margin-bottom:6px;">Text input</label>
+            <input class="input" type="text" placeholder="Digite algo aqui...">
+          </div>
+          <div>
+            <label style="font-family:'Inter',sans-serif;font-size:11px;font-weight:600;color:#86868B;display:block;margin-bottom:6px;">Textarea</label>
+            <textarea class="input" style="min-height:80px;resize:vertical;" placeholder="Descreva com mais detalhes..."></textarea>
+          </div>
+          <div>
+            <label style="font-family:'Inter',sans-serif;font-size:11px;font-weight:600;color:#86868B;display:block;margin-bottom:6px;">Select</label>
+            <select class="input" style="appearance:none;padding-right:36px;">
+              <option>Selecione uma opcao</option>
+              <option>GUNDAN — Escala</option>
+              <option>BAKUFU — Estrategia</option>
+            </select>
+          </div>
+        </div>
+      </section>
+
+      <!-- 06. Toggles -->
+      <section id="toggles" class="ds-section ds-reveal">
+        <div class="ds-section-label">06</div>
+        <h2 class="ds-section-title">Toggles</h2>
+        <p class="ds-section-desc">Interruptores com tres estados: off, on (brand) e disabled.</p>
+
+        <div class="ds-toggle-wrap">
+          <div style="display:flex;align-items:center;gap:10px;">
+            <div class="ds-toggle ds-toggle-off" onclick="this.classList.toggle('ds-toggle-off');this.classList.toggle('ds-toggle-on');"><div class="ds-toggle-knob"></div></div>
+            <span style="font-family:'Inter',sans-serif;font-size:12px;color:#86868B;">Off</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:10px;">
+            <div class="ds-toggle ds-toggle-on" onclick="this.classList.toggle('ds-toggle-off');this.classList.toggle('ds-toggle-on');"><div class="ds-toggle-knob"></div></div>
+            <span style="font-family:'Inter',sans-serif;font-size:12px;color:#86868B;">On</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:10px;">
+            <div class="ds-toggle ds-toggle-disabled"><div class="ds-toggle-knob"></div></div>
+            <span style="font-family:'Inter',sans-serif;font-size:12px;color:#86868B;">Disabled</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- 07. Badges -->
+      <section id="badges" class="ds-section ds-reveal">
+        <div class="ds-section-label">07</div>
+        <h2 class="ds-section-title">Badges</h2>
+        <p class="ds-section-desc">Labels compactos para status, categorias e metadados.</p>
+
+        <div class="ds-badges">
+          <span class="ds-badge" style="background:rgba(215,0,48,0.1);color:#D70030;">Brand</span>
+          <span class="ds-badge" style="background:rgba(0,0,0,0.04);color:#6E6E73;">Neutral</span>
+          <span class="ds-badge" style="background:rgba(48,209,88,0.1);color:#30D158;">Success</span>
+          <span class="ds-badge" style="background:rgba(255,159,10,0.1);color:#FF9F0A;">Warning</span>
+          <span class="ds-badge" style="background:rgba(255,69,58,0.1);color:#FF453A;">Error</span>
+          <span class="ds-badge" style="background:rgba(10,132,255,0.1);color:#0A84FF;">Info</span>
+        </div>
+      </section>
+
+      <!-- 08. Icones (COMPLETO — 42 icones) -->
+      <section id="icones" class="ds-section ds-reveal">
+        <div class="ds-section-label">08</div>
+        <h2 class="ds-section-title">Icones</h2>
+        <p class="ds-section-desc">42 icones SVG stroke-based, 24x24 viewBox, 1.5px stroke. Hover para ver o nome, clique para copiar o SVG.</p>
+
+        <div class="ds-icon-category">Navegacao</div>
+        <div class="ds-icons-grid">
+          <div class="ds-icon-item" onclick="copyIcon(this)"><span class="ds-icon-copy">copy</span><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/></svg><span class="ds-icon-name">Home</span></div>
+          <div class="ds-icon-item" onclick="copyIcon(this)"><span class="ds-icon-copy">copy</span><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h16M4 12h16M4 18h7"/></svg><span class="ds-icon-name">Menu Lines</span></div>
+          <div class="ds-icon-item" onclick="copyIcon(this)"><span class="ds-icon-copy">copy</span><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h16M4 12h16M4 18h16"/></svg><span class="ds-icon-name">Menu</span></div>
+          <div class="ds-icon-item" onclick="copyIcon(this)"><span class="ds-icon-copy">copy</span><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v16m8-8H4"/></svg><span class="ds-icon-name">Plus</span></div>
+          <div class="ds-icon-item" onclick="copyIcon(this)"><span class="ds-icon-copy">copy</span><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 18L18 6M6 6l12 12"/></svg><span class="ds-icon-name">Close</span></div>
+          <div class="ds-icon-item" onclick="copyIcon(this)"><span class="ds-icon-copy">copy</span><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M16 18l6-6-6-6M8 6l-6 6 6 6"/></svg><span class="ds-icon-name">Code</span></div>
+          <div class="ds-icon-item" onclick="copyIcon(this)"><span class="ds-icon-copy">copy</span><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 17l6-6-6-6M12 19h8"/></svg><span class="ds-icon-name">Terminal</span></div>
+        </div>
+
+        <div class="ds-icon-category">Usuarios & Equipe</div>
+        <div class="ds-icons-grid">
+          <div class="ds-icon-item" onclick="copyIcon(this)"><span class="ds-icon-copy">copy</span><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg><span class="ds-icon-name">User</span></div>
+          <div class="ds-icon-item" onclick="copyIcon(this)"><span class="ds-icon-copy">copy</span><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><path d="M12 4.354a4 4 0 110 5.292M23 21v-2a4 4 0 00-3-3.87"/></svg><span class="ds-icon-name">Team</span></div>
+          <div class="ds-icon-item" onclick="copyIcon(this)"><span class="ds-icon-copy">copy</span><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197"/></svg><span class="ds-icon-name">Users Group</span></div>
+          <div class="ds-icon-item" onclick="copyIcon(this)"><span class="ds-icon-copy">copy</span><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"/></svg><span class="ds-icon-name">User Add</span></div>
+          <div class="ds-icon-item" onclick="copyIcon(this)"><span class="ds-icon-copy">copy</span><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg><span class="ds-icon-name">Members</span></div>
+          <div class="ds-icon-item" onclick="copyIcon(this)"><span class="ds-icon-copy">copy</span><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2M12 3a4 4 0 100 8 4 4 0 000-8z"/></svg><span class="ds-icon-name">Profile</span></div>
+        </div>
+
+        <div class="ds-icon-category">Status & Feedback</div>
+        <div class="ds-icons-grid">
+          <div class="ds-icon-item" onclick="copyIcon(this)"><span class="ds-icon-copy">copy</span><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/></svg><span class="ds-icon-name">Check</span></div>
+          <div class="ds-icon-item" onclick="copyIcon(this)"><span class="ds-icon-copy">copy</span><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg><span class="ds-icon-name">Check Circle</span></div>
+          <div class="ds-icon-item" onclick="copyIcon(this)"><span class="ds-icon-copy">copy</span><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/></svg><span class="ds-icon-name">Progress</span></div>
+          <div class="ds-icon-item" onclick="copyIcon(this)"><span class="ds-icon-copy">copy</span><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg><span class="ds-icon-name">Activity</span></div>
+          <div class="ds-icon-item" onclick="copyIcon(this)"><span class="ds-icon-copy">copy</span><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg><span class="ds-icon-name">Bell</span></div>
+          <div class="ds-icon-item" onclick="copyIcon(this)"><span class="ds-icon-copy">copy</span><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg><span class="ds-icon-name">Eye</span></div>
+        </div>
+
+        <div class="ds-icon-category">Acoes & Energia</div>
+        <div class="ds-icons-grid">
+          <div class="ds-icon-item" onclick="copyIcon(this)"><span class="ds-icon-copy">copy</span><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg><span class="ds-icon-name">Bolt</span></div>
+          <div class="ds-icon-item" onclick="copyIcon(this)"><span class="ds-icon-copy">copy</span><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M13 10V3L4 14h7v7l9-11h-7z"/></svg><span class="ds-icon-name">Lightning</span></div>
+          <div class="ds-icon-item" onclick="copyIcon(this)"><span class="ds-icon-copy">copy</span><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg><span class="ds-icon-name">Send</span></div>
+          <div class="ds-icon-item" onclick="copyIcon(this)"><span class="ds-icon-copy">copy</span><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1v22M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg><span class="ds-icon-name">Dollar</span></div>
+          <div class="ds-icon-item" onclick="copyIcon(this)"><span class="ds-icon-copy">copy</span><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><span class="ds-icon-name">Star</span></div>
+        </div>
+
+        <div class="ds-icon-category">Tempo & Dados</div>
+        <div class="ds-icons-grid">
+          <div class="ds-icon-item" onclick="copyIcon(this)"><span class="ds-icon-copy">copy</span><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg><span class="ds-icon-name">Clock</span></div>
+          <div class="ds-icon-item" onclick="copyIcon(this)"><span class="ds-icon-copy">copy</span><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"/></svg><span class="ds-icon-name">Credit Card</span></div>
+          <div class="ds-icon-item" onclick="copyIcon(this)"><span class="ds-icon-copy">copy</span><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 17V7m0 10a2 2 0 01-2 2H5a2 2 0 01-2-2V7a2 2 0 012-2h2a2 2 0 012 2m0 10a2 2 0 002 2h2a2 2 0 002-2M9 7a2 2 0 012-2h2a2 2 0 012 2m0 10V7"/></svg><span class="ds-icon-name">Chart</span></div>
+        </div>
+
+        <div class="ds-icon-category">Seguranca & Config</div>
+        <div class="ds-icons-grid">
+          <div class="ds-icon-item" onclick="copyIcon(this)"><span class="ds-icon-copy">copy</span><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg><span class="ds-icon-name">Shield</span></div>
+          <div class="ds-icon-item" onclick="copyIcon(this)"><span class="ds-icon-copy">copy</span><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg><span class="ds-icon-name">Lock</span></div>
+          <div class="ds-icon-item" onclick="copyIcon(this)"><span class="ds-icon-copy">copy</span><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.066 2.573c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.573 1.066c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.066-2.573c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><circle cx="12" cy="12" r="3"/></svg><span class="ds-icon-name">Settings</span></div>
+          <div class="ds-icon-item" onclick="copyIcon(this)"><span class="ds-icon-copy">copy</span><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"/></svg><span class="ds-icon-name">Sliders</span></div>
+        </div>
+
+        <div class="ds-icon-category">Comunicacao</div>
+        <div class="ds-icons-grid">
+          <div class="ds-icon-item" onclick="copyIcon(this)"><span class="ds-icon-copy">copy</span><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/></svg><span class="ds-icon-name">Chat</span></div>
+          <div class="ds-icon-item" onclick="copyIcon(this)"><span class="ds-icon-copy">copy</span><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg><span class="ds-icon-name">Message</span></div>
+          <div class="ds-icon-item" onclick="copyIcon(this)"><span class="ds-icon-copy">copy</span><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z"/></svg><span class="ds-icon-name">WhatsApp</span></div>
+        </div>
+
+        <div class="ds-icon-category">Inteligencia & IA</div>
+        <div class="ds-icons-grid">
+          <div class="ds-icon-item" onclick="copyIcon(this)"><span class="ds-icon-copy">copy</span><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/></svg><span class="ds-icon-name">Brain (IA)</span></div>
+          <div class="ds-icon-item" onclick="copyIcon(this)"><span class="ds-icon-copy">copy</span><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3"/></svg><span class="ds-icon-name">Lightbulb</span></div>
+          <div class="ds-icon-item" onclick="copyIcon(this)"><span class="ds-icon-copy">copy</span><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a6 6 0 016 6c0 3-2 5-3 6h-6c-1-1-3-3-3-6a6 6 0 016-6z"/></svg><span class="ds-icon-name">Mind</span></div>
+        </div>
+
+        <div class="ds-icon-category">Estrutura & Layout</div>
+        <div class="ds-icons-grid">
+          <div class="ds-icon-item" onclick="copyIcon(this)"><span class="ds-icon-copy">copy</span><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5h4v5"/></svg><span class="ds-icon-name">Building</span></div>
+          <div class="ds-icon-item" onclick="copyIcon(this)"><span class="ds-icon-copy">copy</span><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6zM16 13a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-6z"/></svg><span class="ds-icon-name">Frameworks</span></div>
+          <div class="ds-icon-item" onclick="copyIcon(this)"><span class="ds-icon-copy">copy</span><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"/></svg><span class="ds-icon-name">Grid</span></div>
+          <div class="ds-icon-item" onclick="copyIcon(this)"><span class="ds-icon-copy">copy</span><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"/></svg><span class="ds-icon-name">Link</span></div>
+          <div class="ds-icon-item" onclick="copyIcon(this)"><span class="ds-icon-copy">copy</span><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 7H4a2 2 0 00-2 2v10a2 2 0 002 2h16a2 2 0 002-2V9a2 2 0 00-2-2zM16 7V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v2"/></svg><span class="ds-icon-name">Briefcase</span></div>
+        </div>
+
+        <div class="ds-icon-category">Vida & Bem-estar (PF)</div>
+        <div class="ds-icons-grid">
+          <div class="ds-icon-item" onclick="copyIcon(this)"><span class="ds-icon-copy">copy</span><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg><span class="ds-icon-name">Heart</span></div>
+          <div class="ds-icon-item" onclick="copyIcon(this)"><span class="ds-icon-copy">copy</span><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"/></svg><span class="ds-icon-name">Circle</span></div>
+          <div class="ds-icon-item" onclick="copyIcon(this)"><span class="ds-icon-copy">copy</span><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-4h2v2h-2zm1-10a3 3 0 00-3 3h2a1 1 0 112 0c0 1-2 1-2 3h2c0-1.5 2-1.5 2-3a3 3 0 00-3-3z"/></svg><span class="ds-icon-name">Spirit</span></div>
+        </div>
+      </section>
+
+      <!-- 09. Animacoes -->
+      <section id="animacoes" class="ds-section ds-reveal">
+        <div class="ds-section-label">09</div>
+        <h2 class="ds-section-title">Animacoes</h2>
+        <p class="ds-section-desc">Tres padroes de motion: fade-in, spring e stagger. Ativados no scroll.</p>
+
+        <div class="ds-anim-row">
+          <div class="ds-anim-box">
+            <h4>Fade In</h4>
+            <p>0.6s ease-out</p>
+            <div class="ds-anim-demo ds-anim-fade" id="dsAnimFade"></div>
+          </div>
+          <div class="ds-anim-box">
+            <h4>Spring</h4>
+            <p>0.6s cubic-bezier</p>
+            <div class="ds-anim-demo ds-anim-spring" id="dsAnimSpring" style="opacity:0;"></div>
+          </div>
+          <div class="ds-anim-box ds-anim-stagger" id="dsAnimStagger">
+            <h4>Stagger</h4>
+            <p>0.4s x5 delay 80ms</p>
+            <div style="margin-top:16px;display:flex;justify-content:center;">
+              <span class="ds-stagger-dot"></span>
+              <span class="ds-stagger-dot"></span>
+              <span class="ds-stagger-dot"></span>
+              <span class="ds-stagger-dot"></span>
+              <span class="ds-stagger-dot"></span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 10. Espacamento -->
+      <section id="espacamento" class="ds-section ds-reveal">
+        <div class="ds-section-label">10</div>
+        <h2 class="ds-section-title">Espacamento</h2>
+        <p class="ds-section-desc">Escala baseada em 4px. Touch targets minimo 44px (Apple HIG).</p>
+
+        <div style="margin-bottom:32px;">
+          <div class="ds-spacing-row"><span class="ds-spacing-label">4px</span><div class="ds-spacing-box" style="width:4px;"></div></div>
+          <div class="ds-spacing-row"><span class="ds-spacing-label">8px</span><div class="ds-spacing-box" style="width:8px;"></div></div>
+          <div class="ds-spacing-row"><span class="ds-spacing-label">12px</span><div class="ds-spacing-box" style="width:12px;"></div></div>
+          <div class="ds-spacing-row"><span class="ds-spacing-label">16px</span><div class="ds-spacing-box" style="width:16px;"></div></div>
+          <div class="ds-spacing-row"><span class="ds-spacing-label">24px</span><div class="ds-spacing-box" style="width:24px;"></div></div>
+          <div class="ds-spacing-row"><span class="ds-spacing-label">32px</span><div class="ds-spacing-box" style="width:32px;"></div></div>
+          <div class="ds-spacing-row"><span class="ds-spacing-label">48px</span><div class="ds-spacing-box" style="width:48px;"></div></div>
+          <div class="ds-spacing-row"><span class="ds-spacing-label">64px</span><div class="ds-spacing-box" style="width:64px;"></div></div>
+        </div>
+
+        <div style="font-family:'Inter',sans-serif;font-size:11px;font-weight:600;color:#86868B;margin-bottom:12px;">TOUCH TARGET MINIMO</div>
+        <div style="display:flex;gap:16px;align-items:center;">
+          <div class="ds-touch-target">44px</div>
+          <span style="font-family:'Satoshi',sans-serif;font-size:13px;color:#6E6E73;">Minimo para botoes e alvos interativos (Apple HIG)</span>
+        </div>
+      </section>
+
+      <!-- 11. Gradiente -->
+      <section id="gradiente" class="ds-section ds-reveal">
+        <div class="ds-section-label">11</div>
+        <h2 class="ds-section-title">Gradiente</h2>
+        <p class="ds-section-desc">O gradiente sutil de header que define a identidade Ive Edition.</p>
+
+        <div class="ds-gradient-demo">
+          <div class="gradient-header ds-gradient-inner">
+            <h3>Silver Gradient Header</h3>
+            <p>Linear gradient 180deg com accent line vermelha. Classe: .gradient-header</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- 12. CSS Tokens -->
+      <section id="tokens" class="ds-section ds-reveal">
+        <div class="ds-section-label">12</div>
+        <h2 class="ds-section-title">CSS Tokens</h2>
+        <p class="ds-section-desc">Classes utilitarias definidas em shared.css para uso em todas as telas.</p>
+
+        <table class="ds-tokens-table">
+          <thead><tr><th>Classe</th><th>Propriedade</th><th>Valor</th></tr></thead>
+          <tbody>
+            <tr><td>.font-display</td><td>font-family</td><td>'Zen Dots', cursive</td></tr>
+            <tr><td>.font-body</td><td>font-family</td><td>'Satoshi', sans-serif</td></tr>
+            <tr><td>.font-ui</td><td>font-family</td><td>'Inter', system-ui, sans-serif</td></tr>
+            <tr><td>.text-brand</td><td>color</td><td>#D70030</td></tr>
+            <tr><td>.text-1</td><td>color</td><td>#1D1D1F</td></tr>
+            <tr><td>.text-2</td><td>color</td><td>#6E6E73</td></tr>
+            <tr><td>.text-3</td><td>color</td><td>#86868B</td></tr>
+            <tr><td>.text-4</td><td>color</td><td>#AEAEB2</td></tr>
+            <tr><td>.light</td><td>background</td><td>#F5F5F7</td></tr>
+            <tr><td>.dark</td><td>background</td><td>#0A0A0A</td></tr>
+            <tr><td>.card</td><td>radius / border</td><td>20px / rgba(0,0,0,0.04)</td></tr>
+            <tr><td>.card-dark</td><td>bg / border</td><td>#1C1C1E / rgba(255,255,255,0.04)</td></tr>
+            <tr><td>.btn-primary</td><td>bg / color</td><td>#1D1D1F / #FFF</td></tr>
+            <tr><td>.btn-brand</td><td>bg / color</td><td>#D70030 / #FFF</td></tr>
+            <tr><td>.btn-secondary</td><td>bg / border</td><td>#F0F0F0 / rgba(0,0,0,0.04)</td></tr>
+            <tr><td>.btn-ghost</td><td>bg / border</td><td>transparent / #D2D2D7</td></tr>
+            <tr><td>.badge-brand</td><td>bg / color</td><td>rgba(215,0,48,0.1) / #D70030</td></tr>
+            <tr><td>.input</td><td>bg / radius</td><td>#F0F0F0 / 12px</td></tr>
+            <tr><td>.fade-in</td><td>animation</td><td>fadeIn 0.3s ease</td></tr>
+            <tr><td>.reveal</td><td>transition</td><td>opacity + translateY 0.7s</td></tr>
+            <tr><td>.glow</td><td>animation</td><td>pulseGlow 2s infinite</td></tr>
+          </tbody>
+        </table>
+      </section>
+
+    </div>
   </div>
 
-  <div class="ds-container">
-
-    <!-- 1. Hero -->
-    <section class="ds-hero">
-      <h1>KTANA Design System</h1>
-      <p>V2.0 — Ive Edition</p>
-      <div class="ds-hero-line"></div>
-    </section>
-
-    <!-- 2. Cores -->
-    <section class="ds-section ds-reveal">
-      <div class="ds-section-label">01</div>
-      <h2 class="ds-section-title">Cores</h2>
-      <p class="ds-section-desc">Tokens de cor do sistema. Backgrounds, textos e acentos.</p>
-      <div class="ds-colors">
-        <div class="ds-color">
-          <div class="ds-color-circle" style="background:#F5F5F7;"></div>
-          <span class="ds-color-name">bg</span>
-          <span class="ds-color-hex">#F5F5F7</span>
-        </div>
-        <div class="ds-color">
-          <div class="ds-color-circle" style="background:#1D1D1F;"></div>
-          <span class="ds-color-name">text-1</span>
-          <span class="ds-color-hex">#1D1D1F</span>
-        </div>
-        <div class="ds-color">
-          <div class="ds-color-circle" style="background:#6E6E73;"></div>
-          <span class="ds-color-name">text-2</span>
-          <span class="ds-color-hex">#6E6E73</span>
-        </div>
-        <div class="ds-color">
-          <div class="ds-color-circle" style="background:#86868B;"></div>
-          <span class="ds-color-name">text-3</span>
-          <span class="ds-color-hex">#86868B</span>
-        </div>
-        <div class="ds-color">
-          <div class="ds-color-circle" style="background:#AEAEB2;"></div>
-          <span class="ds-color-name">text-4</span>
-          <span class="ds-color-hex">#AEAEB2</span>
-        </div>
-        <div class="ds-color">
-          <div class="ds-color-circle" style="background:#D70030;"></div>
-          <span class="ds-color-name">brand</span>
-          <span class="ds-color-hex">#D70030</span>
-        </div>
-        <div class="ds-color">
-          <div class="ds-color-circle" style="background:#30D158;"></div>
-          <span class="ds-color-name">success</span>
-          <span class="ds-color-hex">#30D158</span>
-        </div>
-        <div class="ds-color">
-          <div class="ds-color-circle" style="background:#FF9F0A;"></div>
-          <span class="ds-color-name">warning</span>
-          <span class="ds-color-hex">#FF9F0A</span>
-        </div>
-        <div class="ds-color">
-          <div class="ds-color-circle" style="background:#FF453A;"></div>
-          <span class="ds-color-name">error</span>
-          <span class="ds-color-hex">#FF453A</span>
-        </div>
-        <div class="ds-color">
-          <div class="ds-color-circle" style="background:#0A84FF;"></div>
-          <span class="ds-color-name">info</span>
-          <span class="ds-color-hex">#0A84FF</span>
-        </div>
-      </div>
-    </section>
-
-    <!-- 3. Tipografia -->
-    <section class="ds-section ds-reveal">
-      <div class="ds-section-label">02</div>
-      <h2 class="ds-section-title">Tipografia</h2>
-      <p class="ds-section-desc">Quatro familias tipograficas com funcoes distintas no sistema.</p>
-
-      <!-- Zen Dots -->
-      <div class="ds-type-block">
-        <div class="ds-type-font-label">Zen Dots — Headlines</div>
-        <div class="ds-type-row">
-          <span class="ds-type-meta">36px</span>
-          <span style="font-family:'Zen Dots',cursive;font-size:36px;color:#1D1D1F;">KTANA Assistant</span>
-        </div>
-        <div class="ds-type-row">
-          <span class="ds-type-meta">24px</span>
-          <span style="font-family:'Zen Dots',cursive;font-size:24px;color:#1D1D1F;">Modulos prontos</span>
-        </div>
-        <div class="ds-type-row">
-          <span class="ds-type-meta">18px</span>
-          <span style="font-family:'Zen Dots',cursive;font-size:18px;color:#1D1D1F;">Painel de controle</span>
-        </div>
-        <div class="ds-type-row">
-          <span class="ds-type-meta">14px</span>
-          <span style="font-family:'Zen Dots',cursive;font-size:14px;color:#1D1D1F;">Card label</span>
-        </div>
-      </div>
-
-      <!-- Satoshi -->
-      <div class="ds-type-block">
-        <div class="ds-type-font-label">Satoshi — Body text</div>
-        <div class="ds-type-row">
-          <span class="ds-type-meta">18px bold</span>
-          <span style="font-family:'Satoshi',sans-serif;font-size:18px;font-weight:700;color:#1D1D1F;">Texto principal em destaque</span>
-        </div>
-        <div class="ds-type-row">
-          <span class="ds-type-meta">15px</span>
-          <span style="font-family:'Satoshi',sans-serif;font-size:15px;color:#1D1D1F;">Corpo de texto padrao com boa legibilidade em telas de qualquer tamanho.</span>
-        </div>
-        <div class="ds-type-row">
-          <span class="ds-type-meta">13px</span>
-          <span style="font-family:'Satoshi',sans-serif;font-size:13px;color:#6E6E73;">Texto secundario para descricoes e contexto adicional.</span>
-        </div>
-        <div class="ds-type-row">
-          <span class="ds-type-meta">11px</span>
-          <span style="font-family:'Satoshi',sans-serif;font-size:11px;color:#86868B;">Texto auxiliar para notas e metadados.</span>
-        </div>
-      </div>
-
-      <!-- Inter -->
-      <div class="ds-type-block">
-        <div class="ds-type-font-label">Inter — UI elements</div>
-        <div class="ds-type-row">
-          <span class="ds-type-meta">14px 500</span>
-          <span style="font-family:'Inter',sans-serif;font-size:14px;font-weight:500;color:#1D1D1F;">Botao ou label principal</span>
-        </div>
-        <div class="ds-type-row">
-          <span class="ds-type-meta">13px 400</span>
-          <span style="font-family:'Inter',sans-serif;font-size:13px;color:#1D1D1F;">Item de menu ou navegacao</span>
-        </div>
-        <div class="ds-type-row">
-          <span class="ds-type-meta">11px 600</span>
-          <span style="font-family:'Inter',sans-serif;font-size:11px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:#86868B;">Section label</span>
-        </div>
-        <div class="ds-type-row">
-          <span class="ds-type-meta">10px 500</span>
-          <span style="font-family:'Inter',sans-serif;font-size:10px;font-weight:500;color:#AEAEB2;">Badge ou caption</span>
-        </div>
-      </div>
-
-      <!-- JetBrains Mono -->
-      <div class="ds-type-block">
-        <div class="ds-type-font-label">JetBrains Mono — Code</div>
-        <div class="ds-type-row">
-          <span class="ds-type-meta">14px</span>
-          <span style="font-family:'JetBrains Mono',monospace;font-size:14px;color:#1D1D1F;">const samurai = new KTANA();</span>
-        </div>
-        <div class="ds-type-row">
-          <span class="ds-type-meta">12px</span>
-          <span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#6E6E73;">api.deploy({ env: 'production' })</span>
-        </div>
-        <div class="ds-type-row">
-          <span class="ds-type-meta">10px</span>
-          <span style="font-family:'JetBrains Mono',monospace;font-size:10px;color:#AEAEB2;">#D70030 | rgba(215,0,48,1)</span>
-        </div>
-      </div>
-    </section>
-
-    <!-- 4. Botoes -->
-    <section class="ds-section ds-reveal">
-      <div class="ds-section-label">03</div>
-      <h2 class="ds-section-title">Botoes</h2>
-      <p class="ds-section-desc">Quatro variantes em tres tamanhos. Touch targets minimos de 44px.</p>
-
-      <div class="ds-btn-row">
-        <span class="ds-btn-label">Large</span>
-        <button class="btn btn-primary" style="padding:16px 32px;font-size:15px;border-radius:14px;">Primary</button>
-        <button class="btn btn-brand" style="padding:16px 32px;font-size:15px;border-radius:14px;">Brand</button>
-        <button class="btn btn-secondary" style="padding:16px 32px;font-size:15px;border-radius:14px;">Secondary</button>
-        <button class="btn btn-ghost" style="padding:16px 32px;font-size:15px;border-radius:14px;">Ghost</button>
-      </div>
-      <div class="ds-btn-row">
-        <span class="ds-btn-label">Medium</span>
-        <button class="btn btn-primary">Primary</button>
-        <button class="btn btn-brand">Brand</button>
-        <button class="btn btn-secondary">Secondary</button>
-        <button class="btn btn-ghost">Ghost</button>
-      </div>
-      <div class="ds-btn-row">
-        <span class="ds-btn-label">Small</span>
-        <button class="btn btn-primary btn-sm">Primary</button>
-        <button class="btn btn-brand btn-sm">Brand</button>
-        <button class="btn btn-secondary btn-sm">Secondary</button>
-        <button class="btn btn-ghost btn-sm">Ghost</button>
-      </div>
-    </section>
-
-    <!-- 5. Cards -->
-    <section class="ds-section ds-reveal">
-      <div class="ds-section-label">04</div>
-      <h2 class="ds-section-title">Cards</h2>
-      <p class="ds-section-desc">Containers com radius 20px. Variante clara e escura.</p>
-
-      <div class="ds-cards-row">
-        <div class="card ds-card-example">
-          <h3 style="color:#1D1D1F;">Standard Card</h3>
-          <p style="color:#6E6E73;">Background branco, borda sutil rgba(0,0,0,0.04), radius 20px. Ideal para dashboards e conteudo informativo.</p>
-          <div style="margin-top:16px;display:flex;gap:8px;">
-            <span class="badge badge-brand">Ativo</span>
-            <span class="badge badge-neutral">v2.0</span>
-          </div>
-        </div>
-        <div class="card-dark ds-card-example" style="border-radius:20px;">
-          <h3 style="color:#F5F5F7;">Dark Card</h3>
-          <p style="color:#8E8E93;">Background #1C1C1E com borda rgba(255,255,255,0.04). Para contextos de destaque ou modo escuro.</p>
-          <div style="margin-top:16px;display:flex;gap:8px;">
-            <span style="font-family:'Inter',sans-serif;display:inline-flex;align-items:center;padding:3px 10px;border-radius:6px;font-size:11px;font-weight:500;background:rgba(215,0,48,0.15);color:#FF453A;">Brand</span>
-            <span style="font-family:'Inter',sans-serif;display:inline-flex;align-items:center;padding:3px 10px;border-radius:6px;font-size:11px;font-weight:500;background:rgba(255,255,255,0.06);color:#8E8E93;">Neutral</span>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- 6. Inputs -->
-    <section class="ds-section ds-reveal">
-      <div class="ds-section-label">05</div>
-      <h2 class="ds-section-title">Inputs</h2>
-      <p class="ds-section-desc">Campos de formulario com focus state em brand color.</p>
-
-      <div class="ds-inputs">
-        <div>
-          <label style="font-family:'Inter',sans-serif;font-size:11px;font-weight:600;color:#86868B;display:block;margin-bottom:6px;">Text input</label>
-          <input class="input" type="text" placeholder="Digite algo aqui...">
-        </div>
-        <div>
-          <label style="font-family:'Inter',sans-serif;font-size:11px;font-weight:600;color:#86868B;display:block;margin-bottom:6px;">Textarea</label>
-          <textarea class="input" style="min-height:80px;resize:vertical;" placeholder="Descreva com mais detalhes..."></textarea>
-        </div>
-        <div>
-          <label style="font-family:'Inter',sans-serif;font-size:11px;font-weight:600;color:#86868B;display:block;margin-bottom:6px;">Select</label>
-          <select class="input" style="appearance:none;background-image:url('data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%2212%22 height=%2212%22 viewBox=%220 0 24 24%22 fill=%22none%22 stroke=%22%2386868B%22 stroke-width=%222%22><path d=%22M6 9l6 6 6-6%22/></svg>');background-repeat:no-repeat;background-position:right 14px center;padding-right:36px;">
-            <option>Selecione uma opcao</option>
-            <option>GUNDAN — Escala</option>
-            <option>BAKUFU — Estrategia</option>
-            <option>RONIN — Solo</option>
-          </select>
-        </div>
-      </div>
-    </section>
-
-    <!-- 7. Toggles -->
-    <section class="ds-section ds-reveal">
-      <div class="ds-section-label">06</div>
-      <h2 class="ds-section-title">Toggles</h2>
-      <p class="ds-section-desc">Interruptores com tres estados: off, on (brand) e disabled.</p>
-
-      <div class="ds-toggle-wrap">
-        <div style="display:flex;align-items:center;gap:10px;">
-          <div class="ds-toggle ds-toggle-off" onclick="this.classList.toggle('ds-toggle-off');this.classList.toggle('ds-toggle-on');">
-            <div class="ds-toggle-knob"></div>
-          </div>
-          <span class="ds-toggle-label">Off</span>
-        </div>
-        <div style="display:flex;align-items:center;gap:10px;">
-          <div class="ds-toggle ds-toggle-on" onclick="this.classList.toggle('ds-toggle-off');this.classList.toggle('ds-toggle-on');">
-            <div class="ds-toggle-knob"></div>
-          </div>
-          <span class="ds-toggle-label">On</span>
-        </div>
-        <div style="display:flex;align-items:center;gap:10px;">
-          <div class="ds-toggle ds-toggle-disabled">
-            <div class="ds-toggle-knob"></div>
-          </div>
-          <span class="ds-toggle-label">Disabled</span>
-        </div>
-      </div>
-    </section>
-
-    <!-- 8. Badges -->
-    <section class="ds-section ds-reveal">
-      <div class="ds-section-label">07</div>
-      <h2 class="ds-section-title">Badges</h2>
-      <p class="ds-section-desc">Labels compactos para status, categorias e metadados.</p>
-
-      <div class="ds-badges">
-        <span class="ds-badge" style="background:rgba(215,0,48,0.1);color:#D70030;">Brand</span>
-        <span class="ds-badge" style="background:rgba(0,0,0,0.04);color:#6E6E73;">Neutral</span>
-        <span class="ds-badge" style="background:rgba(48,209,88,0.1);color:#30D158;">Success</span>
-        <span class="ds-badge" style="background:rgba(255,159,10,0.1);color:#FF9F0A;">Warning</span>
-        <span class="ds-badge" style="background:rgba(255,69,58,0.1);color:#FF453A;">Error</span>
-        <span class="ds-badge" style="background:rgba(10,132,255,0.1);color:#0A84FF;">Info</span>
-      </div>
-    </section>
-
-    <!-- 9. Icones -->
-    <section class="ds-section ds-reveal">
-      <div class="ds-section-label">08</div>
-      <h2 class="ds-section-title">Icones</h2>
-      <p class="ds-section-desc">SVGs stroke-based, 24x24 viewBox, 1.5px stroke. Feather-style.</p>
-
-      <div class="ds-icons-grid">
-        <div class="ds-icon-item">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/></svg>
-          <span class="ds-icon-name">Home</span>
-        </div>
-        <div class="ds-icon-item">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-          <span class="ds-icon-name">User</span>
-        </div>
-        <div class="ds-icon-item">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/></svg>
-          <span class="ds-icon-name">Check</span>
-        </div>
-        <div class="ds-icon-item">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1v22M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>
-          <span class="ds-icon-name">Dollar</span>
-        </div>
-        <div class="ds-icon-item">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
-          <span class="ds-icon-name">Activity</span>
-        </div>
-        <div class="ds-icon-item">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
-          <span class="ds-icon-name">Bolt</span>
-        </div>
-        <div class="ds-icon-item">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-          <span class="ds-icon-name">Clock</span>
-        </div>
-        <div class="ds-icon-item">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg>
-          <span class="ds-icon-name">Bell</span>
-        </div>
-        <div class="ds-icon-item">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-          <span class="ds-icon-name">Shield</span>
-        </div>
-        <div class="ds-icon-item">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.066 2.573c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.573 1.066c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.066-2.573c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><circle cx="12" cy="12" r="3"/></svg>
-          <span class="ds-icon-name">Settings</span>
-        </div>
-        <div class="ds-icon-item">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/></svg>
-          <span class="ds-icon-name">Chat</span>
-        </div>
-        <div class="ds-icon-item">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg>
-          <span class="ds-icon-name">Send</span>
-        </div>
-        <div class="ds-icon-item">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v16m8-8H4"/></svg>
-          <span class="ds-icon-name">Plus</span>
-        </div>
-        <div class="ds-icon-item">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 18L18 6M6 6l12 12"/></svg>
-          <span class="ds-icon-name">Close</span>
-        </div>
-        <div class="ds-icon-item">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
-          <span class="ds-icon-name">Menu</span>
-        </div>
-        <div class="ds-icon-item">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
-          <span class="ds-icon-name">Eye</span>
-        </div>
-        <div class="ds-icon-item">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
-          <span class="ds-icon-name">Lock</span>
-        </div>
-        <div class="ds-icon-item">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 17l6-6-6-6M12 19h8"/></svg>
-          <span class="ds-icon-name">Terminal</span>
-        </div>
-        <div class="ds-icon-item">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><path d="M12 4.354a4 4 0 110 5.292M23 21v-2a4 4 0 00-3-3.87"/></svg>
-          <span class="ds-icon-name">Team</span>
-        </div>
-        <div class="ds-icon-item">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"/></svg>
-          <span class="ds-icon-name">Link</span>
-        </div>
-      </div>
-    </section>
-
-    <!-- 10. Animacoes -->
-    <section class="ds-section ds-reveal">
-      <div class="ds-section-label">09</div>
-      <h2 class="ds-section-title">Animacoes</h2>
-      <p class="ds-section-desc">Tres padroes de motion: fade-in, spring e stagger. Ativados no scroll.</p>
-
-      <div class="ds-anim-row">
-        <div class="ds-anim-box">
-          <h4>Fade In</h4>
-          <p>0.6s ease-out</p>
-          <div class="ds-anim-demo ds-anim-fade" id="dsAnimFade"></div>
-        </div>
-        <div class="ds-anim-box">
-          <h4>Spring</h4>
-          <p>0.6s cubic-bezier</p>
-          <div class="ds-anim-demo ds-anim-spring" id="dsAnimSpring" style="opacity:0;"></div>
-        </div>
-        <div class="ds-anim-box ds-anim-stagger" id="dsAnimStagger">
-          <h4>Stagger</h4>
-          <p>0.4s x5 delay 80ms</p>
-          <div style="margin-top:16px;display:flex;justify-content:center;">
-            <span class="ds-stagger-dot"></span>
-            <span class="ds-stagger-dot"></span>
-            <span class="ds-stagger-dot"></span>
-            <span class="ds-stagger-dot"></span>
-            <span class="ds-stagger-dot"></span>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- 11. Espacamento -->
-    <section class="ds-section ds-reveal">
-      <div class="ds-section-label">10</div>
-      <h2 class="ds-section-title">Espacamento</h2>
-      <p class="ds-section-desc">Escala de espacamento baseada em 4px. Touch targets minimo 44px (Apple HIG).</p>
-
-      <div style="margin-bottom:32px;">
-        <div class="ds-spacing-row">
-          <span class="ds-spacing-label">4px</span>
-          <div class="ds-spacing-box" style="width:4px;"></div>
-        </div>
-        <div class="ds-spacing-row">
-          <span class="ds-spacing-label">8px</span>
-          <div class="ds-spacing-box" style="width:8px;"></div>
-        </div>
-        <div class="ds-spacing-row">
-          <span class="ds-spacing-label">12px</span>
-          <div class="ds-spacing-box" style="width:12px;"></div>
-        </div>
-        <div class="ds-spacing-row">
-          <span class="ds-spacing-label">16px</span>
-          <div class="ds-spacing-box" style="width:16px;"></div>
-        </div>
-        <div class="ds-spacing-row">
-          <span class="ds-spacing-label">24px</span>
-          <div class="ds-spacing-box" style="width:24px;"></div>
-        </div>
-        <div class="ds-spacing-row">
-          <span class="ds-spacing-label">32px</span>
-          <div class="ds-spacing-box" style="width:32px;"></div>
-        </div>
-        <div class="ds-spacing-row">
-          <span class="ds-spacing-label">48px</span>
-          <div class="ds-spacing-box" style="width:48px;"></div>
-        </div>
-        <div class="ds-spacing-row">
-          <span class="ds-spacing-label">64px</span>
-          <div class="ds-spacing-box" style="width:64px;"></div>
-        </div>
-      </div>
-
-      <div style="font-family:'Inter',sans-serif;font-size:11px;font-weight:600;color:#86868B;margin-bottom:12px;">TOUCH TARGET MINIMO</div>
-      <div style="display:flex;gap:16px;align-items:center;">
-        <div class="ds-touch-target">44px</div>
-        <span style="font-family:'Satoshi',sans-serif;font-size:13px;color:#6E6E73;">Minimo para botoes, links e alvos interativos em mobile (Apple HIG)</span>
-      </div>
-    </section>
-
-    <!-- 12. Gradiente -->
-    <section class="ds-section ds-reveal">
-      <div class="ds-section-label">11</div>
-      <h2 class="ds-section-title">Gradiente</h2>
-      <p class="ds-section-desc">O gradiente sutil de header que define a identidade visual Ive Edition.</p>
-
-      <div class="ds-gradient-demo">
-        <div class="gradient-header ds-gradient-inner">
-          <h3>Silver Gradient Header</h3>
-          <p>Linear gradient 180deg com accent line vermelha no topo. Aplicar com a classe .gradient-header</p>
-        </div>
-      </div>
-    </section>
-
-  </div>
+  <!-- Toast -->
+  <div class="ds-toast" id="dsToast">Copiado!</div>
 
   <script>
-    // Scroll reveal observer
-    const observer = new IntersectionObserver(function(entries) {
+    // Scroll reveal
+    var observer = new IntersectionObserver(function(entries) {
       entries.forEach(function(entry) {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('visible');
-        }
+        if (entry.isIntersecting) entry.target.classList.add('visible');
       });
-    }, { threshold: 0.15 });
-
+    }, { threshold: 0.1 });
     document.querySelectorAll('.ds-reveal, .ds-anim-fade, .ds-anim-spring, .ds-anim-stagger').forEach(function(el) {
       observer.observe(el);
     });
+
+    // Active nav on scroll
+    var sections = document.querySelectorAll('.ds-section[id]');
+    var navItems = document.querySelectorAll('.ds-nav-item[data-section]');
+    var navObserver = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) {
+          navItems.forEach(function(n) { n.classList.remove('active'); });
+          var active = document.querySelector('.ds-nav-item[data-section="' + entry.target.id + '"]');
+          if (active) active.classList.add('active');
+        }
+      });
+    }, { threshold: 0.3, rootMargin: '-20% 0px -60% 0px' });
+    sections.forEach(function(s) { navObserver.observe(s); });
+
+    // Copy hex
+    function copyHex(hex) {
+      navigator.clipboard.writeText(hex);
+      showToast('Copiado: ' + hex);
+    }
+
+    // Copy icon SVG
+    function copyIcon(el) {
+      var svg = el.querySelector('svg');
+      if (svg) {
+        navigator.clipboard.writeText(svg.outerHTML);
+        var name = el.querySelector('.ds-icon-name');
+        showToast('Copiado: ' + (name ? name.textContent : 'SVG'));
+      }
+    }
+
+    // Toast
+    function showToast(msg) {
+      var toast = document.getElementById('dsToast');
+      toast.textContent = msg;
+      toast.classList.add('show');
+      setTimeout(function() { toast.classList.remove('show'); }, 1500);
+    }
   </script>
 </body>
 </html>
