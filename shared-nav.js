@@ -287,20 +287,23 @@
     </aside>
     <div class="ks-overlay" id="ksOverlay" onclick="toggleSidebar()"></div>
 
-    <!-- AI Quick Chat -->
+    <!-- AI Chat Panel (lateral direita) -->
     <div class="ka" id="ktAI">
       <div class="ka-head">
         <div class="ka-head-info">
           <div class="ka-dot"></div>
-          <span>Hana — Assistente</span>
+          <span>${isPF ? 'Yumi — Sua Mentora' : 'Akira — CEO Digital'}</span>
         </div>
         <button class="ka-close" onclick="toggleAI()">${svg('M6 18L18 6M6 6l12 12', 14)}</button>
       </div>
       <div class="ka-msgs" id="kaMsgs">
-        <div class="ka-msg ka-ai">Como posso ajudar? Pode pedir qualquer coisa — "quanto lucrei essa semana", "quem esta atrasado", "ativa o modulo de SEO"...</div>
+        <div class="ka-msg ka-ai">${isPF
+          ? 'Oi! Sou a Yumi. Posso te ajudar com qualquer area da sua vida — saude, mente, carreira, financas... O que precisa agora?'
+          : 'Posso ajudar com qualquer coisa — "quanto lucrei essa semana", "quem esta atrasado", "ativa o modulo de SEO", "agenda reuniao com o time"...'
+        }</div>
       </div>
-      <div class="ka-input">
-        <input type="text" placeholder="Pergunte ou peca algo..." id="kaInput" onkeydown="if(event.key==='Enter')sendKaMsg()">
+      <div class="ka-input" id="kaInput">
+        <input type="text" placeholder="${isPF ? 'Fale com Yumi...' : 'Fale com Akira...'}" onkeydown="if(event.key==='Enter')sendKaMsg()">
         <button onclick="sendKaMsg()">${svg('M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z', 16)}</button>
       </div>
     </div>`;
@@ -415,15 +418,17 @@
     .ks-foot-link svg { flex-shrink: 0; }
 
     /* AI Quick Chat */
-    .ka { position: fixed; bottom: 20px; right: 20px; width: 360px; max-height: 440px; background: #FFF; border-radius: 20px; border: 1px solid rgba(0,0,0,0.06); box-shadow: 0 12px 48px rgba(0,0,0,0.12); z-index: 400; display: none; flex-direction: column; overflow: hidden; }
+    .ka { position: fixed; top: 52px; right: 0; width: 380px; height: calc(100vh - 52px); background: #FAFAFA; border-left: 1px solid rgba(0,0,0,0.06); box-shadow: -4px 0 24px rgba(0,0,0,0.06); z-index: 190; display: none; flex-direction: column; overflow: hidden; transform: translateX(100%); transition: transform 0.3s cubic-bezier(0.25,0.1,0.25,1); }
+    .ka.open { display: flex; transform: translateX(0); }
+    body.ka-open { margin-right: 380px; transition: margin-right 0.3s cubic-bezier(0.25,0.1,0.25,1); }
     .ka.open { display: flex; animation: kaUp 0.25s cubic-bezier(0.4,0,0.2,1); }
     @keyframes kaUp { from { opacity: 0; transform: translateY(12px) scale(0.97); } to { opacity: 1; transform: translateY(0) scale(1); } }
-    .ka-head { padding: 14px 18px; display: flex; align-items: center; justify-content: space-between; border-bottom: 0.5px solid rgba(0,0,0,0.04); }
+    .ka-head { padding: 16px 20px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid rgba(0,0,0,0.06); background: #FFF; }
     .ka-head-info { display: flex; align-items: center; gap: 8px; font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 500; color: #1D1D1F; }
     .ka-avatar-img { width: 28px; height: 28px; border-radius: 50%; overflow: hidden; display: flex; align-items: center; justify-content: center; background: rgba(215,0,48,0.04); flex-shrink: 0; }
     .ka-dot { width: 7px; height: 7px; border-radius: 50%; background: #30D158; box-shadow: 0 0 6px rgba(48,209,88,0.4); }
     .ka-close { width: 28px; height: 28px; border-radius: 50%; background: rgba(0,0,0,0.04); border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; color: #86868B; }
-    .ka-msgs { flex: 1; overflow-y: auto; padding: 16px; min-height: 120px; max-height: 280px; }
+    .ka-msgs { flex: 1; overflow-y: auto; padding: 20px; }
     .ka-msg { font-family: 'Satoshi', sans-serif; font-size: 14px; line-height: 1.6; padding: 10px 14px; border-radius: 16px; margin-bottom: 10px; max-width: 90%; }
     .ka-ai { background: #F5F5F7; color: #1D1D1F; border-bottom-left-radius: 4px; }
     .ka-user { background: #1D1D1F; color: #F5F5F7; border-bottom-right-radius: 4px; margin-left: auto; }
@@ -469,7 +474,8 @@
 
     @media (max-width: 640px) {
       .ks { width: 100%; }
-      .ka { right: 12px; left: 12px; width: auto; bottom: 12px; }
+      .ka { width: 100%; }
+      body.ka-open { margin-right: 0; }
       .kt-ai-label { display: none; }
     }
   `;
@@ -513,22 +519,35 @@
 
   window.toggleAI = function() {
     aiOpen = !aiOpen;
-    document.getElementById('ktAI').classList.toggle('open', aiOpen);
-    if (aiOpen) document.getElementById('kaInput').querySelector('input').focus();
+    var panel = document.getElementById('ktAI');
+    panel.style.display = 'flex';
+    requestAnimationFrame(function() {
+      panel.classList.toggle('open', aiOpen);
+      document.body.classList.toggle('ka-open', aiOpen);
+    });
+    if (!aiOpen) {
+      setTimeout(function() { panel.style.display = 'none'; }, 300);
+    }
+    if (aiOpen) {
+      setTimeout(function() { document.querySelector('#kaInput input').focus(); }, 100);
+    }
   };
 
   window.sendKaMsg = function() {
-    const input = document.getElementById('kaInput').querySelector('input');
+    const input = document.querySelector('#kaInput input');
     const val = input.value.trim();
     if (!val) return;
     const msgs = document.getElementById('kaMsgs');
     msgs.innerHTML += `<div class="ka-msg ka-user">${val}</div>`;
     input.value = '';
+    msgs.scrollTop = msgs.scrollHeight;
     setTimeout(() => {
-      msgs.innerHTML += `<div class="ka-msg ka-ai">Entendi! Vou verificar isso pra voce agora. Um momento...</div>`;
+      const responses = isPF
+        ? ['Entendi! Vou falar com seus mentores sobre isso.', 'Ja estou analisando seus dados. Um momento...', 'Vou ajustar sua rotina com base nisso.']
+        : ['Entendi! Vou verificar isso pra voce agora.', 'Ja estou processando. Um momento...', 'Akira consultou a equipe. Aqui esta o resultado...'];
+      msgs.innerHTML += `<div class="ka-msg ka-ai">${responses[Math.floor(Math.random()*responses.length)]}</div>`;
       msgs.scrollTop = msgs.scrollHeight;
     }, 800);
-    msgs.scrollTop = msgs.scrollHeight;
   };
 
   window.toggleOrgSwitcher = function() {
