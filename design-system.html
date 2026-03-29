@@ -203,6 +203,66 @@
       section#counters .ds-counter-card:first-child { grid-column: span 2; }
     }
 
+    /* ═══ MICRO INTERACTIONS SHOWCASE ═══ */
+    .ds-micro-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+    @media (max-width: 768px) { .ds-micro-grid { grid-template-columns: repeat(2, 1fr); } }
+
+    .ds-micro-card { background: #FFF; border: 1px solid rgba(0,0,0,0.04); border-radius: 16px; padding: 24px 16px; text-align: center; cursor: pointer; position: relative; overflow: hidden; }
+    .ds-micro-card h4 { font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 600; color: #1D1D1F; margin-bottom: 4px; }
+    .ds-micro-card p { font-family: 'JetBrains Mono', monospace; font-size: 9px; color: #AEAEB2; margin-bottom: 16px; }
+    .ds-micro-demo { width: 56px; height: 56px; border-radius: 14px; margin: 0 auto; display: flex; align-items: center; justify-content: center; }
+
+    /* 1. Hover Lift */
+    .ds-lift { background: #1D1D1F; transition: all 0.3s cubic-bezier(0.25,0.1,0.25,1); }
+    .ds-micro-card:hover .ds-lift { transform: translateY(-4px); box-shadow: 0 8px 24px rgba(0,0,0,0.12), 0 2px 8px rgba(0,0,0,0.08); }
+
+    /* 2. Press Scale */
+    .ds-press { background: #D70030; transition: all 0.15s; }
+    .ds-micro-card:active .ds-press { transform: scale(0.92); }
+    .ds-micro-card:hover .ds-press { transform: scale(1.05); }
+    .ds-micro-card:active .ds-press { transform: scale(0.92); }
+
+    /* 3. Glow Pulse */
+    .ds-glow-demo { background: #D70030; box-shadow: 0 0 0 rgba(215,0,48,0); transition: box-shadow 0.3s; }
+    .ds-micro-card:hover .ds-glow-demo { animation: microGlow 1.5s ease-in-out infinite; }
+    @keyframes microGlow { 0%,100% { box-shadow: 0 0 8px rgba(215,0,48,0.2), 0 0 16px rgba(215,0,48,0.08); } 50% { box-shadow: 0 0 20px rgba(215,0,48,0.45), 0 0 40px rgba(215,0,48,0.15); } }
+
+    /* 4. Border Breathe */
+    .ds-breathe { background: transparent; border: 1.5px solid rgba(215,0,48,0.15); transition: all 0.4s; }
+    .ds-micro-card:hover .ds-breathe { border-color: #D70030; box-shadow: 0 0 12px rgba(215,0,48,0.12); }
+
+    /* 5. Gradient Shift */
+    .ds-grad-shift { background: linear-gradient(135deg, #1D1D1F 0%, #303030 100%); background-size: 200% 200%; transition: all 0.5s; }
+    .ds-micro-card:hover .ds-grad-shift { background-position: 100% 100%; box-shadow: 0 0 16px rgba(215,0,48,0.08); background: linear-gradient(135deg, #D70030 0%, #73071F 100%); }
+
+    /* 6. Ripple */
+    .ds-ripple { background: #F0F0F0; position: relative; overflow: hidden; transition: all 0.3s; }
+    .ds-ripple::after { content: ''; position: absolute; width: 100%; height: 100%; top: 0; left: 0; background: radial-gradient(circle at var(--x, 50%) var(--y, 50%), rgba(215,0,48,0.15) 0%, transparent 60%); opacity: 0; transition: opacity 0.3s; }
+    .ds-micro-card:hover .ds-ripple::after { opacity: 1; }
+
+    /* 7. Skeleton Shimmer */
+    .ds-skeleton { background: linear-gradient(90deg, #F0F0F0 25%, #E8E8ED 50%, #F0F0F0 75%); background-size: 200% 100%; animation: shimmer 1.5s ease-in-out infinite; }
+    @keyframes shimmer { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
+
+    /* 8. Focus Ring */
+    .ds-focus-ring { background: #FFF; border: 2px solid #D2D2D7; transition: all 0.2s; }
+    .ds-micro-card:hover .ds-focus-ring { border-color: #D70030; box-shadow: 0 0 0 3px rgba(215,0,48,0.12), 0 0 0 6px rgba(215,0,48,0.04); }
+
+    /* Interactive showcase box */
+    .ds-interact-box { background: #FFF; border: 1px solid rgba(0,0,0,0.04); border-radius: 16px; padding: 32px; position: relative; overflow: hidden; transition: all 0.4s; }
+    .ds-interact-box::before { content: ''; position: absolute; inset: 0; border-radius: 16px; padding: 1.5px; background: linear-gradient(135deg, rgba(255,231,231,0.3) 0%, transparent 30%, rgba(215,0,48,0.1) 70%, rgba(215,0,48,0.3) 100%); -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0); -webkit-mask-composite: xor; mask-composite: exclude; opacity: 0; transition: opacity 0.4s; }
+    .ds-interact-box:hover::before { opacity: 1; }
+    .ds-interact-box:hover { transform: translateY(-2px); box-shadow: 0 12px 40px rgba(0,0,0,0.06); }
+
+    /* Hover code reveal */
+    .ds-code-reveal { max-height: 0; overflow: hidden; transition: max-height 0.4s cubic-bezier(0.25,0.1,0.25,1), opacity 0.3s; opacity: 0; }
+    .ds-micro-card:hover .ds-code-reveal { max-height: 60px; opacity: 1; }
+
+    /* Button active states enhancement */
+    .ds-btn-neon:active { transform: scale(0.97); box-shadow: 0 0 8px rgba(215,0,48,0.2); }
+    .ds-btn-gradient:active { transform: scale(0.97); }
+    .ds-btn-ghost-glow:active { transform: scale(0.97); background: rgba(215,0,48,0.03); }
+
     /* ═══ REVEAL ═══ */
     .ds-reveal { opacity: 0; transform: translateY(20px); transition: opacity 0.6s cubic-bezier(0.25,0.1,0.25,1), transform 0.6s cubic-bezier(0.25,0.1,0.25,1); }
     .ds-reveal.visible { opacity: 1; transform: translateY(0); }
@@ -260,7 +320,8 @@
     <div class="ds-nav-section">
       <div class="ds-nav-label">Biblioteca</div>
       <a href="#icones" class="ds-nav-item" data-section="icones">Icones (42)</a>
-      <a href="#animacoes" class="ds-nav-item" data-section="animacoes">Micro Animacoes</a>
+      <a href="#animacoes" class="ds-nav-item" data-section="animacoes">Motion</a>
+      <a href="#micro" class="ds-nav-item" data-section="micro">Micro Interacoes</a>
       <a href="#tokens" class="ds-nav-item" data-section="tokens">CSS Tokens</a>
     </div>
   </nav>
@@ -279,7 +340,7 @@
           <div class="ds-hero-stat"><strong>3</strong><span>Materiais</span></div>
           <div class="ds-hero-stat"><strong>42</strong><span>Icones</span></div>
           <div class="ds-hero-stat"><strong>6</strong><span>Samurais</span></div>
-          <div class="ds-hero-stat"><strong>4</strong><span>Gradientes</span></div>
+          <div class="ds-hero-stat"><strong>8</strong><span>Micro FX</span></div>
         </div>
       </section>
 
@@ -741,9 +802,131 @@
 
       <div class="ds-neon-line"></div>
 
-      <!-- 13. ESPACAMENTO -->
-      <section id="espacamento" class="ds-section ds-reveal">
+      <!-- 13. MICRO INTERACOES -->
+      <section id="micro" class="ds-section ds-reveal">
         <div class="ds-section-label">13</div>
+        <h2 class="ds-section-title">Micro Interacoes</h2>
+        <p class="ds-section-desc">Passe o mouse em cada box para ver o efeito. Clique para sentir o press. Cada interacao tem timing e easing especificos.</p>
+        <div class="ds-divider"></div>
+
+        <div class="ds-micro-grid">
+          <div class="ds-micro-card">
+            <h4>Hover Lift</h4>
+            <p>translateY(-4px)</p>
+            <div class="ds-micro-demo ds-lift">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FFF" stroke-width="1.5" stroke-linecap="round"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
+            </div>
+            <div class="ds-code-reveal"><div style="font-family:'JetBrains Mono',monospace;font-size:8px;color:#86868B;margin-top:8px;">0.3s cubic-bezier<br>shadow: 0 8px 24px</div></div>
+          </div>
+
+          <div class="ds-micro-card">
+            <h4>Press Scale</h4>
+            <p>hover 1.05 → click 0.92</p>
+            <div class="ds-micro-demo ds-press">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FFF" stroke-width="1.5" stroke-linecap="round"><path d="M15 15l-2 5L9 9l11 4-5 2zm0 0l5 5"/></svg>
+            </div>
+            <div class="ds-code-reveal"><div style="font-family:'JetBrains Mono',monospace;font-size:8px;color:#86868B;margin-top:8px;">0.15s transition<br>:active scale(0.92)</div></div>
+          </div>
+
+          <div class="ds-micro-card">
+            <h4>Glow Pulse</h4>
+            <p>1.5s infinite</p>
+            <div class="ds-micro-demo ds-glow-demo">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FFF" stroke-width="1.5" stroke-linecap="round"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            </div>
+            <div class="ds-code-reveal"><div style="font-family:'JetBrains Mono',monospace;font-size:8px;color:#86868B;margin-top:8px;">0→20px→40px shadow<br>ease-in-out infinite</div></div>
+          </div>
+
+          <div class="ds-micro-card">
+            <h4>Border Breathe</h4>
+            <p>0.4s ease</p>
+            <div class="ds-micro-demo ds-breathe">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#D70030" stroke-width="1.5" stroke-linecap="round"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>
+            </div>
+            <div class="ds-code-reveal"><div style="font-family:'JetBrains Mono',monospace;font-size:8px;color:#86868B;margin-top:8px;">border 0.15→brand<br>+ glow 12px</div></div>
+          </div>
+
+          <div class="ds-micro-card">
+            <h4>Gradient Shift</h4>
+            <p>0.5s color morph</p>
+            <div class="ds-micro-demo ds-grad-shift">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FFF" stroke-width="1.5" stroke-linecap="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+            </div>
+            <div class="ds-code-reveal"><div style="font-family:'JetBrains Mono',monospace;font-size:8px;color:#86868B;margin-top:8px;">bg dark→brand<br>0.5s transition</div></div>
+          </div>
+
+          <div class="ds-micro-card" onmousemove="var r=this.querySelector('.ds-ripple');var b=r.getBoundingClientRect();r.style.setProperty('--x',((event.clientX-b.left)/b.width*100)+'%');r.style.setProperty('--y',((event.clientY-b.top)/b.height*100)+'%');">
+            <h4>Ripple Follow</h4>
+            <p>mouse tracking</p>
+            <div class="ds-micro-demo ds-ripple">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1D1D1F" stroke-width="1.5" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="3"/></svg>
+            </div>
+            <div class="ds-code-reveal"><div style="font-family:'JetBrains Mono',monospace;font-size:8px;color:#86868B;margin-top:8px;">radial-gradient<br>follows cursor</div></div>
+          </div>
+
+          <div class="ds-micro-card">
+            <h4>Skeleton Load</h4>
+            <p>shimmer 1.5s</p>
+            <div class="ds-micro-demo ds-skeleton" style="border-radius:14px;"></div>
+            <div class="ds-code-reveal"><div style="font-family:'JetBrains Mono',monospace;font-size:8px;color:#86868B;margin-top:8px;">bg-size 200%<br>animate position</div></div>
+          </div>
+
+          <div class="ds-micro-card">
+            <h4>Focus Ring</h4>
+            <p>double ring 0.2s</p>
+            <div class="ds-micro-demo ds-focus-ring">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#D70030" stroke-width="1.5" stroke-linecap="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+            </div>
+            <div class="ds-code-reveal"><div style="font-family:'JetBrains Mono',monospace;font-size:8px;color:#86868B;margin-top:8px;">3px + 6px rings<br>brand rgba 12%/4%</div></div>
+          </div>
+        </div>
+
+        <!-- Interactive composite demo -->
+        <div style="margin-top:24px;">
+          <div class="ds-interact-box">
+            <div style="display:flex;align-items:center;gap:16px;">
+              <div style="width:48px;height:48px;border-radius:12px;background:linear-gradient(135deg,#D70030,#73071F);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#FFF" stroke-width="1.5" stroke-linecap="round"><path d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/></svg>
+              </div>
+              <div style="flex:1;">
+                <div style="font-family:'Zen Dots',cursive;font-size:15px;color:#1D1D1F;margin-bottom:4px;">Composicao completa</div>
+                <div style="font-family:'Satoshi',sans-serif;font-size:13px;color:#6E6E73;">Gradient border + hover lift + icon glow + code reveal — tudo combinado num unico componente.</div>
+              </div>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#AEAEB2" stroke-width="1.5" stroke-linecap="round"><path d="M9 18l6-6-6-6"/></svg>
+            </div>
+          </div>
+        </div>
+
+        <!-- Timing reference -->
+        <div style="margin-top:24px;display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+          <div style="background:#FFF;border:1px solid rgba(0,0,0,0.04);border-radius:12px;padding:16px;">
+            <div style="font-family:'Inter',sans-serif;font-size:10px;font-weight:600;color:#86868B;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:12px;">Timing</div>
+            <div style="font-family:'JetBrains Mono',monospace;font-size:11px;line-height:2;color:#1D1D1F;">
+              <span style="color:#D70030;">150ms</span> — press/active<br>
+              <span style="color:#D70030;">200ms</span> — focus ring<br>
+              <span style="color:#D70030;">300ms</span> — hover state<br>
+              <span style="color:#D70030;">400ms</span> — border animate<br>
+              <span style="color:#D70030;">500ms</span> — image scale
+            </div>
+          </div>
+          <div style="background:#FFF;border:1px solid rgba(0,0,0,0.04);border-radius:12px;padding:16px;">
+            <div style="font-family:'Inter',sans-serif;font-size:10px;font-weight:600;color:#86868B;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:12px;">Easing</div>
+            <div style="font-family:'JetBrains Mono',monospace;font-size:11px;line-height:2;color:#1D1D1F;">
+              <span style="color:#D70030;">ease</span> — geral<br>
+              <span style="color:#D70030;">.25,.1,.25,1</span> — reveal<br>
+              <span style="color:#D70030;">.32,.72,0,1</span> — spring<br>
+              <span style="color:#D70030;">ease-in-out</span> — glow<br>
+              <span style="color:#D70030;">linear</span> — shimmer
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <div class="ds-neon-line"></div>
+
+      <!-- 14. ESPACAMENTO -->
+      <section id="espacamento" class="ds-section ds-reveal">
+        <div class="ds-section-label">14</div>
         <h2 class="ds-section-title">Espacamento</h2>
         <div class="ds-divider"></div>
         <div>
@@ -764,9 +947,9 @@
 
       <div class="ds-neon-line"></div>
 
-      <!-- 14. CSS TOKENS -->
+      <!-- 15. CSS TOKENS -->
       <section id="tokens" class="ds-section ds-reveal">
-        <div class="ds-section-label">14</div>
+        <div class="ds-section-label">15</div>
         <h2 class="ds-section-title">CSS Tokens</h2>
         <div class="ds-divider"></div>
         <table class="ds-tokens-table">
