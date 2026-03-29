@@ -157,7 +157,7 @@
         </button>
         <div class="kt-org" onclick="toggleOrgSwitcher()">
           <span class="kt-logo">KTANA</span>
-          <span class="kt-client-name" style="font-family:'Inter',sans-serif;font-size:12px;color:#86868B;margin-left:8px;">${isPF ? 'Pessoal' : 'CSB Fintechs'}</span>
+          <span class="kt-client-name" style="font-family:'Inter',sans-serif;font-size:12px;color:${isPF ? 'rgba(255,255,255,0.7)' : '#86868B'};margin-left:8px;">${isPF ? 'Pessoal' : 'CSB Fintechs'}</span>
           <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" class="kt-org-chev"><path d="M6 9l6 6 6-6"/></svg>
           <!-- Context Switcher (inside kt-org for correct positioning) -->
           <div class="kt-org-drop" id="ktOrgDrop">
@@ -309,19 +309,19 @@
   const style = document.createElement('style');
   style.textContent = `
     /* Top Bar */
-    .kt { position: sticky; top: 0; z-index: 200; height: 52px; background: linear-gradient(180deg, rgba(240,240,242,0.95) 0%, rgba(245,245,247,0.85) 100%); backdrop-filter: saturate(180%) blur(20px); -webkit-backdrop-filter: saturate(180%) blur(20px); border-bottom: 0.5px solid rgba(0,0,0,0.06); }
-    .kt::after { content: ''; position: absolute; bottom: -1px; left: 0; right: 0; height: 1px; background: linear-gradient(90deg, transparent 0%, rgba(215,0,48,0.06) 20%, rgba(215,0,48,0.1) 50%, rgba(215,0,48,0.06) 80%, transparent 100%); }
+    .kt { position: sticky; top: 0; z-index: 200; height: 52px; background: ${isPF ? 'linear-gradient(180deg, #D70030 0%, #C0002A 100%)' : 'linear-gradient(180deg, rgba(240,240,242,0.95) 0%, rgba(245,245,247,0.85) 100%)'}; backdrop-filter: saturate(180%) blur(20px); -webkit-backdrop-filter: saturate(180%) blur(20px); border-bottom: 0.5px solid ${isPF ? 'rgba(0,0,0,0.1)' : 'rgba(0,0,0,0.06)'}; }
+    .kt::after { content: ''; position: absolute; bottom: -1px; left: 0; right: 0; height: 1px; background: ${isPF ? 'linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.1) 50%, transparent 100%)' : 'linear-gradient(90deg, transparent 0%, rgba(215,0,48,0.06) 20%, rgba(215,0,48,0.1) 50%, rgba(215,0,48,0.06) 80%, transparent 100%)'}; }
     .kt-inner { max-width: 1200px; margin: 0 auto; height: 100%; padding: 0 20px; display: flex; align-items: center; gap: 16px; }
-    .kt-toggle { width: 36px; height: 36px; border-radius: 10px; border: none; background: transparent; cursor: pointer; display: flex; align-items: center; justify-content: center; color: #1D1D1F; transition: background 0.15s; }
-    .kt-toggle:hover { background: rgba(0,0,0,0.04); }
-    .kt-logo { font-family: 'Zen Dots', cursive; font-size: 15px; color: #D70030; text-decoration: none; }
+    .kt-toggle { width: 36px; height: 36px; border-radius: 10px; border: none; background: transparent; cursor: pointer; display: flex; align-items: center; justify-content: center; color: ${isPF ? '#FFF' : '#1D1D1F'}; transition: background 0.15s; }
+    .kt-toggle:hover { background: ${isPF ? 'rgba(255,255,255,0.15)' : 'rgba(0,0,0,0.04)'}; }
+    .kt-logo { font-family: 'Zen Dots', cursive; font-size: 15px; color: ${isPF ? '#FFF' : '#D70030'}; text-decoration: none; }
     .kt-spacer { flex: 1; }
-    .kt-ai-btn { display: flex; align-items: center; gap: 8px; padding: 8px 16px; border-radius: 980px; border: none; background: #1D1D1F; cursor: pointer; font-family: 'Inter', -apple-system, sans-serif; font-size: 13px; color: #F5F5F7; transition: all 0.2s; }
-    .kt-ai-btn:hover { background: #000; box-shadow: 0 2px 12px rgba(0,0,0,0.15); }
+    .kt-ai-btn { display: flex; align-items: center; gap: 8px; padding: 8px 16px; border-radius: 980px; border: none; background: ${isPF ? 'rgba(255,255,255,0.2)' : '#1D1D1F'}; cursor: pointer; font-family: 'Inter', -apple-system, sans-serif; font-size: 13px; color: #F5F5F7; transition: all 0.2s; }
+    .kt-ai-btn:hover { background: ${isPF ? 'rgba(255,255,255,0.3)' : '#000'}; box-shadow: 0 2px 12px rgba(0,0,0,0.15); }
     .kt-ai-btn svg { color: #F5F5F7; }
     .kt-ai-label { }
-    .kt-avatar { width: 32px; height: 32px; border-radius: 50%; background: rgba(0,0,0,0.03); border: 1px solid rgba(0,0,0,0.06); display: flex; align-items: center; justify-content: center; color: #AEAEB2; text-decoration: none; transition: all 0.15s; cursor: pointer; }
-    .kt-avatar:hover { background: rgba(0,0,0,0.06); color: #86868B; }
+    .kt-avatar { width: 32px; height: 32px; border-radius: 50%; background: ${isPF ? 'rgba(255,255,255,0.15)' : 'rgba(0,0,0,0.03)'}; border: 1px solid ${isPF ? 'rgba(255,255,255,0.2)' : 'rgba(0,0,0,0.06)'}; display: flex; align-items: center; justify-content: center; color: ${isPF ? 'rgba(255,255,255,0.8)' : '#AEAEB2'}; text-decoration: none; transition: all 0.15s; cursor: pointer; }
+    .kt-avatar:hover { background: ${isPF ? 'rgba(255,255,255,0.25)' : 'rgba(0,0,0,0.06)'}; color: ${isPF ? '#FFF' : '#86868B'}; }
 
     /* Profile Dropdown */
     .kt-profile-drop { position: absolute; top: 48px; right: 20px; width: 260px; background: #FFF; border-radius: 16px; border: 1px solid rgba(0,0,0,0.06); box-shadow: 0 12px 48px rgba(0,0,0,0.12); z-index: 400; display: none; overflow: hidden; padding: 6px 0; }
