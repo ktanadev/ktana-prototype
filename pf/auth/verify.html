@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Verificar email — KTANA</title>
+  <link rel="stylesheet" href="../../shared.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Zen+Dots&display=swap" rel="stylesheet">
+  <style>
+    body { min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 40px 24px; }
+    .verify-container { width: 100%; max-width: 380px; text-align: center; }
+    .logo h1 { font-size: 20px; margin-bottom: 32px; }
+    .icon-wrap { margin-bottom: 24px; }
+    .icon-wrap svg { width: 48px; height: 48px; color: #D70030; }
+    h2 { font-size: 22px; margin-bottom: 8px; font-family: 'Satoshi', sans-serif; font-weight: 600; }
+    .sub { font-size: 14px; color: #86868B; line-height: 1.6; margin-bottom: 32px; }
+    .sub strong { color: #1D1D1F; }
+    .code-inputs { display: flex; gap: 8px; justify-content: center; margin-bottom: 24px; }
+    .code-input { width: 48px; height: 56px; border-radius: 12px; border: 1px solid #D2D2D7; background: #FFF; text-align: center; font-size: 22px; font-weight: 600; font-family: 'Inter', system-ui, sans-serif; color: #1D1D1F; outline: none; transition: border-color 0.15s; }
+    .code-input:focus { border-color: rgba(215,0,48,0.4); }
+    .resend { font-size: 13px; color: #86868B; margin-top: 16px; font-family: 'Inter', system-ui, sans-serif; }
+    .resend a { color: #D70030; font-weight: 500; cursor: pointer; }
+  </style>
+</head>
+<body class="light">
+  <div class="verify-container fade-in">
+    <div class="logo">
+      <h1 class="font-display text-brand">KTANA</h1>
+    </div>
+
+    <div class="icon-wrap">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+    </div>
+
+    <h2>Verifique seu email</h2>
+    <p class="sub">Enviamos um codigo de 6 digitos para<br><strong>voce@email.com</strong></p>
+
+    <form onsubmit="event.preventDefault(); location.href='../onboarding.html';">
+      <div class="code-inputs">
+        <input type="text" maxlength="1" class="code-input" autofocus oninput="moveNext(this)" value="4">
+        <input type="text" maxlength="1" class="code-input" oninput="moveNext(this)" value="7">
+        <input type="text" maxlength="1" class="code-input" oninput="moveNext(this)" value="2">
+        <input type="text" maxlength="1" class="code-input" oninput="moveNext(this)">
+        <input type="text" maxlength="1" class="code-input" oninput="moveNext(this)">
+        <input type="text" maxlength="1" class="code-input" oninput="moveNext(this)">
+      </div>
+
+      <button type="submit" class="btn btn-primary" style="width: 100%; padding: 14px; font-size: 14px; border-radius: 12px;">
+        Verificar
+      </button>
+    </form>
+
+    <p class="resend">Nao recebeu? <a onclick="alert('Codigo reenviado')">Reenviar codigo</a></p>
+  </div>
+
+  <script>
+    function moveNext(el) {
+      if (el.value.length === 1 && el.nextElementSibling) {
+        el.nextElementSibling.focus();
+      }
+    }
+  </script>
+</body>
+</html>
