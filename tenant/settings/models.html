@@ -17,6 +17,7 @@
     .card-label { font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: #D70030; margin-bottom: 14px; }
     .row { display: flex; align-items: center; justify-content: space-between; padding: 10px 0; border-bottom: 0.5px solid rgba(0,0,0,0.03); }
     .row:last-child { border-bottom: none; }
+    .row-info { flex: 1; }
     .row-title { font-family: 'Satoshi', sans-serif; font-size: 14px; color: #1D1D1F; }
     .row-desc { font-family: 'Satoshi', sans-serif; font-size: 11px; color: #86868B; margin-top: 2px; }
     .row-value { font-family: 'Inter', sans-serif; font-size: 13px; color: #86868B; }
@@ -27,22 +28,211 @@
     .mode-selector { display: flex; gap: 2px; background: rgba(0,0,0,0.03); border-radius: 8px; padding: 2px; }
     .mode-btn { font-family: 'Inter', sans-serif; padding: 5px 12px; border-radius: 6px; font-size: 11px; color: #86868B; cursor: pointer; border: none; background: none; }
     .mode-btn.active { background: #FFF; color: #1D1D1F; box-shadow: 0 1px 3px rgba(0,0,0,0.06); }
-    .conn-item { display: flex; align-items: center; gap: 12px; padding: 10px 0; border-bottom: 0.5px solid rgba(0,0,0,0.03); }
-    .conn-item:last-child { border-bottom: none; }
-    .conn-icon { width: 32px; height: 32px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 700; flex-shrink: 0; }
-    .conn-name { font-family: 'Satoshi', sans-serif; font-size: 13px; color: #1D1D1F; }
-    .conn-desc { font-family: 'Inter', sans-serif; font-size: 11px; color: #86868B; }
-    .conn-status { font-family: 'Inter', sans-serif; font-size: 11px; color: #86868B; margin-left: auto; display: flex; align-items: center; gap: 4px; }
-    .conn-status::before { content: ''; width: 5px; height: 5px; border-radius: 50%; background: #30D158; }
-    .conn-btn { font-family: 'Inter', sans-serif; padding: 5px 12px; border-radius: 980px; background: #1D1D1F; color: #F5F5F7; font-size: 11px; font-weight: 500; border: none; cursor: pointer; margin-left: auto; }
-    .bar-row { display: flex; align-items: center; gap: 12px; padding: 6px 0; }
-    .bar-label { font-family: 'Satoshi', sans-serif; font-size: 12px; color: #86868B; width: 120px; flex-shrink: 0; }
-    .bar-track { flex: 1; height: 4px; background: rgba(0,0,0,0.04); border-radius: 2px; overflow: hidden; }
-    .bar-fill { height: 100%; border-radius: 2px; background: #1D1D1F; }
-    .bar-value { font-family: 'Inter', sans-serif; font-size: 11px; color: #86868B; width: 60px; text-align: right; }
-    .btn-danger { font-family: 'Inter', sans-serif; padding: 10px 20px; border-radius: 12px; background: transparent; color: #D70030; font-size: 12px; border: 0.5px solid rgba(215,0,48,0.2); cursor: pointer; font-weight: 500; }
+
+    /* Model selector cards */
+    .model-option { display: flex; align-items: flex-start; gap: 14px; padding: 14px; border-radius: 14px; cursor: pointer; transition: background 0.15s; margin-bottom: 4px; }
+    .model-option:hover { background: rgba(0,0,0,0.02); }
+    .model-option.selected { background: rgba(215,0,48,0.03); }
+    .model-radio { width: 20px; height: 20px; border-radius: 50%; border: 2px solid #D2D2D7; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 2px; transition: border-color 0.15s; }
+    .model-option.selected .model-radio { border-color: #D70030; }
+    .model-radio-dot { width: 10px; height: 10px; border-radius: 50%; background: #D70030; transform: scale(0); transition: transform 0.15s; }
+    .model-option.selected .model-radio-dot { transform: scale(1); }
+    .model-info { flex: 1; }
+    .model-name { font-family: 'Satoshi', sans-serif; font-size: 14px; font-weight: 600; color: #1D1D1F; }
+    .model-role { font-family: 'Inter', sans-serif; font-size: 11px; color: #D70030; font-weight: 500; margin-top: 2px; }
+    .model-desc { font-family: 'Satoshi', sans-serif; font-size: 11px; color: #86868B; margin-top: 4px; line-height: 1.5; }
+    .model-cost { font-family: 'Inter', sans-serif; font-size: 11px; color: #AEAEB2; flex-shrink: 0; }
+
+    /* Slider */
+    .slider-container { padding: 8px 0; }
+    .slider-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+    .slider-value { font-family: 'Inter', sans-serif; font-size: 18px; font-weight: 600; color: #1D1D1F; }
+    .slider-track { width: 100%; height: 4px; border-radius: 2px; background: rgba(0,0,0,0.06); appearance: none; -webkit-appearance: none; outline: none; cursor: pointer; }
+    .slider-track::-webkit-slider-thumb { -webkit-appearance: none; width: 20px; height: 20px; border-radius: 50%; background: #FFF; border: 2px solid #D70030; box-shadow: 0 1px 4px rgba(0,0,0,0.12); cursor: pointer; }
+    .slider-labels { display: flex; justify-content: space-between; margin-top: 8px; }
+    .slider-label { font-family: 'Inter', sans-serif; font-size: 11px; color: #AEAEB2; }
+
+    /* Cost estimate */
+    .cost-card { display: flex; align-items: center; gap: 16px; padding: 18px; background: rgba(0,0,0,0.02); border-radius: 14px; }
+    .cost-amount { font-family: 'Satoshi', sans-serif; font-size: 28px; font-weight: 700; color: #1D1D1F; }
+    .cost-label { font-family: 'Inter', sans-serif; font-size: 11px; color: #86868B; }
+    .cost-detail { font-family: 'Inter', sans-serif; font-size: 11px; color: #AEAEB2; margin-top: 2px; }
+    .cost-bar { flex: 1; }
+    .cost-track { height: 4px; background: rgba(0,0,0,0.04); border-radius: 2px; overflow: hidden; margin-top: 8px; }
+    .cost-fill { height: 100%; border-radius: 2px; background: #D70030; }
+
+    .fade-in { animation: fadeIn 0.3s cubic-bezier(0.25,0.1,0.25,1) both; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
   </style>
 </head>
 <body>
 
+  <main class="main">
+    <h1 class="fade-in">Inteligencia</h1>
+
+    <div class="settings-nav fade-in">
+      <button class="settings-tab" onclick="location.href='general.html'">Geral</button>
+      <button class="settings-tab active">Inteligencia</button>
+      <button class="settings-tab" onclick="location.href='connections.html'">Conexoes</button>
+      <button class="settings-tab" onclick="location.href='brain.html'">Cerebro</button>
+      <button class="settings-tab" onclick="location.href='security.html'">Seguranca</button>
+      <button class="settings-tab" onclick="location.href='privacy.html'">Privacidade</button>
+      <button class="settings-tab" onclick="location.href='billing.html'">Plano</button>
+      <button class="settings-tab" onclick="location.href='notifications.html'">Notificacoes</button>
+      <button class="settings-tab" onclick="location.href='api.html'">API</button>
+      <button class="settings-tab" onclick="location.href='ethics.html'">Etica</button>
+    </div>
+
+    <!-- Modelo padrao -->
+    <div class="card fade-in" style="animation-delay:0.1s">
+      <p class="card-label">Modelo padrao</p>
+
+      <div class="model-option selected" onclick="selectModel(this)">
+        <div class="model-radio"><div class="model-radio-dot"></div></div>
+        <div class="model-info">
+          <div class="model-name">Haiku 4.5</div>
+          <div class="model-role">Router</div>
+          <div class="model-desc">Triagem e roteamento de tarefas. Ultra-rapido, processa cada mensagem recebida e decide qual samurai deve atuar. Custo minimo por chamada.</div>
+        </div>
+        <span class="model-cost">$0.25/1M tokens</span>
+      </div>
+
+      <div class="model-option" onclick="selectModel(this)">
+        <div class="model-radio"><div class="model-radio-dot"></div></div>
+        <div class="model-info">
+          <div class="model-name">Sonnet 4.6</div>
+          <div class="model-role">Execucao</div>
+          <div class="model-desc">Modelo principal dos samurais para execucao de tarefas. Redige emails, analisa documentos, gera relatorios. Melhor equilibrio entre qualidade e custo.</div>
+        </div>
+        <span class="model-cost">$3/1M tokens</span>
+      </div>
+
+      <div class="model-option" onclick="selectModel(this)">
+        <div class="model-radio"><div class="model-radio-dot"></div></div>
+        <div class="model-info">
+          <div class="model-name">Opus 4.6</div>
+          <div class="model-role">Decisao</div>
+          <div class="model-desc">Reservado para decisoes criticas e raciocinio complexo. Akira (CEO) usa para planejamento estrategico, analise de contratos e resolucao de conflitos entre samurais.</div>
+        </div>
+        <span class="model-cost">$15/1M tokens</span>
+      </div>
+    </div>
+
+    <!-- Modo de roteamento -->
+    <div class="card fade-in" style="animation-delay:0.2s">
+      <p class="card-label">Modo de roteamento</p>
+      <div class="row">
+        <div class="row-info">
+          <p class="row-title">Selecao de modelo</p>
+          <p class="row-desc">Automatico: Haiku roteia, escalando para Sonnet/Opus conforme complexidade. Manual: voce define o modelo por samurai.</p>
+        </div>
+        <div class="mode-selector">
+          <button class="mode-btn active" onclick="selectMode(this)">Auto</button>
+          <button class="mode-btn" onclick="selectMode(this)">Manual</button>
+        </div>
+      </div>
+      <div class="row">
+        <div class="row-info">
+          <p class="row-title">Fallback inteligente</p>
+          <p class="row-desc">Se Opus estiver indisponivel, usa Sonnet automaticamente</p>
+        </div>
+        <div class="toggle on" onclick="this.classList.toggle('on')"></div>
+      </div>
+    </div>
+
+    <!-- Temperatura -->
+    <div class="card fade-in" style="animation-delay:0.3s">
+      <p class="card-label">Temperatura</p>
+      <div class="slider-container">
+        <div class="slider-header">
+          <div class="row-info">
+            <p class="row-title">Criatividade das respostas</p>
+            <p class="row-desc">Valores baixos = mais deterministico. Valores altos = mais criativo.</p>
+          </div>
+          <span class="slider-value" id="tempValue">0.3</span>
+        </div>
+        <input type="range" class="slider-track" min="0" max="10" value="3" oninput="document.getElementById('tempValue').textContent=(this.value/10).toFixed(1)">
+        <div class="slider-labels">
+          <span class="slider-label">0.0 Preciso</span>
+          <span class="slider-label">0.5</span>
+          <span class="slider-label">1.0 Criativo</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Contexto maximo -->
+    <div class="card fade-in" style="animation-delay:0.4s">
+      <p class="card-label">Contexto maximo</p>
+      <div class="row">
+        <div class="row-info">
+          <p class="row-title">Janela de contexto</p>
+          <p class="row-desc">Quanto de historico e conhecimento o samurai considera por acao. Maior contexto = mais inteligente, mais custo.</p>
+        </div>
+      </div>
+      <div style="display:flex;gap:8px;margin-top:12px;">
+        <button class="mode-btn" onclick="selectCtx(this)" style="padding:10px 18px;border-radius:10px;font-size:12px;">100K</button>
+        <button class="mode-btn" onclick="selectCtx(this)" style="padding:10px 18px;border-radius:10px;font-size:12px;">200K</button>
+        <button class="mode-btn active" onclick="selectCtx(this)" style="padding:10px 18px;border-radius:10px;font-size:12px;">1M</button>
+      </div>
+      <div style="margin-top:12px;">
+        <p class="row-desc">1M tokens = ~750.000 palavras de contexto. Ideal para analises complexas com muitos documentos.</p>
+      </div>
+    </div>
+
+    <!-- Custo estimado -->
+    <div class="card fade-in" style="animation-delay:0.5s">
+      <p class="card-label">Custo estimado</p>
+      <div class="cost-card">
+        <div>
+          <div class="cost-amount">R$2.140</div>
+          <div class="cost-label">Gasto este mes</div>
+        </div>
+        <div class="cost-bar">
+          <div class="cost-detail">71% do budget de R$3.000</div>
+          <div class="cost-track"><div class="cost-fill" style="width:71%;"></div></div>
+        </div>
+      </div>
+      <div class="row" style="margin-top:8px;">
+        <div class="row-info">
+          <p class="row-title">Distribuicao por modelo</p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="row-info">
+          <p class="row-desc">Haiku 4.5 (router)</p>
+        </div>
+        <span class="row-value">R$89 (4%)</span>
+      </div>
+      <div class="row">
+        <div class="row-info">
+          <p class="row-desc">Sonnet 4.6 (execucao)</p>
+        </div>
+        <span class="row-value">R$1.420 (66%)</span>
+      </div>
+      <div class="row">
+        <div class="row-info">
+          <p class="row-desc">Opus 4.6 (decisao)</p>
+        </div>
+        <span class="row-value">R$631 (30%)</span>
+      </div>
+    </div>
+
+  </main>
+
+  <script>
+    function selectModel(el) {
+      document.querySelectorAll('.model-option').forEach(o => o.classList.remove('selected'));
+      el.classList.add('selected');
+    }
+    function selectMode(el) {
+      el.parentElement.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active'));
+      el.classList.add('active');
+    }
+    function selectCtx(el) {
+      el.parentElement.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active'));
+      el.classList.add('active');
+    }
+  </script>
 <script src="../../shared-nav.js"></script>
+</body>
+</html>

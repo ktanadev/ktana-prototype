@@ -17,6 +17,7 @@
     .card-label { font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: #D70030; margin-bottom: 14px; }
     .row { display: flex; align-items: center; justify-content: space-between; padding: 10px 0; border-bottom: 0.5px solid rgba(0,0,0,0.03); }
     .row:last-child { border-bottom: none; }
+    .row-info { flex: 1; }
     .row-title { font-family: 'Satoshi', sans-serif; font-size: 14px; color: #1D1D1F; }
     .row-desc { font-family: 'Satoshi', sans-serif; font-size: 11px; color: #86868B; margin-top: 2px; }
     .row-value { font-family: 'Inter', sans-serif; font-size: 13px; color: #86868B; }
@@ -27,22 +28,253 @@
     .mode-selector { display: flex; gap: 2px; background: rgba(0,0,0,0.03); border-radius: 8px; padding: 2px; }
     .mode-btn { font-family: 'Inter', sans-serif; padding: 5px 12px; border-radius: 6px; font-size: 11px; color: #86868B; cursor: pointer; border: none; background: none; }
     .mode-btn.active { background: #FFF; color: #1D1D1F; box-shadow: 0 1px 3px rgba(0,0,0,0.06); }
-    .conn-item { display: flex; align-items: center; gap: 12px; padding: 10px 0; border-bottom: 0.5px solid rgba(0,0,0,0.03); }
-    .conn-item:last-child { border-bottom: none; }
-    .conn-icon { width: 32px; height: 32px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 700; flex-shrink: 0; }
-    .conn-name { font-family: 'Satoshi', sans-serif; font-size: 13px; color: #1D1D1F; }
-    .conn-desc { font-family: 'Inter', sans-serif; font-size: 11px; color: #86868B; }
-    .conn-status { font-family: 'Inter', sans-serif; font-size: 11px; color: #86868B; margin-left: auto; display: flex; align-items: center; gap: 4px; }
-    .conn-status::before { content: ''; width: 5px; height: 5px; border-radius: 50%; background: #30D158; }
-    .conn-btn { font-family: 'Inter', sans-serif; padding: 5px 12px; border-radius: 980px; background: #1D1D1F; color: #F5F5F7; font-size: 11px; font-weight: 500; border: none; cursor: pointer; margin-left: auto; }
-    .bar-row { display: flex; align-items: center; gap: 12px; padding: 6px 0; }
-    .bar-label { font-family: 'Satoshi', sans-serif; font-size: 12px; color: #86868B; width: 120px; flex-shrink: 0; }
-    .bar-track { flex: 1; height: 4px; background: rgba(0,0,0,0.04); border-radius: 2px; overflow: hidden; }
-    .bar-fill { height: 100%; border-radius: 2px; background: #1D1D1F; }
-    .bar-value { font-family: 'Inter', sans-serif; font-size: 11px; color: #86868B; width: 60px; text-align: right; }
-    .btn-danger { font-family: 'Inter', sans-serif; padding: 10px 20px; border-radius: 12px; background: transparent; color: #D70030; font-size: 12px; border: 0.5px solid rgba(215,0,48,0.2); cursor: pointer; font-weight: 500; }
+
+    /* Session items */
+    .session-item { display: flex; align-items: center; gap: 14px; padding: 12px 0; border-bottom: 0.5px solid rgba(0,0,0,0.03); }
+    .session-item:last-child { border-bottom: none; }
+    .session-icon { width: 36px; height: 36px; border-radius: 10px; background: rgba(0,0,0,0.02); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .session-info { flex: 1; min-width: 0; }
+    .session-device { font-family: 'Satoshi', sans-serif; font-size: 13px; font-weight: 500; color: #1D1D1F; }
+    .session-meta { font-family: 'Inter', sans-serif; font-size: 11px; color: #86868B; margin-top: 2px; }
+    .session-current { font-family: 'Inter', sans-serif; font-size: 10px; color: #30D158; font-weight: 500; }
+    .btn-revoke { font-family: 'Inter', sans-serif; padding: 5px 14px; border-radius: 980px; background: none; color: #D70030; font-size: 11px; font-weight: 500; border: 1px solid rgba(215,0,48,0.2); cursor: pointer; flex-shrink: 0; }
+
+    /* Login history */
+    .login-item { display: flex; align-items: center; gap: 12px; padding: 10px 0; border-bottom: 0.5px solid rgba(0,0,0,0.03); }
+    .login-item:last-child { border-bottom: none; }
+    .login-status { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
+    .login-status.success { background: #30D158; }
+    .login-status.failed { background: #FF453A; }
+    .login-info { flex: 1; }
+    .login-desc { font-family: 'Satoshi', sans-serif; font-size: 13px; color: #1D1D1F; }
+    .login-meta { font-family: 'Inter', sans-serif; font-size: 11px; color: #86868B; margin-top: 2px; }
+    .login-time { font-family: 'Inter', sans-serif; font-size: 11px; color: #AEAEB2; flex-shrink: 0; }
+
+    /* Slider for alcada */
+    .alcada-slider { width: 100%; }
+    .alcada-track { width: 100%; height: 4px; border-radius: 2px; background: rgba(0,0,0,0.06); appearance: none; -webkit-appearance: none; outline: none; cursor: pointer; }
+    .alcada-track::-webkit-slider-thumb { -webkit-appearance: none; width: 20px; height: 20px; border-radius: 50%; background: #FFF; border: 2px solid #D70030; box-shadow: 0 1px 4px rgba(0,0,0,0.12); cursor: pointer; }
+    .alcada-value { font-family: 'Inter', sans-serif; font-size: 22px; font-weight: 600; color: #1D1D1F; }
+    .alcada-labels { display: flex; justify-content: space-between; margin-top: 8px; }
+    .alcada-label { font-family: 'Inter', sans-serif; font-size: 11px; color: #AEAEB2; }
+
+    .fade-in { animation: fadeIn 0.3s cubic-bezier(0.25,0.1,0.25,1) both; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
   </style>
 </head>
 <body>
 
+  <main class="main">
+    <h1 class="fade-in">Seguranca</h1>
+
+    <div class="settings-nav fade-in">
+      <button class="settings-tab" onclick="location.href='general.html'">Geral</button>
+      <button class="settings-tab" onclick="location.href='models.html'">Inteligencia</button>
+      <button class="settings-tab" onclick="location.href='connections.html'">Conexoes</button>
+      <button class="settings-tab" onclick="location.href='brain.html'">Cerebro</button>
+      <button class="settings-tab active">Seguranca</button>
+      <button class="settings-tab" onclick="location.href='privacy.html'">Privacidade</button>
+      <button class="settings-tab" onclick="location.href='billing.html'">Plano</button>
+      <button class="settings-tab" onclick="location.href='notifications.html'">Notificacoes</button>
+      <button class="settings-tab" onclick="location.href='api.html'">API</button>
+      <button class="settings-tab" onclick="location.href='ethics.html'">Etica</button>
+    </div>
+
+    <!-- Autenticacao -->
+    <div class="card fade-in" style="animation-delay:0.1s">
+      <p class="card-label">Autenticacao</p>
+      <div class="row">
+        <div class="row-info">
+          <p class="row-title">Autenticacao em dois fatores (2FA)</p>
+          <p class="row-desc">Proteja sua conta com verificacao adicional via app autenticador</p>
+        </div>
+        <div class="toggle on" onclick="this.classList.toggle('on')"></div>
+      </div>
+      <div class="row">
+        <div class="row-info">
+          <p class="row-title">Timeout da sessao</p>
+          <p class="row-desc">Tempo ate logout automatico por inatividade</p>
+        </div>
+        <div class="mode-selector">
+          <button class="mode-btn active" onclick="selectMode(this)">8h</button>
+          <button class="mode-btn" onclick="selectMode(this)">24h</button>
+          <button class="mode-btn" onclick="selectMode(this)">7d</button>
+        </div>
+      </div>
+      <div class="row">
+        <div class="row-info">
+          <p class="row-title">Login via biometria</p>
+          <p class="row-desc">Face ID / Touch ID nos dispositivos compativeis</p>
+        </div>
+        <div class="toggle on" onclick="this.classList.toggle('on')"></div>
+      </div>
+    </div>
+
+    <!-- Sessoes ativas -->
+    <div class="card fade-in" style="animation-delay:0.2s">
+      <p class="card-label">Sessoes ativas</p>
+
+      <div class="session-item">
+        <div class="session-icon">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#1D1D1F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+        </div>
+        <div class="session-info">
+          <div class="session-device">MacBook Pro — Chrome</div>
+          <div class="session-meta">Sao Paulo, BR -- Ativo agora</div>
+        </div>
+        <span class="session-current">Sessao atual</span>
+      </div>
+
+      <div class="session-item">
+        <div class="session-icon">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#86868B" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
+        </div>
+        <div class="session-info">
+          <div class="session-device">iPhone 15 Pro — Safari</div>
+          <div class="session-meta">Sao Paulo, BR -- Ha 2 horas</div>
+        </div>
+        <button class="btn-revoke">Revogar</button>
+      </div>
+
+      <div class="session-item">
+        <div class="session-icon">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#86868B" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="2" ry="2"/><rect x="9" y="9" width="6" height="6"/><line x1="9" y1="1" x2="9" y2="4"/><line x1="15" y1="1" x2="15" y2="4"/><line x1="9" y1="20" x2="9" y2="23"/><line x1="15" y1="20" x2="15" y2="23"/><line x1="20" y1="9" x2="23" y2="9"/><line x1="20" y1="14" x2="23" y2="14"/><line x1="1" y1="9" x2="4" y2="9"/><line x1="1" y1="14" x2="4" y2="14"/></svg>
+        </div>
+        <div class="session-info">
+          <div class="session-device">API Key — n8n Automation</div>
+          <div class="session-meta">VPS 82.29.62.106 -- Ha 6 horas</div>
+        </div>
+        <button class="btn-revoke">Revogar</button>
+      </div>
+    </div>
+
+    <!-- Historico de login -->
+    <div class="card fade-in" style="animation-delay:0.3s">
+      <p class="card-label">Historico de login</p>
+
+      <div class="login-item">
+        <div class="login-status success"></div>
+        <div class="login-info">
+          <div class="login-desc">Login via 2FA</div>
+          <div class="login-meta">MacBook Pro -- Chrome -- 187.12.45.89</div>
+        </div>
+        <span class="login-time">Hoje, 08:32</span>
+      </div>
+
+      <div class="login-item">
+        <div class="login-status success"></div>
+        <div class="login-info">
+          <div class="login-desc">Login via biometria</div>
+          <div class="login-meta">iPhone 15 Pro -- Safari -- 187.12.45.89</div>
+        </div>
+        <span class="login-time">Hoje, 07:15</span>
+      </div>
+
+      <div class="login-item">
+        <div class="login-status failed"></div>
+        <div class="login-info">
+          <div class="login-desc">Tentativa bloqueada (senha incorreta)</div>
+          <div class="login-meta">Desconhecido -- Chrome -- 45.231.12.78</div>
+        </div>
+        <span class="login-time">Ontem, 23:41</span>
+      </div>
+
+      <div class="login-item">
+        <div class="login-status success"></div>
+        <div class="login-info">
+          <div class="login-desc">Login via 2FA</div>
+          <div class="login-meta">MacBook Pro -- Chrome -- 187.12.45.89</div>
+        </div>
+        <span class="login-time">Ontem, 09:10</span>
+      </div>
+
+      <div class="login-item">
+        <div class="login-status success"></div>
+        <div class="login-info">
+          <div class="login-desc">Login via API Key</div>
+          <div class="login-meta">n8n Automation -- 82.29.62.106</div>
+        </div>
+        <span class="login-time">27 Mar, 03:00</span>
+      </div>
+    </div>
+
+    <!-- Samurais — Alcada -->
+    <div class="card fade-in" style="animation-delay:0.4s">
+      <p class="card-label">Samurais</p>
+
+      <div class="row" style="flex-direction:column;align-items:stretch;">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;">
+          <div>
+            <p class="row-title">Alcada maxima sem aprovacao</p>
+            <p class="row-desc">Valor maximo que um samurai pode executar sem pedir sua autorizacao</p>
+          </div>
+          <span class="alcada-value" id="alcadaValue">R$5.000</span>
+        </div>
+        <div style="padding:8px 0;">
+          <input type="range" class="alcada-track" min="0" max="50" value="5" oninput="document.getElementById('alcadaValue').textContent='R$'+this.value+'.000'">
+          <div class="alcada-labels">
+            <span class="alcada-label">R$0</span>
+            <span class="alcada-label">R$25.000</span>
+            <span class="alcada-label">R$50.000</span>
+          </div>
+        </div>
+      </div>
+
+      <div style="margin-top:8px;">
+        <p class="row-title" style="margin-bottom:12px;">Tipos de acao que precisam aprovacao</p>
+
+        <div class="row">
+          <div class="row-info">
+            <p class="row-desc">Enviar cobrancas acima da alcada</p>
+          </div>
+          <div class="toggle on" onclick="this.classList.toggle('on')"></div>
+        </div>
+
+        <div class="row">
+          <div class="row-info">
+            <p class="row-desc">Enviar emails para clientes</p>
+          </div>
+          <div class="toggle on" onclick="this.classList.toggle('on')"></div>
+        </div>
+
+        <div class="row">
+          <div class="row-info">
+            <p class="row-desc">Agendar reunioes</p>
+          </div>
+          <div class="toggle" onclick="this.classList.toggle('on')"></div>
+        </div>
+
+        <div class="row">
+          <div class="row-info">
+            <p class="row-desc">Alterar dados cadastrais</p>
+          </div>
+          <div class="toggle on" onclick="this.classList.toggle('on')"></div>
+        </div>
+
+        <div class="row">
+          <div class="row-info">
+            <p class="row-desc">Cancelar servicos ou contratos</p>
+          </div>
+          <div class="toggle on" onclick="this.classList.toggle('on')"></div>
+        </div>
+
+        <div class="row">
+          <div class="row-info">
+            <p class="row-desc">Transferencias entre contas</p>
+          </div>
+          <div class="toggle on" onclick="this.classList.toggle('on')"></div>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <script>
+    function selectMode(el) {
+      el.parentElement.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active'));
+      el.classList.add('active');
+    }
+  </script>
 <script src="../../shared-nav.js"></script>
+</body>
+</html>
