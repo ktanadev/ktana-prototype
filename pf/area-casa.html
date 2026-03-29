@@ -103,6 +103,14 @@
     .stagger-8 { animation: fadeUp 0.5s cubic-bezier(0.25,0.1,0.25,1) 0.54s both; }
     .stagger-9 { animation: fadeUp 0.5s cubic-bezier(0.25,0.1,0.25,1) 0.61s both; }
     .stagger-10 { animation: fadeUp 0.5s cubic-bezier(0.25,0.1,0.25,1) 0.68s both; }
+  
+    .chat-cta { display: flex; align-items: center; gap: 12px; padding: 16px 20px; background: #1D1D1F; border-radius: 16px; cursor: pointer; transition: all 0.15s; margin-top: 20px; text-decoration: none; }
+    .chat-cta:hover { background: #000; }
+    .chat-cta:active { transform: scale(0.98); }
+    .chat-cta-avatar { width: 32px; height: 32px; border-radius: 8px; background: rgba(215,0,48,0.15); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .chat-cta-avatar span { font-family: "Zen Dots", cursive; font-size: 11px; color: #D70030; }
+    .chat-cta-text { font-family: "Satoshi", sans-serif; font-size: 14px; color: #F5F5F7; flex: 1; }
+    .chat-cta-arrow { color: #86868B; flex-shrink: 0; }
   </style>
 </head>
 <body>
@@ -165,8 +173,102 @@
       </div>
     </div>
 
-    <!-- Weekly Goals -->
+    <!-- Health Data: Bills Paid Ring + Organization Score + Shopping Completion -->
     <div class="card stagger-4">
+      <p class="card-label">Painel Domestico</p>
+      <div class="chart-header">
+        <h3>Visao Geral</h3>
+        <span class="chart-period">Marco 2026</span>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;">
+        <!-- Bills Paid Ring -->
+        <div style="text-align:center;">
+          <svg width="100%" height="100" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid meet">
+            <circle cx="50" cy="50" r="38" fill="none" stroke="rgba(0,0,0,0.06)" stroke-width="8"/>
+            <!-- 8 of 10 = 80% => dashoffset = 238.8 * 0.20 = 47.76 -->
+            <circle cx="50" cy="50" r="38" fill="none" stroke="#30D158" stroke-width="8" stroke-linecap="round"
+              stroke-dasharray="238.8" stroke-dashoffset="47.76"
+              transform="rotate(-90 50 50)"/>
+            <text x="50" y="46" font-family="Inter,sans-serif" font-size="16" font-weight="700" fill="#1D1D1F" text-anchor="middle">8</text>
+            <text x="50" y="60" font-family="Inter,sans-serif" font-size="9" fill="#86868B" text-anchor="middle">de 10</text>
+          </svg>
+          <p style="font-family:'Inter',sans-serif;font-size:11px;font-weight:600;color:#D70030;text-transform:uppercase;letter-spacing:0.05em;margin-top:4px;">Contas Pagas</p>
+        </div>
+        <!-- Organization Score -->
+        <div style="text-align:center;">
+          <svg width="100%" height="100" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid meet">
+            <circle cx="50" cy="50" r="38" fill="none" stroke="rgba(0,0,0,0.06)" stroke-width="8"/>
+            <!-- 65% => dashoffset = 238.8 * 0.35 = 83.58 -->
+            <circle cx="50" cy="50" r="38" fill="none" stroke="#FF9500" stroke-width="8" stroke-linecap="round"
+              stroke-dasharray="238.8" stroke-dashoffset="83.58"
+              transform="rotate(-90 50 50)"/>
+            <text x="50" y="46" font-family="Inter,sans-serif" font-size="16" font-weight="700" fill="#1D1D1F" text-anchor="middle">6.5</text>
+            <text x="50" y="60" font-family="Inter,sans-serif" font-size="9" fill="#86868B" text-anchor="middle">de 10</text>
+          </svg>
+          <p style="font-family:'Inter',sans-serif;font-size:11px;font-weight:600;color:#D70030;text-transform:uppercase;letter-spacing:0.05em;margin-top:4px;">Organizacao</p>
+        </div>
+        <!-- Shopping List Completion -->
+        <div style="text-align:center;">
+          <svg width="100%" height="100" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid meet">
+            <circle cx="50" cy="50" r="38" fill="none" stroke="rgba(0,0,0,0.06)" stroke-width="8"/>
+            <!-- 12 of 15 = 80% => dashoffset = 238.8 * 0.20 = 47.76 -->
+            <circle cx="50" cy="50" r="38" fill="none" stroke="#D70030" stroke-width="8" stroke-linecap="round"
+              stroke-dasharray="238.8" stroke-dashoffset="47.76"
+              transform="rotate(-90 50 50)"/>
+            <text x="50" y="46" font-family="Inter,sans-serif" font-size="16" font-weight="700" fill="#1D1D1F" text-anchor="middle">12</text>
+            <text x="50" y="60" font-family="Inter,sans-serif" font-size="9" fill="#86868B" text-anchor="middle">de 15</text>
+          </svg>
+          <p style="font-family:'Inter',sans-serif;font-size:11px;font-weight:600;color:#D70030;text-transform:uppercase;letter-spacing:0.05em;margin-top:4px;">Lista Compras</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Health Data: Breakdown details -->
+    <div class="card stagger-5">
+      <p class="card-label">Detalhamento</p>
+      <div class="progress-bar-wrap">
+        <div class="progress-bar-label"><span>Luz / Energia</span><strong style="color:#30D158;">Pago</strong></div>
+        <div class="progress-bar-track"><div class="progress-bar-fill" style="width:100%;background:#30D158;"></div></div>
+      </div>
+      <div class="progress-bar-wrap">
+        <div class="progress-bar-label"><span>Internet</span><strong style="color:#30D158;">Pago</strong></div>
+        <div class="progress-bar-track"><div class="progress-bar-fill" style="width:100%;background:#30D158;"></div></div>
+      </div>
+      <div class="progress-bar-wrap">
+        <div class="progress-bar-label"><span>Condominio</span><strong style="color:#30D158;">Pago</strong></div>
+        <div class="progress-bar-track"><div class="progress-bar-fill" style="width:100%;background:#30D158;"></div></div>
+      </div>
+      <div class="progress-bar-wrap">
+        <div class="progress-bar-label"><span>Agua</span><strong style="color:#FF9500;">Vence em 3 dias</strong></div>
+        <div class="progress-bar-track"><div class="progress-bar-fill" style="width:60%;background:#FF9500;"></div></div>
+      </div>
+      <div class="progress-bar-wrap">
+        <div class="progress-bar-label"><span>Seguro residencial</span><strong style="color:#D70030;">Pendente</strong></div>
+        <div class="progress-bar-track"><div class="progress-bar-fill" style="width:0%;background:#D70030;"></div></div>
+      </div>
+      <div style="margin-top:16px;padding-top:12px;border-top:0.5px solid rgba(0,0,0,0.04);">
+        <p style="font-family:'Inter',sans-serif;font-size:11px;font-weight:600;color:#D70030;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:8px;">Score de Organizacao por Comodo</p>
+        <div class="progress-bar-wrap">
+          <div class="progress-bar-label"><span>Cozinha</span><strong>8/10</strong></div>
+          <div class="progress-bar-track"><div class="progress-bar-fill" style="width:80%;background:#30D158;"></div></div>
+        </div>
+        <div class="progress-bar-wrap">
+          <div class="progress-bar-label"><span>Sala</span><strong>7/10</strong></div>
+          <div class="progress-bar-track"><div class="progress-bar-fill" style="width:70%;background:#30D158;"></div></div>
+        </div>
+        <div class="progress-bar-wrap">
+          <div class="progress-bar-label"><span>Quarto</span><strong>5/10</strong></div>
+          <div class="progress-bar-track"><div class="progress-bar-fill" style="width:50%;background:#FF9500;"></div></div>
+        </div>
+        <div class="progress-bar-wrap">
+          <div class="progress-bar-label"><span>Banheiro</span><strong>6/10</strong></div>
+          <div class="progress-bar-track"><div class="progress-bar-fill" style="width:60%;background:#FF9500;"></div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Weekly Goals -->
+    <div class="card stagger-6">
       <p class="card-label">Seu mentor esta trabalhando nestas metas</p>
       <div class="goal-row">
         <span class="goal-label">Pagar todas as contas ate dia 5</span>
@@ -206,7 +308,7 @@
     </div>
 
     <!-- Recent Activity -->
-    <div class="card stagger-5">
+    <div class="card stagger-7">
       <p class="card-label">O que seu mentor fez por voce</p>
       <div class="activity-item">
         <span class="activity-time">09:15</span>
@@ -236,13 +338,13 @@
     </div>
 
     <!-- Disclaimer -->
-    <div class="disclaimer stagger-6">
+    <div class="disclaimer stagger-8">
       <div class="disclaimer-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0zM12 9v4M12 17h.01"/></svg></div>
       <p><strong>Aviso importante:</strong> Assistentes de IA nao substituem profissionais habilitados. Em emergencias ligue <strong>192 (SAMU)</strong> ou <strong>193 (Bombeiros)</strong>.</p>
     </div>
 
     <!-- Actions -->
-    <button class="btn-edit stagger-7" onclick="location.href='chat.html'" style="display:flex;align-items:center;justify-content:center;gap:8px;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>Falar com Mika</button>
+    <button class="btn-edit stagger-9" onclick="location.href='chat.html'" style="display:flex;align-items:center;justify-content:center;gap:8px;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>Falar com Mika</button>
   </div>
 </body>
 </html><script src="pf-chat-widget.js?v=1774900000"></script>
