@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Aprovacoes — KTANA</title>
+  <link rel="stylesheet" href="../../shared.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Zen+Dots&display=swap" rel="stylesheet">
+  <style>
+    body { min-height: 100vh; background: #F5F5F7; }
+    .nav { position: sticky; top: 0; z-index: 50; height: 48px; display: flex; align-items: center; justify-content: center; background: rgba(245,245,247,0.72); backdrop-filter: saturate(180%) blur(20px); border-bottom: 0.5px solid rgba(0,0,0,0.06); }
+    .nav-inner { width: 100%; max-width: 720px; padding: 0 24px; display: flex; align-items: center; justify-content: space-between; }
+    .nav-logo { font-family: 'Zen Dots', cursive; font-size: 14px; color: #D70030; }
+    .nav-links { display: flex; align-items: center; gap: 24px; }
+    .nav-links a { font-family: 'Inter', sans-serif; font-size: 12px; color: #1D1D1F; opacity: 0.4; }
+    .nav-links a:hover, .nav-links a.active { opacity: 1; }
+
+    .main { max-width: 720px; margin: 0 auto; padding: 40px 24px 80px; }
+    h1 { font-family: 'Satoshi', sans-serif; font-size: 22px; font-weight: 700; color: #1D1D1F; margin-bottom: 4px; }
+    .sub { font-family: 'Satoshi', sans-serif; font-size: 13px; color: #86868B; margin-bottom: 32px; }
+
+    .tabs { display: flex; gap: 2px; background: rgba(0,0,0,0.03); border-radius: 10px; padding: 2px; margin-bottom: 24px; width: fit-content; }
+    .tab { font-family: 'Inter', sans-serif; padding: 6px 16px; border-radius: 8px; font-size: 12px; color: #86868B; cursor: pointer; border: none; background: none; transition: all 0.15s; }
+    .tab.active { background: #FFF; color: #1D1D1F; box-shadow: 0 1px 3px rgba(0,0,0,0.06); font-weight: 500; }
+
+    .approval { background: #FFF; border-radius: 20px; border: 1px solid rgba(0,0,0,0.04); padding: 24px; margin-bottom: 10px; transition: box-shadow 0.2s; cursor: pointer; }
+    .approval:hover { box-shadow: 0 4px 20px rgba(0,0,0,0.04); }
+    .approval-urgent { border-left: 2px solid #D70030; }
+
+    .approval-top { display: flex; align-items: start; justify-content: space-between; margin-bottom: 10px; }
+    .approval-agent { display: flex; align-items: center; gap: 10px; }
+    .approval-avatar { width: 32px; height: 32px; border-radius: 50%; border: 1px solid #D2D2D7; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .approval-avatar span { font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 500; color: #6E6E73; }
+    .approval-meta { font-family: 'Inter', sans-serif; font-size: 10px; color: #86868B; }
+    .approval-title { font-family: 'Satoshi', sans-serif; font-size: 15px; font-weight: 500; color: #1D1D1F; margin-top: 2px; }
+
+    .badge-urgent { font-family: 'Inter', sans-serif; padding: 2px 8px; border-radius: 6px; font-size: 10px; font-weight: 500; border: 1px solid rgba(215,0,48,0.15); color: #D70030; }
+    .badge-normal { font-family: 'Inter', sans-serif; padding: 2px 8px; border-radius: 6px; font-size: 10px; font-weight: 500; background: rgba(0,0,0,0.03); color: #86868B; }
+
+    .approval-body { font-family: 'Satoshi', sans-serif; font-size: 13px; color: #86868B; line-height: 1.5; margin-left: 42px; margin-bottom: 14px; }
+    .approval-rec { font-family: 'Satoshi', sans-serif; font-size: 12px; color: #6E6E73; margin-left: 42px; margin-bottom: 14px; font-style: italic; }
+
+    .approval-actions { display: flex; gap: 8px; margin-left: 42px; }
+    .btn-approve { font-family: 'Inter', sans-serif; padding: 7px 18px; border-radius: 980px; background: #1D1D1F; color: #F5F5F7; font-size: 12px; font-weight: 500; border: none; cursor: pointer; }
+    .btn-edit { font-family: 'Inter', sans-serif; padding: 7px 18px; border-radius: 980px; background: transparent; color: #86868B; font-size: 12px; border: 0.5px solid rgba(0,0,0,0.08); cursor: pointer; }
+    .btn-reject { font-family: 'Inter', sans-serif; padding: 7px 14px; border-radius: 980px; background: transparent; color: #D70030; font-size: 12px; border: none; cursor: pointer; font-weight: 500; }
+
+    .approval-time { font-family: 'Inter', sans-serif; font-size: 10px; color: #AEAEB2; margin-left: 42px; margin-top: 10px; }
+  </style>
+</head>
+<body>
+  <nav class="nav">
+    <div class="nav-inner">
+      <a href="../landing.html" class="nav-logo">KTANA</a>
+      <div class="nav-links">
+        <a href="../dashboard/home.html">Painel</a>
+        <a href="../office/index.html">Escritorio</a>
+        <a href="list.html" class="active">Aprovacoes</a>
+      </div>
+    </div>
+  </nav>
+
+  <main class="main">
+    <h1 class="fade-in">Aprovacoes</h1>
+    <p class="sub fade-in">3 acoes precisam da sua decisao.</p>
+
+    <div class="tabs fade-in">
+      <button class="tab active">Pendentes (3)</button>
+      <button class="tab">Resolvidas</button>
+      <button class="tab">Todas</button>
+    </div>
+
+    <div class="approval approval-urgent fade-in" style="animation-delay:0.1s">
+      <div class="approval-top">
+        <div class="approval-agent">
+          <div class="approval-avatar"><span>Y</span></div>
+          <div>
+            <p class="approval-meta">Yuki · Controller · ha 2 horas</p>
+            <p class="approval-title">Cobrar Cliente Y — R$ 12.000</p>
+          </div>
+        </div>
+        <span class="badge-urgent">Urgente</span>
+      </div>
+      <p class="approval-body">15 dias de atraso. Fatura #892. Acima da alcada de R$5.000. Rascunho da cobranca com juros de 2% preparado.</p>
+      <p class="approval-rec">Kaito (CFO) recomenda: aprovar com juros de 2%.</p>
+      <div class="approval-actions">
+        <button class="btn-approve" onclick="this.closest('.approval').style.opacity='0.4'; this.textContent='Aprovado'">Aprovar</button>
+        <button class="btn-edit">Editar rascunho</button>
+        <button class="btn-reject">Rejeitar</button>
+      </div>
+    </div>
+
+    <div class="approval fade-in" style="animation-delay:0.2s">
+      <div class="approval-top">
+        <div class="approval-agent">
+          <div class="approval-avatar"><span>H</span></div>
+          <div>
+            <p class="approval-meta">Hana · Secretaria · ha 1 hora</p>
+            <p class="approval-title">Responder email do investidor</p>
+          </div>
+        </div>
+        <span class="badge-normal">Normal</span>
+      </div>
+      <p class="approval-body">"Prezado Sr. Silva, confirmamos a reuniao de 02/04 as 14h. Segue em anexo a pauta atualizada conforme discutido."</p>
+      <div class="approval-actions">
+        <button class="btn-approve" onclick="this.closest('.approval').style.opacity='0.4'; this.textContent='Aprovado'">Aprovar envio</button>
+        <button class="btn-edit">Editar antes</button>
+        <button class="btn-reject">Rejeitar</button>
+      </div>
+    </div>
+
+    <div class="approval fade-in" style="animation-delay:0.3s">
+      <div class="approval-top">
+        <div class="approval-agent">
+          <div class="approval-avatar"><span>H</span></div>
+          <div>
+            <p class="approval-meta">Haruki · PM · ha 30 min</p>
+            <p class="approval-title">Remarcar daily de terca para quarta</p>
+          </div>
+        </div>
+        <span class="badge-normal">Normal</span>
+      </div>
+      <p class="approval-body">Motivo: conflito com reuniao de cliente. Todos os participantes ja foram notificados.</p>
+      <div class="approval-actions">
+        <button class="btn-approve" onclick="this.closest('.approval').style.opacity='0.4'; this.textContent='Aprovado'">Aprovar</button>
+        <button class="btn-reject">Rejeitar</button>
+      </div>
+    </div>
+  </main>
+</body>
+</html>

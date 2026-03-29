@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Escritorio Virtual — KTANA</title>
+  <link rel="stylesheet" href="../../shared.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Zen+Dots&display=swap" rel="stylesheet">
+  <style>
+    body { min-height: 100vh; background: #000; color: #F5F5F7; display: flex; flex-direction: column; }
+
+    .nav { position: sticky; top: 0; z-index: 50; height: 48px; display: flex; align-items: center; justify-content: center; background: rgba(0,0,0,0.6); backdrop-filter: blur(20px); border-bottom: 0.5px solid rgba(255,255,255,0.06); }
+    .nav-inner { width: 100%; max-width: 720px; padding: 0 24px; display: flex; align-items: center; justify-content: space-between; }
+    .nav-logo { font-family: 'Zen Dots', cursive; font-size: 14px; color: #D70030; }
+    .nav-links { display: flex; align-items: center; gap: 24px; }
+    .nav-links a { font-family: 'Inter', sans-serif; font-size: 12px; color: #F5F5F7; opacity: 0.4; }
+    .nav-links a:hover, .nav-links a.active { opacity: 1; }
+    .nav-avatar { width: 28px; height: 28px; border-radius: 50%; background: #2C2C2E; border: 0.5px solid rgba(255,255,255,0.1); }
+
+    .office { flex: 1; position: relative; overflow: hidden; }
+
+    /* Subtle grid */
+    .office::before { content: ''; position: absolute; inset: 0; opacity: 0.03; background-image: radial-gradient(circle at 1px 1px, #D70030 0.5px, transparent 0); background-size: 56px 56px; }
+
+    /* Ambient glow */
+    .office::after { content: ''; position: absolute; top: 30%; left: 50%; width: 500px; height: 500px; background: radial-gradient(circle, rgba(215,0,48,0.04) 0%, transparent 70%); transform: translate(-50%, -50%); pointer-events: none; }
+
+    /* Nodes */
+    .nodes { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; }
+    .nodes-inner { position: relative; width: 600px; height: 420px; }
+
+    .node { position: absolute; display: flex; flex-direction: column; align-items: center; cursor: pointer; transition: transform 0.2s; }
+    .node:hover { transform: scale(1.08); }
+    .node:hover .node-circle { box-shadow: 0 0 28px rgba(215,0,48,0.3); }
+    .node:hover .tooltip { opacity: 1; transform: translateY(0); pointer-events: auto; }
+
+    .node-circle { width: 48px; height: 48px; border-radius: 50%; display: flex; align-items: center; justify-content: center; transition: box-shadow 0.3s; }
+    .node-circle span { font-family: 'Inter', sans-serif; font-weight: 500; }
+
+    .node-ceo .node-circle { border: 1.5px solid rgba(215,0,48,0.4); background: rgba(215,0,48,0.08); box-shadow: 0 0 20px rgba(215,0,48,0.15); }
+    .node-ceo .node-circle span { color: #D70030; font-size: 14px; }
+
+    .node-worker .node-circle { border: 1px solid rgba(255,255,255,0.1); background: rgba(255,255,255,0.03); box-shadow: 0 0 12px rgba(255,255,255,0.03); }
+    .node-worker .node-circle span { color: #8E8E93; font-size: 12px; }
+
+    .node-owner .node-circle { border: 1px solid rgba(255,255,255,0.15); background: rgba(255,255,255,0.04); }
+    .node-owner .node-circle span { color: #636366; font-size: 12px; }
+
+    .node-name { font-family: 'Inter', sans-serif; font-size: 11px; color: #D2D2D7; margin-top: 6px; font-weight: 500; }
+    .node-role { font-family: 'Inter', sans-serif; font-size: 9px; color: #636366; }
+    .node-status { font-family: 'Inter', sans-serif; font-size: 8px; color: #48484A; display: flex; align-items: center; gap: 3px; margin-top: 2px; }
+    .node-status::before { content: ''; width: 4px; height: 4px; border-radius: 50%; }
+    .node-status.online::before { background: #30D158; }
+    .node-status.working::before { background: #D70030; }
+
+    /* Tooltip */
+    .tooltip { position: absolute; top: -80px; left: 50%; transform: translateX(-50%) translateY(6px); background: #1C1C1E; border: 0.5px solid rgba(255,255,255,0.08); border-radius: 12px; padding: 10px 14px; min-width: 180px; opacity: 0; transition: all 0.2s; pointer-events: none; z-index: 10; }
+    .tooltip::after { content: ''; position: absolute; bottom: -5px; left: 50%; transform: translateX(-50%); width: 10px; height: 10px; background: #1C1C1E; border-right: 0.5px solid rgba(255,255,255,0.08); border-bottom: 0.5px solid rgba(255,255,255,0.08); transform: translateX(-50%) rotate(45deg); }
+    .tooltip-name { font-family: 'Satoshi', sans-serif; font-size: 13px; font-weight: 500; color: #F5F5F7; }
+    .tooltip-role { font-family: 'Inter', sans-serif; font-size: 10px; color: #8E8E93; margin-top: 2px; }
+    .tooltip-action { font-family: 'Satoshi', sans-serif; font-size: 11px; color: #D2D2D7; margin-top: 6px; padding-top: 6px; border-top: 0.5px solid rgba(255,255,255,0.06); }
+
+    /* Connection lines */
+    .connections { position: absolute; inset: 0; pointer-events: none; }
+    .connections line { stroke: rgba(255,255,255,0.04); stroke-width: 0.5; }
+    .connections line.active { stroke: rgba(215,0,48,0.12); stroke-width: 0.5; stroke-dasharray: 4 4; animation: dash 2s linear infinite; }
+    @keyframes dash { to { stroke-dashoffset: -16; } }
+
+    /* Bottom bar */
+    .bottom { position: absolute; bottom: 0; left: 0; right: 0; padding: 16px 32px; display: flex; align-items: center; justify-content: space-between; background: linear-gradient(to top, rgba(0,0,0,0.8), transparent); }
+    .bottom span { font-family: 'Inter', sans-serif; font-size: 10px; color: #636366; }
+
+    /* Pulse animation for active nodes */
+    @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.7; } }
+    .working .node-circle { animation: pulse 3s ease-in-out infinite; }
+
+    @media (max-width: 640px) {
+      .nodes-inner { width: 340px; height: 300px; }
+      .node-circle { width: 36px; height: 36px; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav class="nav">
+    <div class="nav-inner">
+      <a href="../landing.html" class="nav-logo">KTANA</a>
+      <div class="nav-links">
+        <a href="../dashboard/home.html">Painel</a>
+        <a href="index.html" class="active">Escritorio</a>
+        <a href="../team/list.html">Equipe</a>
+        <div class="nav-avatar"></div>
+      </div>
+    </div>
+  </nav>
+
+  <div class="office">
+    <!-- SVG connections -->
+    <svg class="connections" viewBox="0 0 600 420" preserveAspectRatio="xMidYMid meet" style="position:absolute; left:50%; top:50%; width:600px; height:420px; transform:translate(-50%,-50%);">
+      <!-- Julio → Akira -->
+      <line x1="300" y1="42" x2="300" y2="100"/>
+      <!-- Akira → workers -->
+      <line x1="300" y1="148" x2="100" y2="260" class="active"/>
+      <line x1="300" y1="148" x2="300" y2="270"/>
+      <line x1="300" y1="148" x2="500" y2="260" class="active"/>
+    </svg>
+
+    <div class="nodes">
+      <div class="nodes-inner">
+        <!-- Julio (owner) -->
+        <div class="node node-owner" style="left:50%; top:0; transform:translateX(-50%);">
+          <div class="node-circle"><span>J</span></div>
+          <p class="node-name">Julio</p>
+          <p class="node-role">Dono</p>
+        </div>
+
+        <!-- Akira (CEO) -->
+        <div class="node node-ceo working" style="left:50%; top:22%; transform:translateX(-50%);" onclick="location.href='../agent/chat.html'">
+          <div class="tooltip">
+            <p class="tooltip-name">Akira</p>
+            <p class="tooltip-role">CEO · Online</p>
+            <p class="tooltip-action">Escrevendo briefing diario</p>
+          </div>
+          <div class="node-circle"><span>A</span></div>
+          <p class="node-name">Akira</p>
+          <p class="node-role">CEO</p>
+          <p class="node-status working">trabalhando</p>
+        </div>
+
+        <!-- Hana -->
+        <div class="node node-worker working" style="left:12%; top:58%;" onclick="location.href='../agent/chat.html'">
+          <div class="tooltip">
+            <p class="tooltip-name">Hana</p>
+            <p class="tooltip-role">Secretaria · Online</p>
+            <p class="tooltip-action">Lendo emails (34 processados)</p>
+          </div>
+          <div class="node-circle"><span>H</span></div>
+          <p class="node-name">Hana</p>
+          <p class="node-role">Secretaria</p>
+          <p class="node-status online">online</p>
+        </div>
+
+        <!-- Yuki -->
+        <div class="node node-worker working" style="left:50%; top:62%; transform:translateX(-50%);" onclick="location.href='../agent/chat.html'">
+          <div class="tooltip">
+            <p class="tooltip-name">Yuki</p>
+            <p class="tooltip-role">Controller · Online</p>
+            <p class="tooltip-action">Gerando DRE mensal</p>
+          </div>
+          <div class="node-circle"><span>Y</span></div>
+          <p class="node-name">Yuki</p>
+          <p class="node-role">Controller</p>
+          <p class="node-status working">trabalhando</p>
+        </div>
+
+        <!-- Haruki -->
+        <div class="node node-worker working" style="right:12%; top:58%;" onclick="location.href='../agent/chat.html'">
+          <div class="tooltip">
+            <p class="tooltip-name">Haruki</p>
+            <p class="tooltip-role">PM · Online</p>
+            <p class="tooltip-action">Cobrando prazo — Deploy v2</p>
+          </div>
+          <div class="node-circle"><span>H</span></div>
+          <p class="node-name">Haruki</p>
+          <p class="node-role">PM</p>
+          <p class="node-status online">online</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="bottom">
+      <span>4 samurais online</span>
+      <span>147 acoes hoje</span>
+      <span>R$ 67 gastos</span>
+    </div>
+  </div>
+
+</body>
+</html>
