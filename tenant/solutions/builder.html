@@ -45,7 +45,7 @@
     .chat-send:hover { background: #B5002A; }
 
     /* RIGHT: Preview Panel */
-    .preview-panel { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
+    .preview-panel { flex: 1; display: flex; flex-direction: column; overflow: hidden; min-width: 0; }
     .preview-tabs { height: 44px; background: #FFF; border-bottom: 0.5px solid rgba(0,0,0,0.06); display: flex; align-items: center; padding: 0 20px; gap: 4px; }
     .preview-tab { font-family: 'Inter', sans-serif; padding: 6px 16px; border-radius: 8px; font-size: 12px; color: #86868B; cursor: pointer; border: none; background: none; }
     .preview-tab.active { background: rgba(0,0,0,0.04); color: #1D1D1F; font-weight: 500; }
@@ -88,6 +88,85 @@
 
     .fade-in { animation: fadeIn 0.3s cubic-bezier(0.25,0.1,0.25,1) both; }
     @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+
+    /* === DRAG & DROP === */
+    .flow-step[draggable="true"] { cursor: grab; transition: opacity 0.2s, transform 0.2s, box-shadow 0.2s; user-select: none; }
+    .flow-step[draggable="true"]:active { cursor: grabbing; }
+    .flow-step.dragging { opacity: 0.4; transform: scale(0.96); }
+    .flow-step.drag-over { outline: 2px dashed rgba(215,0,48,0.4); outline-offset: 4px; }
+
+    /* Drop indicator line */
+    .drop-indicator {
+      position: absolute; left: 40px; width: 280px; height: 3px;
+      background: #D70030; border-radius: 2px; pointer-events: none;
+      z-index: 100; display: none;
+      box-shadow: 0 0 8px rgba(215,0,48,0.4);
+    }
+    .drop-indicator::before, .drop-indicator::after {
+      content: ''; position: absolute; top: -3px; width: 9px; height: 9px;
+      border-radius: 50%; background: #D70030;
+    }
+    .drop-indicator::before { left: -4px; }
+    .drop-indicator::after { right: -4px; }
+
+    /* === TOOLBOX SIDEBAR === */
+    .toolbox {
+      width: 200px; background: #FFF; border-left: 0.5px solid rgba(0,0,0,0.06);
+      padding: 16px 12px; display: flex; flex-direction: column; gap: 8px;
+      flex-shrink: 0; overflow-y: auto;
+    }
+    .toolbox-title {
+      font-family: 'Inter', sans-serif; font-size: 10px; font-weight: 600;
+      text-transform: uppercase; letter-spacing: 0.06em; color: #D70030;
+      margin-bottom: 4px; padding: 0 4px;
+    }
+    .toolbox-block {
+      display: flex; align-items: center; gap: 10px;
+      padding: 12px 14px; background: #F5F5F7; border: 1px solid rgba(0,0,0,0.04);
+      border-radius: 12px; cursor: grab; user-select: none;
+      font-family: 'Satoshi', sans-serif; font-size: 13px; font-weight: 500;
+      color: #1D1D1F; transition: all 0.15s;
+    }
+    .toolbox-block:hover { border-color: rgba(215,0,48,0.2); background: #FFF; box-shadow: 0 2px 8px rgba(0,0,0,0.04); }
+    .toolbox-block:active { cursor: grabbing; }
+    .toolbox-block.dragging { opacity: 0.4; }
+    .toolbox-block svg { width: 16px; height: 16px; flex-shrink: 0; color: #D70030; }
+    .toolbox-hint {
+      font-family: 'Inter', sans-serif; font-size: 11px; color: #AEAEB2;
+      padding: 8px 4px 0; line-height: 1.4;
+    }
+
+    /* Canvas drop target feedback */
+    .flow-canvas.drag-target { outline: 2px dashed rgba(215,0,48,0.25); outline-offset: -2px; border-radius: 12px; }
+
+    /* === FLOATING TOOLBAR === */
+    .flow-toolbar {
+      position: sticky; bottom: 16px; left: 50%; transform: translateX(-50%);
+      display: inline-flex; align-items: center; gap: 4px;
+      background: #FFF; border: 1px solid rgba(0,0,0,0.06);
+      border-radius: 14px; padding: 6px 8px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+      z-index: 50; margin: 16px auto 0; width: fit-content;
+    }
+    .flow-toolbar-wrap { display: flex; justify-content: center; }
+    .toolbar-btn {
+      font-family: 'Inter', sans-serif; font-size: 12px; font-weight: 500;
+      padding: 8px 14px; border-radius: 10px; border: none; cursor: pointer;
+      background: none; color: #6E6E73; display: flex; align-items: center; gap: 6px;
+      transition: all 0.15s; white-space: nowrap;
+    }
+    .toolbar-btn:hover { background: rgba(0,0,0,0.04); color: #1D1D1F; }
+    .toolbar-btn.danger:hover { background: rgba(215,0,48,0.06); color: #D70030; }
+    .toolbar-btn svg { width: 14px; height: 14px; }
+    .toolbar-divider { width: 1px; height: 24px; background: rgba(0,0,0,0.06); margin: 0 4px; }
+    .toolbar-counter {
+      font-family: 'Inter', sans-serif; font-size: 12px; color: #AEAEB2;
+      padding: 0 10px; white-space: nowrap;
+    }
+
+    @media (max-width: 768px) {
+      .toolbox { display: none; }
+    }
   </style>
 </head>
 <body>
@@ -170,84 +249,150 @@
       </div>
 
       <!-- Flow Tab -->
-      <div class="preview-content" id="tab-flow">
-        <div class="flow-canvas">
+      <div id="tab-flow" style="flex:1; display:flex; overflow:hidden;">
+        <div class="preview-content" style="flex:1; display:flex; flex-direction:column;">
+          <div class="flow-canvas" id="flowCanvas">
+            <!-- Drop indicator -->
+            <div class="drop-indicator" id="dropIndicator"></div>
 
-          <!-- Step 1: Trigger -->
-          <div class="flow-step" style="left:40px; top:0;">
-            <div class="flow-step-header">
-              <div class="flow-step-num">1</div>
-              <div class="flow-step-title">Trigger: Calendario Editorial</div>
+            <!-- Step 1: Trigger -->
+            <div class="flow-step" draggable="true" data-step-id="step-1" style="left:40px; top:0;">
+              <div class="flow-step-header">
+                <div class="flow-step-num">1</div>
+                <div class="flow-step-title">Trigger: Calendario Editorial</div>
+              </div>
+              <div class="flow-step-desc">Todo domingo 20h, o samurai analisa o calendario da semana e identifica os temas planejados.</div>
+              <div class="flow-step-tag">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+                Automatico · Semanal
+              </div>
             </div>
-            <div class="flow-step-desc">Todo domingo 20h, o samurai analisa o calendario da semana e identifica os temas planejados.</div>
-            <div class="flow-step-tag">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
-              Automatico · Semanal
+            <div class="flow-connector" style="left:180px; top:108px; height:32px;"></div>
+
+            <!-- Step 2: Create -->
+            <div class="flow-step active" draggable="true" data-step-id="step-2" style="left:40px; top:140px;">
+              <div class="flow-step-header">
+                <div class="flow-step-num">2</div>
+                <div class="flow-step-title">Criar Posts com IA</div>
+              </div>
+              <div class="flow-step-desc">Gera copy + sugestao de imagem para cada post. Tom da marca preservado. LinkedIn (profissional), Instagram (visual), Twitter (conciso).</div>
+              <div class="flow-step-tag">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5z"/></svg>
+                CMO Samurai · Claude Sonnet 4.6
+              </div>
+            </div>
+            <div class="flow-connector" style="left:180px; top:280px; height:32px;"></div>
+
+            <!-- Step 3: Approve -->
+            <div class="flow-step" draggable="true" data-step-id="step-3" style="left:40px; top:312px;">
+              <div class="flow-step-header">
+                <div class="flow-step-num">3</div>
+                <div class="flow-step-title">Decisao: Conteudo ou Promocional?</div>
+              </div>
+              <div class="flow-step-desc">Conteudo educativo → publica direto (sem aprovacao). Promocional/vendas → envia para aprovacao do dono.</div>
+              <div class="flow-step-tag">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                Regra de negocio · Automatico
+              </div>
+            </div>
+
+            <!-- Branch: Direct publish -->
+            <div class="flow-connector" style="left:100px; top:448px; height:32px;"></div>
+            <div class="flow-step" draggable="true" data-step-id="step-3a" style="left:0; top:480px; width:220px;">
+              <div class="flow-step-header">
+                <div class="flow-step-num" style="background:rgba(48,209,88,0.1); color:#30D158;">A</div>
+                <div class="flow-step-title" style="font-size:13px;">Publicar Direto</div>
+              </div>
+              <div class="flow-step-desc">Conteudo educativo publicado automaticamente no melhor horario por plataforma.</div>
+            </div>
+
+            <!-- Branch: Approval -->
+            <div class="flow-connector" style="left:260px; top:448px; height:32px;"></div>
+            <div class="flow-step" draggable="true" data-step-id="step-3b" style="left:180px; top:480px; width:220px;">
+              <div class="flow-step-header">
+                <div class="flow-step-num" style="background:rgba(255,159,10,0.1); color:#FF9F0A;">B</div>
+                <div class="flow-step-title" style="font-size:13px;">Pedir Aprovacao</div>
+              </div>
+              <div class="flow-step-desc">Promocional vai para fila de aprovacao. Dono edita, aprova ou rejeita.</div>
+            </div>
+
+            <!-- Step 4: Publish -->
+            <div class="flow-connector" style="left:180px; top:590px; height:32px;"></div>
+            <div class="flow-step" draggable="true" data-step-id="step-4" style="left:40px; top:622px;">
+              <div class="flow-step-header">
+                <div class="flow-step-num">4</div>
+                <div class="flow-step-title">Publicar + Monitorar</div>
+              </div>
+              <div class="flow-step-desc">Publica em LinkedIn, Instagram e Twitter nos horarios otimizados. Monitora engajamento por 48h e gera relatorio.</div>
+              <div class="flow-step-tag">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 20V10M12 20V4M6 20v-6"/></svg>
+                3 plataformas · Relatorio automatico
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Floating Toolbar -->
+          <div class="flow-toolbar-wrap">
+            <div class="flow-toolbar">
+              <button class="toolbar-btn" onclick="zoomCanvas(0.1)" title="Zoom +">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="11" y1="8" x2="11" y2="14"/><line x1="8" y1="11" x2="14" y2="11"/></svg>
+                Zoom +
+              </button>
+              <button class="toolbar-btn" onclick="zoomCanvas(-0.1)" title="Zoom -">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="8" y1="11" x2="14" y2="11"/></svg>
+                Zoom -
+              </button>
+              <div class="toolbar-divider"></div>
+              <button class="toolbar-btn" onclick="undoAction()" title="Desfazer">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/></svg>
+                Desfazer
+              </button>
+              <button class="toolbar-btn danger" onclick="clearCanvas()" title="Limpar tudo">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+                Limpar tudo
+              </button>
+              <div class="toolbar-divider"></div>
+              <span class="toolbar-counter" id="stepCounter">6 etapas</span>
             </div>
           </div>
-          <div class="flow-connector" style="left:180px; top:108px; height:32px;"></div>
+        </div>
 
-          <!-- Step 2: Create -->
-          <div class="flow-step active" style="left:40px; top:140px;">
-            <div class="flow-step-header">
-              <div class="flow-step-num">2</div>
-              <div class="flow-step-title">Criar Posts com IA</div>
-            </div>
-            <div class="flow-step-desc">Gera copy + sugestao de imagem para cada post. Tom da marca preservado. LinkedIn (profissional), Instagram (visual), Twitter (conciso).</div>
-            <div class="flow-step-tag">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5z"/></svg>
-              CMO Samurai · Claude Sonnet 4.6
-            </div>
-          </div>
-          <div class="flow-connector" style="left:180px; top:280px; height:32px;"></div>
+        <!-- Toolbox Sidebar -->
+        <div class="toolbox">
+          <div class="toolbox-title">Blocos</div>
 
-          <!-- Step 3: Approve -->
-          <div class="flow-step" style="left:40px; top:312px;">
-            <div class="flow-step-header">
-              <div class="flow-step-num">3</div>
-              <div class="flow-step-title">Decisao: Conteudo ou Promocional?</div>
-            </div>
-            <div class="flow-step-desc">Conteudo educativo → publica direto (sem aprovacao). Promocional/vendas → envia para aprovacao do dono.</div>
-            <div class="flow-step-tag">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
-              Regra de negocio · Automatico
-            </div>
+          <div class="toolbox-block" draggable="true" data-block-type="trigger">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+            Trigger
           </div>
 
-          <!-- Branch: Direct publish -->
-          <div class="flow-connector" style="left:100px; top:448px; height:32px;"></div>
-          <div class="flow-step" style="left:0; top:480px; width:220px;">
-            <div class="flow-step-header">
-              <div class="flow-step-num" style="background:rgba(48,209,88,0.1); color:#30D158;">A</div>
-              <div class="flow-step-title" style="font-size:13px;">Publicar Direto</div>
-            </div>
-            <div class="flow-step-desc">Conteudo educativo publicado automaticamente no melhor horario por plataforma.</div>
+          <div class="toolbox-block" draggable="true" data-block-type="acao">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+            Acao
           </div>
 
-          <!-- Branch: Approval -->
-          <div class="flow-connector" style="left:260px; top:448px; height:32px;"></div>
-          <div class="flow-step" style="left:180px; top:480px; width:220px;">
-            <div class="flow-step-header">
-              <div class="flow-step-num" style="background:rgba(255,159,10,0.1); color:#FF9F0A;">B</div>
-              <div class="flow-step-title" style="font-size:13px;">Pedir Aprovacao</div>
-            </div>
-            <div class="flow-step-desc">Promocional vai para fila de aprovacao. Dono edita, aprova ou rejeita.</div>
+          <div class="toolbox-block" draggable="true" data-block-type="decisao">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" transform="rotate(45 12 12)" stroke-width="1.5"/></svg>
+            Decisao
           </div>
 
-          <!-- Step 4: Publish -->
-          <div class="flow-connector" style="left:180px; top:590px; height:32px;"></div>
-          <div class="flow-step" style="left:40px; top:622px;">
-            <div class="flow-step-header">
-              <div class="flow-step-num">4</div>
-              <div class="flow-step-title">Publicar + Monitorar</div>
-            </div>
-            <div class="flow-step-desc">Publica em LinkedIn, Instagram e Twitter nos horarios otimizados. Monitora engajamento por 48h e gera relatorio.</div>
-            <div class="flow-step-tag">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 20V10M12 20V4M6 20v-6"/></svg>
-              3 plataformas · Relatorio automatico
-            </div>
+          <div class="toolbox-block" draggable="true" data-block-type="notificacao">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+            Notificacao
           </div>
 
+          <div class="toolbox-block" draggable="true" data-block-type="aprovacao">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+            Aprovacao
+          </div>
+
+          <div class="toolbox-block" draggable="true" data-block-type="integracao">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+            Integracao
+          </div>
+
+          <div class="toolbox-hint">Arraste os blocos para o canvas para adicionar novas etapas ao fluxo.</div>
         </div>
       </div>
 
@@ -319,12 +464,310 @@
   </div>
 
   <script>
+    /* === TAB SWITCHING === */
     function showTab(tab, btn) {
       document.querySelectorAll('[id^="tab-"]').forEach(t => t.style.display = 'none');
-      document.getElementById('tab-' + tab).style.display = '';
+      const el = document.getElementById('tab-' + tab);
+      el.style.display = tab === 'flow' ? 'flex' : '';
       document.querySelectorAll('.preview-tab').forEach(t => t.classList.remove('active'));
       btn.classList.add('active');
     }
+
+    /* === DRAG & DROP ENGINE === */
+    (function() {
+      const GRID = 20;
+      const canvas = document.getElementById('flowCanvas');
+      const indicator = document.getElementById('dropIndicator');
+      let draggedEl = null;
+      let dragSource = null; // 'canvas' or 'toolbox'
+      let undoStack = [];
+      let currentZoom = 1;
+
+      function snap(val) { return Math.round(val / GRID) * GRID; }
+
+      function saveState() {
+        const steps = canvas.querySelectorAll('.flow-step');
+        const state = [];
+        steps.forEach(s => {
+          state.push({
+            id: s.dataset.stepId,
+            html: s.outerHTML,
+            left: s.style.left,
+            top: s.style.top
+          });
+        });
+        const connectors = canvas.querySelectorAll('.flow-connector');
+        const connState = [];
+        connectors.forEach(c => connState.push(c.outerHTML));
+        undoStack.push({ steps: state, connectors: connState });
+        if (undoStack.length > 30) undoStack.shift();
+      }
+
+      function updateStepCounter() {
+        const count = canvas.querySelectorAll('.flow-step').length;
+        const counter = document.getElementById('stepCounter');
+        if (counter) counter.textContent = count + ' etapa' + (count !== 1 ? 's' : '');
+      }
+
+      function redrawConnectors() {
+        // Remove old connectors
+        canvas.querySelectorAll('.flow-connector').forEach(c => c.remove());
+        const steps = Array.from(canvas.querySelectorAll('.flow-step'));
+        if (steps.length < 2) return;
+
+        // Sort steps by top position
+        const sorted = steps.map(s => ({
+          el: s,
+          top: parseInt(s.style.top) || 0,
+          left: parseInt(s.style.left) || 0,
+          height: s.offsetHeight
+        })).sort((a, b) => a.top - b.top);
+
+        for (let i = 0; i < sorted.length - 1; i++) {
+          const current = sorted[i];
+          const next = sorted[i + 1];
+          const connTop = current.top + current.height;
+          const connHeight = next.top - connTop;
+          if (connHeight > 0) {
+            const conn = document.createElement('div');
+            conn.className = 'flow-connector';
+            const midX = current.left + (current.el.offsetWidth / 2);
+            conn.style.left = midX + 'px';
+            conn.style.top = connTop + 'px';
+            conn.style.height = connHeight + 'px';
+            canvas.appendChild(conn);
+          }
+        }
+      }
+
+      /* --- Canvas step drag (reordering) --- */
+      canvas.addEventListener('dragstart', function(e) {
+        const step = e.target.closest('.flow-step');
+        if (!step) return;
+        draggedEl = step;
+        dragSource = 'canvas';
+        step.classList.add('dragging');
+        e.dataTransfer.effectAllowed = 'move';
+        e.dataTransfer.setData('text/plain', step.dataset.stepId || '');
+        saveState();
+      });
+
+      canvas.addEventListener('dragend', function(e) {
+        const step = e.target.closest('.flow-step');
+        if (step) step.classList.remove('dragging');
+        indicator.style.display = 'none';
+        canvas.classList.remove('drag-target');
+        canvas.querySelectorAll('.flow-step.drag-over').forEach(s => s.classList.remove('drag-over'));
+        draggedEl = null;
+        dragSource = null;
+      });
+
+      canvas.addEventListener('dragover', function(e) {
+        e.preventDefault();
+        e.dataTransfer.dropEffect = dragSource === 'toolbox' ? 'copy' : 'move';
+        canvas.classList.add('drag-target');
+
+        // Show drop indicator near closest step
+        const steps = Array.from(canvas.querySelectorAll('.flow-step:not(.dragging)'));
+        if (steps.length === 0) {
+          indicator.style.display = 'block';
+          indicator.style.top = '0px';
+          return;
+        }
+
+        const canvasRect = canvas.getBoundingClientRect();
+        const mouseY = e.clientY - canvasRect.top + canvas.parentElement.scrollTop;
+
+        let closestIdx = 0;
+        let closestDist = Infinity;
+        let insertBefore = true;
+
+        steps.forEach((s, i) => {
+          const sTop = parseInt(s.style.top) || 0;
+          const sBot = sTop + s.offsetHeight;
+          const mid = (sTop + sBot) / 2;
+
+          if (Math.abs(mouseY - sTop) < closestDist) {
+            closestDist = Math.abs(mouseY - sTop);
+            closestIdx = i;
+            insertBefore = true;
+          }
+          if (Math.abs(mouseY - sBot) < closestDist) {
+            closestDist = Math.abs(mouseY - sBot);
+            closestIdx = i;
+            insertBefore = false;
+          }
+        });
+
+        const targetStep = steps[closestIdx];
+        const tTop = parseInt(targetStep.style.top) || 0;
+        const indicatorY = insertBefore ? tTop - 6 : tTop + targetStep.offsetHeight + 6;
+        indicator.style.display = 'block';
+        indicator.style.top = snap(indicatorY) + 'px';
+      });
+
+      canvas.addEventListener('dragleave', function(e) {
+        if (!canvas.contains(e.relatedTarget)) {
+          indicator.style.display = 'none';
+          canvas.classList.remove('drag-target');
+        }
+      });
+
+      canvas.addEventListener('drop', function(e) {
+        e.preventDefault();
+        indicator.style.display = 'none';
+        canvas.classList.remove('drag-target');
+
+        const canvasRect = canvas.getBoundingClientRect();
+        const dropY = e.clientY - canvasRect.top + canvas.parentElement.scrollTop;
+        const dropX = e.clientX - canvasRect.left + canvas.parentElement.scrollLeft;
+
+        if (dragSource === 'toolbox') {
+          // Create new block from toolbox
+          const blockType = e.dataTransfer.getData('text/plain');
+          const newStep = createStepFromType(blockType, snap(dropX - 140), snap(dropY - 40));
+          canvas.appendChild(newStep);
+          initStepDrag(newStep);
+          repositionSteps();
+          updateStepCounter();
+        } else if (dragSource === 'canvas' && draggedEl) {
+          // Reorder: move to snapped drop position
+          draggedEl.style.left = snap(Math.max(0, dropX - 140)) + 'px';
+          draggedEl.style.top = snap(Math.max(0, dropY - 40)) + 'px';
+          draggedEl.classList.remove('dragging');
+          // Smooth transition
+          draggedEl.style.transition = 'left 0.2s, top 0.2s';
+          setTimeout(() => { draggedEl.style.transition = ''; }, 250);
+          redrawConnectors();
+          renumberSteps();
+        }
+      });
+
+      /* --- Toolbox drag --- */
+      document.querySelectorAll('.toolbox-block').forEach(block => {
+        block.addEventListener('dragstart', function(e) {
+          dragSource = 'toolbox';
+          draggedEl = null;
+          block.classList.add('dragging');
+          e.dataTransfer.effectAllowed = 'copy';
+          e.dataTransfer.setData('text/plain', block.dataset.blockType);
+          saveState();
+        });
+        block.addEventListener('dragend', function(e) {
+          block.classList.remove('dragging');
+          indicator.style.display = 'none';
+          canvas.classList.remove('drag-target');
+        });
+      });
+
+      function createStepFromType(type, x, y) {
+        const configs = {
+          trigger: { title: 'Novo Trigger', desc: 'Defina o gatilho que inicia este fluxo.', icon: '<circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/>', tag: 'Trigger · Configurar' },
+          acao: { title: 'Nova Acao', desc: 'Adicione a acao que sera executada nesta etapa.', icon: '<polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>', tag: 'Acao · Configurar' },
+          decisao: { title: 'Nova Decisao', desc: 'Defina a condicao de ramificacao do fluxo.', icon: '<rect x="3" y="3" width="18" height="18" rx="2" transform="rotate(45 12 12)" stroke-width="1.5"/>', tag: 'Decisao · Configurar' },
+          notificacao: { title: 'Nova Notificacao', desc: 'Configure o alerta ou notificacao a ser enviada.', icon: '<path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/>', tag: 'Notificacao · Configurar' },
+          aprovacao: { title: 'Nova Aprovacao', desc: 'Solicite aprovacao antes de prosseguir no fluxo.', icon: '<path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/>', tag: 'Aprovacao · Configurar' },
+          integracao: { title: 'Nova Integracao', desc: 'Conecte a um servico ou API externa.', icon: '<path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/>', tag: 'Integracao · Configurar' }
+        };
+        const cfg = configs[type] || configs.acao;
+        const stepId = 'step-new-' + Date.now();
+        const count = canvas.querySelectorAll('.flow-step').length + 1;
+
+        const div = document.createElement('div');
+        div.className = 'flow-step';
+        div.draggable = true;
+        div.dataset.stepId = stepId;
+        div.style.left = x + 'px';
+        div.style.top = y + 'px';
+        div.style.width = '280px';
+        div.style.animation = 'fadeIn 0.3s cubic-bezier(0.25,0.1,0.25,1) both';
+        div.innerHTML = `
+          <div class="flow-step-header">
+            <div class="flow-step-num">${count}</div>
+            <div class="flow-step-title">${cfg.title}</div>
+          </div>
+          <div class="flow-step-desc">${cfg.desc}</div>
+          <div class="flow-step-tag">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">${cfg.icon}</svg>
+            ${cfg.tag}
+          </div>
+        `;
+        return div;
+      }
+
+      function initStepDrag(step) {
+        // Already handled by event delegation on canvas
+      }
+
+      function repositionSteps() {
+        const steps = Array.from(canvas.querySelectorAll('.flow-step'));
+        // Sort by current top
+        steps.sort((a, b) => (parseInt(a.style.top) || 0) - (parseInt(b.style.top) || 0));
+        let currentTop = 0;
+        steps.forEach((s, i) => {
+          s.style.transition = 'left 0.2s, top 0.2s';
+          s.style.top = snap(currentTop) + 'px';
+          s.style.left = '40px';
+          currentTop += s.offsetHeight + 32;
+          setTimeout(() => { s.style.transition = ''; }, 250);
+        });
+        setTimeout(redrawConnectors, 260);
+        renumberSteps();
+      }
+
+      function renumberSteps() {
+        const steps = Array.from(canvas.querySelectorAll('.flow-step'));
+        steps.sort((a, b) => (parseInt(a.style.top) || 0) - (parseInt(b.style.top) || 0));
+        steps.forEach((s, i) => {
+          const num = s.querySelector('.flow-step-num');
+          // Skip branch steps (A, B, etc.)
+          if (num && !isNaN(parseInt(num.textContent))) {
+            num.textContent = i + 1;
+          }
+        });
+      }
+
+      /* === TOOLBAR ACTIONS === */
+      window.zoomCanvas = function(delta) {
+        currentZoom = Math.max(0.5, Math.min(1.5, currentZoom + delta));
+        canvas.style.transform = 'scale(' + currentZoom + ')';
+        canvas.style.transformOrigin = 'top left';
+      };
+
+      window.undoAction = function() {
+        if (undoStack.length === 0) return;
+        const state = undoStack.pop();
+        // Remove current steps and connectors
+        canvas.querySelectorAll('.flow-step').forEach(s => s.remove());
+        canvas.querySelectorAll('.flow-connector').forEach(c => c.remove());
+        // Restore steps
+        state.steps.forEach(s => {
+          const temp = document.createElement('div');
+          temp.innerHTML = s.html;
+          const step = temp.firstElementChild;
+          canvas.appendChild(step);
+        });
+        // Restore connectors
+        state.connectors.forEach(html => {
+          const temp = document.createElement('div');
+          temp.innerHTML = html;
+          canvas.appendChild(temp.firstElementChild);
+        });
+        updateStepCounter();
+      };
+
+      window.clearCanvas = function() {
+        if (!confirm('Tem certeza que deseja limpar todo o canvas?')) return;
+        saveState();
+        canvas.querySelectorAll('.flow-step').forEach(s => s.remove());
+        canvas.querySelectorAll('.flow-connector').forEach(c => c.remove());
+        updateStepCounter();
+      };
+
+      // Initialize
+      updateStepCounter();
+
+    })();
   </script>
 
 <script src="../../shared-nav.js"></script>

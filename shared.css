@@ -117,3 +117,34 @@ img { display: block; max-width: 100%; }
 /* ═══ LEGIBILITY FIX — Minimum font sizes ═══ */
 /* Apple HIG: minimum 11pt for any text, 17pt for body */
 /* KTANA: body 15px, labels 12px, meta 11px, never below 10px */
+
+/* === GRADIENT HEADER (Ive Edition) === */
+/* Apply to any page that needs the elegant silver gradient at top */
+.gradient-header {
+  background: linear-gradient(180deg,
+    rgba(245,245,247,1) 0%,
+    rgba(240,240,242,0.95) 20%,
+    rgba(235,235,237,0.6) 50%,
+    rgba(245,245,247,0) 100%
+  );
+  padding-top: 40px;
+  padding-bottom: 60px;
+  margin-bottom: -40px;
+  position: relative;
+}
+
+.gradient-header::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg,
+    transparent 0%,
+    rgba(215,0,48,0.08) 20%,
+    rgba(215,0,48,0.15) 50%,
+    rgba(215,0,48,0.08) 80%,
+    transparent 100%
+  );
+}

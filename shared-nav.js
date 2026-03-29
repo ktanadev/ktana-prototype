@@ -44,6 +44,7 @@
       { label: 'Plano & fatura', href: t('settings/billing.html'), icon: 'M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z' },
       { label: 'Notificacoes', href: t('settings/notifications.html'), icon: 'M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9M13.73 21a2 2 0 01-3.46 0' },
       { label: 'Etica & Regras', href: t('settings/ethics.html'), icon: 'M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z' },
+      { label: 'Espirito', href: t('settings/spirit.html'), icon: 'M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-4h2v2h-2zm1-10a3 3 0 00-3 3h2a1 1 0 112 0c0 1-2 1-2 3h2c0-1.5 2-1.5 2-3a3 3 0 00-3-3z' },
       { label: 'Cerebro', href: t('settings/brain.html'), icon: 'M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3' },
       { label: 'Privacidade', href: t('settings/privacy.html'), icon: 'M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8zM12 9a3 3 0 100 6 3 3 0 000-6z' },
       { label: 'API & Webhooks', href: t('settings/api.html'), icon: 'M16 18l6-6-6-6M8 6l-6 6 6 6' },
@@ -96,7 +97,7 @@
         </button>
         <div class="kt-org" onclick="toggleOrgSwitcher()">
           <span class="kt-logo">KTANA</span>
-          <span class="kt-org-name">CSB Fintechs</span>
+          <span class="kt-org-name"><span style="display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;border-radius:50%;background:rgba(215,0,48,0.06);color:#D70030;font-family:'Inter',sans-serif;font-size:12px;font-weight:600;flex-shrink:0;">CSB</span></span>
           <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" class="kt-org-chev"><path d="M6 9l6 6 6-6"/></svg>
         </div>
         <!-- Org Switcher -->
