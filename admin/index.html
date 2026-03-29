@@ -900,6 +900,439 @@
     </main>
   </div>
 
+  <!-- ========================================== -->
+  <!-- SCREEN 11: EQUIPE KTANA                    -->
+  <!-- ========================================== -->
+  <div id="equipe-ktana" class="screen">
+    <header class="px-8 py-5 border-b border-white/[0.04] flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <h1 class="text-lg font-semibold">Equipe KTANA</h1>
+        <span class="px-2.5 py-1 bg-[#D70030]/10 text-[#D70030] text-[10px] rounded-md">5 departamentos · 14 agentes internos</span>
+      </div>
+      <div class="flex items-center gap-3">
+        <span class="w-2 h-2 rounded-full bg-[#30D158]"></span>
+        <span class="text-xs text-[#8E8E93]">Todos operacionais</span>
+      </div>
+    </header>
+
+    <main class="flex-1 px-8 py-8">
+      <!-- Stats Row -->
+      <div class="grid grid-cols-5 gap-4 mb-10 fade-in">
+        <div class="stat-card p-5">
+          <p class="text-3xl font-bold tabular-nums">14</p>
+          <p class="text-[11px] text-[#8E8E93] mt-1">Agentes Internos</p>
+        </div>
+        <div class="stat-card p-5">
+          <p class="text-3xl font-bold tabular-nums">5</p>
+          <p class="text-[11px] text-[#8E8E93] mt-1">Departamentos</p>
+        </div>
+        <div class="stat-card p-5">
+          <p class="text-3xl font-bold tabular-nums">847</p>
+          <p class="text-[11px] text-[#8E8E93] mt-1">Acoes/dia</p>
+        </div>
+        <div class="stat-card p-5">
+          <p class="text-3xl font-bold tabular-nums">99.8%</p>
+          <p class="text-[11px] text-[#8E8E93] mt-1">SLA</p>
+        </div>
+        <div class="stat-card p-5">
+          <p class="text-3xl font-bold tabular-nums">R$3.2k</p>
+          <p class="text-[11px] text-[#8E8E93] mt-1">Custo/mes</p>
+        </div>
+      </div>
+
+      <!-- Departamentos Grid -->
+      <p class="text-[10px] text-[#636366] tracking-widest mb-4 uppercase">Departamentos</p>
+      <div class="space-y-3 mb-8">
+
+        <!-- Departamento: Engenharia -->
+        <div class="admin-card overflow-hidden fade-in" style="animation-delay:0.05s">
+          <button onclick="toggleDept('dept-eng')" class="w-full px-6 py-4 flex items-center justify-between hover:bg-white/[0.02] transition-colors">
+            <div class="flex items-center gap-4">
+              <div class="w-9 h-9 rounded-lg bg-[#D70030]/10 border border-[#D70030]/20 flex items-center justify-center">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 1L2 4v4c0 3.3 2.6 6.4 6 7 3.4-.6 6-3.7 6-7V4L8 1z" stroke="#D70030" stroke-width="1.2" fill="none"/><path d="M5.5 8l2 2 3.5-4" stroke="#D70030" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </div>
+              <div class="text-left">
+                <p class="text-sm font-medium">Engenharia</p>
+                <p class="text-[10px] text-[#636366]">4 agentes · Infra, APIs, Frontend, QA</p>
+              </div>
+            </div>
+            <div class="flex items-center gap-4">
+              <span class="text-[10px] text-[#8E8E93] tabular-nums">312 acoes hoje</span>
+              <svg class="dept-chevron transition-transform duration-200" width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M3 4.5L6 7.5L9 4.5" stroke="#636366" stroke-width="1.2" stroke-linecap="round"/></svg>
+            </div>
+          </button>
+          <div id="dept-eng" class="hidden border-t border-white/[0.04]">
+            <div class="px-6 py-4 space-y-3">
+              <!-- Kaito -->
+              <div class="flex items-center justify-between py-2">
+                <div class="flex items-center gap-3">
+                  <div class="w-8 h-8 rounded-full bg-[#D70030]/15 border border-[#D70030]/30 flex items-center justify-center"><span class="text-[#D70030] text-[10px] font-semibold">K</span></div>
+                  <div>
+                    <p class="text-sm font-medium">Kaito</p>
+                    <p class="text-[10px] text-[#636366]">Lead Engineer · Opus 4.6</p>
+                  </div>
+                </div>
+                <div class="flex items-center gap-4">
+                  <span class="flex items-center gap-1.5"><span class="w-1.5 h-1.5 rounded-full bg-[#30D158]"></span><span class="text-[10px] text-[#8E8E93]">ativo</span></span>
+                  <span class="text-[10px] text-[#636366] tabular-nums">34 deploys/mes</span>
+                  <button class="admin-btn px-2.5 py-1 text-[10px]">Chat</button>
+                  <button class="admin-btn-secondary px-2.5 py-1 text-[10px]">Config</button>
+                </div>
+              </div>
+              <!-- Riku -->
+              <div class="flex items-center justify-between py-2">
+                <div class="flex items-center gap-3">
+                  <div class="w-8 h-8 rounded-full bg-white/[0.04] border border-white/10 flex items-center justify-center"><span class="text-[#8E8E93] text-[10px] font-semibold">R</span></div>
+                  <div>
+                    <p class="text-sm">Riku</p>
+                    <p class="text-[10px] text-[#636366]">Backend Dev · Sonnet 4.6</p>
+                  </div>
+                </div>
+                <div class="flex items-center gap-4">
+                  <span class="flex items-center gap-1.5"><span class="w-1.5 h-1.5 rounded-full bg-[#30D158]"></span><span class="text-[10px] text-[#8E8E93]">ativo</span></span>
+                  <span class="text-[10px] text-[#636366] tabular-nums">APIs + DB</span>
+                  <button class="admin-btn px-2.5 py-1 text-[10px]">Chat</button>
+                  <button class="admin-btn-secondary px-2.5 py-1 text-[10px]">Config</button>
+                </div>
+              </div>
+              <!-- Sora -->
+              <div class="flex items-center justify-between py-2">
+                <div class="flex items-center gap-3">
+                  <div class="w-8 h-8 rounded-full bg-white/[0.04] border border-white/10 flex items-center justify-center"><span class="text-[#8E8E93] text-[10px] font-semibold">S</span></div>
+                  <div>
+                    <p class="text-sm">Sora</p>
+                    <p class="text-[10px] text-[#636366]">Frontend Dev · Sonnet 4.6</p>
+                  </div>
+                </div>
+                <div class="flex items-center gap-4">
+                  <span class="flex items-center gap-1.5"><span class="w-1.5 h-1.5 rounded-full bg-[#30D158]"></span><span class="text-[10px] text-[#8E8E93]">ativo</span></span>
+                  <span class="text-[10px] text-[#636366] tabular-nums">UI + UX</span>
+                  <button class="admin-btn px-2.5 py-1 text-[10px]">Chat</button>
+                  <button class="admin-btn-secondary px-2.5 py-1 text-[10px]">Config</button>
+                </div>
+              </div>
+              <!-- Kenzo -->
+              <div class="flex items-center justify-between py-2">
+                <div class="flex items-center gap-3">
+                  <div class="w-8 h-8 rounded-full bg-white/[0.04] border border-white/10 flex items-center justify-center"><span class="text-[#8E8E93] text-[10px] font-semibold">K</span></div>
+                  <div>
+                    <p class="text-sm">Kenzo</p>
+                    <p class="text-[10px] text-[#636366]">QA/Security · Haiku 4.5</p>
+                  </div>
+                </div>
+                <div class="flex items-center gap-4">
+                  <span class="flex items-center gap-1.5"><span class="w-1.5 h-1.5 rounded-full bg-[#30D158]"></span><span class="text-[10px] text-[#8E8E93]">ativo</span></span>
+                  <span class="text-[10px] text-[#636366] tabular-nums">testes + audit</span>
+                  <button class="admin-btn px-2.5 py-1 text-[10px]">Chat</button>
+                  <button class="admin-btn-secondary px-2.5 py-1 text-[10px]">Config</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Departamento: Suporte -->
+        <div class="admin-card overflow-hidden fade-in" style="animation-delay:0.1s">
+          <button onclick="toggleDept('dept-sup')" class="w-full px-6 py-4 flex items-center justify-between hover:bg-white/[0.02] transition-colors">
+            <div class="flex items-center gap-4">
+              <div class="w-9 h-9 rounded-lg bg-[#D70030]/10 border border-[#D70030]/20 flex items-center justify-center">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 14c3.3 0 6-2.7 6-6s-2.7-6-6-6-6 2.7-6 6 2.7 6 6 6z" stroke="#D70030" stroke-width="1.2" fill="none"/><path d="M6 6.5c0-1.1.9-2 2-2s2 .9 2 2c0 .7-.4 1.4-1 1.7-.4.2-.5.3-.5.6V9.5" stroke="#D70030" stroke-width="1.2" stroke-linecap="round"/><circle cx="8" cy="11" r="0.5" fill="#D70030"/></svg>
+              </div>
+              <div class="text-left">
+                <p class="text-sm font-medium">Suporte</p>
+                <p class="text-[10px] text-[#636366]">2 agentes · Tickets, Onboarding</p>
+              </div>
+            </div>
+            <div class="flex items-center gap-4">
+              <span class="text-[10px] text-[#8E8E93] tabular-nums">89 acoes hoje</span>
+              <svg class="dept-chevron transition-transform duration-200" width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M3 4.5L6 7.5L9 4.5" stroke="#636366" stroke-width="1.2" stroke-linecap="round"/></svg>
+            </div>
+          </button>
+          <div id="dept-sup" class="hidden border-t border-white/[0.04]">
+            <div class="px-6 py-4 space-y-3">
+              <!-- Mei -->
+              <div class="flex items-center justify-between py-2">
+                <div class="flex items-center gap-3">
+                  <div class="w-8 h-8 rounded-full bg-[#D70030]/15 border border-[#D70030]/30 flex items-center justify-center"><span class="text-[#D70030] text-[10px] font-semibold">M</span></div>
+                  <div>
+                    <p class="text-sm font-medium">Mei</p>
+                    <p class="text-[10px] text-[#636366]">Support Lead · Sonnet 4.6</p>
+                  </div>
+                </div>
+                <div class="flex items-center gap-4">
+                  <span class="flex items-center gap-1.5"><span class="w-1.5 h-1.5 rounded-full bg-[#30D158]"></span><span class="text-[10px] text-[#8E8E93]">ativo</span></span>
+                  <span class="text-[10px] text-[#636366] tabular-nums">tickets + SLA</span>
+                  <button class="admin-btn px-2.5 py-1 text-[10px]">Chat</button>
+                  <button class="admin-btn-secondary px-2.5 py-1 text-[10px]">Config</button>
+                </div>
+              </div>
+              <!-- Taro -->
+              <div class="flex items-center justify-between py-2">
+                <div class="flex items-center gap-3">
+                  <div class="w-8 h-8 rounded-full bg-white/[0.04] border border-white/10 flex items-center justify-center"><span class="text-[#8E8E93] text-[10px] font-semibold">T</span></div>
+                  <div>
+                    <p class="text-sm">Taro</p>
+                    <p class="text-[10px] text-[#636366]">Onboarding · Haiku 4.5</p>
+                  </div>
+                </div>
+                <div class="flex items-center gap-4">
+                  <span class="flex items-center gap-1.5"><span class="w-1.5 h-1.5 rounded-full bg-[#30D158]"></span><span class="text-[10px] text-[#8E8E93]">ativo</span></span>
+                  <span class="text-[10px] text-[#636366] tabular-nums">setup tenants</span>
+                  <button class="admin-btn px-2.5 py-1 text-[10px]">Chat</button>
+                  <button class="admin-btn-secondary px-2.5 py-1 text-[10px]">Config</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Departamento: Comercial -->
+        <div class="admin-card overflow-hidden fade-in" style="animation-delay:0.15s">
+          <button onclick="toggleDept('dept-com')" class="w-full px-6 py-4 flex items-center justify-between hover:bg-white/[0.02] transition-colors">
+            <div class="flex items-center gap-4">
+              <div class="w-9 h-9 rounded-lg bg-[#D70030]/10 border border-[#D70030]/20 flex items-center justify-center">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M2 13V5l6-3 6 3v8" stroke="#D70030" stroke-width="1.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/><path d="M6 13V9h4v4" stroke="#D70030" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </div>
+              <div class="text-left">
+                <p class="text-sm font-medium">Comercial</p>
+                <p class="text-[10px] text-[#636366]">3 agentes · Pipeline, SDR, CS</p>
+              </div>
+            </div>
+            <div class="flex items-center gap-4">
+              <span class="text-[10px] text-[#8E8E93] tabular-nums">156 acoes hoje</span>
+              <svg class="dept-chevron transition-transform duration-200" width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M3 4.5L6 7.5L9 4.5" stroke="#636366" stroke-width="1.2" stroke-linecap="round"/></svg>
+            </div>
+          </button>
+          <div id="dept-com" class="hidden border-t border-white/[0.04]">
+            <div class="px-6 py-4 space-y-3">
+              <!-- Ren -->
+              <div class="flex items-center justify-between py-2">
+                <div class="flex items-center gap-3">
+                  <div class="w-8 h-8 rounded-full bg-[#D70030]/15 border border-[#D70030]/30 flex items-center justify-center"><span class="text-[#D70030] text-[10px] font-semibold">R</span></div>
+                  <div>
+                    <p class="text-sm font-medium">Ren</p>
+                    <p class="text-[10px] text-[#636366]">Sales Lead · Sonnet 4.6</p>
+                  </div>
+                </div>
+                <div class="flex items-center gap-4">
+                  <span class="flex items-center gap-1.5"><span class="w-1.5 h-1.5 rounded-full bg-[#30D158]"></span><span class="text-[10px] text-[#8E8E93]">ativo</span></span>
+                  <span class="text-[10px] text-[#636366] tabular-nums">pipeline + follow-up</span>
+                  <button class="admin-btn px-2.5 py-1 text-[10px]">Chat</button>
+                  <button class="admin-btn-secondary px-2.5 py-1 text-[10px]">Config</button>
+                </div>
+              </div>
+              <!-- Aiko -->
+              <div class="flex items-center justify-between py-2">
+                <div class="flex items-center gap-3">
+                  <div class="w-8 h-8 rounded-full bg-white/[0.04] border border-white/10 flex items-center justify-center"><span class="text-[#8E8E93] text-[10px] font-semibold">A</span></div>
+                  <div>
+                    <p class="text-sm">Aiko</p>
+                    <p class="text-[10px] text-[#636366]">SDR · Haiku 4.5</p>
+                  </div>
+                </div>
+                <div class="flex items-center gap-4">
+                  <span class="flex items-center gap-1.5"><span class="w-1.5 h-1.5 rounded-full bg-[#30D158]"></span><span class="text-[10px] text-[#8E8E93]">ativo</span></span>
+                  <span class="text-[10px] text-[#636366] tabular-nums">prospecting + qualif.</span>
+                  <button class="admin-btn px-2.5 py-1 text-[10px]">Chat</button>
+                  <button class="admin-btn-secondary px-2.5 py-1 text-[10px]">Config</button>
+                </div>
+              </div>
+              <!-- Naomi -->
+              <div class="flex items-center justify-between py-2">
+                <div class="flex items-center gap-3">
+                  <div class="w-8 h-8 rounded-full bg-white/[0.04] border border-white/10 flex items-center justify-center"><span class="text-[#8E8E93] text-[10px] font-semibold">N</span></div>
+                  <div>
+                    <p class="text-sm">Naomi</p>
+                    <p class="text-[10px] text-[#636366]">CS · Sonnet 4.6</p>
+                  </div>
+                </div>
+                <div class="flex items-center gap-4">
+                  <span class="flex items-center gap-1.5"><span class="w-1.5 h-1.5 rounded-full bg-[#30D158]"></span><span class="text-[10px] text-[#8E8E93]">ativo</span></span>
+                  <span class="text-[10px] text-[#636366] tabular-nums">health score + churn</span>
+                  <button class="admin-btn px-2.5 py-1 text-[10px]">Chat</button>
+                  <button class="admin-btn-secondary px-2.5 py-1 text-[10px]">Config</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Departamento: Ops -->
+        <div class="admin-card overflow-hidden fade-in" style="animation-delay:0.2s">
+          <button onclick="toggleDept('dept-ops')" class="w-full px-6 py-4 flex items-center justify-between hover:bg-white/[0.02] transition-colors">
+            <div class="flex items-center gap-4">
+              <div class="w-9 h-9 rounded-lg bg-[#D70030]/10 border border-[#D70030]/20 flex items-center justify-center">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="2" stroke="#D70030" stroke-width="1.2" fill="none"/><path d="M8 2v2M8 12v2M2 8h2M12 8h2M3.8 3.8l1.4 1.4M10.8 10.8l1.4 1.4M3.8 12.2l1.4-1.4M10.8 5.2l1.4-1.4" stroke="#D70030" stroke-width="1.2" stroke-linecap="round"/></svg>
+              </div>
+              <div class="text-left">
+                <p class="text-sm font-medium">Ops</p>
+                <p class="text-[10px] text-[#636366]">3 agentes · Infra, CI/CD, Analytics</p>
+              </div>
+            </div>
+            <div class="flex items-center gap-4">
+              <span class="text-[10px] text-[#8E8E93] tabular-nums">198 acoes hoje</span>
+              <svg class="dept-chevron transition-transform duration-200" width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M3 4.5L6 7.5L9 4.5" stroke="#636366" stroke-width="1.2" stroke-linecap="round"/></svg>
+            </div>
+          </button>
+          <div id="dept-ops" class="hidden border-t border-white/[0.04]">
+            <div class="px-6 py-4 space-y-3">
+              <!-- Takeshi -->
+              <div class="flex items-center justify-between py-2">
+                <div class="flex items-center gap-3">
+                  <div class="w-8 h-8 rounded-full bg-[#D70030]/15 border border-[#D70030]/30 flex items-center justify-center"><span class="text-[#D70030] text-[10px] font-semibold">T</span></div>
+                  <div>
+                    <p class="text-sm font-medium">Takeshi</p>
+                    <p class="text-[10px] text-[#636366]">Ops Lead · Sonnet 4.6</p>
+                  </div>
+                </div>
+                <div class="flex items-center gap-4">
+                  <span class="flex items-center gap-1.5"><span class="w-1.5 h-1.5 rounded-full bg-[#30D158]"></span><span class="text-[10px] text-[#8E8E93]">ativo</span></span>
+                  <span class="text-[10px] text-[#636366] tabular-nums">infra + monitoring</span>
+                  <button class="admin-btn px-2.5 py-1 text-[10px]">Chat</button>
+                  <button class="admin-btn-secondary px-2.5 py-1 text-[10px]">Config</button>
+                </div>
+              </div>
+              <!-- Hiro -->
+              <div class="flex items-center justify-between py-2">
+                <div class="flex items-center gap-3">
+                  <div class="w-8 h-8 rounded-full bg-white/[0.04] border border-white/10 flex items-center justify-center"><span class="text-[#8E8E93] text-[10px] font-semibold">H</span></div>
+                  <div>
+                    <p class="text-sm">Hiro</p>
+                    <p class="text-[10px] text-[#636366]">DevOps · Haiku 4.5</p>
+                  </div>
+                </div>
+                <div class="flex items-center gap-4">
+                  <span class="flex items-center gap-1.5"><span class="w-1.5 h-1.5 rounded-full bg-[#30D158]"></span><span class="text-[10px] text-[#8E8E93]">ativo</span></span>
+                  <span class="text-[10px] text-[#636366] tabular-nums">CI/CD + deploys</span>
+                  <button class="admin-btn px-2.5 py-1 text-[10px]">Chat</button>
+                  <button class="admin-btn-secondary px-2.5 py-1 text-[10px]">Config</button>
+                </div>
+              </div>
+              <!-- Yuna -->
+              <div class="flex items-center justify-between py-2">
+                <div class="flex items-center gap-3">
+                  <div class="w-8 h-8 rounded-full bg-white/[0.04] border border-white/10 flex items-center justify-center"><span class="text-[#8E8E93] text-[10px] font-semibold">Y</span></div>
+                  <div>
+                    <p class="text-sm">Yuna</p>
+                    <p class="text-[10px] text-[#636366]">Data · Sonnet 4.6</p>
+                  </div>
+                </div>
+                <div class="flex items-center gap-4">
+                  <span class="flex items-center gap-1.5"><span class="w-1.5 h-1.5 rounded-full bg-[#30D158]"></span><span class="text-[10px] text-[#8E8E93]">ativo</span></span>
+                  <span class="text-[10px] text-[#636366] tabular-nums">analytics + reports</span>
+                  <button class="admin-btn px-2.5 py-1 text-[10px]">Chat</button>
+                  <button class="admin-btn-secondary px-2.5 py-1 text-[10px]">Config</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Departamento: Produto -->
+        <div class="admin-card overflow-hidden fade-in" style="animation-delay:0.25s">
+          <button onclick="toggleDept('dept-prod')" class="w-full px-6 py-4 flex items-center justify-between hover:bg-white/[0.02] transition-colors">
+            <div class="flex items-center gap-4">
+              <div class="w-9 h-9 rounded-lg bg-[#D70030]/10 border border-[#D70030]/20 flex items-center justify-center">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="2" y="3" width="12" height="10" rx="1.5" stroke="#D70030" stroke-width="1.2" fill="none"/><path d="M5 7h6M5 9.5h4" stroke="#D70030" stroke-width="1.2" stroke-linecap="round"/></svg>
+              </div>
+              <div class="text-left">
+                <p class="text-sm font-medium">Produto</p>
+                <p class="text-[10px] text-[#636366]">2 agentes · Roadmap, Design</p>
+              </div>
+            </div>
+            <div class="flex items-center gap-4">
+              <span class="text-[10px] text-[#8E8E93] tabular-nums">92 acoes hoje</span>
+              <svg class="dept-chevron transition-transform duration-200" width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M3 4.5L6 7.5L9 4.5" stroke="#636366" stroke-width="1.2" stroke-linecap="round"/></svg>
+            </div>
+          </button>
+          <div id="dept-prod" class="hidden border-t border-white/[0.04]">
+            <div class="px-6 py-4 space-y-3">
+              <!-- Akira-PM -->
+              <div class="flex items-center justify-between py-2">
+                <div class="flex items-center gap-3">
+                  <div class="w-8 h-8 rounded-full bg-[#D70030]/15 border border-[#D70030]/30 flex items-center justify-center"><span class="text-[#D70030] text-[10px] font-semibold">A</span></div>
+                  <div>
+                    <p class="text-sm font-medium">Akira-PM</p>
+                    <p class="text-[10px] text-[#636366]">Product Lead · Opus 4.6</p>
+                  </div>
+                </div>
+                <div class="flex items-center gap-4">
+                  <span class="flex items-center gap-1.5"><span class="w-1.5 h-1.5 rounded-full bg-[#30D158]"></span><span class="text-[10px] text-[#8E8E93]">ativo</span></span>
+                  <span class="text-[10px] text-[#636366] tabular-nums">roadmap + specs</span>
+                  <button class="admin-btn px-2.5 py-1 text-[10px]">Chat</button>
+                  <button class="admin-btn-secondary px-2.5 py-1 text-[10px]">Config</button>
+                </div>
+              </div>
+              <!-- Sakura -->
+              <div class="flex items-center justify-between py-2">
+                <div class="flex items-center gap-3">
+                  <div class="w-8 h-8 rounded-full bg-white/[0.04] border border-white/10 flex items-center justify-center"><span class="text-[#8E8E93] text-[10px] font-semibold">S</span></div>
+                  <div>
+                    <p class="text-sm">Sakura</p>
+                    <p class="text-[10px] text-[#636366]">Designer · Sonnet 4.6</p>
+                  </div>
+                </div>
+                <div class="flex items-center gap-4">
+                  <span class="flex items-center gap-1.5"><span class="w-1.5 h-1.5 rounded-full bg-[#30D158]"></span><span class="text-[10px] text-[#8E8E93]">ativo</span></span>
+                  <span class="text-[10px] text-[#636366] tabular-nums">Figma + prototipos</span>
+                  <button class="admin-btn px-2.5 py-1 text-[10px]">Chat</button>
+                  <button class="admin-btn-secondary px-2.5 py-1 text-[10px]">Config</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Atividade Interna (Live Feed) -->
+      <div class="admin-card p-6 fade-in" style="animation-delay:0.3s">
+        <div class="flex items-center justify-between mb-4">
+          <p class="text-[10px] text-[#636366] tracking-widest uppercase">Atividade Interna</p>
+          <span class="flex items-center gap-1.5"><span class="w-1.5 h-1.5 rounded-full bg-[#D70030] glow-active"></span><span class="text-[10px] text-[#636366]">live</span></span>
+        </div>
+        <div id="equipe-feed" class="space-y-2">
+          <div class="flex items-center gap-4 py-1.5 text-xs">
+            <span class="text-[#636366] tabular-nums w-12">17:04</span>
+            <span class="text-[#D70030] w-20 font-medium">Kaito</span>
+            <span class="text-[#8E8E93] w-20">Engenharia</span>
+            <span class="text-[#D2D2D7]">Deploy v2.4.1 concluido em producao</span>
+          </div>
+          <div class="flex items-center gap-4 py-1.5 text-xs">
+            <span class="text-[#636366] tabular-nums w-12">17:02</span>
+            <span class="text-[#8E8E93] w-20">Mei</span>
+            <span class="text-[#8E8E93] w-20">Suporte</span>
+            <span class="text-[#D2D2D7]">12 tickets resolvidos, SLA 99.9%</span>
+          </div>
+          <div class="flex items-center gap-4 py-1.5 text-xs">
+            <span class="text-[#636366] tabular-nums w-12">16:58</span>
+            <span class="text-[#8E8E93] w-20">Ren</span>
+            <span class="text-[#8E8E93] w-20">Comercial</span>
+            <span class="text-[#D2D2D7]">Proposta enviada para lead Fintech ABC</span>
+          </div>
+          <div class="flex items-center gap-4 py-1.5 text-xs">
+            <span class="text-[#636366] tabular-nums w-12">16:55</span>
+            <span class="text-[#8E8E93] w-20">Takeshi</span>
+            <span class="text-[#8E8E93] w-20">Ops</span>
+            <span class="text-[#D2D2D7]">Alerta CPU resolvido, escala automatica ativada</span>
+          </div>
+          <div class="flex items-center gap-4 py-1.5 text-xs">
+            <span class="text-[#636366] tabular-nums w-12">16:50</span>
+            <span class="text-[#8E8E93] w-20">Akira-PM</span>
+            <span class="text-[#8E8E93] w-20">Produto</span>
+            <span class="text-[#D2D2D7]">Spec v3 do modulo billing finalizada</span>
+          </div>
+          <div class="flex items-center gap-4 py-1.5 text-xs">
+            <span class="text-[#636366] tabular-nums w-12">16:45</span>
+            <span class="text-[#8E8E93] w-20">Yuna</span>
+            <span class="text-[#8E8E93] w-20">Ops</span>
+            <span class="text-[#D2D2D7]">Relatorio semanal de metricas gerado</span>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
   </div><!-- end ml-56 -->
 
   <script>
@@ -931,7 +1364,275 @@
         show('overview');
       }
     })();
+
+    // =============================================
+    // Toggle department expand/collapse (Equipe KTANA)
+    // =============================================
+    function toggleDept(id) {
+      const el = document.getElementById(id);
+      if (!el) return;
+      const isHidden = el.classList.contains('hidden');
+      const btn = el.previousElementSibling || el.parentElement.querySelector('button');
+      const chevron = btn ? btn.querySelector('.dept-chevron') : null;
+      if (isHidden) {
+        el.classList.remove('hidden');
+        if (chevron) chevron.style.transform = 'rotate(180deg)';
+      } else {
+        el.classList.add('hidden');
+        if (chevron) chevron.style.transform = 'rotate(0deg)';
+      }
+    }
+
+    // =============================================
+    // FLOW SCREEN — Dynamic real-time simulation
+    // =============================================
+    (function initFlowDynamics() {
+      // Data for flow simulation
+      const flowAgents = [
+        { name: 'Akira', role: 'CEO', tenant: 'KTANA' },
+        { name: 'Hana', role: 'Secretaria', tenant: 'KTANA' },
+        { name: 'Yuki', role: 'Controller', tenant: 'KTANA' },
+        { name: 'Haruki', role: 'PM', tenant: 'KTANA' },
+        { name: 'CEO-Z', role: 'CEO', tenant: 'Startup Z' },
+        { name: 'SDR-X', role: 'SDR', tenant: 'Empresa X' },
+        { name: 'CS-ABC', role: 'CS', tenant: 'Consultoria ABC' }
+      ];
+      const flowActions = [
+        'Relatorio enviado', 'Email filtrado', 'Reuniao agendada', 'Task concluida',
+        'Lead qualificado', 'Briefing gerado', 'Pagamento conciliado', 'Deploy executado',
+        'Ticket resolvido', 'Proposta enviada', 'Alerta resolvido', 'Dado processado',
+        'Contrato revisado', 'Follow-up enviado', 'Dashboard atualizado', 'Backup realizado'
+      ];
+
+      let flowActionCount = 12400;
+      let flowActiveAgents = 847;
+      let flowLatency = 12;
+
+      // Create live status bar in flow screen
+      const flowScreen = document.getElementById('flow');
+      if (flowScreen) {
+        // Add activity feed sidebar
+        const flowMain = flowScreen.querySelector('main');
+        if (flowMain) {
+          const feedPanel = document.createElement('div');
+          feedPanel.id = 'flow-feed';
+          feedPanel.className = 'absolute top-4 right-4 w-64 max-h-80 overflow-hidden';
+          feedPanel.innerHTML = '<div class="admin-card p-3 bg-[#1C1C1E]/90 backdrop-blur-sm">' +
+            '<p class="text-[9px] text-[#636366] tracking-widest mb-2 uppercase flex items-center gap-1.5">' +
+            '<span class="w-1 h-1 rounded-full bg-[#D70030] glow-active"></span>LIVE FEED</p>' +
+            '<div id="flow-feed-items" class="space-y-1.5 text-[10px]"></div></div>';
+          flowMain.appendChild(feedPanel);
+
+          // Replace the static bottom bar with dynamic one
+          const bottomBar = flowMain.querySelector('.absolute.bottom-0');
+          if (bottomBar) {
+            bottomBar.id = 'flow-status-bar';
+            bottomBar.innerHTML = '<span id="flow-status-left">' +
+              '<span class="flex items-center gap-1.5 inline-flex"><span class="w-1.5 h-1.5 rounded-full bg-[#D70030] glow-active"></span>Live</span>' +
+              ' · <span id="flow-action-count">12.4k</span> acoes · <span id="flow-agent-count">847</span> agentes ativos · <span id="flow-latency">12</span>ms latencia</span>' +
+              '<span>Zoom: scroll | Pan: drag | Click: inspecionar</span>' +
+              '<span>Streaming: SSE · 60fps</span>';
+          }
+        }
+
+        // Add SVG animation layer to the flow chart
+        const flowContainer = flowScreen.querySelector('.relative[style*="width:900px"]');
+        if (flowContainer) {
+          const svgOverlay = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+          svgOverlay.setAttribute('class', 'absolute inset-0 w-full h-full pointer-events-none');
+          svgOverlay.setAttribute('style', 'overflow:visible; z-index:10;');
+          svgOverlay.id = 'flow-particles-svg';
+
+          // Define glow filter
+          svgOverlay.innerHTML = '<defs>' +
+            '<filter id="glow-particle" x="-50%" y="-50%" width="200%" height="200%">' +
+            '<feGaussianBlur in="SourceGraphic" stdDeviation="3" result="blur"/>' +
+            '<feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>' +
+            '</filter>' +
+            '<linearGradient id="line-pulse" x1="0%" y1="0%" x2="100%" y2="0%">' +
+            '<stop offset="0%" stop-color="#D70030" stop-opacity="0">' +
+            '<animate attributeName="offset" values="0;1" dur="2s" repeatCount="indefinite"/>' +
+            '</stop>' +
+            '<stop offset="30%" stop-color="#D70030" stop-opacity="0.6">' +
+            '<animate attributeName="offset" values="0.3;1.3" dur="2s" repeatCount="indefinite"/>' +
+            '</stop>' +
+            '<stop offset="60%" stop-color="#D70030" stop-opacity="0">' +
+            '<animate attributeName="offset" values="0.6;1.6" dur="2s" repeatCount="indefinite"/>' +
+            '</stop>' +
+            '</linearGradient>' +
+            '</defs>';
+
+          // Connection lines between clusters
+          const connections = [
+            { x1: 200, y1: 160, x2: 580, y2: 120 },  // KTANA -> Startup Z
+            { x1: 200, y1: 160, x2: 420, y2: 400 },  // KTANA -> Empresa X
+            { x1: 580, y1: 200, x2: 720, y2: 360 },  // Startup Z -> Consultoria ABC
+            { x1: 200, y1: 200, x2: 80, y2: 380 },   // KTANA -> Pessoa Y
+            { x1: 420, y1: 400, x2: 720, y2: 380 },  // Empresa X -> Consultoria ABC
+          ];
+
+          connections.forEach(function(conn, i) {
+            const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+            line.setAttribute('x1', conn.x1);
+            line.setAttribute('y1', conn.y1);
+            line.setAttribute('x2', conn.x2);
+            line.setAttribute('y2', conn.y2);
+            line.setAttribute('stroke', '#D70030');
+            line.setAttribute('stroke-width', '0.5');
+            line.setAttribute('opacity', '0.12');
+            line.setAttribute('class', 'flow-connection');
+            line.id = 'flow-line-' + i;
+
+            // Pulse animation
+            const anim = document.createElementNS('http://www.w3.org/2000/svg', 'animate');
+            anim.setAttribute('attributeName', 'opacity');
+            anim.setAttribute('values', '0.08;0.25;0.08');
+            anim.setAttribute('dur', (2 + i * 0.7) + 's');
+            anim.setAttribute('repeatCount', 'indefinite');
+            line.appendChild(anim);
+
+            svgOverlay.appendChild(line);
+          });
+
+          flowContainer.appendChild(svgOverlay);
+
+          // Spawn animated particles
+          function spawnParticle() {
+            const conn = connections[Math.floor(Math.random() * connections.length)];
+            const reverse = Math.random() > 0.5;
+            const sx = reverse ? conn.x2 : conn.x1;
+            const sy = reverse ? conn.y2 : conn.y1;
+            const ex = reverse ? conn.x1 : conn.x2;
+            const ey = reverse ? conn.y1 : conn.y2;
+
+            const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+            circle.setAttribute('r', '2.5');
+            circle.setAttribute('fill', '#D70030');
+            circle.setAttribute('filter', 'url(#glow-particle)');
+            circle.setAttribute('cx', sx);
+            circle.setAttribute('cy', sy);
+            svgOverlay.appendChild(circle);
+
+            const duration = 1500 + Math.random() * 1000;
+            const startTime = performance.now();
+
+            function animateParticle(now) {
+              const elapsed = now - startTime;
+              const t = Math.min(elapsed / duration, 1);
+              const eased = t * (2 - t); // easeOut
+              circle.setAttribute('cx', sx + (ex - sx) * eased);
+              circle.setAttribute('cy', sy + (ey - sy) * eased);
+              circle.setAttribute('opacity', t < 0.1 ? t * 10 : t > 0.8 ? (1 - t) * 5 : 1);
+
+              if (t < 1) {
+                requestAnimationFrame(animateParticle);
+              } else {
+                circle.remove();
+              }
+            }
+            requestAnimationFrame(animateParticle);
+          }
+
+          // Spawn particles at random intervals
+          function scheduleParticle() {
+            if (document.getElementById('flow') && document.getElementById('flow').classList.contains('active')) {
+              spawnParticle();
+            }
+            setTimeout(scheduleParticle, 3000 + Math.random() * 2000);
+          }
+          scheduleParticle();
+        }
+
+        // Pulse nodes when "active"
+        function pulseRandomNode() {
+          const nodes = flowScreen.querySelectorAll('.node');
+          if (nodes.length === 0) return;
+          const node = nodes[Math.floor(Math.random() * nodes.length)];
+          const circle = node.querySelector('div');
+          if (circle) {
+            circle.style.boxShadow = '0 0 16px rgba(215,0,48,0.5)';
+            circle.style.borderColor = 'rgba(215,0,48,0.6)';
+            setTimeout(function() {
+              circle.style.boxShadow = '';
+              circle.style.borderColor = '';
+            }, 1200);
+          }
+        }
+        setInterval(pulseRandomNode, 2500);
+
+        // Add live feed messages
+        function addFlowFeedItem() {
+          const feedContainer = document.getElementById('flow-feed-items');
+          if (!feedContainer) return;
+          if (!document.getElementById('flow').classList.contains('active')) return;
+
+          const agent = flowAgents[Math.floor(Math.random() * flowAgents.length)];
+          const action = flowActions[Math.floor(Math.random() * flowActions.length)];
+          const now = new Date();
+          const time = String(now.getHours()).padStart(2, '0') + ':' + String(now.getMinutes()).padStart(2, '0');
+
+          const item = document.createElement('div');
+          item.className = 'flex items-start gap-2 py-1 opacity-0';
+          item.style.transition = 'opacity 0.3s ease';
+          item.innerHTML = '<span class="text-[#636366] tabular-nums shrink-0">' + time + '</span>' +
+            '<span class="text-[#8E8E93] shrink-0">' + agent.name + '</span>' +
+            '<span class="text-[#D2D2D7] truncate">' + action + '</span>';
+
+          feedContainer.insertBefore(item, feedContainer.firstChild);
+          requestAnimationFrame(function() { item.style.opacity = '1'; });
+
+          // Keep max 8 items
+          while (feedContainer.children.length > 8) {
+            feedContainer.removeChild(feedContainer.lastChild);
+          }
+
+          // Update counters
+          flowActionCount += Math.floor(Math.random() * 3) + 1;
+          flowLatency = 8 + Math.floor(Math.random() * 12);
+          const countEl = document.getElementById('flow-action-count');
+          const latencyEl = document.getElementById('flow-latency');
+          if (countEl) countEl.textContent = (flowActionCount / 1000).toFixed(1) + 'k';
+          if (latencyEl) latencyEl.textContent = flowLatency;
+        }
+
+        setInterval(addFlowFeedItem, 4000);
+
+        // Add tooltip on hover for nodes
+        const tooltip = document.createElement('div');
+        tooltip.id = 'flow-tooltip';
+        tooltip.className = 'fixed z-[100] px-3 py-2 bg-[#1C1C1E] border border-white/[0.08] rounded-lg text-[10px] text-[#D2D2D7] pointer-events-none hidden shadow-lg';
+        document.body.appendChild(tooltip);
+
+        const nodeTooltips = {
+          'A': 'Akira (CEO) · 24 acoes hoje · Opus 4.6',
+          'H': 'Hana (Sec) · 58 acoes hoje · Sonnet 4.6',
+          'Y': 'Yuki (Fin) · 47 acoes hoje · Sonnet 4.6',
+          'C': 'CEO · Lider do cluster · Online',
+          'F': 'Financeiro · Sonnet 4.6 · 34 acoes',
+          'O': 'Operacoes · Haiku 4.5 · 28 acoes',
+          'M': 'Marketing · Sonnet 4.6 · 45 acoes',
+          'T': 'Tech · Haiku 4.5 · 52 acoes',
+          'S': 'SDR · Pipeline ativo · 12 leads',
+          'R': 'Revenue · Haiku 4.5 · 8 deals'
+        };
+
+        flowScreen.querySelectorAll('.node').forEach(function(node) {
+          node.addEventListener('mouseenter', function(e) {
+            const letter = node.querySelector('span') ? node.querySelector('span').textContent.trim() : '';
+            const info = nodeTooltips[letter] || letter + ' · agente ativo';
+            tooltip.textContent = info;
+            tooltip.classList.remove('hidden');
+            const rect = node.getBoundingClientRect();
+            tooltip.style.left = (rect.left + rect.width / 2 - tooltip.offsetWidth / 2) + 'px';
+            tooltip.style.top = (rect.top - tooltip.offsetHeight - 8) + 'px';
+          });
+          node.addEventListener('mouseleave', function() {
+            tooltip.classList.add('hidden');
+          });
+        });
+      }
+    })();
   </script>
 </body>
 </html>
-<script src="../shared-nav.js?v=1774802232"></script>
+<script src="../shared-nav.js?v=1774803490"></script>

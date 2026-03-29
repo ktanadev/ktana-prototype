@@ -199,11 +199,11 @@
             <div class="kt-org-info"><div class="kt-org-n">Vende Direito</div><div class="kt-org-p">RONIN · 1 samurai</div></div>
           </div>
           <div class="kt-org-sep"></div>
-          <a href="${t('organizations/index.html')}" class="kt-org-item kt-org-manage">
+          <a href="${isPF ? pf('settings.html') : t('organizations/index.html')}" class="kt-org-item kt-org-manage">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
             <span>Nova organizacao</span>
           </a>
-          <a href="${t('organizations/index.html')}" class="kt-org-item kt-org-manage">
+          <a href="${isPF ? pf('settings.html') : t('organizations/index.html')}" class="kt-org-item kt-org-manage">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M12.22 2h-.44a2 2 0 00-2 2v.18a2 2 0 01-1 1.73l-.43.25a2 2 0 01-2 0l-.15-.08a2 2 0 00-2.73.73l-.22.38a2 2 0 00.73 2.73l.15.1a2 2 0 011 1.72v.51a2 2 0 01-1 1.74l-.15.09a2 2 0 00-.73 2.73l.22.38a2 2 0 002.73.73l.15-.08a2 2 0 012 0l.43.25a2 2 0 011 1.73V20a2 2 0 002 2h.44"/></svg>
             <span>Gerenciar organizacoes</span>
           </a>
@@ -279,9 +279,9 @@
         ${sidebarItems}
       </nav>
       <div class="ks-foot">
-        <a href="${t('terminal.html')}" class="ks-foot-link">${svg('M4 17l6-6-6-6M12 19h8', 14)} Terminal</a>
-        <a href="${t('whatsapp.html')}" class="ks-foot-link">${svg('M3 21l1.65-3.8a9 9 0 113.15 2.85L3 21z', 14)} WhatsApp</a>
-        <a href="${t('support.html')}" class="ks-foot-link">${svg('M18.364 5.636a9 9 0 010 12.728m0 0l-2.829-2.829m2.829 2.829L21 21M15.536 8.464a5 5 0 010 7.072m0 0l-2.829-2.829', 14)} Suporte</a>
+        <a href="${isPF ? pf('wearables.html') : t('terminal.html')}" class="ks-foot-link">${svg(isPF ? 'M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z' : 'M4 17l6-6-6-6M12 19h8', 14)} ${isPF ? 'Dispositivos' : 'Terminal'}</a>
+        <a href="${isPF ? pf('chat.html') : t('whatsapp.html')}" class="ks-foot-link">${svg('M3 21l1.65-3.8a9 9 0 113.15 2.85L3 21z', 14)} WhatsApp</a>
+        <a href="${isPF ? pf('chat.html') : t('support.html')}" class="ks-foot-link">${svg('M18.364 5.636a9 9 0 010 12.728m0 0l-2.829-2.829m2.829 2.829L21 21M15.536 8.464a5 5 0 010 7.072m0 0l-2.829-2.829', 14)} Suporte</a>
       </div>
     </aside>
     <div class="ks-overlay" id="ksOverlay" onclick="toggleSidebar()"></div>
