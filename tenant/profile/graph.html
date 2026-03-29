@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Knowledge Graph — KTANA</title>
+  <link rel="stylesheet" href="../../shared.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Zen+Dots&display=swap" rel="stylesheet">
+  <style>
+    body { min-height: 100vh; background: #000; color: #F5F5F7; display: flex; flex-direction: column; }
+    .nav { position: sticky; top: 0; z-index: 50; height: 48px; display: flex; align-items: center; justify-content: center; background: rgba(0,0,0,0.6); backdrop-filter: blur(20px); border-bottom: 0.5px solid rgba(255,255,255,0.06); }
+    .nav-inner { width: 100%; max-width: 720px; padding: 0 24px; display: flex; align-items: center; justify-content: space-between; }
+    .nav-logo { font-family: 'Zen Dots', cursive; font-size: 14px; color: #D70030; }
+    .nav-links a { font-family: 'Inter', sans-serif; font-size: 12px; color: #F5F5F7; opacity: 0.4; margin-left: 24px; }
+    .nav-links a.active { opacity: 1; }
+
+    .top-bar { padding: 20px 24px; max-width: 720px; margin: 0 auto; width: 100%; }
+    h1 { font-family: 'Zen Dots', cursive; font-size: 20px; color: #F5F5F7; margin-bottom: 6px; }
+    .sub { font-family: 'Satoshi', sans-serif; font-size: 13px; color: #636366; margin-bottom: 16px; }
+    .tabs-sub { display: flex; gap: 8px; }
+    .tab-sub { font-family: 'Inter', sans-serif; padding: 6px 16px; border-radius: 980px; font-size: 12px; color: #636366; border: 0.5px solid rgba(255,255,255,0.08); background: none; cursor: pointer; }
+    .tab-sub.active { background: #F5F5F7; color: #1D1D1F; border-color: #F5F5F7; }
+
+    /* Graph canvas */
+    .graph { flex: 1; position: relative; overflow: hidden; }
+    .graph::before { content: ''; position: absolute; inset: 0; opacity: 0.02; background-image: radial-gradient(circle at 1px 1px, #D70030 0.5px, transparent 0); background-size: 48px 48px; }
+
+    /* Nodes */
+    .g-node { position: absolute; display: flex; flex-direction: column; align-items: center; cursor: pointer; transition: transform 0.2s; }
+    .g-node:hover { transform: scale(1.15); }
+    .g-node:hover .g-tooltip { opacity: 1; }
+    .g-circle { border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: 'Inter', sans-serif; font-weight: 500; transition: box-shadow 0.3s; }
+    .g-label { font-family: 'Satoshi', sans-serif; font-size: 9px; color: #636366; margin-top: 4px; text-align: center; max-width: 80px; line-height: 1.3; }
+
+    .g-entity { width: 40px; height: 40px; border: 1px solid rgba(215,0,48,0.3); background: rgba(215,0,48,0.06); font-size: 10px; color: #D70030; }
+    .g-fact { width: 28px; height: 28px; border: 1px solid rgba(255,255,255,0.1); background: rgba(255,255,255,0.03); font-size: 8px; color: #8E8E93; }
+    .g-pattern { width: 34px; height: 34px; border: 1px solid rgba(255,255,255,0.06); background: rgba(255,255,255,0.02); font-size: 9px; color: #636366; }
+
+    .g-node:hover .g-entity { box-shadow: 0 0 24px rgba(215,0,48,0.2); }
+    .g-node:hover .g-fact { box-shadow: 0 0 16px rgba(255,255,255,0.08); }
+
+    .g-tooltip { position: absolute; bottom: calc(100% + 8px); left: 50%; transform: translateX(-50%); background: #1C1C1E; border: 0.5px solid rgba(255,255,255,0.08); border-radius: 10px; padding: 8px 12px; min-width: 160px; opacity: 0; transition: opacity 0.2s; pointer-events: none; z-index: 5; }
+    .g-tooltip p { font-family: 'Satoshi', sans-serif; font-size: 11px; color: #D2D2D7; line-height: 1.4; }
+    .g-tooltip .meta { font-family: 'Inter', sans-serif; font-size: 9px; color: #636366; margin-top: 4px; }
+
+    /* Edges (SVG) */
+    .edges { position: absolute; inset: 0; pointer-events: none; }
+    .edges line { stroke: rgba(255,255,255,0.04); stroke-width: 0.5; }
+    .edges line.strong { stroke: rgba(215,0,48,0.08); stroke-width: 1; }
+
+    .stats-bar { position: absolute; bottom: 0; left: 0; right: 0; padding: 16px 32px; display: flex; justify-content: space-between; background: linear-gradient(to top, #000, transparent); font-family: 'Inter', sans-serif; font-size: 10px; color: #48484A; }
+  </style>
+</head>
+<body>
+  <nav class="nav">
+    <div class="nav-inner">
+      <a href="../landing.html" class="nav-logo">KTANA</a>
+      <div class="nav-links"><a href="../dashboard/home.html">Painel</a><a href="index.html" class="active">Meu Perfil</a></div>
+    </div>
+  </nav>
+
+  <div class="top-bar">
+    <h1 class="fade-in">Knowledge Graph</h1>
+    <p class="sub fade-in">Seu cerebro digital. Cada ponto e algo que seus samurais sabem.</p>
+    <div class="tabs-sub fade-in">
+      <button class="tab-sub" onclick="location.href='index.html'">Perfil</button>
+      <button class="tab-sub" onclick="location.href='patterns.html'">Padroes</button>
+      <button class="tab-sub active">Knowledge Graph</button>
+    </div>
+  </div>
+
+  <div class="graph">
+    <svg class="edges" viewBox="0 0 100 100" preserveAspectRatio="none" style="width:100%;height:100%;">
+      <line x1="50" y1="20" x2="25" y2="40" class="strong"/>
+      <line x1="50" y1="20" x2="70" y2="35"/>
+      <line x1="50" y1="20" x2="55" y2="50"/>
+      <line x1="25" y1="40" x2="15" y2="60"/>
+      <line x1="25" y1="40" x2="35" y2="65"/>
+      <line x1="70" y1="35" x2="80" y2="55"/>
+      <line x1="70" y1="35" x2="60" y2="60" class="strong"/>
+      <line x1="55" y1="50" x2="40" y2="70"/>
+      <line x1="55" y1="50" x2="70" y2="75"/>
+      <line x1="15" y1="60" x2="25" y2="80"/>
+      <line x1="80" y1="55" x2="85" y2="75"/>
+    </svg>
+
+    <!-- Central: Julio -->
+    <div class="g-node" style="left:50%;top:18%;transform:translateX(-50%);">
+      <div class="g-tooltip"><p>Julio — Dono</p><p class="meta">Centro do grafo · 234 conexoes</p></div>
+      <div class="g-circle g-entity">J</div>
+      <span class="g-label">Julio</span>
+    </div>
+
+    <!-- Entities -->
+    <div class="g-node" style="left:22%;top:36%;">
+      <div class="g-tooltip"><p>Cliente X</p><p class="meta">Paga com 3d atraso · 8 faturas · R$42k total</p></div>
+      <div class="g-circle g-entity">X</div>
+      <span class="g-label">Cliente X</span>
+    </div>
+
+    <div class="g-node" style="left:68%;top:30%;">
+      <div class="g-tooltip"><p>Cliente Y</p><p class="meta">Inadimplente · R$12k pendente · 15d atraso</p></div>
+      <div class="g-circle g-entity">Y</div>
+      <span class="g-label">Cliente Y</span>
+    </div>
+
+    <div class="g-node" style="left:52%;top:46%;">
+      <div class="g-tooltip"><p>Sprint 12</p><p class="meta">Deadline 05/04 · 78% done · 2 tasks atrasadas</p></div>
+      <div class="g-circle g-entity">S</div>
+      <span class="g-label">Sprint 12</span>
+    </div>
+
+    <!-- Facts -->
+    <div class="g-node" style="left:12%;top:56%;">
+      <div class="g-circle g-fact">$</div>
+      <span class="g-label">paga 3d atraso</span>
+    </div>
+
+    <div class="g-node" style="left:32%;top:62%;">
+      <div class="g-circle g-fact">W</div>
+      <span class="g-label">so responde WA</span>
+    </div>
+
+    <div class="g-node" style="left:78%;top:50%;">
+      <div class="g-circle g-fact">!</div>
+      <span class="g-label">R$12k pendente</span>
+    </div>
+
+    <div class="g-node" style="left:58%;top:58%;">
+      <div class="g-circle g-fact">T</div>
+      <span class="g-label">2 tasks atrasadas</span>
+    </div>
+
+    <!-- Patterns -->
+    <div class="g-node" style="left:38%;top:76%;">
+      <div class="g-circle g-pattern">P</div>
+      <span class="g-label">WA 3x mais resp</span>
+    </div>
+
+    <div class="g-node" style="left:68%;top:72%;">
+      <div class="g-circle g-pattern">P</div>
+      <span class="g-label">lembrete 3d antes</span>
+    </div>
+
+    <div class="g-node" style="left:22%;top:78%;">
+      <div class="g-circle g-pattern">P</div>
+      <span class="g-label">desconto max 10%</span>
+    </div>
+
+    <div class="g-node" style="left:83%;top:73%;">
+      <div class="g-circle g-fact">5</div>
+      <span class="g-label">Fornec Z 5% desc</span>
+    </div>
+
+    <div class="stats-bar">
+      <span>234 nodes · 412 edges · 12 clusters</span>
+      <span>Zoom: scroll · Pan: drag · Click: inspecionar</span>
+      <span>Atualizado em tempo real</span>
+    </div>
+  </div>
+</body>
+</html>

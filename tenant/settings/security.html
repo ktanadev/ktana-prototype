@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Seguranca — KTANA</title>
+  <link rel="stylesheet" href="../../shared.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Zen+Dots&display=swap" rel="stylesheet">
+  <style>
+    body { min-height: 100vh; background: #F5F5F7; }
+    .nav { position: sticky; top: 0; z-index: 50; height: 48px; display: flex; align-items: center; justify-content: center; background: rgba(245,245,247,0.72); backdrop-filter: saturate(180%) blur(20px); border-bottom: 0.5px solid rgba(0,0,0,0.06); }
+    .nav-inner { width: 100%; max-width: 720px; padding: 0 24px; display: flex; align-items: center; justify-content: space-between; }
+    .nav-logo { font-family: 'Zen Dots', cursive; font-size: 14px; color: #D70030; }
+    .nav-links a { font-family: 'Inter', sans-serif; font-size: 12px; color: #1D1D1F; opacity: 0.4; margin-left: 24px; }
+    .nav-links a.active { opacity: 1; }
+    .main { max-width: 720px; margin: 0 auto; padding: 40px 24px 80px; }
+    h1 { font-family: 'Satoshi', sans-serif; font-size: 22px; font-weight: 700; color: #1D1D1F; margin-bottom: 32px; }
+    .settings-nav { display: flex; gap: 2px; background: rgba(0,0,0,0.03); border-radius: 10px; padding: 2px; margin-bottom: 32px; overflow-x: auto; }
+    .settings-tab { font-family: 'Inter', sans-serif; padding: 6px 14px; border-radius: 8px; font-size: 11px; color: #86868B; cursor: pointer; border: none; background: none; white-space: nowrap; }
+    .settings-tab.active { background: #FFF; color: #1D1D1F; box-shadow: 0 1px 3px rgba(0,0,0,0.06); font-weight: 500; }
+    .card { background: #FFF; border-radius: 20px; border: 1px solid rgba(0,0,0,0.04); padding: 24px; margin-bottom: 12px; }
+    .card-label { font-family: 'Inter', sans-serif; font-size: 10px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: #D70030; margin-bottom: 14px; }
+    .row { display: flex; align-items: center; justify-content: space-between; padding: 10px 0; border-bottom: 0.5px solid rgba(0,0,0,0.03); }
+    .row:last-child { border-bottom: none; }
+    .row-title { font-family: 'Satoshi', sans-serif; font-size: 14px; color: #1D1D1F; }
+    .row-desc { font-family: 'Satoshi', sans-serif; font-size: 11px; color: #86868B; margin-top: 2px; }
+    .row-value { font-family: 'Inter', sans-serif; font-size: 13px; color: #86868B; }
+    .toggle { width: 44px; height: 26px; border-radius: 13px; background: #E8E8ED; cursor: pointer; position: relative; transition: background 0.2s; }
+    .toggle.on { background: #D70030; }
+    .toggle::after { content: ''; position: absolute; width: 22px; height: 22px; border-radius: 11px; background: #FFF; top: 2px; left: 2px; transition: transform 0.2s; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+    .toggle.on::after { transform: translateX(18px); }
+    .mode-selector { display: flex; gap: 2px; background: rgba(0,0,0,0.03); border-radius: 8px; padding: 2px; }
+    .mode-btn { font-family: 'Inter', sans-serif; padding: 5px 12px; border-radius: 6px; font-size: 11px; color: #86868B; cursor: pointer; border: none; background: none; }
+    .mode-btn.active { background: #FFF; color: #1D1D1F; box-shadow: 0 1px 3px rgba(0,0,0,0.06); }
+    .conn-item { display: flex; align-items: center; gap: 12px; padding: 10px 0; border-bottom: 0.5px solid rgba(0,0,0,0.03); }
+    .conn-item:last-child { border-bottom: none; }
+    .conn-icon { width: 32px; height: 32px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 700; flex-shrink: 0; }
+    .conn-name { font-family: 'Satoshi', sans-serif; font-size: 13px; color: #1D1D1F; }
+    .conn-desc { font-family: 'Inter', sans-serif; font-size: 10px; color: #86868B; }
+    .conn-status { font-family: 'Inter', sans-serif; font-size: 10px; color: #86868B; margin-left: auto; display: flex; align-items: center; gap: 4px; }
+    .conn-status::before { content: ''; width: 5px; height: 5px; border-radius: 50%; background: #30D158; }
+    .conn-btn { font-family: 'Inter', sans-serif; padding: 5px 12px; border-radius: 980px; background: #1D1D1F; color: #F5F5F7; font-size: 10px; font-weight: 500; border: none; cursor: pointer; margin-left: auto; }
+    .bar-row { display: flex; align-items: center; gap: 12px; padding: 6px 0; }
+    .bar-label { font-family: 'Satoshi', sans-serif; font-size: 12px; color: #86868B; width: 120px; flex-shrink: 0; }
+    .bar-track { flex: 1; height: 4px; background: rgba(0,0,0,0.04); border-radius: 2px; overflow: hidden; }
+    .bar-fill { height: 100%; border-radius: 2px; background: #1D1D1F; }
+    .bar-value { font-family: 'Inter', sans-serif; font-size: 11px; color: #6E6E73; width: 60px; text-align: right; }
+    .btn-danger { font-family: 'Inter', sans-serif; padding: 10px 20px; border-radius: 12px; background: transparent; color: #D70030; font-size: 12px; border: 0.5px solid rgba(215,0,48,0.2); cursor: pointer; font-weight: 500; }
+  </style>
+</head>
+<body>
+  <nav class="nav"><div class="nav-inner"><a href="../landing.html" class="nav-logo">KTANA</a><div class="nav-links"><a href="../dashboard/home.html">Painel</a><a href="general.html" class="active">Config</a></div></div></nav>
+  <main class="main">
+    <h1 class="fade-in">Configuracoes</h1>
+    <div class="settings-nav fade-in">
+      <button class="settings-tab" onclick="location.href='general.html'">Geral</button>
+      <button class="settings-tab " onclick="location.href='models.html'">Inteligencia</button>
+      <button class="settings-tab " onclick="location.href='connections.html'">Conexoes</button>
+      <button class="settings-tab" onclick="location.href='brain.html'">Cerebro</button>
+      <button class="settings-tab active" onclick="location.href='security.html'">Seguranca</button>
+      <button class="settings-tab " onclick="location.href='privacy.html'">Privacidade</button>
+      <button class="settings-tab " onclick="location.href='billing.html'">Plano</button>
+    </div>
+    <div class="card fade-in"><p class="card-label">Autenticacao</p><div class="row"><div><p class="row-title">2FA</p><p class="row-desc">Autenticacao em dois fatores</p></div><div class="toggle on" onclick="this.classList.toggle('on')"></div></div><div class="row"><div><p class="row-title">KYC facial</p><p class="row-desc">Verificacao de identidade</p></div><span class="row-value" style="color:#30D158;">Verificado</span></div><div class="row"><div><p class="row-title">Ultimo login</p></div><span class="row-value">29/03/2026 08:00 · Sao Paulo</span></div></div><div class="card fade-in" style="animation-delay:0.1s"><p class="card-label">Tokens de acesso</p><div class="conn-item"><div class="conn-icon" style="background:#FEE2E2;color:#DC2626;">G</div><div><p class="conn-name">Gmail</p><p class="conn-desc">Ultimo uso: 17:02</p></div><span class="row-value" style="cursor:pointer;color:#D70030;">Revogar</span></div><div class="conn-item"><div class="conn-icon" style="background:#DCFCE7;color:#16A34A;">W</div><div><p class="conn-name">WhatsApp</p><p class="conn-desc">Ultimo uso: 10:15</p></div><span class="row-value" style="cursor:pointer;color:#D70030;">Desconectar</span></div></div><div class="card fade-in" style="animation-delay:0.2s"><p class="card-label">Emergencia</p><div class="row"><div><p class="row-title">Kill switch</p><p class="row-desc">Para tudo, revoga tokens, bloqueia agentes</p></div><button class="btn-danger">Ativar emergencia</button></div></div>
+  </main>
+</body>
+</html>

@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Meu Perfil Cognitivo — KTANA</title>
+  <link rel="stylesheet" href="../../shared.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Zen+Dots&display=swap" rel="stylesheet">
+  <style>
+    body { min-height: 100vh; background: #F5F5F7; }
+    .nav { position: sticky; top: 0; z-index: 50; height: 48px; display: flex; align-items: center; justify-content: center; background: rgba(245,245,247,0.72); backdrop-filter: saturate(180%) blur(20px); border-bottom: 0.5px solid rgba(0,0,0,0.06); }
+    .nav-inner { width: 100%; max-width: 720px; padding: 0 24px; display: flex; align-items: center; justify-content: space-between; }
+    .nav-logo { font-family: 'Zen Dots', cursive; font-size: 14px; color: #D70030; }
+    .nav-links a { font-family: 'Inter', sans-serif; font-size: 12px; color: #1D1D1F; opacity: 0.4; margin-left: 24px; }
+    .nav-links a:hover, .nav-links a.active { opacity: 1; }
+
+    .main { max-width: 720px; margin: 0 auto; padding: 40px 24px 80px; }
+    h1 { font-family: 'Zen Dots', cursive; font-size: 24px; color: #1D1D1F; margin-bottom: 6px; }
+    .sub { font-family: 'Satoshi', sans-serif; font-size: 14px; color: #86868B; margin-bottom: 32px; }
+
+    .card { background: #FFF; border-radius: 20px; border: 1px solid rgba(0,0,0,0.04); padding: 24px; margin-bottom: 12px; }
+    .card-label { font-family: 'Inter', sans-serif; font-size: 10px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: #D70030; margin-bottom: 14px; }
+
+    /* Jung type */
+    .jung-type { text-align: center; padding: 20px 0; }
+    .jung-letters { font-family: 'Zen Dots', cursive; font-size: 48px; color: #1D1D1F; letter-spacing: 0.1em; }
+    .jung-name { font-family: 'Satoshi', sans-serif; font-size: 16px; color: #86868B; margin-top: 4px; }
+    .jung-confidence { font-family: 'Inter', sans-serif; font-size: 11px; color: #AEAEB2; margin-top: 8px; }
+
+    .row { display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 0.5px solid rgba(0,0,0,0.03); }
+    .row:last-child { border-bottom: none; }
+    .row-label { font-family: 'Satoshi', sans-serif; font-size: 13px; color: #86868B; }
+    .row-value { font-family: 'Satoshi', sans-serif; font-size: 13px; color: #1D1D1F; text-align: right; max-width: 55%; }
+
+    .bar-row { display: flex; align-items: center; gap: 12px; padding: 8px 0; }
+    .bar-label { font-family: 'Satoshi', sans-serif; font-size: 12px; color: #86868B; width: 80px; flex-shrink: 0; }
+    .bar-track { flex: 1; height: 6px; background: rgba(0,0,0,0.04); border-radius: 3px; overflow: hidden; }
+    .bar-fill { height: 100%; border-radius: 3px; }
+    .bar-fill-high { background: #1D1D1F; }
+    .bar-fill-medium { background: #86868B; }
+    .bar-fill-low { background: #D2D2D7; }
+    .bar-value { font-family: 'Inter', sans-serif; font-size: 11px; color: #6E6E73; width: 36px; text-align: right; }
+
+    /* Alignment per samurai */
+    .align-item { display: flex; align-items: center; gap: 12px; padding: 8px 0; }
+    .align-avatar { width: 28px; height: 28px; border-radius: 50%; border: 1px solid #D2D2D7; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .align-avatar span { font-family: 'Inter', sans-serif; font-size: 9px; font-weight: 500; color: #6E6E73; }
+    .align-name { font-family: 'Satoshi', sans-serif; font-size: 13px; color: #1D1D1F; width: 60px; }
+    .align-bar { flex: 1; height: 4px; background: rgba(0,0,0,0.04); border-radius: 2px; overflow: hidden; }
+    .align-fill { height: 100%; border-radius: 2px; background: #1D1D1F; }
+    .align-pct { font-family: 'Inter', sans-serif; font-size: 11px; color: #6E6E73; width: 32px; text-align: right; }
+
+    .insights { }
+    .insight { font-family: 'Satoshi', sans-serif; font-size: 13px; color: #1D1D1F; padding: 10px 0; border-bottom: 0.5px solid rgba(0,0,0,0.03); line-height: 1.5; }
+    .insight:last-child { border-bottom: none; }
+    .insight-date { font-family: 'Inter', sans-serif; font-size: 10px; color: #AEAEB2; margin-top: 3px; }
+
+    .tabs-sub { display: flex; gap: 8px; margin-bottom: 24px; }
+    .tab-sub { font-family: 'Inter', sans-serif; padding: 6px 16px; border-radius: 980px; font-size: 12px; color: #86868B; border: 0.5px solid rgba(0,0,0,0.06); background: none; cursor: pointer; }
+    .tab-sub.active { background: #1D1D1F; color: #F5F5F7; border-color: #1D1D1F; }
+
+    .disclaimer { font-family: 'Inter', sans-serif; font-size: 10px; color: #AEAEB2; text-align: center; margin-top: 24px; line-height: 1.6; max-width: 500px; margin-left: auto; margin-right: auto; }
+  </style>
+</head>
+<body>
+  <nav class="nav">
+    <div class="nav-inner">
+      <a href="../landing.html" class="nav-logo">KTANA</a>
+      <div class="nav-links">
+        <a href="../dashboard/home.html">Painel</a>
+        <a href="index.html" class="active">Meu Perfil</a>
+        <a href="../settings/general.html">Config</a>
+      </div>
+    </div>
+  </nav>
+
+  <main class="main">
+    <h1 class="fade-in">Meu Perfil Cognitivo</h1>
+    <p class="sub fade-in">Como seus samurais entendem voce.</p>
+
+    <div class="tabs-sub fade-in">
+      <button class="tab-sub active">Perfil</button>
+      <button class="tab-sub" onclick="location.href='patterns.html'">Padroes</button>
+      <button class="tab-sub" onclick="location.href='graph.html'">Knowledge Graph</button>
+    </div>
+
+    <!-- Jung Type -->
+    <div class="card fade-in" style="animation-delay:0.1s">
+      <p class="card-label">Tipo cognitivo</p>
+      <div class="jung-type">
+        <p class="jung-letters">ENTJ</p>
+        <p class="jung-name">O Comandante</p>
+        <p class="jung-confidence">Confianca: 91% · Baseado em 2.340 interacoes</p>
+      </div>
+    </div>
+
+    <!-- Decision patterns -->
+    <div class="card fade-in" style="animation-delay:0.15s">
+      <p class="card-label">Como voce decide</p>
+      <div class="row"><span class="row-label">Velocidade</span><span class="row-value">Rapido quando tem dados</span></div>
+      <div class="row"><span class="row-label">Tolerancia a risco</span><span class="row-value">Medio-alto em negocios, baixo em saude</span></div>
+      <div class="row"><span class="row-label">Delegacao</span><span class="row-value">Delega execucao, mantem estrategia</span></div>
+      <div class="row"><span class="row-label">Conflitos</span><span class="row-value">Direto, resolve rapido, sem rancor</span></div>
+    </div>
+
+    <!-- Communication -->
+    <div class="card fade-in" style="animation-delay:0.2s">
+      <p class="card-label">Como voce comunica</p>
+      <div class="row"><span class="row-label">Com clientes</span><span class="row-value">Profissional, direto</span></div>
+      <div class="row"><span class="row-label">Com equipe</span><span class="row-value">Informal, cobrador mas justo</span></div>
+      <div class="row"><span class="row-label">Urgente via</span><span class="row-value">WhatsApp</span></div>
+      <div class="row"><span class="row-label">Te irrita</span><span class="row-value">Enrolacao, desculpas, atraso</span></div>
+    </div>
+
+    <!-- Energy -->
+    <div class="card fade-in" style="animation-delay:0.25s">
+      <p class="card-label">Mapa de energia</p>
+      <div class="bar-row">
+        <span class="bar-label">08-11h</span>
+        <div class="bar-track"><div class="bar-fill bar-fill-high" style="width:95%"></div></div>
+        <span class="bar-value">Foco</span>
+      </div>
+      <div class="bar-row">
+        <span class="bar-label">14-17h</span>
+        <div class="bar-track"><div class="bar-fill bar-fill-medium" style="width:60%"></div></div>
+        <span class="bar-value">Media</span>
+      </div>
+      <div class="bar-row">
+        <span class="bar-label">12-14h</span>
+        <div class="bar-track"><div class="bar-fill bar-fill-low" style="width:30%"></div></div>
+        <span class="bar-value">Baixa</span>
+      </div>
+      <div class="bar-row">
+        <span class="bar-label">Apos 20h</span>
+        <div class="bar-track"><div class="bar-fill bar-fill-low" style="width:15%"></div></div>
+        <span class="bar-value">Nao cobrar</span>
+      </div>
+    </div>
+
+    <!-- Alignment -->
+    <div class="card fade-in" style="animation-delay:0.3s">
+      <p class="card-label">Emparelhamento por samurai</p>
+      <div class="align-item">
+        <div class="align-avatar"><span>H</span></div>
+        <span class="align-name">Hana</span>
+        <div class="align-bar"><div class="align-fill" style="width:93%"></div></div>
+        <span class="align-pct">93%</span>
+      </div>
+      <div class="align-item">
+        <div class="align-avatar" style="border-color:rgba(215,0,48,0.25);"><span style="color:#D70030;">A</span></div>
+        <span class="align-name">Akira</span>
+        <div class="align-bar"><div class="align-fill" style="width:91%"></div></div>
+        <span class="align-pct">91%</span>
+      </div>
+      <div class="align-item">
+        <div class="align-avatar"><span>Y</span></div>
+        <span class="align-name">Yuki</span>
+        <div class="align-bar"><div class="align-fill" style="width:89%"></div></div>
+        <span class="align-pct">89%</span>
+      </div>
+      <div class="align-item">
+        <div class="align-avatar"><span>H</span></div>
+        <span class="align-name">Haruki</span>
+        <div class="align-bar"><div class="align-fill" style="width:84%"></div></div>
+        <span class="align-pct">84%</span>
+      </div>
+    </div>
+
+    <!-- Recent insights -->
+    <div class="card fade-in" style="animation-delay:0.35s">
+      <p class="card-label">Ultimos aprendizados</p>
+      <div class="insights">
+        <div class="insight">Prefere cobrar por WhatsApp antes de email formal<p class="insight-date">Aprendido ha 3 dias</p></div>
+        <div class="insight">Nao marca reuniao antes das 9h<p class="insight-date">Aprendido ha 7 dias</p></div>
+        <div class="insight">Aceita desconto de ate 10% sem questionar<p class="insight-date">Aprendido ha 14 dias</p></div>
+        <div class="insight">Prioriza cliente que foi indicado<p class="insight-date">Aprendido ha 21 dias</p></div>
+      </div>
+    </div>
+
+    <p class="disclaimer fade-in" style="animation-delay:0.4s">Baseado na teoria dos Tipos Psicologicos de Carl Gustav Jung (1921). Nao constitui diagnostico clinico ou avaliacao psicopatologica. Voce pode editar qualquer aspecto a qualquer momento.</p>
+  </main>
+</body>
+</html>

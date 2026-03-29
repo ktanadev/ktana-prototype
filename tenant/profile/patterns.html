@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Padroes Detectados — KTANA</title>
+  <link rel="stylesheet" href="../../shared.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Zen+Dots&display=swap" rel="stylesheet">
+  <style>
+    body { min-height: 100vh; background: #F5F5F7; }
+    .nav { position: sticky; top: 0; z-index: 50; height: 48px; display: flex; align-items: center; justify-content: center; background: rgba(245,245,247,0.72); backdrop-filter: saturate(180%) blur(20px); border-bottom: 0.5px solid rgba(0,0,0,0.06); }
+    .nav-inner { width: 100%; max-width: 720px; padding: 0 24px; display: flex; align-items: center; justify-content: space-between; }
+    .nav-logo { font-family: 'Zen Dots', cursive; font-size: 14px; color: #D70030; }
+    .nav-links a { font-family: 'Inter', sans-serif; font-size: 12px; color: #1D1D1F; opacity: 0.4; margin-left: 24px; }
+    .nav-links a.active { opacity: 1; }
+
+    .main { max-width: 720px; margin: 0 auto; padding: 40px 24px 80px; }
+    h1 { font-family: 'Zen Dots', cursive; font-size: 24px; color: #1D1D1F; margin-bottom: 6px; }
+    .sub { font-family: 'Satoshi', sans-serif; font-size: 14px; color: #86868B; margin-bottom: 32px; }
+
+    .tabs-sub { display: flex; gap: 8px; margin-bottom: 24px; }
+    .tab-sub { font-family: 'Inter', sans-serif; padding: 6px 16px; border-radius: 980px; font-size: 12px; color: #86868B; border: 0.5px solid rgba(0,0,0,0.06); background: none; cursor: pointer; }
+    .tab-sub.active { background: #1D1D1F; color: #F5F5F7; border-color: #1D1D1F; }
+
+    .card { background: #FFF; border-radius: 20px; border: 1px solid rgba(0,0,0,0.04); padding: 24px; margin-bottom: 12px; }
+    .card-label { font-family: 'Inter', sans-serif; font-size: 10px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: #D70030; margin-bottom: 14px; }
+
+    .pattern { padding: 14px 0; border-bottom: 0.5px solid rgba(0,0,0,0.03); }
+    .pattern:last-child { border-bottom: none; }
+    .pattern-text { font-family: 'Satoshi', sans-serif; font-size: 14px; color: #1D1D1F; line-height: 1.5; }
+    .pattern-evidence { font-family: 'Inter', sans-serif; font-size: 11px; color: #86868B; margin-top: 4px; }
+    .pattern-tag { font-family: 'Inter', sans-serif; display: inline-flex; padding: 2px 8px; border-radius: 4px; font-size: 9px; font-weight: 500; margin-top: 6px; }
+    .tag-new { background: rgba(215,0,48,0.06); color: #D70030; }
+    .tag-confirmed { background: rgba(0,0,0,0.03); color: #86868B; }
+
+    .evolution { margin-top: 16px; }
+    .evo-row { display: flex; align-items: center; gap: 12px; padding: 6px 0; }
+    .evo-period { font-family: 'Inter', sans-serif; font-size: 11px; color: #86868B; width: 60px; flex-shrink: 0; }
+    .evo-bar { flex: 1; height: 4px; background: rgba(0,0,0,0.04); border-radius: 2px; overflow: hidden; }
+    .evo-fill { height: 100%; border-radius: 2px; background: #1D1D1F; }
+    .evo-label { font-family: 'Satoshi', sans-serif; font-size: 11px; color: #6E6E73; width: 140px; }
+  </style>
+</head>
+<body>
+  <nav class="nav">
+    <div class="nav-inner">
+      <a href="../landing.html" class="nav-logo">KTANA</a>
+      <div class="nav-links"><a href="../dashboard/home.html">Painel</a><a href="index.html" class="active">Meu Perfil</a></div>
+    </div>
+  </nav>
+
+  <main class="main">
+    <h1 class="fade-in">Padroes detectados.</h1>
+    <p class="sub fade-in">O que seus samurais perceberam sobre voce ao longo do tempo.</p>
+
+    <div class="tabs-sub fade-in">
+      <button class="tab-sub" onclick="location.href='index.html'">Perfil</button>
+      <button class="tab-sub active">Padroes</button>
+      <button class="tab-sub" onclick="location.href='graph.html'">Knowledge Graph</button>
+    </div>
+
+    <div class="card fade-in" style="animation-delay:0.1s">
+      <p class="card-label">Decisao</p>
+      <div class="pattern">
+        <p class="pattern-text">Voce decide rapido quando tem numeros concretos, mas adia quando envolve confronto com pessoas.</p>
+        <p class="pattern-evidence">Baseado em 312 decisoes analisadas</p>
+        <span class="pattern-tag tag-confirmed">Confirmado</span>
+      </div>
+      <div class="pattern">
+        <p class="pattern-text">Voce aceita desconto de ate 10% sem questionar. Acima disso, pede justificativa.</p>
+        <p class="pattern-evidence">Baseado em 23 negociacoes</p>
+        <span class="pattern-tag tag-confirmed">Confirmado</span>
+      </div>
+    </div>
+
+    <div class="card fade-in" style="animation-delay:0.15s">
+      <p class="card-label">Delegacao (evolucao)</p>
+      <div class="evolution">
+        <div class="evo-row">
+          <span class="evo-period">Mes 1</span>
+          <div class="evo-bar"><div class="evo-fill" style="width:95%"></div></div>
+          <span class="evo-label">Aprovava 95% das acoes</span>
+        </div>
+        <div class="evo-row">
+          <span class="evo-period">Mes 2</span>
+          <div class="evo-bar"><div class="evo-fill" style="width:60%"></div></div>
+          <span class="evo-label">Aprovava 60%</span>
+        </div>
+        <div class="evo-row">
+          <span class="evo-period">Mes 3</span>
+          <div class="evo-bar"><div class="evo-fill" style="width:40%"></div></div>
+          <span class="evo-label">Aprova 40% (atual)</span>
+        </div>
+      </div>
+      <p style="font-family: 'Satoshi', sans-serif; font-size: 12px; color: #86868B; margin-top: 12px;">Tendencia saudavel: confianca crescendo, delegacao aumentando.</p>
+    </div>
+
+    <div class="card fade-in" style="animation-delay:0.2s">
+      <p class="card-label">Pontos cegos</p>
+      <div class="pattern">
+        <p class="pattern-text">Voce tende a ignorar cobrancas abaixo de R$5k — pode acumular inadimplencia pequena.</p>
+        <p class="pattern-evidence">Detectado em 12 faturas nao cobradas < R$5k</p>
+        <span class="pattern-tag tag-new">Novo</span>
+      </div>
+      <div class="pattern">
+        <p class="pattern-text">Voce reagenda reunioes com fornecedores 3x mais que com clientes. Pode indicar priorizacao inconsciente.</p>
+        <p class="pattern-evidence">Baseado em 45 reagendamentos em 3 meses</p>
+        <span class="pattern-tag tag-new">Novo</span>
+      </div>
+    </div>
+
+    <div class="card fade-in" style="animation-delay:0.25s">
+      <p class="card-label">Energia</p>
+      <div class="pattern">
+        <p class="pattern-text">Suas melhores decisoes (92% taxa de acerto) acontecem entre 9h e 10h.</p>
+        <p class="pattern-evidence">Baseado em 847 interacoes com timestamp</p>
+        <span class="pattern-tag tag-confirmed">Confirmado</span>
+      </div>
+      <div class="pattern">
+        <p class="pattern-text">Apos as 20h, suas respostas sao mais curtas e com mais erros de digitacao. Samurais ajustam tom.</p>
+        <p class="pattern-evidence">Padrao consistente ha 2 meses</p>
+        <span class="pattern-tag tag-confirmed">Confirmado</span>
+      </div>
+    </div>
+  </main>
+</body>
+</html>
