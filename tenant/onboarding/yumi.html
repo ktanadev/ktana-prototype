@@ -146,29 +146,65 @@
           <p>Perfeito. Com base no que voce me disse, montei uma proposta:</p>
 
           <div class="proposal">
-            <p class="proposal-label">Departamentos</p>
-            <div class="proposal-tags">
-              <span class="proposal-tag">Financeiro</span>
-              <span class="proposal-tag">Administrativo</span>
-              <span class="proposal-tag">Projetos</span>
+            <p class="proposal-label">Departamentos detectados</p>
+            <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:6px; margin-bottom:16px;">
+              <div style="padding:10px;border-radius:12px;border:1.5px solid rgba(48,209,88,0.3);background:rgba(48,209,88,0.04);text-align:center;">
+                <div style="font-size:18px;margin-bottom:4px;">&#x1F4B0;</div>
+                <div style="font-family:'Satoshi',sans-serif;font-size:11px;font-weight:600;color:#1D1D1F;">Financeiro</div>
+                <div style="font-family:'Inter',sans-serif;font-size:10px;color:#30D158;">Detectado</div>
+              </div>
+              <div style="padding:10px;border-radius:12px;border:1.5px solid rgba(100,210,255,0.3);background:rgba(100,210,255,0.04);text-align:center;">
+                <div style="font-size:18px;margin-bottom:4px;">&#x1F4BC;</div>
+                <div style="font-family:'Satoshi',sans-serif;font-size:11px;font-weight:600;color:#1D1D1F;">Vendas</div>
+                <div style="font-family:'Inter',sans-serif;font-size:10px;color:#64D2FF;">Detectado</div>
+              </div>
+              <div style="padding:10px;border-radius:12px;border:1.5px solid rgba(10,132,255,0.3);background:rgba(10,132,255,0.04);text-align:center;">
+                <div style="font-size:18px;margin-bottom:4px;">&#x1F4BB;</div>
+                <div style="font-family:'Satoshi',sans-serif;font-size:11px;font-weight:600;color:#1D1D1F;">Tecnologia</div>
+                <div style="font-family:'Inter',sans-serif;font-size:10px;color:#0A84FF;">Detectado</div>
+              </div>
+              <div style="padding:10px;border-radius:12px;border:1.5px solid rgba(255,159,10,0.3);background:rgba(255,159,10,0.04);text-align:center;">
+                <div style="font-size:18px;margin-bottom:4px;">&#x1F4E3;</div>
+                <div style="font-family:'Satoshi',sans-serif;font-size:11px;font-weight:600;color:#1D1D1F;">Marketing</div>
+                <div style="font-family:'Inter',sans-serif;font-size:10px;color:#FF9F0A;">Sugerido</div>
+              </div>
+              <div style="padding:10px;border-radius:12px;border:1px dashed rgba(0,0,0,0.08);background:transparent;text-align:center;cursor:pointer;">
+                <div style="font-size:18px;margin-bottom:4px;">&#x1F4AC;</div>
+                <div style="font-family:'Satoshi',sans-serif;font-size:11px;font-weight:500;color:#86868B;">Atendimento</div>
+                <div style="font-family:'Inter',sans-serif;font-size:10px;color:#AEAEB2;">Opcional</div>
+              </div>
+              <div style="padding:10px;border-radius:12px;border:1px dashed rgba(0,0,0,0.08);background:transparent;text-align:center;cursor:pointer;">
+                <div style="font-size:18px;margin-bottom:4px;">&#x2795;</div>
+                <div style="font-family:'Satoshi',sans-serif;font-size:11px;font-weight:500;color:#D70030;">Mais areas</div>
+                <div style="font-family:'Inter',sans-serif;font-size:10px;color:#AEAEB2;">RH, Juridico...</div>
+              </div>
             </div>
 
-            <p class="proposal-label">Equipe sugerida</p>
+            <p class="proposal-label">Equipe sugerida — 5 samurais</p>
             <div class="agent-row">
-              <div class="agent-circle"><span>A</span></div>
-              <div class="agent-info"><h4>Akira — CEO</h4><p>Orquestra tudo, briefing diario</p></div>
+              <div class="agent-circle" style="border-color:rgba(215,0,48,0.3);"><span style="color:#D70030;">A</span></div>
+              <div class="agent-info"><h4>Akira — CEO Samurai</h4><p>Orquestra todos os departamentos, briefing diario, decisoes estrategicas</p></div>
             </div>
             <div class="agent-row">
-              <div class="agent-circle"><span>Y</span></div>
-              <div class="agent-info"><h4>Yuki — Controller</h4><p>Cobrancas, contas, relatorios</p></div>
+              <div class="agent-circle" style="border-color:rgba(48,209,88,0.3);"><span style="color:#30D158;">Y</span></div>
+              <div class="agent-info"><h4>Yuki — CFO / Controller</h4><p>Cobrancas, contas a pagar/receber, DRE, fluxo de caixa, NF-e</p></div>
+            </div>
+            <div class="agent-row">
+              <div class="agent-circle" style="border-color:rgba(100,210,255,0.3);"><span style="color:#64D2FF;">K</span></div>
+              <div class="agent-info"><h4>Kaito — SDR / Closer</h4><p>Prospeccao de leads, follow-ups, propostas, negociacao</p></div>
+            </div>
+            <div class="agent-row">
+              <div class="agent-circle" style="border-color:rgba(10,132,255,0.3);"><span style="color:#0A84FF;">R</span></div>
+              <div class="agent-info"><h4>Ryu — CTO Samurai</h4><p>Code review, deploys, sprints, gestao de entregas tecnicas</p></div>
             </div>
             <div class="agent-row">
               <div class="agent-circle"><span>H</span></div>
-              <div class="agent-info"><h4>Hana — Secretaria Executiva</h4><p>Emails, agenda, reunioes, briefings</p></div>
+              <div class="agent-info"><h4>Hana — Secretaria Executiva</h4><p>Emails, agenda, reunioes, briefings, filtro de comunicacao</p></div>
             </div>
-            <div class="agent-row">
-              <div class="agent-circle"><span>H</span></div>
-              <div class="agent-info"><h4>Haruki — Gestor de Projetos</h4><p>Sprints, prazos, cobranca de entregas</p></div>
+
+            <div style="margin-top:12px;padding:10px 14px;background:rgba(215,0,48,0.03);border-radius:10px;border:0.5px solid rgba(215,0,48,0.08);">
+              <p style="font-family:'Inter',sans-serif;font-size:11px;color:#D70030;font-weight:500;">Custo estimado: R$297/mes (plano GUNDAN)</p>
+              <p style="font-family:'Inter',sans-serif;font-size:11px;color:#86868B;margin-top:2px;">5 samurais · 5.000 acoes/mes · ROI medio de 25x</p>
             </div>
           </div>
 
