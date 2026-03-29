@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Insights do Conselho — KTANA</title>
+  <link rel="stylesheet" href="../../shared.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Zen+Dots&display=swap" rel="stylesheet">
+  <style>
+    body { min-height: 100vh; background: #F5F5F7; }
+    .nav { position: sticky; top: 0; z-index: 50; height: 48px; display: flex; align-items: center; justify-content: center; background: rgba(245,245,247,0.72); backdrop-filter: saturate(180%) blur(20px); border-bottom: 0.5px solid rgba(0,0,0,0.06); }
+    .nav-inner { width: 100%; max-width: 860px; padding: 0 24px; display: flex; align-items: center; justify-content: space-between; }
+    .nav-logo { font-family: 'Zen Dots', cursive; font-size: 14px; color: #D70030; }
+    .nav-links a { font-family: 'Inter', sans-serif; font-size: 12px; color: #1D1D1F; opacity: 0.4; margin-left: 24px; }
+    .nav-links a.active { opacity: 1; }
+    .main { max-width: 860px; margin: 0 auto; padding: 32px 24px 80px; }
+    h1 { font-family: 'Satoshi', sans-serif; font-size: 28px; font-weight: 700; color: #1D1D1F; margin-bottom: 4px; }
+    .sub { font-family: 'Satoshi', sans-serif; font-size: 14px; color: #86868B; margin-bottom: 28px; line-height: 1.5; }
+
+    /* Conselho grid */
+    .conselho { display: flex; gap: 8px; margin-bottom: 28px; overflow-x: auto; padding-bottom: 4px; }
+    .cons-card { min-width: 130px; background: #FFF; border-radius: 16px; border: 1px solid rgba(0,0,0,0.04); padding: 16px 14px; text-align: center; cursor: pointer; transition: all 0.2s; flex-shrink: 0; }
+    .cons-card:hover { transform: translateY(-2px); box-shadow: 0 4px 20px rgba(0,0,0,0.04); }
+    .cons-card.active { border-color: rgba(215,0,48,0.2); background: rgba(215,0,48,0.015); }
+    .cons-avatar { width: 44px; height: 44px; border-radius: 50%; margin: 0 auto 8px; display: flex; align-items: center; justify-content: center; font-family: 'Inter', sans-serif; font-size: 14px; font-weight: 600; }
+    .cons-name { font-family: 'Satoshi', sans-serif; font-size: 12px; font-weight: 600; color: #1D1D1F; }
+    .cons-role { font-family: 'Inter', sans-serif; font-size: 10px; color: #AEAEB2; margin-top: 2px; }
+
+    /* Insight cards */
+    .insight { background: #FFF; border-radius: 20px; border: 1px solid rgba(0,0,0,0.04); margin-bottom: 14px; overflow: hidden; }
+    .insight-header { padding: 20px 24px 0; display: flex; align-items: flex-start; gap: 14px; }
+    .insight-avatar { width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 600; flex-shrink: 0; }
+    .insight-meta { flex: 1; }
+    .insight-from { font-family: 'Satoshi', sans-serif; font-size: 14px; font-weight: 600; color: #1D1D1F; }
+    .insight-when { font-family: 'Inter', sans-serif; font-size: 11px; color: #AEAEB2; }
+    .insight-priority { font-family: 'Inter', sans-serif; font-size: 10px; font-weight: 500; padding: 3px 10px; border-radius: 6px; }
+    .insight-priority.high { background: rgba(215,0,48,0.06); color: #D70030; }
+    .insight-priority.medium { background: rgba(255,159,10,0.06); color: #FF9F0A; }
+    .insight-priority.low { background: rgba(48,209,88,0.06); color: #30D158; }
+
+    .insight-body { padding: 14px 24px 20px; }
+    .insight-title { font-family: 'Satoshi', sans-serif; font-size: 16px; font-weight: 600; color: #1D1D1F; margin-bottom: 8px; }
+    .insight-text { font-family: 'Satoshi', sans-serif; font-size: 14px; color: #6E6E73; line-height: 1.7; }
+    .insight-text strong { color: #1D1D1F; }
+
+    .insight-data { padding: 0 24px 16px; display: flex; gap: 12px; }
+    .insight-metric { background: rgba(0,0,0,0.02); border-radius: 12px; padding: 12px 16px; flex: 1; text-align: center; }
+    .metric-val { font-family: 'Satoshi', sans-serif; font-size: 18px; font-weight: 700; color: #1D1D1F; }
+    .metric-val.green { color: #30D158; }
+    .metric-val.red { color: #FF453A; }
+    .metric-val.brand { color: #D70030; }
+    .metric-label { font-family: 'Inter', sans-serif; font-size: 10px; color: #86868B; margin-top: 2px; }
+
+    .insight-actions { padding: 14px 24px; border-top: 0.5px solid rgba(0,0,0,0.04); display: flex; gap: 8px; }
+    .insight-btn { font-family: 'Inter', sans-serif; padding: 8px 18px; border-radius: 10px; font-size: 12px; font-weight: 500; border: none; cursor: pointer; }
+    .insight-btn.primary { background: #1D1D1F; color: #F5F5F7; }
+    .insight-btn.ghost { background: transparent; color: #86868B; border: 1px solid rgba(0,0,0,0.06); }
+
+    /* Quote style */
+    .insight-quote { font-family: 'Satoshi', sans-serif; font-size: 14px; font-style: italic; color: #6E6E73; line-height: 1.7; padding: 14px 24px 20px; border-left: 3px solid #D70030; margin: 0 24px 16px; background: rgba(215,0,48,0.015); border-radius: 0 12px 12px 0; }
+
+    .section-label { font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: #D70030; margin-bottom: 14px; margin-top: 32px; }
+
+    .fade-in { animation: fadeIn 0.3s cubic-bezier(0.25,0.1,0.25,1) both; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+  </style>
+</head>
+<body>
+
+  <nav class="nav">
+    <div class="nav-inner">
+      <a href="home.html" class="nav-logo">KTANA</a>
+      <div class="nav-links">
+        <a href="home.html">Painel</a>
+        <a href="roi.html">Lucro</a>
+        <a href="insights.html" class="active">Insights</a>
+        <a href="../solutions/index.html">Solucoes</a>
+        <a href="../settings/general.html">Config</a>
+      </div>
+    </div>
+  </nav>
+
+  <main class="main">
+    <h1 class="fade-in">Insights do Conselho</h1>
+    <p class="sub fade-in">Seus conselheiros neurodivergentes analisam seu negocio e trazem insights estrategicos. Cada um pensa diferente — e e isso que faz o conselho poderoso.</p>
+
+    <!-- Conselheiros -->
+    <div class="conselho fade-in">
+      <div class="cons-card active">
+        <div class="cons-avatar" style="background:rgba(215,0,48,0.08); color:#D70030;">W</div>
+        <div class="cons-name">Buffett</div>
+        <div class="cons-role">Financas</div>
+      </div>
+      <div class="cons-card">
+        <div class="cons-avatar" style="background:rgba(100,210,255,0.08); color:#64D2FF;">J</div>
+        <div class="cons-name">Jobs</div>
+        <div class="cons-role">Produto</div>
+      </div>
+      <div class="cons-card">
+        <div class="cons-avatar" style="background:rgba(191,90,242,0.08); color:#BF5AF2;">M</div>
+        <div class="cons-name">Musk</div>
+        <div class="cons-role">Escala</div>
+      </div>
+      <div class="cons-card">
+        <div class="cons-avatar" style="background:rgba(255,159,10,0.08); color:#FF9F0A;">D</div>
+        <div class="cons-name">Drucker</div>
+        <div class="cons-role">Gestao</div>
+      </div>
+      <div class="cons-card">
+        <div class="cons-avatar" style="background:rgba(48,209,88,0.08); color:#30D158;">G</div>
+        <div class="cons-name">Grove</div>
+        <div class="cons-role">Operacoes</div>
+      </div>
+      <div class="cons-card">
+        <div class="cons-avatar" style="background:rgba(255,69,58,0.08); color:#FF453A;">O</div>
+        <div class="cons-name">Oprah</div>
+        <div class="cons-role">Marca</div>
+      </div>
+      <div class="cons-card">
+        <div class="cons-avatar" style="background:rgba(94,106,210,0.08); color:#5E6AD2;">A</div>
+        <div class="cons-name">Attia</div>
+        <div class="cons-role">Performance</div>
+      </div>
+      <div class="cons-card">
+        <div class="cons-avatar" style="background:rgba(142,142,147,0.08); color:#8E8E93;">S</div>
+        <div class="cons-name">Senna</div>
+        <div class="cons-role">Disciplina</div>
+      </div>
+    </div>
+
+    <!-- Insights Urgentes -->
+    <p class="section-label fade-in">Insights da semana</p>
+
+    <!-- Insight 1: Buffett - Financial -->
+    <div class="insight fade-in">
+      <div class="insight-header">
+        <div class="insight-avatar" style="background:rgba(215,0,48,0.08); color:#D70030;">W</div>
+        <div class="insight-meta">
+          <div class="insight-from">Warren Buffett — Conselheiro Financeiro</div>
+          <div class="insight-when">Hoje, 08:00 · Analise semanal</div>
+        </div>
+        <span class="insight-priority high">Urgente</span>
+      </div>
+      <div class="insight-body">
+        <div class="insight-title">Cliente Y vai dar calote. Aja agora.</div>
+        <div class="insight-text">Analisei o padrao de pagamento do <strong>Cliente Y</strong> nos ultimos 6 meses. Atraso crescente: 5d → 10d → 15d. Sinal classico de empresa em dificuldade financeira. Recomendo: <strong>cobrar imediatamente</strong>, oferecer 5% de desconto para quitacao a vista, e <strong>nao aprovar novos pedidos</strong> ate regularizar. Se nao pagar em 15 dias, cortar.</div>
+      </div>
+      <div class="insight-data">
+        <div class="insight-metric"><div class="metric-val red">R$12k</div><div class="metric-label">Valor em risco</div></div>
+        <div class="insight-metric"><div class="metric-val">15d</div><div class="metric-label">Atraso atual</div></div>
+        <div class="insight-metric"><div class="metric-val red">87%</div><div class="metric-label">Prob. calote</div></div>
+      </div>
+      <div class="insight-quote">"Rule #1: Never lose money. Rule #2: Never forget rule #1." — O custo de manter esse cliente e maior do que perde-lo.</div>
+      <div class="insight-actions">
+        <button class="insight-btn primary">Aprovar cobranca imediata</button>
+        <button class="insight-btn ghost">Ver historico completo</button>
+      </div>
+    </div>
+
+    <!-- Insight 2: Musk - Scale -->
+    <div class="insight fade-in" style="animation-delay:0.1s;">
+      <div class="insight-header">
+        <div class="insight-avatar" style="background:rgba(191,90,242,0.08); color:#BF5AF2;">M</div>
+        <div class="insight-meta">
+          <div class="insight-from">Elon Musk — Conselheiro de Escala</div>
+          <div class="insight-when">Hoje, 08:00 · Analise semanal</div>
+        </div>
+        <span class="insight-priority medium">Oportunidade</span>
+      </div>
+      <div class="insight-body">
+        <div class="insight-title">Seu SDR esta gerando 3x mais leads do que seu Closer consegue fechar.</div>
+        <div class="insight-text">Gargalo identificado: <strong>89 leads/dia</strong> entrando, mas so <strong>12 calls/dia</strong> de fechamento. Voce esta <strong>desperdicando 86% dos leads</strong>. Duas opcoes: <strong>(A)</strong> contratar mais um Closer Samurai (R$97/mes, ROI em 3 dias) ou <strong>(B)</strong> ativar o modulo de qualificacao automatica pra filtrar so os top 20%.</div>
+      </div>
+      <div class="insight-data">
+        <div class="insight-metric"><div class="metric-val">89</div><div class="metric-label">Leads/dia (SDR)</div></div>
+        <div class="insight-metric"><div class="metric-val red">12</div><div class="metric-label">Calls/dia (Closer)</div></div>
+        <div class="insight-metric"><div class="metric-val brand">R$180k</div><div class="metric-label">Receita potencial perdida/mes</div></div>
+      </div>
+      <div class="insight-quote">"Se algo e importante o suficiente, voce faz mesmo quando as chances nao estao a seu favor." — Esse gargalo esta custando R$180k/mes.</div>
+      <div class="insight-actions">
+        <button class="insight-btn primary">Contratar Closer #2</button>
+        <button class="insight-btn ghost">Ativar qualificacao auto</button>
+      </div>
+    </div>
+
+    <!-- Insight 3: Jobs - Product -->
+    <div class="insight fade-in" style="animation-delay:0.2s;">
+      <div class="insight-header">
+        <div class="insight-avatar" style="background:rgba(100,210,255,0.08); color:#64D2FF;">J</div>
+        <div class="insight-meta">
+          <div class="insight-from">Steve Jobs — Conselheiro de Produto</div>
+          <div class="insight-when">Ontem, 20:00 · Analise de NPS</div>
+        </div>
+        <span class="insight-priority low">Observacao</span>
+      </div>
+      <div class="insight-body">
+        <div class="insight-title">Seus clientes amam o atendimento mas reclamam do onboarding.</div>
+        <div class="insight-text">NPS geral: <strong>72</strong> (excelente). Mas quando filtro por <strong>clientes novos (< 30 dias)</strong>, cai pra <strong>41</strong>. O problema nao e o produto — e a <strong>primeira experiencia</strong>. Recomendo: simplificar onboarding de 6 passos pra 3, com Yumi guiando por conversa. O cliente precisa sentir valor em <strong>2 minutos, nao 20</strong>.</div>
+      </div>
+      <div class="insight-data">
+        <div class="insight-metric"><div class="metric-val green">72</div><div class="metric-label">NPS geral</div></div>
+        <div class="insight-metric"><div class="metric-val red">41</div><div class="metric-label">NPS novos (< 30d)</div></div>
+        <div class="insight-metric"><div class="metric-val">6 → 3</div><div class="metric-label">Steps recomendados</div></div>
+      </div>
+      <div class="insight-quote">"Design is not just what it looks like. Design is how it works." — Se o onboarding nao funciona, o produto inteiro falha.</div>
+      <div class="insight-actions">
+        <button class="insight-btn primary">Ver analise completa</button>
+        <button class="insight-btn ghost">Falar com Jobs</button>
+      </div>
+    </div>
+
+    <!-- Insight 4: Drucker - Management -->
+    <div class="insight fade-in" style="animation-delay:0.3s;">
+      <div class="insight-header">
+        <div class="insight-avatar" style="background:rgba(255,159,10,0.08); color:#FF9F0A;">D</div>
+        <div class="insight-meta">
+          <div class="insight-from">Peter Drucker — Conselheiro de Gestao</div>
+          <div class="insight-when">27 Mar · Analise mensal</div>
+        </div>
+        <span class="insight-priority medium">Eficiencia</span>
+      </div>
+      <div class="insight-body">
+        <div class="insight-title">O CMO Samurai esta fazendo tarefas do SDR. Reorganize.</div>
+        <div class="insight-text">Detectei que <strong>23% das acoes do CMO</strong> sao follow-ups de vendas — isso e trabalho do SDR. Quando um samurai faz trabalho fora do cargo, a qualidade cai e o custo sobe. Recomendo: <strong>reatribuir</strong> follow-ups pro SDR e liberar o CMO pra focar em conteudo e marca, onde o ROI dele e <strong>5x maior</strong>.</div>
+      </div>
+      <div class="insight-quote">"There is nothing so useless as doing efficiently that which should not be done at all." — Seu CMO esta eficiente no trabalho errado.</div>
+      <div class="insight-actions">
+        <button class="insight-btn primary">Reatribuir tarefas</button>
+        <button class="insight-btn ghost">Ver detalhes</button>
+      </div>
+    </div>
+
+    <!-- Insight 5: Senna - Discipline -->
+    <div class="insight fade-in" style="animation-delay:0.4s;">
+      <div class="insight-header">
+        <div class="insight-avatar" style="background:rgba(142,142,147,0.08); color:#8E8E93;">S</div>
+        <div class="insight-meta">
+          <div class="insight-from">Ayrton Senna — Conselheiro de Disciplina</div>
+          <div class="insight-when">27 Mar · Analise de erros</div>
+        </div>
+        <span class="insight-priority low">Excelencia</span>
+      </div>
+      <div class="insight-body">
+        <div class="insight-title">Zero erros criticos em 30 dias. Mas 3 warnings que precisam de atencao.</div>
+        <div class="insight-text">Nenhum agente violou a Constitution. Nenhuma aprovacao foi feita sem autorizacao. <strong>Excelente.</strong> Porem: 3 classificacoes de despesas tiveram confianca abaixo de 85% — o CFO acertou mas hesitou. Recomendo: <strong>adicionar regra</strong> no cerebro sobre essas categorias especificas pra eliminar a hesitacao.</div>
+      </div>
+      <div class="insight-quote">"Voce nao pode ultrapassar 15 carros com tempo chuvoso se nao e especial." — A excelencia esta nos detalhes que ninguem ve.</div>
+      <div class="insight-actions">
+        <button class="insight-btn primary">Calibrar regras do CFO</button>
+        <button class="insight-btn ghost">Ver 3 warnings</button>
+      </div>
+    </div>
+
+  </main>
+</body>
+</html>
