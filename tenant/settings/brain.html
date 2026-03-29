@@ -7,9 +7,240 @@
   <link rel="stylesheet" href="../../shared.css">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Zen+Dots&display=swap" rel="stylesheet">
   <style>
-    body{min-height:100vh;background:#F5F5F7}.nav{position:sticky;top:0;z-index:50;height:48px;display:flex;align-items:center;justify-content:center;background:rgba(245,245,247,0.72);backdrop-filter:saturate(180%) blur(20px);border-bottom:0.5px solid rgba(0,0,0,0.06)}.nav-inner{width:100%;max-width:720px;padding:0 24px;display:flex;align-items:center;justify-content:space-between}.nav-logo{font-family:'Zen Dots',cursive;font-size:14px;color:#D70030}.nav-links a{font-family:'Inter',sans-serif;font-size:12px;color:#1D1D1F;opacity:0.4;margin-left:24px}.nav-links a.active{opacity:1}.main{max-width:720px;margin:0 auto;padding:40px 24px 80px}h1{font-family:'Satoshi',sans-serif;font-size:22px;font-weight:700;color:#1D1D1F;margin-bottom:32px}.settings-nav{display:flex;gap:2px;background:rgba(0,0,0,0.03);border-radius:10px;padding:2px;margin-bottom:32px;overflow-x:auto}.settings-tab{font-family:'Inter',sans-serif;padding:6px 14px;border-radius:8px;font-size:11px;color:#86868B;cursor:pointer;border:none;background:none;white-space:nowrap}.settings-tab.active{background:#FFF;color:#1D1D1F;box-shadow:0 1px 3px rgba(0,0,0,0.06);font-weight:500}.card{background:#FFF;border-radius:20px;border:1px solid rgba(0,0,0,0.04);padding:24px;margin-bottom:12px}.card-label{font-family:'Inter',sans-serif;font-size:11px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:#D70030;margin-bottom:14px}.row{display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:0.5px solid rgba(0,0,0,0.03)}.row:last-child{border-bottom:none}.row-title{font-family:'Satoshi',sans-serif;font-size:14px;color:#1D1D1F}.row-desc{font-family:'Satoshi',sans-serif;font-size:11px;color:#86868B;margin-top:2px}.row-value{font-family:'Inter',sans-serif;font-size:13px;color:#86868B}.toggle{width:44px;height:26px;border-radius:13px;background:#E8E8ED;cursor:pointer;position:relative;transition:background 0.2s}.toggle.on{background:#D70030}.toggle::after{content:'';position:absolute;width:22px;height:22px;border-radius:11px;background:#FFF;top:2px;left:2px;transition:transform 0.2s;box-shadow:0 1px 3px rgba(0,0,0,0.1)}.toggle.on::after{transform:translateX(18px)}.conn-btn{font-family:'Inter',sans-serif;padding:5px 12px;border-radius:980px;background:#1D1D1F;color:#F5F5F7;font-size:11px;font-weight:500;border:none;cursor:pointer}
+    body { min-height: 100vh; background: #F5F5F7; }
+    .main { max-width: 720px; margin: 0 auto; padding: 40px 24px 80px; }
+    h1 { font-family: 'Satoshi', sans-serif; font-size: 22px; font-weight: 700; color: #1D1D1F; margin-bottom: 32px; }
+    .settings-nav { display: flex; gap: 2px; background: rgba(0,0,0,0.03); border-radius: 10px; padding: 2px; margin-bottom: 32px; overflow-x: auto; }
+    .settings-tab { font-family: 'Inter', sans-serif; padding: 6px 14px; border-radius: 8px; font-size: 11px; color: #86868B; cursor: pointer; border: none; background: none; white-space: nowrap; }
+    .settings-tab.active { background: #FFF; color: #1D1D1F; box-shadow: 0 1px 3px rgba(0,0,0,0.06); font-weight: 500; }
+    .card { background: #FFF; border-radius: 20px; border: 1px solid rgba(0,0,0,0.04); padding: 24px; margin-bottom: 12px; }
+    .card-label { font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: #D70030; margin-bottom: 14px; }
+    .row { display: flex; align-items: center; justify-content: space-between; padding: 10px 0; border-bottom: 0.5px solid rgba(0,0,0,0.03); }
+    .row:last-child { border-bottom: none; }
+    .row-info { flex: 1; }
+    .row-title { font-family: 'Satoshi', sans-serif; font-size: 14px; color: #1D1D1F; }
+    .row-desc { font-family: 'Satoshi', sans-serif; font-size: 11px; color: #86868B; margin-top: 2px; }
+    .row-value { font-family: 'Inter', sans-serif; font-size: 13px; color: #86868B; }
+
+    /* Stats grid */
+    .stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 8px; }
+    .stat-box { text-align: center; padding: 18px 12px; background: rgba(0,0,0,0.02); border-radius: 14px; }
+    .stat-val { font-family: 'Satoshi', sans-serif; font-size: 28px; font-weight: 700; color: #1D1D1F; }
+    .stat-label { font-family: 'Inter', sans-serif; font-size: 11px; color: #86868B; margin-top: 4px; }
+    .stat-trend { font-family: 'Inter', sans-serif; font-size: 10px; color: #30D158; margin-top: 2px; }
+
+    /* Document list */
+    .doc-item { display: flex; align-items: center; gap: 12px; padding: 10px 0; border-bottom: 0.5px solid rgba(0,0,0,0.03); }
+    .doc-item:last-child { border-bottom: none; }
+    .doc-icon { width: 36px; height: 36px; border-radius: 10px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .doc-info { flex: 1; min-width: 0; }
+    .doc-name { font-family: 'Satoshi', sans-serif; font-size: 13px; font-weight: 500; color: #1D1D1F; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .doc-meta { font-family: 'Inter', sans-serif; font-size: 11px; color: #86868B; margin-top: 2px; }
+    .doc-status { font-family: 'Inter', sans-serif; font-size: 10px; padding: 2px 8px; border-radius: 4px; flex-shrink: 0; }
+    .doc-status.indexed { background: rgba(48,209,88,0.1); color: #30D158; }
+    .doc-status.processing { background: rgba(255,159,10,0.1); color: #FF9F0A; }
+    .btn-upload { font-family: 'Inter', sans-serif; padding: 10px 20px; border-radius: 14px; background: transparent; color: #1D1D1F; font-size: 13px; font-weight: 500; border: 1px solid rgba(0,0,0,0.08); cursor: pointer; min-height: 44px; display: inline-flex; align-items: center; gap: 8px; margin-top: 14px; }
+
+    /* Dream cycle */
+    .dream-status { display: flex; align-items: center; gap: 10px; padding: 14px; background: rgba(0,0,0,0.02); border-radius: 12px; margin-bottom: 12px; }
+    .dream-dot { width: 8px; height: 8px; border-radius: 50%; background: #30D158; flex-shrink: 0; }
+    .dream-text { font-family: 'Satoshi', sans-serif; font-size: 13px; color: #1D1D1F; }
+    .dream-sub { font-family: 'Inter', sans-serif; font-size: 11px; color: #86868B; margin-top: 2px; }
+    .btn-dream { font-family: 'Inter', sans-serif; padding: 10px 20px; border-radius: 14px; background: #1D1D1F; color: #F5F5F7; font-size: 13px; font-weight: 500; border: none; cursor: pointer; min-height: 44px; display: inline-flex; align-items: center; gap: 8px; margin-top: 8px; }
+
+    /* Tier cards */
+    .tier-item { display: flex; align-items: flex-start; gap: 14px; padding: 14px 0; border-bottom: 0.5px solid rgba(0,0,0,0.03); }
+    .tier-item:last-child { border-bottom: none; }
+    .tier-badge { font-family: 'Inter', sans-serif; font-size: 10px; font-weight: 600; padding: 3px 8px; border-radius: 6px; flex-shrink: 0; min-width: 32px; text-align: center; }
+    .tier-badge.hot { background: rgba(255,69,58,0.1); color: #FF453A; }
+    .tier-badge.warm { background: rgba(255,159,10,0.1); color: #FF9F0A; }
+    .tier-badge.cold { background: rgba(10,132,255,0.1); color: #0A84FF; }
+    .tier-info { flex: 1; }
+    .tier-name { font-family: 'Satoshi', sans-serif; font-size: 14px; font-weight: 600; color: #1D1D1F; }
+    .tier-desc { font-family: 'Satoshi', sans-serif; font-size: 11px; color: #86868B; margin-top: 2px; line-height: 1.4; }
+    .tier-ttl { font-family: 'Inter', sans-serif; font-size: 11px; color: #86868B; flex-shrink: 0; }
+
+    /* Export */
+    .btn-export { font-family: 'Inter', sans-serif; padding: 10px 20px; border-radius: 14px; background: transparent; color: #1D1D1F; font-size: 13px; font-weight: 500; border: 1px solid rgba(0,0,0,0.08); cursor: pointer; min-height: 44px; display: inline-flex; align-items: center; gap: 8px; }
+
+    .fade-in { animation: fadeIn 0.3s cubic-bezier(0.25,0.1,0.25,1) both; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
   </style>
 </head>
 <body>
 
+  <main class="main">
+    <h1 class="fade-in">Cerebro</h1>
+
+    <div class="settings-nav fade-in">
+      <button class="settings-tab" onclick="location.href='general.html'">Geral</button>
+      <button class="settings-tab" onclick="location.href='models.html'">Inteligencia</button>
+      <button class="settings-tab" onclick="location.href='connections.html'">Conexoes</button>
+      <button class="settings-tab active">Cerebro</button>
+      <button class="settings-tab" onclick="location.href='security.html'">Seguranca</button>
+      <button class="settings-tab" onclick="location.href='privacy.html'">Privacidade</button>
+      <button class="settings-tab" onclick="location.href='billing.html'">Plano</button>
+      <button class="settings-tab" onclick="location.href='notifications.html'">Notificacoes</button>
+      <button class="settings-tab" onclick="location.href='api.html'">API</button>
+      <button class="settings-tab" onclick="location.href='ethics.html'">Etica</button>
+    </div>
+
+    <!-- Stats -->
+    <div class="card fade-in" style="animation-delay:0.1s">
+      <p class="card-label">Visao geral do cerebro</p>
+      <div class="stats-grid">
+        <div class="stat-box">
+          <div class="stat-val">1.247</div>
+          <div class="stat-label">Fatos</div>
+          <div class="stat-trend">
+            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#30D158" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle;"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/></svg>
+            +34 esta semana
+          </div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-val">89</div>
+          <div class="stat-label">Entidades</div>
+          <div class="stat-trend">
+            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#30D158" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle;"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/></svg>
+            +7 esta semana
+          </div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-val">342</div>
+          <div class="stat-label">Conexoes</div>
+          <div class="stat-trend">
+            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#30D158" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle;"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/></svg>
+            +21 esta semana
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Knowledge Base -->
+    <div class="card fade-in" style="animation-delay:0.2s">
+      <p class="card-label">Knowledge Base</p>
+      <div class="doc-item">
+        <div class="doc-icon" style="background:rgba(215,0,48,0.06);">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#D70030" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+        </div>
+        <div class="doc-info">
+          <div class="doc-name">Manual de Processos Internos.pdf</div>
+          <div class="doc-meta">2.4 MB -- Enviado em 15 Mar 2026</div>
+        </div>
+        <span class="doc-status indexed">Indexado</span>
+      </div>
+      <div class="doc-item">
+        <div class="doc-icon" style="background:rgba(10,132,255,0.06);">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#0A84FF" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+        </div>
+        <div class="doc-info">
+          <div class="doc-name">Politica-Comercial-2026.docx</div>
+          <div class="doc-meta">890 KB -- Enviado em 22 Mar 2026</div>
+        </div>
+        <span class="doc-status indexed">Indexado</span>
+      </div>
+      <div class="doc-item">
+        <div class="doc-icon" style="background:rgba(48,209,88,0.06);">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#30D158" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+        </div>
+        <div class="doc-info">
+          <div class="doc-name">Tabela-Precos-SaaS.pdf</div>
+          <div class="doc-meta">1.1 MB -- Enviado em 28 Mar 2026</div>
+        </div>
+        <span class="doc-status processing">Processando</span>
+      </div>
+      <div class="doc-item">
+        <div class="doc-icon" style="background:rgba(191,90,242,0.06);">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#BF5AF2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+        </div>
+        <div class="doc-info">
+          <div class="doc-name">Contrato-Padrao-BaaS.pdf</div>
+          <div class="doc-meta">540 KB -- Enviado em 10 Mar 2026</div>
+        </div>
+        <span class="doc-status indexed">Indexado</span>
+      </div>
+      <button class="btn-upload">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+        Enviar documento
+      </button>
+    </div>
+
+    <!-- Consolidacao -->
+    <div class="card fade-in" style="animation-delay:0.3s">
+      <p class="card-label">Consolidacao (Dream Engine)</p>
+      <div class="dream-status">
+        <div class="dream-dot"></div>
+        <div>
+          <div class="dream-text">Ultimo ciclo: hoje, 03:00 UTC</div>
+          <div class="dream-sub">4 fases completas -- 12 fatos duplicados mesclados, 3 sessoes sumarizadas</div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="row-info">
+          <p class="row-title">Proximo ciclo agendado</p>
+          <p class="row-desc">Roda automaticamente via cron diario</p>
+        </div>
+        <span class="row-value">Amanha, 03:00 UTC</span>
+      </div>
+      <div class="row">
+        <div class="row-info">
+          <p class="row-title">Fatos ativos</p>
+          <p class="row-desc">Limite: 500 por agente</p>
+        </div>
+        <span class="row-value">347 / 500</span>
+      </div>
+      <button class="btn-dream">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 4v6h-6M1 20v-6h6"/><path d="M3.51 9a9 9 0 0114.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0020.49 15"/></svg>
+        Rodar consolidacao manual
+      </button>
+    </div>
+
+    <!-- Retencao -->
+    <div class="card fade-in" style="animation-delay:0.4s">
+      <p class="card-label">Retencao por camadas</p>
+      <div class="tier-item">
+        <span class="tier-badge hot">L1</span>
+        <div class="tier-info">
+          <div class="tier-name">Hot</div>
+          <div class="tier-desc">Sessao atual e episodios recentes. Acesso instantaneo, contexto completo.</div>
+        </div>
+        <span class="tier-ttl">Sessao ativa</span>
+      </div>
+      <div class="tier-item">
+        <span class="tier-badge warm">L2</span>
+        <div class="tier-info">
+          <div class="tier-name">Warm</div>
+          <div class="tier-desc">Summaries de 7-30 dias e fatos ativos. Resgate rapido para contexto recente.</div>
+        </div>
+        <span class="tier-ttl">30 dias</span>
+      </div>
+      <div class="tier-item">
+        <span class="tier-badge cold">L3</span>
+        <div class="tier-info">
+          <div class="tier-name">Cold</div>
+          <div class="tier-desc">Summaries consolidados com mais de 30 dias. Armazenamento permanente, compactado.</div>
+        </div>
+        <span class="tier-ttl">Permanente</span>
+      </div>
+    </div>
+
+    <!-- Exportar -->
+    <div class="card fade-in" style="animation-delay:0.5s">
+      <p class="card-label">Exportar</p>
+      <div class="row">
+        <div class="row-info">
+          <p class="row-title">Download completo</p>
+          <p class="row-desc">Exportar todos os fatos, entidades e conexoes em formato JSON</p>
+        </div>
+        <button class="btn-export">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          Exportar JSON
+        </button>
+      </div>
+    </div>
+
+  </main>
+
 <script src="../../shared-nav.js"></script>
+</body>
+</html>

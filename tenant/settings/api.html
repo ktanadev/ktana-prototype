@@ -7,9 +7,220 @@
   <link rel="stylesheet" href="../../shared.css">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Zen+Dots&display=swap" rel="stylesheet">
   <style>
-    body{min-height:100vh;background:#F5F5F7}.nav{position:sticky;top:0;z-index:50;height:48px;display:flex;align-items:center;justify-content:center;background:rgba(245,245,247,0.72);backdrop-filter:saturate(180%) blur(20px);border-bottom:0.5px solid rgba(0,0,0,0.06)}.nav-inner{width:100%;max-width:720px;padding:0 24px;display:flex;align-items:center;justify-content:space-between}.nav-logo{font-family:'Zen Dots',cursive;font-size:14px;color:#D70030}.nav-links a{font-family:'Inter',sans-serif;font-size:12px;color:#1D1D1F;opacity:0.4;margin-left:24px}.nav-links a.active{opacity:1}.main{max-width:720px;margin:0 auto;padding:40px 24px 80px}h1{font-family:'Satoshi',sans-serif;font-size:22px;font-weight:700;color:#1D1D1F;margin-bottom:32px}.settings-nav{display:flex;gap:2px;background:rgba(0,0,0,0.03);border-radius:10px;padding:2px;margin-bottom:32px;overflow-x:auto}.settings-tab{font-family:'Inter',sans-serif;padding:6px 14px;border-radius:8px;font-size:11px;color:#86868B;cursor:pointer;border:none;background:none;white-space:nowrap}.settings-tab.active{background:#FFF;color:#1D1D1F;box-shadow:0 1px 3px rgba(0,0,0,0.06);font-weight:500}.card{background:#FFF;border-radius:20px;border:1px solid rgba(0,0,0,0.04);padding:24px;margin-bottom:12px}.card-label{font-family:'Inter',sans-serif;font-size:11px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:#D70030;margin-bottom:14px}.row{display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:0.5px solid rgba(0,0,0,0.03)}.row:last-child{border-bottom:none}.row-title{font-family:'Satoshi',sans-serif;font-size:14px;color:#1D1D1F}.row-desc{font-family:'Satoshi',sans-serif;font-size:11px;color:#86868B;margin-top:2px}.row-value{font-family:'Inter',sans-serif;font-size:13px;color:#86868B}.toggle{width:44px;height:26px;border-radius:13px;background:#E8E8ED;cursor:pointer;position:relative;transition:background 0.2s}.toggle.on{background:#D70030}.toggle::after{content:'';position:absolute;width:22px;height:22px;border-radius:11px;background:#FFF;top:2px;left:2px;transition:transform 0.2s;box-shadow:0 1px 3px rgba(0,0,0,0.1)}.toggle.on::after{transform:translateX(18px)}.conn-btn{font-family:'Inter',sans-serif;padding:5px 12px;border-radius:980px;background:#1D1D1F;color:#F5F5F7;font-size:11px;font-weight:500;border:none;cursor:pointer}
+    body { min-height: 100vh; background: #F5F5F7; }
+    .main { max-width: 720px; margin: 0 auto; padding: 40px 24px 80px; }
+    h1 { font-family: 'Satoshi', sans-serif; font-size: 22px; font-weight: 700; color: #1D1D1F; margin-bottom: 32px; }
+    .settings-nav { display: flex; gap: 2px; background: rgba(0,0,0,0.03); border-radius: 10px; padding: 2px; margin-bottom: 32px; overflow-x: auto; }
+    .settings-tab { font-family: 'Inter', sans-serif; padding: 6px 14px; border-radius: 8px; font-size: 11px; color: #86868B; cursor: pointer; border: none; background: none; white-space: nowrap; }
+    .settings-tab.active { background: #FFF; color: #1D1D1F; box-shadow: 0 1px 3px rgba(0,0,0,0.06); font-weight: 500; }
+    .card { background: #FFF; border-radius: 20px; border: 1px solid rgba(0,0,0,0.04); padding: 24px; margin-bottom: 12px; }
+    .card-label { font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: #D70030; margin-bottom: 14px; }
+    .row { display: flex; align-items: center; justify-content: space-between; padding: 10px 0; border-bottom: 0.5px solid rgba(0,0,0,0.03); }
+    .row:last-child { border-bottom: none; }
+    .row-info { flex: 1; }
+    .row-title { font-family: 'Satoshi', sans-serif; font-size: 14px; color: #1D1D1F; }
+    .row-desc { font-family: 'Satoshi', sans-serif; font-size: 11px; color: #86868B; margin-top: 2px; }
+    .row-value { font-family: 'Inter', sans-serif; font-size: 13px; color: #86868B; }
+
+    /* Table */
+    .api-table { width: 100%; border-collapse: collapse; }
+    .api-table th { font-family: 'Inter', sans-serif; font-size: 10px; font-weight: 600; color: #86868B; text-transform: uppercase; letter-spacing: 0.06em; text-align: left; padding: 8px 0; border-bottom: 1px solid rgba(0,0,0,0.06); }
+    .api-table td { font-family: 'Inter', sans-serif; font-size: 12px; color: #1D1D1F; padding: 10px 0; border-bottom: 0.5px solid rgba(0,0,0,0.03); vertical-align: middle; }
+    .api-table tr:last-child td { border-bottom: none; }
+    .key-prefix { font-family: 'SF Mono', 'Fira Code', monospace; font-size: 12px; color: #86868B; background: rgba(0,0,0,0.03); padding: 2px 8px; border-radius: 4px; }
+    .btn-revoke { font-family: 'Inter', sans-serif; font-size: 11px; color: #D70030; background: none; border: 0.5px solid rgba(215,0,48,0.2); padding: 4px 10px; border-radius: 6px; cursor: pointer; }
+    .btn-revoke:hover { background: rgba(215,0,48,0.04); }
+    .btn-generate { font-family: 'Inter', sans-serif; padding: 10px 20px; border-radius: 14px; background: #1D1D1F; color: #F5F5F7; font-size: 13px; font-weight: 500; border: none; cursor: pointer; min-height: 44px; display: inline-flex; align-items: center; gap: 8px; margin-top: 14px; }
+    .btn-generate:hover { opacity: 0.9; }
+
+    /* Webhook item */
+    .webhook-item { display: flex; align-items: center; gap: 12px; padding: 12px 0; border-bottom: 0.5px solid rgba(0,0,0,0.03); }
+    .webhook-item:last-child { border-bottom: none; }
+    .webhook-url { font-family: 'SF Mono', 'Fira Code', monospace; font-size: 12px; color: #1D1D1F; flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .webhook-events { font-family: 'Inter', sans-serif; font-size: 10px; color: #86868B; margin-top: 2px; }
+    .status-dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
+    .status-dot.active { background: #30D158; }
+    .status-dot.inactive { background: #FF9F0A; }
+    .btn-add-webhook { font-family: 'Inter', sans-serif; padding: 10px 20px; border-radius: 14px; background: transparent; color: #1D1D1F; font-size: 13px; font-weight: 500; border: 1px solid rgba(0,0,0,0.08); cursor: pointer; min-height: 44px; display: inline-flex; align-items: center; gap: 8px; margin-top: 14px; }
+
+    /* Rate limit bar */
+    .rate-bar { height: 6px; background: rgba(0,0,0,0.04); border-radius: 3px; overflow: hidden; margin-top: 8px; margin-bottom: 6px; }
+    .rate-fill { height: 100%; border-radius: 3px; background: #1D1D1F; transition: width 0.3s; }
+
+    /* Doc link */
+    .doc-link { display: flex; align-items: center; gap: 12px; padding: 14px; background: rgba(0,0,0,0.02); border-radius: 12px; cursor: pointer; transition: background 0.2s; }
+    .doc-link:hover { background: rgba(0,0,0,0.04); }
+    .doc-icon { width: 36px; height: 36px; border-radius: 10px; background: rgba(215,0,48,0.06); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .doc-title { font-family: 'Satoshi', sans-serif; font-size: 14px; font-weight: 600; color: #1D1D1F; }
+    .doc-desc { font-family: 'Inter', sans-serif; font-size: 11px; color: #86868B; margin-top: 2px; }
+    .doc-arrow { font-family: 'Inter', sans-serif; font-size: 14px; color: #86868B; margin-left: auto; }
+
+    .fade-in { animation: fadeIn 0.3s cubic-bezier(0.25,0.1,0.25,1) both; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
   </style>
 </head>
 <body>
 
+  <main class="main">
+    <h1 class="fade-in">API e Webhooks</h1>
+
+    <div class="settings-nav fade-in">
+      <button class="settings-tab" onclick="location.href='general.html'">Geral</button>
+      <button class="settings-tab" onclick="location.href='models.html'">Inteligencia</button>
+      <button class="settings-tab" onclick="location.href='connections.html'">Conexoes</button>
+      <button class="settings-tab" onclick="location.href='brain.html'">Cerebro</button>
+      <button class="settings-tab" onclick="location.href='security.html'">Seguranca</button>
+      <button class="settings-tab" onclick="location.href='privacy.html'">Privacidade</button>
+      <button class="settings-tab" onclick="location.href='billing.html'">Plano</button>
+      <button class="settings-tab" onclick="location.href='notifications.html'">Notificacoes</button>
+      <button class="settings-tab active">API</button>
+      <button class="settings-tab" onclick="location.href='ethics.html'">Etica</button>
+    </div>
+
+    <!-- Chaves de API -->
+    <div class="card fade-in" style="animation-delay:0.1s">
+      <p class="card-label">Chaves de API</p>
+      <table class="api-table">
+        <thead>
+          <tr>
+            <th>Nome</th>
+            <th>Prefixo</th>
+            <th>Criada</th>
+            <th>Ultimo uso</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td style="font-weight:500;">Producao</td>
+            <td><span class="key-prefix">sk-prod...7f3a</span></td>
+            <td style="color:#86868B;">12 Jan 2026</td>
+            <td style="color:#86868B;">Hoje, 14:32</td>
+            <td><button class="btn-revoke">Revogar</button></td>
+          </tr>
+          <tr>
+            <td style="font-weight:500;">Staging</td>
+            <td><span class="key-prefix">sk-stag...b2c1</span></td>
+            <td style="color:#86868B;">15 Fev 2026</td>
+            <td style="color:#86868B;">Ontem, 09:15</td>
+            <td><button class="btn-revoke">Revogar</button></td>
+          </tr>
+          <tr>
+            <td style="font-weight:500;">Webhook Test</td>
+            <td><span class="key-prefix">sk-test...4e8d</span></td>
+            <td style="color:#86868B;">28 Mar 2026</td>
+            <td style="color:#86868B;">Nunca</td>
+            <td><button class="btn-revoke">Revogar</button></td>
+          </tr>
+        </tbody>
+      </table>
+      <button class="btn-generate">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        Gerar nova chave
+      </button>
+    </div>
+
+    <!-- Webhooks -->
+    <div class="card fade-in" style="animation-delay:0.2s">
+      <p class="card-label">Webhooks</p>
+      <div class="webhook-item">
+        <span class="status-dot active"></span>
+        <div style="flex:1; min-width:0;">
+          <div class="webhook-url">https://api.ktana.ai/webhooks/approvals</div>
+          <div class="webhook-events">Eventos: approval.created, approval.resolved</div>
+        </div>
+        <span class="row-value">Ativo</span>
+      </div>
+      <div class="webhook-item">
+        <span class="status-dot active"></span>
+        <div style="flex:1; min-width:0;">
+          <div class="webhook-url">https://hooks.slack.com/services/T0/B0/xxxxx</div>
+          <div class="webhook-events">Eventos: task.completed, samurai.error</div>
+        </div>
+        <span class="row-value">Ativo</span>
+      </div>
+      <div class="webhook-item">
+        <span class="status-dot inactive"></span>
+        <div style="flex:1; min-width:0;">
+          <div class="webhook-url">https://n8n.ktana.ai/webhook/billing</div>
+          <div class="webhook-events">Eventos: billing.usage_alert</div>
+        </div>
+        <span class="row-value" style="color:#FF9F0A;">Pausado</span>
+      </div>
+      <button class="btn-add-webhook">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        Adicionar webhook
+      </button>
+    </div>
+
+    <!-- Rate limits -->
+    <div class="card fade-in" style="animation-delay:0.3s">
+      <p class="card-label">Rate limits</p>
+      <div class="row">
+        <div class="row-info">
+          <p class="row-title">Limite atual</p>
+          <p class="row-desc">100 requisicoes por minuto (plano Shogun)</p>
+        </div>
+        <span class="row-value">100 req/min</span>
+      </div>
+      <div style="padding: 10px 0;">
+        <div style="display:flex; justify-content:space-between; margin-bottom:4px;">
+          <span style="font-family:'Inter',sans-serif; font-size:11px; color:#86868B;">Uso medio (ultima hora)</span>
+          <span style="font-family:'Inter',sans-serif; font-size:11px; color:#1D1D1F; font-weight:500;">42 req/min</span>
+        </div>
+        <div class="rate-bar">
+          <div class="rate-fill" style="width:42%;"></div>
+        </div>
+        <span style="font-family:'Inter',sans-serif; font-size:10px; color:#86868B;">42% do limite</span>
+      </div>
+      <div class="row">
+        <div class="row-info">
+          <p class="row-title">Precisa de mais?</p>
+          <p class="row-desc">Upgrade para Daimyo: 500 req/min + webhooks ilimitados</p>
+        </div>
+        <span class="row-value" style="color:#D70030; font-weight:500; cursor:pointer;">Upgrade</span>
+      </div>
+    </div>
+
+    <!-- Documentacao -->
+    <div class="card fade-in" style="animation-delay:0.4s">
+      <p class="card-label">Documentacao</p>
+      <div class="doc-link">
+        <div class="doc-icon">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#D70030" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+        </div>
+        <div style="flex:1;">
+          <div class="doc-title">Referencia da API</div>
+          <div class="doc-desc">Endpoints, autenticacao, exemplos e SDKs</div>
+        </div>
+        <span class="doc-arrow">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#86868B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+        </span>
+      </div>
+      <div style="margin-top:14px;">
+        <div class="row">
+          <div class="row-info">
+            <p class="row-title">Versao atual</p>
+          </div>
+          <span class="row-value">v1</span>
+        </div>
+        <div class="row">
+          <div class="row-info">
+            <p class="row-title">Base URL</p>
+          </div>
+          <span class="key-prefix" style="font-size:11px;">https://api.ktana.ai/v1</span>
+        </div>
+        <div class="row">
+          <div class="row-info">
+            <p class="row-title">Formato</p>
+          </div>
+          <span class="row-value">JSON (REST)</span>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
 <script src="../../shared-nav.js"></script>
+</body>
+</html>
