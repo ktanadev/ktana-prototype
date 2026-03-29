@@ -12,6 +12,17 @@
     h1 { font-family: 'Zen Dots', cursive; font-size: 22px; color: #1D1D1F; margin-bottom: 4px; }
     .subtitle { font-family: 'Satoshi', sans-serif; font-size: 14px; color: #86868B; margin-bottom: 32px; line-height: 1.5; }
 
+    /* Hero Radar */
+    .radar-hero { text-align: center; margin-bottom: 40px; padding: 40px 0 20px; }
+    .radar-hero h1 { font-size: 28px; margin-bottom: 8px; }
+    .radar-hero .subtitle { max-width: 400px; margin: 0 auto 32px; }
+    .radar-hero .radar-wrap { display: flex; justify-content: center; }
+    .radar-hero .radar-wrap svg { max-width: 520px; width: 100%; height: auto; }
+    .radar-hero .radar-score { display: flex; justify-content: center; gap: 24px; flex-wrap: wrap; margin-top: 20px; }
+    .radar-hero .score-item { text-align: center; }
+    .radar-hero .score-val { font-family: 'Zen Dots', cursive; font-size: 24px; color: #D70030; }
+    .radar-hero .score-label { font-family: 'Inter', sans-serif; font-size: 11px; color: #86868B; margin-top: 2px; }
+
     .card { background: #FFF; border-radius: 20px; border: 1px solid rgba(0,0,0,0.04); padding: 24px; margin-bottom: 12px; }
     .card-label { font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: #D70030; margin-bottom: 14px; }
 
@@ -61,15 +72,13 @@
 <body>
 
   <main class="main">
-    <h1 class="fade-in">Seu Espirito</h1>
-    <p class="subtitle fade-in">Quem voce e na essencia. Definido pela sua conversa com Yumi.</p>
 
-    <!-- Radar Chart — Mapa de Vida -->
-    <div class="card fade-in" style="animation-delay:0.05s">
-      <p class="card-label">Mapa de Vida</p>
-      <div class="radar-title">Seu Mapa de Vida</div>
+    <!-- Hero Radar — Grande e visual -->
+    <div class="radar-hero fade-in">
+      <h1>Seu Espirito</h1>
+      <p class="subtitle">Quem voce e na essencia. Definido pela sua conversa com Yumi.</p>
       <div class="radar-wrap">
-        <svg viewBox="0 0 400 400" width="400" height="400" xmlns="http://www.w3.org/2000/svg">
+        <svg viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
           <!-- Concentric octagon rings -->
           <!-- 25% ring -->
           <polygon points="200,165 224.75,175.25 235,200 224.75,224.75 200,235 175.25,224.75 165,200 175.25,175.25" fill="none" stroke="rgba(0,0,0,0.04)" stroke-width="0.75"/>
@@ -127,6 +136,12 @@
           <text x="48" y="204" text-anchor="end" font-family="Inter, sans-serif" font-size="11" fill="#1D1D1F" font-weight="500">Relacionamentos 7/10</text>
           <text x="88" y="92" text-anchor="end" font-family="Inter, sans-serif" font-size="11" fill="#1D1D1F" font-weight="500">Casa 5/10</text>
         </svg>
+      </div>
+      <div class="radar-score">
+        <div class="score-item"><div class="score-val">7.4</div><div class="score-label">Media geral</div></div>
+        <div class="score-item"><div class="score-val">9</div><div class="score-label">Melhor area</div></div>
+        <div class="score-item"><div class="score-val">5</div><div class="score-label">A desenvolver</div></div>
+        <div class="score-item"><div class="score-val">78%</div><div class="score-label">Clareza</div></div>
       </div>
     </div>
 
