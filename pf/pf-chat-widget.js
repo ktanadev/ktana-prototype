@@ -40,8 +40,8 @@
   var m = mentors[page];
   if (!m) return;
 
-  // Find insertion point — after gradient-header or first h1
-  var target = document.querySelector('.gradient-header') || document.querySelector('.main') || document.querySelector('main');
+  // Find insertion point — try multiple container patterns
+  var target = document.querySelector('.gradient-header') || document.querySelector('.main') || document.querySelector('main') || document.querySelector('.area-page') || document.querySelector('.page-content') || document.body.querySelector('div');
   if (!target) return;
 
   // Create chat widget
@@ -67,20 +67,28 @@
       '</div>' +
     '</div>';
 
-  // Insert at top of content (after h1/subtitle)
-  var h1 = target.querySelector('h1');
-  var sub = target.querySelector('.sub, .subtitle, p');
-  var insertAfter = sub && sub.nextElementSibling ? sub.nextElementSibling : (h1 ? h1.nextElementSibling : target.firstChild);
-  if (insertAfter && insertAfter.parentNode === target) {
-    target.insertBefore(widget, insertAfter);
-  } else {
-    // Fallback: insert as second child
-    var firstChild = target.children[0];
-    if (firstChild && firstChild.nextSibling) {
-      target.insertBefore(widget, firstChild.nextSibling.nextSibling || null);
-    } else {
-      target.appendChild(widget);
+  // Insert after the page header (h1 + subtitle) — find first card/section after header
+  var h1 = document.querySelector('h1');
+  if (!h1) return;
+
+  // Walk forward from h1 to find the first card/section element
+  var node = h1;
+  while (node && node.nextElementSibling) {
+    node = node.nextElementSibling;
+    var cls = node.className || '';
+    var tag = node.tagName;
+    // Stop when we find a card, section, or substantial content block
+    if (cls.includes('card') || cls.includes('section') || cls.includes('cmd-') || cls.includes('stagger') || cls.includes('area-header') || (tag === 'DIV' && node.children.length > 1)) {
+      node.parentNode.insertBefore(widget, node);
+      return;
     }
+  }
+  // Fallback: insert after h1's parent block
+  var parent = h1.parentNode;
+  if (parent && parent.nextElementSibling) {
+    parent.parentNode.insertBefore(widget, parent.nextElementSibling);
+  } else if (parent) {
+    parent.appendChild(widget);
   }
 
   // Inject styles
