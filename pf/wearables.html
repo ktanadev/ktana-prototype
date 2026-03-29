@@ -12,54 +12,60 @@
     h1 { font-family: 'Zen Dots', cursive; font-size: 26px; color: #1D1D1F; margin-bottom: 6px; }
     .sub { font-family: 'Satoshi', sans-serif; font-size: 14px; color: #86868B; margin-bottom: 32px; line-height: 1.5; }
 
-    /* Device card */
-    .device { background: #FFF; border-radius: 20px; border: 1px solid rgba(0,0,0,0.04); padding: 24px; margin-bottom: 12px; transition: box-shadow 0.2s; }
-    .device:hover { box-shadow: 0 4px 24px rgba(0,0,0,0.04); }
+    /* Connected device */
+    .device { background: #FFF; border-radius: 20px; border: 1px solid rgba(0,0,0,0.04); padding: 24px; margin-bottom: 12px; }
     .device-header { display: flex; align-items: center; gap: 16px; margin-bottom: 16px; }
     .device-icon { width: 52px; height: 52px; border-radius: 14px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
     .device-info { flex: 1; }
     .device-name { font-family: 'Satoshi', sans-serif; font-size: 16px; font-weight: 600; color: #1D1D1F; }
     .device-type { font-family: 'Inter', sans-serif; font-size: 11px; color: #86868B; margin-top: 2px; }
-    .device-status { font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 500; display: flex; align-items: center; gap: 5px; flex-shrink: 0; }
-    .device-status.connected { color: #30D158; }
-    .device-status.available { color: #AEAEB2; }
-    .status-dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
-    .status-dot.on { background: #30D158; animation: pulse 2s infinite; }
-    .status-dot.off { background: #D2D2D7; }
+    .device-status { font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 500; color: #30D158; display: flex; align-items: center; gap: 5px; flex-shrink: 0; }
+    .status-dot { width: 6px; height: 6px; border-radius: 50%; background: #30D158; animation: pulse 2s infinite; }
     @keyframes pulse { 0%,100%{opacity:1}50%{opacity:0.4} }
 
-    /* Data captures */
+    /* Live metrics */
+    .live-metrics { display: flex; gap: 8px; overflow-x: auto; margin-bottom: 14px; }
+    .live-metric { background: rgba(0,0,0,0.02); border-radius: 12px; padding: 10px 14px; text-align: center; min-width: 76px; flex-shrink: 0; }
+    .live-val { font-family: 'Zen Dots', cursive; font-size: 16px; color: #1D1D1F; }
+    .live-label { font-family: 'Inter', sans-serif; font-size: 10px; color: #86868B; margin-top: 2px; }
+
+    /* Data tags */
     .device-data { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 14px; }
     .data-tag { font-family: 'Inter', sans-serif; font-size: 11px; color: #6E6E73; background: rgba(0,0,0,0.03); border-radius: 8px; padding: 5px 10px; display: flex; align-items: center; gap: 5px; }
     .data-tag svg { width: 12px; height: 12px; flex-shrink: 0; }
 
-    /* Sync info */
-    .sync-row { display: flex; align-items: center; justify-content: space-between; padding-top: 14px; border-top: 0.5px solid rgba(0,0,0,0.04); }
-    .sync-info { font-family: 'Inter', sans-serif; font-size: 11px; color: #AEAEB2; }
-    .sync-info strong { color: #86868B; }
-
-    /* Connect button */
-    .btn-connect { font-family: 'Inter', sans-serif; padding: 10px 20px; border-radius: 12px; font-size: 13px; font-weight: 500; border: none; cursor: pointer; min-height: 44px; transition: all 0.15s; display: flex; align-items: center; gap: 6px; }
-    .btn-connect:active { transform: scale(0.97); }
-    .btn-connect.primary { background: #1D1D1F; color: #F5F5F7; }
-    .btn-connect.primary:hover { background: #000; }
-    .btn-connect.outline { background: transparent; color: #1D1D1F; border: 1px solid rgba(0,0,0,0.08); }
-    .btn-connect.outline:hover { background: rgba(0,0,0,0.02); }
-    .btn-connect.connected-btn { background: rgba(48,209,88,0.06); color: #248A3D; border: 1px solid rgba(48,209,88,0.12); }
+    .sync-row { font-family: 'Inter', sans-serif; font-size: 11px; color: #AEAEB2; padding-top: 14px; border-top: 0.5px solid rgba(0,0,0,0.04); }
+    .sync-row strong { color: #86868B; }
 
     /* Section */
     .section-label { font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: #D70030; margin-bottom: 14px; margin-top: 28px; }
 
-    /* Live metrics strip for connected devices */
-    .live-metrics { display: flex; gap: 8px; overflow-x: auto; margin-bottom: 14px; padding-bottom: 2px; }
-    .live-metric { background: rgba(0,0,0,0.02); border-radius: 12px; padding: 10px 14px; text-align: center; min-width: 80px; flex-shrink: 0; }
-    .live-val { font-family: 'Zen Dots', cursive; font-size: 16px; color: #1D1D1F; }
-    .live-label { font-family: 'Inter', sans-serif; font-size: 10px; color: #86868B; margin-top: 2px; }
+    /* Chat card — IA-first config */
+    .chat-card { background: #FFF; border-radius: 24px; border: 1px solid rgba(0,0,0,0.04); padding: 24px; margin-top: 28px; box-shadow: 0 2px 20px rgba(0,0,0,0.03); }
+    .chat-label { font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: #D70030; margin-bottom: 14px; display: flex; align-items: center; gap: 8px; }
+    .chat-dot { width: 6px; height: 6px; border-radius: 50%; background: #30D158; animation: pulse 2s infinite; }
+    .chat-msgs { display: flex; flex-direction: column; gap: 10px; margin-bottom: 16px; }
+    .chat-msg { max-width: 85%; padding: 12px 16px; border-radius: 16px; font-family: 'Satoshi', sans-serif; font-size: 14px; line-height: 1.5; }
+    .chat-msg-ai { background: #F5F5F7; color: #1D1D1F; border-bottom-left-radius: 4px; align-self: flex-start; }
+    .chat-msg-user { background: #1D1D1F; color: #F5F5F7; border-bottom-right-radius: 4px; align-self: flex-end; }
+    .chat-sender { font-family: 'Inter', sans-serif; font-size: 11px; color: #D70030; font-weight: 500; margin-bottom: 4px; }
+    .chat-suggestions { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+    .chat-sug { font-family: 'Inter', sans-serif; font-size: 12px; color: #86868B; background: rgba(0,0,0,0.03); border: 1px solid rgba(0,0,0,0.04); border-radius: 980px; padding: 6px 14px; cursor: pointer; transition: all 0.15s; }
+    .chat-sug:hover { background: rgba(215,0,48,0.04); border-color: rgba(215,0,48,0.12); color: #D70030; }
+    .chat-input-wrap { display: flex; gap: 10px; align-items: center; }
+    .chat-input { flex: 1; font-family: 'Satoshi', sans-serif; background: #F5F5F7; border: 1px solid rgba(0,0,0,0.06); border-radius: 16px; padding: 14px 18px; font-size: 15px; color: #1D1D1F; outline: none; transition: border-color 0.15s; }
+    .chat-input:focus { border-color: rgba(215,0,48,0.3); }
+    .chat-input::placeholder { color: #AEAEB2; }
+    .chat-send { width: 48px; height: 48px; border-radius: 50%; background: #D70030; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: transform 0.1s, opacity 0.15s; }
+    .chat-send:hover { opacity: 0.9; }
+    .chat-send:active { transform: scale(0.92); }
 
-    /* Info card */
-    .info-card { background: rgba(215,0,48,0.02); border: 1px solid rgba(215,0,48,0.06); border-radius: 16px; padding: 20px; margin-top: 28px; }
-    .info-card p { font-family: 'Satoshi', sans-serif; font-size: 13px; color: #6E6E73; line-height: 1.6; }
-    .info-card strong { color: #1D1D1F; }
+    /* Potential devices (greyed visual only) */
+    .potential { display: flex; align-items: center; gap: 14px; padding: 14px 0; border-bottom: 0.5px solid rgba(0,0,0,0.03); }
+    .potential:last-child { border-bottom: none; }
+    .potential-icon { width: 40px; height: 40px; border-radius: 12px; background: rgba(0,0,0,0.02); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .potential-name { font-family: 'Satoshi', sans-serif; font-size: 14px; color: #AEAEB2; flex: 1; }
+    .potential-data { font-family: 'Inter', sans-serif; font-size: 11px; color: #D2D2D7; }
 
     .fade-in { animation: fadeIn 0.3s cubic-bezier(0.25,0.1,0.25,1) both; }
     @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
@@ -72,7 +78,7 @@
     <h1 class="fade-in">Seus Dispositivos</h1>
     <p class="sub fade-in">Seus sentidos digitais. Quanto mais conectado, mais seus mentores entendem voce.</p>
 
-    <!-- CONNECTED -->
+    <!-- CONNECTED — visual display -->
     <p class="section-label fade-in">Conectados</p>
 
     <!-- Apple Watch -->
@@ -85,7 +91,7 @@
           <p class="device-name">Apple Watch Ultra 2</p>
           <p class="device-type">Relogio inteligente</p>
         </div>
-        <div class="device-status connected"><span class="status-dot on"></span> Sincronizado</div>
+        <div class="device-status"><span class="status-dot"></span> Sincronizado</div>
       </div>
       <div class="live-metrics">
         <div class="live-metric"><div class="live-val">68</div><div class="live-label">BPM agora</div></div>
@@ -94,19 +100,12 @@
         <div class="live-metric"><div class="live-val">96%</div><div class="live-label">SpO2</div></div>
       </div>
       <div class="device-data">
-        <span class="data-tag"><svg viewBox="0 0 24 24" fill="none" stroke="#D70030" stroke-width="1.5"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg> Frequencia cardiaca</span>
+        <span class="data-tag"><svg viewBox="0 0 24 24" fill="none" stroke="#D70030" stroke-width="1.5"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg> FC</span>
         <span class="data-tag"><svg viewBox="0 0 24 24" fill="none" stroke="#5E6AD2" stroke-width="1.5"><path d="M12 2a7 7 0 017 7c0 3.5-2 5.5-3.5 7h-7C7 14.5 5 12.5 5 9a7 7 0 017-7z"/></svg> Sono</span>
         <span class="data-tag"><svg viewBox="0 0 24 24" fill="none" stroke="#30D158" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> Atividade</span>
         <span class="data-tag"><svg viewBox="0 0 24 24" fill="none" stroke="#FF9F0A" stroke-width="1.5"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg> ECG</span>
-        <span class="data-tag"><svg viewBox="0 0 24 24" fill="none" stroke="#64D2FF" stroke-width="1.5"><path d="M12 2.69l5.66 5.66a8 8 0 11-11.31 0z"/></svg> Oxigenacao</span>
       </div>
-      <div class="sync-row">
-        <span class="sync-info">Ultima sync: <strong>ha 3 min</strong></span>
-        <button class="btn-connect connected-btn">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
-          Conectado
-        </button>
-      </div>
+      <div class="sync-row">Ultima sync: <strong>ha 3 min</strong> · Conectado via conversa com Yumi em 15/Mar</div>
     </div>
 
     <!-- Oura Ring -->
@@ -119,7 +118,7 @@
           <p class="device-name">Oura Ring Gen 3</p>
           <p class="device-type">Anel inteligente</p>
         </div>
-        <div class="device-status connected"><span class="status-dot on"></span> Sincronizado</div>
+        <div class="device-status"><span class="status-dot"></span> Sincronizado</div>
       </div>
       <div class="live-metrics">
         <div class="live-metric"><div class="live-val">82</div><div class="live-label">Readiness</div></div>
@@ -130,132 +129,77 @@
       <div class="device-data">
         <span class="data-tag"><svg viewBox="0 0 24 24" fill="none" stroke="#5E6AD2" stroke-width="1.5"><path d="M12 2a7 7 0 017 7c0 3.5-2 5.5-3.5 7h-7C7 14.5 5 12.5 5 9a7 7 0 017-7z"/></svg> Sono profundo</span>
         <span class="data-tag"><svg viewBox="0 0 24 24" fill="none" stroke="#D70030" stroke-width="1.5"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg> HRV</span>
-        <span class="data-tag"><svg viewBox="0 0 24 24" fill="none" stroke="#FF9F0A" stroke-width="1.5"><path d="M14 14.76V3.5a2.5 2.5 0 00-5 0v11.26a4.5 4.5 0 105 0z"/></svg> Temperatura corporal</span>
-        <span class="data-tag"><svg viewBox="0 0 24 24" fill="none" stroke="#30D158" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> Readiness score</span>
+        <span class="data-tag"><svg viewBox="0 0 24 24" fill="none" stroke="#FF9F0A" stroke-width="1.5"><path d="M14 14.76V3.5a2.5 2.5 0 00-5 0v11.26a4.5 4.5 0 105 0z"/></svg> Temperatura</span>
       </div>
-      <div class="sync-row">
-        <span class="sync-info">Ultima sync: <strong>ha 12 min</strong></span>
-        <button class="btn-connect connected-btn">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
-          Conectado
+      <div class="sync-row">Ultima sync: <strong>ha 12 min</strong> · Conectado via conversa com Yumi em 18/Mar</div>
+    </div>
+
+    <!-- CHAT — IA-first to add devices -->
+    <div class="chat-card fade-in" style="animation-delay:0.15s">
+      <div class="chat-label"><div class="chat-dot"></div> Adicionar dispositivo</div>
+      <div class="chat-msgs" id="chatMsgs">
+        <div class="chat-msg chat-msg-ai">
+          <div class="chat-sender">Yumi — Mentora</div>
+          Voce usa algum outro dispositivo? Relogio, pulseira, oculos inteligente? Me conta que eu conecto pra voce.
+          <div class="chat-suggestions">
+            <span class="chat-sug" onclick="quickMsg('Tenho um Garmin')">Tenho um Garmin</span>
+            <span class="chat-sug" onclick="quickMsg('Uso Whoop')">Uso Whoop</span>
+            <span class="chat-sug" onclick="quickMsg('Quero conectar Meta Ray-Ban')">Meta Ray-Ban</span>
+            <span class="chat-sug" onclick="quickMsg('Nao uso outros')">Nao uso outros</span>
+          </div>
+        </div>
+      </div>
+      <div class="chat-input-wrap">
+        <input type="text" class="chat-input" id="chatInput" placeholder="Diga qual dispositivo voce usa..." onkeydown="if(event.key==='Enter')sendMsg()">
+        <button class="chat-send" onclick="sendMsg()">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
         </button>
       </div>
     </div>
 
-    <!-- AVAILABLE -->
-    <p class="section-label fade-in" style="animation-delay:0.15s">Disponiveis para conectar</p>
-
-    <!-- Samsung Galaxy Watch -->
-    <div class="device fade-in" style="animation-delay:0.2s">
-      <div class="device-header">
-        <div class="device-icon" style="background:rgba(0,0,0,0.02);">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#AEAEB2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="2" width="12" height="20" rx="3"/><circle cx="12" cy="12" r="4"/></svg>
-        </div>
-        <div class="device-info">
-          <p class="device-name">Samsung Galaxy Watch</p>
-          <p class="device-type">Relogio inteligente</p>
-        </div>
-        <button class="btn-connect primary" onclick="this.innerHTML='<div style=\'width:14px;height:14px;border:2px solid rgba(255,255,255,0.3);border-top-color:#FFF;border-radius:50%;animation:spin 0.6s linear infinite\'></div> Pareando...';setTimeout(()=>{this.innerHTML='Conectado';this.className='btn-connect connected-btn'},2000)">Conectar</button>
-      </div>
-      <div class="device-data">
-        <span class="data-tag" style="opacity:0.5;">FC, sono, passos, SpO2, estresse</span>
-      </div>
+    <!-- Compatible (visual reference — greyed) -->
+    <p class="section-label fade-in" style="animation-delay:0.2s">Compativeis</p>
+    <div class="device fade-in" style="animation-delay:0.25s;opacity:0.6;">
+      <div class="potential"><div class="potential-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#D2D2D7" stroke-width="1.5"><rect x="6" y="2" width="12" height="20" rx="3"/><circle cx="12" cy="12" r="4"/></svg></div><span class="potential-name">Samsung Galaxy Watch</span><span class="potential-data">FC, sono, passos</span></div>
+      <div class="potential"><div class="potential-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#D2D2D7" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div><span class="potential-name">Garmin</span><span class="potential-data">VO2max, Body Battery</span></div>
+      <div class="potential"><div class="potential-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#D2D2D7" stroke-width="1.5"><rect x="7" y="4" width="10" height="16" rx="2"/></svg></div><span class="potential-name">Fitbit</span><span class="potential-data">Passos, sono, FC</span></div>
+      <div class="potential"><div class="potential-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#D2D2D7" stroke-width="1.5"><rect x="8" y="3" width="8" height="18" rx="4"/></svg></div><span class="potential-name">Xiaomi Smart Band</span><span class="potential-data">Passos, sono</span></div>
+      <div class="potential"><div class="potential-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#D2D2D7" stroke-width="1.5"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg></div><span class="potential-name">Whoop 4.0</span><span class="potential-data">Strain, recovery, HRV</span></div>
+      <div class="potential"><div class="potential-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#D2D2D7" stroke-width="1.5"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></div><span class="potential-name">Meta Ray-Ban Smart Glasses</span><span class="potential-data">Visao, audio, contexto</span></div>
     </div>
-
-    <!-- Garmin -->
-    <div class="device fade-in" style="animation-delay:0.25s">
-      <div class="device-header">
-        <div class="device-icon" style="background:rgba(0,0,0,0.02);">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#AEAEB2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-        </div>
-        <div class="device-info">
-          <p class="device-name">Garmin</p>
-          <p class="device-type">Relogio esportivo</p>
-        </div>
-        <button class="btn-connect primary" onclick="this.innerHTML='Pareando...';setTimeout(()=>{this.innerHTML='Conectado';this.className='btn-connect connected-btn'},2000)">Conectar</button>
-      </div>
-      <div class="device-data">
-        <span class="data-tag" style="opacity:0.5;">VO2max, treino, sono, FC, Body Battery</span>
-      </div>
-    </div>
-
-    <!-- Fitbit -->
-    <div class="device fade-in" style="animation-delay:0.3s">
-      <div class="device-header">
-        <div class="device-icon" style="background:rgba(0,0,0,0.02);">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#AEAEB2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="7" y="4" width="10" height="16" rx="2"/><line x1="12" y1="8" x2="12" y2="12"/></svg>
-        </div>
-        <div class="device-info">
-          <p class="device-name">Fitbit</p>
-          <p class="device-type">Pulseira inteligente</p>
-        </div>
-        <button class="btn-connect primary" onclick="this.innerHTML='Pareando...';setTimeout(()=>{this.innerHTML='Conectado';this.className='btn-connect connected-btn'},2000)">Conectar</button>
-      </div>
-      <div class="device-data">
-        <span class="data-tag" style="opacity:0.5;">Passos, sono, FC, estresse, SpO2</span>
-      </div>
-    </div>
-
-    <!-- Xiaomi Mi Band -->
-    <div class="device fade-in" style="animation-delay:0.35s">
-      <div class="device-header">
-        <div class="device-icon" style="background:rgba(0,0,0,0.02);">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#AEAEB2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="8" y="3" width="8" height="18" rx="4"/><line x1="12" y1="8" x2="12" y2="10"/></svg>
-        </div>
-        <div class="device-info">
-          <p class="device-name">Xiaomi Smart Band</p>
-          <p class="device-type">Pulseira inteligente</p>
-        </div>
-        <button class="btn-connect primary" onclick="this.innerHTML='Pareando...';setTimeout(()=>{this.innerHTML='Conectado';this.className='btn-connect connected-btn'},2000)">Conectar</button>
-      </div>
-      <div class="device-data">
-        <span class="data-tag" style="opacity:0.5;">Passos, sono, FC, SpO2</span>
-      </div>
-    </div>
-
-    <!-- Whoop -->
-    <div class="device fade-in" style="animation-delay:0.4s">
-      <div class="device-header">
-        <div class="device-icon" style="background:rgba(0,0,0,0.02);">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#AEAEB2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
-        </div>
-        <div class="device-info">
-          <p class="device-name">Whoop 4.0</p>
-          <p class="device-type">Pulseira de performance</p>
-        </div>
-        <button class="btn-connect primary" onclick="this.innerHTML='Pareando...';setTimeout(()=>{this.innerHTML='Conectado';this.className='btn-connect connected-btn'},2000)">Conectar</button>
-      </div>
-      <div class="device-data">
-        <span class="data-tag" style="opacity:0.5;">Strain, recovery, sono, HRV, FC</span>
-      </div>
-    </div>
-
-    <!-- Meta Ray-Ban -->
-    <div class="device fade-in" style="animation-delay:0.45s">
-      <div class="device-header">
-        <div class="device-icon" style="background:rgba(0,0,0,0.02);">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#AEAEB2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
-        </div>
-        <div class="device-info">
-          <p class="device-name">Meta Ray-Ban Smart Glasses</p>
-          <p class="device-type">Oculos inteligente</p>
-        </div>
-        <button class="btn-connect primary" onclick="this.innerHTML='Pareando...';setTimeout(()=>{this.innerHTML='Conectado';this.className='btn-connect connected-btn'},2000)">Conectar</button>
-      </div>
-      <div class="device-data">
-        <span class="data-tag" style="opacity:0.5;">Visao, audio, interacoes, contexto visual</span>
-      </div>
-    </div>
-
-    <!-- Info -->
-    <div class="info-card fade-in" style="animation-delay:0.5s">
-      <p><strong>Quanto mais dispositivos, melhor a simbiose.</strong></p>
-      <p style="margin-top:8px;">Cada sensor alimenta seus mentores em tempo real. O cerebro cruza todos os dados: sono afetou treino, estresse impactou alimentacao, rotina influenciou produtividade. Voce ve o resultado — a acao e dos seus mentores, no WhatsApp e por voz.</p>
-    </div>
+    <p style="font-family:'Inter',sans-serif;font-size:11px;color:#AEAEB2;text-align:center;margin-top:8px;">Para conectar, basta conversar com Yumi acima.</p>
 
   </div></main>
 
-<style>@keyframes spin{to{transform:rotate(360deg)}}</style>
-<script src="../shared-nav.js?v=1774794914"></script>
+  <script>
+    var responses = {
+      'Tenho um Garmin': 'Otimo! Garmin e excelente pra monitorar VO2max e treinos. Vou pedir sua autorizacao pra conectar via Garmin Connect. Um momento...',
+      'Uso Whoop': 'Whoop e perfeito pra recovery e HRV. Vou conectar via API do Whoop. Me confirma seu email cadastrado la?',
+      'Quero conectar Meta Ray-Ban': 'Os oculos Meta vao permitir que eu entenda seu dia a dia visualmente. Preciso do app Meta View instalado. Voce tem?',
+      'Nao uso outros': 'Sem problema! O Apple Watch e o Oura Ring ja cobrem bastante. Se um dia quiser adicionar algo, e so me falar aqui.'
+    };
+
+    function sendMsg() {
+      var input = document.getElementById('chatInput');
+      var val = input.value.trim();
+      if (!val) return;
+      var msgs = document.getElementById('chatMsgs');
+      msgs.innerHTML += '<div class="chat-msg chat-msg-user">' + escapeHtml(val) + '</div>';
+      input.value = '';
+      setTimeout(function() {
+        var reply = responses[val] || 'Entendi! Vou verificar a compatibilidade e te guiar na conexao. Me da um momento...';
+        msgs.innerHTML += '<div class="chat-msg chat-msg-ai"><div class="chat-sender">Yumi — Mentora</div>' + reply + '</div>';
+        msgs.scrollTop = msgs.scrollHeight;
+      }, 800);
+    }
+
+    function quickMsg(text) {
+      document.getElementById('chatInput').value = text;
+      sendMsg();
+    }
+
+    function escapeHtml(t) { var d = document.createElement('div'); d.appendChild(document.createTextNode(t)); return d.innerHTML; }
+  </script>
+  <script src="../shared-nav.js?v=1774794914"></script>
 </body>
 </html>
