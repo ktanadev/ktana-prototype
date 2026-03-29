@@ -543,33 +543,184 @@
   function closeAgent(){document.getElementById('agentDrawer').style.display='none';document.getElementById('feedSection').style.display='';}
   function sendDrawerMsg(){var input=document.getElementById('drawerInput');if(!input||!input.value.trim())return;var msgs=document.getElementById('drawerChatMessages'),msg=document.createElement('div');msg.className='dc-msg dc-user';msg.innerHTML='<p class="dc-text">'+input.value+'</p><p class="dc-time">Julio &middot; '+new Date().toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'})+'</p>';msgs.appendChild(msg);var val=input.value;input.value='';msgs.scrollTop=msgs.scrollHeight;setTimeout(function(){var r=document.createElement('div');r.className='dc-msg dc-agent';r.innerHTML='<p class="dc-text">Recebido. Processando: "'+val.substring(0,40)+'..." Vou executar e confirmar em instantes.</p><p class="dc-time">'+document.getElementById('drawerTitle').textContent.split(' \u2014 ')[0]+' &middot; '+new Date().toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'})+'</p>';msgs.appendChild(r);msgs.scrollTop=msgs.scrollHeight;},800);}
 
-  // AGENT FLOW
-  var flowNodes={julio:{cx:450,cy:46},akira:{cx:450,cy:146},yuki:{cx:162,cy:296},hana:{cx:342,cy:296},haruki:{cx:558,cy:296},kaito:{cx:270,cy:426},yumi:{cx:630,cy:426}};
-  var flowConns=[['julio','akira'],['akira','yuki'],['akira','hana'],['akira','haruki'],['akira','kaito'],['akira','yumi'],['haruki','kaito'],['yuki','julio']];
-  function drawFlowLines(){var g=document.getElementById('flowLines');g.innerHTML='';flowConns.forEach(function(c){var f=flowNodes[c[0]],t=flowNodes[c[1]],l=document.createElementNS('http://www.w3.org/2000/svg','line');l.setAttribute('x1',f.cx);l.setAttribute('y1',f.cy);l.setAttribute('x2',t.cx);l.setAttribute('y2',t.cy);l.setAttribute('stroke','rgba(255,255,255,0.06)');l.setAttribute('stroke-width','1');l.setAttribute('stroke-dasharray','4,4');g.appendChild(l);});}
-  drawFlowLines();
+  // ============================================
+  // AGENT FLOW — Dynamic card-based (agent-flow style)
+  // ============================================
+  var afCount = 214;
+  var afCardId = 0;
 
-  var flowActions=[{from:'akira',to:'yuki',msg:'DRE consolidado de marco',type:'delegate',color:'#0A84FF',label:'DELEGATE'},{from:'yuki',to:'akira',msg:'DRE 80% pronto. Entrego 18h',type:'respond',color:'#30D158',label:'RESPOND'},{from:'hana',to:'haruki',msg:'Reuniao reagendada quinta 14h',type:'execute',color:'#BF5AF2',label:'EXECUTE'},{from:'haruki',to:'akira',msg:'Sprint 8/10. 2 bloqueadas Celcoin',type:'decide',color:'#FF9F0A',label:'DECIDE'},{from:'akira',to:'julio',msg:'Bypass Celcoin? Prazo: sexta',type:'escalate',color:'#D70030',label:'ESCALATE'},{from:'kaito',to:'akira',msg:'3 modulos prontos marketplace',type:'respond',color:'#30D158',label:'RESPOND'},{from:'yumi',to:'akira',msg:'Novo PF onboarded: Joao Silva',type:'respond',color:'#30D158',label:'RESPOND'},{from:'akira',to:'hana',msg:'Confirmar reuniao investidor 15h',type:'delegate',color:'#0A84FF',label:'DELEGATE'},{from:'haruki',to:'kaito',msg:'Priorizar Smart Billing',type:'delegate',color:'#0A84FF',label:'DELEGATE'},{from:'yuki',to:'julio',msg:'Custo Anthropic 20% acima budget',type:'escalate',color:'#D70030',label:'ESCALATE'}];
+  // Tool actions each agent can perform
+  var afAgents = {
+    akira: { name:'Akira', role:'CEO', color:'#D70030', tools:['Memory.recall','Gmail.read','WhatsApp.send','ClickUp.delegate','Brain.decide','Report.generate'] },
+    yuki: { name:'Yuki', role:'Controller', color:'#0A84FF', tools:['Bradesco.conciliar','Planilha.write','DRE.calcular','Invoice.validate','Alert.budget'] },
+    hana: { name:'Hana', role:'Secretaria', color:'#30D158', tools:['Gmail.filter','Calendar.schedule','WhatsApp.notify','Drive.organize','Triage.classify'] },
+    haruki: { name:'Haruki', role:'PM', color:'#FF9F0A', tools:['ClickUp.sprint','GitHub.review','Slack.standup','Task.decompose','Blocker.escalate'] },
+    kaito: { name:'Kaito', role:'Builder', color:'#BF5AF2', tools:['GitHub.commit','Vercel.deploy','API.integrate','Test.e2e','Module.publish'] },
+    yumi: { name:'Yumi', role:'Mentora PF', color:'#30D158', tools:['WhatsApp.checkin','Profile.analyze','Mentor.match','Goal.track','Insight.generate'] }
+  };
 
-  function animateParticle(fromId,toId,color){var f=flowNodes[fromId],t=flowNodes[toId];if(!f||!t)return;var g=document.getElementById('flowParticles'),c=document.createElementNS('http://www.w3.org/2000/svg','circle');c.setAttribute('r','4');c.setAttribute('fill',color);c.setAttribute('cx',f.cx);c.setAttribute('cy',f.cy);c.style.filter='drop-shadow(0 0 6px '+color+')';g.appendChild(c);var dur=1500,st=performance.now();function step(now){var el=now-st,p=Math.min(el/dur,1),ease=p<0.5?2*p*p:-1+(4-2*p)*p;c.setAttribute('cx',f.cx+(t.cx-f.cx)*ease);c.setAttribute('cy',f.cy+(t.cy-f.cy)*ease);if(p>0.8)c.setAttribute('opacity',1-((p-0.8)/0.2));if(p<1)requestAnimationFrame(step);else if(c.parentNode)g.removeChild(c);}requestAnimationFrame(step);}
+  // Execution scenarios — sequences of actions
+  var afScenarios = [
+    [
+      { agent:'akira', tool:'Memory.recall', action:'Buscando briefing diario no segundo cerebro...', duration:1200, think:'Preciso consolidar 3 departamentos antes do report', metacog:'Confianca 91% — todos os dados de ontem foram validados' },
+      { agent:'akira', tool:'Gmail.read', action:'Lendo 47 emails nao lidos... classificando por urgencia', duration:2000, branch:[
+        { agent:'hana', tool:'Gmail.filter', action:'Filtrando spam e newsletters... 23 descartados', duration:1500 },
+        { agent:'hana', tool:'Calendar.schedule', action:'Reagendando Empresa X para quinta 14h — conflito detectado', duration:1800, think:'Empresa X pediu remarcacao, investidor tem prioridade' }
+      ]},
+      { agent:'akira', tool:'Brain.decide', action:'Analisando 2 tasks bloqueadas por API Celcoin... decidindo escalar', duration:2500, think:'Valor > R$5000 e prazo critico. Preciso da aprovacao do Shogun', metacog:'Confianca 89% — regra de escalacao automatica ativada', branch:[
+        { agent:'haruki', tool:'ClickUp.sprint', action:'Sprint review: 8/10 tasks concluidas, 2 bloqueadas Celcoin', duration:1500 },
+        { agent:'haruki', tool:'Blocker.escalate', action:'Escalando bloqueio Celcoin para CEO com contexto completo', duration:1000 }
+      ]},
+      { agent:'yuki', tool:'DRE.calcular', action:'Gerando DRE marco... conciliando 3 contas Bradesco', duration:3000, think:'Faltam 3 conciliacoes do dia 28. Margem de erro 2%', metacog:'Confianca 94% — usando dados validados do extrato real' },
+      { agent:'kaito', tool:'Module.publish', action:'Publicando Smart Billing v2 no marketplace... 3 testes passaram', duration:2000, branch:[
+        { agent:'kaito', tool:'Test.e2e', action:'Rodando 12 cenarios end-to-end... 12/12 passed', duration:1800 },
+        { agent:'kaito', tool:'GitHub.commit', action:'Commit abc123: Smart Billing v2 — gateway Celcoin + fallback PIX', duration:800 }
+      ]},
+      { agent:'yumi', tool:'WhatsApp.checkin', action:'Check-in semanal com Joao Silva via WhatsApp', duration:1500, think:'Joao nao respondeu ontem. Tom mais empatico hoje', metacog:'Confianca 92% — padrao de resposta sugere sobrecarga' },
+      { agent:'akira', tool:'Report.generate', action:'Gerando briefing consolidado para Julio... 6 itens', duration:2000, think:'3 urgentes, 2 informativos, 1 decisao pendente' }
+    ]
+  ];
 
-  var tickerCount=214;
-  function addTickerAction(a){var tk=document.getElementById('tickerList'),now=new Date(),time=now.toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'}),tc={delegate:{bg:'rgba(10,132,255,0.12)',c:'#0A84FF'},respond:{bg:'rgba(48,209,88,0.12)',c:'#30D158'},execute:{bg:'rgba(191,90,242,0.12)',c:'#BF5AF2'},decide:{bg:'rgba(255,159,10,0.12)',c:'#FF9F0A'},escalate:{bg:'rgba(215,0,48,0.12)',c:'#D70030'}},t=tc[a.type]||tc.respond,item=document.createElement('div');item.className='ticker-item';item.innerHTML='<span class="ticker-time">'+time+'</span><span class="ticker-type" style="background:'+t.bg+';color:'+t.c+';">'+a.label+'</span><span>'+cap(a.from)+' \u2192 '+cap(a.to)+': '+a.msg+'</span>';tk.insertBefore(item,tk.firstChild);while(tk.children.length>15)tk.removeChild(tk.lastChild);tickerCount++;var ce=document.getElementById('actionCount');if(ce)ce.textContent=tickerCount;var fe=document.getElementById('flowActionCount');if(fe)fe.textContent=tickerCount+' acoes';}
-  function cap(s){return s.charAt(0).toUpperCase()+s.slice(1);}
-  setInterval(function(){var a=flowActions[Math.floor(Math.random()*flowActions.length)];animateParticle(a.from,a.to,a.color);addTickerAction(a);},3000);
+  var scenario = afScenarios[0];
+  var scenarioIdx = 0;
+  var afContainer = document.getElementById('afCards');
+  var afLog = document.getElementById('afLog');
 
-  // Thoughts
-  var thoughts={julio:[{l:'Pensando',c:'thought-type-thinking',t:'Revisar budget antes de aprovar bypass...'},{l:'Decisao',c:'thought-type-decision',t:'Aprovar bypass Celcoin \u2014 prazo critico.'},{l:'Metacognicao',c:'thought-type-metacog',t:'Confianca 95%. Risco controlado.'}],akira:[{l:'Pensando',c:'thought-type-thinking',t:'Consolidando 3 relatorios para o briefing...'},{l:'Decisao',c:'thought-type-decision',t:'Escalar Celcoin para Julio \u2014 valor > R$5000.'},{l:'Metacognicao',c:'thought-type-metacog',t:'Confianca 91%. Dados validados com Yuki.'}],yuki:[{l:'Pensando',c:'thought-type-thinking',t:'Faltam 3 conciliacoes Bradesco...'},{l:'Decisao',c:'thought-type-decision',t:'DRE entregue 18h. 80% conferido.'},{l:'Metacognicao',c:'thought-type-metacog',t:'Confianca 94%. Margem erro 2%.'}],hana:[{l:'Pensando',c:'thought-type-thinking',t:'Filtrando 47 emails. 6 urgentes...'},{l:'Decisao',c:'thought-type-decision',t:'Reagendar Empresa X \u2014 conflito investidor.'},{l:'Metacognicao',c:'thought-type-metacog',t:'Confianca 96%. Zero conflitos.'}],haruki:[{l:'Pensando',c:'thought-type-thinking',t:'Sprint 80%. 2 bloqueios API externa...'},{l:'Decisao',c:'thought-type-decision',t:'Escalar Celcoin \u2014 24h sem suporte.'},{l:'Metacognicao',c:'thought-type-metacog',t:'Confianca 89%. Bypass resolve.'}],kaito:[{l:'Pensando',c:'thought-type-thinking',t:'Smart Billing 90%. Falta gateway...'},{l:'Decisao',c:'thought-type-decision',t:'Publicar 3 modulos \u2014 todos testados.'},{l:'Metacognicao',c:'thought-type-metacog',t:'Confianca 87%. 1 code review pendente.'}],yumi:[{l:'Pensando',c:'thought-type-thinking',t:'Joao Silva precisa onboarding...'},{l:'Decisao',c:'thought-type-decision',t:'Mentor com perfil complementar.'},{l:'Metacognicao',c:'thought-type-metacog',t:'Confianca 92%. 6 dimensoes matching.'}]};
-  var thoughtTO=null;
-  function showThought(id,el){var th=thoughts[id];if(!th)return;var t=th[Math.floor(Math.random()*th.length)],b=document.getElementById('thoughtBubble'),tp=document.getElementById('thoughtType'),tx=document.getElementById('thoughtText');tp.textContent=t.l;tp.className='thought-type '+t.c;tx.textContent=t.t;var cv=document.getElementById('flowCanvas'),cr=cv.getBoundingClientRect(),nr=el.getBoundingClientRect(),left=nr.left-cr.left+nr.width/2,top=nr.top-cr.top-10;if(left+260>cr.width)left=cr.width-270;if(left<10)left=10;b.style.left=left+'px';b.style.bottom=(cr.height-top)+'px';b.style.top='auto';b.classList.add('visible');if(thoughtTO)clearTimeout(thoughtTO);thoughtTO=setTimeout(function(){b.classList.remove('visible');},5000);}
-  document.getElementById('flowCanvas').addEventListener('click',function(e){if(!e.target.closest('.flow-node')&&!e.target.closest('.thought-bubble'))document.getElementById('thoughtBubble').classList.remove('visible');});
+  function now() { return new Date().toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit',second:'2-digit'}); }
 
-  setInterval(function(){document.getElementById('flowCost').textContent='R$'+(67+Math.random()*0.5).toFixed(0)+' gastos';document.getElementById('flowLatency').textContent=(0.8+Math.random()*1.2).toFixed(1)+'ms latencia';},5000);
+  function createCard(item, isBranch) {
+    var a = afAgents[item.agent];
+    var id = 'afc-' + (++afCardId);
+    var wrapper = document.createElement('div');
+    if (isBranch) wrapper.className = 'af-branch';
 
-  // Ambient particles
-  setInterval(function(){var c=flowConns[Math.floor(Math.random()*flowConns.length)],cols=['rgba(215,0,48,0.4)','rgba(48,209,88,0.4)','rgba(10,132,255,0.4)','rgba(255,159,10,0.4)'],col=cols[Math.floor(Math.random()*cols.length)],f=flowNodes[c[0]],t=flowNodes[c[1]];if(!f||!t)return;var g=document.getElementById('flowParticles'),ci=document.createElementNS('http://www.w3.org/2000/svg','circle');ci.setAttribute('r','2');ci.setAttribute('fill',col);ci.setAttribute('cx',f.cx);ci.setAttribute('cy',f.cy);ci.setAttribute('opacity','0.6');g.appendChild(ci);var dur=2000+Math.random()*1500,st=performance.now();function step(now){var el=now-st,p=Math.min(el/dur,1);ci.setAttribute('cx',f.cx+(t.cx-f.cx)*p);ci.setAttribute('cy',f.cy+(t.cy-f.cy)*p);ci.setAttribute('opacity',0.6*(1-p));if(p<1)requestAnimationFrame(step);else if(ci.parentNode)g.removeChild(ci);}requestAnimationFrame(step);},1200);
+    var card = document.createElement('div');
+    card.className = 'af-card active';
+    card.id = id;
+    card.innerHTML =
+      '<div class="af-card-head">' +
+        '<div class="af-dot af-dot-thinking"></div>' +
+        '<span class="af-agent" style="color:'+a.color+';">'+a.name+' <span style="color:#636366;font-weight:400;">'+a.role+'</span></span>' +
+        '<span class="af-tool">'+item.tool+'</span>' +
+      '</div>' +
+      '<div class="af-action typing" id="'+id+'-text"></div>' +
+      (item.think ? '<div class="af-thought" style="display:none;" id="'+id+'-think"><div class="af-thought-label">Pensando</div><div class="af-thought-text" id="'+id+'-think-text"></div></div>' : '') +
+      (item.metacog ? '<div class="af-thought" style="display:none;border-color:rgba(191,90,242,0.1);background:rgba(191,90,242,0.04);" id="'+id+'-meta"><div class="af-thought-label" style="color:#BF5AF2;">Metacognicao</div><div class="af-thought-text" id="'+id+'-meta-text"></div></div>' : '') +
+      '<div class="af-progress"><div class="af-progress-bar" id="'+id+'-bar" style="width:0%;background:'+a.color+';"></div></div>' +
+      '<div class="af-meta"><span>'+now()+'</span><span>'+Math.floor(100+Math.random()*900)+' tokens</span><span>~R$'+(Math.random()*0.5).toFixed(2)+'</span></div>';
 
-  // Fabrica: Pipeline e conversacional via chat, sem funcao goToPipeStep
+    wrapper.appendChild(card);
+    afContainer.appendChild(wrapper);
+    afContainer.scrollTop = afContainer.scrollHeight;
+
+    // Type out action text
+    typeText(id+'-text', item.action, 30, function() {
+      var el = document.getElementById(id+'-text');
+      if(el) el.classList.remove('typing');
+    });
+
+    // Show progress bar
+    requestAnimationFrame(function() {
+      var bar = document.getElementById(id+'-bar');
+      if(bar) bar.style.width = '100%';
+    });
+
+    // Show thought after action starts typing
+    if (item.think) {
+      setTimeout(function() {
+        var thEl = document.getElementById(id+'-think');
+        if(thEl) { thEl.style.display = ''; typeText(id+'-think-text', item.think, 25); }
+      }, item.action.length * 20);
+    }
+
+    // Show metacognition after thought
+    if (item.metacog) {
+      setTimeout(function() {
+        var mEl = document.getElementById(id+'-meta');
+        if(mEl) { mEl.style.display = ''; typeText(id+'-meta-text', item.metacog, 25); }
+      }, item.action.length * 20 + (item.think ? item.think.length * 20 : 0) + 500);
+    }
+
+    // Log to transcript
+    addLog(a.name, a.color, item.tool, item.action.substring(0, 60));
+
+    // Process branches
+    if (item.branch) {
+      item.branch.forEach(function(sub, idx) {
+        setTimeout(function() { createCard(sub, true); }, (idx + 1) * 1200);
+      });
+    }
+
+    // Complete card after duration
+    setTimeout(function() {
+      var dot = card.querySelector('.af-dot');
+      if(dot) { dot.className = 'af-dot af-dot-active'; }
+      card.classList.remove('active');
+      afCount++;
+      var ac = document.getElementById('afActionCount');
+      if(ac) ac.textContent = afCount + ' acoes';
+      var ac2 = document.getElementById('actionCount');
+      if(ac2) ac2.textContent = afCount;
+    }, item.duration + 500);
+
+    return id;
+  }
+
+  function typeText(elId, text, speed, cb) {
+    var el = document.getElementById(elId);
+    if (!el) return;
+    var i = 0;
+    el.textContent = '';
+    var iv = setInterval(function() {
+      if (i < text.length) {
+        el.textContent += text[i];
+        i++;
+      } else {
+        clearInterval(iv);
+        if (cb) cb();
+      }
+    }, speed);
+  }
+
+  function addLog(name, color, tool, text) {
+    var item = document.createElement('div');
+    item.className = 'af-log-item';
+    item.innerHTML = '<span class="time">'+now()+'</span><span class="agent" style="color:'+color+';">'+name+'</span><span style="color:#48484A;">'+tool+'</span> <span class="act">'+text+'</span>';
+    afLog.insertBefore(item, afLog.firstChild);
+    while(afLog.children.length > 30) afLog.removeChild(afLog.lastChild);
+  }
+
+  // Run scenario continuously
+  function runNextAction() {
+    if (scenarioIdx >= scenario.length) {
+      // Cycle: clear old cards, restart
+      setTimeout(function() {
+        afContainer.innerHTML = '';
+        scenarioIdx = 0;
+        addLog('SISTEMA', '#D70030', 'cycle', 'Novo ciclo de execucao iniciado');
+        runNextAction();
+      }, 3000);
+      return;
+    }
+    var item = scenario[scenarioIdx];
+    createCard(item, false);
+    scenarioIdx++;
+    var totalDuration = item.duration + (item.branch ? item.branch.length * 1500 : 0) + 800;
+    setTimeout(runNextAction, totalDuration);
+  }
+
+  // Start on load
+  runNextAction();
+
+  // Update live counters
+  setInterval(function() {
+    var c = document.getElementById('afCost');
+    if(c) c.textContent = 'R$'+(67+Math.random()*2).toFixed(0)+' hoje';
+    var l = document.getElementById('afLatency');
+    if(l) l.textContent = (0.8+Math.random()*1.2).toFixed(1)+'ms';
+    var t = document.getElementById('afTokens');
+    if(t) t.textContent = (11.4+afCount*0.01).toFixed(1)+'k tokens ~R$'+(0.47+afCount*0.002).toFixed(2);
+  }, 4000);
 
   // Metrics bars
   function animateMetricBars(){document.querySelectorAll('.token-bar-fill,.model-bar-fill').forEach(function(b){var t=b.getAttribute('data-target');if(t){b.style.width='0%';requestAnimationFrame(function(){b.style.width=t+'%';});}});}
