@@ -3,331 +3,404 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Aprovacoes Resolvidas — KTANA</title>
+  <title>Historico de Decisoes — KTANA</title>
   <link rel="stylesheet" href="../../shared.css">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Zen+Dots&display=swap" rel="stylesheet">
   <style>
-    body { min-height: 100vh; background: #F5F5F7; }
+    body { min-height: 100vh; background: #F5F5F7; display: flex; flex-direction: column; }
 
+    /* Header */
+    .header { position: sticky; top: 0; z-index: 50; background: rgba(245,245,247,0.72); backdrop-filter: saturate(180%) blur(20px); -webkit-backdrop-filter: saturate(180%) blur(20px); border-bottom: 0.5px solid rgba(0,0,0,0.06); padding: 10px 20px; display: flex; align-items: center; gap: 12px; }
+    .header-back { color: #86868B; padding: 8px; cursor: pointer; display: flex; align-items: center; }
+    .header-avatar { width: 36px; height: 36px; border-radius: 50%; border: 1.5px solid rgba(215,0,48,0.15); display: flex; align-items: center; justify-content: center; flex-shrink: 0; background: #FFF; }
+    .header-avatar span { font-family: 'Zen Dots', cursive; font-size: 9px; color: #D70030; }
+    .header-info { flex: 1; }
+    .header-info h2 { font-family: 'Satoshi', sans-serif; font-size: 15px; font-weight: 600; color: #1D1D1F; }
+    .header-info p { font-family: 'Inter', sans-serif; font-size: 11px; color: #86868B; display: flex; align-items: center; gap: 5px; }
+    .header-info p::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: #30D158; }
 
-    .main { max-width: 720px; margin: 0 auto; padding: 40px 24px 80px; }
+    /* Chat */
+    .chat { flex: 1; max-width: 720px; width: 100%; margin: 0 auto; padding: 20px 20px 16px; overflow-y: auto; display: flex; flex-direction: column; gap: 16px; }
 
-    h1 { font-family: 'Satoshi', sans-serif; font-size: 22px; font-weight: 700; color: #1D1D1F; margin-bottom: 4px; letter-spacing: -0.01em; }
-    .sub { font-family: 'Satoshi', sans-serif; font-size: 13px; color: #86868B; margin-bottom: 24px; }
+    /* Messages */
+    .msg { display: flex; gap: 10px; max-width: 88%; }
+    .msg-user { align-self: flex-end; flex-direction: row-reverse; gap: 0; }
+    .msg-avatar { width: 30px; height: 30px; border-radius: 50%; border: 1px solid rgba(215,0,48,0.15); display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 2px; background: #FFF; }
+    .msg-avatar span { font-family: 'Zen Dots', cursive; font-size: 7px; color: #D70030; }
 
-    /* Summary stats */
-    .stats-row { display: flex; gap: 10px; margin-bottom: 24px; }
-    .stat-card { flex: 1; background: #FFF; border-radius: 16px; border: 1px solid rgba(0,0,0,0.04); padding: 16px 18px; }
-    .stat-value { font-family: 'Satoshi', sans-serif; font-size: 20px; font-weight: 700; color: #1D1D1F; }
-    .stat-label { font-family: 'Inter', sans-serif; font-size: 11px; color: #AEAEB2; margin-top: 2px; }
-    .stat-value.green { color: #248A3D; }
-    .stat-value.red { color: #D70030; }
-    .stat-value.yellow { color: #C77600; }
+    .bubble { border-radius: 20px; padding: 14px 18px; position: relative; }
+    .bubble-agent { background: #FFF; border: 0.5px solid rgba(0,0,0,0.04); border-top-left-radius: 6px; box-shadow: 0 1px 3px rgba(0,0,0,0.03); }
+    .bubble-user { background: #1D1D1F; color: #F5F5F7; border-bottom-right-radius: 6px; }
+    .bubble p { font-family: 'Satoshi', sans-serif; font-size: 15px; line-height: 1.55; }
+    .bubble p + p { margin-top: 8px; }
+    .bubble strong { font-weight: 600; }
+    .bubble-meta { font-family: 'Inter', sans-serif; font-size: 11px; color: #AEAEB2; margin-top: 6px; }
+    .bubble-user .bubble-meta { color: rgba(255,255,255,0.35); }
 
-    /* Filter tabs */
-    .tabs { display: flex; gap: 2px; background: rgba(0,0,0,0.03); border-radius: 11px; padding: 2px; margin-bottom: 24px; width: fit-content; overflow-x: auto; }
-    .tab { font-family: 'Inter', sans-serif; padding: 7px 18px; border-radius: 9px; font-size: 12px; color: #86868B; cursor: pointer; border: none; background: none; transition: all 0.15s; white-space: nowrap; min-height: 44px; display: flex; align-items: center; }
-    .tab.active { background: #FFF; color: #1D1D1F; box-shadow: 0 1px 3px rgba(0,0,0,0.06); font-weight: 500; }
-    .tab:hover:not(.active) { color: #1D1D1F; }
-    .tab-count { font-family: 'Inter', sans-serif; font-size: 10px; font-weight: 600; margin-left: 6px; padding: 1px 6px; border-radius: 4px; background: rgba(0,0,0,0.04); }
+    /* Summary card inside chat */
+    .summary-card {
+      background: #FAFAFA;
+      border: 1px solid rgba(0,0,0,0.06);
+      border-radius: 16px;
+      padding: 18px;
+      margin-top: 12px;
+    }
+    .summary-title { font-family: 'Satoshi', sans-serif; font-size: 13px; font-weight: 600; color: #1D1D1F; margin-bottom: 12px; letter-spacing: -0.01em; }
 
-    /* Items */
-    .item { background: #FFF; border-radius: 18px; border: 1px solid rgba(0,0,0,0.04); padding: 18px 22px; margin-bottom: 8px; display: flex; align-items: center; gap: 14px; transition: box-shadow 0.2s; cursor: pointer; }
-    .item:hover { box-shadow: 0 2px 12px rgba(0,0,0,0.04); }
+    /* Mini stats row */
+    .mini-stats { display: flex; gap: 8px; margin-bottom: 14px; }
+    .mini-stat { flex: 1; text-align: center; padding: 10px 8px; background: #FFF; border-radius: 12px; border: 1px solid rgba(0,0,0,0.04); }
+    .mini-stat-num { font-family: 'Zen Dots', cursive; font-size: 18px; color: #1D1D1F; }
+    .mini-stat-num.green { color: #248A3D; }
+    .mini-stat-num.red { color: #D70030; }
+    .mini-stat-num.yellow { color: #C77600; }
+    .mini-stat-label { font-family: 'Inter', sans-serif; font-size: 10px; color: #AEAEB2; margin-top: 2px; }
 
-    .item-avatar { width: 36px; height: 36px; border-radius: 50%; border: 1.5px solid #D2D2D7; display: flex; align-items: center; justify-content: center; flex-shrink: 0; background: #F5F5F7; }
-    .item-avatar span { font-family: 'Inter', sans-serif; font-size: 12px; font-weight: 600; color: #86868B; }
+    /* Timeline inside chat */
+    .timeline { margin-top: 6px; }
+    .timeline-day { font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 500; color: #AEAEB2; margin-top: 14px; margin-bottom: 8px; }
+    .timeline-day:first-child { margin-top: 0; }
+    .timeline-item { display: flex; align-items: center; gap: 10px; padding: 8px 0; border-bottom: 1px solid rgba(0,0,0,0.03); }
+    .timeline-item:last-child { border-bottom: none; }
+    .timeline-dot { width: 22px; height: 22px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .timeline-dot.approved { background: rgba(48,209,88,0.08); }
+    .timeline-dot.approved svg { color: #248A3D; }
+    .timeline-dot.rejected { background: rgba(215,0,48,0.06); }
+    .timeline-dot.rejected svg { color: #D70030; }
+    .timeline-dot.edited { background: rgba(255,159,10,0.06); }
+    .timeline-dot.edited svg { color: #C77600; }
+    .timeline-text { flex: 1; font-family: 'Satoshi', sans-serif; font-size: 13px; color: #1D1D1F; line-height: 1.4; }
+    .timeline-text .agent { font-weight: 500; }
+    .timeline-time { font-family: 'Inter', sans-serif; font-size: 11px; color: #D2D2D7; flex-shrink: 0; }
 
-    .item-info { flex: 1; min-width: 0; }
-    .item-title { font-family: 'Satoshi', sans-serif; font-size: 14px; font-weight: 500; color: #1D1D1F; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-    .item-meta { font-family: 'Inter', sans-serif; font-size: 11px; color: #AEAEB2; margin-top: 3px; display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
-    .item-meta .dot { width: 3px; height: 3px; border-radius: 50%; background: #D2D2D7; flex-shrink: 0; }
+    /* Insight card */
+    .insight-card {
+      background: linear-gradient(135deg, rgba(215,0,48,0.03) 0%, rgba(215,0,48,0.01) 100%);
+      border: 1px solid rgba(215,0,48,0.08);
+      border-radius: 14px;
+      padding: 14px 16px;
+      margin-top: 12px;
+    }
+    .insight-label { font-family: 'Inter', sans-serif; font-size: 10px; font-weight: 600; color: #D70030; letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 6px; }
+    .insight-text { font-family: 'Satoshi', sans-serif; font-size: 13px; color: #1D1D1F; line-height: 1.5; }
 
-    .item-right { display: flex; flex-direction: column; align-items: flex-end; gap: 4px; flex-shrink: 0; }
+    /* Quick actions */
+    .quick-actions { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 12px; }
+    .quick-btn { font-family: 'Inter', sans-serif; padding: 8px 16px; border-radius: 12px; background: rgba(0,0,0,0.02); border: 0.5px solid rgba(0,0,0,0.08); font-size: 13px; color: #1D1D1F; cursor: pointer; transition: all 0.15s; }
+    .quick-btn:hover { background: #1D1D1F; color: #F5F5F7; border-color: #1D1D1F; }
+    .quick-btn:active { transform: scale(0.97); }
 
-    .item-status { font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 500; padding: 3px 10px; border-radius: 6px; white-space: nowrap; }
-    .status-approved { background: rgba(48,209,88,0.06); color: #248A3D; }
-    .status-rejected { background: rgba(215,0,48,0.06); color: #D70030; }
-    .status-edited { background: rgba(255,159,10,0.06); color: #C77600; }
+    /* Typing */
+    .typing { display: flex; align-items: center; gap: 10px; padding: 8px 0; }
+    .typing-dots { display: flex; gap: 4px; }
+    .typing-dot { width: 6px; height: 6px; border-radius: 50%; background: #D2D2D7; animation: typingBounce 1.4s ease infinite; }
+    .typing-dot:nth-child(2) { animation-delay: 0.2s; }
+    .typing-dot:nth-child(3) { animation-delay: 0.4s; }
+    @keyframes typingBounce { 0%,60%,100% { transform: translateY(0); } 30% { transform: translateY(-4px); } }
+    .typing-text { font-family: 'Inter', sans-serif; font-size: 11px; color: #AEAEB2; }
 
-    .item-timestamp { font-family: 'Inter', sans-serif; font-size: 11px; color: #D2D2D7; }
+    /* Input */
+    .input-area { padding: 12px 20px 28px; border-top: 0.5px solid rgba(0,0,0,0.06); background: rgba(245,245,247,0.9); backdrop-filter: blur(20px); }
+    .input-row { display: flex; gap: 8px; max-width: 720px; margin: 0 auto; align-items: flex-end; }
+    .chat-input {
+      font-family: 'Satoshi', sans-serif; flex: 1;
+      padding: 14px 20px; border-radius: 24px;
+      border: 0.5px solid rgba(0,0,0,0.08); background: #FFF;
+      font-size: 15px; color: #1D1D1F; outline: none;
+      min-height: 48px; max-height: 120px; resize: none;
+      transition: border-color 0.15s, box-shadow 0.15s;
+    }
+    .chat-input:focus { border-color: rgba(215,0,48,0.2); box-shadow: 0 0 0 3px rgba(215,0,48,0.04); }
+    .chat-input::placeholder { color: #AEAEB2; }
+    .send-btn {
+      width: 48px; height: 48px; border-radius: 50%;
+      background: #1D1D1F; color: #F5F5F7;
+      border: none; cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      transition: background 0.15s, transform 0.1s;
+      flex-shrink: 0;
+    }
+    .send-btn:hover { background: #000; }
+    .send-btn:active { transform: scale(0.93); }
+    .send-btn svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
 
-    /* Load more */
-    .load-more { display: flex; justify-content: center; margin-top: 24px; }
-    .btn-load { font-family: 'Inter', sans-serif; padding: 12px 32px; border-radius: 14px; background: #FFF; color: #1D1D1F; font-size: 13px; font-weight: 500; border: 1px solid rgba(0,0,0,0.06); cursor: pointer; min-height: 48px; transition: all 0.15s; }
-    .btn-load:hover { border-color: rgba(0,0,0,0.12); box-shadow: 0 2px 10px rgba(0,0,0,0.04); }
-    .btn-load:active { transform: scale(0.98); }
+    .suggestions { display: flex; gap: 6px; overflow-x: auto; padding: 8px 0 4px; -webkit-overflow-scrolling: touch; }
+    .suggestion { font-family: 'Inter', sans-serif; white-space: nowrap; padding: 8px 16px; border-radius: 20px; border: 0.5px solid rgba(0,0,0,0.08); font-size: 12px; color: #86868B; cursor: pointer; transition: all 0.15s; flex-shrink: 0; background: #FFF; }
+    .suggestion:hover { background: #1D1D1F; color: #F5F5F7; border-color: #1D1D1F; }
 
-    .results-info { font-family: 'Inter', sans-serif; font-size: 11px; color: #AEAEB2; text-align: center; margin-top: 12px; }
+    /* Animations */
+    .msg { opacity: 0; animation: msgSlide 0.4s cubic-bezier(0.25,0.1,0.25,1) forwards; }
+    @keyframes msgSlide { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+    .msg:nth-child(1) { animation-delay: 0.1s; }
+    .msg:nth-child(2) { animation-delay: 0.4s; }
+    .msg:nth-child(3) { animation-delay: 0.8s; }
+    .msg:nth-child(4) { animation-delay: 1.2s; }
+    .msg:nth-child(5) { animation-delay: 1.6s; }
+    .msg:nth-child(6) { animation-delay: 2.0s; }
 
-    /* Date separator */
-    .date-sep { font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 500; color: #AEAEB2; letter-spacing: 0.04em; padding: 16px 0 8px; }
-
-    @media (max-width: 480px) {
-      .stats-row { flex-wrap: wrap; }
-      .stat-card { flex: 1 1 45%; }
-      .tabs { width: 100%; }
-      .item { flex-wrap: wrap; gap: 10px; }
-      .item-right { flex-direction: row; align-items: center; gap: 10px; width: 100%; justify-content: flex-start; padding-left: 50px; }
+    @media (max-width: 640px) {
+      .msg { max-width: 95%; }
+      .mini-stats { flex-wrap: wrap; }
+      .mini-stat { flex: 1 1 45%; }
     }
   </style>
 </head>
 <body>
 
-  <main class="main"><div class="gradient-header">
-    <h1 class="fade-in">Aprovacoes resolvidas</h1>
-    <p class="sub fade-in">Historico completo de decisoes tomadas pela sua equipe.</p>
+  <!-- Header -->
+  <div class="header">
+    <a href="list.html" class="header-back"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg></a>
+    <div class="header-avatar"><span>A</span></div>
+    <div class="header-info">
+      <h2>Akira</h2>
+      <p>Historico de decisoes</p>
+    </div>
+  </div>
 
-    <!-- Summary stats -->
-    <div class="stats-row fade-in">
-      <div class="stat-card">
-        <p class="stat-value">23</p>
-        <p class="stat-label">Total este mes</p>
-      </div>
-      <div class="stat-card">
-        <p class="stat-value green">18</p>
-        <p class="stat-label">Aprovadas</p>
-      </div>
-      <div class="stat-card">
-        <p class="stat-value red">3</p>
-        <p class="stat-label">Rejeitadas</p>
-      </div>
-      <div class="stat-card">
-        <p class="stat-value yellow">2</p>
-        <p class="stat-label">Editadas</p>
+  <!-- Chat -->
+  <div class="chat" id="chat">
+
+    <!-- User asks -->
+    <div class="msg msg-user">
+      <div>
+        <div class="bubble bubble-user">
+          <p>O que eu aprovei essa semana?</p>
+        </div>
+        <p class="bubble-meta" style="text-align:right;">08:20</p>
       </div>
     </div>
 
-    <!-- Filter tabs -->
-    <div class="tabs fade-in">
-      <button class="tab active" onclick="filterItems('all', this)">Todas <span class="tab-count">23</span></button>
-      <button class="tab" onclick="filterItems('approved', this)">Aprovadas <span class="tab-count">18</span></button>
-      <button class="tab" onclick="filterItems('rejected', this)">Rejeitadas <span class="tab-count">3</span></button>
-      <button class="tab" onclick="filterItems('edited', this)">Editadas <span class="tab-count">2</span></button>
-    </div>
+    <!-- Akira summary -->
+    <div class="msg">
+      <div class="msg-avatar"><span>A</span></div>
+      <div>
+        <div class="bubble bubble-agent">
+          <p>Aqui esta o resumo da sua semana de decisoes:</p>
 
-    <!-- Items list -->
-    <div id="items-container">
-      <!-- Hoje -->
-      <p class="date-sep fade-in">Hoje, 29 de marco</p>
+          <div class="summary-card">
+            <p class="summary-title">Semana 25-29 marco</p>
+            <div class="mini-stats">
+              <div class="mini-stat">
+                <p class="mini-stat-num">23</p>
+                <p class="mini-stat-label">Total</p>
+              </div>
+              <div class="mini-stat">
+                <p class="mini-stat-num green">18</p>
+                <p class="mini-stat-label">Aprovadas</p>
+              </div>
+              <div class="mini-stat">
+                <p class="mini-stat-num red">3</p>
+                <p class="mini-stat-label">Rejeitadas</p>
+              </div>
+              <div class="mini-stat">
+                <p class="mini-stat-num yellow">2</p>
+                <p class="mini-stat-label">Editadas</p>
+              </div>
+            </div>
 
-      <div class="item fade-in" data-type="approved" style="animation-delay:0.05s">
-        <div class="item-avatar"><span>Y</span></div>
-        <div class="item-info">
-          <p class="item-title">Cobrar Cliente Y — R$12.000</p>
-          <div class="item-meta">
-            <span>Yuki</span> <span class="dot"></span> <span>Controller</span> <span class="dot"></span> <span>Aprovado por Julio</span>
+            <div class="timeline">
+              <p class="timeline-day">Hoje</p>
+
+              <div class="timeline-item">
+                <div class="timeline-dot approved"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></div>
+                <p class="timeline-text"><span class="agent">Yuki</span> — Cobrar Cliente Y R$12.000</p>
+                <span class="timeline-time">14:33</span>
+              </div>
+              <div class="timeline-item">
+                <div class="timeline-dot edited"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></div>
+                <p class="timeline-text"><span class="agent">Hana</span> — Email investidor (editado)</p>
+                <span class="timeline-time">15:10</span>
+              </div>
+              <div class="timeline-item">
+                <div class="timeline-dot approved"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></div>
+                <p class="timeline-text"><span class="agent">Haruki</span> — Remarcar daily</p>
+                <span class="timeline-time">16:00</span>
+              </div>
+
+              <p class="timeline-day">Ontem</p>
+
+              <div class="timeline-item">
+                <div class="timeline-dot rejected"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6L6 18M6 6l12 12"/></svg></div>
+                <p class="timeline-text"><span class="agent">Yuki</span> — Desconto 15% Cliente W</p>
+                <span class="timeline-time">10:20</span>
+              </div>
+              <div class="timeline-item">
+                <div class="timeline-dot approved"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></div>
+                <p class="timeline-text"><span class="agent">Kaito</span> — Proposta R$28k Cliente Z</p>
+                <span class="timeline-time">11:45</span>
+              </div>
+              <div class="timeline-item">
+                <div class="timeline-dot approved"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></div>
+                <p class="timeline-text"><span class="agent">Hana</span> — Call fornecedor infra</p>
+                <span class="timeline-time">14:30</span>
+              </div>
+
+              <p class="timeline-day">27 mar</p>
+
+              <div class="timeline-item">
+                <div class="timeline-dot approved"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></div>
+                <p class="timeline-text"><span class="agent">Yuki</span> — Cobrar Cliente X R$3.500</p>
+                <span class="timeline-time">09:15</span>
+              </div>
+              <div class="timeline-item">
+                <div class="timeline-dot edited"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></div>
+                <p class="timeline-text"><span class="agent">Kaito</span> — Follow-up Cliente V (editado)</p>
+                <span class="timeline-time">13:20</span>
+              </div>
+              <div class="timeline-item">
+                <div class="timeline-dot rejected"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6L6 18M6 6l12 12"/></svg></div>
+                <p class="timeline-text"><span class="agent">Haruki</span> — Cancelar reuniao investidor anjo</p>
+                <span class="timeline-time">16:40</span>
+              </div>
+            </div>
           </div>
         </div>
-        <div class="item-right">
-          <span class="item-status status-approved">Aprovada</span>
-          <span class="item-timestamp">14:33</span>
-        </div>
-      </div>
-
-      <div class="item fade-in" data-type="edited" style="animation-delay:0.1s">
-        <div class="item-avatar"><span>H</span></div>
-        <div class="item-info">
-          <p class="item-title">Responder email do investidor</p>
-          <div class="item-meta">
-            <span>Hana</span> <span class="dot"></span> <span>Secretaria</span> <span class="dot"></span> <span>Editado por Julio</span>
-          </div>
-        </div>
-        <div class="item-right">
-          <span class="item-status status-edited">Editada</span>
-          <span class="item-timestamp">15:10</span>
-        </div>
-      </div>
-
-      <div class="item fade-in" data-type="approved" style="animation-delay:0.15s">
-        <div class="item-avatar"><span>H</span></div>
-        <div class="item-info">
-          <p class="item-title">Remarcar daily de terca para quarta</p>
-          <div class="item-meta">
-            <span>Haruki</span> <span class="dot"></span> <span>PM</span> <span class="dot"></span> <span>Aprovado por Julio</span>
-          </div>
-        </div>
-        <div class="item-right">
-          <span class="item-status status-approved">Aprovada</span>
-          <span class="item-timestamp">16:00</span>
-        </div>
-      </div>
-
-      <!-- Ontem -->
-      <p class="date-sep fade-in" style="animation-delay:0.18s">Ontem, 28 de marco</p>
-
-      <div class="item fade-in" data-type="rejected" style="animation-delay:0.2s">
-        <div class="item-avatar"><span>Y</span></div>
-        <div class="item-info">
-          <p class="item-title">Dar desconto 15% para Cliente W</p>
-          <div class="item-meta">
-            <span>Yuki</span> <span class="dot"></span> <span>Controller</span> <span class="dot"></span> <span>Rejeitado por Julio</span>
-          </div>
-        </div>
-        <div class="item-right">
-          <span class="item-status status-rejected">Rejeitada</span>
-          <span class="item-timestamp">10:20</span>
-        </div>
-      </div>
-
-      <div class="item fade-in" data-type="approved" style="animation-delay:0.22s">
-        <div class="item-avatar"><span>K</span></div>
-        <div class="item-info">
-          <p class="item-title">Enviar proposta R$28.000 — Cliente Z</p>
-          <div class="item-meta">
-            <span>Kaito</span> <span class="dot"></span> <span>Comercial</span> <span class="dot"></span> <span>Aprovado por Julio</span>
-          </div>
-        </div>
-        <div class="item-right">
-          <span class="item-status status-approved">Aprovada</span>
-          <span class="item-timestamp">11:45</span>
-        </div>
-      </div>
-
-      <div class="item fade-in" data-type="approved" style="animation-delay:0.24s">
-        <div class="item-avatar"><span>H</span></div>
-        <div class="item-info">
-          <p class="item-title">Agendar call com fornecedor de infra</p>
-          <div class="item-meta">
-            <span>Hana</span> <span class="dot"></span> <span>Secretaria</span> <span class="dot"></span> <span>Aprovado por Julio</span>
-          </div>
-        </div>
-        <div class="item-right">
-          <span class="item-status status-approved">Aprovada</span>
-          <span class="item-timestamp">14:30</span>
-        </div>
-      </div>
-
-      <!-- 27 de marco -->
-      <p class="date-sep fade-in" style="animation-delay:0.26s">27 de marco</p>
-
-      <div class="item fade-in" data-type="approved" style="animation-delay:0.28s">
-        <div class="item-avatar"><span>Y</span></div>
-        <div class="item-info">
-          <p class="item-title">Cobrar Cliente X — R$3.500</p>
-          <div class="item-meta">
-            <span>Yuki</span> <span class="dot"></span> <span>Controller</span> <span class="dot"></span> <span>Aprovado por Julio</span>
-          </div>
-        </div>
-        <div class="item-right">
-          <span class="item-status status-approved">Aprovada</span>
-          <span class="item-timestamp">09:15</span>
-        </div>
-      </div>
-
-      <div class="item fade-in" data-type="edited" style="animation-delay:0.3s">
-        <div class="item-avatar"><span>K</span></div>
-        <div class="item-info">
-          <p class="item-title">Follow-up proposta Cliente V</p>
-          <div class="item-meta">
-            <span>Kaito</span> <span class="dot"></span> <span>Comercial</span> <span class="dot"></span> <span>Editado por Julio</span>
-          </div>
-        </div>
-        <div class="item-right">
-          <span class="item-status status-edited">Editada</span>
-          <span class="item-timestamp">13:20</span>
-        </div>
-      </div>
-
-      <div class="item fade-in" data-type="rejected" style="animation-delay:0.32s">
-        <div class="item-avatar"><span>H</span></div>
-        <div class="item-info">
-          <p class="item-title">Cancelar reuniao com investidor anjo</p>
-          <div class="item-meta">
-            <span>Haruki</span> <span class="dot"></span> <span>PM</span> <span class="dot"></span> <span>Rejeitado por Julio</span>
-          </div>
-        </div>
-        <div class="item-right">
-          <span class="item-status status-rejected">Rejeitada</span>
-          <span class="item-timestamp">16:40</span>
-        </div>
-      </div>
-
-      <!-- 26 de marco -->
-      <p class="date-sep fade-in" style="animation-delay:0.34s">26 de marco</p>
-
-      <div class="item fade-in" data-type="approved" style="animation-delay:0.36s">
-        <div class="item-avatar"><span>H</span></div>
-        <div class="item-info">
-          <p class="item-title">Cancelar reuniao com Fornecedor Z</p>
-          <div class="item-meta">
-            <span>Hana</span> <span class="dot"></span> <span>Secretaria</span> <span class="dot"></span> <span>Aprovado por Julio</span>
-          </div>
-        </div>
-        <div class="item-right">
-          <span class="item-status status-approved">Aprovada</span>
-          <span class="item-timestamp">14:45</span>
-        </div>
-      </div>
-
-      <div class="item fade-in" data-type="rejected" style="animation-delay:0.38s">
-        <div class="item-avatar"><span>Y</span></div>
-        <div class="item-info">
-          <p class="item-title">Parcelar divida de Fornecedor A</p>
-          <div class="item-meta">
-            <span>Yuki</span> <span class="dot"></span> <span>Controller</span> <span class="dot"></span> <span>Rejeitado por Julio</span>
-          </div>
-        </div>
-        <div class="item-right">
-          <span class="item-status status-rejected">Rejeitada</span>
-          <span class="item-timestamp">09:00</span>
-        </div>
-      </div>
-
-      <div class="item fade-in" data-type="approved" style="animation-delay:0.4s">
-        <div class="item-avatar"><span>K</span></div>
-        <div class="item-info">
-          <p class="item-title">Enviar case de sucesso para lead quente</p>
-          <div class="item-meta">
-            <span>Kaito</span> <span class="dot"></span> <span>Comercial</span> <span class="dot"></span> <span>Aprovado por Julio</span>
-          </div>
-        </div>
-        <div class="item-right">
-          <span class="item-status status-approved">Aprovada</span>
-          <span class="item-timestamp">11:15</span>
-        </div>
+        <p class="bubble-meta">Akira · 08:20</p>
       </div>
     </div>
 
-    <!-- Load more -->
-    <div class="load-more">
-      <button class="btn-load" onclick="this.textContent='Carregando...'; setTimeout(()=>{this.textContent='Nenhum item anterior'; this.style.opacity='0.5'; this.style.pointerEvents='none'}, 1200)">Carregar mais</button>
+    <!-- Akira insight -->
+    <div class="msg">
+      <div class="msg-avatar"><span>A</span></div>
+      <div>
+        <div class="bubble bubble-agent">
+          <div class="insight-card">
+            <p class="insight-label">Insight da semana</p>
+            <p class="insight-text">Voce aprovou 78% das acoes sem editar — sinal de que seus samurais estao bem calibrados. As 3 rejeicoes foram todas financeiras (descontos e parcelamentos). Pode ser hora de ajustar a alcada da Yuki para que ela filtre melhor antes de pedir aprovacao.</p>
+          </div>
+
+          <div class="quick-actions">
+            <button class="quick-btn" onclick="sendSuggestion(this)">Ajustar alcada da Yuki</button>
+            <button class="quick-btn" onclick="sendSuggestion(this)">Detalhar rejeicoes</button>
+            <button class="quick-btn" onclick="sendSuggestion(this)">Comparar com semana passada</button>
+          </div>
+        </div>
+        <p class="bubble-meta">Akira · 08:20</p>
+      </div>
     </div>
-    <p class="results-info">Mostrando 12 de 23 aprovacoes resolvidas</p>
-  </main>
+
+    <!-- User follows up -->
+    <div class="msg msg-user">
+      <div>
+        <div class="bubble bubble-user">
+          <p>Me conta mais sobre as rejeicoes</p>
+        </div>
+        <p class="bubble-meta" style="text-align:right;">08:21</p>
+      </div>
+    </div>
+
+    <!-- Akira details rejections -->
+    <div class="msg">
+      <div class="msg-avatar"><span>A</span></div>
+      <div>
+        <div class="bubble bubble-agent">
+          <p>As 3 rejeicoes desta semana:</p>
+          <p><strong>1. Desconto 15% Cliente W</strong> (Yuki, ontem 10:20)<br>Yuki sugeriu desconto pra fechar rapido. Voce rejeitou — margem ja estava apertada.</p>
+          <p><strong>2. Cancelar reuniao investidor anjo</strong> (Haruki, 27/03 16:40)<br>Haruki queria cancelar por conflito de agenda. Voce manteve — investidor era prioridade.</p>
+          <p><strong>3. Parcelar divida Fornecedor A</strong> (Yuki, 26/03 09:00)<br>Yuki sugeriu parcelar em 6x. Voce rejeitou — preferiu renegociar direto.</p>
+
+          <div class="insight-card">
+            <p class="insight-label">Padrao detectado</p>
+            <p class="insight-text">Voce tende a rejeitar quando envolve concessao financeira sem contrapartida. Posso configurar a Yuki pra so trazer essas sugestoes quando houver beneficio mensuravel em troca?</p>
+          </div>
+
+          <div class="quick-actions">
+            <button class="quick-btn" onclick="sendSuggestion(this)">Sim, configura</button>
+            <button class="quick-btn" onclick="sendSuggestion(this)">Nao, deixa como esta</button>
+            <button class="quick-btn" onclick="sendSuggestion(this)">Quero ver mais contexto</button>
+          </div>
+        </div>
+        <p class="bubble-meta">Akira · 08:21</p>
+      </div>
+    </div>
+
+    <!-- Typing -->
+    <div class="typing" id="typing" style="display: none;">
+      <div class="msg-avatar"><span>A</span></div>
+      <div class="typing-dots">
+        <div class="typing-dot"></div>
+        <div class="typing-dot"></div>
+        <div class="typing-dot"></div>
+      </div>
+      <span class="typing-text">Akira esta analisando...</span>
+    </div>
+  </div>
+
+  <!-- Input -->
+  <div class="input-area">
+    <div style="max-width: 720px; margin: 0 auto;">
+      <div class="suggestions" id="suggestions">
+        <button class="suggestion" onclick="sendSuggestion(this)">Resumo do mes completo</button>
+        <button class="suggestion" onclick="sendSuggestion(this)">Quais agentes mais pediram aprovacao?</button>
+        <button class="suggestion" onclick="sendSuggestion(this)">Tempo medio de decisao</button>
+        <button class="suggestion" onclick="sendSuggestion(this)">Exportar relatorio</button>
+        <button class="suggestion" onclick="sendSuggestion(this)">Voltar para pendentes</button>
+      </div>
+
+      <div class="input-row">
+        <textarea class="chat-input" id="chatInput" placeholder="Pergunte sobre suas decisoes..." rows="1" onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();sendMessage()}" oninput="autoResize(this)"></textarea>
+        <button class="send-btn" onclick="sendMessage()">
+          <svg viewBox="0 0 24 24"><path d="M22 2L11 13"/><path d="M22 2L15 22L11 13L2 9L22 2Z"/></svg>
+        </button>
+      </div>
+    </div>
+  </div>
 
   <script>
-    function filterItems(type, btn) {
-      // Update active tab
-      document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-      btn.classList.add('active');
-
-      // Filter items
-      const items = document.querySelectorAll('.item');
-      const dateSeps = document.querySelectorAll('.date-sep');
-
-      items.forEach(item => {
-        if (type === 'all') {
-          item.style.display = 'flex';
-        } else {
-          item.style.display = item.dataset.type === type ? 'flex' : 'none';
-        }
-      });
-
-      // Show/hide date separators based on visible items after them
-      dateSeps.forEach(sep => {
-        let next = sep.nextElementSibling;
-        let hasVisible = false;
-        while (next && !next.classList.contains('date-sep') && !next.classList.contains('load-more')) {
-          if (next.classList.contains('item') && next.style.display !== 'none') {
-            hasVisible = true;
-            break;
-          }
-          next = next.nextElementSibling;
-        }
-        sep.style.display = hasVisible ? 'block' : 'none';
-      });
+    function autoResize(el) {
+      el.style.height = 'auto';
+      el.style.height = Math.min(el.scrollHeight, 120) + 'px';
     }
+
+    function addAgentMessage(text) {
+      const chat = document.getElementById('chat');
+      const typing = document.getElementById('typing');
+      typing.style.display = 'flex';
+      chat.scrollTop = chat.scrollHeight;
+
+      setTimeout(() => {
+        typing.style.display = 'none';
+        const msg = document.createElement('div');
+        msg.className = 'msg';
+        msg.style.animation = 'msgSlide 0.4s ease forwards';
+        msg.innerHTML = '<div class="msg-avatar"><span>A</span></div><div><div class="bubble bubble-agent"><p>' + text + '</p></div><p class="bubble-meta">Akira · ' + new Date().toLocaleTimeString('pt-BR', {hour:'2-digit',minute:'2-digit'}) + '</p></div>';
+        chat.insertBefore(msg, typing);
+        chat.scrollTop = chat.scrollHeight;
+      }, 1200);
+    }
+
+    function sendMessage() {
+      const input = document.getElementById('chatInput');
+      const text = input.value.trim();
+      if (!text) return;
+
+      const chat = document.getElementById('chat');
+      const typing = document.getElementById('typing');
+
+      const userMsg = document.createElement('div');
+      userMsg.className = 'msg msg-user';
+      userMsg.style.animation = 'msgSlide 0.3s ease forwards';
+      userMsg.innerHTML = '<div><div class="bubble bubble-user"><p>' + text + '</p></div><p class="bubble-meta" style="text-align:right;">' + new Date().toLocaleTimeString('pt-BR', {hour:'2-digit',minute:'2-digit'}) + '</p></div>';
+      chat.insertBefore(userMsg, typing);
+
+      input.value = '';
+      input.style.height = 'auto';
+      document.getElementById('suggestions').style.display = 'none';
+
+      addAgentMessage('Analisando... Ja te respondo com o contexto completo.');
+      chat.scrollTop = chat.scrollHeight;
+    }
+
+    function sendSuggestion(btn) {
+      document.getElementById('chatInput').value = btn.textContent;
+      sendMessage();
+    }
+
+    window.addEventListener('load', () => {
+      setTimeout(() => {
+        document.getElementById('chat').scrollTop = document.getElementById('chat').scrollHeight;
+      }, 2500);
+    });
   </script>
 <script src="../../shared-nav.js?v=1774805559"></script>
 </body>
