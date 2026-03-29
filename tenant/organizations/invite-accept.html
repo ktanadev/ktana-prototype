@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Convite — KTANA</title>
+  <link rel="stylesheet" href="../../shared.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Zen+Dots&display=swap" rel="stylesheet">
+  <style>
+    body { min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 40px 24px; background: #F5F5F7; }
+    .container { width: 100%; max-width: 540px; }
+
+    .logo { text-align: center; margin-bottom: 32px; }
+    .logo h1 { font-size: 20px; }
+
+    .card { background: #FFF; border-radius: 20px; border: 1px solid rgba(0,0,0,0.04); padding: 32px; }
+
+    .invite-header { text-align: center; margin-bottom: 28px; }
+    .invite-icon { width: 56px; height: 56px; border-radius: 16px; background: rgba(215,0,48,0.06); display: flex; align-items: center; justify-content: center; margin: 0 auto 16px; }
+    .invite-icon svg { width: 28px; height: 28px; color: #D70030; }
+    .invite-title { font-family: 'Zen Dots', cursive; font-size: 20px; color: #1D1D1F; margin-bottom: 6px; }
+    .invite-sub { font-family: 'Satoshi', sans-serif; font-size: 14px; color: #86868B; }
+
+    .invite-details { margin-bottom: 24px; }
+    .detail-row { display: flex; align-items: center; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid rgba(0,0,0,0.04); }
+    .detail-row:last-child { border-bottom: none; }
+    .detail-label { font-family: 'Inter', sans-serif; font-size: 12px; color: #86868B; }
+    .detail-value { font-family: 'Satoshi', sans-serif; font-size: 14px; font-weight: 500; color: #1D1D1F; display: flex; align-items: center; gap: 6px; }
+    .role-badge { font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 500; padding: 3px 10px; border-radius: 6px; background: rgba(215,0,48,0.06); color: #D70030; }
+
+    .section-label { font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: #D70030; margin-bottom: 12px; }
+
+    .access-list { margin-bottom: 24px; }
+    .access-item { display: flex; align-items: center; gap: 10px; padding: 8px 0; }
+    .access-check { width: 20px; height: 20px; border-radius: 6px; background: rgba(48,209,88,0.08); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .access-check svg { width: 12px; height: 12px; color: #30D158; }
+    .access-text { font-family: 'Satoshi', sans-serif; font-size: 13px; color: #1D1D1F; }
+
+    .org-info { background: #F5F5F7; border-radius: 12px; padding: 14px 16px; display: flex; align-items: center; gap: 14px; margin-bottom: 28px; }
+    .org-avatar { width: 40px; height: 40px; border-radius: 12px; background: rgba(215,0,48,0.06); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .org-avatar svg { width: 20px; height: 20px; color: #D70030; }
+    .org-name { font-family: 'Satoshi', sans-serif; font-size: 14px; font-weight: 600; color: #1D1D1F; }
+    .org-meta { font-family: 'Inter', sans-serif; font-size: 11px; color: #86868B; }
+
+    .actions { display: flex; gap: 10px; margin-bottom: 16px; }
+    .btn-accept { flex: 1; font-family: 'Inter', sans-serif; padding: 14px; border-radius: 12px; background: #D70030; color: #FFF; font-size: 14px; font-weight: 500; border: none; cursor: pointer; transition: opacity 0.15s; min-height: 48px; }
+    .btn-accept:hover { opacity: 0.9; }
+    .btn-decline { flex: 0 0 auto; font-family: 'Inter', sans-serif; padding: 14px 24px; border-radius: 12px; background: transparent; color: #86868B; font-size: 14px; font-weight: 500; border: 1px solid rgba(0,0,0,0.06); cursor: pointer; transition: border-color 0.15s; min-height: 48px; }
+    .btn-decline:hover { border-color: #D2D2D7; }
+
+    .terms-note { font-family: 'Inter', sans-serif; font-size: 11px; color: #AEAEB2; text-align: center; line-height: 1.6; }
+    .terms-note a { color: #86868B; text-decoration: underline; }
+
+    .divider { display: flex; align-items: center; gap: 16px; margin: 20px 0; }
+    .divider span { font-family: 'Inter', sans-serif; font-size: 11px; color: #AEAEB2; white-space: nowrap; }
+    .divider::before, .divider::after { content: ''; flex: 1; height: 1px; background: rgba(0,0,0,0.06); }
+
+    .signup-prompt { text-align: center; }
+    .signup-prompt p { font-family: 'Inter', sans-serif; font-size: 13px; color: #86868B; margin-bottom: 10px; }
+    .signup-link { font-family: 'Inter', sans-serif; font-size: 13px; color: #D70030; font-weight: 500; display: inline-flex; align-items: center; gap: 6px; }
+    .signup-link svg { width: 14px; height: 14px; }
+    .signup-link:hover { text-decoration: underline; }
+
+    .fade-in { animation: fadeIn 0.3s ease both; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+  </style>
+</head>
+<body>
+
+  <div class="container fade-in">
+    <div class="logo">
+      <h1 class="font-display text-brand">KTANA</h1>
+    </div>
+
+    <div class="card">
+      <!-- Header -->
+      <div class="invite-header">
+        <div class="invite-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M16 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/>
+            <circle cx="8.5" cy="7" r="4"/>
+            <line x1="20" y1="8" x2="20" y2="14"/>
+            <line x1="23" y1="11" x2="17" y2="11"/>
+          </svg>
+        </div>
+        <h2 class="invite-title">Voce foi convidado</h2>
+        <p class="invite-sub">para CSB Fintechs</p>
+      </div>
+
+      <!-- Details -->
+      <div class="invite-details">
+        <div class="detail-row">
+          <span class="detail-label">Convidado por</span>
+          <span class="detail-value">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#86868B" stroke-width="1.5" stroke-linecap="round"><circle cx="12" cy="8" r="4"/><path d="M5 20v-1a7 7 0 0114 0v1"/></svg>
+            Julio Cesar
+          </span>
+        </div>
+        <div class="detail-row">
+          <span class="detail-label">Nivel de acesso</span>
+          <span class="detail-value"><span class="role-badge">Operador</span></span>
+        </div>
+      </div>
+
+      <!-- Access list -->
+      <p class="section-label">O que voce podera fazer</p>
+      <div class="access-list">
+        <div class="access-item">
+          <div class="access-check">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+          </div>
+          <span class="access-text">Interagir com os samurais da organizacao</span>
+        </div>
+        <div class="access-item">
+          <div class="access-check">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+          </div>
+          <span class="access-text">Revisar e aprovar acoes dos samurais</span>
+        </div>
+        <div class="access-item">
+          <div class="access-check">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+          </div>
+          <span class="access-text">Visualizar solucoes e modulos ativos</span>
+        </div>
+        <div class="access-item">
+          <div class="access-check">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+          </div>
+          <span class="access-text">Acessar dashboards e relatorios</span>
+        </div>
+      </div>
+
+      <!-- Org info -->
+      <div class="org-info">
+        <div class="org-avatar">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/>
+            <polyline points="9 22 9 12 15 12 15 22"/>
+          </svg>
+        </div>
+        <div>
+          <p class="org-name">CSB Fintechs</p>
+          <p class="org-meta">4 samurais ativos · Plano GUNDAN</p>
+        </div>
+      </div>
+
+      <!-- Actions -->
+      <div class="actions">
+        <button class="btn-accept" onclick="location.href='invite-setup.html'">Aceitar convite</button>
+        <button class="btn-decline" onclick="history.back()">Recusar</button>
+      </div>
+
+      <p class="terms-note">Ao aceitar, voce concorda com os <a href="#">Termos de Uso</a> e <a href="#">Politica de Privacidade</a>.</p>
+    </div>
+
+    <div class="divider"><span>ou</span></div>
+
+    <div class="signup-prompt">
+      <p>Precisa criar uma conta KTANA primeiro?</p>
+      <a href="../auth/signup.html" class="signup-link">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M15 3h4a2 2 0 012 2v14a2 2 0 01-2 2h-4"/>
+          <polyline points="10 17 15 12 10 7"/>
+          <line x1="15" y1="12" x2="3" y2="12"/>
+        </svg>
+        Criar conta e aceitar convite
+      </a>
+    </div>
+  </div>
+
+<script src="../../shared-nav.js?v=1774781877"></script>
+</body>
+</html>

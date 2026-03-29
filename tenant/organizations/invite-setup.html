@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Configurar perfil — KTANA</title>
+  <link rel="stylesheet" href="../../shared.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Zen+Dots&display=swap" rel="stylesheet">
+  <style>
+    body { min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 40px 24px; background: #F5F5F7; }
+    .container { width: 100%; max-width: 540px; }
+
+    /* Progress */
+    .progress { display: flex; align-items: center; justify-content: center; gap: 8px; margin-bottom: 32px; }
+    .step { display: flex; align-items: center; gap: 8px; }
+    .step-num { width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: 'Inter', sans-serif; font-size: 12px; font-weight: 600; flex-shrink: 0; }
+    .step-num.active { background: #D70030; color: #FFF; }
+    .step-num.done { background: rgba(48,209,88,0.08); color: #30D158; }
+    .step-num.pending { background: rgba(0,0,0,0.04); color: #AEAEB2; }
+    .step-label { font-family: 'Inter', sans-serif; font-size: 12px; color: #1D1D1F; font-weight: 500; }
+    .step-label.pending { color: #AEAEB2; }
+    .step-line { width: 32px; height: 1px; background: #D2D2D7; }
+
+    .header { text-align: center; margin-bottom: 28px; }
+    .header h1 { font-family: 'Zen Dots', cursive; font-size: 24px; color: #1D1D1F; margin-bottom: 6px; }
+    .header p { font-family: 'Satoshi', sans-serif; font-size: 14px; color: #86868B; }
+
+    .card { background: #FFF; border-radius: 20px; border: 1px solid rgba(0,0,0,0.04); padding: 32px; }
+
+    /* Photo upload */
+    .photo-section { display: flex; flex-direction: column; align-items: center; margin-bottom: 28px; }
+    .photo-upload { width: 80px; height: 80px; border-radius: 50%; border: 2px dashed #D2D2D7; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: border-color 0.15s; position: relative; overflow: hidden; background: #F5F5F7; }
+    .photo-upload:hover { border-color: #D70030; }
+    .photo-upload svg { width: 24px; height: 24px; color: #AEAEB2; }
+    .photo-upload:hover svg { color: #D70030; }
+    .photo-label { font-family: 'Inter', sans-serif; font-size: 12px; color: #86868B; margin-top: 8px; }
+
+    /* Fields */
+    .field { margin-bottom: 16px; }
+    .field label { display: block; font-family: 'Inter', sans-serif; font-size: 12px; font-weight: 500; color: #1D1D1F; margin-bottom: 6px; }
+    .field input, .field select { width: 100%; padding: 12px 14px; border: 1px solid rgba(0,0,0,0.08); border-radius: 12px; font-family: 'Inter', sans-serif; font-size: 14px; color: #1D1D1F; outline: none; background: #F5F5F7; appearance: none; }
+    .field input:focus, .field select:focus { border-color: rgba(215,0,48,0.3); }
+    .field input::placeholder { color: #AEAEB2; }
+    .field-hint { font-family: 'Inter', sans-serif; font-size: 11px; color: #AEAEB2; margin-top: 4px; }
+
+    .select-wrapper { position: relative; }
+    .select-wrapper::after { content: ''; position: absolute; right: 14px; top: 50%; width: 8px; height: 8px; border-right: 1.5px solid #86868B; border-bottom: 1.5px solid #86868B; transform: translateY(-60%) rotate(45deg); pointer-events: none; }
+    .select-wrapper select { cursor: pointer; padding-right: 36px; }
+
+    .section-label { font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: #D70030; margin-bottom: 14px; margin-top: 24px; }
+
+    /* Notification toggles */
+    .notif-list { display: flex; flex-direction: column; gap: 8px; margin-bottom: 28px; }
+    .notif-item { display: flex; align-items: center; justify-content: space-between; padding: 12px 14px; background: #F5F5F7; border-radius: 12px; }
+    .notif-info { display: flex; align-items: center; gap: 10px; }
+    .notif-icon { width: 32px; height: 32px; border-radius: 8px; background: #FFF; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .notif-icon svg { width: 16px; height: 16px; color: #86868B; }
+    .notif-name { font-family: 'Satoshi', sans-serif; font-size: 13px; font-weight: 500; color: #1D1D1F; }
+    .notif-desc { font-family: 'Inter', sans-serif; font-size: 11px; color: #86868B; }
+
+    /* Toggle */
+    .toggle { position: relative; width: 44px; height: 26px; flex-shrink: 0; }
+    .toggle input { opacity: 0; width: 0; height: 0; }
+    .toggle-track { position: absolute; inset: 0; background: #D2D2D7; border-radius: 13px; cursor: pointer; transition: background 0.2s; }
+    .toggle-track::after { content: ''; position: absolute; top: 3px; left: 3px; width: 20px; height: 20px; border-radius: 50%; background: #FFF; box-shadow: 0 1px 3px rgba(0,0,0,0.1); transition: transform 0.2s; }
+    .toggle input:checked + .toggle-track { background: #D70030; }
+    .toggle input:checked + .toggle-track::after { transform: translateX(18px); }
+
+    .btn-continue { width: 100%; font-family: 'Inter', sans-serif; padding: 14px; border-radius: 12px; background: #1D1D1F; color: #FFF; font-size: 14px; font-weight: 500; border: none; cursor: pointer; transition: background 0.15s; min-height: 48px; }
+    .btn-continue:hover { background: #000; }
+
+    .fade-in { animation: fadeIn 0.3s ease both; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+  </style>
+</head>
+<body>
+
+  <div class="container fade-in">
+    <!-- Progress steps -->
+    <div class="progress">
+      <div class="step">
+        <div class="step-num active">1</div>
+        <span class="step-label">Configurar perfil</span>
+      </div>
+      <div class="step-line"></div>
+      <div class="step">
+        <div class="step-num pending">2</div>
+        <span class="step-label pending">Pronto</span>
+      </div>
+    </div>
+
+    <div class="header">
+      <h1>Configure seu perfil.</h1>
+      <p>Ajuste suas informacoes para a equipe da CSB Fintechs.</p>
+    </div>
+
+    <div class="card">
+      <!-- Photo -->
+      <div class="photo-section">
+        <div class="photo-upload" onclick="document.getElementById('photoInput').click()">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M23 19a2 2 0 01-2 2H3a2 2 0 01-2-2V8a2 2 0 012-2h4l2-3h6l2 3h4a2 2 0 012 2v11z"/>
+            <circle cx="12" cy="13" r="4"/>
+          </svg>
+          <input type="file" id="photoInput" accept="image/*" style="display:none;" onchange="previewPhoto(this)">
+        </div>
+        <span class="photo-label">Foto de perfil</span>
+      </div>
+
+      <!-- Name -->
+      <div class="field">
+        <label>Nome</label>
+        <input type="text" value="Maria Costa" readonly style="color:#86868B; cursor:default;">
+        <p class="field-hint">Pre-preenchido pelo convite. Edite no seu perfil depois.</p>
+      </div>
+
+      <!-- Cargo -->
+      <div class="field">
+        <label>Cargo na empresa</label>
+        <input type="text" placeholder="Ex: Analista financeiro, Gerente de vendas...">
+      </div>
+
+      <!-- Departamento -->
+      <div class="field">
+        <label>Departamento</label>
+        <div class="select-wrapper">
+          <select>
+            <option value="" disabled selected>Selecione seu departamento</option>
+            <option value="financeiro">Financeiro</option>
+            <option value="vendas">Vendas</option>
+            <option value="marketing">Marketing</option>
+            <option value="rh">Recursos Humanos</option>
+            <option value="tecnologia">Tecnologia</option>
+            <option value="operacoes">Operacoes</option>
+            <option value="juridico">Juridico</option>
+            <option value="administrativo">Administrativo</option>
+            <option value="outro">Outro</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Notifications -->
+      <p class="section-label">Notificacoes</p>
+      <div class="notif-list">
+        <div class="notif-item">
+          <div class="notif-info">
+            <div class="notif-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+                <polyline points="22,6 12,13 2,6"/>
+              </svg>
+            </div>
+            <div>
+              <p class="notif-name">Email</p>
+              <p class="notif-desc">Receba resumos e alertas por email</p>
+            </div>
+          </div>
+          <label class="toggle">
+            <input type="checkbox" checked>
+            <span class="toggle-track"></span>
+          </label>
+        </div>
+
+        <div class="notif-item">
+          <div class="notif-info">
+            <div class="notif-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z"/>
+              </svg>
+            </div>
+            <div>
+              <p class="notif-name">WhatsApp</p>
+              <p class="notif-desc">Notificacoes instantaneas no WhatsApp</p>
+            </div>
+          </div>
+          <label class="toggle">
+            <input type="checkbox" checked>
+            <span class="toggle-track"></span>
+          </label>
+        </div>
+
+        <div class="notif-item">
+          <div class="notif-info">
+            <div class="notif-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/>
+                <path d="M13.73 21a2 2 0 01-3.46 0"/>
+              </svg>
+            </div>
+            <div>
+              <p class="notif-name">Push</p>
+              <p class="notif-desc">Alertas no navegador em tempo real</p>
+            </div>
+          </div>
+          <label class="toggle">
+            <input type="checkbox">
+            <span class="toggle-track"></span>
+          </label>
+        </div>
+      </div>
+
+      <button class="btn-continue" onclick="location.href='invite-welcome.html'">Continuar</button>
+    </div>
+  </div>
+
+  <script>
+    function previewPhoto(input) {
+      if (input.files && input.files[0]) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          const upload = input.parentElement;
+          upload.style.backgroundImage = 'url(' + e.target.result + ')';
+          upload.style.backgroundSize = 'cover';
+          upload.style.backgroundPosition = 'center';
+          upload.style.borderStyle = 'solid';
+          upload.style.borderColor = '#D70030';
+          upload.querySelector('svg').style.display = 'none';
+        };
+        reader.readAsDataURL(input.files[0]);
+      }
+    }
+  </script>
+
+<script src="../../shared-nav.js?v=1774781877"></script>
+</body>
+</html>

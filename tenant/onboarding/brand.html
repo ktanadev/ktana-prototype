@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sua marca — KTANA</title>
+  <link rel="stylesheet" href="../../shared.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Zen+Dots&display=swap" rel="stylesheet">
+  <style>
+    body { min-height: 100vh; background: #F5F5F7; padding: 48px 24px; }
+    .container { max-width: 580px; margin: 0 auto; }
+    .back { position: fixed; top: 20px; left: 24px; font-family: 'Inter', sans-serif; font-size: 12px; color: #86868B; }
+    .progress { display: flex; justify-content: center; gap: 6px; margin-bottom: 40px; }
+    .dot { width: 6px; height: 6px; border-radius: 50%; background: #D2D2D7; }
+    .dot.done { background: #86868B; }
+    .dot.active { background: #D70030; width: 20px; border-radius: 3px; }
+
+    h1 { font-family: 'Zen Dots', cursive; font-size: 28px; color: #1D1D1F; margin-bottom: 8px; text-align: center; }
+    .sub { font-family: 'Satoshi', sans-serif; font-size: 15px; color: #86868B; text-align: center; margin-bottom: 40px; line-height: 1.6; }
+
+    /* Toggle PJ/PF */
+    .toggle-type { display: flex; gap: 2px; background: rgba(0,0,0,0.03); border-radius: 10px; padding: 2px; margin: 0 auto 32px; width: fit-content; }
+    .toggle-btn { font-family: 'Inter', sans-serif; padding: 7px 20px; border-radius: 8px; font-size: 12px; color: #86868B; cursor: pointer; border: none; background: none; transition: all 0.15s; }
+    .toggle-btn.active { background: #FFF; color: #1D1D1F; box-shadow: 0 1px 3px rgba(0,0,0,0.06); font-weight: 500; }
+
+    /* Upload area */
+    .upload-zone { background: #FFF; border: 2px dashed rgba(0,0,0,0.08); border-radius: 20px; padding: 32px; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 220px; cursor: pointer; transition: border-color 0.2s, background 0.2s; margin-bottom: 24px; position: relative; }
+    .upload-zone:hover { border-color: rgba(215,0,48,0.3); background: rgba(215,0,48,0.01); }
+    .upload-zone.drag-over { border-color: #D70030; background: rgba(215,0,48,0.03); }
+    .upload-zone.has-file { border-style: solid; border-color: rgba(0,0,0,0.04); cursor: default; padding: 24px; }
+    .upload-zone.pf-mode { width: 200px; height: 200px; border-radius: 50%; margin: 0 auto 24px; min-height: unset; padding: 20px; }
+    .upload-zone.pf-mode.has-file { border-radius: 50%; }
+    .upload-icon { margin-bottom: 16px; color: #AEAEB2; }
+    .upload-text { font-family: 'Satoshi', sans-serif; font-size: 14px; color: #86868B; text-align: center; line-height: 1.5; }
+    .upload-text strong { color: #D70030; font-weight: 500; }
+    .upload-formats { font-family: 'Inter', sans-serif; font-size: 11px; color: #AEAEB2; margin-top: 10px; }
+    .upload-input { position: absolute; inset: 0; opacity: 0; cursor: pointer; }
+
+    /* Preview inside upload zone */
+    .preview-image { width: 120px; height: 120px; object-fit: contain; border-radius: 12px; }
+    .preview-image.circle { border-radius: 50%; object-fit: cover; }
+    .preview-name { font-family: 'Inter', sans-serif; font-size: 12px; color: #86868B; margin-top: 10px; }
+    .preview-change { font-family: 'Inter', sans-serif; font-size: 12px; color: #D70030; font-weight: 500; margin-top: 6px; cursor: pointer; background: none; border: none; }
+
+    /* Chat upload alternative */
+    .chat-alt { background: #FFF; border-radius: 20px; border: 1px solid rgba(0,0,0,0.04); padding: 20px; margin-bottom: 24px; }
+    .chat-alt-header { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; }
+    .chat-alt-avatar { width: 32px; height: 32px; border-radius: 50%; background: rgba(215,0,48,0.06); display: flex; align-items: center; justify-content: center; border: 1.5px solid rgba(215,0,48,0.12); flex-shrink: 0; }
+    .chat-alt-avatar span { font-family: 'Zen Dots', cursive; font-size: 10px; color: #D70030; }
+    .chat-alt-bubble { font-family: 'Satoshi', sans-serif; font-size: 13px; color: #1D1D1F; line-height: 1.5; }
+    .chat-alt-bubble strong { color: #D70030; font-weight: 600; }
+    .chat-alt-input { display: flex; gap: 8px; margin-top: 12px; }
+    .chat-alt-input input { flex: 1; padding: 10px 14px; border: 1px solid rgba(0,0,0,0.06); border-radius: 10px; font-family: 'Satoshi', sans-serif; font-size: 13px; color: #1D1D1F; outline: none; }
+    .chat-alt-input input:focus { border-color: rgba(215,0,48,0.3); }
+    .chat-alt-input input::placeholder { color: #AEAEB2; }
+    .chat-alt-input button { padding: 10px 18px; border-radius: 10px; background: #1D1D1F; color: #F5F5F7; font-family: 'Inter', sans-serif; font-size: 12px; font-weight: 500; border: none; cursor: pointer; transition: background 0.15s; white-space: nowrap; }
+    .chat-alt-input button:hover { background: #000; }
+
+    /* Nav preview */
+    .preview-section { margin-bottom: 32px; }
+    .preview-label { font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: #86868B; margin-bottom: 12px; }
+    .nav-mock { background: #FFF; border-radius: 14px; border: 1px solid rgba(0,0,0,0.04); padding: 12px 20px; display: flex; align-items: center; gap: 12px; }
+    .nav-mock-logo { font-family: 'Zen Dots', cursive; font-size: 14px; color: #1D1D1F; }
+    .nav-mock-sep { width: 1px; height: 20px; background: rgba(0,0,0,0.06); }
+    .nav-mock-tenant { width: 28px; height: 28px; border-radius: 8px; background: #F0F0F0; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+    .nav-mock-tenant img { width: 100%; height: 100%; object-fit: contain; }
+    .nav-mock-tenant.circle { border-radius: 50%; }
+    .nav-mock-tenant.circle img { object-fit: cover; }
+    .nav-mock-name { font-family: 'Satoshi', sans-serif; font-size: 13px; font-weight: 500; color: #1D1D1F; }
+    .nav-mock-chevron { color: #AEAEB2; }
+    .preview-note { font-family: 'Satoshi', sans-serif; font-size: 12px; color: #86868B; margin-top: 10px; text-align: center; }
+
+    /* Actions */
+    .actions { display: flex; gap: 12px; justify-content: center; margin-top: 40px; }
+    .btn-next { font-family: 'Inter', sans-serif; padding: 14px 32px; border-radius: 14px; background: #1D1D1F; color: #F5F5F7; font-size: 15px; font-weight: 500; border: none; cursor: pointer; transition: background 0.15s; min-height: 48px; }
+    .btn-next:hover { background: #000; }
+    .btn-skip { font-family: 'Inter', sans-serif; padding: 14px 24px; border-radius: 14px; background: transparent; color: #86868B; font-size: 14px; border: 1px solid rgba(0,0,0,0.08); cursor: pointer; min-height: 48px; }
+
+    /* Hidden */
+    .hidden { display: none; }
+  </style>
+</head>
+<body>
+  <a href="team.html" class="back">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle;margin-right:4px;"><polyline points="15 18 9 12 15 6"/></svg>
+    Equipe
+  </a>
+
+  <div class="container fade-in">
+    <div class="progress">
+      <div class="dot done"></div>
+      <div class="dot done"></div>
+      <div class="dot active"></div>
+      <div class="dot"></div>
+      <div class="dot"></div>
+    </div>
+
+    <!-- Title (changes with PJ/PF toggle) -->
+    <h1 id="pageTitle">Sua marca.</h1>
+    <p class="sub" id="pageSub">Envie o logo da sua empresa. Ele aparece ao lado do KTANA em todo o sistema.</p>
+
+    <!-- PJ / PF Toggle -->
+    <div class="toggle-type">
+      <button class="toggle-btn active" id="btnPJ" onclick="switchMode('pj')">Empresa (PJ)</button>
+      <button class="toggle-btn" id="btnPF" onclick="switchMode('pf')">Pessoal (PF)</button>
+    </div>
+
+    <!-- Upload Zone -->
+    <div class="upload-zone" id="uploadZone" onclick="document.getElementById('fileInput').click()">
+      <input type="file" id="fileInput" class="upload-input" accept=".png,.svg,.jpg,.jpeg" onchange="handleFile(this)">
+
+      <!-- Default state -->
+      <div id="uploadDefault">
+        <div class="upload-icon">
+          <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/>
+            <polyline points="17 8 12 3 7 8"/>
+            <line x1="12" y1="3" x2="12" y2="15"/>
+          </svg>
+        </div>
+        <p class="upload-text">Arraste o logo aqui ou <strong>clique para selecionar</strong></p>
+        <p class="upload-formats">PNG, SVG, JPG — max 2MB</p>
+      </div>
+
+      <!-- Preview state (hidden) -->
+      <div id="uploadPreview" class="hidden">
+        <img id="previewImg" class="preview-image" src="" alt="Preview">
+        <p class="preview-name" id="previewName"></p>
+        <button class="preview-change" onclick="event.stopPropagation(); resetUpload();">Trocar arquivo</button>
+      </div>
+    </div>
+
+    <!-- Chat alternative -->
+    <div class="chat-alt">
+      <div class="chat-alt-header">
+        <div class="chat-alt-avatar"><span>Y</span></div>
+        <div class="chat-alt-bubble">
+          <strong>Yumi:</strong> Pode me mandar o logo da empresa por aqui tambem! Aceito imagem ou link.
+        </div>
+      </div>
+      <div class="chat-alt-input">
+        <input type="text" id="urlInput" placeholder="Cole o link do logo aqui (ex: https://...)" onkeydown="if(event.key==='Enter')loadFromUrl()">
+        <button onclick="loadFromUrl()">Enviar</button>
+      </div>
+    </div>
+
+    <!-- Nav bar preview -->
+    <div class="preview-section" id="previewSection" style="opacity: 0.4; transition: opacity 0.3s;">
+      <p class="preview-label">Visualizacao no sistema</p>
+      <div class="nav-mock">
+        <span class="nav-mock-logo">KTANA</span>
+        <div class="nav-mock-sep"></div>
+        <div class="nav-mock-tenant" id="navTenant">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#AEAEB2" stroke-width="1.5" stroke-linecap="round" id="navPlaceholder"><rect x="3" y="3" width="18" height="18" rx="4"/><circle cx="12" cy="10" r="3"/><path d="M6 21v-1a6 6 0 0112 0v1"/></svg>
+          <img id="navImg" src="" alt="" class="hidden">
+        </div>
+        <span class="nav-mock-name" id="navName">Sua empresa</span>
+        <span class="nav-mock-chevron">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg>
+        </span>
+      </div>
+      <p class="preview-note">E assim que vai aparecer no sistema</p>
+    </div>
+
+    <!-- Actions -->
+    <div class="actions">
+      <button class="btn-skip" onclick="location.href='connect.html'">Pular</button>
+      <button class="btn-next" onclick="location.href='connect.html'">Continuar</button>
+    </div>
+  </div>
+
+  <script>
+    let currentMode = 'pj';
+
+    function switchMode(mode) {
+      currentMode = mode;
+      const zone = document.getElementById('uploadZone');
+      const title = document.getElementById('pageTitle');
+      const sub = document.getElementById('pageSub');
+      const btnPJ = document.getElementById('btnPJ');
+      const btnPF = document.getElementById('btnPF');
+      const navTenant = document.getElementById('navTenant');
+      const navName = document.getElementById('navName');
+      const previewImg = document.getElementById('previewImg');
+
+      if (mode === 'pf') {
+        btnPF.classList.add('active');
+        btnPJ.classList.remove('active');
+        title.textContent = 'Sua foto.';
+        sub.textContent = 'Envie uma foto sua. Ela aparece no seu perfil e ao lado do KTANA.';
+        zone.classList.add('pf-mode');
+        navTenant.classList.add('circle');
+        previewImg.classList.add('circle');
+        navName.textContent = 'Voce';
+      } else {
+        btnPJ.classList.add('active');
+        btnPF.classList.remove('active');
+        title.textContent = 'Sua marca.';
+        sub.textContent = 'Envie o logo da sua empresa. Ele aparece ao lado do KTANA em todo o sistema.';
+        zone.classList.remove('pf-mode');
+        navTenant.classList.remove('circle');
+        previewImg.classList.remove('circle');
+        navName.textContent = 'Sua empresa';
+      }
+    }
+
+    function handleFile(input) {
+      const file = input.files[0];
+      if (!file) return;
+
+      // Validate size (2MB)
+      if (file.size > 2 * 1024 * 1024) {
+        alert('Arquivo muito grande. Maximo 2MB.');
+        return;
+      }
+
+      // Validate type
+      const validTypes = ['image/png', 'image/svg+xml', 'image/jpeg', 'image/jpg'];
+      if (!validTypes.includes(file.type)) {
+        alert('Formato nao aceito. Use PNG, SVG ou JPG.');
+        return;
+      }
+
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        showPreview(e.target.result, file.name);
+      };
+      reader.readAsDataURL(file);
+    }
+
+    function showPreview(src, name) {
+      const zone = document.getElementById('uploadZone');
+      const defaultEl = document.getElementById('uploadDefault');
+      const previewEl = document.getElementById('uploadPreview');
+      const previewImg = document.getElementById('previewImg');
+      const previewName = document.getElementById('previewName');
+      const navImg = document.getElementById('navImg');
+      const navPlaceholder = document.getElementById('navPlaceholder');
+      const previewSection = document.getElementById('previewSection');
+
+      previewImg.src = src;
+      previewName.textContent = name || 'Imagem carregada';
+      navImg.src = src;
+
+      defaultEl.classList.add('hidden');
+      previewEl.classList.remove('hidden');
+      zone.classList.add('has-file');
+
+      navPlaceholder.classList.add('hidden');
+      navImg.classList.remove('hidden');
+      previewSection.style.opacity = '1';
+    }
+
+    function resetUpload() {
+      const zone = document.getElementById('uploadZone');
+      const defaultEl = document.getElementById('uploadDefault');
+      const previewEl = document.getElementById('uploadPreview');
+      const navImg = document.getElementById('navImg');
+      const navPlaceholder = document.getElementById('navPlaceholder');
+      const previewSection = document.getElementById('previewSection');
+      const fileInput = document.getElementById('fileInput');
+
+      defaultEl.classList.remove('hidden');
+      previewEl.classList.add('hidden');
+      zone.classList.remove('has-file');
+
+      navPlaceholder.classList.remove('hidden');
+      navImg.classList.add('hidden');
+      previewSection.style.opacity = '0.4';
+
+      fileInput.value = '';
+    }
+
+    function loadFromUrl() {
+      const url = document.getElementById('urlInput').value.trim();
+      if (!url) return;
+
+      // Basic URL validation
+      if (!url.startsWith('http://') && !url.startsWith('https://')) {
+        alert('Insira um link valido (comecando com https://)');
+        return;
+      }
+
+      showPreview(url, url.split('/').pop() || 'Logo via URL');
+    }
+
+    // Drag & drop
+    const zone = document.getElementById('uploadZone');
+
+    zone.addEventListener('dragover', function(e) {
+      e.preventDefault();
+      zone.classList.add('drag-over');
+    });
+
+    zone.addEventListener('dragleave', function(e) {
+      e.preventDefault();
+      zone.classList.remove('drag-over');
+    });
+
+    zone.addEventListener('drop', function(e) {
+      e.preventDefault();
+      zone.classList.remove('drag-over');
+      const file = e.dataTransfer.files[0];
+      if (file) {
+        document.getElementById('fileInput').files = e.dataTransfer.files;
+        handleFile(document.getElementById('fileInput'));
+      }
+    });
+  </script>
+
+<script src="../../shared-nav.js?v=1774781877"></script>
+</body>
+</html>
