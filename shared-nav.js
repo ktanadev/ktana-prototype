@@ -129,7 +129,7 @@
         <div class="kt-spacer"></div>
         <button class="kt-ai-btn" onclick="toggleAI()" title="Assistente IA">
           ${svg('M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z', 18)}
-          <span class="kt-ai-label">Perguntar</span>
+          <span class="kt-ai-label">Suporte</span>
         </button>
         <button class="kt-avatar" title="Perfil" onclick="toggleProfileDrop()">
           ${svg('M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2M12 3a4 4 0 100 8 4 4 0 000-8z', 16)}
