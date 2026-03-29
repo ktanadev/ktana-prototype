@@ -395,7 +395,7 @@
   const isDashboardHome = currentFile === 'home.html' && path.includes('/dashboard/');
   const isDesktop = window.innerWidth > 768;
   let sidebarOpen = isDashboardHome && isDesktop;
-  let aiOpen = false;
+  let aiOpen = isDashboardHome;
 
   window.toggleSidebar = function() {
     sidebarOpen = !sidebarOpen;
@@ -475,6 +475,11 @@
   if (sidebarOpen) {
     document.getElementById('ktSidebar').classList.add('open');
     document.getElementById('ksOverlay').classList.add('open');
+  }
+
+  // Open AI chat by default on dashboard home
+  if (aiOpen) {
+    document.getElementById('ktAI').classList.add('open');
   }
 
   // Profile dropdown
