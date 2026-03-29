@@ -219,12 +219,12 @@
     .kt-toggle:hover { background: rgba(0,0,0,0.04); }
     .kt-logo { font-family: 'Zen Dots', cursive; font-size: 15px; color: #D70030; text-decoration: none; }
     .kt-spacer { flex: 1; }
-    .kt-ai-btn { display: flex; align-items: center; gap: 8px; padding: 8px 16px; border-radius: 980px; border: 1px solid rgba(0,0,0,0.08); background: #FFF; cursor: pointer; font-family: 'Inter', -apple-system, sans-serif; font-size: 13px; color: #6E6E73; transition: all 0.2s; }
-    .kt-ai-btn:hover { border-color: #D70030; color: #D70030; box-shadow: 0 2px 12px rgba(215,0,48,0.08); }
-    .kt-ai-btn svg { color: #D70030; }
+    .kt-ai-btn { display: flex; align-items: center; gap: 8px; padding: 8px 16px; border-radius: 980px; border: none; background: #1D1D1F; cursor: pointer; font-family: 'Inter', -apple-system, sans-serif; font-size: 13px; color: #F5F5F7; transition: all 0.2s; }
+    .kt-ai-btn:hover { background: #000; box-shadow: 0 2px 12px rgba(0,0,0,0.15); }
+    .kt-ai-btn svg { color: #F5F5F7; }
     .kt-ai-label { }
-    .kt-avatar { width: 32px; height: 32px; border-radius: 50%; background: rgba(0,0,0,0.04); display: flex; align-items: center; justify-content: center; color: #86868B; text-decoration: none; transition: background 0.15s; }
-    .kt-avatar:hover { background: rgba(0,0,0,0.08); color: #1D1D1F; }
+    .kt-avatar { width: 32px; height: 32px; border-radius: 50%; background: rgba(0,0,0,0.03); border: 1px solid rgba(0,0,0,0.06); display: flex; align-items: center; justify-content: center; color: #AEAEB2; text-decoration: none; transition: all 0.15s; cursor: pointer; }
+    .kt-avatar:hover { background: rgba(0,0,0,0.06); color: #86868B; }
 
     /* Profile Dropdown */
     .kt-profile-drop { position: absolute; top: 48px; right: 20px; width: 260px; background: #FFF; border-radius: 16px; border: 1px solid rgba(0,0,0,0.06); box-shadow: 0 12px 48px rgba(0,0,0,0.12); z-index: 400; display: none; overflow: hidden; padding: 6px 0; }
@@ -368,8 +368,6 @@
 
     /* Hover glow on AI button */
     .kt-ai-btn { position: relative; overflow: hidden; }
-    .kt-ai-btn::after { content: ''; position: absolute; inset: -1px; border-radius: 980px; background: linear-gradient(135deg, rgba(215,0,48,0.1), transparent); opacity: 0; transition: opacity 0.3s; }
-    .kt-ai-btn:hover::after { opacity: 1; }
 
     @media (max-width: 640px) {
       .ks { width: 100%; }
@@ -395,7 +393,7 @@
   const isDashboardHome = currentFile === 'home.html' && path.includes('/dashboard/');
   const isDesktop = window.innerWidth > 768;
   let sidebarOpen = isDashboardHome && isDesktop;
-  let aiOpen = isDashboardHome;
+  let aiOpen = false;
 
   window.toggleSidebar = function() {
     sidebarOpen = !sidebarOpen;
