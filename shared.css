@@ -113,3 +113,7 @@ body {
 
 a { text-decoration: none; color: inherit; }
 img { display: block; max-width: 100%; }
+
+/* ═══ LEGIBILITY FIX — Minimum font sizes ═══ */
+/* Apple HIG: minimum 11pt for any text, 17pt for body */
+/* KTANA: body 15px, labels 12px, meta 11px, never below 10px */
