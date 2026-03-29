@@ -96,26 +96,26 @@
           ${svg('M4 6h16M4 12h16M4 18h16', 18)}
         </button>
         <div class="kt-org" onclick="toggleOrgSwitcher()">
-          <span class="kt-logo"><svg width="18" height="18" viewBox="0 0 32 32" fill="none" stroke="#D70030" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 28L24 4"/><circle cx="18" cy="14" r="2"/><path d="M6 26l4 0"/></svg> KTANA</span>
-          <span class="kt-client-logo"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" stroke="#7FB1BD" stroke-width="1.5" stroke-linejoin="round"/><circle cx="12" cy="11" r="3" stroke="#7FB1BD" stroke-width="1" fill="#7FB1BD" fill-opacity="0.15"/></svg></span>
+          <span class="kt-logo">KTANA</span>
+          <span class="kt-client-name" style="font-family:'Inter',sans-serif;font-size:12px;color:#86868B;margin-left:8px;">CSB Fintechs</span>
           <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" class="kt-org-chev"><path d="M6 9l6 6 6-6"/></svg>
         </div>
         <!-- Org Switcher -->
         <div class="kt-org-drop" id="ktOrgDrop">
           <div class="kt-org-head">Suas organizacoes</div>
-          <a href="${t('organizations/index.html')}" class="kt-org-item kt-org-active">
-            <div class="kt-org-av" style="background:rgba(127,177,189,0.12);"><svg width="16" height="16" viewBox="0 0 40 40" fill="none"><path d="M12 20a8 8 0 0116 0" stroke="#7FB1BD" stroke-width="2.5" stroke-linecap="round"/><circle cx="20" cy="14" r="3" stroke="#7FB1BD" stroke-width="2"/></svg></div>
+          <div class="kt-org-item kt-org-active" onclick="switchOrg('CSB Fintechs', event)">
+            <div class="kt-org-av" style="background:rgba(127,177,189,0.12);font-family:'Inter',sans-serif;font-size:10px;font-weight:600;color:#7FB1BD;">CSB</div>
             <div class="kt-org-info"><div class="kt-org-n">CSB Fintechs</div><div class="kt-org-p">GUNDAN · 4 samurais</div></div>
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#30D158" stroke-width="2.5" stroke-linecap="round"><path d="M20 6L9 17l-5-5"/></svg>
-          </a>
-          <a href="${t('organizations/index.html')}" class="kt-org-item">
-            <div class="kt-org-av" style="background:rgba(100,210,255,0.08);color:#64D2FF;">KT</div>
+          </div>
+          <div class="kt-org-item" onclick="switchOrg('KTANA', event)">
+            <div class="kt-org-av" style="background:rgba(215,0,48,0.06);font-family:'Zen Dots',cursive;font-size:8px;color:#D70030;">KT</div>
             <div class="kt-org-info"><div class="kt-org-n">KTANA</div><div class="kt-org-p">BAKUFU · 8 samurais</div></div>
-          </a>
-          <a href="${t('organizations/index.html')}" class="kt-org-item">
-            <div class="kt-org-av" style="background:rgba(48,209,88,0.08);color:#30D158;">VD</div>
+          </div>
+          <div class="kt-org-item" onclick="switchOrg('Vende Direito', event)">
+            <div class="kt-org-av" style="background:rgba(48,209,88,0.08);font-family:'Inter',sans-serif;font-size:10px;font-weight:600;color:#30D158;">VD</div>
             <div class="kt-org-info"><div class="kt-org-n">Vende Direito</div><div class="kt-org-p">RONIN · 1 samurai</div></div>
-          </a>
+          </div>
           <div class="kt-org-sep"></div>
           <a href="${t('organizations/index.html')}" class="kt-org-item kt-org-manage">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
@@ -252,8 +252,7 @@
     .kt-pf-auth-inputs { display: flex; gap: 6px; justify-content: center; }
     .kt-pf-code { width: 34px; height: 40px; border-radius: 8px; border: 1px solid rgba(0,0,0,0.08); background: #F5F5F7; text-align: center; font-family: 'Inter', sans-serif; font-size: 16px; font-weight: 600; color: #1D1D1F; outline: none; transition: border-color 0.15s; }
     .kt-pf-code:focus { border-color: #D70030; box-shadow: 0 0 0 2px rgba(215,0,48,0.08); }
-    .kt-client-logo { display: flex; align-items: center; margin-left: 12px; opacity: 0.7; transition: opacity 0.15s; }
-    .kt-org:hover .kt-client-logo { opacity: 1; }
+    .kt-client-name { display: flex; align-items: center; }
 
     /* Org Switcher */
     .kt-org { display: flex; align-items: center; gap: 6px; cursor: pointer; padding: 4px 10px 4px 0; border-radius: 8px; transition: background 0.15s; position: relative; }
@@ -262,7 +261,7 @@
     .kt-org-chev { color: #AEAEB2; transition: transform 0.2s; }
     .kt-org.open .kt-org-chev { transform: rotate(180deg); }
 
-    .kt-org-drop { position: absolute; top: calc(100% + 8px); left: 0; width: 280px; background: #FFF; border-radius: 16px; border: 1px solid rgba(0,0,0,0.06); box-shadow: 0 12px 48px rgba(0,0,0,0.12); z-index: 400; display: none; overflow: hidden; }
+    .kt-org-drop { position: fixed; top: 52px; left: 60px; width: 280px; background: #FFF; border-radius: 16px; border: 1px solid rgba(0,0,0,0.06); box-shadow: 0 12px 48px rgba(0,0,0,0.12); z-index: 400; display: none; overflow: hidden; }
     .kt-org-drop.open { display: block; animation: kaUp 0.2s cubic-bezier(0.32,0.72,0,1); }
     .kt-org-head { font-family: 'Inter', sans-serif; font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; color: #AEAEB2; padding: 14px 16px 8px; }
     .kt-org-item { display: flex; align-items: center; gap: 12px; padding: 10px 16px; cursor: pointer; transition: background 0.12s; text-decoration: none; color: inherit; }
@@ -443,6 +442,27 @@
     drop.classList.toggle('open');
     org.classList.toggle('open');
   };
+
+  window.switchOrg = function(name, e) {
+    e.stopPropagation();
+    // Update client name in top bar
+    const clientName = document.querySelector('.kt-client-name');
+    if (clientName) clientName.textContent = name;
+    // Update active state in dropdown
+    document.querySelectorAll('.kt-org-item').forEach(function(item) {
+      item.classList.remove('kt-org-active');
+      const check = item.querySelector('svg[stroke="#30D158"]');
+      if (check) check.remove();
+    });
+    const clicked = e.target.closest('.kt-org-item');
+    if (clicked) {
+      clicked.classList.add('kt-org-active');
+      clicked.insertAdjacentHTML('beforeend', '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#30D158" stroke-width="2.5" stroke-linecap="round"><path d="M20 6L9 17l-5-5"/></svg>');
+    }
+    // Close dropdown
+    toggleOrgSwitcher();
+  };
+
   document.addEventListener('click', function(e) {
     if (!e.target.closest('.kt-org') && !e.target.closest('.kt-org-drop')) {
       const d = document.getElementById('ktOrgDrop');
