@@ -29,6 +29,37 @@
 .play-btn:hover{transform:scale(1.08)}
 .play-btn svg{width:24px;height:24px;fill:#FFF;margin-left:2px}
 .video-label{font-family:'Inter',sans-serif;font-size:13px;color:rgba(255,255,255,0.5);font-weight:500}
+/* CHAT DEMO */
+.chat-demo{max-width:400px;width:100%;margin:0 auto;background:#FFF;border-radius:20px;box-shadow:0 4px 40px rgba(0,0,0,0.06);overflow:hidden;opacity:0;animation:fadeUp 0.8s 0.85s forwards}
+.chat-header{display:flex;align-items:center;gap:10px;padding:14px 18px;border-bottom:1px solid rgba(0,0,0,0.04)}
+.chat-avatar{width:32px;height:32px;border-radius:50%;background:#D70030;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.chat-avatar svg{width:16px;height:16px;fill:#FFF}
+.chat-avatar-info{display:flex;flex-direction:column}
+.chat-avatar-name{font-family:'Zen Dots',cursive;font-size:11px;color:#1D1D1F}
+.chat-avatar-status{font-family:'Inter',sans-serif;font-size:10px;color:#34C759;display:flex;align-items:center;gap:4px}
+.chat-avatar-status::before{content:'';width:5px;height:5px;border-radius:50%;background:#34C759}
+.chat-body{padding:16px 18px;min-height:140px;display:flex;flex-direction:column;gap:10px}
+.chat-msg{max-width:85%;padding:10px 14px;border-radius:16px;font-family:'Satoshi',sans-serif;font-size:14px;line-height:1.5;animation:fadeUp 0.4s forwards}
+.chat-msg-ai{background:#F0F0F2;color:#1D1D1F;border-bottom-left-radius:4px;align-self:flex-start}
+.chat-msg-user{background:#D70030;color:#FFF;border-bottom-right-radius:4px;align-self:flex-end}
+.chat-input{display:flex;align-items:center;gap:8px;padding:12px 18px;border-top:1px solid rgba(0,0,0,0.04)}
+.chat-input-field{flex:1;font-family:'Inter',sans-serif;font-size:13px;color:#AEAEB2;background:none;border:none;outline:none}
+.chat-input-send{width:28px;height:28px;border-radius:50%;background:#D70030;display:flex;align-items:center;justify-content:center;cursor:pointer;border:none;transition:opacity 0.2s}
+.chat-input-send:hover{opacity:0.85}
+.chat-input-send svg{width:12px;height:12px;fill:#FFF}
+.typing-dot{display:inline-block;width:6px;height:6px;border-radius:50%;background:#86868B;animation:typingBounce 1.4s infinite;margin-right:3px}
+.typing-dot:nth-child(2){animation-delay:0.2s}
+.typing-dot:nth-child(3){animation-delay:0.4s;margin-right:0}
+@keyframes typingBounce{0%,60%,100%{transform:translateY(0)}30%{transform:translateY(-4px)}}
+
+/* FAB FLUTUANTE */
+.chat-fab{position:fixed;bottom:28px;right:28px;z-index:100;width:56px;height:56px;border-radius:50%;background:#D70030;display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 4px 20px rgba(215,0,48,0.3);border:none;transition:transform 0.2s,box-shadow 0.2s;animation:fabPulse 3s ease-in-out infinite}
+.chat-fab:hover{transform:scale(1.08);box-shadow:0 6px 28px rgba(215,0,48,0.4)}
+.chat-fab svg{width:24px;height:24px;fill:#FFF}
+.fab-badge{position:absolute;top:-2px;right:-2px;width:14px;height:14px;border-radius:50%;background:#34C759;border:2px solid #F5F5F7;animation:fabBadgePulse 2s infinite}
+@keyframes fabPulse{0%,100%{box-shadow:0 4px 20px rgba(215,0,48,0.3)}50%{box-shadow:0 4px 28px rgba(215,0,48,0.5)}}
+@keyframes fabBadgePulse{0%,100%{opacity:1}50%{opacity:0.6}}
+
 /* CTA */
 .cta{text-align:center;padding:160px 24px}
 .cta h2{font-family:'Zen Dots',cursive;font-size:clamp(28px,5vw,52px);font-weight:400;line-height:1.12;color:#1D1D1F;margin-bottom:16px}
