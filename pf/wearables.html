@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Seus Dispositivos — KTANA</title>
+  <link rel="stylesheet" href="../shared.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Zen+Dots&display=swap" rel="stylesheet">
+  <style>
+    body { min-height: 100vh; background: #F5F5F7; }
+    .main { max-width: 720px; margin: 0 auto; padding: 32px 20px 80px; }
+    h1 { font-family: 'Zen Dots', cursive; font-size: 26px; color: #1D1D1F; margin-bottom: 6px; }
+    .sub { font-family: 'Satoshi', sans-serif; font-size: 14px; color: #86868B; margin-bottom: 32px; line-height: 1.5; }
+
+    /* Device card */
+    .device { background: #FFF; border-radius: 20px; border: 1px solid rgba(0,0,0,0.04); padding: 24px; margin-bottom: 12px; transition: box-shadow 0.2s; }
+    .device:hover { box-shadow: 0 4px 24px rgba(0,0,0,0.04); }
+    .device-header { display: flex; align-items: center; gap: 16px; margin-bottom: 16px; }
+    .device-icon { width: 52px; height: 52px; border-radius: 14px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .device-info { flex: 1; }
+    .device-name { font-family: 'Satoshi', sans-serif; font-size: 16px; font-weight: 600; color: #1D1D1F; }
+    .device-type { font-family: 'Inter', sans-serif; font-size: 11px; color: #86868B; margin-top: 2px; }
+    .device-status { font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 500; display: flex; align-items: center; gap: 5px; flex-shrink: 0; }
+    .device-status.connected { color: #30D158; }
+    .device-status.available { color: #AEAEB2; }
+    .status-dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
+    .status-dot.on { background: #30D158; animation: pulse 2s infinite; }
+    .status-dot.off { background: #D2D2D7; }
+    @keyframes pulse { 0%,100%{opacity:1}50%{opacity:0.4} }
+
+    /* Data captures */
+    .device-data { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 14px; }
+    .data-tag { font-family: 'Inter', sans-serif; font-size: 11px; color: #6E6E73; background: rgba(0,0,0,0.03); border-radius: 8px; padding: 5px 10px; display: flex; align-items: center; gap: 5px; }
+    .data-tag svg { width: 12px; height: 12px; flex-shrink: 0; }
+
+    /* Sync info */
+    .sync-row { display: flex; align-items: center; justify-content: space-between; padding-top: 14px; border-top: 0.5px solid rgba(0,0,0,0.04); }
+    .sync-info { font-family: 'Inter', sans-serif; font-size: 11px; color: #AEAEB2; }
+    .sync-info strong { color: #86868B; }
+
+    /* Connect button */
+    .btn-connect { font-family: 'Inter', sans-serif; padding: 10px 20px; border-radius: 12px; font-size: 13px; font-weight: 500; border: none; cursor: pointer; min-height: 44px; transition: all 0.15s; display: flex; align-items: center; gap: 6px; }
+    .btn-connect:active { transform: scale(0.97); }
+    .btn-connect.primary { background: #1D1D1F; color: #F5F5F7; }
+    .btn-connect.primary:hover { background: #000; }
+    .btn-connect.outline { background: transparent; color: #1D1D1F; border: 1px solid rgba(0,0,0,0.08); }
+    .btn-connect.outline:hover { background: rgba(0,0,0,0.02); }
+    .btn-connect.connected-btn { background: rgba(48,209,88,0.06); color: #248A3D; border: 1px solid rgba(48,209,88,0.12); }
+
+    /* Section */
+    .section-label { font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: #D70030; margin-bottom: 14px; margin-top: 28px; }
+
+    /* Live metrics strip for connected devices */
+    .live-metrics { display: flex; gap: 8px; overflow-x: auto; margin-bottom: 14px; padding-bottom: 2px; }
+    .live-metric { background: rgba(0,0,0,0.02); border-radius: 12px; padding: 10px 14px; text-align: center; min-width: 80px; flex-shrink: 0; }
+    .live-val { font-family: 'Zen Dots', cursive; font-size: 16px; color: #1D1D1F; }
+    .live-label { font-family: 'Inter', sans-serif; font-size: 10px; color: #86868B; margin-top: 2px; }
+
+    /* Info card */
+    .info-card { background: rgba(215,0,48,0.02); border: 1px solid rgba(215,0,48,0.06); border-radius: 16px; padding: 20px; margin-top: 28px; }
+    .info-card p { font-family: 'Satoshi', sans-serif; font-size: 13px; color: #6E6E73; line-height: 1.6; }
+    .info-card strong { color: #1D1D1F; }
+
+    .fade-in { animation: fadeIn 0.3s cubic-bezier(0.25,0.1,0.25,1) both; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+  </style>
+</head>
+<body>
+
+  <main class="main"><div class="gradient-header">
+
+    <h1 class="fade-in">Seus Dispositivos</h1>
+    <p class="sub fade-in">Seus sentidos digitais. Quanto mais conectado, mais seus mentores entendem voce.</p>
+
+    <!-- CONNECTED -->
+    <p class="section-label fade-in">Conectados</p>
+
+    <!-- Apple Watch -->
+    <div class="device fade-in" style="animation-delay:0.05s">
+      <div class="device-header">
+        <div class="device-icon" style="background:rgba(0,0,0,0.03);">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#1D1D1F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="2" width="12" height="20" rx="3"/><line x1="10" y1="6" x2="14" y2="6"/><circle cx="12" cy="14" r="3"/></svg>
+        </div>
+        <div class="device-info">
+          <p class="device-name">Apple Watch Ultra 2</p>
+          <p class="device-type">Relogio inteligente</p>
+        </div>
+        <div class="device-status connected"><span class="status-dot on"></span> Sincronizado</div>
+      </div>
+      <div class="live-metrics">
+        <div class="live-metric"><div class="live-val">68</div><div class="live-label">BPM agora</div></div>
+        <div class="live-metric"><div class="live-val">8.4k</div><div class="live-label">Passos</div></div>
+        <div class="live-metric"><div class="live-val">340</div><div class="live-label">kcal</div></div>
+        <div class="live-metric"><div class="live-val">96%</div><div class="live-label">SpO2</div></div>
+      </div>
+      <div class="device-data">
+        <span class="data-tag"><svg viewBox="0 0 24 24" fill="none" stroke="#D70030" stroke-width="1.5"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg> Frequencia cardiaca</span>
+        <span class="data-tag"><svg viewBox="0 0 24 24" fill="none" stroke="#5E6AD2" stroke-width="1.5"><path d="M12 2a7 7 0 017 7c0 3.5-2 5.5-3.5 7h-7C7 14.5 5 12.5 5 9a7 7 0 017-7z"/></svg> Sono</span>
+        <span class="data-tag"><svg viewBox="0 0 24 24" fill="none" stroke="#30D158" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> Atividade</span>
+        <span class="data-tag"><svg viewBox="0 0 24 24" fill="none" stroke="#FF9F0A" stroke-width="1.5"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg> ECG</span>
+        <span class="data-tag"><svg viewBox="0 0 24 24" fill="none" stroke="#64D2FF" stroke-width="1.5"><path d="M12 2.69l5.66 5.66a8 8 0 11-11.31 0z"/></svg> Oxigenacao</span>
+      </div>
+      <div class="sync-row">
+        <span class="sync-info">Ultima sync: <strong>ha 3 min</strong></span>
+        <button class="btn-connect connected-btn">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+          Conectado
+        </button>
+      </div>
+    </div>
+
+    <!-- Oura Ring -->
+    <div class="device fade-in" style="animation-delay:0.1s">
+      <div class="device-header">
+        <div class="device-icon" style="background:rgba(0,0,0,0.03);">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#1D1D1F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="4"/></svg>
+        </div>
+        <div class="device-info">
+          <p class="device-name">Oura Ring Gen 3</p>
+          <p class="device-type">Anel inteligente</p>
+        </div>
+        <div class="device-status connected"><span class="status-dot on"></span> Sincronizado</div>
+      </div>
+      <div class="live-metrics">
+        <div class="live-metric"><div class="live-val">82</div><div class="live-label">Readiness</div></div>
+        <div class="live-metric"><div class="live-val">7h12</div><div class="live-label">Sono</div></div>
+        <div class="live-metric"><div class="live-val">42ms</div><div class="live-label">HRV</div></div>
+        <div class="live-metric"><div class="live-val">36.4</div><div class="live-label">Temp C</div></div>
+      </div>
+      <div class="device-data">
+        <span class="data-tag"><svg viewBox="0 0 24 24" fill="none" stroke="#5E6AD2" stroke-width="1.5"><path d="M12 2a7 7 0 017 7c0 3.5-2 5.5-3.5 7h-7C7 14.5 5 12.5 5 9a7 7 0 017-7z"/></svg> Sono profundo</span>
+        <span class="data-tag"><svg viewBox="0 0 24 24" fill="none" stroke="#D70030" stroke-width="1.5"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg> HRV</span>
+        <span class="data-tag"><svg viewBox="0 0 24 24" fill="none" stroke="#FF9F0A" stroke-width="1.5"><path d="M14 14.76V3.5a2.5 2.5 0 00-5 0v11.26a4.5 4.5 0 105 0z"/></svg> Temperatura corporal</span>
+        <span class="data-tag"><svg viewBox="0 0 24 24" fill="none" stroke="#30D158" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> Readiness score</span>
+      </div>
+      <div class="sync-row">
+        <span class="sync-info">Ultima sync: <strong>ha 12 min</strong></span>
+        <button class="btn-connect connected-btn">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+          Conectado
+        </button>
+      </div>
+    </div>
+
+    <!-- AVAILABLE -->
+    <p class="section-label fade-in" style="animation-delay:0.15s">Disponiveis para conectar</p>
+
+    <!-- Samsung Galaxy Watch -->
+    <div class="device fade-in" style="animation-delay:0.2s">
+      <div class="device-header">
+        <div class="device-icon" style="background:rgba(0,0,0,0.02);">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#AEAEB2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="2" width="12" height="20" rx="3"/><circle cx="12" cy="12" r="4"/></svg>
+        </div>
+        <div class="device-info">
+          <p class="device-name">Samsung Galaxy Watch</p>
+          <p class="device-type">Relogio inteligente</p>
+        </div>
+        <button class="btn-connect primary" onclick="this.innerHTML='<div style=\'width:14px;height:14px;border:2px solid rgba(255,255,255,0.3);border-top-color:#FFF;border-radius:50%;animation:spin 0.6s linear infinite\'></div> Pareando...';setTimeout(()=>{this.innerHTML='Conectado';this.className='btn-connect connected-btn'},2000)">Conectar</button>
+      </div>
+      <div class="device-data">
+        <span class="data-tag" style="opacity:0.5;">FC, sono, passos, SpO2, estresse</span>
+      </div>
+    </div>
+
+    <!-- Garmin -->
+    <div class="device fade-in" style="animation-delay:0.25s">
+      <div class="device-header">
+        <div class="device-icon" style="background:rgba(0,0,0,0.02);">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#AEAEB2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        </div>
+        <div class="device-info">
+          <p class="device-name">Garmin</p>
+          <p class="device-type">Relogio esportivo</p>
+        </div>
+        <button class="btn-connect primary" onclick="this.innerHTML='Pareando...';setTimeout(()=>{this.innerHTML='Conectado';this.className='btn-connect connected-btn'},2000)">Conectar</button>
+      </div>
+      <div class="device-data">
+        <span class="data-tag" style="opacity:0.5;">VO2max, treino, sono, FC, Body Battery</span>
+      </div>
+    </div>
+
+    <!-- Fitbit -->
+    <div class="device fade-in" style="animation-delay:0.3s">
+      <div class="device-header">
+        <div class="device-icon" style="background:rgba(0,0,0,0.02);">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#AEAEB2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="7" y="4" width="10" height="16" rx="2"/><line x1="12" y1="8" x2="12" y2="12"/></svg>
+        </div>
+        <div class="device-info">
+          <p class="device-name">Fitbit</p>
+          <p class="device-type">Pulseira inteligente</p>
+        </div>
+        <button class="btn-connect primary" onclick="this.innerHTML='Pareando...';setTimeout(()=>{this.innerHTML='Conectado';this.className='btn-connect connected-btn'},2000)">Conectar</button>
+      </div>
+      <div class="device-data">
+        <span class="data-tag" style="opacity:0.5;">Passos, sono, FC, estresse, SpO2</span>
+      </div>
+    </div>
+
+    <!-- Xiaomi Mi Band -->
+    <div class="device fade-in" style="animation-delay:0.35s">
+      <div class="device-header">
+        <div class="device-icon" style="background:rgba(0,0,0,0.02);">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#AEAEB2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="8" y="3" width="8" height="18" rx="4"/><line x1="12" y1="8" x2="12" y2="10"/></svg>
+        </div>
+        <div class="device-info">
+          <p class="device-name">Xiaomi Smart Band</p>
+          <p class="device-type">Pulseira inteligente</p>
+        </div>
+        <button class="btn-connect primary" onclick="this.innerHTML='Pareando...';setTimeout(()=>{this.innerHTML='Conectado';this.className='btn-connect connected-btn'},2000)">Conectar</button>
+      </div>
+      <div class="device-data">
+        <span class="data-tag" style="opacity:0.5;">Passos, sono, FC, SpO2</span>
+      </div>
+    </div>
+
+    <!-- Whoop -->
+    <div class="device fade-in" style="animation-delay:0.4s">
+      <div class="device-header">
+        <div class="device-icon" style="background:rgba(0,0,0,0.02);">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#AEAEB2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+        </div>
+        <div class="device-info">
+          <p class="device-name">Whoop 4.0</p>
+          <p class="device-type">Pulseira de performance</p>
+        </div>
+        <button class="btn-connect primary" onclick="this.innerHTML='Pareando...';setTimeout(()=>{this.innerHTML='Conectado';this.className='btn-connect connected-btn'},2000)">Conectar</button>
+      </div>
+      <div class="device-data">
+        <span class="data-tag" style="opacity:0.5;">Strain, recovery, sono, HRV, FC</span>
+      </div>
+    </div>
+
+    <!-- Meta Ray-Ban -->
+    <div class="device fade-in" style="animation-delay:0.45s">
+      <div class="device-header">
+        <div class="device-icon" style="background:rgba(0,0,0,0.02);">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#AEAEB2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+        </div>
+        <div class="device-info">
+          <p class="device-name">Meta Ray-Ban Smart Glasses</p>
+          <p class="device-type">Oculos inteligente</p>
+        </div>
+        <button class="btn-connect primary" onclick="this.innerHTML='Pareando...';setTimeout(()=>{this.innerHTML='Conectado';this.className='btn-connect connected-btn'},2000)">Conectar</button>
+      </div>
+      <div class="device-data">
+        <span class="data-tag" style="opacity:0.5;">Visao, audio, interacoes, contexto visual</span>
+      </div>
+    </div>
+
+    <!-- Info -->
+    <div class="info-card fade-in" style="animation-delay:0.5s">
+      <p><strong>Quanto mais dispositivos, melhor a simbiose.</strong></p>
+      <p style="margin-top:8px;">Cada sensor alimenta seus mentores em tempo real. O cerebro cruza todos os dados: sono afetou treino, estresse impactou alimentacao, rotina influenciou produtividade. Voce ve o resultado — a acao e dos seus mentores, no WhatsApp e por voz.</p>
+    </div>
+
+  </div></main>
+
+<style>@keyframes spin{to{transform:rotate(360deg)}}</style>
+<script src="../shared-nav.js?v=1774794914"></script>
+</body>
+</html>
