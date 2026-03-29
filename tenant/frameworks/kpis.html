@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>KPIs — KTANA</title>
+  <link rel="stylesheet" href="../../shared.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Zen+Dots&display=swap" rel="stylesheet">
+  <style>
+    body { min-height: 100vh; background: #F5F5F7; }
+    .main { max-width: 1080px; margin: 0 auto; padding: 32px 24px 80px; }
+    h1 { font-family: 'Satoshi', sans-serif; font-size: 28px; font-weight: 700; color: #1D1D1F; margin-bottom: 4px; }
+    .sub { font-family: 'Satoshi', sans-serif; font-size: 14px; color: #86868B; margin-bottom: 28px; line-height: 1.5; }
+
+    /* Tabs */
+    .tabs { display: flex; gap: 2px; background: rgba(0,0,0,0.03); border-radius: 10px; padding: 2px; margin-bottom: 28px; overflow-x: auto; width: fit-content; }
+    .tab { font-family: 'Inter', sans-serif; padding: 7px 18px; border-radius: 8px; font-size: 12px; color: #86868B; cursor: pointer; border: none; background: none; white-space: nowrap; text-decoration: none; display: inline-flex; align-items: center; }
+    .tab.on { background: #FFF; color: #1D1D1F; box-shadow: 0 1px 3px rgba(0,0,0,0.06); font-weight: 500; }
+
+    /* Section label */
+    .section-label { font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: #D70030; margin-bottom: 14px; margin-top: 8px; }
+
+    /* KPI grid */
+    .kpi-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 32px; }
+    @media (max-width: 900px) { .kpi-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 560px) { .kpi-grid { grid-template-columns: 1fr; } }
+
+    /* KPI card */
+    .kpi-card { background: #FFF; border-radius: 20px; border: 1px solid rgba(0,0,0,0.04); padding: 20px; transition: all 0.25s; }
+    .kpi-card:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(0,0,0,0.06); }
+    .kpi-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
+    .kpi-name { font-family: 'Satoshi', sans-serif; font-size: 13px; font-weight: 600; color: #1D1D1F; }
+    .kpi-trend { display: inline-flex; align-items: center; gap: 3px; font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 500; padding: 2px 8px; border-radius: 6px; }
+    .kpi-trend.up { background: rgba(48,209,88,0.1); color: #30D158; }
+    .kpi-trend.down { background: rgba(255,69,58,0.1); color: #FF453A; }
+    .kpi-trend.stable { background: rgba(0,0,0,0.03); color: #86868B; }
+    .kpi-value { font-family: 'Satoshi', sans-serif; font-size: 28px; font-weight: 700; color: #1D1D1F; margin-bottom: 4px; }
+    .kpi-target { font-family: 'Inter', sans-serif; font-size: 11px; color: #86868B; margin-bottom: 12px; }
+    .kpi-bar { height: 4px; background: rgba(0,0,0,0.04); border-radius: 2px; overflow: hidden; margin-bottom: 10px; }
+    .kpi-fill { height: 100%; border-radius: 2px; transition: width 0.4s; }
+    .kpi-fill.good { background: #30D158; }
+    .kpi-fill.warn { background: #FF9F0A; }
+    .kpi-fill.bad { background: #FF453A; }
+    .kpi-fill.neutral { background: #1D1D1F; }
+    .kpi-samurai { display: flex; align-items: center; gap: 6px; padding-top: 10px; border-top: 0.5px solid rgba(0,0,0,0.04); }
+    .kpi-samurai-dot { width: 6px; height: 6px; border-radius: 50%; background: #D70030; flex-shrink: 0; }
+    .kpi-samurai-name { font-family: 'Inter', sans-serif; font-size: 10px; color: #86868B; }
+
+    .fade-in { animation: fadeIn 0.3s cubic-bezier(0.25,0.1,0.25,1) both; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+  </style>
+</head>
+<body>
+
+  <main class="main">
+    <h1 class="fade-in">KPIs</h1>
+    <p class="sub fade-in">Metricas-chave monitoradas pelos seus samurais. Valores atualizados automaticamente com alertas quando saem da faixa.</p>
+
+    <!-- Tabs -->
+    <div class="tabs fade-in">
+      <a class="tab" href="index.html">Organograma</a>
+      <a class="tab" href="processes.html">Processos</a>
+      <a class="tab on" href="kpis.html">KPIs</a>
+    </div>
+
+    <!-- Financeiro -->
+    <p class="section-label fade-in">Financeiro</p>
+    <div class="kpi-grid fade-in" style="animation-delay:0.1s">
+
+      <div class="kpi-card">
+        <div class="kpi-top">
+          <span class="kpi-name">MRR</span>
+          <span class="kpi-trend up">
+            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/></svg>
+            +12%
+          </span>
+        </div>
+        <div class="kpi-value">R$ 87.400</div>
+        <div class="kpi-target">Meta: R$ 100.000</div>
+        <div class="kpi-bar"><div class="kpi-fill good" style="width:87%;"></div></div>
+        <div class="kpi-samurai"><div class="kpi-samurai-dot"></div><span class="kpi-samurai-name">CFO Samurai</span></div>
+      </div>
+
+      <div class="kpi-card">
+        <div class="kpi-top">
+          <span class="kpi-name">ARR</span>
+          <span class="kpi-trend up">
+            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/></svg>
+            +15%
+          </span>
+        </div>
+        <div class="kpi-value">R$ 1.05M</div>
+        <div class="kpi-target">Meta: R$ 1.2M</div>
+        <div class="kpi-bar"><div class="kpi-fill good" style="width:87%;"></div></div>
+        <div class="kpi-samurai"><div class="kpi-samurai-dot"></div><span class="kpi-samurai-name">CFO Samurai</span></div>
+      </div>
+
+      <div class="kpi-card">
+        <div class="kpi-top">
+          <span class="kpi-name">Churn mensal</span>
+          <span class="kpi-trend down">
+            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 18 13.5 8.5 8.5 13.5 1 6"/></svg>
+            -0.3%
+          </span>
+        </div>
+        <div class="kpi-value">2.1%</div>
+        <div class="kpi-target">Meta: &lt; 3%</div>
+        <div class="kpi-bar"><div class="kpi-fill good" style="width:30%;"></div></div>
+        <div class="kpi-samurai"><div class="kpi-samurai-dot"></div><span class="kpi-samurai-name">CFO Samurai</span></div>
+      </div>
+
+      <div class="kpi-card">
+        <div class="kpi-top">
+          <span class="kpi-name">LTV</span>
+          <span class="kpi-trend up">
+            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/></svg>
+            +8%
+          </span>
+        </div>
+        <div class="kpi-value">R$ 24.800</div>
+        <div class="kpi-target">Meta: R$ 30.000</div>
+        <div class="kpi-bar"><div class="kpi-fill warn" style="width:83%;"></div></div>
+        <div class="kpi-samurai"><div class="kpi-samurai-dot"></div><span class="kpi-samurai-name">CFO Samurai</span></div>
+      </div>
+
+      <div class="kpi-card">
+        <div class="kpi-top">
+          <span class="kpi-name">CAC</span>
+          <span class="kpi-trend down">
+            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 18 13.5 8.5 8.5 13.5 1 6"/></svg>
+            -5%
+          </span>
+        </div>
+        <div class="kpi-value">R$ 1.200</div>
+        <div class="kpi-target">Meta: &lt; R$ 1.500</div>
+        <div class="kpi-bar"><div class="kpi-fill good" style="width:80%;"></div></div>
+        <div class="kpi-samurai"><div class="kpi-samurai-dot"></div><span class="kpi-samurai-name">SDR/Closer</span></div>
+      </div>
+
+      <div class="kpi-card">
+        <div class="kpi-top">
+          <span class="kpi-name">Margem bruta</span>
+          <span class="kpi-trend stable">
+            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="1" y1="12" x2="23" y2="12"/></svg>
+            0%
+          </span>
+        </div>
+        <div class="kpi-value">72%</div>
+        <div class="kpi-target">Meta: &gt; 70%</div>
+        <div class="kpi-bar"><div class="kpi-fill good" style="width:72%;"></div></div>
+        <div class="kpi-samurai"><div class="kpi-samurai-dot"></div><span class="kpi-samurai-name">CFO Samurai</span></div>
+      </div>
+
+    </div>
+
+    <!-- Produto -->
+    <p class="section-label fade-in" style="animation-delay:0.15s">Produto</p>
+    <div class="kpi-grid fade-in" style="animation-delay:0.2s">
+
+      <div class="kpi-card">
+        <div class="kpi-top">
+          <span class="kpi-name">NPS</span>
+          <span class="kpi-trend up">
+            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/></svg>
+            +5
+          </span>
+        </div>
+        <div class="kpi-value">72</div>
+        <div class="kpi-target">Meta: &gt; 70 (Excelente)</div>
+        <div class="kpi-bar"><div class="kpi-fill good" style="width:72%;"></div></div>
+        <div class="kpi-samurai"><div class="kpi-samurai-dot"></div><span class="kpi-samurai-name">SAC Samurai</span></div>
+      </div>
+
+      <div class="kpi-card">
+        <div class="kpi-top">
+          <span class="kpi-name">DAU</span>
+          <span class="kpi-trend up">
+            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/></svg>
+            +18%
+          </span>
+        </div>
+        <div class="kpi-value">1.340</div>
+        <div class="kpi-target">Meta: 1.500</div>
+        <div class="kpi-bar"><div class="kpi-fill warn" style="width:89%;"></div></div>
+        <div class="kpi-samurai"><div class="kpi-samurai-dot"></div><span class="kpi-samurai-name">CEO Samurai</span></div>
+      </div>
+
+      <div class="kpi-card">
+        <div class="kpi-top">
+          <span class="kpi-name">Feature adoption</span>
+          <span class="kpi-trend up">
+            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/></svg>
+            +7%
+          </span>
+        </div>
+        <div class="kpi-value">64%</div>
+        <div class="kpi-target">Meta: &gt; 60%</div>
+        <div class="kpi-bar"><div class="kpi-fill good" style="width:64%;"></div></div>
+        <div class="kpi-samurai"><div class="kpi-samurai-dot"></div><span class="kpi-samurai-name">CTO Samurai</span></div>
+      </div>
+
+      <div class="kpi-card">
+        <div class="kpi-top">
+          <span class="kpi-name">Time-to-value</span>
+          <span class="kpi-trend down">
+            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 18 13.5 8.5 8.5 13.5 1 6"/></svg>
+            -2 dias
+          </span>
+        </div>
+        <div class="kpi-value">3 dias</div>
+        <div class="kpi-target">Meta: &lt; 5 dias</div>
+        <div class="kpi-bar"><div class="kpi-fill good" style="width:40%;"></div></div>
+        <div class="kpi-samurai"><div class="kpi-samurai-dot"></div><span class="kpi-samurai-name">SAC Samurai</span></div>
+      </div>
+
+    </div>
+
+    <!-- Vendas -->
+    <p class="section-label fade-in" style="animation-delay:0.25s">Vendas</p>
+    <div class="kpi-grid fade-in" style="animation-delay:0.3s">
+
+      <div class="kpi-card">
+        <div class="kpi-top">
+          <span class="kpi-name">Pipeline</span>
+          <span class="kpi-trend up">
+            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/></svg>
+            +22%
+          </span>
+        </div>
+        <div class="kpi-value">R$ 340K</div>
+        <div class="kpi-target">Meta: R$ 400K</div>
+        <div class="kpi-bar"><div class="kpi-fill warn" style="width:85%;"></div></div>
+        <div class="kpi-samurai"><div class="kpi-samurai-dot"></div><span class="kpi-samurai-name">SDR/Closer</span></div>
+      </div>
+
+      <div class="kpi-card">
+        <div class="kpi-top">
+          <span class="kpi-name">Conversion rate</span>
+          <span class="kpi-trend up">
+            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/></svg>
+            +3%
+          </span>
+        </div>
+        <div class="kpi-value">28%</div>
+        <div class="kpi-target">Meta: &gt; 25%</div>
+        <div class="kpi-bar"><div class="kpi-fill good" style="width:28%;"></div></div>
+        <div class="kpi-samurai"><div class="kpi-samurai-dot"></div><span class="kpi-samurai-name">SDR/Closer</span></div>
+      </div>
+
+      <div class="kpi-card">
+        <div class="kpi-top">
+          <span class="kpi-name">Deal size medio</span>
+          <span class="kpi-trend stable">
+            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="1" y1="12" x2="23" y2="12"/></svg>
+            0%
+          </span>
+        </div>
+        <div class="kpi-value">R$ 4.500</div>
+        <div class="kpi-target">Meta: R$ 5.000</div>
+        <div class="kpi-bar"><div class="kpi-fill warn" style="width:90%;"></div></div>
+        <div class="kpi-samurai"><div class="kpi-samurai-dot"></div><span class="kpi-samurai-name">SDR/Closer</span></div>
+      </div>
+
+      <div class="kpi-card">
+        <div class="kpi-top">
+          <span class="kpi-name">Sales cycle</span>
+          <span class="kpi-trend down">
+            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 18 13.5 8.5 8.5 13.5 1 6"/></svg>
+            -5 dias
+          </span>
+        </div>
+        <div class="kpi-value">21 dias</div>
+        <div class="kpi-target">Meta: &lt; 30 dias</div>
+        <div class="kpi-bar"><div class="kpi-fill good" style="width:70%;"></div></div>
+        <div class="kpi-samurai"><div class="kpi-samurai-dot"></div><span class="kpi-samurai-name">SDR/Closer</span></div>
+      </div>
+
+    </div>
+
+    <!-- Engenharia -->
+    <p class="section-label fade-in" style="animation-delay:0.35s">Engenharia</p>
+    <div class="kpi-grid fade-in" style="animation-delay:0.4s">
+
+      <div class="kpi-card">
+        <div class="kpi-top">
+          <span class="kpi-name">Velocity (pts/sprint)</span>
+          <span class="kpi-trend up">
+            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/></svg>
+            +8%
+          </span>
+        </div>
+        <div class="kpi-value">42 pts</div>
+        <div class="kpi-target">Meta: 45 pts</div>
+        <div class="kpi-bar"><div class="kpi-fill warn" style="width:93%;"></div></div>
+        <div class="kpi-samurai"><div class="kpi-samurai-dot"></div><span class="kpi-samurai-name">CTO Samurai</span></div>
+      </div>
+
+      <div class="kpi-card">
+        <div class="kpi-top">
+          <span class="kpi-name">Bug rate</span>
+          <span class="kpi-trend down">
+            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 18 13.5 8.5 8.5 13.5 1 6"/></svg>
+            -15%
+          </span>
+        </div>
+        <div class="kpi-value">0.8%</div>
+        <div class="kpi-target">Meta: &lt; 2%</div>
+        <div class="kpi-bar"><div class="kpi-fill good" style="width:40%;"></div></div>
+        <div class="kpi-samurai"><div class="kpi-samurai-dot"></div><span class="kpi-samurai-name">Code Review</span></div>
+      </div>
+
+      <div class="kpi-card">
+        <div class="kpi-top">
+          <span class="kpi-name">Deploy frequency</span>
+          <span class="kpi-trend up">
+            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/></svg>
+            +3/sem
+          </span>
+        </div>
+        <div class="kpi-value">12/sem</div>
+        <div class="kpi-target">Meta: &gt; 10/semana</div>
+        <div class="kpi-bar"><div class="kpi-fill good" style="width:80%;"></div></div>
+        <div class="kpi-samurai"><div class="kpi-samurai-dot"></div><span class="kpi-samurai-name">DevOps Samurai</span></div>
+      </div>
+
+      <div class="kpi-card">
+        <div class="kpi-top">
+          <span class="kpi-name">MTTR</span>
+          <span class="kpi-trend down">
+            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 18 13.5 8.5 8.5 13.5 1 6"/></svg>
+            -20min
+          </span>
+        </div>
+        <div class="kpi-value">45 min</div>
+        <div class="kpi-target">Meta: &lt; 60 min</div>
+        <div class="kpi-bar"><div class="kpi-fill good" style="width:75%;"></div></div>
+        <div class="kpi-samurai"><div class="kpi-samurai-dot"></div><span class="kpi-samurai-name">DevOps Samurai</span></div>
+      </div>
+
+    </div>
+
+  </main>
+
+<script src="../../shared-nav.js"></script>
+</body>
+</html>
