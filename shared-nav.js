@@ -418,8 +418,8 @@
     .ks-foot-link svg { flex-shrink: 0; }
 
     /* AI Quick Chat */
-    .ka { position: fixed; top: 52px; right: 0; width: 380px; height: calc(100vh - 52px); background: #FAFAFA; border-left: 1px solid rgba(0,0,0,0.06); box-shadow: -4px 0 24px rgba(0,0,0,0.06); z-index: 190; display: none; flex-direction: column; overflow: hidden; transform: translateX(100%); transition: transform 0.3s cubic-bezier(0.25,0.1,0.25,1); }
-    .ka.open { display: flex; transform: translateX(0); }
+    .ka { position: fixed; top: 52px; right: 0; width: 380px; height: calc(100vh - 52px); background: #FAFAFA; border-left: 1px solid rgba(0,0,0,0.06); box-shadow: -4px 0 24px rgba(0,0,0,0.06); z-index: 190; display: flex; flex-direction: column; overflow: hidden; transform: translateX(100%); transition: transform 0.3s cubic-bezier(0.25,0.1,0.25,1); pointer-events: none; }
+    .ka.open { transform: translateX(0); pointer-events: auto; }
     body.ka-open { margin-right: 380px; transition: margin-right 0.3s cubic-bezier(0.25,0.1,0.25,1); }
     .ka.open { display: flex; animation: kaUp 0.25s cubic-bezier(0.4,0,0.2,1); }
     @keyframes kaUp { from { opacity: 0; transform: translateY(12px) scale(0.97); } to { opacity: 1; transform: translateY(0) scale(1); } }
@@ -519,17 +519,10 @@
 
   window.toggleAI = function() {
     aiOpen = !aiOpen;
-    var panel = document.getElementById('ktAI');
-    panel.style.display = 'flex';
-    requestAnimationFrame(function() {
-      panel.classList.toggle('open', aiOpen);
-      document.body.classList.toggle('ka-open', aiOpen);
-    });
-    if (!aiOpen) {
-      setTimeout(function() { panel.style.display = 'none'; }, 300);
-    }
+    document.getElementById('ktAI').classList.toggle('open', aiOpen);
+    document.body.classList.toggle('ka-open', aiOpen);
     if (aiOpen) {
-      setTimeout(function() { document.querySelector('#kaInput input').focus(); }, 100);
+      setTimeout(function() { document.querySelector('#kaInput input').focus(); }, 350);
     }
   };
 
