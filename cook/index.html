@@ -110,6 +110,30 @@
     .fw-tag { font-size: 8px; padding: 2px 6px; border-radius: 3px; background: rgba(255,255,255,0.04); color: #636366; }
     .fw-scope { font-size: 9px; color: #48484A; margin-top: 8px; }
 
+    /* Agent Flow Canvas */
+    .flow-canvas { position: relative; background: #050505; border: 1px solid rgba(255,255,255,0.04); border-radius: 14px; height: 340px; overflow: hidden; }
+    .flow-grid { position: absolute; inset: 0; opacity: 0.04; background-image: radial-gradient(circle at 1px 1px, #D70030 0.5px, transparent 0); background-size: 40px 40px; }
+    .flow-svg { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
+    .flow-node { position: absolute; text-align: center; z-index: 2; }
+    .flow-av { width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: 'Zen Dots', cursive; font-size: 13px; margin: 0 auto 4px; }
+    .flow-av-ceo { background: rgba(215,0,48,0.12); border: 1.5px solid rgba(215,0,48,0.4); color: #D70030; }
+    .flow-av-w { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.1); color: #8E8E93; }
+    .flow-name { font-size: 11px; font-weight: 500; color: #D2D2D7; }
+    .flow-role-label { font-size: 9px; color: #636366; }
+    .flow-action-tag { font-size: 8px; font-weight: 500; margin-top: 4px; padding: 2px 8px; border-radius: 4px; background: rgba(215,0,48,0.1); color: #D70030; display: inline-block; }
+    .flow-tag-green { background: rgba(48,209,88,0.1); color: #30D158; }
+    .flow-tag-blue { background: rgba(10,132,255,0.1); color: #0A84FF; }
+    .flow-tag-orange { background: rgba(255,159,10,0.1); color: #FF9F0A; }
+    .flow-glow { position: absolute; top: -4px; left: 50%; transform: translateX(-50%); width: 48px; height: 48px; border-radius: 50%; z-index: -1; animation: flowGlow 3s ease-in-out infinite; }
+    .flow-glow { box-shadow: 0 0 20px rgba(215,0,48,0.2), 0 0 40px rgba(215,0,48,0.05); }
+    .flow-g-green { box-shadow: 0 0 20px rgba(48,209,88,0.2), 0 0 40px rgba(48,209,88,0.05); }
+    .flow-g-blue { box-shadow: 0 0 20px rgba(10,132,255,0.2), 0 0 40px rgba(10,132,255,0.05); }
+    .flow-g-orange { box-shadow: 0 0 20px rgba(255,159,10,0.2), 0 0 40px rgba(255,159,10,0.05); }
+    @keyframes flowGlow { 0%,100% { opacity: 0.4; } 50% { opacity: 1; } }
+    .flow-bottom { position: absolute; bottom: 0; left: 0; right: 0; padding: 10px 16px; display: flex; gap: 16px; font-size: 9px; color: #48484A; background: linear-gradient(transparent, #050505); }
+    .flow-live-badge { color: #D70030; font-weight: 700; letter-spacing: 0.08em; display: flex; align-items: center; gap: 4px; margin-left: auto; }
+    .flow-live-badge::before { content: ''; width: 5px; height: 5px; border-radius: 50%; background: #D70030; animation: pulse 1.5s ease infinite; }
+
     /* Responsive */
     @media (max-width: 900px) {
       .content { grid-template-columns: 1fr; }
@@ -234,6 +258,31 @@
         <div class="stat-mini"><p class="stat-mini-val">472</p><p class="stat-mini-label">Sessoes</p></div>
         <div class="stat-mini"><p class="stat-mini-val">54</p><p class="stat-mini-label">Facts</p></div>
         <div class="stat-mini"><p class="stat-mini-val">214</p><p class="stat-mini-label">Acoes hoje</p></div>
+      </div>
+
+      <!-- AGENT FLOW — Visual Canvas -->
+      <div style="margin-bottom:24px;">
+        <p class="right-title" style="margin-bottom:12px;">Agent Flow — Escritorio virtual</p>
+        <div class="flow-canvas">
+          <div class="flow-grid"></div>
+          <svg class="flow-svg" viewBox="0 0 900 340">
+            <line x1="450" y1="65" x2="450" y2="120" stroke="#D70030" stroke-width="1" opacity="0.3"/>
+            <circle cx="450" cy="90" r="2" fill="#D70030"><animate attributeName="cy" values="65;120" dur="2s" repeatCount="indefinite"/><animate attributeName="opacity" values="1;0" dur="2s" repeatCount="indefinite"/></circle>
+            <line x1="400" y1="170" x2="200" y2="260" stroke="rgba(255,255,255,0.08)" stroke-width="0.5"/>
+            <circle cx="300" cy="215" r="1.5" fill="#30D158"><animate attributeName="cx" values="400;200" dur="3s" repeatCount="indefinite"/><animate attributeName="cy" values="170;260" dur="3s" repeatCount="indefinite"/><animate attributeName="opacity" values="1;0" dur="3s" repeatCount="indefinite"/></circle>
+            <line x1="450" y1="170" x2="450" y2="260" stroke="rgba(255,255,255,0.08)" stroke-width="0.5"/>
+            <circle cx="450" cy="215" r="1.5" fill="#0A84FF"><animate attributeName="cy" values="170;260" dur="2.5s" repeatCount="indefinite"/><animate attributeName="opacity" values="1;0" dur="2.5s" repeatCount="indefinite"/></circle>
+            <line x1="500" y1="170" x2="700" y2="260" stroke="rgba(255,255,255,0.08)" stroke-width="0.5"/>
+            <circle cx="600" cy="215" r="1.5" fill="#FF9F0A"><animate attributeName="cx" values="500;700" dur="3.5s" repeatCount="indefinite"/><animate attributeName="cy" values="170;260" dur="3.5s" repeatCount="indefinite"/><animate attributeName="opacity" values="1;0" dur="3.5s" repeatCount="indefinite"/></circle>
+            <line x1="240" y1="280" x2="660" y2="280" stroke="rgba(255,255,255,0.03)" stroke-width="0.5" stroke-dasharray="4,4"/>
+          </svg>
+          <div class="flow-node" style="left:50%;top:25px;transform:translateX(-50%);"><div class="flow-av" style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.1);color:#636366;">J</div><p class="flow-name" style="color:#636366;">Julio</p><p class="flow-role-label" style="color:#48484A;">Shogun</p></div>
+          <div class="flow-node" style="left:50%;top:105px;transform:translateX(-50%);"><div class="flow-av flow-av-ceo">A</div><p class="flow-name">Akira</p><p class="flow-role-label">CEO</p><div class="flow-action-tag">Consolidando briefing</div><div class="flow-glow"></div></div>
+          <div class="flow-node" style="left:18%;top:225px;transform:translateX(-50%);"><div class="flow-av flow-av-w">H</div><p class="flow-name">Hana</p><p class="flow-role-label">Secretaria</p><div class="flow-action-tag flow-tag-green">23 emails filtrados</div><div class="flow-glow flow-g-green"></div></div>
+          <div class="flow-node" style="left:50%;top:225px;transform:translateX(-50%);"><div class="flow-av flow-av-w">Y</div><p class="flow-name">Yuki</p><p class="flow-role-label">Controller</p><div class="flow-action-tag flow-tag-blue">DRE marco 80%</div><div class="flow-glow flow-g-blue"></div></div>
+          <div class="flow-node" style="left:82%;top:225px;transform:translateX(-50%);"><div class="flow-av flow-av-w">H</div><p class="flow-name">Haruki</p><p class="flow-role-label">PM</p><div class="flow-action-tag flow-tag-orange">Sprint 8/10</div><div class="flow-glow flow-g-orange"></div></div>
+          <div class="flow-bottom"><span>6 samurais</span><span>214 acoes</span><span>R$67 gastos</span><span class="flow-live-badge">LIVE</span></div>
+        </div>
       </div>
 
       <div class="right-header">
