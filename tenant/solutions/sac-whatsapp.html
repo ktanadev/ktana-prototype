@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SAC WhatsApp 24/7 — KTANA</title>
+  <link rel="stylesheet" href="../../shared.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Zen+Dots&display=swap" rel="stylesheet">
+  <style>
+    body { min-height: 100vh; background: #F5F5F7; }
+    .nav { position: sticky; top: 0; z-index: 50; height: 48px; display: flex; align-items: center; justify-content: center; background: rgba(245,245,247,0.72); backdrop-filter: saturate(180%) blur(20px); border-bottom: 0.5px solid rgba(0,0,0,0.06); }
+    .nav-inner { width: 100%; max-width: 1080px; padding: 0 24px; display: flex; align-items: center; justify-content: space-between; }
+    .nav-logo { font-family: 'Zen Dots', cursive; font-size: 14px; color: #D70030; }
+    .back-link { font-family: 'Inter', sans-serif; font-size: 12px; color: #86868B; display: flex; align-items: center; gap: 4px; }
+    .back-link:hover { color: #1D1D1F; }
+    .main { max-width: 800px; margin: 0 auto; padding: 40px 24px 80px; }
+    .hero { text-align: center; margin-bottom: 48px; }
+    .hero-icon { width: 72px; height: 72px; border-radius: 22px; background: rgba(215,0,48,0.06); display: inline-flex; align-items: center; justify-content: center; margin-bottom: 20px; }
+    .hero-badge { font-family: 'Inter', sans-serif; display: inline-block; padding: 4px 12px; border-radius: 980px; font-size: 11px; font-weight: 500; background: rgba(215,0,48,0.08); color: #D70030; margin-bottom: 12px; }
+    .hero h1 { font-family: 'Zen Dots', cursive; font-size: 28px; color: #1D1D1F; margin-bottom: 12px; }
+    .hero p { font-family: 'Satoshi', sans-serif; font-size: 16px; color: #86868B; line-height: 1.6; max-width: 560px; margin: 0 auto; }
+    .section { margin-bottom: 40px; }
+    .section-title { font-family: 'Inter', sans-serif; font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: #D70030; margin-bottom: 16px; }
+    .card { background: #FFF; border: 1px solid rgba(0,0,0,0.04); border-radius: 20px; padding: 24px; }
+    .steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+    .step { background: #FFF; border: 1px solid rgba(0,0,0,0.04); border-radius: 16px; padding: 20px 16px; text-align: center; }
+    .step-num { width: 28px; height: 28px; border-radius: 10px; background: rgba(215,0,48,0.08); display: inline-flex; align-items: center; justify-content: center; font-family: 'Inter', sans-serif; font-size: 12px; font-weight: 700; color: #D70030; margin-bottom: 10px; }
+    .step-title { font-family: 'Satoshi', sans-serif; font-size: 13px; font-weight: 600; color: #1D1D1F; margin-bottom: 6px; }
+    .step-desc { font-family: 'Inter', sans-serif; font-size: 11px; color: #86868B; line-height: 1.5; }
+    .metrics { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+    .metric { background: #FFF; border: 1px solid rgba(0,0,0,0.04); border-radius: 16px; padding: 20px; text-align: center; }
+    .metric-val { font-family: 'Zen Dots', cursive; font-size: 24px; color: #D70030; margin-bottom: 4px; }
+    .metric-label { font-family: 'Satoshi', sans-serif; font-size: 12px; color: #86868B; margin-bottom: 8px; }
+    .metric-before { font-family: 'Inter', sans-serif; font-size: 11px; color: #AEAEB2; }
+    .config-row { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 0.5px solid rgba(0,0,0,0.04); }
+    .config-row:last-child { border-bottom: none; }
+    .config-key { font-family: 'Satoshi', sans-serif; font-size: 14px; color: #1D1D1F; display: flex; align-items: center; gap: 8px; }
+    .config-val { font-family: 'Inter', sans-serif; font-size: 13px; color: #86868B; }
+    .toggle { width: 40px; height: 24px; border-radius: 12px; background: #E5E5EA; position: relative; cursor: pointer; flex-shrink: 0; }
+    .toggle.on { background: #D70030; }
+    .toggle::after { content: ''; position: absolute; top: 2px; left: 2px; width: 20px; height: 20px; border-radius: 50%; background: #FFF; transition: transform 0.2s; box-shadow: 0 1px 3px rgba(0,0,0,0.15); }
+    .toggle.on::after { transform: translateX(16px); }
+    .samurai { display: flex; align-items: center; gap: 16px; }
+    .samurai-avatar { width: 48px; height: 48px; border-radius: 16px; background: rgba(215,0,48,0.06); display: flex; align-items: center; justify-content: center; border: 1.5px solid rgba(215,0,48,0.12); }
+    .samurai-name { font-family: 'Satoshi', sans-serif; font-size: 15px; font-weight: 600; color: #1D1D1F; }
+    .samurai-model { font-family: 'Inter', sans-serif; font-size: 12px; color: #86868B; }
+    .cost-row { display: flex; justify-content: space-between; align-items: center; }
+    .cost-label { font-family: 'Satoshi', sans-serif; font-size: 15px; color: #1D1D1F; }
+    .cost-val { font-family: 'Zen Dots', cursive; font-size: 18px; color: #30D158; }
+    .cta { display: flex; gap: 12px; margin-top: 40px; }
+    .btn-activate { flex: 1; min-height: 52px; border-radius: 14px; background: #D70030; color: #FFF; font-family: 'Inter', sans-serif; font-size: 15px; font-weight: 600; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; transition: opacity 0.15s; }
+    .btn-activate:hover { opacity: 0.9; }
+    .btn-back { min-height: 52px; padding: 0 28px; border-radius: 14px; background: #FFF; color: #6E6E73; font-family: 'Inter', sans-serif; font-size: 14px; font-weight: 500; border: 1px solid rgba(0,0,0,0.06); cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.15s; }
+    .btn-back:hover { border-color: rgba(0,0,0,0.12); color: #1D1D1F; }
+    @media (max-width: 768px) { .steps { grid-template-columns: 1fr; } .metrics { grid-template-columns: 1fr; } }
+    @media (max-width: 480px) { .cta { flex-direction: column; } }
+    .fade-in { animation: fadeIn 0.4s cubic-bezier(0.25,0.1,0.25,1) both; }
+    .delay-1 { animation-delay: 0.08s; } .delay-2 { animation-delay: 0.16s; } .delay-3 { animation-delay: 0.24s; } .delay-4 { animation-delay: 0.32s; }
+  </style>
+</head>
+<body>
+
+  <nav class="nav">
+    <div class="nav-inner">
+      <a href="index.html" class="back-link">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M15 18l-6-6 6-6"/></svg>
+        Solucoes
+      </a>
+      <span class="nav-logo">KTANA</span>
+      <div style="width:60px;"></div>
+    </div>
+  </nav>
+
+  <main class="main">
+
+    <div class="hero fade-in">
+      <div class="hero-icon">
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#D70030" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+      </div>
+      <div class="hero-badge">Atendimento</div>
+      <h1>SAC WhatsApp 24/7</h1>
+      <p>Atendimento automatico via WhatsApp que funciona 24 horas. Responde duvidas, resolve problemas comuns e escala para humano quando necessario, tudo em menos de 5 segundos.</p>
+    </div>
+
+    <div class="section fade-in delay-1">
+      <div class="section-title">Como funciona</div>
+      <div class="steps">
+        <div class="step">
+          <div class="step-num">1</div>
+          <div class="step-title">Recebe mensagem</div>
+          <div class="step-desc">Cliente envia mensagem no WhatsApp. O samurai identifica intencao, sentimento e urgencia em milissegundos</div>
+        </div>
+        <div class="step">
+          <div class="step-num">2</div>
+          <div class="step-title">Resolve ou escala</div>
+          <div class="step-desc">Se consegue resolver (FAQ, status, boleto), responde na hora. Se nao, transfere para humano com contexto completo</div>
+        </div>
+        <div class="step">
+          <div class="step-num">3</div>
+          <div class="step-title">Aprende e melhora</div>
+          <div class="step-desc">Cada interacao alimenta a base de conhecimento. Taxa de resolucao automatica cresce toda semana</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section fade-in delay-2">
+      <div class="section-title">Metricas esperadas</div>
+      <div class="metrics">
+        <div class="metric">
+          <div class="metric-val">340</div>
+          <div class="metric-label">mensagens atendidas/dia</div>
+          <div class="metric-before">Antes: 45/dia (1 atendente)</div>
+        </div>
+        <div class="metric">
+          <div class="metric-val">80%</div>
+          <div class="metric-label">resolucao automatica</div>
+          <div class="metric-before">Antes: 0% (tudo manual)</div>
+        </div>
+        <div class="metric">
+          <div class="metric-val">&lt;5s</div>
+          <div class="metric-label">tempo de resposta</div>
+          <div class="metric-before">Antes: 23 min media</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section fade-in delay-3">
+      <div class="section-title">Configuracao</div>
+      <div class="card">
+        <div class="config-row">
+          <span class="config-key">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#86868B" stroke-width="1.5" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+            Horario de atendimento
+          </span>
+          <span class="config-val">24/7 (sempre ativo)</span>
+        </div>
+        <div class="config-row">
+          <span class="config-key">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#86868B" stroke-width="1.5" stroke-linecap="round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+            Tom de conversa
+          </span>
+          <span class="config-val">Amigavel, objetivo</span>
+        </div>
+        <div class="config-row">
+          <span class="config-key">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#86868B" stroke-width="1.5" stroke-linecap="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
+            Escalar para humano quando
+          </span>
+          <span class="config-val">Reclamacao, cancelamento, financeiro</span>
+        </div>
+        <div class="config-row">
+          <span class="config-key">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#86868B" stroke-width="1.5" stroke-linecap="round"><path d="M18.36 6.64a9 9 0 11-12.73 0"/><line x1="12" y1="2" x2="12" y2="12"/></svg>
+            Temas que nao pode responder
+          </span>
+          <span class="config-val">Juridico, contratos, reembolso</span>
+        </div>
+        <div class="config-row">
+          <span class="config-key">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#86868B" stroke-width="1.5" stroke-linecap="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            LGPD: nao armazenar dados sensiveis
+          </span>
+          <div class="toggle on"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section fade-in delay-3">
+      <div class="section-title">Samurai responsavel</div>
+      <div class="card">
+        <div class="samurai">
+          <div class="samurai-avatar">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#D70030" stroke-width="1.5" stroke-linecap="round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+          </div>
+          <div>
+            <div class="samurai-name">Hana — Atendimento Samurai</div>
+            <div class="samurai-model">Claude Haiku 4 (velocidade) + Sonnet 4.6 (complexos)</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section fade-in delay-4">
+      <div class="section-title">Custo</div>
+      <div class="card">
+        <div class="cost-row">
+          <span class="cost-label">Incluso no plano GUNDAN</span>
+          <span class="cost-val">R$0</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="cta fade-in delay-4">
+      <button class="btn-activate">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+        Ativar esta solucao
+      </button>
+      <a href="index.html" class="btn-back">Voltar ao marketplace</a>
+    </div>
+
+  </main>
+
+</body>
+</html>
