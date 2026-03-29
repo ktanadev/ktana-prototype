@@ -3,116 +3,119 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>COOK — Command Center — KTANA</title>
+  <title>COOK — Orchestrator Brain — KTANA</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Zen+Dots&display=swap" rel="stylesheet">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     body { font-family: 'Inter', -apple-system, system-ui, sans-serif; background: #0A0A0A; color: #F5F5F7; min-height: 100vh; -webkit-font-smoothing: antialiased; }
 
-    /* Header */
-    .header { padding: 32px 40px 24px; border-bottom: 0.5px solid rgba(255,255,255,0.04); display: flex; align-items: center; justify-content: space-between; }
-    .header-left { display: flex; align-items: center; gap: 16px; }
-    .logo { font-family: 'Zen Dots', cursive; font-size: 16px; color: #D70030; }
-    .logo-sub { font-family: 'Inter', sans-serif; font-size: 11px; color: #636366; letter-spacing: 0.1em; text-transform: uppercase; }
-    .header-right { display: flex; align-items: center; gap: 16px; font-size: 11px; color: #636366; }
+    /* Layout */
+    .header { position: sticky; top: 0; z-index: 50; padding: 16px 32px; border-bottom: 0.5px solid rgba(255,255,255,0.04); background: rgba(10,10,10,0.85); backdrop-filter: blur(20px); display: flex; align-items: center; justify-content: space-between; }
+    .header-left { display: flex; align-items: center; gap: 12px; }
+    .logo { font-family: 'Zen Dots', cursive; font-size: 15px; color: #D70030; }
+    .logo-sub { font-size: 10px; color: #48484A; letter-spacing: 0.1em; text-transform: uppercase; }
+    .header-right { display: flex; align-items: center; gap: 12px; font-size: 10px; color: #48484A; }
     .pulse { width: 6px; height: 6px; border-radius: 50%; background: #30D158; animation: pulse 2s ease-in-out infinite; }
-    @keyframes pulse { 0%,100% { box-shadow: 0 0 4px rgba(48,209,88,0.3); } 50% { box-shadow: 0 0 12px rgba(48,209,88,0.6); } }
+    @keyframes pulse { 0%,100% { box-shadow: 0 0 4px rgba(48,209,88,0.3); } 50% { box-shadow: 0 0 14px rgba(48,209,88,0.6); } }
 
-    /* Sections */
-    .content { padding: 32px 40px 80px; max-width: 1400px; margin: 0 auto; }
-    .section { margin-bottom: 48px; }
-    .section-label { font-size: 10px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: #D70030; margin-bottom: 16px; }
+    .content { display: grid; grid-template-columns: 340px 1fr; min-height: calc(100vh - 53px); }
 
-    /* Stats bar */
-    .stats-bar { display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; margin-bottom: 40px; }
-    .stat { background: #1C1C1E; border: 1px solid rgba(255,255,255,0.04); border-radius: 14px; padding: 20px; }
-    .stat-value { font-family: 'Zen Dots', cursive; font-size: 28px; color: #F5F5F7; }
-    .stat-label { font-size: 10px; color: #636366; margin-top: 4px; text-transform: uppercase; letter-spacing: 0.06em; }
+    /* Left panel — Agents + Feed */
+    .left-panel { border-right: 0.5px solid rgba(255,255,255,0.04); overflow-y: auto; max-height: calc(100vh - 53px); }
+    .panel-section { padding: 20px 16px; border-bottom: 0.5px solid rgba(255,255,255,0.04); }
+    .panel-label { font-size: 9px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: #D70030; margin-bottom: 12px; display: flex; align-items: center; justify-content: space-between; }
+    .panel-count { font-size: 9px; color: #48484A; font-weight: 400; }
 
-    /* Agents live */
-    .agents-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 12px; }
-    .agent-card { background: #1C1C1E; border: 1px solid rgba(255,255,255,0.04); border-radius: 14px; padding: 16px; display: flex; align-items: center; gap: 12px; transition: border-color 0.2s; }
-    .agent-card:hover { border-color: rgba(255,255,255,0.08); }
-    .agent-card.working { border-color: rgba(48,209,88,0.15); }
-    .agent-card.idle { opacity: 0.5; }
-    .agent-avatar { width: 36px; height: 36px; border-radius: 10px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-family: 'Zen Dots', cursive; font-size: 13px; }
-    .avatar-ceo { background: rgba(215,0,48,0.1); color: #D70030; border: 1px solid rgba(215,0,48,0.2); }
-    .avatar-default { background: rgba(255,255,255,0.03); color: #8E8E93; border: 1px solid rgba(255,255,255,0.06); }
-    .agent-info { flex: 1; min-width: 0; }
-    .agent-name { font-size: 13px; font-weight: 500; }
-    .agent-role { font-size: 10px; color: #636366; margin-top: 1px; }
-    .agent-status { font-size: 9px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; display: flex; align-items: center; gap: 4px; margin-top: 4px; }
-    .agent-status.online { color: #30D158; }
-    .agent-status.paused { color: #8E8E93; }
-    .status-dot { width: 5px; height: 5px; border-radius: 50%; }
-    .dot-online { background: #30D158; animation: pulse 2s ease-in-out infinite; }
-    .dot-paused { background: #8E8E93; }
+    /* Agent cards mini */
+    .agent-mini { display: flex; align-items: center; gap: 10px; padding: 8px 10px; border-radius: 10px; margin-bottom: 4px; transition: background 0.15s; cursor: pointer; }
+    .agent-mini:hover { background: rgba(255,255,255,0.03); }
+    .agent-mini.active { background: rgba(215,0,48,0.06); }
+    .a-av { width: 28px; height: 28px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-family: 'Zen Dots', cursive; font-size: 10px; flex-shrink: 0; }
+    .a-av-ceo { background: rgba(215,0,48,0.1); color: #D70030; border: 1px solid rgba(215,0,48,0.2); }
+    .a-av-def { background: rgba(255,255,255,0.03); color: #8E8E93; border: 1px solid rgba(255,255,255,0.06); }
+    .a-name { font-size: 12px; font-weight: 500; }
+    .a-role { font-size: 9px; color: #636366; }
+    .a-status { font-size: 8px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.03em; display: flex; align-items: center; gap: 3px; margin-left: auto; }
+    .a-status.on { color: #30D158; }
+    .a-status.off { color: #48484A; }
+    .dot { width: 4px; height: 4px; border-radius: 50%; }
+    .dot-on { background: #30D158; animation: pulse 2s ease infinite; }
 
-    /* Frameworks grid */
-    .fw-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 12px; }
-    .fw-card { background: #1C1C1E; border: 1px solid rgba(255,255,255,0.04); border-radius: 14px; padding: 20px; transition: border-color 0.2s, transform 0.15s; cursor: default; }
-    .fw-card:hover { border-color: rgba(255,255,255,0.08); transform: translateY(-1px); }
-    .fw-header { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; margin-bottom: 10px; }
-    .fw-name { font-size: 14px; font-weight: 600; color: #F5F5F7; line-height: 1.3; }
-    .fw-type { font-size: 9px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; padding: 3px 8px; border-radius: 6px; flex-shrink: 0; white-space: nowrap; }
-    .type-checklist { background: rgba(0,122,255,0.12); color: #0A84FF; }
-    .type-rule { background: rgba(215,0,48,0.12); color: #D70030; }
-    .type-pattern { background: rgba(191,90,242,0.12); color: #BF5AF2; }
-    .type-template { background: rgba(48,209,88,0.12); color: #30D158; }
-    .type-runbook { background: rgba(255,159,10,0.12); color: #FF9F0A; }
-    .fw-desc { font-size: 12px; color: #8E8E93; line-height: 1.5; margin-bottom: 12px; }
-    .fw-tags { display: flex; flex-wrap: wrap; gap: 4px; }
-    .fw-tag { font-size: 9px; padding: 2px 7px; border-radius: 4px; background: rgba(255,255,255,0.04); color: #636366; }
-    .fw-meta { display: flex; gap: 12px; margin-top: 10px; padding-top: 10px; border-top: 0.5px solid rgba(255,255,255,0.04); font-size: 10px; color: #48484A; }
+    /* Feed */
+    .feed { max-height: 400px; overflow-y: auto; }
+    .f-item { padding: 12px 0; border-bottom: 0.5px solid rgba(255,255,255,0.02); }
+    .f-item:last-child { border: none; }
+    .f-row { display: flex; align-items: center; gap: 4px; margin-bottom: 4px; flex-wrap: wrap; }
+    .f-from { font-size: 11px; font-weight: 600; color: #D2D2D7; }
+    .f-arrow { font-size: 9px; color: #48484A; }
+    .f-to { font-size: 11px; font-weight: 500; color: #8E8E93; }
+    .f-time { font-size: 9px; color: #48484A; margin-left: auto; font-variant-numeric: tabular-nums; }
+    .f-msg { font-size: 12px; color: #AEAEB2; line-height: 1.5; }
+    .f-tags { display: flex; gap: 4px; margin-top: 6px; flex-wrap: wrap; }
+    .f-tag { font-size: 8px; font-weight: 600; padding: 2px 6px; border-radius: 3px; text-transform: uppercase; letter-spacing: 0.03em; }
+    .tag-delegate { background: rgba(0,122,255,0.12); color: #0A84FF; }
+    .tag-respond { background: rgba(48,209,88,0.12); color: #30D158; }
+    .tag-execute { background: rgba(191,90,242,0.12); color: #BF5AF2; }
+    .tag-decide { background: rgba(255,159,10,0.12); color: #FF9F0A; }
+    .tag-escalate { background: rgba(255,69,58,0.12); color: #FF453A; }
+    .tag-meta { background: rgba(255,255,255,0.04); color: #636366; }
+    .typing-line { display: flex; align-items: center; gap: 8px; padding: 10px 0; font-size: 11px; color: #636366; }
+    .typing-dots { display: inline-flex; gap: 2px; }
+    .typing-dots span { width: 3px; height: 3px; border-radius: 50%; background: #636366; animation: typ 1.2s ease infinite; }
+    .typing-dots span:nth-child(2) { animation-delay: 0.15s; }
+    .typing-dots span:nth-child(3) { animation-delay: 0.3s; }
+    @keyframes typ { 0%,60%,100% { opacity: 0.2; } 30% { opacity: 1; } }
 
-    /* Execution timeline */
-    .timeline { position: relative; padding-left: 20px; }
-    .timeline::before { content: ''; position: absolute; left: 4px; top: 8px; bottom: 8px; width: 1px; background: rgba(255,255,255,0.06); }
-    .tl-item { position: relative; padding: 0 0 20px; }
-    .tl-item::before { content: ''; position: absolute; left: -18px; top: 6px; width: 7px; height: 7px; border-radius: 50%; border: 1.5px solid #0A0A0A; }
-    .tl-item.done::before { background: #30D158; }
-    .tl-item.active::before { background: #D70030; animation: pulse 2s ease-in-out infinite; }
-    .tl-item.pending::before { background: #48484A; }
-    .tl-time { font-size: 10px; color: #48484A; margin-bottom: 2px; font-variant-numeric: tabular-nums; }
-    .tl-text { font-size: 13px; color: #D2D2D7; }
-    .tl-text.dim { color: #636366; }
-    .tl-agent { font-size: 10px; font-weight: 600; color: #8E8E93; }
+    /* Right panel — Frameworks */
+    .right-panel { overflow-y: auto; max-height: calc(100vh - 53px); padding: 20px 24px; }
+    .right-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; }
+    .right-title { font-size: 10px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: #D70030; }
+    .filter-bar { display: flex; gap: 4px; }
+    .filter-btn { font-size: 9px; padding: 4px 10px; border-radius: 6px; border: 1px solid rgba(255,255,255,0.06); background: transparent; color: #636366; cursor: pointer; transition: all 0.15s; }
+    .filter-btn:hover, .filter-btn.active { background: rgba(215,0,48,0.1); color: #D70030; border-color: rgba(215,0,48,0.2); }
 
-    /* Agent feed */
-    .feed-container { background: #111111; border: 1px solid rgba(255,255,255,0.04); border-radius: 16px; padding: 20px; max-height: 500px; overflow-y: auto; }
-    .feed-item { display: flex; gap: 10px; padding: 14px 0; border-bottom: 0.5px solid rgba(255,255,255,0.03); }
-    .feed-item:last-of-type { border-bottom: none; }
-    .feed-content { flex: 1; min-width: 0; }
-    .feed-header-row { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; margin-bottom: 6px; }
-    .feed-agent { font-size: 12px; font-weight: 600; color: #D2D2D7; }
-    .feed-label { font-size: 9px; color: #636366; padding: 1px 5px; background: rgba(255,255,255,0.03); border-radius: 3px; }
-    .feed-arrow { font-size: 10px; color: #48484A; }
-    .feed-time { font-size: 10px; color: #48484A; margin-left: auto; font-variant-numeric: tabular-nums; }
-    .feed-msg { font-size: 13px; color: #AEAEB2; line-height: 1.5; }
-    .feed-actions { display: flex; gap: 6px; margin-top: 8px; flex-wrap: wrap; }
-    .feed-tag-action { font-size: 9px; font-weight: 600; padding: 2px 7px; border-radius: 4px; background: rgba(0,122,255,0.12); color: #0A84FF; text-transform: uppercase; letter-spacing: 0.04em; }
-    .feed-tag-priority { font-size: 9px; padding: 2px 7px; border-radius: 4px; background: rgba(255,69,58,0.12); color: #FF453A; }
-    .feed-tag-confidence { font-size: 9px; padding: 2px 7px; border-radius: 4px; background: rgba(48,209,88,0.12); color: #30D158; }
-    .feed-tag-tools { font-size: 9px; padding: 2px 7px; border-radius: 4px; background: rgba(191,90,242,0.12); color: #BF5AF2; }
-    .feed-tag-approval { font-size: 9px; padding: 2px 7px; border-radius: 4px; background: rgba(255,159,10,0.12); color: #FF9F0A; }
-    .feed-typing { display: flex; gap: 10px; padding: 14px 0 0; align-items: center; }
-    .typing-dots { display: inline-flex; gap: 3px; margin-left: 8px; }
-    .typing-dots span { width: 4px; height: 4px; border-radius: 50%; background: #636366; animation: typing 1.4s ease-in-out infinite; }
-    .typing-dots span:nth-child(2) { animation-delay: 0.2s; }
-    .typing-dots span:nth-child(3) { animation-delay: 0.4s; }
-    @keyframes typing { 0%,60%,100% { opacity: 0.3; transform: translateY(0); } 30% { opacity: 1; transform: translateY(-3px); } }
+    /* Stats mini */
+    .stats-row { display: grid; grid-template-columns: repeat(5,1fr); gap: 8px; margin-bottom: 20px; }
+    .stat-mini { background: #1C1C1E; border: 1px solid rgba(255,255,255,0.04); border-radius: 10px; padding: 12px; text-align: center; }
+    .stat-mini-val { font-family: 'Zen Dots', cursive; font-size: 20px; }
+    .stat-mini-label { font-size: 9px; color: #48484A; margin-top: 2px; text-transform: uppercase; letter-spacing: 0.04em; }
 
-    /* Fade animations */
-    .fade-in { animation: fadeIn 0.4s cubic-bezier(0.25,0.1,0.25,1) both; }
-    @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+    /* Framework cards */
+    .fw-list { display: flex; flex-direction: column; gap: 6px; }
+    .fw { background: #1C1C1E; border: 1px solid rgba(255,255,255,0.04); border-radius: 12px; overflow: hidden; transition: border-color 0.2s; }
+    .fw:hover { border-color: rgba(255,255,255,0.08); }
+    .fw-head { display: flex; align-items: center; gap: 10px; padding: 14px 16px; cursor: pointer; user-select: none; }
+    .fw-head:active { transform: scale(0.995); }
+    .fw-chevron { width: 16px; height: 16px; color: #48484A; transition: transform 0.2s; flex-shrink: 0; }
+    .fw.open .fw-chevron { transform: rotate(90deg); color: #D70030; }
+    .fw-name { font-size: 13px; font-weight: 500; flex: 1; }
+    .fw-type { font-size: 8px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; padding: 2px 7px; border-radius: 4px; flex-shrink: 0; }
+    .t-rule { background: rgba(215,0,48,0.12); color: #D70030; }
+    .t-checklist { background: rgba(0,122,255,0.12); color: #0A84FF; }
+    .t-pattern { background: rgba(191,90,242,0.12); color: #BF5AF2; }
+    .t-template { background: rgba(48,209,88,0.12); color: #30D158; }
+    .t-runbook { background: rgba(255,159,10,0.12); color: #FF9F0A; }
+    .fw-toggle { width: 32px; height: 18px; border-radius: 9px; background: #2C2C2E; position: relative; cursor: pointer; flex-shrink: 0; transition: background 0.2s; }
+    .fw-toggle.on { background: #30D158; }
+    .fw-toggle::after { content: ''; position: absolute; top: 2px; left: 2px; width: 14px; height: 14px; border-radius: 50%; background: #FFF; transition: transform 0.2s; }
+    .fw-toggle.on::after { transform: translateX(14px); }
+    .fw-body { display: none; padding: 0 16px 16px; }
+    .fw.open .fw-body { display: block; }
+    .fw-desc { font-size: 11px; color: #8E8E93; line-height: 1.5; margin-bottom: 12px; }
+    .fw-steps { list-style: none; counter-reset: step; }
+    .fw-steps li { counter-increment: step; position: relative; padding: 6px 0 6px 28px; font-size: 11px; color: #AEAEB2; line-height: 1.5; border-bottom: 0.5px solid rgba(255,255,255,0.02); }
+    .fw-steps li:last-child { border: none; }
+    .fw-steps li::before { content: counter(step); position: absolute; left: 0; top: 6px; width: 18px; height: 18px; border-radius: 5px; background: rgba(215,0,48,0.08); color: #D70030; font-size: 9px; font-weight: 600; display: flex; align-items: center; justify-content: center; }
+    .fw-tags-row { display: flex; gap: 4px; margin-top: 10px; flex-wrap: wrap; }
+    .fw-tag { font-size: 8px; padding: 2px 6px; border-radius: 3px; background: rgba(255,255,255,0.04); color: #636366; }
+    .fw-scope { font-size: 9px; color: #48484A; margin-top: 8px; }
 
     /* Responsive */
-    @media (max-width: 768px) {
-      .content { padding: 24px 16px 80px; }
-      .header { padding: 20px 16px; }
-      .stats-bar { grid-template-columns: repeat(2, 1fr); }
-      .fw-grid { grid-template-columns: 1fr; }
-      .agents-grid { grid-template-columns: repeat(2, 1fr); }
+    @media (max-width: 900px) {
+      .content { grid-template-columns: 1fr; }
+      .left-panel { max-height: none; border-right: none; border-bottom: 0.5px solid rgba(255,255,255,0.04); }
+      .right-panel { max-height: none; }
+      .stats-row { grid-template-columns: repeat(3,1fr); }
     }
   </style>
 </head>
@@ -121,456 +124,472 @@
   <header class="header">
     <div class="header-left">
       <span class="logo">KTANA</span>
-      <span class="logo-sub">COOK — Command Center</span>
+      <span class="logo-sub">COOK — Orchestrator Brain</span>
     </div>
     <div class="header-right">
       <div class="pulse"></div>
-      <span>Sistema operacional</span>
+      <span>Operacional</span>
       <span>·</span>
-      <span id="clock">--:--:--</span>
+      <span id="clock">--:--</span>
+      <span>·</span>
+      <a href="../admin/index.html" style="color:#636366;text-decoration:none;font-size:10px;">← Admin</a>
     </div>
   </header>
 
   <div class="content">
 
-    <!-- Stats -->
-    <div class="stats-bar fade-in">
-      <div class="stat">
-        <p class="stat-value">44</p>
-        <p class="stat-label">Frameworks</p>
-      </div>
-      <div class="stat">
-        <p class="stat-value">6</p>
-        <p class="stat-label">Agentes ativos</p>
-      </div>
-      <div class="stat">
-        <p class="stat-value">170</p>
-        <p class="stat-label">Telas prototype</p>
-      </div>
-      <div class="stat">
-        <p class="stat-value">472</p>
-        <p class="stat-label">Sessoes memoria</p>
-      </div>
-      <div class="stat">
-        <p class="stat-value">54</p>
-        <p class="stat-label">Facts ativos</p>
-      </div>
-    </div>
+    <!-- LEFT: Agents + Live Feed -->
+    <div class="left-panel">
 
-    <!-- Agents Live -->
-    <div class="section fade-in" style="animation-delay:0.05s">
-      <p class="section-label">Agentes — Status em tempo real</p>
-      <div class="agents-grid">
-        <div class="agent-card working">
-          <div class="agent-avatar avatar-ceo">A</div>
-          <div class="agent-info">
-            <p class="agent-name">Akira</p>
-            <p class="agent-role">CEO — Orquestracao</p>
-            <p class="agent-status online"><span class="status-dot dot-online"></span> Executando</p>
-          </div>
+      <div class="panel-section">
+        <p class="panel-label">Samurais ativos <span class="panel-count">6 online</span></p>
+        <div class="agent-mini active">
+          <div class="a-av a-av-ceo">A</div>
+          <div><p class="a-name">Akira</p><p class="a-role">CEO</p></div>
+          <div class="a-status on"><span class="dot dot-on"></span> 24</div>
         </div>
-        <div class="agent-card working">
-          <div class="agent-avatar avatar-default">Y</div>
-          <div class="agent-info">
-            <p class="agent-name">Yuki</p>
-            <p class="agent-role">Controller — Financeiro</p>
-            <p class="agent-status online"><span class="status-dot dot-online"></span> 47 acoes hoje</p>
-          </div>
+        <div class="agent-mini">
+          <div class="a-av a-av-def">Y</div>
+          <div><p class="a-name">Yuki</p><p class="a-role">Controller</p></div>
+          <div class="a-status on"><span class="dot dot-on"></span> 47</div>
         </div>
-        <div class="agent-card working">
-          <div class="agent-avatar avatar-default">H</div>
-          <div class="agent-info">
-            <p class="agent-name">Hana</p>
-            <p class="agent-role">Secretaria Executiva</p>
-            <p class="agent-status online"><span class="status-dot dot-online"></span> 58 acoes hoje</p>
-          </div>
+        <div class="agent-mini">
+          <div class="a-av a-av-def">H</div>
+          <div><p class="a-name">Hana</p><p class="a-role">Secretaria</p></div>
+          <div class="a-status on"><span class="dot dot-on"></span> 58</div>
         </div>
-        <div class="agent-card working">
-          <div class="agent-avatar avatar-default">H</div>
-          <div class="agent-info">
-            <p class="agent-name">Haruki</p>
-            <p class="agent-role">Gestor de Projetos</p>
-            <p class="agent-status online"><span class="status-dot dot-online"></span> 65 acoes hoje</p>
-          </div>
+        <div class="agent-mini">
+          <div class="a-av a-av-def">H</div>
+          <div><p class="a-name">Haruki</p><p class="a-role">PM</p></div>
+          <div class="a-status on"><span class="dot dot-on"></span> 65</div>
         </div>
-        <div class="agent-card working">
-          <div class="agent-avatar avatar-default">K</div>
-          <div class="agent-info">
-            <p class="agent-name">Kaito</p>
-            <p class="agent-role">Solutions Builder PJ</p>
-            <p class="agent-status online"><span class="status-dot dot-online"></span> Marketplace</p>
-          </div>
+        <div class="agent-mini">
+          <div class="a-av a-av-def">K</div>
+          <div><p class="a-name">Kaito</p><p class="a-role">Builder</p></div>
+          <div class="a-status on"><span class="dot dot-on"></span> 12</div>
         </div>
-        <div class="agent-card working">
-          <div class="agent-avatar avatar-default">Y</div>
-          <div class="agent-info">
-            <p class="agent-name">Yumi</p>
-            <p class="agent-role">Mentora PF</p>
-            <p class="agent-status online"><span class="status-dot dot-online"></span> Onboarding</p>
-          </div>
+        <div class="agent-mini">
+          <div class="a-av a-av-def">Y</div>
+          <div><p class="a-name">Yumi</p><p class="a-role">Mentora PF</p></div>
+          <div class="a-status on"><span class="dot dot-on"></span> 8</div>
         </div>
       </div>
-    </div>
 
-    <!-- Execution Timeline -->
-    <div class="section fade-in" style="animation-delay:0.1s">
-      <p class="section-label">Execucao atual — Timeline</p>
-      <div class="timeline">
-        <div class="tl-item done">
-          <p class="tl-time">16:12</p>
-          <p class="tl-agent">Claude Code</p>
-          <p class="tl-text">Fix team/list.html — SVGs quebrados trocados por iniciais</p>
-        </div>
-        <div class="tl-item done">
-          <p class="tl-time">16:14</p>
-          <p class="tl-agent">Claude Code</p>
-          <p class="tl-text">Alert() removidos de 6 arquivos (config, billing, lgpd, constitution, pf-verify, team)</p>
-        </div>
-        <div class="tl-item done">
-          <p class="tl-time">16:15</p>
-          <p class="tl-agent">Claude Code</p>
-          <p class="tl-text">Admin SPA drill-down — 16 sub-pages agora alcancaveis via cards Ive-style</p>
-        </div>
-        <div class="tl-item done">
-          <p class="tl-time">16:16</p>
-          <p class="tl-agent">Claude Code</p>
-          <p class="tl-text">7 frameworks criados e salvos no segundo cerebro (procedures)</p>
-        </div>
-        <div class="tl-item done">
-          <p class="tl-time">16:17</p>
-          <p class="tl-agent">Claude Code</p>
-          <p class="tl-text">Visual review no browser — 10 tabs admin + auth guard + 404 verificados</p>
-        </div>
-        <div class="tl-item active">
-          <p class="tl-time">16:20</p>
-          <p class="tl-agent">Claude Code</p>
-          <p class="tl-text">COOK dashboard — criando visualizacao de frameworks e status</p>
-        </div>
-        <div class="tl-item pending">
-          <p class="tl-time">—</p>
-          <p class="tl-agent dim">Proximo</p>
-          <p class="tl-text dim">Aguardando instrucao do Shogun</p>
-        </div>
-      </div>
-    </div>
+      <div class="panel-section" style="border-bottom:none;">
+        <p class="panel-label">Live feed <span class="panel-count">Interacoes entre agentes</span></p>
+        <div class="feed">
 
-    <!-- Agent Interactions — Live Feed -->
-    <div class="section fade-in" style="animation-delay:0.12s">
-      <p class="section-label">Interacoes entre agentes — Live feed</p>
-      <div class="feed-container">
-
-        <div class="feed-item">
-          <div class="feed-avatar avatar-ceo" style="width:28px;height:28px;border-radius:8px;font-size:10px;">A</div>
-          <div class="feed-content">
-            <div class="feed-header-row">
-              <span class="feed-agent">Akira</span>
-              <span class="feed-label">CEO</span>
-              <span class="feed-arrow">→</span>
-              <span class="feed-agent">Yuki</span>
-              <span class="feed-label">Controller</span>
-              <span class="feed-time">17:02</span>
-            </div>
-            <p class="feed-msg">Yuki, preciso do DRE consolidado de marco ate amanha 09h. Inclui breakdown por departamento e comparativo com fevereiro.</p>
-            <div class="feed-actions">
-              <span class="feed-tag-action">DELEGATE</span>
-              <span class="feed-tag-priority">alta prioridade</span>
-            </div>
+          <div class="f-item">
+            <div class="f-row"><span class="f-from">Akira</span><span class="f-arrow">→</span><span class="f-to">Yuki</span><span class="f-time">17:02</span></div>
+            <p class="f-msg">Preciso do DRE consolidado de marco ate amanha 09h. Inclui breakdown por departamento.</p>
+            <div class="f-tags"><span class="f-tag tag-delegate">DELEGATE</span><span class="f-tag tag-meta">alta prioridade</span></div>
           </div>
-        </div>
 
-        <div class="feed-item">
-          <div class="feed-avatar avatar-default" style="width:28px;height:28px;border-radius:8px;font-size:10px;">Y</div>
-          <div class="feed-content">
-            <div class="feed-header-row">
-              <span class="feed-agent">Yuki</span>
-              <span class="feed-label">Controller</span>
-              <span class="feed-arrow">→</span>
-              <span class="feed-agent">Akira</span>
-              <span class="feed-label">CEO</span>
-              <span class="feed-time">17:04</span>
-            </div>
-            <p class="feed-msg">Recebido. DRE marco ja esta 80% pronto. Faltam 3 conciliacoes do Bradesco que estou processando agora. Entrego ate 18h hoje.</p>
-            <div class="feed-actions">
-              <span class="feed-tag-action">RESPOND</span>
-              <span class="feed-tag-confidence">confianca 94%</span>
-            </div>
+          <div class="f-item">
+            <div class="f-row"><span class="f-from">Yuki</span><span class="f-arrow">→</span><span class="f-to">Akira</span><span class="f-time">17:04</span></div>
+            <p class="f-msg">Recebido. DRE 80% pronto. 3 conciliacoes Bradesco em andamento. Entrego 18h.</p>
+            <div class="f-tags"><span class="f-tag tag-respond">RESPOND</span><span class="f-tag tag-meta">confianca 94%</span></div>
           </div>
-        </div>
 
-        <div class="feed-item">
-          <div class="feed-avatar avatar-default" style="width:28px;height:28px;border-radius:8px;font-size:10px;">H</div>
-          <div class="feed-content">
-            <div class="feed-header-row">
-              <span class="feed-agent">Hana</span>
-              <span class="feed-label">Secretaria</span>
-              <span class="feed-arrow">→</span>
-              <span class="feed-agent">Haruki</span>
-              <span class="feed-label">PM</span>
-              <span class="feed-time">16:58</span>
-            </div>
-            <p class="feed-msg">Haruki, a reuniao com o cliente Empresa X foi reagendada para quinta 14h. Atualizei o calendario e notifiquei o Julio via WhatsApp.</p>
-            <div class="feed-actions">
-              <span class="feed-tag-action">EXECUTE</span>
-              <span class="feed-tag-tools">Calendar + WhatsApp</span>
-            </div>
+          <div class="f-item">
+            <div class="f-row"><span class="f-from">Hana</span><span class="f-arrow">→</span><span class="f-to">Haruki</span><span class="f-time">16:58</span></div>
+            <p class="f-msg">Reuniao Empresa X reagendada quinta 14h. Calendario atualizado, Julio notificado via WhatsApp.</p>
+            <div class="f-tags"><span class="f-tag tag-execute">EXECUTE</span><span class="f-tag tag-meta">Calendar + WhatsApp</span></div>
           </div>
-        </div>
 
-        <div class="feed-item">
-          <div class="feed-avatar avatar-default" style="width:28px;height:28px;border-radius:8px;font-size:10px;">H</div>
-          <div class="feed-content">
-            <div class="feed-header-row">
-              <span class="feed-agent">Haruki</span>
-              <span class="feed-label">PM</span>
-              <span class="feed-arrow">→</span>
-              <span class="feed-agent">Akira</span>
-              <span class="feed-label">CEO</span>
-              <span class="feed-time">16:55</span>
-            </div>
-            <p class="feed-msg">Sprint review: 8/10 tasks concluidas. 2 bloqueadas por dependencia externa (API Celcoin). Recomendo escalar para o Julio aprovar bypass.</p>
-            <div class="feed-actions">
-              <span class="feed-tag-action">DECIDE</span>
-              <span class="feed-tag-approval">precisa aprovacao</span>
-            </div>
+          <div class="f-item">
+            <div class="f-row"><span class="f-from">Haruki</span><span class="f-arrow">→</span><span class="f-to">Akira</span><span class="f-time">16:55</span></div>
+            <p class="f-msg">Sprint: 8/10 tasks ok. 2 bloqueadas por API Celcoin. Recomendo escalar pro Julio.</p>
+            <div class="f-tags"><span class="f-tag tag-decide">DECIDE</span><span class="f-tag tag-meta">aprovacao</span></div>
           </div>
-        </div>
 
-        <div class="feed-item">
-          <div class="feed-avatar avatar-ceo" style="width:28px;height:28px;border-radius:8px;font-size:10px;">A</div>
-          <div class="feed-content">
-            <div class="feed-header-row">
-              <span class="feed-agent">Akira</span>
-              <span class="feed-label">CEO</span>
-              <span class="feed-arrow">→</span>
-              <span class="feed-agent">Julio</span>
-              <span class="feed-label">Shogun</span>
-              <span class="feed-time">16:56</span>
-            </div>
-            <p class="feed-msg">Julio, 2 tasks bloqueadas pela API Celcoin. Haruki recomenda bypass temporario. Aprovar ou aguardar resposta do suporte Celcoin? Prazo: sexta.</p>
-            <div class="feed-actions">
-              <span class="feed-tag-action">ESCALATE</span>
-              <span class="feed-tag-approval">aguardando Shogun</span>
-            </div>
+          <div class="f-item">
+            <div class="f-row"><span class="f-from">Akira</span><span class="f-arrow">→</span><span class="f-to">Julio</span><span class="f-time">16:56</span></div>
+            <p class="f-msg">2 tasks bloqueadas Celcoin. Bypass temporario ou aguardar suporte? Prazo: sexta.</p>
+            <div class="f-tags"><span class="f-tag tag-escalate">ESCALATE</span><span class="f-tag tag-meta">aguardando Shogun</span></div>
           </div>
-        </div>
 
-        <div class="feed-typing">
-          <div class="feed-avatar avatar-default" style="width:28px;height:28px;border-radius:8px;font-size:10px;">Y</div>
-          <div class="feed-content">
-            <span class="feed-agent">Yuki</span>
+          <div class="f-item">
+            <div class="f-row"><span class="f-from">Kaito</span><span class="f-arrow">→</span><span class="f-to">Akira</span><span class="f-time">16:50</span></div>
+            <p class="f-msg">3 novos modulos prontos no marketplace: SDR Auto v2, Smart Billing, Objection Breaker.</p>
+            <div class="f-tags"><span class="f-tag tag-respond">DELIVER</span><span class="f-tag tag-meta">marketplace</span></div>
+          </div>
+
+          <div class="typing-line">
+            <span>Yuki</span>
             <span class="typing-dots"><span></span><span></span><span></span></span>
           </div>
+
         </div>
       </div>
+
     </div>
 
-    <!-- Frameworks -->
-    <div class="section fade-in" style="animation-delay:0.15s">
-      <p class="section-label">Frameworks cognitivos — 44 procedures no segundo cerebro</p>
-      <div class="fw-grid">
+    <!-- RIGHT: Stats + Frameworks -->
+    <div class="right-panel">
 
-        <!-- Core Operational -->
-        <div class="fw-card">
-          <div class="fw-header">
+      <div class="stats-row">
+        <div class="stat-mini"><p class="stat-mini-val">44</p><p class="stat-mini-label">Frameworks</p></div>
+        <div class="stat-mini"><p class="stat-mini-val">170</p><p class="stat-mini-label">Telas</p></div>
+        <div class="stat-mini"><p class="stat-mini-val">472</p><p class="stat-mini-label">Sessoes</p></div>
+        <div class="stat-mini"><p class="stat-mini-val">54</p><p class="stat-mini-label">Facts</p></div>
+        <div class="stat-mini"><p class="stat-mini-val">214</p><p class="stat-mini-label">Acoes hoje</p></div>
+      </div>
+
+      <div class="right-header">
+        <p class="right-title">Frameworks cognitivos</p>
+        <div class="filter-bar">
+          <button class="filter-btn active" onclick="filterFw('all')">Todos</button>
+          <button class="filter-btn" onclick="filterFw('rule')">Rules</button>
+          <button class="filter-btn" onclick="filterFw('checklist')">Checklists</button>
+          <button class="filter-btn" onclick="filterFw('pattern')">Patterns</button>
+          <button class="filter-btn" onclick="filterFw('template')">Templates</button>
+          <button class="filter-btn" onclick="filterFw('runbook')">Runbooks</button>
+        </div>
+      </div>
+
+      <div class="fw-list" id="fwList">
+
+        <div class="fw" data-type="rule">
+          <div class="fw-head" onclick="toggleFw(this)">
+            <svg class="fw-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg>
             <p class="fw-name">Execution Mode — Ciclo Completo Sem Parar</p>
-            <span class="fw-type type-rule">RULE</span>
+            <span class="fw-type t-rule">RULE</span>
+            <div class="fw-toggle on" onclick="event.stopPropagation(); this.classList.toggle('on')"></div>
           </div>
-          <p class="fw-desc">NUNCA parar para perguntar. Executar ciclicamente, validar etapas enquanto avanca, entregar 100% completo.</p>
-          <div class="fw-tags"><span class="fw-tag">execution</span><span class="fw-tag">autonomous</span><span class="fw-tag">workflow</span></div>
-          <div class="fw-meta"><span>9 steps</span><span>Scope: global</span></div>
+          <div class="fw-body">
+            <p class="fw-desc">NUNCA parar para perguntar. Executar ciclicamente, validar etapas enquanto avanca, entregar 100% completo.</p>
+            <ol class="fw-steps">
+              <li>OUVIR o pedido completo</li>
+              <li>RECALL contexto da memoria (segundo cerebro + MEMORY.md)</li>
+              <li>CRIAR tasks para tudo que precisa ser feito</li>
+              <li>EXECUTAR cada task em sequencia, marcando completed</li>
+              <li>VALIDAR visualmente no browser (Puppeteer) em etapas criticas</li>
+              <li>SE falta info que NAO pode ser inferida, perguntar. Senao, inferir e executar</li>
+              <li>NUNCA entregar parcial com pergunta. Entregar TUDO</li>
+              <li>SALVAR na memoria o que foi feito e decisoes tomadas</li>
+              <li>COMMIT e PUSH no final</li>
+            </ol>
+            <div class="fw-tags-row"><span class="fw-tag">execution</span><span class="fw-tag">autonomous</span><span class="fw-tag">workflow</span></div>
+            <p class="fw-scope">Scope: global · Trigger: TODA sessao, TODA tarefa</p>
+          </div>
         </div>
 
-        <div class="fw-card">
-          <div class="fw-header">
+        <div class="fw" data-type="checklist">
+          <div class="fw-head" onclick="toggleFw(this)">
+            <svg class="fw-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg>
             <p class="fw-name">Admin Panel Review (Ive + Nielsen)</p>
-            <span class="fw-type type-checklist">CHECKLIST</span>
+            <span class="fw-type t-checklist">CHECKLIST</span>
+            <div class="fw-toggle on" onclick="event.stopPropagation(); this.classList.toggle('on')"></div>
           </div>
-          <p class="fw-desc">15 itens para avaliar qualquer area admin como Jony Ive (silencio visual) + Jakob Nielsen (10 heuristicas).</p>
-          <div class="fw-tags"><span class="fw-tag">admin</span><span class="fw-tag">review</span><span class="fw-tag">ive</span><span class="fw-tag">nielsen</span></div>
-          <div class="fw-meta"><span>15 steps</span><span>Scope: ktana-prototype</span></div>
+          <div class="fw-body">
+            <p class="fw-desc">Framework para avaliar qualquer area admin como Jony Ive + Jakob Nielsen. 15 itens obrigatorios.</p>
+            <ol class="fw-steps">
+              <li>VISIBILIDADE: Cada tab mostra status do sistema em tempo real?</li>
+              <li>DRILL-DOWN: Todo card resumo tem link para detalhe? Zero dead-ends?</li>
+              <li>CONSISTENCIA: Mesmo padrao visual em todas as tabs?</li>
+              <li>SILENCIO VISUAL: Remover ate nao ter mais o que remover. Cada pixel tem proposito?</li>
+              <li>HIERARQUIA: Stats em cima, detalhes no meio, drill-down embaixo?</li>
+              <li>DARK MODE: #0A0A0A, cards #1C1C1E, borders 0.04, accent #D70030?</li>
+              <li>NAVEGACAO IDA: SPA tabs linkam para TODAS sub-pages?</li>
+              <li>NAVEGACAO VOLTA: Sub-pages sidebar preserva hash state?</li>
+              <li>BREADCRUMB: Sub-pages mostram caminho Admin > Secao > Detalhe?</li>
+              <li>TABELA CLICAVEL: Toda row leva ao detalhe? cursor:pointer?</li>
+              <li>SIDEBAR COMPLETA: 10 tabs + utilidades + user info?</li>
+              <li>MOBILE: Nao quebra em tablet</li>
+              <li>ESCALA: Dados mockados refletem cenario real?</li>
+              <li>ADVERSIDADE: Health mostra status degradado quando servico cai?</li>
+              <li>COMPLIANCE: LGPD, audit logs, kill switches acessiveis?</li>
+            </ol>
+            <div class="fw-tags-row"><span class="fw-tag">admin</span><span class="fw-tag">review</span><span class="fw-tag">ive</span><span class="fw-tag">nielsen</span></div>
+            <p class="fw-scope">Scope: ktana-prototype · Trigger: Criar/revisar area admin</p>
+          </div>
         </div>
 
-        <div class="fw-card">
-          <div class="fw-header">
-            <p class="fw-name">Visual Navigation Review — Browser Flow</p>
-            <span class="fw-type type-checklist">CHECKLIST</span>
-          </div>
-          <p class="fw-desc">Navegar todos os fluxos ponta a ponta no browser real antes de declarar pronto. Puppeteer obrigatorio.</p>
-          <div class="fw-tags"><span class="fw-tag">qa</span><span class="fw-tag">navigation</span><span class="fw-tag">browser</span></div>
-          <div class="fw-meta"><span>9 steps</span><span>Scope: ktana-prototype</span></div>
-        </div>
-
-        <div class="fw-card">
-          <div class="fw-header">
+        <div class="fw" data-type="rule">
+          <div class="fw-head" onclick="toggleFw(this)">
+            <svg class="fw-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg>
             <p class="fw-name">Trillion-Dollar Scale Lens</p>
-            <span class="fw-type type-rule">RULE</span>
+            <span class="fw-type t-rule">RULE</span>
+            <div class="fw-toggle on" onclick="event.stopPropagation(); this.classList.toggle('on')"></div>
           </div>
-          <p class="fw-desc">Pensar como plataforma com milhoes de usuarios. Escala, multi-tenant, flywheel, custo marginal zero, lock-in positivo.</p>
-          <div class="fw-tags"><span class="fw-tag">scale</span><span class="fw-tag">platform</span><span class="fw-tag">trillion</span><span class="fw-tag">strategy</span></div>
-          <div class="fw-meta"><span>10 steps</span><span>Scope: ktana-assistant</span></div>
+          <div class="fw-body">
+            <p class="fw-desc">Pensar como plataforma com milhoes de usuarios. Escala, efeito de rede, custo marginal zero.</p>
+            <ol class="fw-steps">
+              <li>ESCALA: Funciona com 1 e com 100.000 tenants?</li>
+              <li>MULTI-TENANT: Isolamento total, zero data leakage</li>
+              <li>ADVERSIDADE: O que acontece se X falha? Status visual?</li>
+              <li>MONETIZACAO: 7 camadas visiveis (RONIN→BAKUFU + extras)</li>
+              <li>EFEITO DE REDE: Cada tenant melhora o produto?</li>
+              <li>FLYWHEEL: Mais tenants > melhor IA > mais valor > mais tenants</li>
+              <li>VERTICAL INTEGRATION: Agente controla toda a cadeia</li>
+              <li>CUSTO MARGINAL ZERO: +1 tenant nao custa mais</li>
+              <li>LOCK-IN POSITIVO: Quanto mais usa, mais dificil sair</li>
+              <li>COMPLIANCE BY DESIGN: LGPD e auditoria sao features, nao afterthought</li>
+            </ol>
+            <div class="fw-tags-row"><span class="fw-tag">scale</span><span class="fw-tag">platform</span><span class="fw-tag">trillion</span><span class="fw-tag">strategy</span></div>
+            <p class="fw-scope">Scope: ktana-assistant · Trigger: Criar qualquer feature</p>
+          </div>
         </div>
 
-        <div class="fw-card">
-          <div class="fw-header">
+        <div class="fw" data-type="rule">
+          <div class="fw-head" onclick="toggleFw(this)">
+            <svg class="fw-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg>
             <p class="fw-name">AI-First Business Rules — Resultado > Solucao</p>
-            <span class="fw-type type-rule">RULE</span>
+            <span class="fw-type t-rule">RULE</span>
+            <div class="fw-toggle on" onclick="event.stopPropagation(); this.classList.toggle('on')"></div>
           </div>
-          <p class="fw-desc">Tendencia e ENTREGA DO RESULTADO, nao a solucao agentica. O dono quer trabalho feito, nao ver agentes.</p>
-          <div class="fw-tags"><span class="fw-tag">ai-first</span><span class="fw-tag">business-rules</span><span class="fw-tag">resultado</span><span class="fw-tag">calm-tech</span></div>
-          <div class="fw-meta"><span>10 steps</span><span>Scope: ktana-assistant</span></div>
+          <div class="fw-body">
+            <p class="fw-desc">Tendencia e a ENTREGA DO RESULTADO, nao a solucao agentica. O dono quer trabalho feito.</p>
+            <ol class="fw-steps">
+              <li>RESULTADO PRIMEIRO: O que o dono recebe de valor?</li>
+              <li>INVISIBILIDADE: Melhor agente e o que voce esquece que existe</li>
+              <li>PROGRESSIVE DISCLOSURE: Resultado resumido, detalhe so se quiser</li>
+              <li>CONFIANCA PROGRESSIVA: Mes 1 aprova tudo, mes 12 agente age sozinho</li>
+              <li>METRICA: Nao e acoes feitas, e dinheiro/tempo economizado</li>
+              <li>ROI VISIVEL: Extrato bancario de lucro, nao metricas tecnicas</li>
+              <li>TRABALHO > FERRAMENTA: Mostrar resultado, nao processo</li>
+              <li>HUMAN-IN-THE-LOOP MINIMO: Aprovacao so para irreversiveis</li>
+              <li>FEEDBACK LOOP: Dono corrige, agente aprende. Nunca 2x</li>
+              <li>COMPETIDOR: Nao e outro SaaS, e o funcionario. 10x mais barato, 3x mais rapido</li>
+            </ol>
+            <div class="fw-tags-row"><span class="fw-tag">ai-first</span><span class="fw-tag">business-rules</span><span class="fw-tag">resultado</span><span class="fw-tag">calm-tech</span></div>
+            <p class="fw-scope">Scope: ktana-assistant · Trigger: Avaliar dashboards e chat</p>
+          </div>
         </div>
 
-        <div class="fw-card">
-          <div class="fw-header">
+        <div class="fw" data-type="checklist">
+          <div class="fw-head" onclick="toggleFw(this)">
+            <svg class="fw-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg>
             <p class="fw-name">Adversity & Risk Scenarios</p>
-            <span class="fw-type type-checklist">CHECKLIST</span>
+            <span class="fw-type t-checklist">CHECKLIST</span>
+            <div class="fw-toggle on" onclick="event.stopPropagation(); this.classList.toggle('on')"></div>
           </div>
-          <p class="fw-desc">14 cenarios de falha: LLM cai, tenant abusa, agente alucina, dados vazam, pico de carga, churn, compliance breach.</p>
-          <div class="fw-tags"><span class="fw-tag">risk</span><span class="fw-tag">adversity</span><span class="fw-tag">resilience</span><span class="fw-tag">security</span></div>
-          <div class="fw-meta"><span>14 steps</span><span>Scope: ktana-assistant</span></div>
+          <div class="fw-body">
+            <p class="fw-desc">14 cenarios de falha e risco para plataforma com milhares de clientes pagando.</p>
+            <ol class="fw-steps">
+              <li>LLM PROVIDER CAI: Fallback automatico? Health mostra degraded?</li>
+              <li>TENANT ABUSA: Rate limiting? Throttle automatico?</li>
+              <li>AGENTE ALUCINA: Kill switch? Audit log?</li>
+              <li>DADOS VAZAM: Isolamento multi-tenant verificado?</li>
+              <li>PICO DE CARGA: Auto-scaling? Workers suficientes?</li>
+              <li>CHURN EM MASSA: Early warning (usage drop)?</li>
+              <li>COMPLIANCE BREACH: Export em 48h funciona?</li>
+              <li>DEPLOY QUEBRA: Rollback 1 clique? Staging testado?</li>
+              <li>MEMORIA CORROMPIDA: Dream engine consolida? Admin inspeciona brain?</li>
+              <li>DONO SOME: Agentes pausam auto? Cobranca para?</li>
+              <li>AGENTE CARO: Billing mostra breakdown por cargo?</li>
+              <li>BRUTE FORCE: 2FA obrigatorio? Rate limit auth?</li>
+              <li>ESCALA EQUIPE: 4→40 agentes escala visualmente?</li>
+              <li>DOWNTIME: Status page? Comunicacao auto para tenants?</li>
+            </ol>
+            <div class="fw-tags-row"><span class="fw-tag">risk</span><span class="fw-tag">adversity</span><span class="fw-tag">resilience</span><span class="fw-tag">security</span></div>
+            <p class="fw-scope">Scope: ktana-assistant · Trigger: Admin, health, billing, compliance</p>
+          </div>
         </div>
 
-        <div class="fw-card">
-          <div class="fw-header">
+        <div class="fw" data-type="checklist">
+          <div class="fw-head" onclick="toggleFw(this)">
+            <svg class="fw-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg>
+            <p class="fw-name">Visual Navigation Review — Browser Flow</p>
+            <span class="fw-type t-checklist">CHECKLIST</span>
+            <div class="fw-toggle on" onclick="event.stopPropagation(); this.classList.toggle('on')"></div>
+          </div>
+          <div class="fw-body">
+            <p class="fw-desc">Navegar todos os fluxos ponta a ponta no browser real antes de declarar pronto.</p>
+            <ol class="fw-steps">
+              <li>ABRIR no Puppeteer com cache-bust</li>
+              <li>FLUXO PJ: Landing→Signup→Verify→Plans→Checkout→Onboarding→Dashboard→Chat→Approvals→Team→Settings</li>
+              <li>FLUXO PF: Landing→Signup→Verify→Onboarding→Areas→Mentor→Chat→Spirit</li>
+              <li>FLUXO ADMIN: Overview→cada tab(10)→drill-down sub-pages(16)→volta via sidebar</li>
+              <li>GUARD: Auth SEM nav. Landing SEM nav. Admin SEM nav light</li>
+              <li>DEAD-END: Toda pagina tem saida</li>
+              <li>LINK: Zero href=# exceto acoes inline</li>
+              <li>SCREENSHOT de cada etapa critica</li>
+              <li>SO declarar pronto apos TODAS evidencias visuais</li>
+            </ol>
+            <div class="fw-tags-row"><span class="fw-tag">qa</span><span class="fw-tag">navigation</span><span class="fw-tag">browser</span></div>
+            <p class="fw-scope">Scope: ktana-prototype · Trigger: Mudanca em nav ou estrutura</p>
+          </div>
+        </div>
+
+        <div class="fw" data-type="template">
+          <div class="fw-head" onclick="toggleFw(this)">
+            <svg class="fw-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg>
             <p class="fw-name">Screen Creation — Master Prompt</p>
-            <span class="fw-type type-template">TEMPLATE</span>
+            <span class="fw-type t-template">TEMPLATE</span>
+            <div class="fw-toggle on" onclick="event.stopPropagation(); this.classList.toggle('on')"></div>
           </div>
-          <p class="fw-desc">Template completo para criar qualquer tela do ktana-prototype do zero com todo contexto, design system e estrutura.</p>
-          <div class="fw-tags"><span class="fw-tag">template</span><span class="fw-tag">creation</span><span class="fw-tag">design-system</span></div>
-          <div class="fw-meta"><span>8 blocks</span><span>Scope: ktana-prototype</span></div>
+          <div class="fw-body">
+            <p class="fw-desc">Template completo para criar qualquer tela do zero com todo contexto.</p>
+            <ol class="fw-steps">
+              <li>PROJETO: SaaS samurais IA. Repo ktanadev/ktana-prototype. 170+ HTMLs</li>
+              <li>ESTRUTURA: /tenant/ PJ, /pf/ PF, /admin/ backoffice. shared.css + shared-nav.js</li>
+              <li>CORES: #F5F5F7 light, #0A0A0A dark, #D70030 accent, cards #FFF r20</li>
+              <li>FONTS: Inter (UI), Satoshi (body), Zen Dots (brand). Min 11px. Touch 44px</li>
+              <li>AVATARES: Circulo + inicial. NUNCA imagens. CEO = #D70030</li>
+              <li>ICONES: SVG inline 1.5 currentColor 24x24. NUNCA emojis/fontawesome</li>
+              <li>ANIMACOES: fadeIn 0.4s, stagger delay, hover translateY(-1px), spring ease</li>
+              <li>FILOSOFIA: Ive + Jobs + Calm Tech + Nielsen. Silencio = confianca</li>
+            </ol>
+            <div class="fw-tags-row"><span class="fw-tag">template</span><span class="fw-tag">creation</span><span class="fw-tag">design-system</span></div>
+            <p class="fw-scope">Scope: ktana-prototype · Trigger: Criar nova tela HTML</p>
+          </div>
         </div>
 
-        <div class="fw-card">
-          <div class="fw-header">
-            <p class="fw-name">IA-First Symbiosis Framework</p>
-            <span class="fw-type type-pattern">PATTERN</span>
-          </div>
-          <p class="fw-desc">Modelo completo de simbiose IA-pessoa para KTANA Assistant PF e PJ. ToM, Calm Tech, Progressive Trust.</p>
-          <div class="fw-tags"><span class="fw-tag">ia-first</span><span class="fw-tag">symbiosis</span><span class="fw-tag">pf</span><span class="fw-tag">pj</span></div>
-          <div class="fw-meta"><span>Pattern</span><span>Scope: ktana-assistant</span></div>
-        </div>
-
-        <div class="fw-card">
-          <div class="fw-header">
+        <div class="fw" data-type="pattern">
+          <div class="fw-head" onclick="toggleFw(this)">
+            <svg class="fw-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg>
             <p class="fw-name">SUPER CEREBRO — Metamodelo Neural</p>
-            <span class="fw-type type-pattern">PATTERN</span>
+            <span class="fw-type t-pattern">PATTERN</span>
+            <div class="fw-toggle on" onclick="event.stopPropagation(); this.classList.toggle('on')"></div>
           </div>
-          <p class="fw-desc">O metamodelo neural da KTANA. Arquitetura cognitiva que orquestra todos os outros frameworks.</p>
-          <div class="fw-tags"><span class="fw-tag">neural</span><span class="fw-tag">metamodel</span><span class="fw-tag">cognition</span></div>
-          <div class="fw-meta"><span>Pattern</span><span>Scope: ktana-assistant</span></div>
+          <div class="fw-body">
+            <p class="fw-desc">Arquitetura cognitiva que orquestra todos os outros frameworks. O cerebro que pensa sobre como pensar.</p>
+            <ol class="fw-steps">
+              <li>Knowledge Graph: entidades, relacoes, observations (quem existe e como conecta)</li>
+              <li>Semantic Memory: facts, preferences (fatos sobre o mundo)</li>
+              <li>Episodic Memory: episodes, sessions, decisions (o que aconteceu)</li>
+              <li>Procedural Memory: procedures (como fazer — frameworks, regras, runbooks)</li>
+              <li>Working Memory: working_items (estado atual, tarefas ativas)</li>
+              <li>Dream Engine: consolida, merge, prune, archive (4 fases)</li>
+            </ol>
+            <div class="fw-tags-row"><span class="fw-tag">neural</span><span class="fw-tag">metamodel</span><span class="fw-tag">cognition</span><span class="fw-tag">memory</span></div>
+            <p class="fw-scope">Scope: ktana-assistant · Trigger: Toda decisao arquitetural</p>
+          </div>
         </div>
 
-        <div class="fw-card">
-          <div class="fw-header">
-            <p class="fw-name">METACOGNITION ENGINE</p>
-            <span class="fw-type type-pattern">PATTERN</span>
-          </div>
-          <p class="fw-desc">A maior mente de metacognicao da humanidade. Agentes que pensam sobre como pensam e melhoram continuamente.</p>
-          <div class="fw-tags"><span class="fw-tag">metacognition</span><span class="fw-tag">self-improvement</span></div>
-          <div class="fw-meta"><span>Pattern</span><span>Scope: ktana-assistant</span></div>
-        </div>
-
-        <div class="fw-card">
-          <div class="fw-header">
+        <div class="fw" data-type="pattern">
+          <div class="fw-head" onclick="toggleFw(this)">
+            <svg class="fw-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg>
             <p class="fw-name">KATANA SHIELD — Defesa Adversarial</p>
-            <span class="fw-type type-pattern">PATTERN</span>
+            <span class="fw-type t-pattern">PATTERN</span>
+            <div class="fw-toggle on" onclick="event.stopPropagation(); this.classList.toggle('on')"></div>
           </div>
-          <p class="fw-desc">Mente criminal suprema de defesa. Red team, adversarial trinity, ronin hacker etico autonomo.</p>
-          <div class="fw-tags"><span class="fw-tag">security</span><span class="fw-tag">red-team</span><span class="fw-tag">adversarial</span></div>
-          <div class="fw-meta"><span>3 sub-frameworks</span><span>Scope: ktana-assistant</span></div>
+          <div class="fw-body">
+            <p class="fw-desc">Mente criminal suprema de defesa. 3 sub-frameworks de seguranca ofensiva e defensiva.</p>
+            <ol class="fw-steps">
+              <li>Adversarial Trinity: 3 vetores de ataque simulados constantemente</li>
+              <li>Red Team Agent (Ronin): Hacker etico autonomo testando a propria plataforma</li>
+              <li>Security Architecture: Infra hardening, encryption, auth, audit</li>
+              <li>Kill Switches: Capacidade de desligar qualquer agente em 1 clique</li>
+              <li>Constitution: 24 regras inviolaveis que nenhum agente pode quebrar</li>
+            </ol>
+            <div class="fw-tags-row"><span class="fw-tag">security</span><span class="fw-tag">red-team</span><span class="fw-tag">adversarial</span><span class="fw-tag">defense</span></div>
+            <p class="fw-scope">Scope: ktana-assistant · Trigger: Review de seguranca</p>
+          </div>
         </div>
 
-        <div class="fw-card">
-          <div class="fw-header">
-            <p class="fw-name">22 Frameworks — Aplicar em cada tela</p>
-            <span class="fw-type type-checklist">CHECKLIST</span>
-          </div>
-          <p class="fw-desc">6 blocos: Mestres(6), HCI(6), Inteligencia(3), Negocio(3), Seguranca(3), Validacao(1). Filtros Ive/Nielsen/Jobs/Musk/Wozniak/Senna.</p>
-          <div class="fw-tags"><span class="fw-tag">ktana</span><span class="fw-tag">frameworks</span><span class="fw-tag">design</span><span class="fw-tag">ux</span></div>
-          <div class="fw-meta"><span>22 frameworks</span><span>Scope: shared</span></div>
-        </div>
-
-        <div class="fw-card">
-          <div class="fw-header">
+        <div class="fw" data-type="pattern">
+          <div class="fw-head" onclick="toggleFw(this)">
+            <svg class="fw-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg>
             <p class="fw-name">Strategic Trinity — Musk + Jobs + Gates</p>
-            <span class="fw-type type-pattern">PATTERN</span>
+            <span class="fw-type t-pattern">PATTERN</span>
+            <div class="fw-toggle on" onclick="event.stopPropagation(); this.classList.toggle('on')"></div>
           </div>
-          <p class="fw-desc">Conselho visionario KTANA. Cada decisao estrategica passa pelo filtro dos 3 mestres de escala.</p>
-          <div class="fw-tags"><span class="fw-tag">strategy</span><span class="fw-tag">council</span><span class="fw-tag">vision</span></div>
-          <div class="fw-meta"><span>Pattern</span><span>Scope: ktana-assistant</span></div>
+          <div class="fw-body">
+            <p class="fw-desc">Conselho visionario. Cada decisao estrategica passa pelo filtro dos 3 mestres de escala.</p>
+            <ol class="fw-steps">
+              <li>MUSK: 10x thinking, vertical integration, flywheel, first principles</li>
+              <li>JOBS: Simplicidade radical, design como estrategia, experiencia > feature</li>
+              <li>GATES: Platform play, developer ecosystem, enterprise lock-in, standards</li>
+            </ol>
+            <div class="fw-tags-row"><span class="fw-tag">strategy</span><span class="fw-tag">council</span><span class="fw-tag">vision</span></div>
+            <p class="fw-scope">Scope: ktana-assistant · Trigger: Decisoes estrategicas de produto</p>
+          </div>
         </div>
 
-        <div class="fw-card">
-          <div class="fw-header">
+        <div class="fw" data-type="checklist">
+          <div class="fw-head" onclick="toggleFw(this)">
+            <svg class="fw-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg>
+            <p class="fw-name">22 Frameworks — Aplicar em cada tela</p>
+            <span class="fw-type t-checklist">CHECKLIST</span>
+            <div class="fw-toggle on" onclick="event.stopPropagation(); this.classList.toggle('on')"></div>
+          </div>
+          <div class="fw-body">
+            <p class="fw-desc">6 blocos de frameworks aplicados em toda tela criada.</p>
+            <ol class="fw-steps">
+              <li>MESTRES (6): Filtros Ive, Nielsen, Jobs, Musk, Wozniak, Senna</li>
+              <li>HCI (6): Calm Tech, Ambient Intelligence, ACID, Invisible Interface, Progressive Trust, DxD</li>
+              <li>INTELIGENCIA (3): Simbiose Cognitiva, Metacognicao, Collective Intelligence</li>
+              <li>NEGOCIO (3): Semantica do Produto, 7 Camadas Rentabilizacao, Prevencao Legal</li>
+              <li>SEGURANCA (3): Adversarial Trinity, Constitution, Kill Switches</li>
+              <li>VALIDACAO (1): Stress Test Atemporalidade — funciona em 2026 e em 2100</li>
+            </ol>
+            <div class="fw-tags-row"><span class="fw-tag">ktana</span><span class="fw-tag">design</span><span class="fw-tag">ux</span><span class="fw-tag">complete</span></div>
+            <p class="fw-scope">Scope: shared · Trigger: Toda tela criada ou revisada</p>
+          </div>
+        </div>
+
+        <div class="fw" data-type="runbook">
+          <div class="fw-head" onclick="toggleFw(this)">
+            <svg class="fw-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg>
             <p class="fw-name">Deploy Memory API</p>
-            <span class="fw-type type-runbook">RUNBOOK</span>
+            <span class="fw-type t-runbook">RUNBOOK</span>
+            <div class="fw-toggle on" onclick="event.stopPropagation(); this.classList.toggle('on')"></div>
           </div>
-          <p class="fw-desc">Passos para fazer deploy seguro da Memory API no VPS 960192. Docker, migrations, health check.</p>
-          <div class="fw-tags"><span class="fw-tag">deploy</span><span class="fw-tag">memory</span><span class="fw-tag">vps</span><span class="fw-tag">docker</span></div>
-          <div class="fw-meta"><span>Runbook</span><span>Scope: shared</span></div>
+          <div class="fw-body">
+            <p class="fw-desc">Passos para deploy seguro da Memory API no VPS 960192.</p>
+            <ol class="fw-steps">
+              <li>SSH para VPS 960192 (82.29.62.106)</li>
+              <li>cd /opt/claude-memory && git pull</li>
+              <li>docker compose build && docker compose up -d</li>
+              <li>Verificar health: curl localhost:8000/api/v1/stats</li>
+              <li>Verificar logs: docker logs claude-memory-api --tail 50</li>
+            </ol>
+            <div class="fw-tags-row"><span class="fw-tag">deploy</span><span class="fw-tag">memory</span><span class="fw-tag">docker</span><span class="fw-tag">vps</span></div>
+            <p class="fw-scope">Scope: shared · Trigger: Atualizar API de memoria</p>
+          </div>
         </div>
 
-        <div class="fw-card">
-          <div class="fw-header">
-            <p class="fw-name">Collective Intelligence Engine</p>
-            <span class="fw-type type-pattern">PATTERN</span>
+        <div class="fw" data-type="runbook">
+          <div class="fw-head" onclick="toggleFw(this)">
+            <svg class="fw-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg>
+            <p class="fw-name">Infra Migration — Hostinger → AWS</p>
+            <span class="fw-type t-runbook">RUNBOOK</span>
+            <div class="fw-toggle" onclick="event.stopPropagation(); this.classList.toggle('on')"></div>
           </div>
-          <p class="fw-desc">Diversidade cognitiva como motor de acerto. Neurodivergencia, padroes geniais, catalogo de mentes.</p>
-          <div class="fw-tags"><span class="fw-tag">intelligence</span><span class="fw-tag">diversity</span><span class="fw-tag">neurodivergence</span></div>
-          <div class="fw-meta"><span>Pattern</span><span>Scope: ktana-assistant</span></div>
-        </div>
-
-        <div class="fw-card">
-          <div class="fw-header">
-            <p class="fw-name">Multi-LLM Architecture</p>
-            <span class="fw-type type-pattern">PATTERN</span>
+          <div class="fw-body">
+            <p class="fw-desc">Caminho de migracao sem trauma. Fases, rollback, zero downtime.</p>
+            <ol class="fw-steps">
+              <li>Fase 1: MVP em Hostinger VPS (atual)</li>
+              <li>Fase 2: Docker Compose com Traefik (pronto)</li>
+              <li>Fase 3: AWS ECS ou EKS quando > 100 tenants pagantes</li>
+              <li>Fase 4: Multi-region quando > 1000 tenants</li>
+            </ol>
+            <div class="fw-tags-row"><span class="fw-tag">infra</span><span class="fw-tag">migration</span><span class="fw-tag">aws</span></div>
+            <p class="fw-scope">Scope: shared · Trigger: Decisao de infra</p>
           </div>
-          <p class="fw-desc">Providers segregados e independentes. Anthropic router, OpenAI fallback, Google, Groq fast. Zero vendor lock-in.</p>
-          <div class="fw-tags"><span class="fw-tag">llm</span><span class="fw-tag">multi-provider</span><span class="fw-tag">architecture</span></div>
-          <div class="fw-meta"><span>Pattern</span><span>Scope: ktana-assistant</span></div>
-        </div>
-
-        <div class="fw-card">
-          <div class="fw-header">
-            <p class="fw-name">Infra Migration Path</p>
-            <span class="fw-type type-runbook">RUNBOOK</span>
-          </div>
-          <p class="fw-desc">Hostinger MVP para AWS Producao sem trauma. Fases, rollback, zero downtime.</p>
-          <div class="fw-tags"><span class="fw-tag">infra</span><span class="fw-tag">migration</span><span class="fw-tag">aws</span></div>
-          <div class="fw-meta"><span>Runbook</span><span>Scope: shared</span></div>
-        </div>
-
-        <div class="fw-card">
-          <div class="fw-header">
-            <p class="fw-name">+27 mais no segundo cerebro</p>
-            <span class="fw-type" style="background:rgba(255,255,255,0.04);color:#636366;">...</span>
-          </div>
-          <p class="fw-desc">WhatsApp multi-number, mobile device sync, nomenclatura KTANA, QA validacao, stress test total, Palantir data science, hierarquia Senna+Salomao, e mais.</p>
-          <div class="fw-tags"><span class="fw-tag">memory-api</span><span class="fw-tag">GET /api/v2/procedures</span></div>
-          <div class="fw-meta"><span>44 total</span><span>Consultar via API</span></div>
         </div>
 
       </div>
     </div>
-
   </div>
 
   <script>
-    // Live clock
-    function updateClock() {
-      const now = new Date();
-      document.getElementById('clock').textContent = now.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
-    }
-    updateClock();
-    setInterval(updateClock, 1000);
+    // Clock
+    setInterval(() => {
+      document.getElementById('clock').textContent = new Date().toLocaleTimeString('pt-BR', { hour:'2-digit', minute:'2-digit', second:'2-digit' });
+    }, 1000);
+    document.getElementById('clock').textContent = new Date().toLocaleTimeString('pt-BR', { hour:'2-digit', minute:'2-digit', second:'2-digit' });
 
-    // Stagger fade-in for cards
-    document.querySelectorAll('.fw-card').forEach((card, i) => {
-      card.style.animation = `fadeIn 0.3s cubic-bezier(0.25,0.1,0.25,1) ${0.2 + i * 0.03}s both`;
-    });
-    document.querySelectorAll('.agent-card').forEach((card, i) => {
-      card.style.animation = `fadeIn 0.3s cubic-bezier(0.25,0.1,0.25,1) ${0.1 + i * 0.05}s both`;
-    });
+    // Toggle framework expand
+    function toggleFw(head) {
+      head.closest('.fw').classList.toggle('open');
+    }
+
+    // Filter frameworks
+    function filterFw(type) {
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      event.target.classList.add('active');
+      document.querySelectorAll('.fw').forEach(fw => {
+        if (type === 'all' || fw.dataset.type === type) {
+          fw.style.display = '';
+        } else {
+          fw.style.display = 'none';
+        }
+      });
+    }
   </script>
 </body>
 </html>
