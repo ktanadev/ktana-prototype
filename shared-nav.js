@@ -131,9 +131,44 @@
           ${svg('M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z', 18)}
           <span class="kt-ai-label">Perguntar</span>
         </button>
-        <a href="${t('profile/index.html')}" class="kt-avatar" title="Perfil">
+        <button class="kt-avatar" title="Perfil" onclick="toggleProfileDrop()">
           ${svg('M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2M12 3a4 4 0 100 8 4 4 0 000-8z', 16)}
-        </a>
+        </button>
+        <!-- Profile Dropdown -->
+        <div class="kt-profile-drop" id="ktProfileDrop">
+          <a href="${t('profile/index.html')}" class="kt-profile-item">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+            <span>Perfil</span>
+          </a>
+          <div class="kt-profile-sep"></div>
+          <div class="kt-profile-env-label">Ambiente</div>
+          <div class="kt-profile-item kt-profile-env-active">
+            <span class="kt-env-dot kt-env-dot-active"></span>
+            <span>Ambiente PJ</span>
+            <span class="kt-env-current">Atual</span>
+          </div>
+          <button class="kt-profile-item kt-profile-env-switch" id="ktEnvSwitchBtn" onclick="showPfAuth(event)">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
+            <span>Ambiente PF</span>
+          </button>
+          <!-- WhatsApp auth inline (hidden by default) -->
+          <div class="kt-pf-auth" id="ktPfAuth" style="display:none;">
+            <p class="kt-pf-auth-msg">Codigo enviado ao WhatsApp. Digite para acessar:</p>
+            <div class="kt-pf-auth-inputs">
+              <input type="text" maxlength="1" class="kt-pf-code" data-idx="0" inputmode="numeric" autocomplete="off">
+              <input type="text" maxlength="1" class="kt-pf-code" data-idx="1" inputmode="numeric" autocomplete="off">
+              <input type="text" maxlength="1" class="kt-pf-code" data-idx="2" inputmode="numeric" autocomplete="off">
+              <input type="text" maxlength="1" class="kt-pf-code" data-idx="3" inputmode="numeric" autocomplete="off">
+              <input type="text" maxlength="1" class="kt-pf-code" data-idx="4" inputmode="numeric" autocomplete="off">
+              <input type="text" maxlength="1" class="kt-pf-code" data-idx="5" inputmode="numeric" autocomplete="off">
+            </div>
+          </div>
+          <div class="kt-profile-sep"></div>
+          <button class="kt-profile-item kt-profile-logout" onclick="alert('Saindo...')">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+            <span>Sair</span>
+          </button>
+        </div>
       </div>
     </header>
 
@@ -190,6 +225,32 @@
     .kt-ai-label { }
     .kt-avatar { width: 32px; height: 32px; border-radius: 50%; background: rgba(0,0,0,0.04); display: flex; align-items: center; justify-content: center; color: #86868B; text-decoration: none; transition: background 0.15s; }
     .kt-avatar:hover { background: rgba(0,0,0,0.08); color: #1D1D1F; }
+
+    /* Profile Dropdown */
+    .kt-profile-drop { position: absolute; top: 48px; right: 20px; width: 260px; background: #FFF; border-radius: 16px; border: 1px solid rgba(0,0,0,0.06); box-shadow: 0 12px 48px rgba(0,0,0,0.12); z-index: 400; display: none; overflow: hidden; padding: 6px 0; }
+    .kt-profile-drop.open { display: block; animation: kaUp 0.2s cubic-bezier(0.32,0.72,0,1); }
+    .kt-profile-item { display: flex; align-items: center; gap: 10px; padding: 10px 16px; cursor: pointer; transition: background 0.12s; text-decoration: none; color: #1D1D1F; font-family: 'Inter', -apple-system, sans-serif; font-size: 13px; border: none; background: transparent; width: 100%; text-align: left; }
+    .kt-profile-item:hover { background: rgba(0,0,0,0.03); }
+    .kt-profile-item svg { color: #86868B; flex-shrink: 0; }
+    .kt-profile-sep { height: 1px; background: rgba(0,0,0,0.04); margin: 4px 0; }
+    .kt-profile-env-label { font-family: 'Inter', sans-serif; font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; color: #AEAEB2; padding: 8px 16px 4px; }
+    .kt-profile-env-active { cursor: default; }
+    .kt-profile-env-active:hover { background: transparent; }
+    .kt-env-dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
+    .kt-env-dot-active { background: #30D158; box-shadow: 0 0 6px rgba(48,209,88,0.4); }
+    .kt-env-current { margin-left: auto; font-size: 10px; font-weight: 500; color: #30D158; background: rgba(48,209,88,0.08); padding: 2px 8px; border-radius: 6px; }
+    .kt-profile-env-switch { color: #86868B; }
+    .kt-profile-env-switch:hover { color: #1D1D1F; background: rgba(0,0,0,0.03); }
+    .kt-profile-logout { color: #86868B; }
+    .kt-profile-logout:hover { color: #D70030; background: rgba(215,0,48,0.03); }
+    .kt-profile-logout:hover svg { color: #D70030; }
+
+    /* PF WhatsApp Auth */
+    .kt-pf-auth { padding: 12px 16px 8px; }
+    .kt-pf-auth-msg { font-family: 'Inter', sans-serif; font-size: 11px; color: #86868B; line-height: 1.5; margin-bottom: 10px; }
+    .kt-pf-auth-inputs { display: flex; gap: 6px; justify-content: center; }
+    .kt-pf-code { width: 34px; height: 40px; border-radius: 8px; border: 1px solid rgba(0,0,0,0.08); background: #F5F5F7; text-align: center; font-family: 'Inter', sans-serif; font-size: 16px; font-weight: 600; color: #1D1D1F; outline: none; transition: border-color 0.15s; }
+    .kt-pf-code:focus { border-color: #D70030; box-shadow: 0 0 0 2px rgba(215,0,48,0.08); }
     .kt-client-logo { display: flex; align-items: center; margin-left: 12px; opacity: 0.7; transition: opacity 0.15s; }
     .kt-org:hover .kt-client-logo { opacity: 1; }
 
@@ -396,9 +457,69 @@
     document.getElementById('ksOverlay').classList.add('open');
   }
 
+  // Profile dropdown
+  let profileOpen = false;
+  window.toggleProfileDrop = function() {
+    profileOpen = !profileOpen;
+    document.getElementById('ktProfileDrop').classList.toggle('open', profileOpen);
+  };
+
+  window.showPfAuth = function(e) {
+    e.stopPropagation();
+    const auth = document.getElementById('ktPfAuth');
+    if (auth.style.display === 'none') {
+      auth.style.display = 'block';
+      const firstInput = auth.querySelector('.kt-pf-code');
+      if (firstInput) firstInput.focus();
+    } else {
+      auth.style.display = 'none';
+    }
+  };
+
+  // Auto-advance code inputs
+  document.addEventListener('input', function(e) {
+    if (!e.target.classList.contains('kt-pf-code')) return;
+    const val = e.target.value;
+    if (val && val.length === 1) {
+      const idx = parseInt(e.target.getAttribute('data-idx'));
+      const next = document.querySelector('.kt-pf-code[data-idx="' + (idx + 1) + '"]');
+      if (next) next.focus();
+      // Check if all 6 digits are filled
+      if (idx === 5) {
+        const codes = document.querySelectorAll('.kt-pf-code');
+        let full = '';
+        codes.forEach(c => full += c.value);
+        if (full.length === 6) {
+          // Navigate to PF landing
+          const pfPath = path.includes('/tenant/') ? '../pf/landing.html' :
+                         path.includes('/pj/') ? '../pf/landing.html' :
+                         path.includes('/pf/') ? 'landing.html' : 'pf/landing.html';
+          window.location.href = pfPath;
+        }
+      }
+    }
+  });
+  document.addEventListener('keydown', function(e) {
+    if (!e.target.classList.contains('kt-pf-code')) return;
+    if (e.key === 'Backspace' && !e.target.value) {
+      const idx = parseInt(e.target.getAttribute('data-idx'));
+      const prev = document.querySelector('.kt-pf-code[data-idx="' + (idx - 1) + '"]');
+      if (prev) { prev.focus(); prev.value = ''; }
+    }
+  });
+
+  // Close profile dropdown on outside click
+  document.addEventListener('click', function(e) {
+    if (!e.target.closest('.kt-avatar') && !e.target.closest('.kt-profile-drop')) {
+      const d = document.getElementById('ktProfileDrop');
+      if (d) { d.classList.remove('open'); profileOpen = false; }
+    }
+  });
+
   // Close sidebar on Escape
   document.addEventListener('keydown', e => {
     if (e.key === 'Escape') {
+      if (profileOpen) { toggleProfileDrop(); return; }
       if (aiOpen) toggleAI();
       if (sidebarOpen) toggleSidebar();
     }

@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>KTANA Design System — V2.0 Ive Edition</title>
+  <link rel="stylesheet" href="shared.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Zen+Dots&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    body { min-height: 100vh; background: #F5F5F7; color: #1D1D1F; }
+
+    /* Layout */
+    .ds-container { max-width: 1080px; margin: 0 auto; padding: 0 32px 120px; }
+    .ds-topbar { display: flex; align-items: center; gap: 12px; padding: 20px 32px; max-width: 1080px; margin: 0 auto; }
+    .ds-topbar a { text-decoration: none; display: flex; align-items: center; gap: 8px; }
+    .ds-logo { font-family: 'Zen Dots', cursive; font-size: 15px; color: #D70030; }
+    .ds-back { font-family: 'Inter', sans-serif; font-size: 12px; color: #86868B; transition: color 0.15s; }
+    .ds-back:hover { color: #1D1D1F; }
+
+    /* Hero */
+    .ds-hero { text-align: center; padding: 80px 0 64px; }
+    .ds-hero h1 { font-family: 'Zen Dots', cursive; font-size: 36px; color: #1D1D1F; margin-bottom: 8px; letter-spacing: -0.5px; }
+    .ds-hero p { font-family: 'Satoshi', sans-serif; font-size: 16px; color: #86868B; font-weight: 500; }
+    .ds-hero-line { width: 48px; height: 2px; background: #D70030; margin: 24px auto 0; border-radius: 1px; }
+
+    /* Section */
+    .ds-section { margin-bottom: 72px; }
+    .ds-section-label { font-family: 'Inter', sans-serif; font-size: 10px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: #D70030; margin-bottom: 6px; }
+    .ds-section-title { font-family: 'Zen Dots', cursive; font-size: 20px; color: #1D1D1F; margin-bottom: 8px; }
+    .ds-section-desc { font-family: 'Satoshi', sans-serif; font-size: 14px; color: #86868B; line-height: 1.6; margin-bottom: 32px; }
+
+    /* Colors */
+    .ds-colors { display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: 16px; }
+    .ds-color { display: flex; flex-direction: column; align-items: center; gap: 10px; }
+    .ds-color-circle { width: 64px; height: 64px; border-radius: 50%; border: 1px solid rgba(0,0,0,0.06); transition: transform 0.2s; }
+    .ds-color-circle:hover { transform: scale(1.08); }
+    .ds-color-name { font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 600; color: #1D1D1F; text-align: center; }
+    .ds-color-hex { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: #86868B; }
+
+    /* Typography */
+    .ds-type-block { margin-bottom: 40px; }
+    .ds-type-font-label { font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: #86868B; margin-bottom: 16px; padding-bottom: 8px; border-bottom: 1px solid rgba(0,0,0,0.04); }
+    .ds-type-row { display: flex; align-items: baseline; gap: 24px; margin-bottom: 12px; padding: 8px 0; }
+    .ds-type-meta { min-width: 80px; font-family: 'JetBrains Mono', monospace; font-size: 10px; color: #AEAEB2; }
+
+    /* Buttons */
+    .ds-btn-row { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; margin-bottom: 16px; }
+    .ds-btn-label { font-family: 'Inter', sans-serif; font-size: 11px; color: #86868B; min-width: 80px; }
+
+    /* Cards showcase */
+    .ds-cards-row { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+    @media (max-width: 640px) { .ds-cards-row { grid-template-columns: 1fr; } }
+    .ds-card-example { padding: 24px; }
+    .ds-card-example h3 { font-family: 'Satoshi', sans-serif; font-size: 16px; font-weight: 700; margin-bottom: 6px; }
+    .ds-card-example p { font-family: 'Satoshi', sans-serif; font-size: 13px; line-height: 1.6; }
+
+    /* Inputs */
+    .ds-inputs { display: flex; flex-direction: column; gap: 16px; max-width: 400px; }
+
+    /* Toggle */
+    .ds-toggle-wrap { display: flex; gap: 24px; align-items: center; flex-wrap: wrap; }
+    .ds-toggle { position: relative; width: 44px; height: 24px; border-radius: 12px; cursor: pointer; transition: background 0.2s; }
+    .ds-toggle-off { background: #D2D2D7; }
+    .ds-toggle-on { background: #D70030; }
+    .ds-toggle-disabled { background: #E8E8ED; opacity: 0.5; cursor: not-allowed; }
+    .ds-toggle-knob { position: absolute; top: 2px; width: 20px; height: 20px; border-radius: 50%; background: #FFF; box-shadow: 0 1px 3px rgba(0,0,0,0.15); transition: left 0.2s; }
+    .ds-toggle-off .ds-toggle-knob { left: 2px; }
+    .ds-toggle-on .ds-toggle-knob { left: 22px; }
+    .ds-toggle-disabled .ds-toggle-knob { left: 2px; }
+    .ds-toggle-label { font-family: 'Inter', sans-serif; font-size: 12px; color: #86868B; }
+
+    /* Badges */
+    .ds-badges { display: flex; flex-wrap: wrap; gap: 10px; }
+    .ds-badge { font-family: 'Inter', sans-serif; display: inline-flex; align-items: center; padding: 3px 10px; border-radius: 6px; font-size: 11px; font-weight: 500; }
+
+    /* Icons grid */
+    .ds-icons-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(80px, 1fr)); gap: 12px; }
+    .ds-icon-item { display: flex; flex-direction: column; align-items: center; gap: 8px; padding: 16px 8px; border-radius: 12px; background: #FFF; border: 1px solid rgba(0,0,0,0.04); transition: all 0.15s; }
+    .ds-icon-item:hover { border-color: rgba(215,0,48,0.12); background: rgba(215,0,48,0.02); }
+    .ds-icon-item svg { color: #1D1D1F; }
+    .ds-icon-name { font-family: 'Inter', sans-serif; font-size: 9px; color: #86868B; text-align: center; }
+
+    /* Animations showcase */
+    .ds-anim-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+    @media (max-width: 640px) { .ds-anim-row { grid-template-columns: 1fr; } }
+    .ds-anim-box { background: #FFF; border-radius: 16px; border: 1px solid rgba(0,0,0,0.04); padding: 32px 24px; text-align: center; }
+    .ds-anim-box h4 { font-family: 'Inter', sans-serif; font-size: 12px; font-weight: 600; color: #1D1D1F; margin-bottom: 4px; }
+    .ds-anim-box p { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: #AEAEB2; margin-bottom: 16px; }
+    .ds-anim-demo { width: 48px; height: 48px; border-radius: 12px; background: #D70030; margin: 0 auto; }
+    .ds-anim-fade { opacity: 0; }
+    .ds-anim-fade.visible { animation: dsFadeIn 0.6s cubic-bezier(0.25,0.1,0.25,1) forwards; }
+    @keyframes dsFadeIn { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+    .ds-anim-spring.visible { animation: dsSpring 0.6s cubic-bezier(0.32,0.72,0,1) forwards; }
+    @keyframes dsSpring { 0% { transform: scale(0.5); opacity: 0; } 60% { transform: scale(1.08); } 100% { transform: scale(1); opacity: 1; } }
+    .ds-anim-stagger .ds-stagger-dot { width: 10px; height: 10px; border-radius: 50%; background: #D70030; display: inline-block; margin: 0 3px; opacity: 0; }
+    .ds-anim-stagger.visible .ds-stagger-dot { animation: dsStaggerIn 0.4s cubic-bezier(0.25,0.1,0.25,1) forwards; }
+    .ds-anim-stagger.visible .ds-stagger-dot:nth-child(1) { animation-delay: 0s; }
+    .ds-anim-stagger.visible .ds-stagger-dot:nth-child(2) { animation-delay: 0.08s; }
+    .ds-anim-stagger.visible .ds-stagger-dot:nth-child(3) { animation-delay: 0.16s; }
+    .ds-anim-stagger.visible .ds-stagger-dot:nth-child(4) { animation-delay: 0.24s; }
+    .ds-anim-stagger.visible .ds-stagger-dot:nth-child(5) { animation-delay: 0.32s; }
+    @keyframes dsStaggerIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+
+    /* Spacing */
+    .ds-spacing-row { display: flex; align-items: center; gap: 16px; margin-bottom: 12px; }
+    .ds-spacing-box { background: rgba(215,0,48,0.08); border-radius: 4px; height: 32px; }
+    .ds-spacing-label { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: #86868B; min-width: 60px; }
+    .ds-touch-target { width: 44px; height: 44px; border: 2px dashed rgba(215,0,48,0.2); border-radius: 10px; display: flex; align-items: center; justify-content: center; font-family: 'JetBrains Mono', monospace; font-size: 9px; color: #D70030; }
+
+    /* Gradient section */
+    .ds-gradient-demo { border-radius: 20px; overflow: hidden; border: 1px solid rgba(0,0,0,0.04); }
+    .ds-gradient-inner { padding: 40px 32px; text-align: center; }
+    .ds-gradient-inner h3 { font-family: 'Zen Dots', cursive; font-size: 18px; color: #1D1D1F; margin-bottom: 6px; }
+    .ds-gradient-inner p { font-family: 'Satoshi', sans-serif; font-size: 13px; color: #86868B; }
+    .ds-gradient-inner::before { content: ''; display: block; height: 1px; margin-bottom: 24px;
+      background: linear-gradient(90deg, transparent 0%, rgba(215,0,48,0.08) 20%, rgba(215,0,48,0.15) 50%, rgba(215,0,48,0.08) 80%, transparent 100%);
+    }
+
+    /* Scroll reveal */
+    .ds-reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.6s cubic-bezier(0.25,0.1,0.25,1), transform 0.6s cubic-bezier(0.25,0.1,0.25,1); }
+    .ds-reveal.visible { opacity: 1; transform: translateY(0); }
+  </style>
+</head>
+<body>
+
+  <!-- Top bar -->
+  <div class="ds-topbar">
+    <a href="index.html">
+      <span class="ds-logo">KTANA</span>
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#AEAEB2" stroke-width="1.5" stroke-linecap="round"><path d="M9 18l6-6-6-6"/></svg>
+      <span class="ds-back">Design System</span>
+    </a>
+  </div>
+
+  <div class="ds-container">
+
+    <!-- 1. Hero -->
+    <section class="ds-hero">
+      <h1>KTANA Design System</h1>
+      <p>V2.0 — Ive Edition</p>
+      <div class="ds-hero-line"></div>
+    </section>
+
+    <!-- 2. Cores -->
+    <section class="ds-section ds-reveal">
+      <div class="ds-section-label">01</div>
+      <h2 class="ds-section-title">Cores</h2>
+      <p class="ds-section-desc">Tokens de cor do sistema. Backgrounds, textos e acentos.</p>
+      <div class="ds-colors">
+        <div class="ds-color">
+          <div class="ds-color-circle" style="background:#F5F5F7;"></div>
+          <span class="ds-color-name">bg</span>
+          <span class="ds-color-hex">#F5F5F7</span>
+        </div>
+        <div class="ds-color">
+          <div class="ds-color-circle" style="background:#1D1D1F;"></div>
+          <span class="ds-color-name">text-1</span>
+          <span class="ds-color-hex">#1D1D1F</span>
+        </div>
+        <div class="ds-color">
+          <div class="ds-color-circle" style="background:#6E6E73;"></div>
+          <span class="ds-color-name">text-2</span>
+          <span class="ds-color-hex">#6E6E73</span>
+        </div>
+        <div class="ds-color">
+          <div class="ds-color-circle" style="background:#86868B;"></div>
+          <span class="ds-color-name">text-3</span>
+          <span class="ds-color-hex">#86868B</span>
+        </div>
+        <div class="ds-color">
+          <div class="ds-color-circle" style="background:#AEAEB2;"></div>
+          <span class="ds-color-name">text-4</span>
+          <span class="ds-color-hex">#AEAEB2</span>
+        </div>
+        <div class="ds-color">
+          <div class="ds-color-circle" style="background:#D70030;"></div>
+          <span class="ds-color-name">brand</span>
+          <span class="ds-color-hex">#D70030</span>
+        </div>
+        <div class="ds-color">
+          <div class="ds-color-circle" style="background:#30D158;"></div>
+          <span class="ds-color-name">success</span>
+          <span class="ds-color-hex">#30D158</span>
+        </div>
+        <div class="ds-color">
+          <div class="ds-color-circle" style="background:#FF9F0A;"></div>
+          <span class="ds-color-name">warning</span>
+          <span class="ds-color-hex">#FF9F0A</span>
+        </div>
+        <div class="ds-color">
+          <div class="ds-color-circle" style="background:#FF453A;"></div>
+          <span class="ds-color-name">error</span>
+          <span class="ds-color-hex">#FF453A</span>
+        </div>
+        <div class="ds-color">
+          <div class="ds-color-circle" style="background:#0A84FF;"></div>
+          <span class="ds-color-name">info</span>
+          <span class="ds-color-hex">#0A84FF</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3. Tipografia -->
+    <section class="ds-section ds-reveal">
+      <div class="ds-section-label">02</div>
+      <h2 class="ds-section-title">Tipografia</h2>
+      <p class="ds-section-desc">Quatro familias tipograficas com funcoes distintas no sistema.</p>
+
+      <!-- Zen Dots -->
+      <div class="ds-type-block">
+        <div class="ds-type-font-label">Zen Dots — Headlines</div>
+        <div class="ds-type-row">
+          <span class="ds-type-meta">36px</span>
+          <span style="font-family:'Zen Dots',cursive;font-size:36px;color:#1D1D1F;">KTANA Assistant</span>
+        </div>
+        <div class="ds-type-row">
+          <span class="ds-type-meta">24px</span>
+          <span style="font-family:'Zen Dots',cursive;font-size:24px;color:#1D1D1F;">Modulos prontos</span>
+        </div>
+        <div class="ds-type-row">
+          <span class="ds-type-meta">18px</span>
+          <span style="font-family:'Zen Dots',cursive;font-size:18px;color:#1D1D1F;">Painel de controle</span>
+        </div>
+        <div class="ds-type-row">
+          <span class="ds-type-meta">14px</span>
+          <span style="font-family:'Zen Dots',cursive;font-size:14px;color:#1D1D1F;">Card label</span>
+        </div>
+      </div>
+
+      <!-- Satoshi -->
+      <div class="ds-type-block">
+        <div class="ds-type-font-label">Satoshi — Body text</div>
+        <div class="ds-type-row">
+          <span class="ds-type-meta">18px bold</span>
+          <span style="font-family:'Satoshi',sans-serif;font-size:18px;font-weight:700;color:#1D1D1F;">Texto principal em destaque</span>
+        </div>
+        <div class="ds-type-row">
+          <span class="ds-type-meta">15px</span>
+          <span style="font-family:'Satoshi',sans-serif;font-size:15px;color:#1D1D1F;">Corpo de texto padrao com boa legibilidade em telas de qualquer tamanho.</span>
+        </div>
+        <div class="ds-type-row">
+          <span class="ds-type-meta">13px</span>
+          <span style="font-family:'Satoshi',sans-serif;font-size:13px;color:#6E6E73;">Texto secundario para descricoes e contexto adicional.</span>
+        </div>
+        <div class="ds-type-row">
+          <span class="ds-type-meta">11px</span>
+          <span style="font-family:'Satoshi',sans-serif;font-size:11px;color:#86868B;">Texto auxiliar para notas e metadados.</span>
+        </div>
+      </div>
+
+      <!-- Inter -->
+      <div class="ds-type-block">
+        <div class="ds-type-font-label">Inter — UI elements</div>
+        <div class="ds-type-row">
+          <span class="ds-type-meta">14px 500</span>
+          <span style="font-family:'Inter',sans-serif;font-size:14px;font-weight:500;color:#1D1D1F;">Botao ou label principal</span>
+        </div>
+        <div class="ds-type-row">
+          <span class="ds-type-meta">13px 400</span>
+          <span style="font-family:'Inter',sans-serif;font-size:13px;color:#1D1D1F;">Item de menu ou navegacao</span>
+        </div>
+        <div class="ds-type-row">
+          <span class="ds-type-meta">11px 600</span>
+          <span style="font-family:'Inter',sans-serif;font-size:11px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:#86868B;">Section label</span>
+        </div>
+        <div class="ds-type-row">
+          <span class="ds-type-meta">10px 500</span>
+          <span style="font-family:'Inter',sans-serif;font-size:10px;font-weight:500;color:#AEAEB2;">Badge ou caption</span>
+        </div>
+      </div>
+
+      <!-- JetBrains Mono -->
+      <div class="ds-type-block">
+        <div class="ds-type-font-label">JetBrains Mono — Code</div>
+        <div class="ds-type-row">
+          <span class="ds-type-meta">14px</span>
+          <span style="font-family:'JetBrains Mono',monospace;font-size:14px;color:#1D1D1F;">const samurai = new KTANA();</span>
+        </div>
+        <div class="ds-type-row">
+          <span class="ds-type-meta">12px</span>
+          <span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#6E6E73;">api.deploy({ env: 'production' })</span>
+        </div>
+        <div class="ds-type-row">
+          <span class="ds-type-meta">10px</span>
+          <span style="font-family:'JetBrains Mono',monospace;font-size:10px;color:#AEAEB2;">#D70030 | rgba(215,0,48,1)</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4. Botoes -->
+    <section class="ds-section ds-reveal">
+      <div class="ds-section-label">03</div>
+      <h2 class="ds-section-title">Botoes</h2>
+      <p class="ds-section-desc">Quatro variantes em tres tamanhos. Touch targets minimos de 44px.</p>
+
+      <div class="ds-btn-row">
+        <span class="ds-btn-label">Large</span>
+        <button class="btn btn-primary" style="padding:16px 32px;font-size:15px;border-radius:14px;">Primary</button>
+        <button class="btn btn-brand" style="padding:16px 32px;font-size:15px;border-radius:14px;">Brand</button>
+        <button class="btn btn-secondary" style="padding:16px 32px;font-size:15px;border-radius:14px;">Secondary</button>
+        <button class="btn btn-ghost" style="padding:16px 32px;font-size:15px;border-radius:14px;">Ghost</button>
+      </div>
+      <div class="ds-btn-row">
+        <span class="ds-btn-label">Medium</span>
+        <button class="btn btn-primary">Primary</button>
+        <button class="btn btn-brand">Brand</button>
+        <button class="btn btn-secondary">Secondary</button>
+        <button class="btn btn-ghost">Ghost</button>
+      </div>
+      <div class="ds-btn-row">
+        <span class="ds-btn-label">Small</span>
+        <button class="btn btn-primary btn-sm">Primary</button>
+        <button class="btn btn-brand btn-sm">Brand</button>
+        <button class="btn btn-secondary btn-sm">Secondary</button>
+        <button class="btn btn-ghost btn-sm">Ghost</button>
+      </div>
+    </section>
+
+    <!-- 5. Cards -->
+    <section class="ds-section ds-reveal">
+      <div class="ds-section-label">04</div>
+      <h2 class="ds-section-title">Cards</h2>
+      <p class="ds-section-desc">Containers com radius 20px. Variante clara e escura.</p>
+
+      <div class="ds-cards-row">
+        <div class="card ds-card-example">
+          <h3 style="color:#1D1D1F;">Standard Card</h3>
+          <p style="color:#6E6E73;">Background branco, borda sutil rgba(0,0,0,0.04), radius 20px. Ideal para dashboards e conteudo informativo.</p>
+          <div style="margin-top:16px;display:flex;gap:8px;">
+            <span class="badge badge-brand">Ativo</span>
+            <span class="badge badge-neutral">v2.0</span>
+          </div>
+        </div>
+        <div class="card-dark ds-card-example" style="border-radius:20px;">
+          <h3 style="color:#F5F5F7;">Dark Card</h3>
+          <p style="color:#8E8E93;">Background #1C1C1E com borda rgba(255,255,255,0.04). Para contextos de destaque ou modo escuro.</p>
+          <div style="margin-top:16px;display:flex;gap:8px;">
+            <span style="font-family:'Inter',sans-serif;display:inline-flex;align-items:center;padding:3px 10px;border-radius:6px;font-size:11px;font-weight:500;background:rgba(215,0,48,0.15);color:#FF453A;">Brand</span>
+            <span style="font-family:'Inter',sans-serif;display:inline-flex;align-items:center;padding:3px 10px;border-radius:6px;font-size:11px;font-weight:500;background:rgba(255,255,255,0.06);color:#8E8E93;">Neutral</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 6. Inputs -->
+    <section class="ds-section ds-reveal">
+      <div class="ds-section-label">05</div>
+      <h2 class="ds-section-title">Inputs</h2>
+      <p class="ds-section-desc">Campos de formulario com focus state em brand color.</p>
+
+      <div class="ds-inputs">
+        <div>
+          <label style="font-family:'Inter',sans-serif;font-size:11px;font-weight:600;color:#86868B;display:block;margin-bottom:6px;">Text input</label>
+          <input class="input" type="text" placeholder="Digite algo aqui...">
+        </div>
+        <div>
+          <label style="font-family:'Inter',sans-serif;font-size:11px;font-weight:600;color:#86868B;display:block;margin-bottom:6px;">Textarea</label>
+          <textarea class="input" style="min-height:80px;resize:vertical;" placeholder="Descreva com mais detalhes..."></textarea>
+        </div>
+        <div>
+          <label style="font-family:'Inter',sans-serif;font-size:11px;font-weight:600;color:#86868B;display:block;margin-bottom:6px;">Select</label>
+          <select class="input" style="appearance:none;background-image:url('data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%2212%22 height=%2212%22 viewBox=%220 0 24 24%22 fill=%22none%22 stroke=%22%2386868B%22 stroke-width=%222%22><path d=%22M6 9l6 6 6-6%22/></svg>');background-repeat:no-repeat;background-position:right 14px center;padding-right:36px;">
+            <option>Selecione uma opcao</option>
+            <option>GUNDAN — Escala</option>
+            <option>BAKUFU — Estrategia</option>
+            <option>RONIN — Solo</option>
+          </select>
+        </div>
+      </div>
+    </section>
+
+    <!-- 7. Toggles -->
+    <section class="ds-section ds-reveal">
+      <div class="ds-section-label">06</div>
+      <h2 class="ds-section-title">Toggles</h2>
+      <p class="ds-section-desc">Interruptores com tres estados: off, on (brand) e disabled.</p>
+
+      <div class="ds-toggle-wrap">
+        <div style="display:flex;align-items:center;gap:10px;">
+          <div class="ds-toggle ds-toggle-off" onclick="this.classList.toggle('ds-toggle-off');this.classList.toggle('ds-toggle-on');">
+            <div class="ds-toggle-knob"></div>
+          </div>
+          <span class="ds-toggle-label">Off</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:10px;">
+          <div class="ds-toggle ds-toggle-on" onclick="this.classList.toggle('ds-toggle-off');this.classList.toggle('ds-toggle-on');">
+            <div class="ds-toggle-knob"></div>
+          </div>
+          <span class="ds-toggle-label">On</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:10px;">
+          <div class="ds-toggle ds-toggle-disabled">
+            <div class="ds-toggle-knob"></div>
+          </div>
+          <span class="ds-toggle-label">Disabled</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- 8. Badges -->
+    <section class="ds-section ds-reveal">
+      <div class="ds-section-label">07</div>
+      <h2 class="ds-section-title">Badges</h2>
+      <p class="ds-section-desc">Labels compactos para status, categorias e metadados.</p>
+
+      <div class="ds-badges">
+        <span class="ds-badge" style="background:rgba(215,0,48,0.1);color:#D70030;">Brand</span>
+        <span class="ds-badge" style="background:rgba(0,0,0,0.04);color:#6E6E73;">Neutral</span>
+        <span class="ds-badge" style="background:rgba(48,209,88,0.1);color:#30D158;">Success</span>
+        <span class="ds-badge" style="background:rgba(255,159,10,0.1);color:#FF9F0A;">Warning</span>
+        <span class="ds-badge" style="background:rgba(255,69,58,0.1);color:#FF453A;">Error</span>
+        <span class="ds-badge" style="background:rgba(10,132,255,0.1);color:#0A84FF;">Info</span>
+      </div>
+    </section>
+
+    <!-- 9. Icones -->
+    <section class="ds-section ds-reveal">
+      <div class="ds-section-label">08</div>
+      <h2 class="ds-section-title">Icones</h2>
+      <p class="ds-section-desc">SVGs stroke-based, 24x24 viewBox, 1.5px stroke. Feather-style.</p>
+
+      <div class="ds-icons-grid">
+        <div class="ds-icon-item">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/></svg>
+          <span class="ds-icon-name">Home</span>
+        </div>
+        <div class="ds-icon-item">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          <span class="ds-icon-name">User</span>
+        </div>
+        <div class="ds-icon-item">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/></svg>
+          <span class="ds-icon-name">Check</span>
+        </div>
+        <div class="ds-icon-item">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1v22M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>
+          <span class="ds-icon-name">Dollar</span>
+        </div>
+        <div class="ds-icon-item">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+          <span class="ds-icon-name">Activity</span>
+        </div>
+        <div class="ds-icon-item">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+          <span class="ds-icon-name">Bolt</span>
+        </div>
+        <div class="ds-icon-item">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+          <span class="ds-icon-name">Clock</span>
+        </div>
+        <div class="ds-icon-item">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg>
+          <span class="ds-icon-name">Bell</span>
+        </div>
+        <div class="ds-icon-item">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          <span class="ds-icon-name">Shield</span>
+        </div>
+        <div class="ds-icon-item">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.066 2.573c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.573 1.066c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.066-2.573c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><circle cx="12" cy="12" r="3"/></svg>
+          <span class="ds-icon-name">Settings</span>
+        </div>
+        <div class="ds-icon-item">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/></svg>
+          <span class="ds-icon-name">Chat</span>
+        </div>
+        <div class="ds-icon-item">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg>
+          <span class="ds-icon-name">Send</span>
+        </div>
+        <div class="ds-icon-item">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v16m8-8H4"/></svg>
+          <span class="ds-icon-name">Plus</span>
+        </div>
+        <div class="ds-icon-item">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 18L18 6M6 6l12 12"/></svg>
+          <span class="ds-icon-name">Close</span>
+        </div>
+        <div class="ds-icon-item">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+          <span class="ds-icon-name">Menu</span>
+        </div>
+        <div class="ds-icon-item">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+          <span class="ds-icon-name">Eye</span>
+        </div>
+        <div class="ds-icon-item">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
+          <span class="ds-icon-name">Lock</span>
+        </div>
+        <div class="ds-icon-item">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 17l6-6-6-6M12 19h8"/></svg>
+          <span class="ds-icon-name">Terminal</span>
+        </div>
+        <div class="ds-icon-item">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><path d="M12 4.354a4 4 0 110 5.292M23 21v-2a4 4 0 00-3-3.87"/></svg>
+          <span class="ds-icon-name">Team</span>
+        </div>
+        <div class="ds-icon-item">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"/></svg>
+          <span class="ds-icon-name">Link</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- 10. Animacoes -->
+    <section class="ds-section ds-reveal">
+      <div class="ds-section-label">09</div>
+      <h2 class="ds-section-title">Animacoes</h2>
+      <p class="ds-section-desc">Tres padroes de motion: fade-in, spring e stagger. Ativados no scroll.</p>
+
+      <div class="ds-anim-row">
+        <div class="ds-anim-box">
+          <h4>Fade In</h4>
+          <p>0.6s ease-out</p>
+          <div class="ds-anim-demo ds-anim-fade" id="dsAnimFade"></div>
+        </div>
+        <div class="ds-anim-box">
+          <h4>Spring</h4>
+          <p>0.6s cubic-bezier</p>
+          <div class="ds-anim-demo ds-anim-spring" id="dsAnimSpring" style="opacity:0;"></div>
+        </div>
+        <div class="ds-anim-box ds-anim-stagger" id="dsAnimStagger">
+          <h4>Stagger</h4>
+          <p>0.4s x5 delay 80ms</p>
+          <div style="margin-top:16px;display:flex;justify-content:center;">
+            <span class="ds-stagger-dot"></span>
+            <span class="ds-stagger-dot"></span>
+            <span class="ds-stagger-dot"></span>
+            <span class="ds-stagger-dot"></span>
+            <span class="ds-stagger-dot"></span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 11. Espacamento -->
+    <section class="ds-section ds-reveal">
+      <div class="ds-section-label">10</div>
+      <h2 class="ds-section-title">Espacamento</h2>
+      <p class="ds-section-desc">Escala de espacamento baseada em 4px. Touch targets minimo 44px (Apple HIG).</p>
+
+      <div style="margin-bottom:32px;">
+        <div class="ds-spacing-row">
+          <span class="ds-spacing-label">4px</span>
+          <div class="ds-spacing-box" style="width:4px;"></div>
+        </div>
+        <div class="ds-spacing-row">
+          <span class="ds-spacing-label">8px</span>
+          <div class="ds-spacing-box" style="width:8px;"></div>
+        </div>
+        <div class="ds-spacing-row">
+          <span class="ds-spacing-label">12px</span>
+          <div class="ds-spacing-box" style="width:12px;"></div>
+        </div>
+        <div class="ds-spacing-row">
+          <span class="ds-spacing-label">16px</span>
+          <div class="ds-spacing-box" style="width:16px;"></div>
+        </div>
+        <div class="ds-spacing-row">
+          <span class="ds-spacing-label">24px</span>
+          <div class="ds-spacing-box" style="width:24px;"></div>
+        </div>
+        <div class="ds-spacing-row">
+          <span class="ds-spacing-label">32px</span>
+          <div class="ds-spacing-box" style="width:32px;"></div>
+        </div>
+        <div class="ds-spacing-row">
+          <span class="ds-spacing-label">48px</span>
+          <div class="ds-spacing-box" style="width:48px;"></div>
+        </div>
+        <div class="ds-spacing-row">
+          <span class="ds-spacing-label">64px</span>
+          <div class="ds-spacing-box" style="width:64px;"></div>
+        </div>
+      </div>
+
+      <div style="font-family:'Inter',sans-serif;font-size:11px;font-weight:600;color:#86868B;margin-bottom:12px;">TOUCH TARGET MINIMO</div>
+      <div style="display:flex;gap:16px;align-items:center;">
+        <div class="ds-touch-target">44px</div>
+        <span style="font-family:'Satoshi',sans-serif;font-size:13px;color:#6E6E73;">Minimo para botoes, links e alvos interativos em mobile (Apple HIG)</span>
+      </div>
+    </section>
+
+    <!-- 12. Gradiente -->
+    <section class="ds-section ds-reveal">
+      <div class="ds-section-label">11</div>
+      <h2 class="ds-section-title">Gradiente</h2>
+      <p class="ds-section-desc">O gradiente sutil de header que define a identidade visual Ive Edition.</p>
+
+      <div class="ds-gradient-demo">
+        <div class="gradient-header ds-gradient-inner">
+          <h3>Silver Gradient Header</h3>
+          <p>Linear gradient 180deg com accent line vermelha no topo. Aplicar com a classe .gradient-header</p>
+        </div>
+      </div>
+    </section>
+
+  </div>
+
+  <script>
+    // Scroll reveal observer
+    const observer = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, { threshold: 0.15 });
+
+    document.querySelectorAll('.ds-reveal, .ds-anim-fade, .ds-anim-spring, .ds-anim-stagger').forEach(function(el) {
+      observer.observe(el);
+    });
+  </script>
+</body>
+</html>

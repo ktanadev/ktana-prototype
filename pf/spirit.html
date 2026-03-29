@@ -15,23 +15,10 @@
     .card { background: #FFF; border-radius: 20px; border: 1px solid rgba(0,0,0,0.04); padding: 24px; margin-bottom: 12px; }
     .card-label { font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: #D70030; margin-bottom: 14px; }
 
-    /* Ikigai Venn diagram */
-    .ikigai-wrap { position: relative; width: 100%; max-width: 420px; margin: 0 auto 16px; aspect-ratio: 1; }
-    .ikigai-circle { position: absolute; width: 58%; height: 58%; border-radius: 50%; display: flex; align-items: center; justify-content: center; text-align: center; padding: 18%; transition: all 0.3s; }
-    .ikigai-circle:hover { transform: scale(1.03); }
-    .ikigai-love { top: 2%; left: 21%; background: rgba(215,0,48,0.07); border: 1.5px solid rgba(215,0,48,0.15); }
-    .ikigai-good { top: 21%; right: 2%; background: rgba(10,132,255,0.07); border: 1.5px solid rgba(10,132,255,0.15); }
-    .ikigai-need { bottom: 2%; left: 21%; background: rgba(48,209,88,0.07); border: 1.5px solid rgba(48,209,88,0.15); }
-    .ikigai-paid { top: 21%; left: 2%; background: rgba(255,159,10,0.07); border: 1.5px solid rgba(255,159,10,0.15); }
-    .ikigai-label { font-family: 'Inter', sans-serif; font-size: 10px; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; margin-bottom: 4px; }
-    .ikigai-love .ikigai-label { color: #D70030; }
-    .ikigai-good .ikigai-label { color: #0A84FF; }
-    .ikigai-need .ikigai-label { color: #30D158; }
-    .ikigai-paid .ikigai-label { color: #FF9F0A; }
-    .ikigai-text { font-family: 'Satoshi', sans-serif; font-size: 11px; color: #1D1D1F; line-height: 1.4; }
-    .ikigai-center { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 38%; height: 38%; border-radius: 50%; background: rgba(215,0,48,0.04); border: 2px solid rgba(215,0,48,0.2); display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 12%; z-index: 2; box-shadow: 0 4px 24px rgba(215,0,48,0.08); }
-    .ikigai-center-label { font-family: 'Zen Dots', cursive; font-size: 12px; color: #D70030; margin-bottom: 4px; }
-    .ikigai-center-text { font-family: 'Satoshi', sans-serif; font-size: 11px; color: #1D1D1F; line-height: 1.4; }
+    /* Radar Chart */
+    .radar-title { font-family: 'Zen Dots', cursive; font-size: 14px; color: #1D1D1F; text-align: center; margin-bottom: 16px; }
+    .radar-wrap { display: flex; justify-content: center; margin-bottom: 8px; }
+    .radar-wrap svg { max-width: 100%; height: auto; }
 
     /* Values tags */
     .tags-row { display: flex; flex-wrap: wrap; gap: 8px; }
@@ -77,38 +64,69 @@
     <h1 class="fade-in">Seu Espirito</h1>
     <p class="subtitle fade-in">Quem voce e na essencia. Definido pela sua conversa com Yumi.</p>
 
-    <!-- Ikigai -->
+    <!-- Radar Chart — Mapa de Vida -->
     <div class="card fade-in" style="animation-delay:0.05s">
-      <p class="card-label">Ikigai</p>
-      <div class="ikigai-wrap">
-        <div class="ikigai-circle ikigai-love">
-          <div>
-            <div class="ikigai-label">O que voce ama</div>
-            <div class="ikigai-text">Criar coisas, resolver problemas complexos, ensinar</div>
-          </div>
-        </div>
-        <div class="ikigai-circle ikigai-good">
-          <div>
-            <div class="ikigai-label">O que voce e bom</div>
-            <div class="ikigai-text">Programacao, lideranca, comunicacao clara</div>
-          </div>
-        </div>
-        <div class="ikigai-circle ikigai-need">
-          <div>
-            <div class="ikigai-label">O que o mundo precisa</div>
-            <div class="ikigai-text">Tecnologia acessivel, educacao financeira</div>
-          </div>
-        </div>
-        <div class="ikigai-circle ikigai-paid">
-          <div>
-            <div class="ikigai-label">Pelo que pode ser pago</div>
-            <div class="ikigai-text">Consultoria tech, SaaS, mentoria</div>
-          </div>
-        </div>
-        <div class="ikigai-center">
-          <div class="ikigai-center-label">Ikigai</div>
-          <div class="ikigai-center-text">Construir plataformas que democratizam acesso</div>
-        </div>
+      <p class="card-label">Mapa de Vida</p>
+      <div class="radar-title">Seu Mapa de Vida</div>
+      <div class="radar-wrap">
+        <svg viewBox="0 0 400 400" width="400" height="400" xmlns="http://www.w3.org/2000/svg">
+          <!-- Concentric octagon rings -->
+          <!-- 25% ring -->
+          <polygon points="200,165 224.75,175.25 235,200 224.75,224.75 200,235 175.25,224.75 165,200 175.25,175.25" fill="none" stroke="rgba(0,0,0,0.04)" stroke-width="0.75"/>
+          <!-- 50% ring -->
+          <polygon points="200,130 249.5,150.5 270,200 249.5,249.5 200,270 150.5,249.5 130,200 150.5,150.5" fill="none" stroke="rgba(0,0,0,0.04)" stroke-width="0.75"/>
+          <!-- 75% ring -->
+          <polygon points="200,95 274.25,125.75 305,200 274.25,274.25 200,305 125.75,274.25 95,200 125.75,125.75" fill="none" stroke="rgba(0,0,0,0.04)" stroke-width="0.75"/>
+          <!-- 100% ring -->
+          <polygon points="200,60 299,101 340,200 299,299 200,340 101,299 60,200 101,101" fill="none" stroke="rgba(0,0,0,0.04)" stroke-width="0.75"/>
+
+          <!-- Axis lines from center to each vertex -->
+          <line x1="200" y1="200" x2="200" y2="60" stroke="rgba(0,0,0,0.04)" stroke-width="0.75"/>
+          <line x1="200" y1="200" x2="299" y2="101" stroke="rgba(0,0,0,0.04)" stroke-width="0.75"/>
+          <line x1="200" y1="200" x2="340" y2="200" stroke="rgba(0,0,0,0.04)" stroke-width="0.75"/>
+          <line x1="200" y1="200" x2="299" y2="299" stroke="rgba(0,0,0,0.04)" stroke-width="0.75"/>
+          <line x1="200" y1="200" x2="200" y2="340" stroke="rgba(0,0,0,0.04)" stroke-width="0.75"/>
+          <line x1="200" y1="200" x2="101" y2="299" stroke="rgba(0,0,0,0.04)" stroke-width="0.75"/>
+          <line x1="200" y1="200" x2="60" y2="200" stroke="rgba(0,0,0,0.04)" stroke-width="0.75"/>
+          <line x1="200" y1="200" x2="101" y2="101" stroke="rgba(0,0,0,0.04)" stroke-width="0.75"/>
+
+          <!-- Data polygon: Saude 8, Mente 7, Carreira 9, Financas 6, Proposito 8, Produtividade 9, Relacionamentos 7, Casa 5 -->
+          <!-- Each axis: center=200, radius=140. value/10 * 140 = offset from center -->
+          <!-- Axis 0 (top, 270deg): Saude 8/10 => 200, 200 - 112 = 200,88 -->
+          <!-- Axis 1 (315deg): Mente 7/10 => 200+69.3*0.7071, 200-69.3*0.7071 => 200+98*0.7071, 200-98*0.7071 => 269.3, 130.7 -->
+          <!-- Axis 2 (0deg, right): Carreira 9/10 => 200+126, 200 => 326, 200 -->
+          <!-- Axis 3 (45deg): Financas 6/10 => 200+84*0.7071, 200+84*0.7071 => 259.4, 259.4 -->
+          <!-- Axis 4 (90deg, bottom): Proposito 8/10 => 200, 200+112 => 200, 312 -->
+          <!-- Axis 5 (135deg): Produtividade 9/10 => 200-126*0.7071, 200+126*0.7071 => 110.9, 289.1 -->
+          <!-- Axis 6 (180deg, left): Relacionamentos 7/10 => 200-98, 200 => 102, 200 -->
+          <!-- Axis 7 (225deg): Casa 5/10 => 200-70*0.7071, 200-70*0.7071 => 150.5, 150.5 -->
+          <polygon
+            points="200,88 269.3,130.7 326,200 259.4,259.4 200,312 110.9,289.1 102,200 150.5,150.5"
+            fill="#D70030" fill-opacity="0.08"
+            stroke="#D70030" stroke-width="1.5"
+            stroke-linejoin="round"
+          />
+
+          <!-- Data points -->
+          <circle cx="200" cy="88" r="4" fill="#D70030"/>
+          <circle cx="269.3" cy="130.7" r="4" fill="#D70030"/>
+          <circle cx="326" cy="200" r="4" fill="#D70030"/>
+          <circle cx="259.4" cy="259.4" r="4" fill="#D70030"/>
+          <circle cx="200" cy="312" r="4" fill="#D70030"/>
+          <circle cx="110.9" cy="289.1" r="4" fill="#D70030"/>
+          <circle cx="102" cy="200" r="4" fill="#D70030"/>
+          <circle cx="150.5" cy="150.5" r="4" fill="#D70030"/>
+
+          <!-- Axis labels with scores -->
+          <text x="200" y="46" text-anchor="middle" font-family="Inter, sans-serif" font-size="11" fill="#1D1D1F" font-weight="500">Saude 8/10</text>
+          <text x="312" y="92" text-anchor="start" font-family="Inter, sans-serif" font-size="11" fill="#1D1D1F" font-weight="500">Mente 7/10</text>
+          <text x="352" y="204" text-anchor="start" font-family="Inter, sans-serif" font-size="11" fill="#1D1D1F" font-weight="500">Carreira 9/10</text>
+          <text x="312" y="316" text-anchor="start" font-family="Inter, sans-serif" font-size="11" fill="#1D1D1F" font-weight="500">Financas 6/10</text>
+          <text x="200" y="362" text-anchor="middle" font-family="Inter, sans-serif" font-size="11" fill="#1D1D1F" font-weight="500">Proposito 8/10</text>
+          <text x="88" y="316" text-anchor="end" font-family="Inter, sans-serif" font-size="11" fill="#1D1D1F" font-weight="500">Produtividade 9/10</text>
+          <text x="48" y="204" text-anchor="end" font-family="Inter, sans-serif" font-size="11" fill="#1D1D1F" font-weight="500">Relacionamentos 7/10</text>
+          <text x="88" y="92" text-anchor="end" font-family="Inter, sans-serif" font-size="11" fill="#1D1D1F" font-weight="500">Casa 5/10</text>
+        </svg>
       </div>
     </div>
 
