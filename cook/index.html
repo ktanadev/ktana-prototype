@@ -339,18 +339,43 @@
           .uaf-glow{position:absolute;top:50%;left:50%;width:50px;height:50px;margin:-25px 0 0 -25px;border-radius:50%;z-index:-1;animation:uafGlowPulse 3s ease-in-out infinite;pointer-events:none;}
           @keyframes uafGlowPulse{0%,100%{opacity:0.3;}50%{opacity:1;}}
 
-          /* Floating animation */
-          @keyframes uafFloat{
-            0%,100%{transform:translateX(-50%) translateY(0px);}
-            50%{transform:translateX(-50%) translateY(-6px);}
+          /* Floating animation — multiple keyframes, X+Y movement, organic */
+          @keyframes uafFloat0{
+            0%{transform:translateX(-50%) translate(0px,0px);}
+            20%{transform:translateX(-50%) translate(8px,-12px);}
+            40%{transform:translateX(-50%) translate(-5px,-18px);}
+            60%{transform:translateX(-50%) translate(-10px,-6px);}
+            80%{transform:translateX(-50%) translate(6px,-14px);}
+            100%{transform:translateX(-50%) translate(0px,0px);}
           }
-          .uaf-float-0{animation:uafFloat 6s ease-in-out infinite;animation-delay:0s;}
-          .uaf-float-1{animation:uafFloat 6s ease-in-out infinite;animation-delay:0.8s;}
-          .uaf-float-2{animation:uafFloat 6s ease-in-out infinite;animation-delay:1.6s;}
-          .uaf-float-3{animation:uafFloat 6s ease-in-out infinite;animation-delay:2.4s;}
-          .uaf-float-4{animation:uafFloat 6s ease-in-out infinite;animation-delay:3.2s;}
-          .uaf-float-5{animation:uafFloat 6s ease-in-out infinite;animation-delay:4.0s;}
-          .uaf-float-6{animation:uafFloat 6s ease-in-out infinite;animation-delay:4.8s;}
+          @keyframes uafFloat1{
+            0%{transform:translateX(-50%) translate(0px,0px);}
+            25%{transform:translateX(-50%) translate(-12px,-10px);}
+            50%{transform:translateX(-50%) translate(6px,-20px);}
+            75%{transform:translateX(-50%) translate(10px,-8px);}
+            100%{transform:translateX(-50%) translate(0px,0px);}
+          }
+          @keyframes uafFloat2{
+            0%{transform:translateX(-50%) translate(0px,0px);}
+            15%{transform:translateX(-50%) translate(10px,-8px);}
+            35%{transform:translateX(-50%) translate(-8px,-16px);}
+            55%{transform:translateX(-50%) translate(14px,-12px);}
+            75%{transform:translateX(-50%) translate(-6px,-20px);}
+            100%{transform:translateX(-50%) translate(0px,0px);}
+          }
+          @keyframes uafFloat3{
+            0%{transform:translateX(-50%) translate(0px,0px);}
+            30%{transform:translateX(-50%) translate(-14px,-14px);}
+            60%{transform:translateX(-50%) translate(8px,-22px);}
+            100%{transform:translateX(-50%) translate(0px,0px);}
+          }
+          .uaf-float-0{animation:uafFloat0 8s ease-in-out infinite;}
+          .uaf-float-1{animation:uafFloat1 7s ease-in-out infinite;}
+          .uaf-float-2{animation:uafFloat2 9s ease-in-out infinite;}
+          .uaf-float-3{animation:uafFloat3 8.5s ease-in-out infinite;}
+          .uaf-float-4{animation:uafFloat0 7.5s ease-in-out infinite reverse;}
+          .uaf-float-5{animation:uafFloat2 8s ease-in-out infinite reverse;}
+          .uaf-float-6{animation:uafFloat1 9.5s ease-in-out infinite;}
 
           /* Node pulse on particle arrival */
           @keyframes uafNodePulse{
