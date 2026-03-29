@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" fill="none" stroke="#D70030" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+  <!-- Blade: diagonal curved line from bottom-left to top-right -->
+  <path d="M8 28 Q14 16 24 4"/>
+  <!-- Tsuba (guard): small diamond at the handle junction -->
+  <circle cx="18" cy="14" r="2"/>
+  <!-- Handle wrap: short section at the bottom -->
+  <path d="M6 26l4 0"/>
+  <path d="M7 28l2 0"/>
+</svg>

@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="160" height="32" viewBox="0 0 160 32" fill="none">
+  <!-- Katana symbol (left, 32x32 area) -->
+  <g stroke="#D70030" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M8 28 Q14 16 24 4"/>
+    <circle cx="18" cy="14" r="2"/>
+    <path d="M6 26l4 0"/>
+    <path d="M7 28l2 0"/>
+  </g>
+  <!-- KTANA text (right side) -->
+  <g fill="#D70030">
+    <!-- K -->
+    <path d="M44 9v14M44 16l6-7M49 16l6 7"/>
+    <!-- T -->
+    <path d="M60 9h10M65 9v14"/>
+    <!-- A -->
+    <path d="M76 23l5-14 5 14M78.5 18h5"/>
+    <!-- N -->
+    <path d="M92 23V9l8 14V9"/>
+    <!-- A -->
+    <path d="M106 23l5-14 5 14M108.5 18h5"/>
+  </g>
+</svg>

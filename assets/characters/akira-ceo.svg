@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" viewBox="0 0 80 80" fill="none" stroke="#D70030" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+  <!-- Kasa hat (wide conical) -->
+  <path d="M18 30 L40 12 L62 30"/>
+  <line x1="14" y1="30" x2="66" y2="30"/>
+  <!-- Face -->
+  <ellipse cx="40" cy="40" rx="12" ry="11"/>
+  <!-- Stern eyes -->
+  <line x1="33" y1="38" x2="37" y2="38"/>
+  <line x1="43" y1="38" x2="47" y2="38"/>
+  <!-- Stern brow -->
+  <line x1="32" y1="36" x2="38" y2="35.5"/>
+  <line x1="42" y1="35.5" x2="48" y2="36"/>
+  <!-- Mouth (firm line) -->
+  <line x1="36" y1="44" x2="44" y2="44"/>
+  <!-- Shoulders / armor -->
+  <path d="M28 51 L22 60 L58 60 L52 51"/>
+  <line x1="40" y1="51" x2="40" y2="60"/>
+  <!-- Leadership symbol: small star on chest -->
+  <path d="M40 54 l1.5 2 2-0.5 -1.5 1.5 0.5 2 -2.5-1 -2.5 1 0.5-2 -1.5-1.5 2 0.5z" fill="#D70030" stroke="none"/>
+  <!-- Katana on back (diagonal) -->
+  <line x1="55" y1="25" x2="62" y2="58"/>
+  <line x1="59" y1="50" x2="65" y2="52"/>
+</svg>

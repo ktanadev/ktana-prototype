@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" viewBox="0 0 80 80" fill="none" stroke="#30D158" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+  <!-- Hair (neat, pulled back) -->
+  <path d="M28 30 Q28 16 40 14 Q52 16 52 30"/>
+  <path d="M28 30 L28 36"/>
+  <path d="M52 30 L52 36"/>
+  <!-- Face -->
+  <ellipse cx="40" cy="38" rx="12" ry="11"/>
+  <!-- Glasses (round scholarly frames) -->
+  <circle cx="34" cy="37" r="4"/>
+  <circle cx="46" cy="37" r="4"/>
+  <line x1="38" y1="37" x2="42" y2="37"/>
+  <line x1="28" y1="37" x2="30" y2="36"/>
+  <line x1="52" y1="37" x2="50" y2="36"/>
+  <!-- Eyes behind glasses -->
+  <circle cx="34" cy="37" r="1" fill="#30D158" stroke="none"/>
+  <circle cx="46" cy="37" r="1" fill="#30D158" stroke="none"/>
+  <!-- Precise, thin mouth -->
+  <line x1="37" y1="43" x2="43" y2="43"/>
+  <!-- Neck -->
+  <line x1="37" y1="49" x2="37" y2="53"/>
+  <line x1="43" y1="49" x2="43" y2="53"/>
+  <!-- Formal collar -->
+  <path d="M28 60 L34 53 L40 58 L46 53 L52 60"/>
+  <!-- Abacus / calculator symbol -->
+  <rect x="56" y="44" width="8" height="12" rx="1"/>
+  <line x1="58" y1="44" x2="58" y2="56"/>
+  <line x1="62" y1="44" x2="62" y2="56"/>
+  <line x1="56" y1="48" x2="64" y2="48"/>
+  <line x1="56" y1="52" x2="64" y2="52"/>
+  <!-- Yen symbol on collar -->
+  <text x="38" y="57" font-size="5" fill="#30D158" stroke="none" font-family="Inter, sans-serif" text-anchor="middle">&yen;</text>
+</svg>

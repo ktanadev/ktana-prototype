@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" viewBox="0 0 80 80" fill="none" stroke="#FF9F0A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+  <!-- Flowing creative hair -->
+  <path d="M28 32 Q26 16 40 14 Q54 16 52 32"/>
+  <path d="M52 32 Q56 36 58 44 Q56 48 52 46"/>
+  <path d="M28 32 Q24 36 22 44 Q24 48 28 46"/>
+  <!-- Hair flowing strands -->
+  <path d="M56 38 Q62 40 60 46"/>
+  <path d="M24 38 Q18 40 20 46"/>
+  <!-- Face -->
+  <ellipse cx="40" cy="38" rx="12" ry="11"/>
+  <!-- Creative eyes (open, expressive) -->
+  <circle cx="35" cy="37" r="2"/>
+  <circle cx="45" cy="37" r="2"/>
+  <circle cx="35.5" cy="36.5" r="0.8" fill="#FF9F0A" stroke="none"/>
+  <circle cx="45.5" cy="36.5" r="0.8" fill="#FF9F0A" stroke="none"/>
+  <!-- Playful smile -->
+  <path d="M35 43 Q40 46 45 43"/>
+  <!-- Neck -->
+  <line x1="37" y1="49" x2="37" y2="53"/>
+  <line x1="43" y1="49" x2="43" y2="53"/>
+  <!-- Artistic collar / kimono -->
+  <path d="M26 60 L34 53 L40 57 L46 53 L54 60"/>
+  <!-- Brush in right hand -->
+  <line x1="56" y1="50" x2="64" y2="36"/>
+  <path d="M64 36 L66 32 Q65 30 63 32 L62 34" fill="#FF9F0A" fill-opacity="0.3"/>
+  <!-- Paint splatter (creativity symbol) -->
+  <circle cx="14" cy="54" r="2" fill="#FF9F0A" fill-opacity="0.3"/>
+  <circle cx="18" cy="58" r="1.5" fill="#FF9F0A" fill-opacity="0.2"/>
+  <circle cx="12" cy="60" r="1" fill="#FF9F0A" fill-opacity="0.4"/>
+</svg>
