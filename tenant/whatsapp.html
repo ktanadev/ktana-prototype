@@ -10,12 +10,6 @@
     body { min-height: 100vh; background: #F5F5F7; display: flex; flex-direction: column; margin: 0; }
 
     /* Nav — minimal, doesn't compete */
-    .nav { position: sticky; top: 0; z-index: 50; height: 44px; display: flex; align-items: center; justify-content: center; background: rgba(245,245,247,0.72); backdrop-filter: saturate(180%) blur(20px); -webkit-backdrop-filter: saturate(180%) blur(20px); border-bottom: 0.5px solid rgba(0,0,0,0.06); }
-    .nav-inner { width: 100%; max-width: 100%; padding: 0 20px; display: flex; align-items: center; justify-content: space-between; }
-    .nav-logo { font-family: 'Zen Dots', cursive; font-size: 13px; color: #D70030; }
-    .nav-links { display: flex; align-items: center; gap: 16px; }
-    .nav-links a { font-family: 'Inter', sans-serif; font-size: 11px; color: #1D1D1F; opacity: 0.4; transition: opacity 0.15s; }
-    .nav-links a:hover, .nav-links a.active { opacity: 1; }
 
     /* Main layout — sidebar + iframe */
     .main { flex: 1; display: flex; overflow: hidden; }
@@ -96,18 +90,6 @@
 <body>
 
   <!-- Minimal nav -->
-  <nav class="nav">
-    <div class="nav-inner">
-      <a href="dashboard/home.html" class="nav-logo">KTANA</a>
-      <div class="nav-links">
-        <a href="dashboard/home.html">Painel</a>
-        <a href="office/index.html">Escritorio</a>
-        <a href="whatsapp.html" class="active">WhatsApp</a>
-        <a href="team/list.html">Equipe</a>
-        <a href="approvals/list.html">Aprovacoes</a>
-      </div>
-    </div>
-  </nav>
 
   <div class="main">
     <!-- KTANA sidebar — samurai contacts -->

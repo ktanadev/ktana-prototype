@@ -8,11 +8,6 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Zen+Dots&display=swap" rel="stylesheet">
   <style>
     body { min-height: 100vh; background: #F5F5F7; }
-    .nav { position: sticky; top: 0; z-index: 50; height: 48px; display: flex; align-items: center; justify-content: center; background: rgba(245,245,247,0.72); backdrop-filter: saturate(180%) blur(20px); border-bottom: 0.5px solid rgba(0,0,0,0.06); }
-    .nav-inner { width: 100%; max-width: 720px; padding: 0 24px; display: flex; align-items: center; justify-content: space-between; }
-    .nav-logo { font-family: 'Zen Dots', cursive; font-size: 14px; color: #D70030; }
-    .nav-links a { font-family: 'Inter', sans-serif; font-size: 12px; color: #1D1D1F; opacity: 0.4; margin-left: 24px; }
-    .nav-links a.active { opacity: 1; }
     .main { max-width: 720px; margin: 0 auto; padding: 40px 24px 80px; }
     h1 { font-family: 'Satoshi', sans-serif; font-size: 22px; font-weight: 700; color: #1D1D1F; margin-bottom: 32px; }
     .settings-nav { display: flex; gap: 2px; background: rgba(0,0,0,0.03); border-radius: 10px; padding: 2px; margin-bottom: 32px; overflow-x: auto; }
@@ -49,21 +44,3 @@
   </style>
 </head>
 <body>
-  <nav class="nav"><div class="nav-inner"><a href="../landing.html" class="nav-logo">KTANA</a><div class="nav-links"><a href="../dashboard/home.html">Painel</a><a href="general.html" class="active">Config</a></div></div></nav>
-  <main class="main">
-    <h1 class="fade-in">Configuracoes</h1>
-    <div class="settings-nav fade-in">
-      <button class="settings-tab" onclick="location.href='general.html'">Geral</button>
-      <button class="settings-tab active" onclick="location.href='models.html'">Inteligencia</button>
-      <button class="settings-tab " onclick="location.href='connections.html'">Conexoes</button>
-      <button class="settings-tab" onclick="location.href='brain.html'">Cerebro</button>
-      <button class="settings-tab " onclick="location.href='security.html'">Seguranca</button>
-      <button class="settings-tab " onclick="location.href='privacy.html'">Privacidade</button>
-      <button class="settings-tab " onclick="location.href='billing.html'">Plano</button>
-    </div>
-    <div class="card fade-in"><p class="card-label">Modo de inteligencia</p><div class="row"><div><p class="row-title">Modo</p><p class="row-desc">Equilibrio entre qualidade e custo</p></div><div class="mode-selector"><button class="mode-btn">Economia</button><button class="mode-btn active">Equilibrio</button><button class="mode-btn">Qualidade</button></div></div><div class="row"><div><p class="row-title">Custo estimado</p></div><span class="row-value">~R$2.140/mes</span></div></div><div class="card fade-in" style="animation-delay:0.1s"><p class="card-label">Provedores</p><div class="row"><div><p class="row-title">Anthropic (Claude)</p><p class="row-desc">Provedor principal</p></div><span class="conn-status">Conectado</span></div><div class="row"><div><p class="row-title">OpenAI</p><p class="row-desc">Nao conectado</p></div><button class="conn-btn">Conectar</button></div><div class="row"><div><p class="row-title">Google (Gemini)</p><p class="row-desc">Nao conectado</p></div><button class="conn-btn">Conectar</button></div><div class="row"><div><p class="row-title">Groq</p><p class="row-desc">Nao conectado</p></div><button class="conn-btn">Conectar</button></div></div>
-  </main>
-<script src="settings-assistant.js"></script>
-<script src="../../shared-nav.js"></script>
-</body>
-</html>

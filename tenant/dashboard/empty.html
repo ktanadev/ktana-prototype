@@ -8,11 +8,6 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Zen+Dots&display=swap" rel="stylesheet">
   <style>
     body { min-height: 100vh; background: #F5F5F7; }
-    .nav { position: sticky; top: 0; z-index: 50; height: 48px; display: flex; align-items: center; justify-content: center; background: rgba(245,245,247,0.72); backdrop-filter: saturate(180%) blur(20px); border-bottom: 0.5px solid rgba(0,0,0,0.06); }
-    .nav-inner { width: 100%; max-width: 720px; padding: 0 24px; display: flex; align-items: center; justify-content: space-between; }
-    .nav-logo { font-family: 'Zen Dots', cursive; font-size: 14px; color: #D70030; }
-    .nav-links a { font-family: 'Inter', sans-serif; font-size: 12px; color: #1D1D1F; opacity: 0.4; margin-left: 24px; }
-    .nav-links a.active { opacity: 1; }
     .main { max-width: 720px; margin: 0 auto; padding: 40px 24px 80px; }
     .greeting h1 { font-family: 'Satoshi', sans-serif; font-size: 24px; font-weight: 700; color: #1D1D1F; margin-bottom: 4px; }
     .greeting p { font-family: 'Satoshi', sans-serif; font-size: 14px; color: #86868B; margin-bottom: 40px; }
@@ -35,25 +30,3 @@
   </style>
 </head>
 <body>
-  <nav class="nav"><div class="nav-inner"><a href="../dashboard/home.html" class="nav-logo">KTANA</a><div class="nav-links"><a href="home.html" class="active">Painel</a><a href="../office/index.html">Escritorio</a></div></div></nav>
-  <main class="main">
-    <div class="greeting fade-in"><h1>Bom dia, Julio.</h1><p>Seus samurais estao se preparando. Primeiras acoes em breve.</p></div>
-
-    <div class="empty fade-in">
-      <div class="empty-icon"><span>K</span></div>
-      <h2>Seus samurais estao iniciando.</h2>
-      <p>Akira esta lendo seus emails e preparando o primeiro briefing. Amanha 07:30 voce recebe tudo no WhatsApp.</p>
-      <p class="empty-hint">Nenhuma aprovacao pendente</p>
-    </div>
-
-    <p style="font-family:'Inter',sans-serif; font-size:11px; font-weight:600; letter-spacing:0.08em; text-transform:uppercase; color:#86868B; margin-bottom:12px;" class="fade-in">Equipe</p>
-    <div class="team-grid fade-in">
-      <div class="team-card"><div class="team-avatar" style="border-color:rgba(215,0,48,0.25);"><span style="color:#D70030;">A</span></div><p class="team-name">Akira</p><p class="team-role">CEO</p><p class="team-status">Iniciando...</p></div>
-      <div class="team-card"><div class="team-avatar"><span>H</span></div><p class="team-name">Hana</p><p class="team-role">Secretaria</p><p class="team-status">Iniciando...</p></div>
-      <div class="team-card"><div class="team-avatar"><span>Y</span></div><p class="team-name">Yuki</p><p class="team-role">Controller</p><p class="team-status">Iniciando...</p></div>
-      <div class="team-card"><div class="team-avatar"><span>H</span></div><p class="team-name">Haruki</p><p class="team-role">PM</p><p class="team-status">Iniciando...</p></div>
-    </div>
-  </main>
-<script src="../../shared-nav.js"></script>
-</body>
-</html>

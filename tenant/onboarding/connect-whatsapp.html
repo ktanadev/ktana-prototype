@@ -10,12 +10,6 @@
     body { min-height: 100vh; background: #F5F5F7; display: flex; flex-direction: column; }
 
     /* Nav */
-    .nav { position: sticky; top: 0; z-index: 50; height: 48px; display: flex; align-items: center; justify-content: center; background: rgba(245,245,247,0.72); backdrop-filter: saturate(180%) blur(20px); -webkit-backdrop-filter: saturate(180%) blur(20px); border-bottom: 0.5px solid rgba(0,0,0,0.06); }
-    .nav-inner { width: 100%; max-width: 760px; padding: 0 20px; display: flex; align-items: center; justify-content: space-between; }
-    .nav-logo { font-family: 'Zen Dots', cursive; font-size: 14px; color: #D70030; }
-    .nav-links { display: flex; align-items: center; gap: 20px; }
-    .nav-links a { font-family: 'Inter', sans-serif; font-size: 12px; color: #1D1D1F; opacity: 0.4; transition: opacity 0.15s; }
-    .nav-links a:hover, .nav-links a.active { opacity: 1; }
 
     .main { flex: 1; display: flex; align-items: center; justify-content: center; padding: 48px 24px; }
     .container { max-width: 460px; width: 100%; }
@@ -121,15 +115,6 @@
 <body>
 
   <!-- Nav -->
-  <nav class="nav">
-    <div class="nav-inner">
-      <a href="../dashboard/home.html" class="nav-logo">KTANA</a>
-      <div class="nav-links">
-        <a href="../dashboard/home.html">Painel</a>
-        <a href="../settings/general.html">Config</a>
-      </div>
-    </div>
-  </nav>
 
   <main class="main">
     <div class="container">
