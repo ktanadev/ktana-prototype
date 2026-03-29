@@ -67,41 +67,36 @@
       '</div>' +
     '</div>';
 
-  // Insert after the page header block (h1 + subtitle)
+  // STRATEGY: Find h1, skip subtitle/tabs, insert before first content block
   var h1 = document.querySelector('h1');
   if (!h1) return;
 
-  // Find the header container (parent of h1 if it's a wrapper div)
-  var headerBlock = h1.parentNode;
-  // If parent is a small wrapper (area-header, greeting, ikigai-hero), use parent level
-  var headerCls = (headerBlock.className || '');
-  if (headerCls.includes('header') || headerCls.includes('greeting') || headerCls.includes('hero') || headerBlock.children.length <= 3) {
-    // Insert after the header block
-    if (headerBlock.nextElementSibling) {
-      headerBlock.parentNode.insertBefore(widget, headerBlock.nextElementSibling);
-    } else {
-      headerBlock.parentNode.appendChild(widget);
-    }
-  } else {
-    // h1 is directly in a large container — walk forward from h1
-    var node = h1;
-    var found = false;
+  // Walk forward from h1 through its siblings OR parent's siblings
+  function insertWidget(startNode) {
+    var node = startNode;
     while (node.nextElementSibling) {
       node = node.nextElementSibling;
       var cls = node.className || '';
-      if (cls.includes('card') || cls.includes('section') || cls.includes('cmd-') || cls.includes('stagger') || (node.tagName === 'DIV' && node.children.length > 2)) {
-        node.parentNode.insertBefore(widget, node);
-        found = true;
-        break;
-      }
+      var tag = node.tagName;
+      // Skip subtitle text, tabs, labels — stop at first real content
+      if (tag === 'P' && (cls.includes('sub') || cls === '' || cls.includes('progress'))) continue;
+      if (cls.includes('settings-nav') || cls.includes('settings-tab')) continue;
+      if (cls.includes('tab-panel') && !cls.includes('active')) continue;
+      // Found content — insert before it
+      node.parentNode.insertBefore(widget, node);
+      return true;
     }
-    if (!found) {
-      // Insert after subtitle (p after h1)
-      var sub = h1.nextElementSibling;
-      if (sub && sub.tagName === 'P') {
-        sub.parentNode.insertBefore(widget, sub.nextElementSibling);
-      } else {
-        h1.parentNode.insertBefore(widget, h1.nextElementSibling);
+    return false;
+  }
+
+  // Try inserting among h1's siblings first
+  if (!insertWidget(h1)) {
+    // h1 is in a wrapper (area-header etc) — try parent's siblings
+    var wrapper = h1.parentNode;
+    if (!insertWidget(wrapper)) {
+      // Last resort — append after wrapper
+      if (wrapper.parentNode) {
+        wrapper.parentNode.insertBefore(widget, wrapper.nextElementSibling);
       }
     }
   }
