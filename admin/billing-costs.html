@@ -1,21 +1,309 @@
 <!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>Custos de Tokens — KTANA Admin</title><link rel="stylesheet" href="../shared.css"><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Zen+Dots&display=swap" rel="stylesheet">
-<style>body{min-height:100vh;background:#0A0A0A;color:#F5F5F7;display:flex}.sidebar{position:fixed;left:0;top:0;bottom:0;width:220px;background:#111;border-right:0.5px solid rgba(255,255,255,0.04);padding:20px 0;display:flex;flex-direction:column}.sidebar-logo{padding:0 20px 16px;font-family:'Zen Dots',cursive;font-size:14px;color:#D70030;border-bottom:0.5px solid rgba(255,255,255,0.04);margin-bottom:12px;display:flex;align-items:center;gap:6px}.sidebar-logo span{font-family:'Inter',sans-serif;font-size:11px;color:#AEAEB2}.sidebar a{display:block;padding:8px 20px;font-family:'Inter',sans-serif;font-size:12px;color:#8E8E93;transition:all 0.15s}.sidebar a:hover,.sidebar a.active{color:#F5F5F7;background:rgba(255,255,255,0.04)}.main{margin-left:220px;flex:1;padding:32px}.main h1{font-family:'Satoshi',sans-serif;font-size:20px;font-weight:600;margin-bottom:24px}.card{background:#1C1C1E;border:1px solid rgba(255,255,255,0.04);border-radius:16px;padding:24px;margin-bottom:12px}.card-label{font-family:'Inter',sans-serif;font-size:11px;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;color:#AEAEB2;margin-bottom:14px}.row{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:0.5px solid rgba(255,255,255,0.03);font-size:13px}.row:last-child{border-bottom:none}.row-label{font-family:'Satoshi',sans-serif;color:#8E8E93}.row-value{font-family:'Inter',sans-serif;color:#D2D2D7}.placeholder{font-family:'Satoshi',sans-serif;font-size:14px;color:#AEAEB2;text-align:center;padding:48px 0}</style></head>
+<style>
+body{min-height:100vh;background:#0A0A0A;color:#F5F5F7;display:flex;margin:0;font-family:'Inter',sans-serif}
+.sidebar{position:fixed;left:0;top:0;bottom:0;width:220px;background:#111;border-right:0.5px solid rgba(255,255,255,0.04);padding:20px 0;display:flex;flex-direction:column;z-index:10}
+.sidebar-logo{padding:0 20px 16px;font-family:'Zen Dots',cursive;font-size:14px;color:#D70030;border-bottom:0.5px solid rgba(255,255,255,0.04);margin-bottom:12px;display:flex;align-items:center;gap:6px}
+.sidebar-logo span{font-family:'Inter',sans-serif;font-size:11px;color:#AEAEB2}
+.sidebar a{display:block;padding:8px 20px;font-family:'Inter',sans-serif;font-size:12px;color:#8E8E93;text-decoration:none;transition:all 0.15s}
+.sidebar a:hover,.sidebar a.active{color:#F5F5F7;background:rgba(255,255,255,0.04)}
+.main{margin-left:220px;flex:1;padding:32px}
+.main h1{font-family:'Zen Dots',cursive;font-size:20px;font-weight:600;margin-bottom:8px}
+.breadcrumb{font-size:12px;color:#8E8E93;margin-bottom:24px}
+.breadcrumb a{color:#D70030;text-decoration:none}
+.card{background:#1C1C1E;border:1px solid rgba(255,255,255,0.04);border-radius:16px;padding:24px;margin-bottom:16px}
+.card-label{font-family:'Inter',sans-serif;font-size:11px;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;color:#AEAEB2;margin-bottom:14px}
+.stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:20px}
+.stat-box{background:#1C1C1E;border:1px solid rgba(255,255,255,0.04);border-radius:16px;padding:20px;text-align:center}
+.stat-value{font-family:'Zen Dots',cursive;font-size:22px;color:#F5F5F7;margin-bottom:4px}
+.stat-label{font-size:11px;color:#8E8E93;text-transform:uppercase;letter-spacing:0.04em}
+.stat-delta{font-size:11px;margin-top:4px;font-weight:600}
+.delta-up{color:#D70030}
+.delta-down{color:#34C759}
+.row{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:0.5px solid rgba(255,255,255,0.03);font-size:13px}
+.row:last-child{border-bottom:none}
+.row-label{color:#8E8E93}
+.row-value{color:#D2D2D7}
+table{width:100%;border-collapse:collapse;font-size:13px}
+thead th{text-align:left;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.04em;color:#AEAEB2;padding:10px 12px;border-bottom:1px solid rgba(255,255,255,0.06)}
+tbody td{padding:10px 12px;border-bottom:0.5px solid rgba(255,255,255,0.03)}
+.provider-row{display:flex;align-items:center;gap:14px;padding:14px 0;border-bottom:0.5px solid rgba(255,255,255,0.03)}
+.provider-row:last-child{border-bottom:none}
+.provider-icon{width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;flex-shrink:0}
+.provider-info{flex:1}
+.provider-name{font-weight:600;font-size:13px;color:#F5F5F7}
+.provider-models{font-size:11px;color:#8E8E93;margin-top:2px}
+.provider-cost{text-align:right;min-width:100px}
+.provider-amount{font-size:14px;font-weight:600;color:#F5F5F7;font-family:monospace}
+.provider-pct{font-size:11px;color:#8E8E93}
+.bar-track{height:8px;background:rgba(255,255,255,0.04);border-radius:4px;overflow:hidden;margin-top:6px}
+.bar-fill{height:100%;border-radius:4px}
+.trend-row{display:flex;align-items:center;gap:16px;padding:8px 0;border-bottom:0.5px solid rgba(255,255,255,0.03)}
+.trend-row:last-child{border-bottom:none}
+.trend-day{min-width:80px;font-size:12px;color:#8E8E93;font-family:monospace}
+.trend-bar{flex:1;height:12px;background:rgba(255,255,255,0.03);border-radius:6px;overflow:hidden}
+.trend-fill{height:100%;border-radius:6px}
+.trend-val{min-width:80px;text-align:right;font-size:12px;color:#F5F5F7;font-family:monospace}
+.margin-indicator{padding:12px 16px;border-radius:12px;display:flex;justify-content:space-between;align-items:center;font-size:13px;margin-bottom:16px}
+.margin-good{background:rgba(52,199,89,0.06);border:1px solid rgba(52,199,89,0.15)}
+</style></head>
 <body>
 <nav class="sidebar">
 <div class="sidebar-logo">KTANA <span>ADMIN</span></div>
 <a href="index.html">Overview</a>
-<a href="index.html">Agent Flow</a>
-<a href="index.html">Tenants</a>
-<a href="index.html">Agentes</a>
-<a href="index.html">Health</a>
-<a href="index.html">Billing</a>
-<a href="index.html">Compliance</a>
-<a href="index.html">Catalogo</a>
-<a href="index.html">Config</a>
+<a href="flow.html">Agent Flow</a>
+<a href="tenants.html">Tenants</a>
+<a href="agents.html">Agentes</a>
+<a href="health.html">Health</a>
+<a class="active" href="billing.html">Billing</a>
+<a href="compliance.html">Compliance</a>
+<a href="catalog.html">Catalogo</a>
+<a href="settings.html">Config</a>
 </nav>
 <main class="main">
-<h1 class="fade-in">Custos de Tokens</h1>
-<div class="card fade-in"><p class="card-label">Detalhes</p><p class="placeholder">Tela detalhada do modulo Custos de Tokens.<br>Dados de exemplo serao preenchidos conforme especificacao.</p></div>
-<div class="card fade-in" style="animation-delay:0.1s"><p class="card-label">Acoes</p><div class="row"><span class="row-label">Voltar</span><span class="row-value"><a href="index.html" style="color:#D70030;">← Admin</a></span></div></div>
+<div class="breadcrumb"><a href="index.html">Admin</a> / <a href="billing.html">Billing</a> / Custos</div>
+<h1>Custos de Tokens & LLM</h1>
+<p style="font-size:13px;color:#8E8E93;margin-bottom:24px">Breakdown detalhado de custos por provider, modelo, tier e tenant</p>
+
+<div class="stats-grid">
+  <div class="stat-box">
+    <div class="stat-value" style="color:#FF9F0A">US$ 4,287</div>
+    <div class="stat-label">Custo Total Mar</div>
+    <div class="stat-delta delta-up">+8.2% vs Fev</div>
+  </div>
+  <div class="stat-box">
+    <div class="stat-value">142.3M</div>
+    <div class="stat-label">Tokens Totais Mar</div>
+    <div class="stat-delta" style="color:#0A84FF">+15.1% vs Fev</div>
+  </div>
+  <div class="stat-box">
+    <div class="stat-value">US$ 0.030</div>
+    <div class="stat-label">Custo/1k Tokens Medio</div>
+    <div class="stat-delta delta-down">-6.1% vs Fev</div>
+  </div>
+  <div class="stat-box">
+    <div class="stat-value" style="color:#34C759">91%</div>
+    <div class="stat-label">Margem Bruta</div>
+    <div class="stat-delta delta-down">+0.4pp vs Fev</div>
+  </div>
+</div>
+
+<div class="margin-indicator margin-good">
+  <span style="color:#34C759;font-weight:600">Margem saudavel: MRR R$ 47.2k (US$ 9,440) vs Custo LLM US$ 4,287 = Margem 54.6%</span>
+  <span style="color:#8E8E93;font-size:12px">Target: > 50%</span>
+</div>
+
+<div class="card">
+  <p class="card-label">Custo por Provider</p>
+  <div class="provider-row">
+    <div class="provider-icon" style="background:rgba(215,0,48,0.12);color:#D70030">A</div>
+    <div class="provider-info">
+      <div class="provider-name">Anthropic</div>
+      <div class="provider-models">claude-opus-4, claude-sonnet-4, haiku-3.5</div>
+      <div class="bar-track"><div class="bar-fill" style="width:62%;background:#D70030"></div></div>
+    </div>
+    <div class="provider-cost">
+      <div class="provider-amount">US$ 2,658</div>
+      <div class="provider-pct">62.0%</div>
+    </div>
+  </div>
+  <div class="provider-row">
+    <div class="provider-icon" style="background:rgba(0,122,255,0.12);color:#0A84FF">O</div>
+    <div class="provider-info">
+      <div class="provider-name">OpenAI</div>
+      <div class="provider-models">gpt-4o, gpt-4o-mini, text-embedding-3-small</div>
+      <div class="bar-track"><div class="bar-fill" style="width:24%;background:#0A84FF"></div></div>
+    </div>
+    <div class="provider-cost">
+      <div class="provider-amount">US$ 1,029</div>
+      <div class="provider-pct">24.0%</div>
+    </div>
+  </div>
+  <div class="provider-row">
+    <div class="provider-icon" style="background:rgba(52,199,89,0.12);color:#34C759">G</div>
+    <div class="provider-info">
+      <div class="provider-name">Google</div>
+      <div class="provider-models">gemini-2.5-pro, gemini-2.5-flash</div>
+      <div class="bar-track"><div class="bar-fill" style="width:10%;background:#34C759"></div></div>
+    </div>
+    <div class="provider-cost">
+      <div class="provider-amount">US$ 429</div>
+      <div class="provider-pct">10.0%</div>
+    </div>
+  </div>
+  <div class="provider-row">
+    <div class="provider-icon" style="background:rgba(255,159,10,0.12);color:#FF9F0A">Q</div>
+    <div class="provider-info">
+      <div class="provider-name">Groq</div>
+      <div class="provider-models">llama-3.3-70b, mixtral-8x7b</div>
+      <div class="bar-track"><div class="bar-fill" style="width:4%;background:#FF9F0A"></div></div>
+    </div>
+    <div class="provider-cost">
+      <div class="provider-amount">US$ 171</div>
+      <div class="provider-pct">4.0%</div>
+    </div>
+  </div>
+</div>
+
+<div class="card">
+  <p class="card-label">Custo por Model Tier</p>
+  <table>
+    <thead>
+      <tr><th>Modelo</th><th>Provider</th><th>Tokens Mar</th><th>Custo/1M Input</th><th>Custo/1M Output</th><th>Custo Total</th><th>% Uso</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td style="font-weight:600">claude-sonnet-4</td>
+        <td>Anthropic</td>
+        <td>68.2M</td>
+        <td>US$ 3.00</td>
+        <td>US$ 15.00</td>
+        <td style="color:#D70030;font-weight:600">US$ 1,842</td>
+        <td>43.0%</td>
+      </tr>
+      <tr>
+        <td style="font-weight:600">claude-opus-4</td>
+        <td>Anthropic</td>
+        <td>12.4M</td>
+        <td>US$ 15.00</td>
+        <td>US$ 75.00</td>
+        <td style="color:#D70030;font-weight:600">US$ 816</td>
+        <td>19.0%</td>
+      </tr>
+      <tr>
+        <td style="font-weight:600">gpt-4o</td>
+        <td>OpenAI</td>
+        <td>22.1M</td>
+        <td>US$ 2.50</td>
+        <td>US$ 10.00</td>
+        <td>US$ 687</td>
+        <td>16.0%</td>
+      </tr>
+      <tr>
+        <td style="font-weight:600">text-embedding-3-small</td>
+        <td>OpenAI</td>
+        <td>18.7M</td>
+        <td>US$ 0.02</td>
+        <td>—</td>
+        <td>US$ 342</td>
+        <td>8.0%</td>
+      </tr>
+      <tr>
+        <td style="font-weight:600">gemini-2.5-pro</td>
+        <td>Google</td>
+        <td>14.3M</td>
+        <td>US$ 1.25</td>
+        <td>US$ 10.00</td>
+        <td>US$ 429</td>
+        <td>10.0%</td>
+      </tr>
+      <tr>
+        <td style="font-weight:600">llama-3.3-70b</td>
+        <td>Groq</td>
+        <td>6.6M</td>
+        <td>US$ 0.59</td>
+        <td>US$ 0.79</td>
+        <td>US$ 171</td>
+        <td>4.0%</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="card">
+  <p class="card-label">Custo por Tenant — Top 5</p>
+  <table>
+    <thead>
+      <tr><th>Tenant</th><th>Plano</th><th>Agentes</th><th>Tokens Mar</th><th>Custo LLM</th><th>MRR</th><th>Margem</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td style="font-weight:600">KTANA</td>
+        <td>Enterprise</td>
+        <td>8</td>
+        <td>38.2M</td>
+        <td>US$ 1,147</td>
+        <td>R$ 9,800</td>
+        <td style="color:#34C759">41.4%</td>
+      </tr>
+      <tr>
+        <td style="font-weight:600">TechCorp Brasil</td>
+        <td>Enterprise</td>
+        <td>15</td>
+        <td>42.7M</td>
+        <td>US$ 1,281</td>
+        <td>R$ 8,500</td>
+        <td style="color:#34C759">24.6%</td>
+      </tr>
+      <tr>
+        <td style="font-weight:600">Fintech Solutions</td>
+        <td>Enterprise</td>
+        <td>10</td>
+        <td>24.1M</td>
+        <td>US$ 723</td>
+        <td>R$ 6,200</td>
+        <td style="color:#34C759">41.7%</td>
+      </tr>
+      <tr>
+        <td style="font-weight:600">StartupXYZ</td>
+        <td>Professional</td>
+        <td>6</td>
+        <td>15.8M</td>
+        <td>US$ 474</td>
+        <td>R$ 4,500</td>
+        <td style="color:#34C759">47.3%</td>
+      </tr>
+      <tr>
+        <td style="font-weight:600">DataDriven Co</td>
+        <td>Professional</td>
+        <td>5</td>
+        <td>12.3M</td>
+        <td>US$ 369</td>
+        <td>R$ 4,200</td>
+        <td style="color:#34C759">56.4%</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="card">
+  <p class="card-label">Custo Diario — Ultimos 7 Dias</p>
+  <div class="trend-row">
+    <span class="trend-day">23 Mar</span>
+    <div class="trend-bar"><div class="trend-fill" style="width:72%;background:#D70030"></div></div>
+    <span class="trend-val">US$ 148</span>
+  </div>
+  <div class="trend-row">
+    <span class="trend-day">24 Mar</span>
+    <div class="trend-bar"><div class="trend-fill" style="width:65%;background:#D70030"></div></div>
+    <span class="trend-val">US$ 134</span>
+  </div>
+  <div class="trend-row">
+    <span class="trend-day">25 Mar</span>
+    <div class="trend-bar"><div class="trend-fill" style="width:80%;background:#D70030"></div></div>
+    <span class="trend-val">US$ 164</span>
+  </div>
+  <div class="trend-row">
+    <span class="trend-day">26 Mar</span>
+    <div class="trend-bar"><div class="trend-fill" style="width:68%;background:#D70030"></div></div>
+    <span class="trend-val">US$ 140</span>
+  </div>
+  <div class="trend-row">
+    <span class="trend-day">27 Mar</span>
+    <div class="trend-bar"><div class="trend-fill" style="width:75%;background:#D70030"></div></div>
+    <span class="trend-val">US$ 154</span>
+  </div>
+  <div class="trend-row">
+    <span class="trend-day">28 Mar</span>
+    <div class="trend-bar"><div class="trend-fill" style="width:58%;background:#D70030"></div></div>
+    <span class="trend-val">US$ 119</span>
+  </div>
+  <div class="trend-row">
+    <span class="trend-day">29 Mar</span>
+    <div class="trend-bar"><div class="trend-fill" style="width:45%;background:linear-gradient(90deg,#D70030,#FF375F)"></div></div>
+    <span class="trend-val" style="color:#FF9F0A">US$ 92*</span>
+  </div>
+  <div style="font-size:11px;color:#8E8E93;margin-top:8px">* Dia em andamento — projecao: US$ 152</div>
+</div>
+
 </main>
 </body></html>

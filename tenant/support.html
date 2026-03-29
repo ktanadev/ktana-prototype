@@ -1,98 +1,236 @@
-<!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>Suporte — KTANA</title><link rel="stylesheet" href="../shared.css"><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Zen+Dots&display=swap" rel="stylesheet">
-<style>body{min-height:100vh;background:#F5F5F7;display:flex;flex-direction:column}.nav{position:sticky;top:0;z-index:50;height:48px;display:flex;align-items:center;justify-content:center;background:rgba(245,245,247,0.72);backdrop-filter:saturate(180%) blur(20px);border-bottom:0.5px solid rgba(0,0,0,0.06)}.nav-inner{width:100%;max-width:720px;padding:0 24px;display:flex;align-items:center;justify-content:space-between}.nav-logo{font-family:'Zen Dots',cursive;font-size:14px;color:#D70030}.nav-links a{font-family:'Inter',sans-serif;font-size:12px;color:#1D1D1F;opacity:0.4;margin-left:20px}.nav-links a.active{opacity:1}
-.main{flex:1;max-width:720px;margin:0 auto;padding:32px 24px 80px;width:100%}h1{font-family:'Satoshi',sans-serif;font-size:22px;font-weight:700;color:#1D1D1F;margin-bottom:6px}.sub{font-family:'Satoshi',sans-serif;font-size:14px;color:#86868B;margin-bottom:28px}
-.options{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-bottom:32px}.option{background:#FFF;border-radius:20px;border:1px solid rgba(0,0,0,0.04);padding:28px 22px;cursor:pointer;transition:box-shadow 0.2s,transform 0.15s;text-align:center}.option:hover{box-shadow:0 4px 20px rgba(0,0,0,0.04);transform:translateY(-1px)}.option-icon{font-size:28px;margin-bottom:12px}.option h3{font-family:'Satoshi',sans-serif;font-size:15px;font-weight:500;color:#1D1D1F;margin-bottom:4px}.option p{font-family:'Satoshi',sans-serif;font-size:12px;color:#86868B;line-height:1.5}
-.card{background:#FFF;border-radius:20px;border:1px solid rgba(0,0,0,0.04);padding:22px;margin-bottom:12px}.card-label{font-family:'Inter',sans-serif;font-size:11px;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;color:#D70030;margin-bottom:12px}
-.ticket{display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:0.5px solid rgba(0,0,0,0.03)}.ticket:last-child{border-bottom:none}.ticket-id{font-family:'Inter',sans-serif;font-size:11px;color:#AEAEB2;width:48px;flex-shrink:0}.ticket-title{font-family:'Satoshi',sans-serif;font-size:13px;color:#1D1D1F;flex:1}.ticket-status{font-family:'Inter',sans-serif;font-size:11px;font-weight:500;padding:3px 10px;border-radius:6px}.st-open{background:rgba(215,0,48,0.06);color:#D70030}.st-progress{background:rgba(255,159,10,0.06);color:#FF9F0A}.st-resolved{background:rgba(48,209,88,0.06);color:#248A3D}.ticket-date{font-family:'Inter',sans-serif;font-size:11px;color:#AEAEB2;width:60px;text-align:right}
-.chat-preview{background:#F5F5F7;border-radius:14px;padding:16px;margin-top:12px}.chat-msg{font-family:'Satoshi',sans-serif;font-size:14px;color:#1D1D1F;line-height:1.6}.chat-from{font-family:'Inter',sans-serif;font-size:11px;color:#86868B;margin-top:6px}
-.btn-new{font-family:'Inter',sans-serif;display:block;width:100%;padding:16px;border-radius:14px;background:#1D1D1F;color:#F5F5F7;font-size:14px;font-weight:500;border:none;cursor:pointer;text-align:center;min-height:52px;margin-top:20px}
-.faq-item{padding:12px 0;border-bottom:0.5px solid rgba(0,0,0,0.03);cursor:pointer}.faq-item:last-child{border-bottom:none}.faq-q{font-family:'Satoshi',sans-serif;font-size:14px;color:#1D1D1F;display:flex;justify-content:space-between;align-items:center}.faq-q::after{content:'+';color:#AEAEB2;font-size:16px}.faq-a{font-family:'Satoshi',sans-serif;font-size:13px;color:#86868B;line-height:1.6;margin-top:8px;display:none}
-</style></head>
-<body><nav class="nav"><div class="nav-inner"><a href="dashboard/home.html" class="nav-logo">KTANA</a><div class="nav-links"><a href="dashboard/home.html">Painel</a><a href="support.html" class="active">Suporte</a><a href="settings/general.html">Config</a></div></div></nav>
-<main class="main">
-<h1 class="fade-in">Suporte</h1>
-<p class="sub fade-in">Estamos aqui pra ajudar. Escolha como prefere.</p>
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ajuda — KTANA</title>
+  <link rel="stylesheet" href="../shared.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Zen+Dots&display=swap" rel="stylesheet">
+  <style>
+    body { min-height: 100vh; background: #F5F5F7; display: flex; flex-direction: column; }
 
-<div class="options fade-in" style="animation-delay:0.1s">
-<div class="option" onclick="document.getElementById('chat-section').style.display='block';this.parentElement.style.display='none';">
-<div class="option-icon">&#x1F4AC;</div>
-<h3>Chat com IA</h3>
-<p>Resposta instantanea para duvidas sobre configuracao, uso e problemas comuns.</p>
-</div>
-<div class="option" onclick="document.getElementById('ticket-section').scrollIntoView({behavior:'smooth'})">
-<div class="option-icon">&#x1F4E9;</div>
-<h3>Abrir ticket</h3>
-<p>Para problemas que precisam de atencao humana. Resposta em ate 4h uteis.</p>
-</div>
-</div>
+    .nav { position: sticky; top: 0; z-index: 50; height: 48px; display: flex; align-items: center; justify-content: center; background: rgba(245,245,247,0.72); backdrop-filter: saturate(180%) blur(20px); -webkit-backdrop-filter: saturate(180%) blur(20px); border-bottom: 0.5px solid rgba(0,0,0,0.06); }
+    .nav-inner { width: 100%; max-width: 720px; padding: 0 24px; display: flex; align-items: center; justify-content: space-between; }
+    .nav-logo { font-family: 'Zen Dots', cursive; font-size: 14px; color: #D70030; }
+    .nav-links a { font-family: 'Inter', sans-serif; font-size: 12px; color: #1D1D1F; opacity: 0.4; margin-left: 20px; }
+    .nav-links a.active { opacity: 1; }
 
-<!-- Chat IA section (hidden by default) -->
-<div id="chat-section" style="display:none;" class="card fade-in">
-<p class="card-label">Chat com suporte IA</p>
-<div class="chat-preview">
-<p class="chat-msg">Oi! Sou o assistente de suporte da KTANA. Como posso ajudar?</p>
-<p class="chat-from">Suporte KTANA · agora</p>
-</div>
-<div style="display:flex;gap:8px;margin-top:12px;">
-<input type="text" placeholder="Descreva seu problema..." style="font-family:'Satoshi',sans-serif;flex:1;padding:12px 16px;border-radius:14px;border:0.5px solid rgba(0,0,0,0.06);background:#FFF;font-size:14px;outline:none;">
-<button style="font-family:'Inter',sans-serif;padding:12px 20px;border-radius:14px;background:#1D1D1F;color:#F5F5F7;border:none;font-size:13px;font-weight:500;cursor:pointer;">Enviar</button>
-</div>
-<div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:12px;">
-<button style="font-family:'Inter',sans-serif;padding:6px 14px;border-radius:20px;border:0.5px solid rgba(0,0,0,0.06);background:#FFF;font-size:12px;color:#86868B;cursor:pointer;">Conexao quebrou</button>
-<button style="font-family:'Inter',sans-serif;padding:6px 14px;border-radius:20px;border:0.5px solid rgba(0,0,0,0.06);background:#FFF;font-size:12px;color:#86868B;cursor:pointer;">Samurai nao responde</button>
-<button style="font-family:'Inter',sans-serif;padding:6px 14px;border-radius:20px;border:0.5px solid rgba(0,0,0,0.06);background:#FFF;font-size:12px;color:#86868B;cursor:pointer;">Mudar plano</button>
-<button style="font-family:'Inter',sans-serif;padding:6px 14px;border-radius:20px;border:0.5px solid rgba(0,0,0,0.06);background:#FFF;font-size:12px;color:#86868B;cursor:pointer;">Problema de cobranca</button>
-</div>
-</div>
+    /* Chat container — full height like iMessage */
+    .chat-container { flex: 1; display: flex; flex-direction: column; max-width: 720px; width: 100%; margin: 0 auto; }
 
-<!-- Tickets section -->
-<div id="ticket-section" class="card fade-in" style="animation-delay:0.15s">
-<p class="card-label">Seus tickets</p>
-<div class="ticket">
-<span class="ticket-id">#0042</span>
-<span class="ticket-title">WhatsApp desconectou apos 3 dias</span>
-<span class="ticket-status st-progress">Em andamento</span>
-<span class="ticket-date">28/03</span>
-</div>
-<div class="ticket">
-<span class="ticket-id">#0038</span>
-<span class="ticket-title">Yuki cobrou valor errado do Cliente X</span>
-<span class="ticket-status st-resolved">Resolvido</span>
-<span class="ticket-date">25/03</span>
-</div>
-<div class="ticket">
-<span class="ticket-id">#0031</span>
-<span class="ticket-title">Como conectar Omie ERP</span>
-<span class="ticket-status st-resolved">Resolvido</span>
-<span class="ticket-date">20/03</span>
-</div>
-<button class="btn-new">Abrir novo ticket</button>
-</div>
+    /* Header */
+    .chat-header { padding: 16px 24px; text-align: center; border-bottom: 0.5px solid rgba(0,0,0,0.04); }
+    .chat-header-avatar { width: 44px; height: 44px; border-radius: 50%; border: 1.5px solid rgba(215,0,48,0.12); display: flex; align-items: center; justify-content: center; margin: 0 auto 8px; }
+    .chat-header-avatar span { font-family: 'Zen Dots', cursive; font-size: 14px; color: #D70030; }
+    .chat-header h2 { font-family: 'Satoshi', sans-serif; font-size: 16px; font-weight: 600; color: #1D1D1F; }
+    .chat-header p { font-family: 'Inter', sans-serif; font-size: 12px; color: #86868B; display: flex; align-items: center; justify-content: center; gap: 5px; margin-top: 2px; }
+    .chat-header p::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: #30D158; }
 
-<!-- FAQ -->
-<div class="card fade-in" style="animation-delay:0.2s">
-<p class="card-label">Perguntas frequentes</p>
-<div class="faq-item" onclick="this.querySelector('.faq-a').style.display=this.querySelector('.faq-a').style.display==='block'?'none':'block'">
-<p class="faq-q">Como reconectar o WhatsApp?</p>
-<p class="faq-a">Va em Configuracoes > Conexoes > WhatsApp > Reconectar. Escaneie o QR code novamente.</p>
-</div>
-<div class="faq-item" onclick="this.querySelector('.faq-a').style.display=this.querySelector('.faq-a').style.display==='block'?'none':'block'">
-<p class="faq-q">Meu samurai cobrou o valor errado. O que faco?</p>
-<p class="faq-a">Va no perfil do samurai > Atividade > encontre a acao. Clique e selecione "Reportar erro". O sistema corrigira e o samurai aprendera com o feedback.</p>
-</div>
-<div class="faq-item" onclick="this.querySelector('.faq-a').style.display=this.querySelector('.faq-a').style.display==='block'?'none':'block'">
-<p class="faq-q">Como mudar meu plano?</p>
-<p class="faq-a">Configuracoes > Plano & Uso > Mudar plano. O upgrade e imediato, o downgrade entra no proximo ciclo.</p>
-</div>
-<div class="faq-item" onclick="this.querySelector('.faq-a').style.display=this.querySelector('.faq-a').style.display==='block'?'none':'block'">
-<p class="faq-q">Posso pausar um samurai sem perder a memoria?</p>
-<p class="faq-a">Sim. Ao pausar, o samurai para de agir mas sua memoria, configuracao e historico sao preservados. Reative a qualquer momento.</p>
-</div>
-<div class="faq-item" onclick="this.querySelector('.faq-a').style.display=this.querySelector('.faq-a').style.display==='block'?'none':'block'">
-<p class="faq-q">Meus dados estao seguros?</p>
-<p class="faq-a">Sim. Criptografia AES-256 por tenant, dados no Brasil, audit log imutavel, KYC facial, kill switch. Detalhes em Configuracoes > Seguranca.</p>
-</div>
-</div>
+    /* Messages */
+    .messages { flex: 1; padding: 20px 24px; overflow-y: auto; display: flex; flex-direction: column; gap: 14px; }
+    .msg { display: flex; gap: 10px; max-width: 85%; }
+    .msg-bot { align-self: flex-start; }
+    .msg-user { align-self: flex-end; flex-direction: row-reverse; }
 
-<p style="font-family:'Inter',sans-serif;font-size:11px;color:#AEAEB2;text-align:center;margin-top:24px;">Horario de atendimento humano: Seg-Sex 9h-18h · IA disponivel 24/7<br>Email: suporte@ktana.ai · SLA: 4h uteis</p>
-</main></body></html>
+    .msg-avatar { width: 28px; height: 28px; border-radius: 50%; border: 1px solid rgba(215,0,48,0.1); display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 2px; }
+    .msg-avatar span { font-family: 'Zen Dots', cursive; font-size: 8px; color: #D70030; }
+
+    .bubble { border-radius: 20px; padding: 12px 16px; }
+    .bubble-bot { background: #FFF; border: 0.5px solid rgba(0,0,0,0.04); border-top-left-radius: 6px; box-shadow: 0 1px 3px rgba(0,0,0,0.02); }
+    .bubble-user { background: #1D1D1F; color: #F5F5F7; border-bottom-right-radius: 6px; }
+    .bubble p { font-family: 'Satoshi', sans-serif; font-size: 15px; line-height: 1.55; }
+    .bubble p + p { margin-top: 8px; }
+    .bubble-meta { font-family: 'Inter', sans-serif; font-size: 11px; color: #AEAEB2; margin-top: 6px; }
+
+    /* Quick action buttons inside chat */
+    .bubble-actions { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+    .bubble-btn {
+      font-family: 'Inter', sans-serif;
+      padding: 8px 16px; border-radius: 12px;
+      border: 0.5px solid rgba(0,0,0,0.06);
+      background: #FFF; font-size: 13px;
+      color: #1D1D1F; cursor: pointer;
+      transition: all 0.15s;
+    }
+    .bubble-btn:hover { background: #1D1D1F; color: #F5F5F7; border-color: #1D1D1F; }
+
+    /* Resolved indicator */
+    .resolved-badge {
+      display: inline-flex; align-items: center; gap: 5px;
+      padding: 6px 14px; border-radius: 10px;
+      background: rgba(48,209,88,0.06);
+      font-family: 'Inter', sans-serif; font-size: 12px;
+      color: #248A3D; font-weight: 500; margin-top: 10px;
+    }
+
+    /* Typing */
+    .typing { display: flex; align-items: center; gap: 10px; padding: 8px 0; display: none; }
+    .typing-dots { display: flex; gap: 4px; }
+    .typing-dot { width: 6px; height: 6px; border-radius: 50%; background: #D2D2D7; animation: bounce 1.4s ease infinite; }
+    .typing-dot:nth-child(2) { animation-delay: 0.2s; }
+    .typing-dot:nth-child(3) { animation-delay: 0.4s; }
+    @keyframes bounce { 0%,60%,100% { transform: translateY(0); } 30% { transform: translateY(-4px); } }
+    .typing-text { font-family: 'Inter', sans-serif; font-size: 11px; color: #AEAEB2; }
+
+    /* Input */
+    .input-area { padding: 12px 24px 28px; border-top: 0.5px solid rgba(0,0,0,0.06); background: rgba(245,245,247,0.9); backdrop-filter: blur(20px); }
+    .input-row { display: flex; gap: 8px; align-items: flex-end; }
+    .chat-input {
+      font-family: 'Satoshi', sans-serif; flex: 1;
+      padding: 14px 20px; border-radius: 24px;
+      border: 0.5px solid rgba(0,0,0,0.08); background: #FFF;
+      font-size: 15px; color: #1D1D1F; outline: none;
+      min-height: 48px; resize: none;
+      transition: border-color 0.15s;
+    }
+    .chat-input:focus { border-color: rgba(215,0,48,0.2); }
+    .chat-input::placeholder { color: #AEAEB2; }
+    .send-btn {
+      width: 48px; height: 48px; border-radius: 50%;
+      background: #1D1D1F; border: none; cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0; transition: all 0.15s;
+    }
+    .send-btn:hover { background: #000; }
+    .send-btn svg { width: 18px; height: 18px; stroke: #F5F5F7; fill: none; stroke-width: 2; stroke-linecap: round; }
+
+    /* Animations */
+    .msg { opacity: 0; animation: msgIn 0.4s ease forwards; }
+    @keyframes msgIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    .msg:nth-child(1) { animation-delay: 0.1s; }
+    .msg:nth-child(2) { animation-delay: 0.4s; }
+    .msg:nth-child(3) { animation-delay: 0.7s; }
+  </style>
+</head>
+<body>
+
+  <nav class="nav">
+    <div class="nav-inner">
+      <a href="dashboard/home.html" class="nav-logo">KTANA</a>
+      <div class="nav-links">
+        <a href="dashboard/home.html">Painel</a>
+        <a href="support.html" class="active">Ajuda</a>
+      </div>
+    </div>
+  </nav>
+
+  <div class="chat-container">
+    <!-- Header -->
+    <div class="chat-header">
+      <div class="chat-header-avatar"><span>K</span></div>
+      <h2>Suporte KTANA</h2>
+      <p>Sempre disponivel</p>
+    </div>
+
+    <!-- Messages -->
+    <div class="messages" id="messages">
+      <!-- Bot welcome -->
+      <div class="msg msg-bot">
+        <div class="msg-avatar"><span>K</span></div>
+        <div>
+          <div class="bubble bubble-bot">
+            <p>Oi! Sou o suporte KTANA. Como posso ajudar?</p>
+            <div class="bubble-actions">
+              <button class="bubble-btn" onclick="sendQuick(this.textContent)">Conexao quebrou</button>
+              <button class="bubble-btn" onclick="sendQuick(this.textContent)">Samurai nao responde</button>
+              <button class="bubble-btn" onclick="sendQuick(this.textContent)">Mudar plano</button>
+              <button class="bubble-btn" onclick="sendQuick(this.textContent)">Problema de cobranca</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Example conversation flow -->
+      <div class="msg msg-user">
+        <div>
+          <div class="bubble bubble-user">
+            <p>Meu WhatsApp desconectou e a Yuki nao consegue enviar cobrancas</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="msg msg-bot">
+        <div class="msg-avatar"><span>K</span></div>
+        <div>
+          <div class="bubble bubble-bot">
+            <p>Entendi. Vou verificar a conexao do seu WhatsApp agora.</p>
+            <p>Encontrei o problema: a sessao expirou ha 2 horas. Isso acontece quando o WhatsApp no celular fica offline por muito tempo.</p>
+            <p><strong>Para reconectar:</strong></p>
+            <p>1. Abra o WhatsApp no celular<br>2. Va em Aparelhos Conectados<br>3. Escaneie o novo QR code</p>
+            <div class="bubble-actions">
+              <button class="bubble-btn" onclick="this.innerHTML='Abrindo...'; setTimeout(()=>this.innerHTML='QR Code aberto',1000)">Abrir QR Code agora</button>
+              <button class="bubble-btn" onclick="sendQuick('Nao consigo escanear')">Nao consigo escanear</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Typing indicator -->
+      <div class="typing" id="typing">
+        <div class="msg-avatar"><span>K</span></div>
+        <div class="typing-dots">
+          <div class="typing-dot"></div>
+          <div class="typing-dot"></div>
+          <div class="typing-dot"></div>
+        </div>
+        <span class="typing-text">digitando...</span>
+      </div>
+    </div>
+
+    <!-- Input -->
+    <div class="input-area">
+      <div class="input-row">
+        <textarea class="chat-input" id="chatInput" placeholder="Descreva seu problema..." rows="1" onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();sendMessage()}"></textarea>
+        <button class="send-btn" onclick="sendMessage()">
+          <svg viewBox="0 0 24 24"><path d="M22 2L11 13"/><path d="M22 2L15 22L11 13L2 9L22 2Z"/></svg>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function sendMessage() {
+      const input = document.getElementById('chatInput');
+      const text = input.value.trim();
+      if (!text) return;
+
+      const messages = document.getElementById('messages');
+      const typing = document.getElementById('typing');
+
+      // User message
+      const userMsg = document.createElement('div');
+      userMsg.className = 'msg msg-user';
+      userMsg.style.animation = 'msgIn 0.3s ease forwards';
+      userMsg.innerHTML = '<div><div class="bubble bubble-user"><p>' + text + '</p></div></div>';
+      messages.insertBefore(userMsg, typing);
+
+      input.value = '';
+
+      // Show typing
+      typing.style.display = 'flex';
+      messages.scrollTop = messages.scrollHeight;
+
+      // Bot response
+      setTimeout(() => {
+        typing.style.display = 'none';
+        const botMsg = document.createElement('div');
+        botMsg.className = 'msg msg-bot';
+        botMsg.style.animation = 'msgIn 0.3s ease forwards';
+        botMsg.innerHTML = '<div class="msg-avatar"><span>K</span></div><div><div class="bubble bubble-bot"><p>Entendi. Estou analisando sua solicitacao.</p><p>Vou resolver isso pra voce agora. Um momento.</p><div class="resolved-badge">Verificando...</div></div></div>';
+        messages.insertBefore(botMsg, typing);
+        messages.scrollTop = messages.scrollHeight;
+
+        // Resolve after 2s
+        setTimeout(() => {
+          botMsg.querySelector('.resolved-badge').innerHTML = '&#x2713; Problema identificado e resolvido';
+        }, 2000);
+      }, 1500);
+    }
+
+    function sendQuick(text) {
+      document.getElementById('chatInput').value = text;
+      sendMessage();
+    }
+  </script>
+</body>
+</html>
