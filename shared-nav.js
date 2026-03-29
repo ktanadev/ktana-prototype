@@ -117,6 +117,38 @@
     return `<svg width="${size||16}" height="${size||16}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="${d}"/></svg>`;
   }
 
+  // Chat contextual por área
+  const chatContexts = {
+    // PF Areas
+    'area-saude':    { avatar:'K', name:'Dr. Kenji — Mentor de Saude', sender:'Dr. Kenji', greeting:'Como esta sua saude hoje? Posso analisar seus dados de sono, treino ou alimentacao.', chips:['Como dormi?','Meu treino','Proximos exames'] },
+    'area-mente':    { avatar:'S', name:'Sensei Sora — Mentora de Mente', sender:'Sensei Sora', greeting:'Como voce esta se sentindo? Posso guiar uma reflexao ou analisar seus padroes emocionais.', chips:['Como estou?','Meditacao','Padroes'] },
+    'area-carreira': { avatar:'H', name:'Hiroshi — Mentor de Carreira', sender:'Hiroshi', greeting:'Vamos trabalhar sua carreira. Networking, lideranca ou posicionamento — o que faz sentido agora?', chips:['Meu plano','Networking','LinkedIn'] },
+    'area-financas': { avatar:'T', name:'Takeshi — Mentor de Financas', sender:'Takeshi', greeting:'Quer revisar suas financas? Posso analisar gastos, investimentos ou montar um plano.', chips:['Meus gastos','Investimentos','Meta do mes'] },
+    'area-proposito':{ avatar:'H', name:'Sensei Hiro — Mentor de Proposito', sender:'Sensei Hiro', greeting:'Vamos refletir sobre seu proposito? Posso te guiar no Ikigai ou alinhar seus valores com suas acoes.', chips:['Meu Ikigai','Valores','Reflexao'] },
+    'area-produtividade':{ avatar:'R', name:'Ren — Mentor de Produtividade', sender:'Ren', greeting:'Sua produtividade esta em dia? Posso ajustar rotinas, foco ou sugerir tecnicas.', chips:['Minha rotina','Tecnica Pomodoro','Foco'] },
+    'area-relacionamentos':{ avatar:'M', name:'Mei — Mentora de Relacionamentos', sender:'Mei', greeting:'Como estao seus relacionamentos? Posso ajudar com comunicacao, familia ou vinculos.', chips:['Familia','Comunicacao','Conflitos'] },
+    'area-casa':     { avatar:'N', name:'Nao — Mentor de Casa', sender:'Nao', greeting:'Sua casa e ambiente estao em ordem? Posso ajudar com organizacao, compras ou contas.', chips:['Contas do mes','Compras','Organizacao'] },
+    // Tenant sections
+    'team':     { avatar:'A', name:'Akira — CEO Digital', sender:'Akira', greeting:'Sua equipe tem 4 samurais ativos. Quer contratar, ajustar ou ver performance de alguem?', chips:['Contratar','Ver ranking','Pausar algum'] },
+    'settings': { avatar:'A', name:'Akira — CEO Digital', sender:'Akira', greeting:'Configuracoes do sistema. Posso ajudar a ajustar qualquer parametro — idioma, fuso, limites, inteligencia.', chips:['Mudar idioma','Ajustar budget','Seguranca'] },
+    'agent':    { avatar:'A', name:'Akira — CEO Digital', sender:'Akira', greeting:'Detalhes do agente. Posso ajustar configuracao, ver metricas ou pausar.', chips:['Metricas','Configurar','Pausar'] },
+    'frameworks':{ avatar:'A', name:'Akira — CEO Digital', sender:'Akira', greeting:'Frameworks do seu segmento. Posso explicar qualquer processo ou KPI.', chips:['Ver KPIs','Processos','Especialista'] },
+    'solutions':{ avatar:'A', name:'Akira — CEO Digital', sender:'Akira', greeting:'Solucoes disponiveis. Posso ativar, configurar ou explicar qualquer uma.', chips:['Ver todas','Ativar modulo','ROI estimado'] },
+    'profile':  { avatar:'A', name:'Akira — CEO Digital', sender:'Akira', greeting:'Seu perfil cognitivo. Posso explicar seus padroes ou sugerir ajustes.', chips:['Meus padroes','Jung','Knowledge graph'] },
+    'organizations':{ avatar:'A', name:'Akira — CEO Digital', sender:'Akira', greeting:'Suas organizacoes. Posso ajudar a gerenciar membros, permissoes ou convites.', chips:['Membros','Convites','Permissoes'] },
+  };
+
+  // Resolve chat context based on path
+  function getChatCtx() {
+    for (var key in chatContexts) {
+      if (path.includes(key)) return chatContexts[key];
+    }
+    // Defaults
+    if (isPF) return { avatar:'Y', name:'Yumi — Sua Mentora', sender:'Yumi', greeting:'Oi! Sou a Yumi. Posso te ajudar com qualquer area da sua vida — saude, mente, carreira, financas... O que precisa agora?', chips:['Como dormi?','Metas da semana','Resumo do dia'] };
+    return { avatar:'A', name:'Akira — CEO Digital', sender:'Akira', greeting:'Bom dia! Posso ajudar com qualquer coisa — "quanto lucrei essa semana", "quem esta atrasado", "ativa o modulo de SEO", "agenda reuniao com o time"...', chips:['Quanto lucrei?','Quem esta atrasado?','Resumo do dia'] };
+  }
+  const chatCtx = getChatCtx();
+
   function buildNav() {
     // Use PF sections when in /pf/ path
     const sections = isPF ? PF_SECTIONS : SECTIONS;
@@ -298,9 +330,9 @@
       <!-- Header -->
       <div class="kc-head">
         <div class="kc-agent">
-          <div class="kc-avatar">${isPF ? 'Y' : 'A'}</div>
+          <div class="kc-avatar">${chatCtx.avatar}</div>
           <div>
-            <div class="kc-name">${isPF ? 'Yumi — Sua Mentora' : 'Akira — CEO Digital'}</div>
+            <div class="kc-name">${chatCtx.name}</div>
             <div class="kc-status">Online</div>
           </div>
         </div>
@@ -308,11 +340,8 @@
       <!-- Messages -->
       <div class="kc-msgs" id="kcMsgs">
         <div class="kc-msg kc-agent-msg">
-          <div class="kc-sender">${isPF ? 'Yumi' : 'Akira — CEO'}</div>
-          <div class="kc-bubble">${isPF
-            ? 'Oi! Sou a Yumi. Posso te ajudar com qualquer area da sua vida — saude, mente, carreira, financas... O que precisa agora?'
-            : 'Bom dia! Posso ajudar com qualquer coisa — "quanto lucrei essa semana", "quem esta atrasado", "ativa o modulo de SEO", "agenda reuniao com o time"...'
-          }</div>
+          <div class="kc-sender">${chatCtx.sender}</div>
+          <div class="kc-bubble">${chatCtx.greeting}</div>
           <div class="kc-time">agora</div>
         </div>
         <!-- Typing indicator -->
@@ -322,14 +351,11 @@
             <div class="kc-typing-dot"></div>
             <div class="kc-typing-dot"></div>
           </div>
-          <span class="kc-typing-text">${isPF ? 'Yumi esta pensando...' : 'Akira esta pensando...'}</span>
+          <span class="kc-typing-text">${chatCtx.sender} esta pensando...</span>
         </div>
         <!-- Chips -->
         <div class="kc-chips">
-          ${isPF
-            ? '<button class="kc-chip" onclick="kcQuick(this)">Como dormi?</button><button class="kc-chip" onclick="kcQuick(this)">Metas da semana</button><button class="kc-chip" onclick="kcQuick(this)">Resumo do dia</button>'
-            : '<button class="kc-chip" onclick="kcQuick(this)">Quanto lucrei?</button><button class="kc-chip" onclick="kcQuick(this)">Quem esta atrasado?</button><button class="kc-chip" onclick="kcQuick(this)">Resumo do dia</button>'
-          }
+          ${chatCtx.chips.map(c => '<button class="kc-chip" onclick="kcQuick(this)">' + c + '</button>').join('')}
         </div>
       </div>
       <!-- Input com glow border -->
@@ -338,10 +364,10 @@
           <div class="kc-input-glow"></div>
           <div class="kc-input-border-spin"></div>
           <div class="kc-input-card">
-            <textarea class="kc-input" id="kcInput" placeholder="${isPF ? 'Fale com Yumi...' : 'Fale com Akira...'}" rows="1" onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();kcSend()}" oninput="this.style.height='auto';this.style.height=Math.min(this.scrollHeight,120)+'px'"></textarea>
+            <textarea class="kc-input" id="kcInput" placeholder="Fale com ${chatCtx.sender}..." rows="1" onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();kcSend()}" oninput="this.style.height='auto';this.style.height=Math.min(this.scrollHeight,120)+'px'"></textarea>
             <div class="kc-input-footer">
               <button class="kc-add-btn" title="Anexar">+</button>
-              <span class="kc-agent-tag">${isPF ? 'Yumi' : 'Akira'}</span>
+              <span class="kc-agent-tag">${chatCtx.sender}</span>
               <button class="kc-send" onclick="kcSend()">${svg('M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z', 16)}</button>
             </div>
           </div>
@@ -349,21 +375,41 @@
       </div>
     </div>
 
-    <!-- MODAL DE SUPORTE (branco, overlay escuro, só abre no click) -->
+    <!-- MODAL DE SUPORTE (branco, estilo support.html, overlay escuro) -->
     <div class="ks-support-overlay" id="ksSupportOverlay" onclick="closeSupportModal()"></div>
     <div class="ks-support" id="ksSupportModal">
       <div class="ks-support-head">
-        <div style="display:flex;align-items:center;gap:10px;">
-          <div style="width:8px;height:8px;border-radius:50%;background:#30D158;"></div>
-          <span style="font-family:'Satoshi',sans-serif;font-size:15px;font-weight:600;color:#1D1D1F;">Hana — Suporte</span>
+        <div style="width:44px;height:44px;border-radius:50%;border:1.5px solid rgba(215,0,48,0.12);display:flex;align-items:center;justify-content:center;margin:0 auto 8px;">
+          <span style="font-family:'Zen Dots',cursive;font-size:14px;color:#D70030;">K</span>
         </div>
-        <button onclick="closeSupportModal()" style="width:32px;height:32px;border-radius:50%;background:rgba(0,0,0,0.04);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;color:#86868B;">${svg('M6 18L18 6M6 6l12 12', 14)}</button>
+        <div style="text-align:center;">
+          <div style="font-family:'Satoshi',sans-serif;font-size:16px;font-weight:600;color:#1D1D1F;">Suporte KTANA</div>
+          <div style="font-family:'Inter',sans-serif;font-size:12px;color:#86868B;display:flex;align-items:center;justify-content:center;gap:5px;margin-top:2px;">
+            <span style="width:6px;height:6px;border-radius:50%;background:#30D158;display:inline-block;"></span> Sempre disponivel
+          </div>
+        </div>
+        <button onclick="closeSupportModal()" style="position:absolute;top:16px;right:16px;width:32px;height:32px;border-radius:50%;background:rgba(0,0,0,0.04);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;color:#86868B;">${svg('M6 18L18 6M6 6l12 12', 14)}</button>
       </div>
       <div class="ks-support-msgs" id="ksSupportMsgs">
-        <div style="padding:12px 16px;background:#F5F5F7;border-radius:16px;border-bottom-left-radius:4px;font-family:'Satoshi',sans-serif;font-size:14px;line-height:1.6;color:#1D1D1F;max-width:85%;">Oi! Sou a Hana, sua assistente de suporte. Em que posso te ajudar?</div>
+        <div style="display:flex;gap:10px;max-width:85%;">
+          <div style="width:28px;height:28px;border-radius:50%;border:1px solid rgba(215,0,48,0.1);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+            <span style="font-family:'Zen Dots',cursive;font-size:8px;color:#D70030;">K</span>
+          </div>
+          <div>
+            <div style="padding:12px 16px;background:#FFF;border:0.5px solid rgba(0,0,0,0.04);border-radius:20px;border-top-left-radius:6px;box-shadow:0 1px 3px rgba(0,0,0,0.02);font-family:'Satoshi',sans-serif;font-size:15px;line-height:1.55;color:#1D1D1F;">
+              Oi! Sou o suporte KTANA. Como posso ajudar?
+              <div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:10px;">
+                <button onclick="document.getElementById('ksSupportInput').value='Conexao quebrou';sendSupport();" style="font-family:'Inter',sans-serif;padding:8px 16px;border-radius:12px;border:0.5px solid rgba(0,0,0,0.06);background:#FFF;font-size:13px;color:#1D1D1F;cursor:pointer;">Conexao quebrou</button>
+                <button onclick="document.getElementById('ksSupportInput').value='Samurai nao responde';sendSupport();" style="font-family:'Inter',sans-serif;padding:8px 16px;border-radius:12px;border:0.5px solid rgba(0,0,0,0.06);background:#FFF;font-size:13px;color:#1D1D1F;cursor:pointer;">Samurai nao responde</button>
+                <button onclick="document.getElementById('ksSupportInput').value='Mudar plano';sendSupport();" style="font-family:'Inter',sans-serif;padding:8px 16px;border-radius:12px;border:0.5px solid rgba(0,0,0,0.06);background:#FFF;font-size:13px;color:#1D1D1F;cursor:pointer;">Mudar plano</button>
+                <button onclick="document.getElementById('ksSupportInput').value='Problema de cobranca';sendSupport();" style="font-family:'Inter',sans-serif;padding:8px 16px;border-radius:12px;border:0.5px solid rgba(0,0,0,0.06);background:#FFF;font-size:13px;color:#1D1D1F;cursor:pointer;">Problema de cobranca</button>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
       <div class="ks-support-input">
-        <input type="text" id="ksSupportInput" placeholder="Descreva o que precisa..." onkeydown="if(event.key==='Enter')sendSupport()">
+        <input type="text" id="ksSupportInput" placeholder="Descreva seu problema..." onkeydown="if(event.key==='Enter')sendSupport()">
         <button onclick="sendSupport()">${svg('M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z', 16)}</button>
       </div>
     </div>`;
@@ -553,7 +599,7 @@
     .ks-support-overlay.open { display: block; }
     .ks-support { position: fixed; top: 50%; left: 50%; transform: translate(-50%,-50%); width: 440px; max-height: 600px; background: #FFF; border-radius: 24px; box-shadow: 0 24px 80px rgba(0,0,0,0.2); z-index: 501; display: none; flex-direction: column; overflow: hidden; }
     .ks-support.open { display: flex; }
-    .ks-support-head { padding: 18px 20px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid rgba(0,0,0,0.06); }
+    .ks-support-head { padding: 20px 20px 16px; position: relative; border-bottom: 1px solid rgba(0,0,0,0.06); }
     .ks-support-msgs { flex: 1; overflow-y: auto; padding: 20px; min-height: 200px; max-height: 380px; }
     .ks-support-input { padding: 14px 18px; border-top: 1px solid rgba(0,0,0,0.06); display: flex; gap: 8px; }
     .ks-support-input input { flex: 1; padding: 12px 16px; border-radius: 14px; border: 1px solid rgba(0,0,0,0.08); background: #F5F5F7; font-family: 'Satoshi', sans-serif; font-size: 14px; color: #1D1D1F; outline: none; }
@@ -699,7 +745,7 @@
       const responses = isPF
         ? ['Entendi! Vou falar com seus mentores sobre isso.', 'Ja estou analisando seus dados. Um momento...', 'Vou ajustar sua rotina com base nisso.']
         : ['Entendi! Vou verificar isso pra voce agora.', 'Ja estou processando. Um momento...', 'Akira consultou a equipe. Aqui esta o resultado...'];
-      var agentName = isPF ? 'Yumi' : 'Akira — CEO';
+      var agentName = chatCtx.sender;
       msgs.innerHTML += '<div class="kc-msg kc-agent-msg"><div class="kc-sender">' + agentName + '</div><div class="kc-bubble">' + responses[Math.floor(Math.random()*responses.length)] + '</div><div class="kc-time">' + new Date().toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'}) + '</div></div>';
       msgs.scrollTop = msgs.scrollHeight;
     }, 1200);
