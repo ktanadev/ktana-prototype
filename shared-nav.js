@@ -497,7 +497,13 @@
   const isDashboardHome = currentFile === 'home.html' && path.includes('/dashboard/');
   const isDesktop = window.innerWidth > 768;
   let sidebarOpen = isDashboardHome && isDesktop;
-  let aiOpen = false;
+  let aiOpen = isDesktop;
+
+  // Auto-open chat panel on desktop
+  if (aiOpen) {
+    document.getElementById('ktAI').classList.add('open');
+    document.body.classList.add('ka-open');
+  }
 
   window.toggleSidebar = function() {
     sidebarOpen = !sidebarOpen;
