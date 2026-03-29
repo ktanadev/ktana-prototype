@@ -304,7 +304,19 @@
   </div></main>
 
   <!-- ═══ CHAT KAITO — Interacao IA ═══ -->
-
+  <section class="chat-section">
+    <div class="chat-divider"><div class="chat-divider-line"></div><div class="chat-divider-label"><div class="chat-divider-dot"></div> Kaito · CFO · Online</div><div class="chat-divider-line"></div></div>
+    <div class="chat-container">
+      <div class="chat-messages" id="chat">
+        <div class="c-msg"><div class="c-av"><span>K</span></div><div><div class="c-bbl c-bbl-a"><p>ROI de <strong>76x</strong> este mes. O SDR sozinho gera 45% da receita. Quer detalhar ou projetar proximo trimestre?</p><div class="c-qk"><button class="c-qb" onclick="cQ(this)">Detalhar SDR</button><button class="c-qb" onclick="cQ(this)">Projecao Q2</button><button class="c-qb" onclick="cQ(this)">Otimizar SAC</button></div></div><p class="c-meta">Kaito · agora</p></div></div>
+        <div class="c-ty" id="typing"><div class="c-av"><span>K</span></div><div class="c-ty-dots"><div class="c-ty-d"></div><div class="c-ty-d"></div><div class="c-ty-d"></div></div><span class="c-ty-t">Kaito processando...</span></div>
+      </div>
+      <div class="c-inp-area">
+        <textarea class="c-inp" id="chatInput" placeholder="Pergunte ao Kaito..." rows="1" onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();cM()}" oninput="this.style.height='auto';this.style.height=Math.min(this.scrollHeight,100)+'px'"></textarea>
+        <button class="c-snd" onclick="cM()"><svg viewBox="0 0 24 24"><path d="M22 2L11 13"/><path d="M22 2L15 22L11 13L2 9L22 2Z"/></svg></button>
+      </div>
+    </div>
+  </section>
   <script>
     function setPeriod(btn) {
       document.querySelectorAll('.period-btn').forEach(b => b.classList.remove('on'));

@@ -268,7 +268,19 @@
   </main>
 
   <!-- ═══ CHAT CONSELHO ═══ -->
-
+  <section class="chat-section">
+    <div class="chat-divider"><div class="chat-divider-line"></div><div class="chat-divider-label"><div class="chat-divider-dot"></div> Buffett · Conselho · Online</div><div class="chat-divider-line"></div></div>
+    <div class="chat-container">
+      <div class="chat-messages" id="chat">
+        <div class="c-msg"><div class="c-av"><span>W</span></div><div><div class="c-bbl c-bbl-a"><p>Os 5 insights tem um tema: <strong>voce cresce mais rapido do que a estrutura suporta</strong>. SDR gera mais do que Closer fecha, CMO faz trabalho do SDR. Precisa ajustar.</p><div class="c-qk"><button class="c-qb" onclick="cQ(this)">Qual e mais urgente?</button><button class="c-qb" onclick="cQ(this)">Falar com Musk</button><button class="c-qb" onclick="cQ(this)">Plano de acao</button></div></div><p class="c-meta">Buffett · agora</p></div></div>
+        <div class="c-ty" id="typing"><div class="c-av"><span>W</span></div><div class="c-ty-dots"><div class="c-ty-d"></div><div class="c-ty-d"></div><div class="c-ty-d"></div></div><span class="c-ty-t">Buffett processando...</span></div>
+      </div>
+      <div class="c-inp-area">
+        <textarea class="c-inp" id="chatInput" placeholder="Converse com o Conselho..." rows="1" onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();cM()}" oninput="this.style.height='auto';this.style.height=Math.min(this.scrollHeight,100)+'px'"></textarea>
+        <button class="c-snd" onclick="cM()"><svg viewBox="0 0 24 24"><path d="M22 2L11 13"/><path d="M22 2L15 22L11 13L2 9L22 2Z"/></svg></button>
+      </div>
+    </div>
+  </section>
   <script>
     function addAgentMessage(text) {
       const chat = document.getElementById('chat'), typing = document.getElementById('typing');
