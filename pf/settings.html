@@ -18,6 +18,10 @@
     .settings-tab.active { background: #FFF; color: #1D1D1F; box-shadow: 0 1px 3px rgba(0,0,0,0.06); font-weight: 500; }
     .settings-tab:hover:not(.active) { color: #1D1D1F; }
 
+    /* Tab panels */
+    .tab-panel { display: none; }
+    .tab-panel.active { display: block; animation: fadeIn 0.3s ease; }
+
     /* Card */
     .card { background: #FFF; border-radius: 20px; border: 1px solid rgba(0,0,0,0.04); padding: 24px; margin-bottom: 12px; }
     .card-label { font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: #D70030; margin-bottom: 14px; }
@@ -29,10 +33,6 @@
     .row-title { font-family: 'Satoshi', sans-serif; font-size: 14px; color: #1D1D1F; }
     .row-desc { font-family: 'Satoshi', sans-serif; font-size: 11px; color: #86868B; margin-top: 2px; }
     .row-value { font-family: 'Inter', sans-serif; font-size: 13px; color: #86868B; }
-
-    /* Editable field */
-    .field-edit { font-family: 'Inter', sans-serif; font-size: 13px; color: #1D1D1F; background: rgba(0,0,0,0.02); border: 1px solid rgba(0,0,0,0.06); border-radius: 8px; padding: 6px 12px; width: 200px; text-align: right; outline: none; transition: border-color 0.15s; }
-    .field-edit:focus { border-color: rgba(215,0,48,0.4); background: #FFF; }
 
     /* Toggle */
     .toggle { width: 44px; height: 26px; border-radius: 13px; background: #E8E8ED; cursor: pointer; position: relative; transition: background 0.2s; flex-shrink: 0; }
@@ -46,18 +46,39 @@
     .area-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
     .area-name { font-family: 'Satoshi', sans-serif; font-size: 14px; color: #1D1D1F; flex: 1; }
 
-    /* Time field */
-    .time-field { font-family: 'Inter', sans-serif; font-size: 13px; color: #1D1D1F; background: rgba(0,0,0,0.02); border: 1px solid rgba(0,0,0,0.06); border-radius: 8px; padding: 6px 12px; width: 80px; text-align: center; outline: none; transition: border-color 0.15s; }
-    .time-field:focus { border-color: rgba(215,0,48,0.4); background: #FFF; }
-
     /* Channel selector */
     .channel-options { display: flex; gap: 8px; }
     .channel-btn { font-family: 'Inter', sans-serif; padding: 6px 16px; border-radius: 980px; font-size: 12px; color: #86868B; background: rgba(0,0,0,0.03); border: 1px solid rgba(0,0,0,0.04); cursor: pointer; transition: all 0.2s; }
     .channel-btn.active { background: #1D1D1F; color: #F5F5F7; border-color: #1D1D1F; }
     .channel-btn:hover:not(.active) { background: rgba(0,0,0,0.06); }
 
+    /* Connection item */
+    .conn-item { display: flex; align-items: center; gap: 12px; padding: 12px 0; border-bottom: 0.5px solid rgba(0,0,0,0.03); }
+    .conn-item:last-child { border-bottom: none; }
+    .conn-icon { width: 36px; height: 36px; border-radius: 10px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .conn-info { flex: 1; }
+    .conn-name { font-family: 'Satoshi', sans-serif; font-size: 14px; font-weight: 500; color: #1D1D1F; }
+    .conn-detail { font-family: 'Inter', sans-serif; font-size: 11px; color: #86868B; }
+    .conn-status { font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 500; display: flex; align-items: center; gap: 4px; }
+    .conn-status.on { color: #30D158; }
+    .conn-status.off { color: #AEAEB2; }
+    .conn-btn { font-family: 'Inter', sans-serif; padding: 6px 14px; border-radius: 8px; font-size: 11px; font-weight: 500; border: 1px solid rgba(0,0,0,0.08); background: none; color: #1D1D1F; cursor: pointer; transition: all 0.15s; }
+    .conn-btn:hover { background: rgba(0,0,0,0.03); }
+
+    /* Plan card */
+    .plan-card { background: linear-gradient(135deg, #1D1D1F, #2C2C2E); border-radius: 20px; padding: 28px; color: #F5F5F7; margin-bottom: 12px; }
+    .plan-name { font-family: 'Zen Dots', cursive; font-size: 20px; margin-bottom: 4px; }
+    .plan-price { font-family: 'Inter', sans-serif; font-size: 13px; color: rgba(255,255,255,0.5); margin-bottom: 16px; }
+    .plan-features { list-style: none; padding: 0; margin: 0; }
+    .plan-features li { font-family: 'Satoshi', sans-serif; font-size: 13px; color: rgba(255,255,255,0.7); padding: 5px 0; display: flex; align-items: center; gap: 8px; }
+    .plan-features li svg { color: #30D158; flex-shrink: 0; }
+
+    /* Yumi CTA link */
+    .yumi-link { font-family: 'Inter', sans-serif; font-size: 12px; color: #D70030; cursor: pointer; display: inline-flex; align-items: center; gap: 4px; font-weight: 500; transition: opacity 0.15s; }
+    .yumi-link:hover { opacity: 0.7; }
+
     /* Footer link */
-    .footer-link { display: block; text-align: center; margin-top: 32px; font-family: 'Inter', sans-serif; font-size: 13px; color: #86868B; cursor: pointer; transition: color 0.15s; }
+    .footer-link { display: block; text-align: center; margin-top: 32px; font-family: 'Inter', sans-serif; font-size: 13px; color: #86868B; cursor: pointer; text-decoration: none; transition: color 0.15s; }
     .footer-link:hover { color: #D70030; }
     .footer-link svg { vertical-align: middle; margin-right: 6px; }
 
@@ -72,125 +93,284 @@
     <p class="sub fade-in">Suas preferencias pessoais</p>
 
     <!-- Tabs -->
-    <div class="settings-nav fade-in">
-      <button class="settings-tab active">Geral</button>
-      <button class="settings-tab">Conexoes</button>
-      <button class="settings-tab">Notificacoes</button>
-      <button class="settings-tab">Privacidade</button>
-      <button class="settings-tab">Plano</button>
+    <div class="settings-nav fade-in" id="settingsNav">
+      <button class="settings-tab active" data-tab="geral">Geral</button>
+      <button class="settings-tab" data-tab="conexoes">Conexoes</button>
+      <button class="settings-tab" data-tab="notificacoes">Notificacoes</button>
+      <button class="settings-tab" data-tab="privacidade">Privacidade</button>
+      <button class="settings-tab" data-tab="plano">Plano</button>
     </div>
 
-    <!-- Perfil -->
-    <div class="card fade-in" style="animation-delay:0.05s;">
-      <p class="card-label">Perfil</p>
-      <div class="row">
-        <div class="row-info">
-          <p class="row-title">Nome</p>
+    <!-- TAB: Geral -->
+    <div class="tab-panel active" id="tab-geral">
+      <div class="card fade-in" style="animation-delay:0.05s;">
+        <p class="card-label">Perfil</p>
+        <div class="row">
+          <div class="row-info"><p class="row-title">Nome</p></div>
+          <span class="row-value">Julio Cesar</span>
         </div>
-        <input type="text" class="field-edit" value="Julio Cesar" />
-      </div>
-      <div class="row">
-        <div class="row-info">
-          <p class="row-title">Email</p>
+        <div class="row">
+          <div class="row-info"><p class="row-title">Email</p></div>
+          <span class="row-value">julio@ktana.ai</span>
         </div>
-        <input type="email" class="field-edit" value="julio@ktana.ai" />
-      </div>
-      <div class="row">
-        <div class="row-info">
-          <p class="row-title">Telefone</p>
+        <div class="row">
+          <div class="row-info"><p class="row-title">Telefone</p></div>
+          <span class="row-value">+55 11 99999-9999</span>
         </div>
-        <input type="tel" class="field-edit" value="+55 11 99999-9999" />
+        <div style="margin-top:12px;">
+          <a class="yumi-link" onclick="location.href='chat.html'">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+            Alterar via Yumi
+          </a>
+        </div>
       </div>
-    </div>
 
-    <!-- Areas ativas -->
-    <div class="card fade-in" style="animation-delay:0.1s;">
-      <p class="card-label">Areas ativas</p>
+      <div class="card fade-in" style="animation-delay:0.1s;">
+        <p class="card-label">Areas ativas</p>
+        <div class="area-toggle"><div class="area-dot" style="background:#D70030;"></div><span class="area-name">Saude e Bem-estar</span><div class="toggle on" onclick="this.classList.toggle('on')"></div></div>
+        <div class="area-toggle"><div class="area-dot" style="background:#5E6AD2;"></div><span class="area-name">Mente e Emocoes</span><div class="toggle on" onclick="this.classList.toggle('on')"></div></div>
+        <div class="area-toggle"><div class="area-dot" style="background:#FF9F0A;"></div><span class="area-name">Produtividade e Foco</span><div class="toggle on" onclick="this.classList.toggle('on')"></div></div>
+        <div class="area-toggle"><div class="area-dot" style="background:#FF375F;"></div><span class="area-name">Relacionamentos</span><div class="toggle on" onclick="this.classList.toggle('on')"></div></div>
+        <div class="area-toggle"><div class="area-dot" style="background:#30D158;"></div><span class="area-name">Financas Pessoais</span><div class="toggle on" onclick="this.classList.toggle('on')"></div></div>
+        <div class="area-toggle"><div class="area-dot" style="background:#64D2FF;"></div><span class="area-name">Casa e Rotina</span><div class="toggle on" onclick="this.classList.toggle('on')"></div></div>
+        <div class="area-toggle"><div class="area-dot" style="background:#BF5AF2;"></div><span class="area-name">Proposito e Espiritualidade</span><div class="toggle on" onclick="this.classList.toggle('on')"></div></div>
+        <div class="area-toggle"><div class="area-dot" style="background:#8E8E93;"></div><span class="area-name">Carreira e Desenvolvimento</span><div class="toggle on" onclick="this.classList.toggle('on')"></div></div>
+      </div>
 
-      <div class="area-toggle">
-        <div class="area-dot" style="background:#D70030;"></div>
-        <span class="area-name">Saude e Bem-estar</span>
-        <div class="toggle on" onclick="this.classList.toggle('on')"></div>
+      <div class="card fade-in" style="animation-delay:0.15s;">
+        <p class="card-label">Horarios de check-in</p>
+        <div class="row">
+          <div class="row-info">
+            <p class="row-title">Check-in matinal</p>
+            <p class="row-desc">Briefing do dia com seus mentores</p>
+          </div>
+          <span class="row-value">07:30</span>
+        </div>
+        <div class="row">
+          <div class="row-info">
+            <p class="row-title">Check-in noturno</p>
+            <p class="row-desc">Resumo do dia e preparacao para amanha</p>
+          </div>
+          <span class="row-value">21:00</span>
+        </div>
+        <div style="margin-top:12px;">
+          <a class="yumi-link" onclick="location.href='chat.html'">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+            Ajustar horarios com Yumi
+          </a>
+        </div>
       </div>
-      <div class="area-toggle">
-        <div class="area-dot" style="background:#5E6AD2;"></div>
-        <span class="area-name">Mente e Emocoes</span>
-        <div class="toggle on" onclick="this.classList.toggle('on')"></div>
-      </div>
-      <div class="area-toggle">
-        <div class="area-dot" style="background:#FF9F0A;"></div>
-        <span class="area-name">Produtividade e Foco</span>
-        <div class="toggle on" onclick="this.classList.toggle('on')"></div>
-      </div>
-      <div class="area-toggle">
-        <div class="area-dot" style="background:#FF375F;"></div>
-        <span class="area-name">Relacionamentos</span>
-        <div class="toggle on" onclick="this.classList.toggle('on')"></div>
-      </div>
-      <div class="area-toggle">
-        <div class="area-dot" style="background:#30D158;"></div>
-        <span class="area-name">Financas Pessoais</span>
-        <div class="toggle on" onclick="this.classList.toggle('on')"></div>
-      </div>
-      <div class="area-toggle">
-        <div class="area-dot" style="background:#64D2FF;"></div>
-        <span class="area-name">Casa e Rotina</span>
-        <div class="toggle on" onclick="this.classList.toggle('on')"></div>
-      </div>
-      <div class="area-toggle">
-        <div class="area-dot" style="background:#BF5AF2;"></div>
-        <span class="area-name">Proposito e Espiritualidade</span>
-        <div class="toggle on" onclick="this.classList.toggle('on')"></div>
-      </div>
-      <div class="area-toggle">
-        <div class="area-dot" style="background:#8E8E93;"></div>
-        <span class="area-name">Carreira e Desenvolvimento</span>
-        <div class="toggle on" onclick="this.classList.toggle('on')"></div>
-      </div>
-    </div>
 
-    <!-- Horarios de check-in -->
-    <div class="card fade-in" style="animation-delay:0.15s;">
-      <p class="card-label">Horarios de check-in</p>
-      <div class="row">
-        <div class="row-info">
-          <p class="row-title">Check-in matinal</p>
-          <p class="row-desc">Briefing do dia com seus mentores</p>
+      <div class="card fade-in" style="animation-delay:0.2s;">
+        <p class="card-label">Preferencia de comunicacao</p>
+        <div class="row">
+          <div class="row-info">
+            <p class="row-title">Canal principal</p>
+            <p class="row-desc">Como seus mentores falam com voce</p>
+          </div>
+          <div class="channel-options">
+            <button class="channel-btn active" onclick="selectChannel(this)">WhatsApp</button>
+            <button class="channel-btn" onclick="selectChannel(this)">Email</button>
+            <button class="channel-btn" onclick="selectChannel(this)">Push</button>
+          </div>
         </div>
-        <input type="time" class="time-field" value="07:30" />
-      </div>
-      <div class="row">
-        <div class="row-info">
-          <p class="row-title">Check-in noturno</p>
-          <p class="row-desc">Resumo do dia e preparacao para amanha</p>
-        </div>
-        <input type="time" class="time-field" value="21:00" />
       </div>
     </div>
 
-    <!-- Preferencia de comunicacao -->
-    <div class="card fade-in" style="animation-delay:0.2s;">
-      <p class="card-label">Preferencia de comunicacao</p>
-      <div class="row">
-        <div class="row-info">
-          <p class="row-title">Canal principal</p>
-          <p class="row-desc">Como seus mentores falam com voce</p>
+    <!-- TAB: Conexoes -->
+    <div class="tab-panel" id="tab-conexoes">
+      <div class="card">
+        <p class="card-label">Conectadas</p>
+        <div class="conn-item">
+          <div class="conn-icon" style="background:rgba(66,133,244,0.08);">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 01-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg>
+          </div>
+          <div class="conn-info"><span class="conn-name">Google</span><span class="conn-detail">Calendar, Gmail, Contacts</span></div>
+          <span class="conn-status on"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg> Conectado</span>
         </div>
-        <div class="channel-options">
-          <button class="channel-btn active">WhatsApp</button>
-          <button class="channel-btn">Email</button>
-          <button class="channel-btn">Push</button>
+        <div class="conn-item">
+          <div class="conn-icon" style="background:rgba(37,211,102,0.08);">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z" fill="#25D366"/></svg>
+          </div>
+          <div class="conn-info"><span class="conn-name">WhatsApp</span><span class="conn-detail">Mensagens e notificacoes</span></div>
+          <span class="conn-status on"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg> Conectado</span>
         </div>
+        <div class="conn-item">
+          <div class="conn-icon" style="background:rgba(255,45,85,0.08);">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#FF2D55" stroke-width="1.5"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>
+          </div>
+          <div class="conn-info"><span class="conn-name">Apple Health</span><span class="conn-detail">Sono, passos, batimentos</span></div>
+          <span class="conn-status on"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg> Conectado</span>
+        </div>
+      </div>
+
+      <div class="card">
+        <p class="card-label">Disponiveis</p>
+        <div class="conn-item">
+          <div class="conn-icon" style="background:rgba(0,0,0,0.03);"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#86868B" stroke-width="1.5"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12" y2="18"/></svg></div>
+          <div class="conn-info"><span class="conn-name">Fitbit / Garmin</span><span class="conn-detail">Wearables de saude</span></div>
+          <button class="conn-btn" onclick="this.textContent='Conectando...'">Conectar</button>
+        </div>
+        <div class="conn-item">
+          <div class="conn-icon" style="background:rgba(0,0,0,0.03);"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#86868B" stroke-width="1.5"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" y1="22" x2="4" y2="15"/></svg></div>
+          <div class="conn-info"><span class="conn-name">Open Finance</span><span class="conn-detail">Bancos, investimentos, cartoes</span></div>
+          <button class="conn-btn" onclick="this.textContent='Conectando...'">Conectar</button>
+        </div>
+        <div class="conn-item">
+          <div class="conn-icon" style="background:rgba(0,0,0,0.03);"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#86868B" stroke-width="1.5"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-4 0v7h-4v-7a6 6 0 016-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg></div>
+          <div class="conn-info"><span class="conn-name">LinkedIn</span><span class="conn-detail">Rede profissional, contatos</span></div>
+          <button class="conn-btn" onclick="this.textContent='Conectando...'">Conectar</button>
+        </div>
+        <div class="conn-item">
+          <div class="conn-icon" style="background:rgba(0,0,0,0.03);"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#86868B" stroke-width="1.5"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4 12.5-12.5z"/></svg></div>
+          <div class="conn-info"><span class="conn-name">Notion / Todoist</span><span class="conn-detail">Notas e tarefas</span></div>
+          <button class="conn-btn" onclick="this.textContent='Conectando...'">Conectar</button>
+        </div>
+      </div>
+      <p style="font-family:'Inter',sans-serif;font-size:11px;color:#AEAEB2;text-align:center;margin-top:12px;">
+        Mais conectores em <a href="connect.html" style="color:#D70030;">Conectar</a>
+      </p>
+    </div>
+
+    <!-- TAB: Notificacoes -->
+    <div class="tab-panel" id="tab-notificacoes">
+      <div class="card">
+        <p class="card-label">Canais ativos</p>
+        <div class="row"><div class="row-info"><p class="row-title">WhatsApp</p><p class="row-desc">Mensagens e lembretes dos mentores</p></div><div class="toggle on" onclick="this.classList.toggle('on')"></div></div>
+        <div class="row"><div class="row-info"><p class="row-title">Push (App)</p><p class="row-desc">Notificacoes no celular</p></div><div class="toggle on" onclick="this.classList.toggle('on')"></div></div>
+        <div class="row"><div class="row-info"><p class="row-title">Email</p><p class="row-desc">Resumos semanais e alertas criticos</p></div><div class="toggle on" onclick="this.classList.toggle('on')"></div></div>
+        <div class="row"><div class="row-info"><p class="row-title">Voz (ElevenLabs)</p><p class="row-desc">Mentores ligam por voz</p></div><div class="toggle" onclick="this.classList.toggle('on')"></div></div>
+      </div>
+
+      <div class="card">
+        <p class="card-label">Frequencia</p>
+        <div class="row"><div class="row-info"><p class="row-title">Check-in matinal</p><p class="row-desc">Briefing diario 07:30</p></div><div class="toggle on" onclick="this.classList.toggle('on')"></div></div>
+        <div class="row"><div class="row-info"><p class="row-title">Check-in noturno</p><p class="row-desc">Resumo do dia 21:00</p></div><div class="toggle on" onclick="this.classList.toggle('on')"></div></div>
+        <div class="row"><div class="row-info"><p class="row-title">Alertas de saude</p><p class="row-desc">Quando wearable detecta anomalia</p></div><div class="toggle on" onclick="this.classList.toggle('on')"></div></div>
+        <div class="row"><div class="row-info"><p class="row-title">Lembretes de habitos</p><p class="row-desc">Lembretes das rotinas ativas</p></div><div class="toggle on" onclick="this.classList.toggle('on')"></div></div>
+        <div class="row"><div class="row-info"><p class="row-title">Insights semanais</p><p class="row-desc">Analise cruzada dos mentores</p></div><div class="toggle on" onclick="this.classList.toggle('on')"></div></div>
+      </div>
+
+      <div class="card">
+        <p class="card-label">Nao perturbe</p>
+        <div class="row"><div class="row-info"><p class="row-title">Modo silencioso</p><p class="row-desc">Sem notificacoes entre 22h e 07h</p></div><div class="toggle on" onclick="this.classList.toggle('on')"></div></div>
+        <div class="row"><div class="row-info"><p class="row-title">Fins de semana reduzidos</p><p class="row-desc">Apenas alertas criticos no sabado e domingo</p></div><div class="toggle" onclick="this.classList.toggle('on')"></div></div>
+      </div>
+    </div>
+
+    <!-- TAB: Privacidade -->
+    <div class="tab-panel" id="tab-privacidade">
+      <div class="card">
+        <p class="card-label">Dados e privacidade</p>
+        <div class="row"><div class="row-info"><p class="row-title">Criptografia end-to-end</p><p class="row-desc">Suas conversas e dados sao criptografados</p></div><span class="row-value" style="color:#30D158;font-weight:500;">Ativo</span></div>
+        <div class="row"><div class="row-info"><p class="row-title">Armazenamento de dados</p><p class="row-desc">Onde seus dados ficam salvos</p></div><span class="row-value">Brasil (SP)</span></div>
+        <div class="row"><div class="row-info"><p class="row-title">Retencao de dados</p><p class="row-desc">Por quanto tempo mantemos seus dados</p></div><span class="row-value">Enquanto ativo</span></div>
+      </div>
+
+      <div class="card">
+        <p class="card-label">Compartilhamento</p>
+        <div class="row"><div class="row-info"><p class="row-title">Mentores acessam dados entre si</p><p class="row-desc">Permite que seus mentores cruzem informacoes para melhor atendimento</p></div><div class="toggle on" onclick="this.classList.toggle('on')"></div></div>
+        <div class="row"><div class="row-info"><p class="row-title">Compartilhar com familia</p><p class="row-desc">Membros da familia veem metas e progresso</p></div><div class="toggle" onclick="this.classList.toggle('on')"></div></div>
+        <div class="row"><div class="row-info"><p class="row-title">Dados anonimos para melhoria</p><p class="row-desc">Ajudar a melhorar a IA (dados anonimizados)</p></div><div class="toggle on" onclick="this.classList.toggle('on')"></div></div>
+      </div>
+
+      <div class="card">
+        <p class="card-label">Controle</p>
+        <div class="row">
+          <div class="row-info"><p class="row-title">Exportar meus dados</p><p class="row-desc">Baixar todos os seus dados em formato JSON</p></div>
+          <button class="conn-btn" onclick="this.textContent='Preparando...'">Exportar</button>
+        </div>
+        <div class="row">
+          <div class="row-info"><p class="row-title">Apagar historico de conversas</p><p class="row-desc">Remove todas as conversas. Mentores perdem contexto.</p></div>
+          <button class="conn-btn" style="color:#FF453A;border-color:rgba(255,69,58,0.2);">Apagar</button>
+        </div>
+        <div class="row">
+          <div class="row-info"><p class="row-title">Excluir minha conta</p><p class="row-desc">Remove permanentemente todos os seus dados</p></div>
+          <button class="conn-btn" style="color:#FF453A;border-color:rgba(255,69,58,0.2);">Excluir</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB: Plano -->
+    <div class="tab-panel" id="tab-plano">
+      <div class="plan-card">
+        <div class="plan-name">RONIN</div>
+        <div class="plan-price">Gratis para sempre</div>
+        <ul class="plan-features">
+          <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg> 1 mentor ativo</li>
+          <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg> 100 acoes por mes</li>
+          <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg> 1 area de vida</li>
+          <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg> Chat ilimitado</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <p class="card-label">Planos disponiveis</p>
+        <div class="row" style="padding:14px 0;">
+          <div class="row-info">
+            <p class="row-title" style="font-weight:600;">BUSHI</p>
+            <p class="row-desc">3 mentores, 3 areas, 500 acoes, voice</p>
+          </div>
+          <span style="font-family:'Zen Dots',cursive;font-size:16px;color:#D70030;">R$97<span style="font-family:'Inter',sans-serif;font-size:11px;color:#86868B;font-weight:400;">/mes</span></span>
+        </div>
+        <div class="row" style="padding:14px 0;">
+          <div class="row-info">
+            <p class="row-title" style="font-weight:600;">GUNDAN</p>
+            <p class="row-desc">8 mentores, todas areas, ilimitado, cerebro cruzado</p>
+          </div>
+          <span style="font-family:'Zen Dots',cursive;font-size:16px;color:#D70030;">R$297<span style="font-family:'Inter',sans-serif;font-size:11px;color:#86868B;font-weight:400;">/mes</span></span>
+        </div>
+        <div class="row" style="padding:14px 0;">
+          <div class="row-info">
+            <p class="row-title" style="font-weight:600;">BAKUFU</p>
+            <p class="row-desc">Tudo + familia + concierge + prioridade</p>
+          </div>
+          <span style="font-family:'Zen Dots',cursive;font-size:16px;color:#D70030;">R$997<span style="font-family:'Inter',sans-serif;font-size:11px;color:#86868B;font-weight:400;">/mes</span></span>
+        </div>
+      </div>
+
+      <div class="card">
+        <p class="card-label">Uso deste mes</p>
+        <div class="row"><div class="row-info"><p class="row-title">Acoes realizadas</p></div><span class="row-value">67 / 100</span></div>
+        <div class="row"><div class="row-info"><p class="row-title">Mentores ativos</p></div><span class="row-value">1 / 1</span></div>
+        <div class="row"><div class="row-info"><p class="row-title">Areas ativas</p></div><span class="row-value">1 / 1</span></div>
+        <div class="row"><div class="row-info"><p class="row-title">Proximo ciclo</p></div><span class="row-value">01/Abr/2026</span></div>
       </div>
     </div>
 
     <!-- Footer link -->
-    <a href="../pj/dashboard.html" class="footer-link fade-in" style="animation-delay:0.25s;">
+    <a href="../tenant/dashboard/home.html" class="footer-link fade-in" style="animation-delay:0.25s;">
       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg>
       Alternar para ambiente PJ
     </a>
 
   </div></main>
-<script src="../shared-nav.js?v=1774794914"></script>
+
+  <script>
+    // Tab switching
+    document.querySelectorAll('#settingsNav .settings-tab').forEach(function(tab) {
+      tab.addEventListener('click', function() {
+        document.querySelectorAll('#settingsNav .settings-tab').forEach(function(t) { t.classList.remove('active'); });
+        document.querySelectorAll('.tab-panel').forEach(function(p) { p.classList.remove('active'); });
+        this.classList.add('active');
+        var target = document.getElementById('tab-' + this.dataset.tab);
+        if (target) target.classList.add('active');
+        location.hash = this.dataset.tab;
+      });
+    });
+
+    // Restore tab from hash
+    if (location.hash) {
+      var hashTab = location.hash.replace('#','');
+      var btn = document.querySelector('[data-tab="' + hashTab + '"]');
+      if (btn) btn.click();
+    }
+
+    function selectChannel(btn) {
+      btn.parentElement.querySelectorAll('.channel-btn').forEach(function(b) { b.classList.remove('active'); });
+      btn.classList.add('active');
+    }
+  </script>
+  <script src="../shared-nav.js?v=1774794914"></script>
 </body>
 </html>

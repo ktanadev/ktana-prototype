@@ -109,9 +109,15 @@ select.form-input{appearance:none;background-image:url("data:image/svg+xml,%3Csv
   <!-- NAME -->
   <div class="section-card">
     <p class="card-label">Nome do mentor</p>
-    <div class="form-group" style="margin-bottom:0">
-      <label>Como voce quer chamar este mentor?</label>
-      <input type="text" class="form-input" id="mentorName" value="Dr. Kenji" placeholder="Ex: Dr. Kenji, Mestre Hana">
+    <div style="display:flex;align-items:center;justify-content:space-between;">
+      <div>
+        <p style="font-family:'Satoshi',sans-serif;font-size:18px;font-weight:600;color:#1D1D1F;" id="mentorName">Dr. Kenji</p>
+        <p style="font-family:'Inter',sans-serif;font-size:11px;color:#86868B;">Sugerido por Yumi com base na sua conversa</p>
+      </div>
+      <a style="font-family:'Inter',sans-serif;font-size:12px;color:#D70030;cursor:pointer;font-weight:500;display:flex;align-items:center;gap:4px;" onclick="location.href='yumi.html'">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+        Mudar via Yumi
+      </a>
     </div>
   </div>
 
@@ -235,9 +241,11 @@ select.form-input{appearance:none;background-image:url("data:image/svg+xml,%3Csv
       <div class="goal-tag">Treinar 4x por semana <span class="remove" onclick="this.parentElement.remove()">&times;</span></div>
       <div class="goal-tag">Dormir 7h+ por noite <span class="remove" onclick="this.parentElement.remove()">&times;</span></div>
     </div>
-    <div class="goal-input-row">
-      <input type="text" class="form-input" id="goalInput" placeholder="Ex: Perder 5kg ate julho">
-      <button class="btn-add" onclick="addGoal()">Adicionar</button>
+    <div style="margin-top:12px;">
+      <a style="font-family:'Inter',sans-serif;font-size:12px;color:#D70030;cursor:pointer;font-weight:500;display:inline-flex;align-items:center;gap:4px;" onclick="location.href='yumi.html'">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+        Adicionar metas via conversa com Yumi
+      </a>
     </div>
   </div>
 

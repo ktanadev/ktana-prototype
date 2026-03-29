@@ -8,31 +8,43 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Zen+Dots&display=swap" rel="stylesheet">
   <style>
     body { min-height: 100vh; background: #F5F5F7; }
-    .main { max-width: 720px; margin: 0 auto; padding: 40px 24px 80px; }
-    h1 { font-family: 'Zen Dots', cursive; font-size: 22px; color: #1D1D1F; margin-bottom: 4px; }
-    .subtitle { font-family: 'Satoshi', sans-serif; font-size: 14px; color: #86868B; margin-bottom: 32px; line-height: 1.5; }
+    .main { max-width: 760px; margin: 0 auto; padding: 32px 20px 80px; }
 
-    /* Area header — same pattern as other areas */
-    .area-header { text-align: center; margin-bottom: 40px; }
-    .area-icon { width: 56px; height: 56px; border-radius: 16px; background: rgba(215,0,48,0.04); display: flex; align-items: center; justify-content: center; margin: 0 auto 16px; }
-    .area-header h1 { font-family: 'Zen Dots', cursive; font-size: 26px; color: #1D1D1F; margin-bottom: 6px; }
-    .area-header p { font-family: 'Satoshi', sans-serif; font-size: 14px; color: #86868B; line-height: 1.5; }
+    /* Hero — Ikigai center */
+    .ikigai-hero { text-align: center; margin-bottom: 40px; padding: 40px 0 20px; }
+    .ikigai-hero h1 { font-family: 'Zen Dots', cursive; font-size: 28px; color: #1D1D1F; margin-bottom: 6px; letter-spacing: -0.01em; }
+    .ikigai-hero p { font-family: 'Satoshi', sans-serif; font-size: 14px; color: #86868B; line-height: 1.5; max-width: 400px; margin: 0 auto; }
 
-    /* Radar inside card — proportional */
+    /* Ikigai SVG */
+    .ikigai-wrap { display: flex; justify-content: center; margin: 32px 0; }
+    .ikigai-wrap svg { max-width: 380px; width: 100%; height: auto; }
+
+    /* Soul metrics */
+    .soul-metrics { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 28px; }
+    .soul-metric { background: #FFF; border-radius: 18px; border: 1px solid rgba(0,0,0,0.04); padding: 18px 14px; text-align: center; }
+    .soul-val { font-family: 'Zen Dots', cursive; font-size: 22px; color: #D70030; margin-bottom: 4px; }
+    .soul-label { font-family: 'Inter', sans-serif; font-size: 10px; color: #86868B; letter-spacing: 0.02em; }
+
+    /* Card */
+    .card { background: #FFF; border-radius: 20px; border: 1px solid rgba(0,0,0,0.04); padding: 24px; margin-bottom: 12px; }
+    .card-label { font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: #D70030; margin-bottom: 14px; }
+
+    /* Radar inside card */
     .radar-card .radar-wrap { display: flex; justify-content: center; }
-    .radar-card .radar-wrap svg { max-width: 340px; width: 100%; height: auto; }
-    .radar-card .radar-score { display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; margin-top: 16px; padding-top: 16px; border-top: 1px solid rgba(0,0,0,0.04); }
+    .radar-card .radar-wrap svg { max-width: 360px; width: 100%; height: auto; }
+    .radar-score { display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; margin-top: 16px; padding-top: 16px; border-top: 1px solid rgba(0,0,0,0.04); }
     .score-item { text-align: center; }
     .score-val { font-family: 'Zen Dots', cursive; font-size: 20px; color: #D70030; }
     .score-label { font-family: 'Inter', sans-serif; font-size: 11px; color: #86868B; margin-top: 2px; }
 
-    .card { background: #FFF; border-radius: 20px; border: 1px solid rgba(0,0,0,0.04); padding: 24px; margin-bottom: 12px; }
-    .card-label { font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: #D70030; margin-bottom: 14px; }
-
-    /* Radar Chart */
-    .radar-title { font-family: 'Zen Dots', cursive; font-size: 14px; color: #1D1D1F; text-align: center; margin-bottom: 16px; }
-    .radar-wrap { display: flex; justify-content: center; margin-bottom: 8px; }
-    .radar-wrap svg { max-width: 100%; height: auto; }
+    /* Ikigai quadrants */
+    .ikigai-quads { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 12px; }
+    .iq-card { background: #FFF; border-radius: 18px; border: 1px solid rgba(0,0,0,0.04); padding: 20px; }
+    .iq-icon { width: 36px; height: 36px; border-radius: 10px; display: flex; align-items: center; justify-content: center; margin-bottom: 12px; }
+    .iq-title { font-family: 'Satoshi', sans-serif; font-size: 14px; font-weight: 600; color: #1D1D1F; margin-bottom: 6px; }
+    .iq-items { list-style: none; padding: 0; margin: 0; }
+    .iq-items li { font-family: 'Satoshi', sans-serif; font-size: 13px; color: #6E6E73; padding: 4px 0; display: flex; align-items: center; gap: 8px; line-height: 1.4; }
+    .iq-dot { width: 5px; height: 5px; border-radius: 50%; flex-shrink: 0; }
 
     /* Values tags */
     .tags-row { display: flex; flex-wrap: wrap; gap: 8px; }
@@ -54,6 +66,17 @@
     .sw-dot.str { background: #30D158; }
     .sw-dot.wk { background: #FF9F0A; }
 
+    /* Journey timeline */
+    .journey { position: relative; padding-left: 24px; }
+    .journey::before { content: ''; position: absolute; left: 7px; top: 4px; bottom: 4px; width: 2px; background: rgba(0,0,0,0.06); border-radius: 1px; }
+    .j-item { position: relative; padding: 0 0 20px; }
+    .j-item:last-child { padding-bottom: 0; }
+    .j-dot { position: absolute; left: -20px; top: 3px; width: 10px; height: 10px; border-radius: 50%; border: 2px solid #D70030; background: #FFF; }
+    .j-item.active .j-dot { background: #D70030; }
+    .j-date { font-family: 'Inter', sans-serif; font-size: 11px; color: #AEAEB2; margin-bottom: 2px; }
+    .j-text { font-family: 'Satoshi', sans-serif; font-size: 14px; color: #1D1D1F; line-height: 1.5; }
+    .j-text span { color: #86868B; }
+
     /* Clarity progress */
     .clarity-row { display: flex; align-items: center; gap: 16px; margin-bottom: 8px; }
     .clarity-bar-wrap { flex: 1; height: 6px; background: rgba(0,0,0,0.06); border-radius: 3px; overflow: hidden; }
@@ -65,40 +88,147 @@
     .cta-row { display: flex; gap: 10px; margin-top: 8px; flex-wrap: wrap; }
     .btn-cta { font-family: 'Inter', sans-serif; display: inline-flex; align-items: center; gap: 8px; padding: 14px 24px; border-radius: 14px; font-size: 14px; font-weight: 500; border: none; cursor: pointer; min-height: 52px; transition: all 0.15s; }
     .btn-cta:hover { opacity: 0.9; }
+    .btn-cta:active { transform: scale(0.97); }
     .btn-cta-primary { background: #D70030; color: #FFF; }
     .btn-cta-secondary { background: transparent; color: #1D1D1F; border: 1px solid rgba(0,0,0,0.08); }
 
     .fade-in { animation: fadeIn 0.3s cubic-bezier(0.25,0.1,0.25,1) both; }
     @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+
+    @media (max-width: 640px) {
+      .soul-metrics { grid-template-columns: repeat(2, 1fr); }
+      .ikigai-quads { grid-template-columns: 1fr; }
+    }
   </style>
 </head>
 <body>
 
   <main class="main">
 
-    <!-- Header — same pattern as other areas -->
-    <div class="area-header fade-in">
-      <div class="area-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg></div>
+    <!-- Hero -->
+    <div class="ikigai-hero fade-in">
       <h1>Seu Espirito</h1>
-      <p>Quem voce e na essencia. Definido pela sua conversa com Yumi.</p>
+      <p>O centro de quem voce e. Construido pela sua conversa com Yumi.</p>
+    </div>
+
+    <!-- Ikigai SVG — 4 circulos sobrepostos -->
+    <div class="ikigai-wrap fade-in" style="animation-delay:0.05s">
+      <svg viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
+        <!-- Background circles with overlap -->
+        <circle cx="170" cy="170" r="110" fill="rgba(215,0,48,0.05)" stroke="rgba(215,0,48,0.12)" stroke-width="1"/>
+        <circle cx="230" cy="170" r="110" fill="rgba(94,106,210,0.05)" stroke="rgba(94,106,210,0.12)" stroke-width="1"/>
+        <circle cx="170" cy="230" r="110" fill="rgba(48,209,88,0.05)" stroke="rgba(48,209,88,0.12)" stroke-width="1"/>
+        <circle cx="230" cy="230" r="110" fill="rgba(255,159,10,0.05)" stroke="rgba(255,159,10,0.12)" stroke-width="1"/>
+
+        <!-- Center glow -->
+        <circle cx="200" cy="200" r="32" fill="rgba(215,0,48,0.08)" stroke="#D70030" stroke-width="1.5"/>
+        <text x="200" y="196" text-anchor="middle" font-family="Zen Dots, cursive" font-size="9" fill="#D70030" letter-spacing="0.08em">IKIGAI</text>
+        <text x="200" y="210" text-anchor="middle" font-family="Satoshi, sans-serif" font-size="8" fill="#86868B">78%</text>
+
+        <!-- Quadrant labels -->
+        <text x="130" y="120" text-anchor="middle" font-family="Satoshi, sans-serif" font-size="11" font-weight="600" fill="#D70030">O que amo</text>
+        <text x="130" y="133" text-anchor="middle" font-family="Inter, sans-serif" font-size="9" fill="#86868B">Paixao + Missao</text>
+
+        <text x="270" y="120" text-anchor="middle" font-family="Satoshi, sans-serif" font-size="11" font-weight="600" fill="#5E6AD2">No que sou bom</text>
+        <text x="270" y="133" text-anchor="middle" font-family="Inter, sans-serif" font-size="9" fill="#86868B">Paixao + Profissao</text>
+
+        <text x="130" y="286" text-anchor="middle" font-family="Satoshi, sans-serif" font-size="11" font-weight="600" fill="#30D158">O que posso ganhar</text>
+        <text x="130" y="299" text-anchor="middle" font-family="Inter, sans-serif" font-size="9" fill="#86868B">Profissao + Vocacao</text>
+
+        <text x="270" y="286" text-anchor="middle" font-family="Satoshi, sans-serif" font-size="11" font-weight="600" fill="#FF9F0A">O que o mundo precisa</text>
+        <text x="270" y="299" text-anchor="middle" font-family="Inter, sans-serif" font-size="9" fill="#86868B">Missao + Vocacao</text>
+
+        <!-- Intersection labels (edges between circles) -->
+        <text x="200" y="138" text-anchor="middle" font-family="Inter, sans-serif" font-size="8" fill="#48484A" font-weight="500">Paixao</text>
+        <text x="138" y="204" text-anchor="middle" font-family="Inter, sans-serif" font-size="8" fill="#48484A" font-weight="500">Missao</text>
+        <text x="262" y="204" text-anchor="middle" font-family="Inter, sans-serif" font-size="8" fill="#48484A" font-weight="500">Profissao</text>
+        <text x="200" y="268" text-anchor="middle" font-family="Inter, sans-serif" font-size="8" fill="#48484A" font-weight="500">Vocacao</text>
+
+        <!-- Animated pulse on center -->
+        <circle cx="200" cy="200" r="32" fill="none" stroke="#D70030" stroke-width="0.5" opacity="0.4">
+          <animate attributeName="r" values="32;44;32" dur="3s" repeatCount="indefinite"/>
+          <animate attributeName="opacity" values="0.4;0;0.4" dur="3s" repeatCount="indefinite"/>
+        </circle>
+      </svg>
+    </div>
+
+    <!-- Soul metrics -->
+    <div class="soul-metrics fade-in" style="animation-delay:0.1s">
+      <div class="soul-metric">
+        <div class="soul-val">78%</div>
+        <div class="soul-label">Clareza Ikigai</div>
+      </div>
+      <div class="soul-metric">
+        <div class="soul-val">7.4</div>
+        <div class="soul-label">Equilibrio</div>
+      </div>
+      <div class="soul-metric">
+        <div class="soul-val">+12%</div>
+        <div class="soul-label">Evolucao 30d</div>
+      </div>
+      <div class="soul-metric">
+        <div class="soul-val">8/8</div>
+        <div class="soul-label">Areas ativas</div>
+      </div>
+    </div>
+
+    <!-- Ikigai quadrants detail -->
+    <div class="ikigai-quads fade-in" style="animation-delay:0.15s">
+      <div class="iq-card">
+        <div class="iq-icon" style="background:rgba(215,0,48,0.04);">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#D70030" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>
+        </div>
+        <div class="iq-title">O que amo</div>
+        <ul class="iq-items">
+          <li><span class="iq-dot" style="background:#D70030;"></span>Criar produtos digitais</li>
+          <li><span class="iq-dot" style="background:#D70030;"></span>Resolver problemas complexos</li>
+          <li><span class="iq-dot" style="background:#D70030;"></span>Aprender coisas novas</li>
+        </ul>
+      </div>
+      <div class="iq-card">
+        <div class="iq-icon" style="background:rgba(94,106,210,0.04);">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#5E6AD2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+        </div>
+        <div class="iq-title">No que sou bom</div>
+        <ul class="iq-items">
+          <li><span class="iq-dot" style="background:#5E6AD2;"></span>Pensamento estrategico</li>
+          <li><span class="iq-dot" style="background:#5E6AD2;"></span>Lideranca tecnica</li>
+          <li><span class="iq-dot" style="background:#5E6AD2;"></span>Arquitetura de sistemas</li>
+        </ul>
+      </div>
+      <div class="iq-card">
+        <div class="iq-icon" style="background:rgba(48,209,88,0.04);">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#30D158" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>
+        </div>
+        <div class="iq-title">O que posso ganhar</div>
+        <ul class="iq-items">
+          <li><span class="iq-dot" style="background:#30D158;"></span>Consultoria em tecnologia</li>
+          <li><span class="iq-dot" style="background:#30D158;"></span>Produtos SaaS</li>
+          <li><span class="iq-dot" style="background:#30D158;"></span>Lideranca de equipes</li>
+        </ul>
+      </div>
+      <div class="iq-card">
+        <div class="iq-icon" style="background:rgba(255,159,10,0.04);">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#FF9F0A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg>
+        </div>
+        <div class="iq-title">O que o mundo precisa</div>
+        <ul class="iq-items">
+          <li><span class="iq-dot" style="background:#FF9F0A;"></span>Democratizar acesso a IA</li>
+          <li><span class="iq-dot" style="background:#FF9F0A;"></span>Simplificar tecnologia</li>
+          <li><span class="iq-dot" style="background:#FF9F0A;"></span>Ferramentas para PMEs</li>
+        </ul>
+      </div>
     </div>
 
     <!-- Mapa de Vida — Radar Chart -->
-    <div class="card radar-card fade-in" style="animation-delay:0.05s">
-      <p class="card-label">Mapa de Vida</p>
+    <div class="card radar-card fade-in" style="animation-delay:0.2s">
+      <p class="card-label">Mapa de vida</p>
       <div class="radar-wrap">
         <svg viewBox="-40 0 480 400" xmlns="http://www.w3.org/2000/svg">
-          <!-- Concentric octagon rings -->
-          <!-- 25% ring -->
           <polygon points="200,165 224.75,175.25 235,200 224.75,224.75 200,235 175.25,224.75 165,200 175.25,175.25" fill="none" stroke="rgba(0,0,0,0.04)" stroke-width="0.75"/>
-          <!-- 50% ring -->
           <polygon points="200,130 249.5,150.5 270,200 249.5,249.5 200,270 150.5,249.5 130,200 150.5,150.5" fill="none" stroke="rgba(0,0,0,0.04)" stroke-width="0.75"/>
-          <!-- 75% ring -->
           <polygon points="200,95 274.25,125.75 305,200 274.25,274.25 200,305 125.75,274.25 95,200 125.75,125.75" fill="none" stroke="rgba(0,0,0,0.04)" stroke-width="0.75"/>
-          <!-- 100% ring -->
           <polygon points="200,60 299,101 340,200 299,299 200,340 101,299 60,200 101,101" fill="none" stroke="rgba(0,0,0,0.04)" stroke-width="0.75"/>
-
-          <!-- Axis lines from center to each vertex -->
           <line x1="200" y1="200" x2="200" y2="60" stroke="rgba(0,0,0,0.04)" stroke-width="0.75"/>
           <line x1="200" y1="200" x2="299" y2="101" stroke="rgba(0,0,0,0.04)" stroke-width="0.75"/>
           <line x1="200" y1="200" x2="340" y2="200" stroke="rgba(0,0,0,0.04)" stroke-width="0.75"/>
@@ -107,24 +237,8 @@
           <line x1="200" y1="200" x2="101" y2="299" stroke="rgba(0,0,0,0.04)" stroke-width="0.75"/>
           <line x1="200" y1="200" x2="60" y2="200" stroke="rgba(0,0,0,0.04)" stroke-width="0.75"/>
           <line x1="200" y1="200" x2="101" y2="101" stroke="rgba(0,0,0,0.04)" stroke-width="0.75"/>
-
-          <!-- Data polygon: Saude 8, Mente 7, Carreira 9, Financas 6, Proposito 8, Produtividade 9, Relacionamentos 7, Casa 5 -->
-          <!-- Each axis: center=200, radius=140. value/10 * 140 = offset from center -->
-          <!-- Axis 0 (top, 270deg): Saude 8/10 => 200, 200 - 112 = 200,88 -->
-          <!-- Axis 1 (315deg): Mente 7/10 => 200+69.3*0.7071, 200-69.3*0.7071 => 200+98*0.7071, 200-98*0.7071 => 269.3, 130.7 -->
-          <!-- Axis 2 (0deg, right): Carreira 9/10 => 200+126, 200 => 326, 200 -->
-          <!-- Axis 3 (45deg): Financas 6/10 => 200+84*0.7071, 200+84*0.7071 => 259.4, 259.4 -->
-          <!-- Axis 4 (90deg, bottom): Proposito 8/10 => 200, 200+112 => 200, 312 -->
-          <!-- Axis 5 (135deg): Produtividade 9/10 => 200-126*0.7071, 200+126*0.7071 => 110.9, 289.1 -->
-          <!-- Axis 6 (180deg, left): Relacionamentos 7/10 => 200-98, 200 => 102, 200 -->
-          <!-- Axis 7 (225deg): Casa 5/10 => 200-70*0.7071, 200-70*0.7071 => 150.5, 150.5 -->
-          <polygon
-            points="200,88 269.3,130.7 326,200 259.4,259.4 200,312 110.9,289.1 102,200 150.5,150.5"
-            fill="#D70030" fill-opacity="0.08"
-            stroke="#D70030" stroke-width="1.5"
-            stroke-linejoin="round"
-          />
-
+          <!-- Data polygon -->
+          <polygon points="200,88 269.3,130.7 326,200 259.4,259.4 200,312 110.9,289.1 102,200 150.5,150.5" fill="#D70030" fill-opacity="0.08" stroke="#D70030" stroke-width="1.5" stroke-linejoin="round"/>
           <!-- Data points -->
           <circle cx="200" cy="88" r="4" fill="#D70030"/>
           <circle cx="269.3" cy="130.7" r="4" fill="#D70030"/>
@@ -134,8 +248,7 @@
           <circle cx="110.9" cy="289.1" r="4" fill="#D70030"/>
           <circle cx="102" cy="200" r="4" fill="#D70030"/>
           <circle cx="150.5" cy="150.5" r="4" fill="#D70030"/>
-
-          <!-- Axis labels with scores -->
+          <!-- Labels -->
           <text x="200" y="46" text-anchor="middle" font-family="Inter, sans-serif" font-size="11" fill="#1D1D1F" font-weight="500">Saude 8</text>
           <text x="312" y="92" text-anchor="start" font-family="Inter, sans-serif" font-size="11" fill="#1D1D1F" font-weight="500">Mente 7</text>
           <text x="352" y="204" text-anchor="start" font-family="Inter, sans-serif" font-size="11" fill="#1D1D1F" font-weight="500">Carreira 9</text>
@@ -150,12 +263,12 @@
         <div class="score-item"><div class="score-val">7.4</div><div class="score-label">Media geral</div></div>
         <div class="score-item"><div class="score-val">9</div><div class="score-label">Melhor area</div></div>
         <div class="score-item"><div class="score-val">5</div><div class="score-label">A desenvolver</div></div>
-        <div class="score-item"><div class="score-val">78%</div><div class="score-label">Clareza</div></div>
+        <div class="score-item"><div class="score-val">+0.3</div><div class="score-label">vs mes anterior</div></div>
       </div>
-    </div><!-- end card radar-card -->
+    </div>
 
     <!-- Valores pessoais -->
-    <div class="card fade-in" style="animation-delay:0.1s">
+    <div class="card fade-in" style="animation-delay:0.25s">
       <p class="card-label">Valores pessoais</p>
       <div class="tags-row">
         <span class="tag"><span class="tag-dot"></span>Honestidade</span>
@@ -164,10 +277,11 @@
         <span class="tag"><span class="tag-dot"></span>Familia primeiro</span>
         <span class="tag"><span class="tag-dot"></span>Impacto real</span>
       </div>
+      <p style="font-family:'Inter',sans-serif;font-size:11px;color:#AEAEB2;margin-top:12px;">Descobertos via conversa com Yumi em 15/Mar/2026</p>
     </div>
 
     <!-- Tipo cognitivo -->
-    <div class="card fade-in" style="animation-delay:0.15s">
+    <div class="card fade-in" style="animation-delay:0.3s">
       <p class="card-label">Tipo cognitivo</p>
       <div class="type-header">
         <span class="type-badge">INTJ-A</span>
@@ -194,31 +308,69 @@
           <div class="sw-item"><span class="sw-dot wk"></span>Sobrecarrega com projetos</div>
         </div>
       </div>
+      <p style="font-family:'Inter',sans-serif;font-size:11px;color:#AEAEB2;margin-top:14px;">Perfil construido via 12 conversas com Yumi (Jung + Eneagrama + PNL)</p>
+    </div>
+
+    <!-- Journey timeline -->
+    <div class="card fade-in" style="animation-delay:0.35s">
+      <p class="card-label">Sua jornada</p>
+      <div class="journey">
+        <div class="j-item active">
+          <div class="j-dot"></div>
+          <div class="j-date">29 Mar 2026</div>
+          <div class="j-text">Cerebro cruzou sono + produtividade <span>— descobriu que 6h de sono = -40% output</span></div>
+        </div>
+        <div class="j-item active">
+          <div class="j-dot"></div>
+          <div class="j-date">25 Mar 2026</div>
+          <div class="j-text">Area Casa ativada <span>— Akemi comecou a organizar contas e compras</span></div>
+        </div>
+        <div class="j-item active">
+          <div class="j-dot"></div>
+          <div class="j-date">20 Mar 2026</div>
+          <div class="j-text">Ikigai atingiu 78% de clareza <span>— faltam 3 perguntas sobre vocacao</span></div>
+        </div>
+        <div class="j-item active">
+          <div class="j-dot"></div>
+          <div class="j-date">15 Mar 2026</div>
+          <div class="j-text">Tipo cognitivo INTJ-A identificado <span>— via conversa com Yumi</span></div>
+        </div>
+        <div class="j-item active">
+          <div class="j-dot"></div>
+          <div class="j-date">10 Mar 2026</div>
+          <div class="j-text">Primeiras 4 areas ativadas <span>— Saude, Mente, Carreira, Financas</span></div>
+        </div>
+        <div class="j-item">
+          <div class="j-dot"></div>
+          <div class="j-date">08 Mar 2026</div>
+          <div class="j-text">Conta criada <span>— onboarding completo com Yumi em 4 minutos</span></div>
+        </div>
+      </div>
     </div>
 
     <!-- Clareza -->
-    <div class="card fade-in" style="animation-delay:0.2s">
-      <p class="card-label">Clareza</p>
+    <div class="card fade-in" style="animation-delay:0.4s">
+      <p class="card-label">Clareza do seu espirito</p>
       <div class="clarity-row">
         <span class="clarity-pct">78%</span>
         <div class="clarity-bar-wrap">
           <div class="clarity-bar" style="width:78%"></div>
         </div>
       </div>
-      <p class="clarity-note">Yumi ainda tem 3 perguntas para refinar seu perfil. Continue a conversa para chegar a 100% de definicao.</p>
+      <p class="clarity-note">Yumi ainda tem 3 perguntas para refinar seu Ikigai. Continue a conversa para chegar a 100%.</p>
     </div>
 
-    <!-- CTA -->
-    <div class="card fade-in" style="animation-delay:0.25s">
-      <p class="card-label">Acoes</p>
+    <!-- CTA — IA-first -->
+    <div class="card fade-in" style="animation-delay:0.45s">
+      <p class="card-label">Continuar</p>
       <div class="cta-row">
-        <button class="btn-cta btn-cta-primary">
+        <button class="btn-cta btn-cta-primary" onclick="location.href='chat.html'">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
-          Continuar conversa com Yumi
+          Conversar com Yumi
         </button>
-        <button class="btn-cta btn-cta-secondary">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
-          Editar manualmente
+        <button class="btn-cta btn-cta-secondary" onclick="location.href='psychology.html'">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a7 7 0 017 7c0 3.5-2 5.5-3.5 7S12 19 12 22c0-3-2-4.5-3.5-6S5 12.5 5 9a7 7 0 017-7z"/><circle cx="12" cy="9" r="2"/></svg>
+          Ver perfil psicologico
         </button>
       </div>
     </div>
