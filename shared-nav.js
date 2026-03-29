@@ -193,7 +193,6 @@
     <div class="ka" id="ktAI">
       <div class="ka-head">
         <div class="ka-head-info">
-          <div class="ka-avatar-img"><svg width="20" height="20" viewBox="0 0 40 40" fill="none"><circle cx="20" cy="20" r="19" stroke="#D70030" stroke-width="1"/><circle cx="20" cy="15" r="6" fill="#D70030" opacity="0.15"/><path d="M20 10v-4M16 12l-2-3M24 12l2-3" stroke="#D70030" stroke-width="1.5" stroke-linecap="round"/><path d="M12 32c0-5 3.5-9 8-9s8 4 8 9" stroke="#D70030" stroke-width="1.5"/><circle cx="17" cy="16" r="1" fill="#D70030"/><circle cx="23" cy="16" r="1" fill="#D70030"/></svg></div>
           <div class="ka-dot"></div>
           <span>Hana — Assistente</span>
         </div>
