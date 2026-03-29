@@ -287,24 +287,56 @@
     </aside>
     <div class="ks-overlay" id="ksOverlay" onclick="toggleSidebar()"></div>
 
-    <!-- AI Chat Panel (lateral direita) -->
-    <div class="ka" id="ktAI">
-      <div class="ka-head">
-        <div class="ka-head-info">
-          <div class="ka-dot"></div>
-          <span>${isPF ? 'Yumi — Sua Mentora' : 'Akira — CEO Digital'}</span>
+    <!-- CHAT DO AGENTE (lateral direita, escuro, sempre visível) -->
+    <div class="kc" id="ktChat">
+      <div class="kc-head">
+        <div class="kc-agent">
+          <div class="kc-avatar">${isPF ? 'Y' : 'A'}</div>
+          <div>
+            <div class="kc-name">${isPF ? 'Yumi — Sua Mentora' : 'Akira — CEO Digital'}</div>
+            <div class="kc-status">Online</div>
+          </div>
         </div>
-        <button class="ka-close" onclick="toggleAI()">${svg('M6 18L18 6M6 6l12 12', 14)}</button>
       </div>
-      <div class="ka-msgs" id="kaMsgs">
-        <div class="ka-msg ka-ai">${isPF
-          ? 'Oi! Sou a Yumi. Posso te ajudar com qualquer area da sua vida — saude, mente, carreira, financas... O que precisa agora?'
-          : 'Posso ajudar com qualquer coisa — "quanto lucrei essa semana", "quem esta atrasado", "ativa o modulo de SEO", "agenda reuniao com o time"...'
-        }</div>
+      <div class="kc-msgs" id="kcMsgs">
+        <div class="kc-msg kc-agent-msg">
+          <div class="kc-bubble">${isPF
+            ? 'Oi! Sou a Yumi. Posso te ajudar com qualquer area da sua vida — saude, mente, carreira, financas... O que precisa agora?'
+            : 'Bom dia! Posso ajudar com qualquer coisa — "quanto lucrei essa semana", "quem esta atrasado", "ativa o modulo de SEO", "agenda reuniao com o time"...'
+          }</div>
+          <div class="kc-time">agora</div>
+        </div>
+        <div class="kc-chips">
+          ${isPF
+            ? '<button class="kc-chip" onclick="kcQuick(this)">Como dormi?</button><button class="kc-chip" onclick="kcQuick(this)">Metas da semana</button><button class="kc-chip" onclick="kcQuick(this)">Resumo do dia</button>'
+            : '<button class="kc-chip" onclick="kcQuick(this)">Quanto lucrei?</button><button class="kc-chip" onclick="kcQuick(this)">Quem esta atrasado?</button><button class="kc-chip" onclick="kcQuick(this)">Resumo do dia</button>'
+          }
+        </div>
       </div>
-      <div class="ka-input" id="kaInput">
-        <input type="text" placeholder="${isPF ? 'Fale com Yumi...' : 'Fale com Akira...'}" onkeydown="if(event.key==='Enter')sendKaMsg()">
-        <button onclick="sendKaMsg()">${svg('M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z', 16)}</button>
+      <div class="kc-input-area">
+        <div class="kc-input-wrap">
+          <textarea class="kc-input" id="kcInput" placeholder="${isPF ? 'Fale com Yumi...' : 'Fale com Akira...'}" rows="1" onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();kcSend()}" oninput="this.style.height='auto';this.style.height=Math.min(this.scrollHeight,120)+'px'"></textarea>
+          <button class="kc-send" onclick="kcSend()">${svg('M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z', 16)}</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- MODAL DE SUPORTE (branco, overlay escuro, só abre no click) -->
+    <div class="ks-support-overlay" id="ksSupportOverlay" onclick="closeSupportModal()"></div>
+    <div class="ks-support" id="ksSupportModal">
+      <div class="ks-support-head">
+        <div style="display:flex;align-items:center;gap:10px;">
+          <div style="width:8px;height:8px;border-radius:50%;background:#30D158;"></div>
+          <span style="font-family:'Satoshi',sans-serif;font-size:15px;font-weight:600;color:#1D1D1F;">Hana — Suporte</span>
+        </div>
+        <button onclick="closeSupportModal()" style="width:32px;height:32px;border-radius:50%;background:rgba(0,0,0,0.04);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;color:#86868B;">${svg('M6 18L18 6M6 6l12 12', 14)}</button>
+      </div>
+      <div class="ks-support-msgs" id="ksSupportMsgs">
+        <div style="padding:12px 16px;background:#F5F5F7;border-radius:16px;border-bottom-left-radius:4px;font-family:'Satoshi',sans-serif;font-size:14px;line-height:1.6;color:#1D1D1F;max-width:85%;">Oi! Sou a Hana, sua assistente de suporte. Em que posso te ajudar?</div>
+      </div>
+      <div class="ks-support-input">
+        <input type="text" id="ksSupportInput" placeholder="Descreva o que precisa..." onkeydown="if(event.key==='Enter')sendSupport()">
+        <button onclick="sendSupport()">${svg('M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z', 16)}</button>
       </div>
     </div>`;
   }
@@ -417,27 +449,48 @@
     .ks-foot-link:hover { color: #6E6E73; background: rgba(0,0,0,0.02); }
     .ks-foot-link svg { flex-shrink: 0; }
 
-    /* AI Quick Chat */
-    .ka { position: fixed; top: 52px; right: 0; width: 380px; height: calc(100vh - 52px); background: #FAFAFA; border-left: 1px solid rgba(0,0,0,0.06); box-shadow: -4px 0 24px rgba(0,0,0,0.06); z-index: 190; display: flex; flex-direction: column; overflow: hidden; transform: translateX(100%); transition: transform 0.3s cubic-bezier(0.25,0.1,0.25,1); pointer-events: none; }
-    .ka.open { transform: translateX(0); pointer-events: auto; }
-    body.ka-open::before { content: ''; position: fixed; inset: 0; background: rgba(0,0,0,0.3); backdrop-filter: blur(2px); z-index: 185; transition: opacity 0.3s; }
-    .ka.open { display: flex; animation: kaUp 0.25s cubic-bezier(0.4,0,0.2,1); }
-    @keyframes kaUp { from { opacity: 0; transform: translateY(12px) scale(0.97); } to { opacity: 1; transform: translateY(0) scale(1); } }
-    .ka-head { padding: 16px 20px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid rgba(0,0,0,0.06); background: #FFF; }
-    .ka-head-info { display: flex; align-items: center; gap: 8px; font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 500; color: #1D1D1F; }
-    .ka-avatar-img { width: 28px; height: 28px; border-radius: 50%; overflow: hidden; display: flex; align-items: center; justify-content: center; background: rgba(215,0,48,0.04); flex-shrink: 0; }
-    .ka-dot { width: 7px; height: 7px; border-radius: 50%; background: #30D158; box-shadow: 0 0 6px rgba(48,209,88,0.4); }
-    .ka-close { width: 28px; height: 28px; border-radius: 50%; background: rgba(0,0,0,0.04); border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; color: #86868B; }
-    .ka-msgs { flex: 1; overflow-y: auto; padding: 20px; }
-    .ka-msg { font-family: 'Satoshi', sans-serif; font-size: 14px; line-height: 1.6; padding: 10px 14px; border-radius: 16px; margin-bottom: 10px; max-width: 90%; }
-    .ka-ai { background: #F5F5F7; color: #1D1D1F; border-bottom-left-radius: 4px; }
-    .ka-user { background: #1D1D1F; color: #F5F5F7; border-bottom-right-radius: 4px; margin-left: auto; }
-    .ka-input { padding: 12px 14px; border-top: 0.5px solid rgba(0,0,0,0.04); display: flex; gap: 8px; }
-    .ka-input input { flex: 1; padding: 10px 14px; border-radius: 12px; border: 1px solid rgba(0,0,0,0.06); background: #F5F5F7; font-family: 'Satoshi', sans-serif; font-size: 14px; color: #1D1D1F; outline: none; }
-    .ka-input input:focus { border-color: rgba(215,0,48,0.3); }
-    .ka-input input::placeholder { color: #AEAEB2; }
-    .ka-input button { width: 36px; height: 36px; border-radius: 10px; background: #D70030; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; color: #FFF; flex-shrink: 0; }
-    .ka-input button:hover { background: #B5002A; }
+    /* CHAT DO AGENTE — Panel escuro lateral direita (estilo builder) */
+    .kc { position: fixed; top: 52px; right: 0; width: 380px; height: calc(100vh - 52px); background: #0A0A0A; border-left: 0.5px solid rgba(255,255,255,0.06); z-index: 190; display: flex; flex-direction: column; overflow: hidden; }
+    body.kc-open { margin-right: 380px; transition: margin-right 0.3s ease; }
+    .kc-head { padding: 18px 20px; border-bottom: 0.5px solid rgba(255,255,255,0.06); }
+    .kc-agent { display: flex; align-items: center; gap: 12px; }
+    .kc-avatar { width: 36px; height: 36px; border-radius: 50%; background: rgba(215,0,48,0.15); display: flex; align-items: center; justify-content: center; font-family: 'Zen Dots', cursive; font-size: 12px; color: #D70030; border: 1.5px solid rgba(215,0,48,0.15); flex-shrink: 0; }
+    .kc-name { font-family: 'Satoshi', sans-serif; font-size: 14px; font-weight: 600; color: #E5E5EA; }
+    .kc-status { font-family: 'Inter', sans-serif; font-size: 11px; color: #30D158; display: flex; align-items: center; gap: 4px; }
+    .kc-status::before { content: ''; width: 5px; height: 5px; border-radius: 50%; background: #30D158; }
+    .kc-msgs { flex: 1; overflow-y: auto; padding: 20px; }
+    .kc-msg { margin-bottom: 16px; max-width: 90%; }
+    .kc-agent-msg { margin-right: auto; }
+    .kc-user-msg { margin-left: auto; }
+    .kc-bubble { padding: 12px 16px; border-radius: 18px; font-family: 'Satoshi', sans-serif; font-size: 14px; line-height: 1.6; }
+    .kc-agent-msg .kc-bubble { background: rgba(255,255,255,0.04); backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,0.06); color: #E5E5EA; border-bottom-left-radius: 4px; }
+    .kc-user-msg .kc-bubble { background: rgba(215,0,48,0.12); border: 1px solid rgba(215,0,48,0.18); color: #F5F5F7; border-bottom-right-radius: 4px; }
+    .kc-time { font-family: 'Inter', sans-serif; font-size: 10px; color: rgba(255,255,255,0.35); margin-top: 4px; padding: 0 4px; }
+    .kc-user-msg .kc-time { text-align: right; }
+    .kc-chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; padding: 0 4px; }
+    .kc-chip { font-family: 'Inter', sans-serif; padding: 6px 14px; border-radius: 980px; font-size: 12px; color: rgba(255,255,255,0.4); background: rgba(255,255,255,0.03); border: 0.5px solid rgba(255,255,255,0.1); cursor: pointer; transition: all 0.15s; }
+    .kc-chip:hover { background: rgba(215,0,48,0.12); color: #F5F5F7; border-color: rgba(215,0,48,0.25); }
+    .kc-input-area { padding: 16px 20px; border-top: 0.5px solid rgba(255,255,255,0.06); }
+    .kc-input-wrap { display: flex; gap: 8px; align-items: flex-end; }
+    .kc-input { flex: 1; padding: 12px 16px; background: #111; border: 1px solid rgba(255,255,255,0.08); border-radius: 14px; font-family: 'Satoshi', sans-serif; font-size: 14px; color: #E5E5EA; outline: none; resize: none; min-height: 44px; max-height: 120px; }
+    .kc-input:focus { border-color: rgba(215,0,48,0.4); }
+    .kc-input::placeholder { color: rgba(255,255,255,0.25); }
+    .kc-send { width: 44px; height: 44px; border-radius: 14px; background: #D70030; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; color: #F5F5F7; flex-shrink: 0; }
+    .kc-send:hover { background: #B5002A; }
+
+    /* MODAL DE SUPORTE — Branco, overlay escurecido */
+    .ks-support-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.6); backdrop-filter: blur(4px); z-index: 500; display: none; }
+    .ks-support-overlay.open { display: block; }
+    .ks-support { position: fixed; top: 50%; left: 50%; transform: translate(-50%,-50%); width: 440px; max-height: 600px; background: #FFF; border-radius: 24px; box-shadow: 0 24px 80px rgba(0,0,0,0.2); z-index: 501; display: none; flex-direction: column; overflow: hidden; }
+    .ks-support.open { display: flex; }
+    .ks-support-head { padding: 18px 20px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid rgba(0,0,0,0.06); }
+    .ks-support-msgs { flex: 1; overflow-y: auto; padding: 20px; min-height: 200px; max-height: 380px; }
+    .ks-support-input { padding: 14px 18px; border-top: 1px solid rgba(0,0,0,0.06); display: flex; gap: 8px; }
+    .ks-support-input input { flex: 1; padding: 12px 16px; border-radius: 14px; border: 1px solid rgba(0,0,0,0.08); background: #F5F5F7; font-family: 'Satoshi', sans-serif; font-size: 14px; color: #1D1D1F; outline: none; }
+    .ks-support-input input:focus { border-color: rgba(215,0,48,0.3); }
+    .ks-support-input input::placeholder { color: #AEAEB2; }
+    .ks-support-input button { width: 40px; height: 40px; border-radius: 12px; background: #1D1D1F; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; color: #FFF; flex-shrink: 0; }
+    .ks-support-input button:hover { background: #000; }
 
     /* Micro-animations (Apple HIG Motion) */
     .kt-toggle:active { transform: scale(0.92); }
@@ -474,8 +527,9 @@
 
     @media (max-width: 640px) {
       .ks { width: 100%; }
-      .ka { width: 100%; }
-      body.ka-open { margin-right: 0; }
+      .kc { width: 100%; position: fixed; top: 52px; height: calc(100vh - 52px); display: none; }
+      .kc.kc-mobile-open { display: flex; }
+      body.kc-open { margin-right: 0; }
       .kt-ai-label { display: none; }
     }
   `;
@@ -497,7 +551,10 @@
   const isDashboardHome = currentFile === 'home.html' && path.includes('/dashboard/');
   const isDesktop = window.innerWidth > 768;
   let sidebarOpen = isDashboardHome && isDesktop;
-  let aiOpen = false;
+  // Chat do agente sempre aberto no desktop
+  if (isDesktop) {
+    document.body.classList.add('kc-open');
+  }
 
   window.toggleSidebar = function() {
     sidebarOpen = !sidebarOpen;
@@ -508,7 +565,6 @@
   window.toggleSection = function(id) {
     const section = document.querySelector(`.ks-section:has(#ks-${id})`);
     if (!section) {
-      // Fallback for browsers without :has
       document.querySelectorAll('.ks-section').forEach(s => {
         if (s.querySelector('#ks-' + id)) s.classList.toggle('ks-open');
       });
@@ -517,37 +573,54 @@
     section.classList.toggle('ks-open');
   };
 
+  // Botão suporte abre modal branco
   window.toggleAI = function() {
-    aiOpen = !aiOpen;
-    document.getElementById('ktAI').classList.toggle('open', aiOpen);
-    document.body.classList.toggle('ka-open', aiOpen);
-    if (aiOpen) {
-      setTimeout(function() { document.querySelector('#kaInput input').focus(); }, 350);
-    }
+    document.getElementById('ksSupportOverlay').classList.toggle('open');
+    document.getElementById('ksSupportModal').classList.toggle('open');
   };
 
-  // Close chat on backdrop click
-  document.addEventListener('click', function(e) {
-    if (aiOpen && !e.target.closest('.ka') && !e.target.closest('.kt-ai-btn') && document.body.classList.contains('ka-open')) {
-      toggleAI();
-    }
-  });
+  window.closeSupportModal = function() {
+    document.getElementById('ksSupportOverlay').classList.remove('open');
+    document.getElementById('ksSupportModal').classList.remove('open');
+  };
 
-  window.sendKaMsg = function() {
-    const input = document.querySelector('#kaInput input');
+  window.sendSupport = function() {
+    const input = document.getElementById('ksSupportInput');
     const val = input.value.trim();
     if (!val) return;
-    const msgs = document.getElementById('kaMsgs');
-    msgs.innerHTML += `<div class="ka-msg ka-user">${val}</div>`;
+    const msgs = document.getElementById('ksSupportMsgs');
+    msgs.innerHTML += '<div style="padding:10px 14px;background:#1D1D1F;color:#F5F5F7;border-radius:16px;border-bottom-right-radius:4px;margin-left:auto;max-width:85%;margin-bottom:10px;font-family:Satoshi,sans-serif;font-size:14px;">' + val + '</div>';
     input.value = '';
     msgs.scrollTop = msgs.scrollHeight;
-    setTimeout(() => {
+    setTimeout(function() {
+      msgs.innerHTML += '<div style="padding:12px 16px;background:#F5F5F7;border-radius:16px;border-bottom-left-radius:4px;max-width:85%;margin-bottom:10px;font-family:Satoshi,sans-serif;font-size:14px;line-height:1.6;color:#1D1D1F;">Entendi! Vou verificar isso pra voce. Um momento...</div>';
+      msgs.scrollTop = msgs.scrollHeight;
+    }, 800);
+  };
+
+  // Chat do agente — enviar mensagem
+  window.kcSend = function() {
+    const input = document.getElementById('kcInput');
+    const val = input.value.trim();
+    if (!val) return;
+    const msgs = document.getElementById('kcMsgs');
+    msgs.innerHTML += '<div class="kc-msg kc-user-msg"><div class="kc-bubble">' + val + '</div><div class="kc-time">' + new Date().toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'}) + '</div></div>';
+    input.value = '';
+    input.style.height = 'auto';
+    msgs.scrollTop = msgs.scrollHeight;
+    setTimeout(function() {
       const responses = isPF
         ? ['Entendi! Vou falar com seus mentores sobre isso.', 'Ja estou analisando seus dados. Um momento...', 'Vou ajustar sua rotina com base nisso.']
         : ['Entendi! Vou verificar isso pra voce agora.', 'Ja estou processando. Um momento...', 'Akira consultou a equipe. Aqui esta o resultado...'];
-      msgs.innerHTML += `<div class="ka-msg ka-ai">${responses[Math.floor(Math.random()*responses.length)]}</div>`;
+      msgs.innerHTML += '<div class="kc-msg kc-agent-msg"><div class="kc-bubble">' + responses[Math.floor(Math.random()*responses.length)] + '</div><div class="kc-time">' + new Date().toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'}) + '</div></div>';
       msgs.scrollTop = msgs.scrollHeight;
     }, 800);
+  };
+
+  // Chat do agente — quick chips
+  window.kcQuick = function(btn) {
+    document.getElementById('kcInput').value = btn.textContent;
+    kcSend();
   };
 
   window.toggleOrgSwitcher = function() {
@@ -659,7 +732,7 @@
   document.addEventListener('keydown', e => {
     if (e.key === 'Escape') {
       if (profileOpen) { toggleProfileDrop(); return; }
-      if (aiOpen) toggleAI();
+      closeSupportModal();
       if (sidebarOpen) toggleSidebar();
     }
   });
