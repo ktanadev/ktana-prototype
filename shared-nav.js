@@ -287,8 +287,15 @@
     </aside>
     <div class="ks-overlay" id="ksOverlay" onclick="toggleSidebar()"></div>
 
-    <!-- CHAT DO AGENTE (lateral direita, escuro, sempre visível) -->
+    <!-- CHAT DO AGENTE (lateral direita, escuro, estilo dashboard) -->
     <div class="kc" id="ktChat">
+      <!-- Ambient Glow -->
+      <div class="kc-glow">
+        <div class="kc-glow-orb"></div>
+        <div class="kc-glow-orb"></div>
+        <div class="kc-glow-orb"></div>
+      </div>
+      <!-- Header -->
       <div class="kc-head">
         <div class="kc-agent">
           <div class="kc-avatar">${isPF ? 'Y' : 'A'}</div>
@@ -298,14 +305,26 @@
           </div>
         </div>
       </div>
+      <!-- Messages -->
       <div class="kc-msgs" id="kcMsgs">
         <div class="kc-msg kc-agent-msg">
+          <div class="kc-sender">${isPF ? 'Yumi' : 'Akira — CEO'}</div>
           <div class="kc-bubble">${isPF
             ? 'Oi! Sou a Yumi. Posso te ajudar com qualquer area da sua vida — saude, mente, carreira, financas... O que precisa agora?'
             : 'Bom dia! Posso ajudar com qualquer coisa — "quanto lucrei essa semana", "quem esta atrasado", "ativa o modulo de SEO", "agenda reuniao com o time"...'
           }</div>
           <div class="kc-time">agora</div>
         </div>
+        <!-- Typing indicator -->
+        <div class="kc-typing" id="kcTyping">
+          <div class="kc-typing-dots">
+            <div class="kc-typing-dot"></div>
+            <div class="kc-typing-dot"></div>
+            <div class="kc-typing-dot"></div>
+          </div>
+          <span class="kc-typing-text">${isPF ? 'Yumi esta pensando...' : 'Akira esta pensando...'}</span>
+        </div>
+        <!-- Chips -->
         <div class="kc-chips">
           ${isPF
             ? '<button class="kc-chip" onclick="kcQuick(this)">Como dormi?</button><button class="kc-chip" onclick="kcQuick(this)">Metas da semana</button><button class="kc-chip" onclick="kcQuick(this)">Resumo do dia</button>'
@@ -313,10 +332,19 @@
           }
         </div>
       </div>
+      <!-- Input com glow border -->
       <div class="kc-input-area">
-        <div class="kc-input-wrap">
-          <textarea class="kc-input" id="kcInput" placeholder="${isPF ? 'Fale com Yumi...' : 'Fale com Akira...'}" rows="1" onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();kcSend()}" oninput="this.style.height='auto';this.style.height=Math.min(this.scrollHeight,120)+'px'"></textarea>
-          <button class="kc-send" onclick="kcSend()">${svg('M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z', 16)}</button>
+        <div class="kc-input-outer">
+          <div class="kc-input-glow"></div>
+          <div class="kc-input-border-spin"></div>
+          <div class="kc-input-card">
+            <textarea class="kc-input" id="kcInput" placeholder="${isPF ? 'Fale com Yumi...' : 'Fale com Akira...'}" rows="1" onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();kcSend()}" oninput="this.style.height='auto';this.style.height=Math.min(this.scrollHeight,120)+'px'"></textarea>
+            <div class="kc-input-footer">
+              <button class="kc-add-btn" title="Anexar">+</button>
+              <span class="kc-agent-tag">${isPF ? 'Yumi' : 'Akira'}</span>
+              <button class="kc-send" onclick="kcSend()">${svg('M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z', 16)}</button>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -449,34 +477,75 @@
     .ks-foot-link:hover { color: #6E6E73; background: rgba(0,0,0,0.02); }
     .ks-foot-link svg { flex-shrink: 0; }
 
-    /* CHAT DO AGENTE — Panel escuro lateral direita (estilo builder) */
+    /* CHAT DO AGENTE — Panel escuro lateral direita (estilo dashboard) */
     .kc { position: fixed; top: 52px; right: 0; width: 380px; height: calc(100vh - 52px); background: #0A0A0A; border-left: 0.5px solid rgba(255,255,255,0.06); z-index: 190; display: flex; flex-direction: column; overflow: hidden; }
     body.kc-open { margin-right: 380px; transition: margin-right 0.3s ease; }
-    .kc-head { padding: 18px 20px; border-bottom: 0.5px solid rgba(255,255,255,0.06); }
+
+    /* Ambient Glow */
+    .kc-glow { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; }
+    .kc-glow-orb { position: absolute; border-radius: 50%; pointer-events: none; filter: blur(60px); }
+    .kc-glow-orb:nth-child(1) { width: 55%; height: 45%; top: 0; left: -10%; background: radial-gradient(ellipse at center, rgba(215,0,48,0.18) 0%, transparent 70%); animation: kcOrb1 10s ease-in-out infinite; }
+    .kc-glow-orb:nth-child(2) { width: 45%; height: 40%; top: 20%; right: -10%; background: radial-gradient(ellipse at center, rgba(160,15,5,0.14) 0%, transparent 70%); animation: kcOrb2 14s ease-in-out infinite; }
+    .kc-glow-orb:nth-child(3) { width: 40%; height: 45%; bottom: -5%; left: 20%; background: radial-gradient(ellipse at center, rgba(220,80,25,0.12) 0%, transparent 70%); animation: kcOrb3 12s ease-in-out infinite; }
+    @keyframes kcOrb1 { 0%,100% { transform: translate(0,0); } 33% { transform: translate(8%,6%); } 66% { transform: translate(-4%,-4%); } }
+    @keyframes kcOrb2 { 0%,100% { transform: translate(0,0); } 50% { transform: translate(-10%,5%); } }
+    @keyframes kcOrb3 { 0%,100% { transform: translate(0,0); } 33% { transform: translate(6%,-6%); } 66% { transform: translate(-5%,3%); } }
+
+    /* Header */
+    .kc-head { padding: 18px 20px; border-bottom: 0.5px solid rgba(255,255,255,0.06); position: relative; z-index: 1; }
     .kc-agent { display: flex; align-items: center; gap: 12px; }
     .kc-avatar { width: 36px; height: 36px; border-radius: 50%; background: rgba(215,0,48,0.15); display: flex; align-items: center; justify-content: center; font-family: 'Zen Dots', cursive; font-size: 12px; color: #D70030; border: 1.5px solid rgba(215,0,48,0.15); flex-shrink: 0; }
     .kc-name { font-family: 'Satoshi', sans-serif; font-size: 14px; font-weight: 600; color: #E5E5EA; }
     .kc-status { font-family: 'Inter', sans-serif; font-size: 11px; color: #30D158; display: flex; align-items: center; gap: 4px; }
     .kc-status::before { content: ''; width: 5px; height: 5px; border-radius: 50%; background: #30D158; }
-    .kc-msgs { flex: 1; overflow-y: auto; padding: 20px; }
-    .kc-msg { margin-bottom: 16px; max-width: 90%; }
+
+    /* Messages */
+    .kc-msgs { flex: 1; overflow-y: auto; padding: 20px; position: relative; z-index: 1; }
+    .kc-msg { margin-bottom: 16px; max-width: 90%; animation: kcFade 0.3s ease; }
+    @keyframes kcFade { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
     .kc-agent-msg { margin-right: auto; }
     .kc-user-msg { margin-left: auto; }
+    .kc-sender { font-family: 'Inter', sans-serif; font-size: 11px; color: #D70030; font-weight: 500; margin-bottom: 4px; }
     .kc-bubble { padding: 12px 16px; border-radius: 18px; font-family: 'Satoshi', sans-serif; font-size: 14px; line-height: 1.6; }
     .kc-agent-msg .kc-bubble { background: rgba(255,255,255,0.04); backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,0.06); color: #E5E5EA; border-bottom-left-radius: 4px; }
     .kc-user-msg .kc-bubble { background: rgba(215,0,48,0.12); border: 1px solid rgba(215,0,48,0.18); color: #F5F5F7; border-bottom-right-radius: 4px; }
     .kc-time { font-family: 'Inter', sans-serif; font-size: 10px; color: rgba(255,255,255,0.35); margin-top: 4px; padding: 0 4px; }
     .kc-user-msg .kc-time { text-align: right; }
+
+    /* Typing indicator */
+    .kc-typing { display: none; align-items: center; gap: 8px; padding: 6px 0; margin-bottom: 8px; }
+    .kc-typing.active { display: flex; }
+    .kc-typing-dots { display: flex; gap: 4px; }
+    .kc-typing-dot { width: 5px; height: 5px; border-radius: 50%; background: rgba(215,0,48,0.4); animation: kcBounce 1.4s ease infinite; }
+    .kc-typing-dot:nth-child(2) { animation-delay: 0.2s; }
+    .kc-typing-dot:nth-child(3) { animation-delay: 0.4s; }
+    @keyframes kcBounce { 0%,60%,100% { transform: translateY(0); } 30% { transform: translateY(-3px); } }
+    .kc-typing-text { font-family: 'Inter', sans-serif; font-size: 11px; color: rgba(255,255,255,0.35); }
+
+    /* Chips */
     .kc-chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; padding: 0 4px; }
     .kc-chip { font-family: 'Inter', sans-serif; padding: 6px 14px; border-radius: 980px; font-size: 12px; color: rgba(255,255,255,0.4); background: rgba(255,255,255,0.03); border: 0.5px solid rgba(255,255,255,0.1); cursor: pointer; transition: all 0.15s; }
     .kc-chip:hover { background: rgba(215,0,48,0.12); color: #F5F5F7; border-color: rgba(215,0,48,0.25); }
-    .kc-input-area { padding: 16px 20px; border-top: 0.5px solid rgba(255,255,255,0.06); }
-    .kc-input-wrap { display: flex; gap: 8px; align-items: flex-end; }
-    .kc-input { flex: 1; padding: 12px 16px; background: #111; border: 1px solid rgba(255,255,255,0.08); border-radius: 14px; font-family: 'Satoshi', sans-serif; font-size: 14px; color: #E5E5EA; outline: none; resize: none; min-height: 44px; max-height: 120px; }
-    .kc-input:focus { border-color: rgba(215,0,48,0.4); }
+
+    /* Input area com glow + rotating border */
+    .kc-input-area { padding: 16px 20px; position: relative; z-index: 1; }
+    .kc-input-outer { position: relative; border-radius: 14px; }
+    .kc-input-glow { position: absolute; top: 50%; left: 50%; width: 110%; height: 180%; transform: translate(-50%,-50%); pointer-events: none; z-index: 0; filter: blur(30px); opacity: 0.65; background: radial-gradient(ellipse 50% 50% at 30% 40%, rgba(215,0,48,0.45) 0%, transparent 70%), radial-gradient(ellipse 45% 50% at 70% 50%, rgba(160,15,5,0.35) 0%, transparent 65%), radial-gradient(ellipse 40% 45% at 50% 55%, rgba(220,80,25,0.25) 0%, transparent 60%); animation: kcGlow 8s ease-in-out infinite; }
+    @keyframes kcGlow { 0% { transform: translate(-50%,-50%) rotate(0deg); } 25% { transform: translate(-45%,-53%) rotate(2deg); } 50% { transform: translate(-55%,-47%) rotate(-1deg); } 75% { transform: translate(-48%,-52%) rotate(1.5deg); } 100% { transform: translate(-50%,-50%) rotate(0deg); } }
+    .kc-input-border-spin { position: absolute; inset: -1px; border-radius: 15px; z-index: 1; overflow: hidden; pointer-events: none; }
+    .kc-input-border-spin::before { content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: conic-gradient(transparent 30%, rgba(140,10,5,0.6) 38%, rgba(215,0,48,0.8) 42%, rgba(220,80,25,0.5) 48%, transparent 55%, transparent 80%, rgba(180,30,8,0.3) 87%, rgba(215,0,48,0.5) 92%, transparent 97%); animation: kcSpin 5s linear infinite; }
+    @keyframes kcSpin { to { transform: rotate(360deg); } }
+    .kc-input-border-spin::after { content: ''; position: absolute; inset: 1px; border-radius: 14px; background: #111; }
+    .kc-input-card { background: #111; border-radius: 14px; position: relative; z-index: 2; display: flex; flex-direction: column; }
+    .kc-input { font-family: 'Satoshi', sans-serif; width: 100%; padding: 14px 18px 48px; border-radius: 14px; border: none; background: transparent; font-size: 15px; color: #E5E5EA; outline: none; min-height: 56px; max-height: 120px; resize: none; box-sizing: border-box; }
     .kc-input::placeholder { color: rgba(255,255,255,0.25); }
-    .kc-send { width: 44px; height: 44px; border-radius: 14px; background: #D70030; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; color: #F5F5F7; flex-shrink: 0; }
-    .kc-send:hover { background: #B5002A; }
+    .kc-input-footer { position: absolute; bottom: 0; left: 0; right: 0; padding: 8px 14px; display: flex; align-items: center; gap: 8px; border-top: 1px solid rgba(255,255,255,0.04); }
+    .kc-add-btn { width: 30px; height: 30px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.1); background: transparent; color: rgba(255,255,255,0.4); display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 16px; transition: all 0.15s; }
+    .kc-add-btn:hover { background: rgba(255,255,255,0.06); color: rgba(255,255,255,0.7); }
+    .kc-agent-tag { font-family: 'Inter', sans-serif; font-size: 12px; color: rgba(255,255,255,0.5); background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; padding: 5px 10px; }
+    .kc-send { margin-left: auto; width: 34px; height: 34px; border-radius: 10px; background: #D70030; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: transform 0.1s, background 0.15s; flex-shrink: 0; color: #F5F5F7; }
+    .kc-send:hover { background: #E5003A; }
+    .kc-send:active { transform: scale(0.92); }
 
     /* MODAL DE SUPORTE — Branco, overlay escurecido */
     .ks-support-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.6); backdrop-filter: blur(4px); z-index: 500; display: none; }
@@ -551,8 +620,12 @@
   const isDashboardHome = currentFile === 'home.html' && path.includes('/dashboard/');
   const isDesktop = window.innerWidth > 768;
   let sidebarOpen = isDashboardHome && isDesktop;
-  // Chat do agente sempre aberto no desktop
-  if (isDesktop) {
+  // Chat do agente: skip em telas que já têm chat próprio (builder, dashboard home)
+  const skipChat = path.includes('/builder') || (currentFile === 'home.html' && path.includes('/dashboard/'));
+  if (skipChat) {
+    var chatEl = document.getElementById('ktChat');
+    if (chatEl) chatEl.style.display = 'none';
+  } else if (isDesktop) {
     document.body.classList.add('kc-open');
   }
 
@@ -608,13 +681,19 @@
     input.value = '';
     input.style.height = 'auto';
     msgs.scrollTop = msgs.scrollHeight;
+    // Show typing
+    var typing = document.getElementById('kcTyping');
+    if (typing) typing.classList.add('active');
+    msgs.scrollTop = msgs.scrollHeight;
     setTimeout(function() {
+      if (typing) typing.classList.remove('active');
       const responses = isPF
         ? ['Entendi! Vou falar com seus mentores sobre isso.', 'Ja estou analisando seus dados. Um momento...', 'Vou ajustar sua rotina com base nisso.']
         : ['Entendi! Vou verificar isso pra voce agora.', 'Ja estou processando. Um momento...', 'Akira consultou a equipe. Aqui esta o resultado...'];
-      msgs.innerHTML += '<div class="kc-msg kc-agent-msg"><div class="kc-bubble">' + responses[Math.floor(Math.random()*responses.length)] + '</div><div class="kc-time">' + new Date().toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'}) + '</div></div>';
+      var agentName = isPF ? 'Yumi' : 'Akira — CEO';
+      msgs.innerHTML += '<div class="kc-msg kc-agent-msg"><div class="kc-sender">' + agentName + '</div><div class="kc-bubble">' + responses[Math.floor(Math.random()*responses.length)] + '</div><div class="kc-time">' + new Date().toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'}) + '</div></div>';
       msgs.scrollTop = msgs.scrollHeight;
-    }, 800);
+    }, 1200);
   };
 
   // Chat do agente — quick chips
