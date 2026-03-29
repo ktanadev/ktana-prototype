@@ -96,7 +96,7 @@
           ${svg('M4 6h16M4 12h16M4 18h16', 18)}
         </button>
         <div class="kt-org" onclick="toggleOrgSwitcher()">
-          <span class="kt-logo">KTANA</span>
+          <span class="kt-logo"><svg width="18" height="18" viewBox="0 0 32 32" fill="none" stroke="#D70030" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 28L24 4"/><circle cx="18" cy="14" r="2"/><path d="M6 26l4 0"/></svg> KTANA</span>
           <span class="kt-client-logo"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" stroke="#7FB1BD" stroke-width="1.5" stroke-linejoin="round"/><circle cx="12" cy="11" r="3" stroke="#7FB1BD" stroke-width="1" fill="#7FB1BD" fill-opacity="0.15"/></svg></span>
           <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" class="kt-org-chev"><path d="M6 9l6 6 6-6"/></svg>
         </div>
@@ -262,7 +262,7 @@
     .kt-org-chev { color: #AEAEB2; transition: transform 0.2s; }
     .kt-org.open .kt-org-chev { transform: rotate(180deg); }
 
-    .kt-org-drop { position: absolute; top: 44px; left: 20px; width: 280px; background: #FFF; border-radius: 16px; border: 1px solid rgba(0,0,0,0.06); box-shadow: 0 12px 48px rgba(0,0,0,0.12); z-index: 400; display: none; overflow: hidden; }
+    .kt-org-drop { position: absolute; top: calc(100% + 8px); left: 0; width: 280px; background: #FFF; border-radius: 16px; border: 1px solid rgba(0,0,0,0.06); box-shadow: 0 12px 48px rgba(0,0,0,0.12); z-index: 400; display: none; overflow: hidden; }
     .kt-org-drop.open { display: block; animation: kaUp 0.2s cubic-bezier(0.32,0.72,0,1); }
     .kt-org-head { font-family: 'Inter', sans-serif; font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; color: #AEAEB2; padding: 14px 16px 8px; }
     .kt-org-item { display: flex; align-items: center; gap: 12px; padding: 10px 16px; cursor: pointer; transition: background 0.12s; text-decoration: none; color: inherit; }
