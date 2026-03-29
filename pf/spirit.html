@@ -12,16 +12,19 @@
     h1 { font-family: 'Zen Dots', cursive; font-size: 22px; color: #1D1D1F; margin-bottom: 4px; }
     .subtitle { font-family: 'Satoshi', sans-serif; font-size: 14px; color: #86868B; margin-bottom: 32px; line-height: 1.5; }
 
-    /* Hero Radar */
-    .radar-hero { text-align: center; margin-bottom: 40px; padding: 40px 0 20px; }
-    .radar-hero h1 { font-size: 28px; margin-bottom: 8px; }
-    .radar-hero .subtitle { max-width: 400px; margin: 0 auto 32px; }
-    .radar-hero .radar-wrap { display: flex; justify-content: center; }
-    .radar-hero .radar-wrap svg { max-width: 520px; width: 100%; height: auto; }
-    .radar-hero .radar-score { display: flex; justify-content: center; gap: 24px; flex-wrap: wrap; margin-top: 20px; }
-    .radar-hero .score-item { text-align: center; }
-    .radar-hero .score-val { font-family: 'Zen Dots', cursive; font-size: 24px; color: #D70030; }
-    .radar-hero .score-label { font-family: 'Inter', sans-serif; font-size: 11px; color: #86868B; margin-top: 2px; }
+    /* Area header — same pattern as other areas */
+    .area-header { text-align: center; margin-bottom: 40px; }
+    .area-icon { width: 56px; height: 56px; border-radius: 16px; background: rgba(215,0,48,0.04); display: flex; align-items: center; justify-content: center; margin: 0 auto 16px; }
+    .area-header h1 { font-family: 'Zen Dots', cursive; font-size: 26px; color: #1D1D1F; margin-bottom: 6px; }
+    .area-header p { font-family: 'Satoshi', sans-serif; font-size: 14px; color: #86868B; line-height: 1.5; }
+
+    /* Radar inside card — proportional */
+    .radar-card .radar-wrap { display: flex; justify-content: center; }
+    .radar-card .radar-wrap svg { max-width: 340px; width: 100%; height: auto; }
+    .radar-card .radar-score { display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; margin-top: 16px; padding-top: 16px; border-top: 1px solid rgba(0,0,0,0.04); }
+    .score-item { text-align: center; }
+    .score-val { font-family: 'Zen Dots', cursive; font-size: 20px; color: #D70030; }
+    .score-label { font-family: 'Inter', sans-serif; font-size: 11px; color: #86868B; margin-top: 2px; }
 
     .card { background: #FFF; border-radius: 20px; border: 1px solid rgba(0,0,0,0.04); padding: 24px; margin-bottom: 12px; }
     .card-label { font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: #D70030; margin-bottom: 14px; }
@@ -73,10 +76,16 @@
 
   <main class="main">
 
-    <!-- Hero Radar — Grande e visual -->
-    <div class="radar-hero fade-in">
+    <!-- Header — same pattern as other areas -->
+    <div class="area-header fade-in">
+      <div class="area-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg></div>
       <h1>Seu Espirito</h1>
-      <p class="subtitle">Quem voce e na essencia. Definido pela sua conversa com Yumi.</p>
+      <p>Quem voce e na essencia. Definido pela sua conversa com Yumi.</p>
+    </div>
+
+    <!-- Mapa de Vida — Radar Chart -->
+    <div class="card radar-card fade-in" style="animation-delay:0.05s">
+      <p class="card-label">Mapa de Vida</p>
       <div class="radar-wrap">
         <svg viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
           <!-- Concentric octagon rings -->
@@ -143,7 +152,7 @@
         <div class="score-item"><div class="score-val">5</div><div class="score-label">A desenvolver</div></div>
         <div class="score-item"><div class="score-val">78%</div><div class="score-label">Clareza</div></div>
       </div>
-    </div>
+    </div><!-- end card radar-card -->
 
     <!-- Valores pessoais -->
     <div class="card fade-in" style="animation-delay:0.1s">
