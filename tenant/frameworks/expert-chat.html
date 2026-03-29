@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Especialista do Segmento — KTANA</title>
+  <link rel="stylesheet" href="../../shared.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Zen+Dots&display=swap" rel="stylesheet">
+  <style>
+    body { min-height: 100vh; display: flex; flex-direction: column; background: #F5F5F7; margin: 0; }
+    .header { position: sticky; top: 0; z-index: 10; background: rgba(245,245,247,0.8); backdrop-filter: blur(20px); border-bottom: 0.5px solid rgba(0,0,0,0.06); padding: 14px 24px; display: flex; align-items: center; gap: 14px; }
+    .header-back { font-family: 'Inter', sans-serif; font-size: 12px; color: #86868B; display: flex; align-items: center; gap: 4px; flex-shrink: 0; }
+    .header-back svg { width: 14px; height: 14px; }
+    .header-sep { width: 1px; height: 20px; background: rgba(0,0,0,0.06); }
+    .header-avatar { width: 36px; height: 36px; border-radius: 50%; background: rgba(215,0,48,0.08); display: flex; align-items: center; justify-content: center; font-family: 'Zen Dots', cursive; font-size: 12px; color: #D70030; border: 1.5px solid rgba(215,0,48,0.15); flex-shrink: 0; }
+    .header-info { flex: 1; }
+    .header-name { font-family: 'Satoshi', sans-serif; font-size: 14px; font-weight: 600; color: #1D1D1F; }
+    .header-role { font-family: 'Inter', sans-serif; font-size: 11px; color: #86868B; }
+    .header-status { display: flex; align-items: center; gap: 4px; font-family: 'Inter', sans-serif; font-size: 11px; color: #30D158; }
+    .header-status::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: #30D158; }
+    .header-actions { display: flex; gap: 6px; }
+    .header-btn { width: 32px; height: 32px; border-radius: 8px; background: rgba(0,0,0,0.03); border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; color: #86868B; }
+    .header-btn:hover { background: rgba(0,0,0,0.06); color: #1D1D1F; }
+
+    /* Context sidebar */
+    .layout { flex: 1; display: flex; overflow: hidden; }
+    .chat-area { flex: 1; display: flex; flex-direction: column; }
+    .context-panel { width: 280px; background: #FFF; border-left: 0.5px solid rgba(0,0,0,0.06); padding: 20px; overflow-y: auto; flex-shrink: 0; }
+    .ctx-title { font-family: 'Inter', sans-serif; font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; color: #D70030; margin-bottom: 10px; margin-top: 16px; }
+    .ctx-title:first-child { margin-top: 0; }
+    .ctx-item { font-family: 'Satoshi', sans-serif; font-size: 12px; color: #6E6E73; padding: 6px 0; border-bottom: 0.5px solid rgba(0,0,0,0.03); line-height: 1.5; }
+    .ctx-item strong { color: #1D1D1F; font-weight: 500; }
+    .ctx-tag { display: inline-block; font-family: 'Inter', sans-serif; font-size: 10px; padding: 2px 8px; border-radius: 4px; background: rgba(0,0,0,0.03); color: #86868B; margin: 2px 2px 2px 0; }
+
+    /* Chat */
+    .messages { flex: 1; overflow-y: auto; padding: 24px; max-width: 720px; width: 100%; margin: 0 auto; }
+    .msg { margin-bottom: 18px; max-width: 85%; }
+    .msg.ai { margin-right: auto; }
+    .msg.me { margin-left: auto; }
+    .bubble { padding: 14px 18px; border-radius: 20px; font-family: 'Satoshi', sans-serif; font-size: 15px; line-height: 1.65; }
+    .msg.ai .bubble { background: #FFF; border: 0.5px solid rgba(0,0,0,0.04); border-bottom-left-radius: 4px; color: #1D1D1F; }
+    .msg.me .bubble { background: #1D1D1F; color: #F5F5F7; border-bottom-right-radius: 4px; }
+    .bubble ul { margin: 8px 0; padding-left: 18px; }
+    .bubble li { margin-bottom: 4px; }
+    .bubble strong { font-weight: 600; }
+    .bubble em { color: #D70030; font-style: normal; font-weight: 600; }
+    .time { font-family: 'Inter', sans-serif; font-size: 10px; color: #AEAEB2; margin-top: 4px; padding: 0 4px; }
+    .msg.me .time { text-align: right; }
+    .suggestions { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+    .sug { font-family: 'Inter', sans-serif; padding: 7px 14px; border-radius: 980px; font-size: 12px; color: #1D1D1F; background: #FFF; border: 1px solid rgba(0,0,0,0.08); cursor: pointer; }
+    .sug:hover { border-color: #D70030; color: #D70030; }
+
+    /* Input */
+    .input-area { padding: 16px 24px 24px; border-top: 0.5px solid rgba(0,0,0,0.06); background: #F5F5F7; }
+    .input-wrap { display: flex; gap: 10px; max-width: 720px; margin: 0 auto; align-items: flex-end; }
+    .input-field { flex: 1; padding: 14px 18px; border-radius: 24px; border: 0.5px solid rgba(0,0,0,0.08); background: #FFF; font-family: 'Satoshi', sans-serif; font-size: 15px; color: #1D1D1F; outline: none; resize: none; min-height: 48px; max-height: 120px; }
+    .input-field:focus { border-color: rgba(215,0,48,0.3); }
+    .input-field::placeholder { color: #AEAEB2; }
+    .send-btn { width: 48px; height: 48px; border-radius: 50%; background: #1D1D1F; color: #F5F5F7; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .send-btn:hover { background: #D70030; }
+
+    .fade-in { animation: fadeIn 0.3s ease both; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+    @media (max-width: 768px) { .context-panel { display: none; } }
+  </style>
+</head>
+<body>
+
+  <div class="header">
+    <a href="index.html" class="header-back">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M15 18l-6-6 6-6"/></svg>
+      Frameworks
+    </a>
+    <div class="header-sep"></div>
+    <div class="header-avatar">T</div>
+    <div class="header-info">
+      <div class="header-name">Takeshi — Especialista em Software House</div>
+      <div class="header-role">Treinado com Basecamp, 37signals, Atlassian, Fog Creek, ThoughtWorks</div>
+    </div>
+    <div class="header-status">Online</div>
+    <div class="header-actions">
+      <button class="header-btn" title="Contexto">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
+      </button>
+      <button class="header-btn" title="Historico">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <div class="layout">
+    <div class="chat-area">
+      <div class="messages">
+
+        <div class="msg ai fade-in">
+          <div class="bubble">
+            Ola, Julio. Sou o Takeshi, especialista em gestao de <em>Software Houses e Fintechs</em>. Analisei seu negocio e tenho algumas observacoes iniciais:
+            <ul>
+              <li><strong>Porte atual:</strong> Pequena (4-15 pessoas equivalentes)</li>
+              <li><strong>Produtos:</strong> BaaS (CSB Bank) e CaaS (CSB Credit)</li>
+              <li><strong>Modelo:</strong> B2B, recorrencia, integracao API</li>
+              <li><strong>Segmento:</strong> Fintech infraestrutura (Banking-as-a-Service)</li>
+            </ul>
+            Me pergunte qualquer coisa sobre gestao, escala, pricing, produto ou operacao. Tenho referencias de como Basecamp, Stripe, Plaid e Pagar.me cresceram.
+          </div>
+          <div class="time">Takeshi</div>
+          <div class="suggestions">
+            <span class="sug">Como estruturar pricing SaaS?</span>
+            <span class="sug">Quando contratar vs automatizar?</span>
+            <span class="sug">OKR para fintech</span>
+            <span class="sug">Escalar de 5 pra 50 pessoas</span>
+          </div>
+        </div>
+
+        <div class="msg me fade-in">
+          <div class="bubble">Meu produto BaaS ta com churn de 8% ao mes. O que empresas como Stripe e Plaid fizeram quando tiveram churn alto no comeco?</div>
+          <div class="time" style="text-align:right;">Voce</div>
+        </div>
+
+        <div class="msg ai fade-in">
+          <div class="bubble">
+            8% mensal e alto pra B2B infraestrutura — o benchmark do setor e <em>2-3%</em>. Vamos analisar:
+            <br><br>
+            <strong>O que Stripe fez (2013-2015):</strong>
+            <ul>
+              <li>Descobriram que 60% do churn era por <strong>falha de integracao</strong>, nao insatisfacao</li>
+              <li>Criaram a "Stripe Integration Team" — engenheiros que ajudavam o cliente a integrar</li>
+              <li>Resultado: churn caiu de 7% para 2.1% em 6 meses</li>
+            </ul>
+            <strong>O que Plaid fez:</strong>
+            <ul>
+              <li>Mediram "time-to-first-API-call" — quanto tempo ate o cliente fazer a primeira chamada real</li>
+              <li>Se passava de 48h, ligavam proativamente</li>
+              <li>Criaram sandbox com dados fake realistas pra acelerar testes</li>
+            </ul>
+            <strong>Minha recomendacao pra CSB Bank:</strong>
+            <ul>
+              <li><em>Immediate:</em> Seu SAC Samurai deve detectar clientes que nao fizeram chamada API em 7 dias e acionar</li>
+              <li><em>Curto prazo:</em> Ativar solucao "Onboarding de Clientes" no marketplace — guia passo-a-passo ate primeira transacao</li>
+              <li><em>Medio prazo:</em> Criar health score por cliente (uso API, tickets, engajamento) — seu CFO Samurai ja pode fazer isso</li>
+            </ul>
+            Quer que eu monte o plano de acao completo com KPIs e prazos?
+          </div>
+          <div class="time">Takeshi</div>
+          <div class="suggestions">
+            <span class="sug">Sim, monta o plano</span>
+            <span class="sug">Como medir health score?</span>
+            <span class="sug">Quanto custa a integration team?</span>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="input-area">
+        <div class="input-wrap">
+          <textarea class="input-field" placeholder="Pergunte sobre seu segmento..." rows="1"></textarea>
+          <button class="send-btn">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Context Panel -->
+    <div class="context-panel">
+      <div class="ctx-title">Seu negocio</div>
+      <div class="ctx-item"><strong>Empresa:</strong> CSB Fintechs</div>
+      <div class="ctx-item"><strong>Produtos:</strong> CSB Bank (BaaS), CSB Credit (CaaS)</div>
+      <div class="ctx-item"><strong>Modelo:</strong> B2B SaaS, recorrencia mensal</div>
+      <div class="ctx-item"><strong>Porte:</strong> Pequena empresa</div>
+      <div class="ctx-item"><strong>Segmento:</strong> Fintech / Banking Infrastructure</div>
+
+      <div class="ctx-title">Cerebro do Takeshi</div>
+      <div class="ctx-item">
+        <span class="ctx-tag">Basecamp</span>
+        <span class="ctx-tag">37signals</span>
+        <span class="ctx-tag">Stripe</span>
+        <span class="ctx-tag">Plaid</span>
+        <span class="ctx-tag">Pagar.me</span>
+        <span class="ctx-tag">Fog Creek</span>
+        <span class="ctx-tag">Atlassian</span>
+        <span class="ctx-tag">ThoughtWorks</span>
+      </div>
+
+      <div class="ctx-title">Especialidades</div>
+      <div class="ctx-item">
+        <span class="ctx-tag">Pricing SaaS</span>
+        <span class="ctx-tag">Escala</span>
+        <span class="ctx-tag">Produto</span>
+        <span class="ctx-tag">Churn</span>
+        <span class="ctx-tag">Infra fintech</span>
+        <span class="ctx-tag">API economy</span>
+        <span class="ctx-tag">Compliance</span>
+        <span class="ctx-tag">OKR</span>
+      </div>
+
+      <div class="ctx-title">Frameworks ativos</div>
+      <div class="ctx-item"><strong>Scrum+Kanban</strong> — Hibrido</div>
+      <div class="ctx-item"><strong>SaaS Metrics</strong> — Baremetrics</div>
+      <div class="ctx-item"><strong>OKR</strong> — Trimestral</div>
+
+      <div class="ctx-title">KPIs monitorados</div>
+      <div class="ctx-item"><strong>MRR:</strong> R$34k</div>
+      <div class="ctx-item"><strong>Churn:</strong> 8% (meta: 3%)</div>
+      <div class="ctx-item"><strong>LTV:</strong> R$2.4k</div>
+      <div class="ctx-item"><strong>CAC:</strong> R$890</div>
+    </div>
+  </div>
+
+</body>
+</html>
