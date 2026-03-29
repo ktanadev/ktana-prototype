@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>KTANA Assistant — Sua empresa inteligente</title>
+  <link rel="stylesheet" href="../shared.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Zen+Dots&display=swap" rel="stylesheet">
+  <style>
+    html { scroll-behavior: smooth; }
+    .nav { position: fixed; top: 0; left: 0; right: 0; z-index: 50; padding: 14px 32px; display: flex; align-items: center; justify-content: space-between; background: rgba(245,245,247,0.72); backdrop-filter: blur(20px) saturate(180%); -webkit-backdrop-filter: blur(20px) saturate(180%); border-bottom: 1px solid rgba(0,0,0,0.04); transition: background 0.3s; }
+    .nav-links { display: flex; gap: 32px; align-items: center; }
+    .nav-links a { font-size: 12px; color: #6E6E73; transition: color 0.15s; }
+    .nav-links a:hover { color: #1D1D1F; }
+
+    .hero { min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 0 24px; position: relative; overflow: hidden; }
+    .hero::before { content: ''; position: absolute; top: 50%; left: 50%; width: 600px; height: 600px; background: radial-gradient(circle, rgba(215,0,48,0.03) 0%, transparent 70%); transform: translate(-50%, -50%); pointer-events: none; }
+
+    .hero-tag { display: inline-flex; align-items: center; gap: 8px; padding: 6px 16px; border-radius: 100px; border: 1px solid rgba(0,0,0,0.06); font-size: 12px; color: #6E6E73; margin-bottom: 40px; }
+    .hero-tag .dot { width: 5px; height: 5px; border-radius: 50%; background: #D70030; }
+
+    .hero h1 { font-size: clamp(40px, 7vw, 80px); line-height: 1.05; font-weight: 700; letter-spacing: -0.02em; color: #1D1D1F; margin-bottom: 24px; max-width: 700px; }
+    .hero p { font-size: clamp(16px, 2vw, 20px); line-height: 1.6; color: #6E6E73; max-width: 480px; margin-bottom: 48px; }
+    .hero-cta { display: flex; gap: 12px; }
+
+    .section { padding: 120px 32px; max-width: 1080px; margin: 0 auto; }
+    .section-dark { background: #1D1D1F; color: #F5F5F7; }
+    .section-alt { background: #FFFFFF; }
+
+    .section-label { font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: #86868B; margin-bottom: 16px; }
+    .section h2 { font-size: clamp(28px, 4vw, 44px); font-weight: 700; line-height: 1.15; letter-spacing: -0.02em; margin-bottom: 20px; }
+    .section .sub { font-size: 17px; line-height: 1.6; color: #6E6E73; max-width: 520px; }
+
+    .stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: rgba(0,0,0,0.04); border-radius: 20px; overflow: hidden; margin-top: 80px; }
+    .stat-item { background: #FFFFFF; padding: 48px 32px; text-align: center; }
+    .stat-item .num { font-size: 48px; font-weight: 700; color: #1D1D1F; letter-spacing: -0.02em; }
+    .stat-item .label { font-size: 13px; color: #86868B; margin-top: 4px; }
+
+    .steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; margin-top: 64px; }
+    .step { padding: 48px 32px; background: #FFFFFF; border-radius: 20px; }
+    .step-num { width: 32px; height: 32px; border-radius: 50%; border: 1px solid #D2D2D7; display: flex; align-items: center; justify-content: center; font-size: 13px; color: #86868B; margin-bottom: 24px; }
+    .step h3 { font-size: 17px; font-weight: 600; color: #1D1D1F; margin-bottom: 8px; }
+    .step p { font-size: 14px; line-height: 1.6; color: #86868B; }
+
+    .plans-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-top: 64px; }
+    .plan { padding: 40px 28px; background: #FFFFFF; border: 1px solid rgba(0,0,0,0.04); border-radius: 20px; transition: box-shadow 0.2s; }
+    .plan:hover { box-shadow: 0 4px 24px rgba(0,0,0,0.06); }
+    .plan-featured { border: 2px solid rgba(215,0,48,0.2); position: relative; }
+    .plan-badge { position: absolute; top: -10px; left: 50%; transform: translateX(-50%); background: #D70030; color: white; font-size: 9px; font-weight: 500; padding: 3px 12px; border-radius: 100px; letter-spacing: 1px; }
+    .plan-name { font-size: 10px; letter-spacing: 2px; color: #86868B; margin-bottom: 8px; }
+    .plan-price { font-size: 36px; font-weight: 700; color: #1D1D1F; }
+    .plan-price span { font-size: 13px; font-weight: 400; color: #86868B; }
+    .plan-desc { font-size: 12px; color: #86868B; margin-top: 4px; margin-bottom: 32px; }
+    .plan-features { list-style: none; margin-bottom: 32px; }
+    .plan-features li { font-size: 13px; color: #6E6E73; padding: 6px 0; display: flex; align-items: center; gap: 8px; }
+    .plan-features li::before { content: ''; width: 4px; height: 4px; border-radius: 50%; background: #D2D2D7; flex-shrink: 0; }
+
+    .feature-row { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; padding: 120px 32px; max-width: 1080px; margin: 0 auto; }
+    .feature-row.reverse { direction: rtl; }
+    .feature-row.reverse > * { direction: ltr; }
+    .feature-visual { background: #F0F0F0; border-radius: 20px; aspect-ratio: 4/3; display: flex; align-items: center; justify-content: center; color: #AEAEB2; font-size: 12px; }
+
+    .cta-section { text-align: center; padding: 160px 32px; }
+    .cta-section h2 { font-size: clamp(32px, 5vw, 56px); font-weight: 700; line-height: 1.1; letter-spacing: -0.02em; color: #1D1D1F; margin-bottom: 20px; }
+    .cta-section p { font-size: 17px; color: #6E6E73; margin-bottom: 40px; }
+
+    .footer { padding: 48px 32px; border-top: 1px solid rgba(0,0,0,0.04); text-align: center; }
+    .footer p { font-size: 11px; color: #AEAEB2; }
+    .footer .links { display: flex; justify-content: center; gap: 24px; margin-bottom: 16px; }
+    .footer .links a { font-size: 11px; color: #86868B; }
+    .footer .links a:hover { color: #1D1D1F; }
+
+    @media (max-width: 768px) {
+      .nav { padding: 12px 20px; }
+      .nav-links { gap: 16px; }
+      .hero { padding: 0 20px; }
+      .section { padding: 80px 20px; }
+      .stats-grid { grid-template-columns: 1fr; }
+      .steps { grid-template-columns: 1fr; gap: 12px; }
+      .plans-grid { grid-template-columns: 1fr; }
+      .feature-row { grid-template-columns: 1fr; gap: 40px; }
+      .hero-cta { flex-direction: column; align-items: center; }
+    }
+  </style>
+</head>
+<body class="light">
+
+  <!-- Navigation -->
+  <nav class="nav">
+    <a href="../index.html" class="font-display text-brand" style="font-size: 16px;">KTANA</a>
+    <div class="nav-links">
+      <a href="#como">Como funciona</a>
+      <a href="#planos">Planos</a>
+      <a href="auth/login.html">Entrar</a>
+      <a href="auth/signup.html" class="btn btn-primary btn-sm">Comecar gratis</a>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="hero-tag fade-in">
+      <span class="dot"></span>
+      Primeiro samurai gratis, pra sempre
+    </div>
+    <h1 class="fade-in" style="animation-delay: 0.1s">Sua empresa<br>inteligente.</h1>
+    <p class="fade-in" style="animation-delay: 0.2s">Samurais de elite que trabalham 24/7 por voce. Cobram, organizam, gerenciam e decidem — enquanto voce foca no que importa.</p>
+    <div class="hero-cta fade-in" style="animation-delay: 0.3s">
+      <a href="auth/signup.html" class="btn btn-primary" style="padding: 16px 32px; font-size: 15px; border-radius: 14px;">Comecar gratis</a>
+      <a href="#como" class="btn btn-ghost" style="padding: 16px 32px; font-size: 15px; border-radius: 14px;">Como funciona</a>
+    </div>
+  </section>
+
+  <!-- Stats -->
+  <div style="max-width: 1080px; margin: 0 auto; padding: 0 32px;">
+    <div class="stats-grid">
+      <div class="stat-item">
+        <p class="num">10h</p>
+        <p class="label">devolvidas por semana</p>
+      </div>
+      <div class="stat-item">
+        <p class="num">R$67k</p>
+        <p class="label">recuperados em cobrancas</p>
+      </div>
+      <div class="stat-item">
+        <p class="num">92%</p>
+        <p class="label">precisao nas decisoes</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Como funciona -->
+  <section class="section" id="como">
+    <p class="section-label">COMO FUNCIONA</p>
+    <h2>Tres passos.<br>Dois minutos.</h2>
+    <p class="sub">Sem configuracao tecnica. Sem complexidade. Yumi monta tudo com voce numa conversa.</p>
+
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <h3>Conte sobre voce</h3>
+        <p>Yumi, sua anfitria, te entrevista em 2 minutos. Entende seu negocio, suas dores, seu jeito de trabalhar.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <h3>Monte sua equipe</h3>
+        <p>Yumi sugere samurais especializados pro seu caso. Secretaria, financeiro, PM — cada um com funcao e alcada definidas.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <h3>Eles trabalham</h3>
+        <p>Seus samurais agem 24/7. Cobram, organizam, gerenciam. Voce so aprova quando precisa. O resto, eles resolvem.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Feature 1 -->
+  <div class="feature-row" style="background: #FFFFFF;">
+    <div>
+      <p class="section-label">ESCRITORIO VIRTUAL</p>
+      <h2 style="font-size: 32px;">Veja seus samurais<br>trabalhando.</h2>
+      <p class="sub">Um escritorio virtual onde voce ve cada samurai em acao. Quem esta cobrando, quem esta organizando, quem esta decidindo. Tudo em tempo real.</p>
+    </div>
+    <div class="feature-visual">Escritorio Virtual Preview</div>
+  </div>
+
+  <!-- Feature 2 -->
+  <div class="feature-row reverse">
+    <div>
+      <p class="section-label">CEREBRO QUE APRENDE</p>
+      <h2 style="font-size: 32px;">Quanto mais usa,<br>melhor fica.</h2>
+      <p class="sub">Seus samurais aprendem como voce pensa, decide e prioriza. Em 3 meses, agem como voce agiria. Simbiose cognitiva real.</p>
+    </div>
+    <div class="feature-visual">Knowledge Graph Preview</div>
+  </div>
+
+  <!-- Feature 3 -->
+  <div class="feature-row" style="background: #FFFFFF;">
+    <div>
+      <p class="section-label">SEGURANCA</p>
+      <h2 style="font-size: 32px;">Seus dados,<br>seu controle.</h2>
+      <p class="sub">KYC facial, criptografia AES-256 por tenant, audit log imutavel, kill switch instantaneo. Cada acao registrada. Nada escondido.</p>
+    </div>
+    <div class="feature-visual">Security Shield Preview</div>
+  </div>
+
+  <!-- Plans -->
+  <section class="section" id="planos">
+    <p class="section-label">PLANOS</p>
+    <h2>Comece gratis.<br>Escale quando quiser.</h2>
+    <p class="sub">Sem cartao. Sem trial. Seu primeiro samurai trabalha pra sempre.</p>
+
+    <div class="plans-grid">
+      <div class="plan">
+        <p class="plan-name">RONIN</p>
+        <p class="plan-price">Gratis</p>
+        <p class="plan-desc">Para sempre</p>
+        <ul class="plan-features">
+          <li>1 samurai (CEO)</li>
+          <li>100 acoes/mes</li>
+          <li>WhatsApp + Email</li>
+        </ul>
+        <a href="auth/signup.html" class="btn btn-secondary" style="width: 100%; text-align: center; display: block;">Comecar gratis</a>
+      </div>
+
+      <div class="plan">
+        <p class="plan-name">BUSHI</p>
+        <p class="plan-price">R$97<span>/mes</span></p>
+        <p class="plan-desc">3 samurais, 1k acoes</p>
+        <ul class="plan-features">
+          <li>3 samurais</li>
+          <li>1.000 acoes/mes</li>
+          <li>1 departamento</li>
+          <li>Hierarquia basica</li>
+        </ul>
+        <a href="auth/signup.html" class="btn btn-primary" style="width: 100%; text-align: center; display: block;">Assinar</a>
+      </div>
+
+      <div class="plan plan-featured">
+        <span class="plan-badge">POPULAR</span>
+        <p class="plan-name">GUNDAN</p>
+        <p class="plan-price">R$297<span>/mes</span></p>
+        <p class="plan-desc">10 samurais, 5k acoes</p>
+        <ul class="plan-features">
+          <li>10 samurais</li>
+          <li>5.000 acoes/mes</li>
+          <li>Departamentos ilimitados</li>
+          <li>Hierarquia completa</li>
+          <li>Escritorio virtual</li>
+        </ul>
+        <a href="auth/signup.html" class="btn btn-brand" style="width: 100%; text-align: center; display: block;">Assinar</a>
+      </div>
+
+      <div class="plan">
+        <p class="plan-name">BAKUFU</p>
+        <p class="plan-price">R$997<span>/mes</span></p>
+        <p class="plan-desc">Ilimitado + API</p>
+        <ul class="plan-features">
+          <li>Samurais ilimitados</li>
+          <li>Acoes ilimitadas</li>
+          <li>API + Webhooks</li>
+          <li>White label</li>
+          <li>SLA + suporte</li>
+        </ul>
+        <a href="auth/signup.html" class="btn btn-secondary" style="width: 100%; text-align: center; display: block;">Falar com time</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Final -->
+  <section class="cta-section">
+    <h2>Monte sua empresa<br>inteligente hoje.</h2>
+    <p>Primeiro samurai gratis. Sem cartao. 2 minutos.</p>
+    <a href="auth/signup.html" class="btn btn-primary" style="padding: 16px 40px; font-size: 15px; border-radius: 14px;">Comecar agora</a>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="links">
+      <a href="#">Termos</a>
+      <a href="#">Privacidade</a>
+      <a href="#">LGPD</a>
+      <a href="#">Suporte</a>
+      <a href="#">Status</a>
+    </div>
+    <p>KTANA Assistant · Funcionarios inteligentes que trabalham 24/7</p>
+    <p style="margin-top: 4px;">Este servico utiliza IA. Nao substitui profissionais habilitados.</p>
+  </footer>
+
+</body>
+</html>
