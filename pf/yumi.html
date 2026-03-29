@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Yumi — KTANA</title>
+  <link rel="stylesheet" href="../shared.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Zen+Dots&display=swap" rel="stylesheet">
+  <style>
+    body { min-height: 100vh; display: flex; flex-direction: column; background: #F5F5F7; }
+
+    /* Header */
+    .header { padding: 16px 24px; display: flex; align-items: center; justify-content: center; border-bottom: 0.5px solid rgba(0,0,0,0.06); background: rgba(245,245,247,0.8); backdrop-filter: blur(20px); position: sticky; top: 0; z-index: 10; }
+    .header-inner { display: flex; flex-direction: column; align-items: center; }
+    .yumi-avatar { width: 40px; height: 40px; border-radius: 50%; border: 1.5px solid rgba(215,0,48,0.2); display: flex; align-items: center; justify-content: center; margin-bottom: 4px; background: rgba(215,0,48,0.03); }
+    .yumi-avatar span { font-family: 'Zen Dots', cursive; font-size: 12px; color: #D70030; }
+    .header-name { font-family: 'Inter', sans-serif; font-size: 14px; font-weight: 600; color: #1D1D1F; }
+    .header-role { font-family: 'Inter', sans-serif; font-size: 10px; color: #86868B; }
+
+    /* Progress dots */
+    .progress { display: flex; justify-content: center; gap: 6px; padding: 10px 0 4px; }
+    .progress-dot { width: 6px; height: 6px; border-radius: 50%; background: #D2D2D7; transition: all 0.3s; }
+    .progress-dot.active { background: #D70030; width: 20px; border-radius: 3px; }
+    .progress-dot.done { background: #86868B; }
+
+    /* Chat area */
+    .chat { flex: 1; max-width: 680px; width: 100%; margin: 0 auto; padding: 24px; overflow-y: auto; }
+    .msg { display: flex; gap: 10px; margin-bottom: 18px; max-width: 85%; }
+    .msg-agent { align-self: flex-start; }
+    .msg-user { align-self: flex-end; margin-left: auto; flex-direction: row-reverse; gap: 0; }
+
+    .msg-avatar { width: 30px; height: 30px; border-radius: 50%; border: 1px solid rgba(215,0,48,0.15); display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 2px; background: rgba(215,0,48,0.02); }
+    .msg-avatar span { font-family: 'Zen Dots', cursive; font-size: 9px; color: #D70030; }
+
+    .bubble { border-radius: 20px; padding: 14px 18px; }
+    .bubble-agent { background: #FFF; border: 0.5px solid rgba(0,0,0,0.04); border-top-left-radius: 4px; }
+    .bubble-user { background: #1D1D1F; color: #F5F5F7; border-bottom-right-radius: 4px; }
+    .bubble p { font-family: 'Satoshi', sans-serif; font-size: 15px; line-height: 1.6; }
+    .bubble p + p { margin-top: 10px; }
+    .bubble-time { font-family: 'Inter', sans-serif; font-size: 10px; color: #AEAEB2; margin-top: 6px; }
+    .bubble-user .bubble-time { color: rgba(255,255,255,0.4); }
+
+    /* Proposal card inside chat */
+    .proposal { margin-top: 14px; }
+    .proposal-label { font-family: 'Inter', sans-serif; font-size: 10px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: #D70030; margin-bottom: 10px; }
+    .proposal-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 16px; }
+    .proposal-tag { font-family: 'Inter', sans-serif; padding: 6px 14px; border-radius: 10px; border: 0.5px solid rgba(0,0,0,0.08); font-size: 12px; color: #6E6E73; }
+
+    .mentor-row { display: flex; align-items: center; gap: 10px; padding: 10px 14px; border-radius: 12px; border: 0.5px solid rgba(0,0,0,0.04); margin-bottom: 6px; background: rgba(0,0,0,0.01); }
+    .mentor-circle { width: 34px; height: 34px; border-radius: 50%; border: 1px solid #D2D2D7; display: flex; align-items: center; justify-content: center; }
+    .mentor-circle span { font-family: 'Inter', sans-serif; font-size: 12px; font-weight: 500; color: #6E6E73; }
+    .mentor-circle.primary { border-color: rgba(215,0,48,0.3); }
+    .mentor-circle.primary span { color: #D70030; }
+    .mentor-info h4 { font-family: 'Satoshi', sans-serif; font-size: 14px; font-weight: 500; color: #1D1D1F; }
+    .mentor-info p { font-family: 'Satoshi', sans-serif; font-size: 12px; color: #86868B; }
+
+    .specs-label { font-family: 'Inter', sans-serif; font-size: 10px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: #86868B; margin: 12px 0 6px; }
+    .spec-row { display: flex; align-items: center; gap: 8px; padding: 6px 14px; }
+    .spec-dot { width: 6px; height: 6px; border-radius: 50%; background: #D2D2D7; flex-shrink: 0; }
+    .spec-name { font-family: 'Satoshi', sans-serif; font-size: 12px; color: #6E6E73; }
+
+    /* Input area */
+    .input-area { padding: 16px 24px 28px; border-top: 0.5px solid rgba(0,0,0,0.06); background: #F5F5F7; }
+    .input-row { display: flex; gap: 10px; max-width: 680px; margin: 0 auto; }
+    .chat-input { font-family: 'Satoshi', sans-serif; flex: 1; padding: 14px 18px; border-radius: 24px; border: 0.5px solid rgba(0,0,0,0.08); background: #FFF; font-size: 15px; color: #1D1D1F; outline: none; transition: border-color 0.15s; min-height: 48px; }
+    .chat-input:focus { border-color: rgba(215,0,48,0.3); }
+    .chat-input::placeholder { color: #AEAEB2; }
+    .send-btn { font-family: 'Inter', sans-serif; padding: 14px 24px; border-radius: 24px; background: #1D1D1F; color: #F5F5F7; font-size: 14px; font-weight: 500; border: none; cursor: pointer; transition: background 0.15s; white-space: nowrap; min-height: 48px; }
+    .send-btn:hover { background: #000; }
+
+    /* Message animations */
+    .msg { opacity: 0; animation: msgIn 0.4s cubic-bezier(0.25,0.1,0.25,1) forwards; }
+    .msg:nth-child(1) { animation-delay: 0.1s; }
+    .msg:nth-child(2) { animation-delay: 0.5s; }
+    .msg:nth-child(3) { animation-delay: 0.9s; }
+    .msg:nth-child(4) { animation-delay: 1.3s; }
+    .msg:nth-child(5) { animation-delay: 1.7s; }
+    .msg:nth-child(6) { animation-delay: 2.1s; }
+    .msg:nth-child(7) { animation-delay: 2.5s; }
+    @keyframes msgIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+    @media (max-width: 640px) { .msg { max-width: 92%; } }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <div class="header">
+    <div class="header-inner">
+      <div class="yumi-avatar"><span>Y</span></div>
+      <p class="header-name">Yumi</p>
+      <p class="header-role">Sua anfitria pessoal</p>
+    </div>
+  </div>
+
+  <!-- Progress -->
+  <div class="progress">
+    <div class="progress-dot active"></div>
+    <div class="progress-dot"></div>
+    <div class="progress-dot"></div>
+    <div class="progress-dot"></div>
+    <div class="progress-dot"></div>
+  </div>
+
+  <!-- Chat -->
+  <div class="chat">
+
+    <!-- Yumi 1 -->
+    <div class="msg msg-agent">
+      <div class="msg-avatar"><span>Y</span></div>
+      <div>
+        <div class="bubble bubble-agent">
+          <p>Oi! Sou a Yumi, prazer. Vou te ajudar a montar sua equipe de mentores pessoais.</p>
+          <p>Me conta sobre voce. Nao precisa ser formal — fala do seu jeito. O que voce faz, como e a sua rotina, o que te motiva.</p>
+        </div>
+        <p class="bubble-time">Yumi</p>
+      </div>
+    </div>
+
+    <!-- User 1 -->
+    <div class="msg msg-user">
+      <div>
+        <div class="bubble bubble-user">
+          <p>Tenho 34 anos, trabalho com tecnologia, sou empreendedora. Rotina puxada, viajo bastante, tenho dificuldade pra manter constancia em exercicio e sono.</p>
+        </div>
+        <p class="bubble-time" style="text-align: right;">Voce</p>
+      </div>
+    </div>
+
+    <!-- Yumi 2 -->
+    <div class="msg msg-agent">
+      <div class="msg-avatar"><span>Y</span></div>
+      <div>
+        <div class="bubble bubble-agent">
+          <p>Entendo perfeitamente. Rotina de empreendedora e intensa — o corpo e a mente pagam o preco.</p>
+          <p>E o que mais te pesa no dia a dia? Aquilo que voce sente que poderia estar melhor, mas nao consegue encaixar?</p>
+        </div>
+        <p class="bubble-time">Yumi</p>
+      </div>
+    </div>
+
+    <!-- User 2 -->
+    <div class="msg msg-user">
+      <div>
+        <div class="bubble bubble-user">
+          <p>Ansiedade. Durmo mal, como mal, nao consigo manter uma rotina de treino. E as financas pessoais — misturo tudo com a empresa. Sei que preciso organizar mas nunca e prioridade.</p>
+        </div>
+        <p class="bubble-time" style="text-align: right;">Voce</p>
+      </div>
+    </div>
+
+    <!-- Yumi 3 -->
+    <div class="msg msg-agent">
+      <div class="msg-avatar"><span>Y</span></div>
+      <div>
+        <div class="bubble bubble-agent">
+          <p>Obrigada por compartilhar. Isso e muito comum em quem empreende — voce nao esta sozinha nisso.</p>
+          <p>Com base no que voce me disse, montei uma proposta de mentoria personalizada:</p>
+
+          <div class="proposal">
+            <p class="proposal-label">Areas da sua vida</p>
+            <div class="proposal-tags">
+              <span class="proposal-tag">Saude e Bem-estar</span>
+              <span class="proposal-tag">Mente e Emocional</span>
+              <span class="proposal-tag">Financas Pessoais</span>
+            </div>
+
+            <p class="proposal-label">Seus mentores</p>
+
+            <div class="mentor-row">
+              <div class="mentor-circle primary"><span>K</span></div>
+              <div class="mentor-info">
+                <h4>Dr. Kenji — Mentor de Saude</h4>
+                <p>Longevidade, exercicio, sono, alimentacao</p>
+              </div>
+            </div>
+            <div class="spec-row"><div class="spec-dot"></div><span class="spec-name">Yui (Alimentacao) + Ryu (Treino) + Aiko (Sono)</span></div>
+
+            <div class="mentor-row" style="margin-top: 10px;">
+              <div class="mentor-circle primary"><span>S</span></div>
+              <div class="mentor-info">
+                <h4>Sensei Sora — Mentora de Mente</h4>
+                <p>Ansiedade, autoconhecimento, equilibrio</p>
+              </div>
+            </div>
+            <div class="spec-row"><div class="spec-dot"></div><span class="spec-name">Hina (Terapeuta) + Zen (Meditacao) + Taro (Conselheiro)</span></div>
+
+            <div class="mentor-row" style="margin-top: 10px;">
+              <div class="mentor-circle primary"><span>T</span></div>
+              <div class="mentor-info">
+                <h4>Takeshi — Mentor de Financas</h4>
+                <p>Orcamento pessoal, investimentos, separar PJ/PF</p>
+              </div>
+            </div>
+            <div class="spec-row"><div class="spec-dot"></div><span class="spec-name">Nao (Orcamento) + Shin (Investimentos) + Mei (Metas)</span></div>
+          </div>
+
+          <p style="margin-top: 14px;">Cada mentor faz check-in diario no WhatsApp. Os especialistas cuidam do detalhe. Quer ajustar algo ou seguimos com essa equipe?</p>
+        </div>
+        <p class="bubble-time">Yumi</p>
+      </div>
+    </div>
+
+    <!-- User 3 -->
+    <div class="msg msg-user">
+      <div>
+        <div class="bubble bubble-user">
+          <p>Perfeito, adorei. Bora com essa equipe.</p>
+        </div>
+        <p class="bubble-time" style="text-align: right;">Voce</p>
+      </div>
+    </div>
+
+    <!-- Yumi 4 -->
+    <div class="msg msg-agent">
+      <div class="msg-avatar"><span>Y</span></div>
+      <div>
+        <div class="bubble bubble-agent">
+          <p>Otimo! Agora vamos configurar cada mentor — escolher as referencias que inspiram cada um, o tom de comunicacao e os especialistas de cada area.</p>
+          <p>Vou te guiar passo a passo. Clica em "Configurar" quando estiver pronta.</p>
+        </div>
+        <p class="bubble-time">Yumi</p>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Input -->
+  <div class="input-area">
+    <div class="input-row">
+      <input type="text" class="chat-input" placeholder="Digite sua resposta...">
+      <button class="send-btn" onclick="location.href='onboarding.html'">Configurar</button>
+    </div>
+  </div>
+
+</body>
+</html>

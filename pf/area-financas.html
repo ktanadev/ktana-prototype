@@ -1,7 +1,248 @@
-<!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>Financas Pessoais — KTANA</title><link rel="stylesheet" href="../shared.css"><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Zen+Dots&display=swap" rel="stylesheet">
-<style>body{min-height:100vh;background:#F5F5F7;padding:48px 24px}.container{max-width:540px;margin:0 auto}.back{position:fixed;top:20px;left:24px;font-family:'Inter',sans-serif;font-size:12px;color:#86868B}h1{font-family:'Zen Dots',cursive;font-size:24px;color:#1D1D1F;text-align:center;margin-bottom:6px}.sub{font-family:'Satoshi',sans-serif;font-size:14px;color:#86868B;text-align:center;margin-bottom:32px}.card{background:#FFF;border-radius:20px;border:1px solid rgba(0,0,0,0.04);padding:24px;margin-bottom:12px;text-align:center}.card p{font-family:'Satoshi',sans-serif;font-size:14px;color:#6E6E73;line-height:1.6}.btn{font-family:'Inter',sans-serif;margin-top:24px;padding:14px 32px;border-radius:14px;background:#1D1D1F;color:#F5F5F7;font-size:14px;font-weight:500;border:none;cursor:pointer;display:inline-block}</style></head>
-<body><a href="onboarding.html" class="back">← Areas</a><div class="container fade-in">
-<h1>Financas Pessoais</h1><p class="sub">Orcamento, investimentos, patrimonio, aposentadoria</p>
-<div class="card"><p>Configure seu mentor e especialistas para esta area. Escolha referencias reais para clonar a abordagem e defina o tom de comunicacao.</p></div>
-<a href="mentor-config.html" class="btn">Configurar mentor</a>
-</div></body></html>
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Financas Pessoais — KTANA</title>
+  <link rel="stylesheet" href="../shared.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Zen+Dots&display=swap" rel="stylesheet">
+  <style>
+    body { min-height: 100vh; background: #F5F5F7; }
+
+    .back { position: fixed; top: 20px; left: 24px; font-family: 'Inter', sans-serif; font-size: 12px; color: #86868B; z-index: 20; }
+
+    .container { max-width: 620px; margin: 0 auto; padding: 56px 24px 80px; }
+
+    .area-header { text-align: center; margin-bottom: 40px; }
+    .area-icon { width: 56px; height: 56px; border-radius: 16px; background: rgba(215,0,48,0.04); display: flex; align-items: center; justify-content: center; margin: 0 auto 16px; font-size: 26px; }
+    .area-header h1 { font-family: 'Zen Dots', cursive; font-size: 26px; color: #1D1D1F; margin-bottom: 6px; }
+    .area-header p { font-family: 'Satoshi', sans-serif; font-size: 14px; color: #86868B; line-height: 1.5; }
+
+    .card { background: #FFF; border-radius: 20px; border: 1px solid rgba(0,0,0,0.04); padding: 28px; margin-bottom: 16px; }
+    .card-label { font-family: 'Inter', sans-serif; font-size: 10px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: #D70030; margin-bottom: 16px; }
+
+    /* Mentor card */
+    .mentor { display: flex; align-items: flex-start; gap: 16px; }
+    .mentor-avatar { width: 52px; height: 52px; border-radius: 16px; border: 1.5px solid rgba(215,0,48,0.2); display: flex; align-items: center; justify-content: center; flex-shrink: 0; background: rgba(215,0,48,0.03); }
+    .mentor-avatar span { font-family: 'Zen Dots', cursive; font-size: 16px; color: #D70030; }
+    .mentor-info h3 { font-family: 'Satoshi', sans-serif; font-size: 16px; font-weight: 600; color: #1D1D1F; margin-bottom: 2px; }
+    .mentor-role { font-family: 'Inter', sans-serif; font-size: 11px; color: #D70030; font-weight: 500; margin-bottom: 6px; }
+    .mentor-desc { font-family: 'Satoshi', sans-serif; font-size: 13px; color: #6E6E73; line-height: 1.5; }
+    .mentor-refs { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+    .mentor-ref { font-family: 'Inter', sans-serif; padding: 4px 10px; border-radius: 980px; background: rgba(0,0,0,0.03); font-size: 11px; color: #6E6E73; }
+
+    /* Specialists */
+    .specialist-list { display: flex; flex-direction: column; gap: 12px; }
+    .specialist-item { display: flex; align-items: center; gap: 14px; padding: 16px; border-radius: 14px; background: rgba(0,0,0,0.01); border: 0.5px solid rgba(0,0,0,0.04); transition: box-shadow 0.2s; }
+    .specialist-item:hover { box-shadow: 0 2px 12px rgba(0,0,0,0.03); }
+    .specialist-icon { width: 40px; height: 40px; border-radius: 12px; background: rgba(0,0,0,0.02); display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; }
+    .specialist-info { flex: 1; }
+    .specialist-info h4 { font-family: 'Satoshi', sans-serif; font-size: 14px; font-weight: 500; color: #1D1D1F; margin-bottom: 2px; }
+    .specialist-info p { font-family: 'Satoshi', sans-serif; font-size: 12px; color: #86868B; line-height: 1.4; }
+    .specialist-status { font-family: 'Inter', sans-serif; font-size: 10px; color: #30D158; display: flex; align-items: center; gap: 4px; flex-shrink: 0; }
+    .specialist-status::before { content: ''; width: 5px; height: 5px; border-radius: 50%; background: #30D158; }
+
+    /* Financial summary */
+    .fin-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 16px; }
+    .fin-stat { background: rgba(0,0,0,0.02); border-radius: 14px; padding: 16px; text-align: center; }
+    .fin-stat-value { font-family: 'Inter', sans-serif; font-size: 22px; font-weight: 700; color: #1D1D1F; margin-bottom: 2px; }
+    .fin-stat-label { font-family: 'Satoshi', sans-serif; font-size: 11px; color: #86868B; }
+    .fin-stat-change { font-family: 'Inter', sans-serif; font-size: 10px; margin-top: 4px; }
+    .fin-up { color: #30D158; }
+    .fin-down { color: #D70030; }
+
+    /* Goals */
+    .goal-row { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 0.5px solid rgba(0,0,0,0.04); }
+    .goal-row:last-child { border-bottom: none; }
+    .goal-label { font-family: 'Satoshi', sans-serif; font-size: 13px; color: #1D1D1F; }
+    .goal-value { font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 500; }
+    .goal-ok { color: #30D158; }
+    .goal-warn { color: #FF9500; }
+    .goal-miss { color: #D70030; }
+    .goal-bar { width: 80px; height: 4px; border-radius: 2px; background: rgba(0,0,0,0.04); margin-left: 12px; }
+    .goal-bar-fill { height: 100%; border-radius: 2px; transition: width 0.6s ease; }
+    .goal-progress { display: flex; align-items: center; }
+
+    /* Activity */
+    .activity-item { display: flex; align-items: center; gap: 10px; padding: 8px 0; border-bottom: 0.5px solid rgba(0,0,0,0.03); }
+    .activity-item:last-child { border-bottom: none; }
+    .activity-time { font-family: 'Inter', sans-serif; font-size: 10px; color: #AEAEB2; width: 40px; flex-shrink: 0; }
+    .activity-agent { font-family: 'Inter', sans-serif; font-size: 10px; font-weight: 600; color: #6E6E73; width: 60px; flex-shrink: 0; }
+    .activity-desc { font-family: 'Satoshi', sans-serif; font-size: 13px; color: #6E6E73; }
+
+    /* Disclaimers */
+    .disclaimer { background: rgba(215,0,48,0.02); border: 0.5px solid rgba(215,0,48,0.08); border-radius: 14px; padding: 16px 20px; margin-top: 24px; }
+    .disclaimer p { font-family: 'Inter', sans-serif; font-size: 11px; color: #86868B; line-height: 1.6; }
+    .disclaimer strong { color: #6E6E73; }
+
+    .btn-edit { font-family: 'Inter', sans-serif; width: 100%; padding: 16px; border-radius: 16px; background: #1D1D1F; color: #F5F5F7; font-size: 15px; font-weight: 500; border: none; cursor: pointer; margin-top: 24px; min-height: 64px; transition: opacity 0.15s; }
+    .btn-edit:hover { opacity: 0.9; }
+
+    .btn-chat { font-family: 'Inter', sans-serif; width: 100%; padding: 14px; border-radius: 14px; background: transparent; color: #D70030; font-size: 14px; font-weight: 500; border: 1px solid rgba(215,0,48,0.15); cursor: pointer; margin-top: 10px; transition: background 0.15s; min-height: 52px; }
+    .btn-chat:hover { background: rgba(215,0,48,0.02); }
+
+    /* Staggered animations */
+    .stagger-1 { animation: fadeUp 0.5s cubic-bezier(0.25,0.1,0.25,1) 0.05s both; }
+    .stagger-2 { animation: fadeUp 0.5s cubic-bezier(0.25,0.1,0.25,1) 0.12s both; }
+    .stagger-3 { animation: fadeUp 0.5s cubic-bezier(0.25,0.1,0.25,1) 0.19s both; }
+    .stagger-4 { animation: fadeUp 0.5s cubic-bezier(0.25,0.1,0.25,1) 0.26s both; }
+    .stagger-5 { animation: fadeUp 0.5s cubic-bezier(0.25,0.1,0.25,1) 0.33s both; }
+    .stagger-6 { animation: fadeUp 0.5s cubic-bezier(0.25,0.1,0.25,1) 0.40s both; }
+    .stagger-7 { animation: fadeUp 0.5s cubic-bezier(0.25,0.1,0.25,1) 0.47s both; }
+    .stagger-8 { animation: fadeUp 0.5s cubic-bezier(0.25,0.1,0.25,1) 0.54s both; }
+  </style>
+</head>
+<body>
+  <a href="onboarding.html" class="back">← Areas</a>
+
+  <div class="container">
+
+    <!-- Header -->
+    <div class="area-header stagger-1">
+      <div class="area-icon">&#x1F4B0;</div>
+      <h1>Financas Pessoais</h1>
+      <p>Orcamento, investimentos, patrimonio, metas financeiras e aposentadoria</p>
+    </div>
+
+    <!-- Mentor Card -->
+    <div class="card stagger-2">
+      <p class="card-label">Mentor principal</p>
+      <div class="mentor">
+        <div class="mentor-avatar"><span>T</span></div>
+        <div class="mentor-info">
+          <h3>Takeshi</h3>
+          <p class="mentor-role">Mentor de Financas</p>
+          <p class="mentor-desc">Supervisiona toda a area financeira pessoal. Abordagem pragmatica e baseada em dados. Foco em construcao de patrimonio de longo prazo, controle de gastos e educacao financeira. Relatorio semanal toda segunda 08:00.</p>
+          <div class="mentor-refs">
+            <span class="mentor-ref">Thiago Nigro</span>
+            <span class="mentor-ref">Morgan Housel</span>
+            <span class="mentor-ref">Ramit Sethi</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Specialists -->
+    <div class="card stagger-3">
+      <p class="card-label">Especialistas (reportam ao Takeshi)</p>
+      <div class="specialist-list">
+        <div class="specialist-item">
+          <div class="specialist-icon">&#x1F4CA;</div>
+          <div class="specialist-info">
+            <h4>Nao — Controladora de Orcamento</h4>
+            <p>Categoriza gastos, alerta limites, acompanha metas mensais. Conecta com app bancario para leitura automatica.</p>
+          </div>
+          <div class="specialist-status">Ativo</div>
+        </div>
+        <div class="specialist-item">
+          <div class="specialist-icon">&#x1F4C8;</div>
+          <div class="specialist-info">
+            <h4>Shin — Orientador de Investimentos</h4>
+            <p>Acompanha carteira, sugere rebalanceamento, alerta sobre vencimentos de titulos e dividendos.</p>
+          </div>
+          <div class="specialist-status">Ativo</div>
+        </div>
+        <div class="specialist-item">
+          <div class="specialist-icon">&#x1F3E0;</div>
+          <div class="specialist-info">
+            <h4>Mei — Planejadora de Metas</h4>
+            <p>Simula cenarios: aposentadoria, imovel, viagem. Calcula quanto poupar por mes e monitora progresso.</p>
+          </div>
+          <div class="specialist-status">Ativo</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Financial Summary -->
+    <div class="card stagger-4">
+      <p class="card-label">Resumo do mes</p>
+      <div class="fin-grid">
+        <div class="fin-stat">
+          <p class="fin-stat-value">R$ 8.450</p>
+          <p class="fin-stat-label">Receita do mes</p>
+          <p class="fin-stat-change fin-up">+3% vs. mes anterior</p>
+        </div>
+        <div class="fin-stat">
+          <p class="fin-stat-value">R$ 5.120</p>
+          <p class="fin-stat-label">Gastos ate hoje</p>
+          <p class="fin-stat-change fin-down">67% do limite</p>
+        </div>
+        <div class="fin-stat">
+          <p class="fin-stat-value">R$ 2.100</p>
+          <p class="fin-stat-label">Investido este mes</p>
+          <p class="fin-stat-change fin-up">Meta: R$ 2.000</p>
+        </div>
+        <div class="fin-stat">
+          <p class="fin-stat-value">R$ 142k</p>
+          <p class="fin-stat-label">Patrimonio total</p>
+          <p class="fin-stat-change fin-up">+1.2% no mes</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Weekly Goals -->
+    <div class="card stagger-5">
+      <p class="card-label">Metas desta semana</p>
+      <div class="goal-row">
+        <span class="goal-label">Nao ultrapassar R$ 200 em delivery</span>
+        <div class="goal-progress">
+          <span class="goal-value goal-warn">R$ 156</span>
+          <div class="goal-bar"><div class="goal-bar-fill" style="width:78%;background:#FF9500;"></div></div>
+        </div>
+      </div>
+      <div class="goal-row">
+        <span class="goal-label">Investir R$ 500 na sexta</span>
+        <div class="goal-progress">
+          <span class="goal-value goal-ok">Agendado</span>
+        </div>
+      </div>
+      <div class="goal-row">
+        <span class="goal-label">Revisar fatura do cartao</span>
+        <div class="goal-progress">
+          <span class="goal-value goal-ok">Feito</span>
+        </div>
+      </div>
+      <div class="goal-row">
+        <span class="goal-label">Ler 1 artigo sobre investimentos</span>
+        <div class="goal-progress">
+          <span class="goal-value goal-miss">Pendente</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Recent Activity -->
+    <div class="card stagger-6">
+      <p class="card-label">Atividade recente</p>
+      <div class="activity-item">
+        <span class="activity-time">08:00</span>
+        <span class="activity-agent">Takeshi</span>
+        <span class="activity-desc">Relatorio semanal: gastos 12% abaixo do limite</span>
+      </div>
+      <div class="activity-item">
+        <span class="activity-time">19:30</span>
+        <span class="activity-agent">Nao</span>
+        <span class="activity-desc">Alerta: gasto com delivery chegou a 78% do limite</span>
+      </div>
+      <div class="activity-item">
+        <span class="activity-time">14:00</span>
+        <span class="activity-agent">Shin</span>
+        <span class="activity-desc">CDB vencendo dia 5: sugeriu renovar por IPCA+</span>
+      </div>
+      <div class="activity-item">
+        <span class="activity-time">10:00</span>
+        <span class="activity-agent">Mei</span>
+        <span class="activity-desc">Meta "imovel": 23% atingido, no ritmo</span>
+      </div>
+    </div>
+
+    <!-- Disclaimer -->
+    <div class="disclaimer stagger-7">
+      <p><strong>Aviso importante:</strong> Os mentores e especialistas financeiros sao assistentes de inteligencia artificial. Eles nao sao consultores financeiros certificados (CFP), nao fazem recomendacao de investimento, nao operam em nome do usuario e nao substituem assessoria financeira profissional. Todas as decisoes de investimento e gestao patrimonial sao de responsabilidade exclusiva do usuario. Rendimentos passados nao garantem resultados futuros.</p>
+    </div>
+
+    <!-- Actions -->
+    <button class="btn-edit stagger-8" onclick="location.href='mentor-config.html'">Editar mentor e especialistas</button>
+    <button class="btn-chat stagger-8" onclick="location.href='../tenant/agent/chat.html'">Conversar com Takeshi</button>
+  </div>
+</body>
+</html>

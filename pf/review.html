@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Revisar e ativar — KTANA</title>
+  <link rel="stylesheet" href="../shared.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Zen+Dots&display=swap" rel="stylesheet">
+  <style>
+    body { min-height: 100vh; background: #F5F5F7; padding: 48px 24px; }
+    .container { max-width: 580px; margin: 0 auto; }
+    .back { position: fixed; top: 20px; left: 24px; font-family: 'Inter', sans-serif; font-size: 12px; color: #86868B; z-index: 20; }
+
+    .progress { display: flex; justify-content: center; gap: 6px; margin-bottom: 40px; }
+    .dot { width: 6px; height: 6px; border-radius: 50%; background: #D2D2D7; }
+    .dot.done { background: #86868B; }
+    .dot.active { background: #D70030; width: 20px; border-radius: 3px; }
+
+    h1 { font-family: 'Zen Dots', cursive; font-size: 28px; color: #1D1D1F; margin-bottom: 8px; text-align: center; }
+    .sub { font-family: 'Satoshi', sans-serif; font-size: 15px; color: #86868B; text-align: center; margin-bottom: 40px; }
+
+    .card { background: #FFF; border-radius: 20px; border: 1px solid rgba(0,0,0,0.04); padding: 28px; margin-bottom: 16px; }
+    .card-label { font-family: 'Inter', sans-serif; font-size: 10px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: #D70030; margin-bottom: 16px; }
+
+    /* Review rows */
+    .review-row { display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 0.5px solid rgba(0,0,0,0.04); }
+    .review-row:last-child { border-bottom: none; }
+    .review-label { font-family: 'Satoshi', sans-serif; font-size: 13px; color: #86868B; }
+    .review-value { font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 500; color: #1D1D1F; }
+
+    /* Area cards */
+    .area-list { display: flex; flex-direction: column; gap: 12px; }
+    .area-item { display: flex; align-items: flex-start; gap: 14px; padding: 16px; border-radius: 14px; background: rgba(0,0,0,0.01); border: 0.5px solid rgba(0,0,0,0.04); }
+    .area-icon { width: 40px; height: 40px; border-radius: 12px; background: rgba(215,0,48,0.04); display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; }
+    .area-info { flex: 1; }
+    .area-name { font-family: 'Satoshi', sans-serif; font-size: 14px; font-weight: 500; color: #1D1D1F; margin-bottom: 2px; }
+    .area-mentor { font-family: 'Inter', sans-serif; font-size: 11px; color: #D70030; margin-bottom: 4px; }
+    .area-specs { font-family: 'Satoshi', sans-serif; font-size: 11px; color: #86868B; line-height: 1.4; }
+    .area-edit { font-family: 'Inter', sans-serif; font-size: 11px; color: #86868B; cursor: pointer; flex-shrink: 0; padding: 4px 8px; border-radius: 6px; transition: background 0.15s; }
+    .area-edit:hover { background: rgba(0,0,0,0.04); }
+
+    /* Mentor team list */
+    .mentor-list { display: flex; flex-direction: column; gap: 8px; }
+    .mentor-row { display: flex; align-items: center; gap: 10px; }
+    .mentor-avatar { width: 28px; height: 28px; border-radius: 50%; border: 1px solid #D2D2D7; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .mentor-avatar span { font-family: 'Inter', sans-serif; font-size: 10px; color: #6E6E73; }
+    .mentor-avatar.primary { border-color: rgba(215,0,48,0.3); }
+    .mentor-avatar.primary span { color: #D70030; }
+    .mentor-name { font-family: 'Satoshi', sans-serif; font-size: 13px; color: #1D1D1F; }
+    .mentor-role-tag { font-family: 'Inter', sans-serif; font-size: 11px; color: #86868B; }
+
+    /* Disclaimers per area */
+    .area-disclaimers { display: flex; flex-direction: column; gap: 8px; }
+    .area-disclaimer { background: rgba(0,0,0,0.02); border-radius: 10px; padding: 12px 14px; }
+    .area-disclaimer p { font-family: 'Inter', sans-serif; font-size: 10px; color: #86868B; line-height: 1.5; }
+    .area-disclaimer strong { color: #6E6E73; }
+    .area-disclaimer .cvv { font-family: 'Inter', sans-serif; font-size: 14px; font-weight: 700; color: #FF9500; margin: 4px 0; }
+
+    /* Consent */
+    .consent { display: flex; flex-direction: column; gap: 12px; }
+    .consent-item { display: flex; align-items: flex-start; gap: 12px; padding: 8px 0; }
+    .checkbox { width: 20px; height: 20px; border-radius: 6px; border: 1.5px solid #D2D2D7; flex-shrink: 0; margin-top: 1px; cursor: pointer; transition: all 0.15s; display: flex; align-items: center; justify-content: center; min-width: 20px; }
+    .checkbox.checked { border-color: #D70030; background: #D70030; }
+    .checkbox.checked::after { content: ''; width: 5px; height: 9px; border: solid #FFF; border-width: 0 1.5px 1.5px 0; transform: rotate(45deg) translate(-0.5px, -0.5px); }
+    .consent-text { font-family: 'Satoshi', sans-serif; font-size: 13px; color: #6E6E73; line-height: 1.5; }
+    .consent-text a { color: #D70030; text-decoration: underline; }
+
+    .btn-activate { font-family: 'Inter', sans-serif; width: 100%; padding: 18px; border-radius: 16px; background: #D70030; color: #FFF; font-size: 16px; font-weight: 600; border: none; cursor: pointer; margin-top: 32px; transition: background 0.15s; min-height: 64px; }
+    .btn-activate:hover { background: #B30028; }
+    .btn-activate:disabled { background: #D2D2D7; cursor: not-allowed; }
+
+    .final-note { font-family: 'Inter', sans-serif; font-size: 11px; color: #AEAEB2; text-align: center; margin-top: 16px; line-height: 1.6; max-width: 440px; margin-left: auto; margin-right: auto; }
+
+    /* Staggered animations */
+    .stagger-1 { animation: fadeUp 0.5s cubic-bezier(0.25,0.1,0.25,1) 0.05s both; }
+    .stagger-2 { animation: fadeUp 0.5s cubic-bezier(0.25,0.1,0.25,1) 0.10s both; }
+    .stagger-3 { animation: fadeUp 0.5s cubic-bezier(0.25,0.1,0.25,1) 0.15s both; }
+    .stagger-4 { animation: fadeUp 0.5s cubic-bezier(0.25,0.1,0.25,1) 0.20s both; }
+    .stagger-5 { animation: fadeUp 0.5s cubic-bezier(0.25,0.1,0.25,1) 0.25s both; }
+    .stagger-6 { animation: fadeUp 0.5s cubic-bezier(0.25,0.1,0.25,1) 0.30s both; }
+    .stagger-7 { animation: fadeUp 0.5s cubic-bezier(0.25,0.1,0.25,1) 0.35s both; }
+  </style>
+</head>
+<body>
+  <a href="connect.html" class="back">← Voltar</a>
+
+  <div class="container">
+    <div class="progress stagger-1">
+      <div class="dot done"></div>
+      <div class="dot done"></div>
+      <div class="dot done"></div>
+      <div class="dot done"></div>
+      <div class="dot active"></div>
+    </div>
+
+    <h1 class="stagger-1">Tudo pronto.</h1>
+    <p class="sub stagger-1">Revise e ative seus mentores pessoais.</p>
+
+    <!-- Summary -->
+    <div class="card stagger-2">
+      <p class="card-label">Resumo</p>
+      <div class="review-row">
+        <span class="review-label">Plano</span>
+        <span class="review-value">RONIN · R$97/mes</span>
+      </div>
+      <div class="review-row">
+        <span class="review-label">Areas ativas</span>
+        <span class="review-value">3 (Saude, Mente, Financas)</span>
+      </div>
+      <div class="review-row">
+        <span class="review-label">Ferramentas</span>
+        <span class="review-value">Calendar, WhatsApp</span>
+      </div>
+      <div class="review-row">
+        <span class="review-label">Mentores</span>
+        <span class="review-value">3 mentores, 9 especialistas</span>
+      </div>
+    </div>
+
+    <!-- Areas detail -->
+    <div class="card stagger-3">
+      <p class="card-label">Suas areas</p>
+      <div class="area-list">
+
+        <div class="area-item">
+          <div class="area-icon">&#x2764;</div>
+          <div class="area-info">
+            <p class="area-name">Saude e Bem-estar</p>
+            <p class="area-mentor">Mentor: Dr. Kenji</p>
+            <p class="area-specs">Yui (Alimentacao), Ryu (Atividade Fisica), Aiko (Sono)</p>
+          </div>
+          <span class="area-edit" onclick="location.href='area-saude.html'">Editar</span>
+        </div>
+
+        <div class="area-item">
+          <div class="area-icon">&#x1F9E0;</div>
+          <div class="area-info">
+            <p class="area-name">Mente e Emocional</p>
+            <p class="area-mentor">Mentora: Sensei Sora</p>
+            <p class="area-specs">Hina (Terapeuta), Zen (Meditacao), Taro (Conselheiro)</p>
+          </div>
+          <span class="area-edit" onclick="location.href='area-mente.html'">Editar</span>
+        </div>
+
+        <div class="area-item">
+          <div class="area-icon">&#x1F4B0;</div>
+          <div class="area-info">
+            <p class="area-name">Financas Pessoais</p>
+            <p class="area-mentor">Mentor: Takeshi</p>
+            <p class="area-specs">Nao (Orcamento), Shin (Investimentos), Mei (Metas)</p>
+          </div>
+          <span class="area-edit" onclick="location.href='area-financas.html'">Editar</span>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Full mentor team -->
+    <div class="card stagger-4">
+      <p class="card-label">Sua equipe completa</p>
+      <div class="mentor-list">
+        <div class="mentor-row">
+          <div class="mentor-avatar primary"><span>K</span></div>
+          <span class="mentor-name">Dr. Kenji</span>
+          <span class="mentor-role-tag">· Mentor de Saude</span>
+        </div>
+        <div class="mentor-row">
+          <div class="mentor-avatar"><span>Y</span></div>
+          <span class="mentor-name">Yui</span>
+          <span class="mentor-role-tag">· Alimentacao</span>
+        </div>
+        <div class="mentor-row">
+          <div class="mentor-avatar"><span>R</span></div>
+          <span class="mentor-name">Ryu</span>
+          <span class="mentor-role-tag">· Atividade Fisica</span>
+        </div>
+        <div class="mentor-row">
+          <div class="mentor-avatar"><span>A</span></div>
+          <span class="mentor-name">Aiko</span>
+          <span class="mentor-role-tag">· Sono</span>
+        </div>
+        <div class="mentor-row">
+          <div class="mentor-avatar primary"><span>S</span></div>
+          <span class="mentor-name">Sensei Sora</span>
+          <span class="mentor-role-tag">· Mentora de Mente</span>
+        </div>
+        <div class="mentor-row">
+          <div class="mentor-avatar"><span>H</span></div>
+          <span class="mentor-name">Hina</span>
+          <span class="mentor-role-tag">· Terapeuta Comportamental</span>
+        </div>
+        <div class="mentor-row">
+          <div class="mentor-avatar"><span>Z</span></div>
+          <span class="mentor-name">Zen</span>
+          <span class="mentor-role-tag">· Meditacao</span>
+        </div>
+        <div class="mentor-row">
+          <div class="mentor-avatar"><span>T</span></div>
+          <span class="mentor-name">Taro</span>
+          <span class="mentor-role-tag">· Conselheiro</span>
+        </div>
+        <div class="mentor-row">
+          <div class="mentor-avatar primary"><span>T</span></div>
+          <span class="mentor-name">Takeshi</span>
+          <span class="mentor-role-tag">· Mentor de Financas</span>
+        </div>
+        <div class="mentor-row">
+          <div class="mentor-avatar"><span>N</span></div>
+          <span class="mentor-name">Nao</span>
+          <span class="mentor-role-tag">· Orcamento</span>
+        </div>
+        <div class="mentor-row">
+          <div class="mentor-avatar"><span>S</span></div>
+          <span class="mentor-name">Shin</span>
+          <span class="mentor-role-tag">· Investimentos</span>
+        </div>
+        <div class="mentor-row">
+          <div class="mentor-avatar"><span>M</span></div>
+          <span class="mentor-name">Mei</span>
+          <span class="mentor-role-tag">· Metas Financeiras</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Area-specific disclaimers -->
+    <div class="card stagger-5">
+      <p class="card-label">Avisos obrigatorios por area</p>
+      <div class="area-disclaimers">
+
+        <div class="area-disclaimer">
+          <p><strong>Saude:</strong> Mentores e especialistas de saude sao assistentes de IA. Nao substituem medicos, nutricionistas, educadores fisicos ou qualquer profissional de saude habilitado. Nao fazem diagnosticos e nao prescrevem tratamentos. Em emergencias, ligue <strong>192 (SAMU)</strong>.</p>
+        </div>
+
+        <div class="area-disclaimer">
+          <p><strong>Mente e Emocional:</strong> Assistentes de IA nao substituem psicologos, psiquiatras ou terapeutas. Nao fazem diagnosticos e nao conduzem psicoterapia. Em caso de crise emocional:</p>
+          <p class="cvv">188 — CVV (24h, gratuito)</p>
+          <p>Chat: <strong>cvv.org.br</strong></p>
+        </div>
+
+        <div class="area-disclaimer">
+          <p><strong>Financas:</strong> Assistentes de IA nao sao consultores financeiros certificados (CFP). Nao fazem recomendacao formal de investimento e nao operam em nome do usuario. Todas as decisoes financeiras sao de responsabilidade exclusiva do usuario.</p>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Consent -->
+    <div class="card stagger-6">
+      <p class="card-label">Consentimento</p>
+      <div class="consent">
+        <div class="consent-item">
+          <div class="checkbox" onclick="this.classList.toggle('checked'); checkAll()"></div>
+          <p class="consent-text">Li e concordo com os <a href="#">Termos de Uso</a></p>
+        </div>
+        <div class="consent-item">
+          <div class="checkbox" onclick="this.classList.toggle('checked'); checkAll()"></div>
+          <p class="consent-text">Li e concordo com a <a href="#">Politica de Privacidade</a> e tratamento de dados conforme LGPD</p>
+        </div>
+        <div class="consent-item">
+          <div class="checkbox" onclick="this.classList.toggle('checked'); checkAll()"></div>
+          <p class="consent-text">Autorizo meus mentores a acessar Google Calendar e WhatsApp conforme configurado. Posso revogar a qualquer momento.</p>
+        </div>
+        <div class="consent-item">
+          <div class="checkbox" onclick="this.classList.toggle('checked'); checkAll()"></div>
+          <p class="consent-text">Li e compreendi todos os avisos obrigatorios acima. Entendo que mentores e especialistas sao assistentes de IA e nao substituem profissionais habilitados.</p>
+        </div>
+        <div class="consent-item">
+          <div class="checkbox" onclick="this.classList.toggle('checked'); checkAll()"></div>
+          <p class="consent-text">Entendo que em caso de emergencia medica (192), crise emocional (188 CVV) ou situacao de risco, devo procurar ajuda profissional imediatamente.</p>
+        </div>
+      </div>
+    </div>
+
+    <button class="btn-activate stagger-7" id="btn-activate" disabled onclick="this.textContent='Mentores ativados'; this.style.opacity='0.7'; setTimeout(()=>location.href='../tenant/dashboard/home-pf.html',1500)">Ativar meus mentores</button>
+
+    <p class="final-note stagger-7">Ao ativar, seus mentores comecam a trabalhar imediatamente. Amanha as 07:30 voce recebe o primeiro check-in no WhatsApp. Voce pode pausar, editar ou cancelar a qualquer momento.</p>
+  </div>
+
+  <script>
+    function checkAll() {
+      const boxes = document.querySelectorAll('.checkbox');
+      const allChecked = [...boxes].every(b => b.classList.contains('checked'));
+      document.getElementById('btn-activate').disabled = !allChecked;
+    }
+  </script>
+</body>
+</html>

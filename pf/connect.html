@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Conectar ferramentas — KTANA</title>
+  <link rel="stylesheet" href="../shared.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Zen+Dots&display=swap" rel="stylesheet">
+  <style>
+    body { min-height: 100vh; background: #F5F5F7; padding: 48px 24px; }
+    .container { max-width: 540px; margin: 0 auto; }
+    .back { position: fixed; top: 20px; left: 24px; font-family: 'Inter', sans-serif; font-size: 12px; color: #86868B; z-index: 20; }
+
+    .progress { display: flex; justify-content: center; gap: 6px; margin-bottom: 40px; }
+    .dot { width: 6px; height: 6px; border-radius: 50%; background: #D2D2D7; }
+    .dot.done { background: #86868B; }
+    .dot.active { background: #D70030; width: 20px; border-radius: 3px; }
+
+    h1 { font-family: 'Zen Dots', cursive; font-size: 28px; color: #1D1D1F; margin-bottom: 8px; text-align: center; }
+    .sub { font-family: 'Satoshi', sans-serif; font-size: 15px; color: #86868B; text-align: center; margin-bottom: 40px; line-height: 1.5; }
+
+    .tools { display: flex; flex-direction: column; gap: 10px; }
+    .tool { background: #FFF; border: 1px solid rgba(0,0,0,0.04); border-radius: 16px; padding: 18px 20px; display: flex; align-items: center; gap: 14px; transition: box-shadow 0.2s; }
+    .tool:hover { box-shadow: 0 2px 12px rgba(0,0,0,0.04); }
+    .tool-icon { width: 44px; height: 44px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-family: 'Inter', sans-serif; font-size: 15px; font-weight: 700; flex-shrink: 0; }
+    .tool-calendar { background: #DBEAFE; color: #2563EB; }
+    .tool-whatsapp { background: #DCFCE7; color: #16A34A; }
+    .tool-health { background: #FCE7F3; color: #DB2777; }
+    .tool-todoist { background: #FEE2E2; color: #DC2626; }
+    .tool-bank { background: #F0F0F0; color: #6E6E73; }
+    .tool-info { flex: 1; }
+    .tool-name { font-family: 'Satoshi', sans-serif; font-size: 14px; font-weight: 500; color: #1D1D1F; }
+    .tool-desc { font-family: 'Satoshi', sans-serif; font-size: 12px; color: #86868B; margin-top: 2px; line-height: 1.4; }
+    .tool-action { font-family: 'Inter', sans-serif; }
+
+    .btn-connect { padding: 10px 18px; border-radius: 980px; background: #1D1D1F; color: #F5F5F7; font-size: 12px; font-weight: 500; border: none; cursor: pointer; transition: background 0.15s; min-height: 44px; }
+    .btn-connect:hover { background: #000; }
+    .btn-connected { padding: 10px 18px; border-radius: 980px; background: rgba(0,0,0,0.03); color: #86868B; font-size: 12px; font-weight: 500; border: none; display: flex; align-items: center; gap: 6px; min-height: 44px; }
+    .btn-connected::before { content: ''; width: 5px; height: 5px; border-radius: 50%; background: #30D158; }
+
+    .section-label { font-family: 'Inter', sans-serif; font-size: 10px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: #D70030; margin-bottom: 12px; margin-top: 32px; }
+
+    .note { font-family: 'Satoshi', sans-serif; font-size: 12px; color: #AEAEB2; text-align: center; margin-top: 24px; line-height: 1.6; }
+
+    .actions { display: flex; gap: 12px; justify-content: center; margin-top: 40px; }
+    .btn-next { font-family: 'Inter', sans-serif; padding: 16px 36px; border-radius: 16px; background: #1D1D1F; color: #F5F5F7; font-size: 15px; font-weight: 500; border: none; cursor: pointer; min-height: 64px; transition: opacity 0.15s; }
+    .btn-next:hover { opacity: 0.9; }
+    .btn-skip { font-family: 'Inter', sans-serif; padding: 16px 24px; border-radius: 16px; background: transparent; color: #86868B; font-size: 14px; border: 1px solid rgba(0,0,0,0.08); cursor: pointer; min-height: 64px; transition: background 0.15s; }
+    .btn-skip:hover { background: rgba(0,0,0,0.02); }
+
+    /* Staggered animations */
+    .stagger-1 { animation: fadeUp 0.5s cubic-bezier(0.25,0.1,0.25,1) 0.05s both; }
+    .stagger-2 { animation: fadeUp 0.5s cubic-bezier(0.25,0.1,0.25,1) 0.10s both; }
+    .stagger-3 { animation: fadeUp 0.5s cubic-bezier(0.25,0.1,0.25,1) 0.15s both; }
+    .stagger-4 { animation: fadeUp 0.5s cubic-bezier(0.25,0.1,0.25,1) 0.20s both; }
+    .stagger-5 { animation: fadeUp 0.5s cubic-bezier(0.25,0.1,0.25,1) 0.25s both; }
+    .stagger-6 { animation: fadeUp 0.5s cubic-bezier(0.25,0.1,0.25,1) 0.30s both; }
+    .stagger-7 { animation: fadeUp 0.5s cubic-bezier(0.25,0.1,0.25,1) 0.35s both; }
+    .stagger-8 { animation: fadeUp 0.5s cubic-bezier(0.25,0.1,0.25,1) 0.40s both; }
+  </style>
+</head>
+<body>
+  <a href="specialist-config.html" class="back">← Especialistas</a>
+
+  <div class="container">
+    <div class="progress stagger-1">
+      <div class="dot done"></div>
+      <div class="dot done"></div>
+      <div class="dot done"></div>
+      <div class="dot active"></div>
+      <div class="dot"></div>
+    </div>
+
+    <h1 class="stagger-2">Conecte sua vida.</h1>
+    <p class="sub stagger-2">Seus mentores precisam de acesso para realmente ajudar. Conecte pelo menos calendario e WhatsApp.</p>
+
+    <p class="section-label stagger-3">Essenciais</p>
+    <div class="tools">
+      <div class="tool stagger-3">
+        <div class="tool-icon tool-calendar">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#2563EB" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+        </div>
+        <div class="tool-info">
+          <p class="tool-name">Google Calendar</p>
+          <p class="tool-desc">Ver sua agenda, sugerir blocos de foco, lembrar compromissos</p>
+        </div>
+        <div class="tool-action">
+          <button class="btn-connected">Conectado</button>
+        </div>
+      </div>
+
+      <div class="tool stagger-4">
+        <div class="tool-icon tool-whatsapp">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="#16A34A"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        </div>
+        <div class="tool-info">
+          <p class="tool-name">WhatsApp</p>
+          <p class="tool-desc">Check-ins, lembretes, conversas com mentores — tudo no seu WhatsApp</p>
+        </div>
+        <div class="tool-action">
+          <button class="btn-connect" onclick="this.outerHTML='<button class=btn-connected>Conectado</button>'">Conectar</button>
+        </div>
+      </div>
+    </div>
+
+    <p class="section-label stagger-5">Recomendados</p>
+    <div class="tools">
+      <div class="tool stagger-5">
+        <div class="tool-icon tool-health">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="#DB2777"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>
+        </div>
+        <div class="tool-info">
+          <p class="tool-name">Apple Health</p>
+          <p class="tool-desc">Dados de sono, passos, frequencia cardiaca. Seus mentores de saude usam pra adaptar orientacoes.</p>
+        </div>
+        <div class="tool-action">
+          <button class="btn-connect" onclick="this.outerHTML='<button class=btn-connected>Conectado</button>'">Conectar</button>
+        </div>
+      </div>
+
+      <div class="tool stagger-6">
+        <div class="tool-icon tool-todoist">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#DC2626" stroke-width="2"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg>
+        </div>
+        <div class="tool-info">
+          <p class="tool-name">Todoist</p>
+          <p class="tool-desc">Gerenciar tarefas e metas. Seus mentores criam e acompanham tarefas automaticamente.</p>
+        </div>
+        <div class="tool-action">
+          <button class="btn-connect" onclick="this.outerHTML='<button class=btn-connected>Conectado</button>'">Conectar</button>
+        </div>
+      </div>
+
+      <div class="tool stagger-7">
+        <div class="tool-icon tool-bank">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#6E6E73" stroke-width="2"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
+        </div>
+        <div class="tool-info">
+          <p class="tool-name">App bancario</p>
+          <p class="tool-desc">Leitura de gastos via Open Finance. Seu mentor financeiro categoriza e monitora limites.</p>
+        </div>
+        <div class="tool-action">
+          <button class="btn-connect" onclick="this.outerHTML='<button class=btn-connected>Conectado</button>'">Conectar</button>
+        </div>
+      </div>
+    </div>
+
+    <p class="note stagger-8">Seus dados nunca sao compartilhados com terceiros. Voce pode revogar qualquer acesso a qualquer momento nas configuracoes.</p>
+
+    <div class="actions stagger-8">
+      <button class="btn-skip" onclick="location.href='review.html'">Pular por agora</button>
+      <button class="btn-next" onclick="location.href='review.html'">Continuar</button>
+    </div>
+  </div>
+</body>
+</html>
