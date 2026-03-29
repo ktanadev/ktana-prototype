@@ -12,6 +12,51 @@
     return 'tenant/' + p;
   }
   const currentFile = path.split('/').pop();
+  const isPF = path.includes('/pf/');
+
+  // PF path resolver
+  function pf(p) {
+    if (path.includes('/pf/')) {
+      const segs = path.split('/pf/')[1].split('/');
+      return '../'.repeat(segs.length - 1) + 'pf/' + p;
+    }
+    return 'pf/' + p;
+  }
+
+  // PF-specific sections
+  const PF_SECTIONS = [
+    { id: 'painel-pf', label: 'Painel', icon: 'M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z', items: [
+      { label: 'Meu dia', href: pf('dashboard.html'), icon: 'M4 6h16M4 12h16M4 18h7' },
+      { label: 'Recomendacoes', href: pf('approvals.html'), icon: 'M9 11l3 3L22 4' },
+      { label: 'Insights', href: pf('insights.html'), icon: 'M22 12h-4l-3 9L9 3l-3 9H2' },
+      { label: 'Atividade', href: pf('activity.html'), icon: 'M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z' },
+    ]},
+    { id: 'areas', label: 'Areas da Vida', icon: 'M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z', items: [
+      { label: 'Saude', href: pf('area-saude.html'), icon: 'M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z' },
+      { label: 'Mente', href: pf('area-mente.html'), icon: 'M12 2a6 6 0 016 6c0 3-2 5-3 6h-6c-1-1-3-3-3-6a6 6 0 016-6z' },
+      { label: 'Carreira', href: pf('area-carreira.html'), icon: 'M20 7H4a2 2 0 00-2 2v10a2 2 0 002 2h16a2 2 0 002-2V9a2 2 0 00-2-2zM16 7V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v2' },
+      { label: 'Financas', href: pf('area-financas.html'), icon: 'M12 1v22M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6' },
+      { label: 'Proposito', href: pf('area-proposito.html'), icon: 'M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z' },
+      { label: 'Produtividade', href: pf('area-produtividade.html'), icon: 'M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z' },
+      { label: 'Relacionamentos', href: pf('area-relacionamentos.html'), icon: 'M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2' },
+      { label: 'Casa', href: pf('area-casa.html'), icon: 'M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z' },
+    ]},
+    { id: 'mentores', label: 'Mentores', icon: 'M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2', items: [
+      { label: 'Conversar', href: pf('chat.html'), icon: 'M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z' },
+      { label: 'Configurar mentores', href: pf('mentor-config.html'), icon: 'M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4' },
+      { label: 'Especialistas', href: pf('specialist-config.html'), icon: 'M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3' },
+    ]},
+    { id: 'solucoes-pf', label: 'Solucoes', icon: 'M13 10V3L4 14h7v7l9-11h-7z', items: [
+      { label: 'Marketplace', href: pf('solutions.html'), icon: 'M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6z' },
+      { label: 'Builder', href: pf('builder.html'), icon: 'M12 4v16m8-8H4' },
+    ]},
+    { id: 'config-pf', label: 'Config', icon: 'M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.066 2.573c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.573 1.066c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.066-2.573c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z', items: [
+      { label: 'Configuracoes', href: pf('settings.html'), icon: 'M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4' },
+      { label: 'Meu perfil', href: pf('profile.html'), icon: 'M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2M12 3a4 4 0 100 8 4 4 0 000-8z' },
+      { label: 'Espirito', href: pf('spirit.html'), icon: 'M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z' },
+      { label: 'Conexoes', href: pf('connect.html'), icon: 'M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101' },
+    ]},
+  ];
 
   const SECTIONS = [
     { id: 'painel', label: 'Painel', icon: 'M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z', items: [
@@ -60,14 +105,17 @@
   }
 
   function buildNav() {
+    // Use PF sections when in /pf/ path
+    const sections = isPF ? PF_SECTIONS : SECTIONS;
+
     // Determine which section is active
     let activeSection = '';
-    SECTIONS.forEach(s => {
+    sections.forEach(s => {
       if (s.items.some(item => item.href.endsWith(currentFile))) activeSection = s.id;
     });
 
     let sidebarItems = '';
-    SECTIONS.forEach(s => {
+    sections.forEach(s => {
       const isOpen = s.id === activeSection;
       const hasActive = s.items.some(item => item.href.endsWith(currentFile));
 
@@ -97,7 +145,7 @@
         </button>
         <div class="kt-org" onclick="toggleOrgSwitcher()">
           <span class="kt-logo">KTANA</span>
-          <span class="kt-client-name" style="font-family:'Inter',sans-serif;font-size:12px;color:#86868B;margin-left:8px;">CSB Fintechs</span>
+          <span class="kt-client-name" style="font-family:'Inter',sans-serif;font-size:12px;color:#86868B;margin-left:8px;">${isPF ? 'Pessoal' : 'CSB Fintechs'}</span>
           <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" class="kt-org-chev"><path d="M6 9l6 6 6-6"/></svg>
           <!-- Org Switcher (inside kt-org for correct positioning) -->
           <div class="kt-org-drop" id="ktOrgDrop">
@@ -142,15 +190,27 @@
           </a>
           <div class="kt-profile-sep"></div>
           <div class="kt-profile-env-label">Ambiente</div>
+          ${isPF ? `
+          <div class="kt-profile-item kt-profile-env-active">
+            <span class="kt-env-dot kt-env-dot-active"></span>
+            <span>Ambiente PF</span>
+            <span class="kt-env-current">Atual</span>
+          </div>
+          <a href="${t('dashboard/home.html')}" class="kt-profile-item kt-profile-env-switch" style="text-decoration:none;color:inherit;">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v2"/></svg>
+            <span>Ambiente PJ</span>
+          </a>
+          ` : `
           <div class="kt-profile-item kt-profile-env-active">
             <span class="kt-env-dot kt-env-dot-active"></span>
             <span>Ambiente PJ</span>
             <span class="kt-env-current">Atual</span>
           </div>
           <button class="kt-profile-item kt-profile-env-switch" id="ktEnvSwitchBtn" onclick="showPfAuth(event)">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
             <span>Ambiente PF</span>
           </button>
+          `}
           <!-- WhatsApp auth inline (hidden by default) -->
           <div class="kt-pf-auth" id="ktPfAuth" style="display:none;">
             <p class="kt-pf-auth-msg">Codigo enviado ao WhatsApp. Digite para acessar:</p>
@@ -162,7 +222,7 @@
               <input type="text" maxlength="1" class="kt-pf-code" data-idx="4" inputmode="numeric" autocomplete="off">
               <input type="text" maxlength="1" class="kt-pf-code" data-idx="5" inputmode="numeric" autocomplete="off">
             </div>
-            <button class="kt-pf-confirm" onclick="window.location.href=t('dashboard/home-pf.html')" style="width:100%;margin-top:10px;padding:10px;border-radius:10px;background:#D70030;color:#FFF;border:none;font-family:'Inter',sans-serif;font-size:13px;font-weight:500;cursor:pointer;min-height:40px;">Entrar no ambiente PF</button>
+            <button class="kt-pf-confirm" onclick="window.location.href=(path.includes('/tenant/')?'../../pf/dashboard.html':path.includes('/pf/')?'dashboard.html':'pf/dashboard.html')" style="width:100%;margin-top:10px;padding:10px;border-radius:10px;background:#D70030;color:#FFF;border:none;font-family:'Inter',sans-serif;font-size:13px;font-weight:500;cursor:pointer;min-height:40px;">Entrar no ambiente PF</button>
           </div>
           <div class="kt-profile-sep"></div>
           <button class="kt-profile-item kt-profile-logout" onclick="alert('Saindo...')">
