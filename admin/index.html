@@ -50,8 +50,8 @@
     <nav class="flex-1 px-3 py-4 space-y-0.5 text-[13px]">
       <button onclick="show('overview')" class="nav-btn w-full text-left px-3 py-2 rounded-lg text-[#8E8E93] hover:text-white hover:bg-white/[0.04] transition-colors">Visao Geral</button>
       <button onclick="show('flow')" class="nav-btn w-full text-left px-3 py-2 rounded-lg text-[#8E8E93] hover:text-white hover:bg-white/[0.04] transition-colors">Fluxo de Agentes</button>
-      <button onclick="show('tenants')" class="nav-btn w-full text-left px-3 py-2 rounded-lg text-[#8E8E93] hover:text-white hover:bg-white/[0.04] transition-colors">Inquilinos</button>
-      <button onclick="show('tenant-detail')" class="nav-btn w-full text-left px-3 py-2 rounded-lg text-[#8E8E93] hover:text-white hover:bg-white/[0.04] transition-colors">Detalhe do Inquilino</button>
+      <button onclick="show('tenants')" class="nav-btn w-full text-left px-3 py-2 rounded-lg text-[#8E8E93] hover:text-white hover:bg-white/[0.04] transition-colors">Usuarios Ativos</button>
+      <button onclick="show('tenant-detail')" class="nav-btn w-full text-left px-3 py-2 rounded-lg text-[#8E8E93] hover:text-white hover:bg-white/[0.04] transition-colors">Gestao do Cliente</button>
       <button onclick="show('agents')" class="nav-btn w-full text-left px-3 py-2 rounded-lg text-[#8E8E93] hover:text-white hover:bg-white/[0.04] transition-colors">Agentes</button>
       <button onclick="show('health')" class="nav-btn w-full text-left px-3 py-2 rounded-lg text-[#8E8E93] hover:text-white hover:bg-white/[0.04] transition-colors">Saude do Sistema</button>
       <button onclick="show('billing')" class="nav-btn w-full text-left px-3 py-2 rounded-lg text-[#8E8E93] hover:text-white hover:bg-white/[0.04] transition-colors">Faturamento</button>
@@ -412,45 +412,10 @@
         </div>
       </div>
 
-      <!-- Live Feed Sidebar (right) -->
-      <div id="flow-feed-sidebar" class="absolute top-4 right-4 w-72 max-h-[calc(100%-120px)] overflow-hidden">
-        <div class="admin-card p-4 bg-[#1C1C1E]/90 backdrop-blur-sm">
-          <p class="text-[9px] text-[#636366] tracking-widest mb-3 uppercase flex items-center gap-1.5">
-            <span class="w-1 h-1 rounded-full bg-[#D70030] glow-active"></span>LIVE FEED
-          </p>
-          <div id="flow-feed-items" class="space-y-2 text-[10px]">
-            <div class="flex items-start gap-2 py-1">
-              <div class="w-5 h-5 rounded-full bg-[#D70030]/15 border border-[#D70030]/30 flex items-center justify-center shrink-0 mt-0.5"><span class="text-[#D70030] text-[8px]">A</span></div>
-              <div><span class="text-[#8E8E93]">Akira</span> <span class="text-[#D2D2D7]">Relatorio consolidado</span><br><span class="text-[#48484A] tabular-nums">17:04</span></div>
-            </div>
-            <div class="flex items-start gap-2 py-1">
-              <div class="w-5 h-5 rounded-full bg-white/[0.04] border border-white/10 flex items-center justify-center shrink-0 mt-0.5"><span class="text-[#8E8E93] text-[8px]">Y</span></div>
-              <div><span class="text-[#8E8E93]">Yuki</span> <span class="text-[#D2D2D7]">Pagamento conciliado</span><br><span class="text-[#48484A] tabular-nums">17:02</span></div>
-            </div>
-            <div class="flex items-start gap-2 py-1">
-              <div class="w-5 h-5 rounded-full bg-white/[0.04] border border-white/10 flex items-center justify-center shrink-0 mt-0.5"><span class="text-[#8E8E93] text-[8px]">H</span></div>
-              <div><span class="text-[#8E8E93]">Hana</span> <span class="text-[#D2D2D7]">23 emails filtrados</span><br><span class="text-[#48484A] tabular-nums">17:00</span></div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Floating Chat Panel (bottom-right) -->
-      <div class="absolute bottom-16 right-4 w-72">
-        <div class="admin-card p-3 bg-[#1C1C1E]/95 backdrop-blur-sm border border-white/[0.06]">
-          <p class="text-[9px] text-[#636366] tracking-widest mb-2 uppercase">Conversar com agente</p>
-          <div class="flex items-center gap-2">
-            <input type="text" placeholder="Clique um node e pergunte..." class="admin-input w-full px-3 py-2 text-[11px]" id="flow-chat-input">
-            <button class="admin-btn px-3 py-2 text-[10px] shrink-0">Enviar</button>
-          </div>
-        </div>
-      </div>
-
-      <!-- Bottom bar -->
-      <div class="absolute bottom-0 left-0 right-0 px-8 py-4 bg-gradient-to-t from-[#050505] to-transparent flex items-center justify-between text-[10px] text-[#636366]">
-        <span>124 tenants · 847 samurais · 12.4k acoes hoje</span>
-        <span>Zoom: scroll | Pan: drag | Click: inspecionar</span>
-        <span>Streaming: SSE · 60fps</span>
+      <!-- Bottom bar — compact, no overlap -->
+      <div class="absolute bottom-0 left-0 right-0 px-6 py-3 bg-gradient-to-t from-[#050505] via-[#050505]/90 to-transparent flex items-center justify-between text-[9px] text-[#48484A] z-20">
+        <span class="flex items-center gap-1.5"><span class="w-1.5 h-1.5 rounded-full bg-[#D70030] glow-active"></span><span class="text-[#636366]">Live</span> · <span id="flow-action-count">12.4k</span> acoes · <span id="flow-agent-count">847</span> agentes · <span id="flow-latency">12</span>ms</span>
+        <span>scroll: zoom · drag: pan · click: inspecionar</span>
       </div>
     </main>
   </div>
@@ -460,7 +425,7 @@
   <!-- ========================================== -->
   <div id="tenants" class="screen">
     <header class="px-8 py-4 border-b border-white/[0.04] flex items-center justify-between">
-      <h1 class="text-lg font-semibold">Inquilinos</h1>
+      <h1 class="text-lg font-semibold">Usuarios Ativos</h1>
       <div class="flex items-center gap-3">
         <input type="text" placeholder="Buscar tenant..." class="admin-input px-3 py-1.5 text-xs w-48">
         <span class="text-xs text-[#8E8E93]">124 ativos</span>
@@ -662,7 +627,7 @@
   <div id="tenant-detail" class="screen">
     <header class="px-8 py-4 border-b border-white/[0.04] flex items-center justify-between">
       <div class="flex items-center gap-3">
-        <button onclick="show('tenants')" class="text-[#636366] text-xs hover:text-[#8E8E93] transition-colors">← Inquilinos</button>
+        <button onclick="show('tenants')" class="text-[#636366] text-xs hover:text-[#8E8E93] transition-colors">← Usuarios Ativos</button>
         <div class="w-8 h-8 rounded-xl bg-[#D70030]/10 border border-[#D70030]/20 flex items-center justify-center">
           <span class="text-[#D70030] text-xs font-semibold">K</span>
         </div>
@@ -2193,32 +2158,9 @@
       let flowActiveAgents = 847;
       let flowLatency = 12;
 
-      // Create live status bar in flow screen
+      // Flow screen — feed + particles + tooltips (HTML already in place, JS only adds dynamics)
       const flowScreen = document.getElementById('flow');
       if (flowScreen) {
-        // Add activity feed sidebar
-        const flowMain = flowScreen.querySelector('main');
-        if (flowMain) {
-          const feedPanel = document.createElement('div');
-          feedPanel.id = 'flow-feed';
-          feedPanel.className = 'absolute top-4 right-4 w-64 max-h-80 overflow-hidden';
-          feedPanel.innerHTML = '<div class="admin-card p-3 bg-[#1C1C1E]/90 backdrop-blur-sm">' +
-            '<p class="text-[9px] text-[#636366] tracking-widest mb-2 uppercase flex items-center gap-1.5">' +
-            '<span class="w-1 h-1 rounded-full bg-[#D70030] glow-active"></span>LIVE FEED</p>' +
-            '<div id="flow-feed-items" class="space-y-1.5 text-[10px]"></div></div>';
-          flowMain.appendChild(feedPanel);
-
-          // Replace the static bottom bar with dynamic one
-          const bottomBar = flowMain.querySelector('.absolute.bottom-0');
-          if (bottomBar) {
-            bottomBar.id = 'flow-status-bar';
-            bottomBar.innerHTML = '<span id="flow-status-left">' +
-              '<span class="flex items-center gap-1.5 inline-flex"><span class="w-1.5 h-1.5 rounded-full bg-[#D70030] glow-active"></span>Live</span>' +
-              ' · <span id="flow-action-count">12.4k</span> acoes · <span id="flow-agent-count">847</span> agentes ativos · <span id="flow-latency">12</span>ms latencia</span>' +
-              '<span>Zoom: scroll | Pan: drag | Click: inspecionar</span>' +
-              '<span>Streaming: SSE · 60fps</span>';
-          }
-        }
 
         // Add SVG animation layer to the flow chart
         const flowContainer = flowScreen.querySelector('.relative[style*="width:900px"]');

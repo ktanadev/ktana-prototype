@@ -438,6 +438,7 @@
 
         <div class="uaf-canvas" id="uafCanvas">
           <div class="uaf-grid"></div>
+          <div class="uaf-nebula"></div>
 
           <!-- SVG layer for bezier curves and particles -->
           <svg class="uaf-svg" id="uafSvg">
@@ -627,10 +628,18 @@
               path.setAttribute('d','M'+f.x+','+f.y+' C'+cp1x+','+cp1y+' '+cp2x+','+cp2y+' '+t.x+','+t.y);
               path.setAttribute('fill','none');
               path.setAttribute('stroke',e.color);
-              path.setAttribute('stroke-opacity','0.12');
-              path.setAttribute('stroke-width','1.5');
+              path.setAttribute('stroke-opacity','0.25');
+              path.setAttribute('stroke-width','2');
+              path.setAttribute('filter','url(#edgeGlow)');
               path.id = 'uafEdge-'+i;
               edgesG.appendChild(path);
+              // Second path for wider faint glow
+              var glow = path.cloneNode();
+              glow.setAttribute('stroke-opacity','0.08');
+              glow.setAttribute('stroke-width','6');
+              glow.removeAttribute('filter');
+              glow.removeAttribute('id');
+              edgesG.insertBefore(glow, path);
             });
           }
 

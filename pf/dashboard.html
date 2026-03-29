@@ -80,17 +80,17 @@
     .feed-desc { font-family: 'Satoshi', sans-serif; font-size: 13px; color: #86868B; flex: 1; }
     .feed-agent { font-weight: 500; color: #48484A; }
 
-    /* Goals */
+    /* Goals — mentor-tracked status */
     .goals-card { background: #FFF; border-radius: 20px; border: 1px solid rgba(0,0,0,0.04); padding: 18px 20px; }
     .goal-item { display: flex; align-items: center; gap: 12px; padding: 11px 0; border-bottom: 0.5px solid rgba(0,0,0,0.03); }
     .goal-item:last-child { border-bottom: none; }
-    .goal-check { width: 22px; height: 22px; border-radius: 50%; border: 1.5px solid #D2D2D7; cursor: pointer; flex-shrink: 0; display: flex; align-items: center; justify-content: center; transition: all 0.2s; }
-    .goal-check:hover { border-color: #30D158; }
-    .goal-check.done { background: #30D158; border-color: #30D158; }
-    .goal-check.done svg { opacity: 1; }
-    .goal-check svg { opacity: 0; transition: opacity 0.2s; }
-    .goal-text { font-family: 'Satoshi', sans-serif; font-size: 14px; color: #1D1D1F; flex: 1; transition: all 0.2s; }
-    .goal-text.done { color: #AEAEB2; text-decoration: line-through; }
+    .goal-status-icon { width: 24px; height: 24px; border-radius: 50%; flex-shrink: 0; display: flex; align-items: center; justify-content: center; }
+    .goal-status-icon.done { background: #30D158; }
+    .goal-status-icon.pending { background: rgba(0,0,0,0.04); border: 1.5px solid #D2D2D7; }
+    .goal-status-icon svg { width: 12px; height: 12px; }
+    .goal-text { font-family: 'Satoshi', sans-serif; font-size: 14px; color: #1D1D1F; flex: 1; }
+    .goal-text.done { color: #86868B; }
+    .goal-source { font-family: 'Inter', sans-serif; font-size: 10px; color: #AEAEB2; display: block; margin-top: 1px; }
     .goal-mentor { font-family: 'Inter', sans-serif; font-size: 11px; color: #AEAEB2; flex-shrink: 0; }
 
     /* Animations */
@@ -329,42 +329,54 @@
       </div>
     </div>
 
-    <!-- 6. Metas de hoje -->
+    <!-- 6. Metas de hoje — mentores monitorando -->
     <div class="section-label fade-in" style="animation-delay: 0.48s;">
-      <span>Metas de hoje</span>
-      <span class="section-count">0/4</span>
+      <span>Seus mentores cuidando hoje</span>
+      <span class="section-count">1/4 confirmado</span>
     </div>
     <div class="goals-card fade-in" style="animation-delay: 0.52s;">
 
       <div class="goal-item">
-        <div class="goal-check" onclick="toggleGoal(this)">
+        <div class="goal-status-icon done">
           <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#FFF" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
         </div>
-        <span class="goal-text">Caminhada de 20 minutos (substituindo treino)</span>
+        <div>
+          <span class="goal-text done">Caminhada de 20 minutos (substituindo treino)</span>
+          <span class="goal-source">Apple Watch confirmou 22min as 07:45</span>
+        </div>
         <span class="goal-mentor">Dr. Kenji</span>
       </div>
 
       <div class="goal-item">
-        <div class="goal-check" onclick="toggleGoal(this)">
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#FFF" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+        <div class="goal-status-icon pending">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#AEAEB2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
         </div>
-        <span class="goal-text">Bloco de foco: 2h de trabalho profundo antes do almoco</span>
+        <div>
+          <span class="goal-text">Bloco de foco: 2h de trabalho profundo antes do almoco</span>
+          <span class="goal-source">Takeshi monitorando Calendar</span>
+        </div>
         <span class="goal-mentor">Takeshi</span>
       </div>
 
       <div class="goal-item">
-        <div class="goal-check" onclick="toggleGoal(this)">
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#FFF" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+        <div class="goal-status-icon pending">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#AEAEB2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
         </div>
-        <span class="goal-text">Revisar portfolio de investimentos (acao pendente)</span>
+        <div>
+          <span class="goal-text">Revisar portfolio de investimentos</span>
+          <span class="goal-source">Sensei Sora vai lembrar as 15h</span>
+        </div>
         <span class="goal-mentor">Sensei Sora</span>
       </div>
 
       <div class="goal-item">
-        <div class="goal-check" onclick="toggleGoal(this)">
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#FFF" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+        <div class="goal-status-icon pending">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#AEAEB2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
         </div>
-        <span class="goal-text">Dormir ate 23h (meta de recuperacao do sono)</span>
+        <div>
+          <span class="goal-text">Dormir ate 23h (meta de recuperacao do sono)</span>
+          <span class="goal-source">Dr. Kenji monitora via Apple Watch</span>
+        </div>
         <span class="goal-mentor">Dr. Kenji</span>
       </div>
 
@@ -408,28 +420,7 @@
       return div.innerHTML;
     }
 
-    // Goal toggle
-    var completedCount = 0;
-    var totalGoals = 4;
-
-    function toggleGoal(el) {
-      var textEl = el.nextElementSibling;
-      if (el.classList.contains('done')) {
-        el.classList.remove('done');
-        textEl.classList.remove('done');
-        completedCount--;
-      } else {
-        el.classList.add('done');
-        textEl.classList.add('done');
-        completedCount++;
-      }
-      updateGoalCount();
-    }
-
-    function updateGoalCount() {
-      var countEl = document.querySelector('.goals-card').previousElementSibling.querySelector('.section-count');
-      if (countEl) countEl.textContent = completedCount + '/' + totalGoals;
-    }
+    // Goals are tracked by mentors — no manual toggle needed
   </script>
   
   <section class="chat-section">
@@ -446,6 +437,6 @@
     </div>
   </section>
   <script>function cA(t){var c=document.getElementById('cChat'),y=document.getElementById('cTy');y.style.display='flex';c.scrollTop=c.scrollHeight;setTimeout(function(){y.style.display='none';var m=document.createElement('div');m.className='c-msg';m.style.animation='cSlide 0.4s ease forwards';m.innerHTML='<div class="c-av"><span>Y</span></div><div><div class="c-bbl c-bbl-a"><p>'+t+'</p></div><p class="c-meta">Yumi · '+new Date().toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'})+'</p></div>';c.insertBefore(m,y);c.scrollTop=c.scrollHeight;},1200);}function cM(){var i=document.getElementById('cInp'),t=i.value.trim();if(!t)return;var c=document.getElementById('cChat'),y=document.getElementById('cTy');var u=document.createElement('div');u.className='c-msg c-msg-user';u.style.animation='cSlide 0.3s ease forwards';u.innerHTML='<div><div class="c-bbl c-bbl-u"><p>'+t+'</p></div><p class="c-meta" style="text-align:right;">'+new Date().toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'})+'</p></div>';c.insertBefore(u,y);i.value='';i.style.height='auto';cA('Entendido. Ja estou processando.');c.scrollTop=c.scrollHeight;}function cQ(b){document.getElementById('cInp').value=b.textContent;cM();}</script>
-<script src="../shared-nav.js?v=1774805559"></script>
+<script src="../shared-nav.js?v=1774900000"></script>
 </body>
 </html>
