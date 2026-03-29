@@ -1,0 +1,828 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>KTANA Admin Master — Prototype</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Zen+Dots&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', '-apple-system', 'system-ui', 'sans-serif'],
+            display: ['Zen Dots', 'cursive'],
+          },
+        }
+      }
+    }
+  </script>
+  <style>
+    body { font-family: 'Inter', sans-serif; -webkit-font-smoothing: antialiased; }
+    .screen { display: none; min-height: 100vh; }
+    .screen.active { display: flex; flex-direction: column; }
+    .fade-in { animation: fadeIn 0.3s cubic-bezier(0.25,0.1,0.25,1); }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes pulse-glow { 0%, 100% { box-shadow: 0 0 8px rgba(215,0,48,0.2); } 50% { box-shadow: 0 0 20px rgba(215,0,48,0.4); } }
+    @keyframes particle { 0% { offset-distance: 0%; opacity: 1; } 100% { offset-distance: 100%; opacity: 0; } }
+    .glow-active { animation: pulse-glow 2s ease-in-out infinite; }
+    .node { transition: all 0.2s ease; }
+    .node:hover { transform: scale(1.12); }
+    .stat-card { background: #1C1C1E; border: 1px solid rgba(255,255,255,0.06); border-radius: 16px; }
+    .admin-card { background: #1C1C1E; border: 1px solid rgba(255,255,255,0.04); border-radius: 16px; }
+    .admin-input { background: #2C2C2E; border: 1px solid rgba(255,255,255,0.08); border-radius: 10px; color: white; }
+    .admin-input:focus { border-color: #D70030; outline: none; }
+    .admin-input::placeholder { color: #636366; }
+    .admin-btn { background: #D70030; color: white; border-radius: 10px; font-weight: 500; transition: opacity 0.15s; }
+    .admin-btn:hover { opacity: 0.9; }
+    .admin-btn-secondary { background: #2C2C2E; color: #D2D2D7; border-radius: 10px; font-weight: 500; }
+  </style>
+</head>
+<body class="bg-[#0A0A0A] text-[#F5F5F7] antialiased">
+
+  <!-- SIDEBAR + NAV -->
+  <div class="fixed left-0 top-0 bottom-0 w-56 bg-[#111111] border-r border-white/[0.04] flex flex-col z-50">
+    <div class="px-5 py-5 border-b border-white/[0.04]">
+      <span class="font-display text-[#D70030] text-sm">KTANA</span>
+      <span class="text-[10px] text-[#636366] ml-1">ADMIN</span>
+    </div>
+    <nav class="flex-1 px-3 py-4 space-y-0.5 text-[13px]">
+      <button onclick="show('overview')" class="nav-btn w-full text-left px-3 py-2 rounded-lg text-[#8E8E93] hover:text-white hover:bg-white/[0.04] transition-colors">Overview</button>
+      <button onclick="show('flow')" class="nav-btn w-full text-left px-3 py-2 rounded-lg text-[#8E8E93] hover:text-white hover:bg-white/[0.04] transition-colors">Agent Flow</button>
+      <button onclick="show('tenants')" class="nav-btn w-full text-left px-3 py-2 rounded-lg text-[#8E8E93] hover:text-white hover:bg-white/[0.04] transition-colors">Tenants</button>
+      <button onclick="show('tenant-detail')" class="nav-btn w-full text-left px-3 py-2 rounded-lg text-[#8E8E93] hover:text-white hover:bg-white/[0.04] transition-colors">Tenant Detail</button>
+      <button onclick="show('agents')" class="nav-btn w-full text-left px-3 py-2 rounded-lg text-[#8E8E93] hover:text-white hover:bg-white/[0.04] transition-colors">Agentes</button>
+      <button onclick="show('health')" class="nav-btn w-full text-left px-3 py-2 rounded-lg text-[#8E8E93] hover:text-white hover:bg-white/[0.04] transition-colors">System Health</button>
+      <button onclick="show('billing')" class="nav-btn w-full text-left px-3 py-2 rounded-lg text-[#8E8E93] hover:text-white hover:bg-white/[0.04] transition-colors">Billing</button>
+      <button onclick="show('compliance')" class="nav-btn w-full text-left px-3 py-2 rounded-lg text-[#8E8E93] hover:text-white hover:bg-white/[0.04] transition-colors">Compliance</button>
+      <button onclick="show('catalog')" class="nav-btn w-full text-left px-3 py-2 rounded-lg text-[#8E8E93] hover:text-white hover:bg-white/[0.04] transition-colors">Catalogo</button>
+      <button onclick="show('settings-admin')" class="nav-btn w-full text-left px-3 py-2 rounded-lg text-[#8E8E93] hover:text-white hover:bg-white/[0.04] transition-colors">Config</button>
+    </nav>
+    <div class="px-5 py-4 border-t border-white/[0.04]">
+      <p class="text-[11px] text-[#636366]">admin@ktana.ai</p>
+      <p class="text-[10px] text-[#48484A]">superadmin</p>
+    </div>
+  </div>
+
+  <div class="ml-56">
+
+  <!-- ========================================== -->
+  <!-- SCREEN 1: OVERVIEW                         -->
+  <!-- ========================================== -->
+  <div id="overview" class="screen active">
+    <header class="px-8 py-5 border-b border-white/[0.04] flex items-center justify-between">
+      <h1 class="text-lg font-semibold">Overview</h1>
+      <div class="flex items-center gap-3">
+        <span class="w-2 h-2 rounded-full bg-[#30D158]"></span>
+        <span class="text-xs text-[#8E8E93]">Todos sistemas operacionais</span>
+      </div>
+    </header>
+
+    <main class="flex-1 px-8 py-8">
+      <!-- Stats -->
+      <div class="grid grid-cols-5 gap-4 mb-10 fade-in">
+        <div class="stat-card p-5">
+          <p class="text-3xl font-bold tabular-nums">124</p>
+          <p class="text-[11px] text-[#8E8E93] mt-1">tenants ativos</p>
+        </div>
+        <div class="stat-card p-5">
+          <p class="text-3xl font-bold tabular-nums">847</p>
+          <p class="text-[11px] text-[#8E8E93] mt-1">samurais ativos</p>
+        </div>
+        <div class="stat-card p-5">
+          <p class="text-3xl font-bold tabular-nums">12.4k</p>
+          <p class="text-[11px] text-[#8E8E93] mt-1">acoes hoje</p>
+        </div>
+        <div class="stat-card p-5">
+          <p class="text-3xl font-bold tabular-nums">R$34k</p>
+          <p class="text-[11px] text-[#8E8E93] mt-1">MRR</p>
+        </div>
+        <div class="stat-card p-5">
+          <p class="text-3xl font-bold tabular-nums">99.2%</p>
+          <p class="text-[11px] text-[#8E8E93] mt-1">uptime</p>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-2 gap-6">
+        <!-- Top Tenants -->
+        <div class="admin-card p-6 fade-in" style="animation-delay:0.1s">
+          <p class="text-[10px] text-[#636366] tracking-widest mb-4">TOP TENANTS (por atividade)</p>
+          <div class="space-y-3">
+            <div class="flex items-center justify-between">
+              <div class="flex items-center gap-3">
+                <div class="w-2 h-2 rounded-full bg-[#30D158]"></div>
+                <span class="text-sm">KTANA</span>
+              </div>
+              <div class="flex items-center gap-4 text-xs text-[#8E8E93]">
+                <span>GUNDAN</span>
+                <span>8 samurais</span>
+                <span class="tabular-nums">312 acoes</span>
+              </div>
+            </div>
+            <div class="flex items-center justify-between">
+              <div class="flex items-center gap-3">
+                <div class="w-2 h-2 rounded-full bg-[#30D158]"></div>
+                <span class="text-sm">Startup Z</span>
+              </div>
+              <div class="flex items-center gap-4 text-xs text-[#8E8E93]">
+                <span>BAKUFU</span>
+                <span>15 samurais</span>
+                <span class="tabular-nums">1.2k acoes</span>
+              </div>
+            </div>
+            <div class="flex items-center justify-between">
+              <div class="flex items-center gap-3">
+                <div class="w-2 h-2 rounded-full bg-[#30D158]"></div>
+                <span class="text-sm">Empresa X</span>
+              </div>
+              <div class="flex items-center gap-4 text-xs text-[#8E8E93]">
+                <span>BUSHI</span>
+                <span>3 samurais</span>
+                <span class="tabular-nums">89 acoes</span>
+              </div>
+            </div>
+            <div class="flex items-center justify-between">
+              <div class="flex items-center gap-3">
+                <div class="w-2 h-2 rounded-full bg-[#30D158]"></div>
+                <span class="text-sm">Consultoria ABC</span>
+              </div>
+              <div class="flex items-center gap-4 text-xs text-[#8E8E93]">
+                <span>GUNDAN</span>
+                <span>6 samurais</span>
+                <span class="tabular-nums">245 acoes</span>
+              </div>
+            </div>
+            <div class="flex items-center justify-between">
+              <div class="flex items-center gap-3">
+                <div class="w-2 h-2 rounded-full bg-[#8E8E93]"></div>
+                <span class="text-sm text-[#8E8E93]">Pessoa Y</span>
+              </div>
+              <div class="flex items-center gap-4 text-xs text-[#636366]">
+                <span>RONIN</span>
+                <span>1 samurai</span>
+                <span class="tabular-nums">45 acoes</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- System Status -->
+        <div class="admin-card p-6 fade-in" style="animation-delay:0.2s">
+          <p class="text-[10px] text-[#636366] tracking-widest mb-4">SYSTEM STATUS</p>
+          <div class="space-y-3">
+            <div class="flex items-center justify-between">
+              <span class="text-sm">Workers</span>
+              <div class="flex items-center gap-3">
+                <div class="w-32 h-1.5 bg-[#2C2C2E] rounded-full overflow-hidden"><div class="h-full bg-[#30D158] rounded-full" style="width:84%"></div></div>
+                <span class="text-xs text-[#8E8E93] tabular-nums">847/1000</span>
+              </div>
+            </div>
+            <div class="flex items-center justify-between">
+              <span class="text-sm">Memory API</span>
+              <div class="flex items-center gap-2">
+                <span class="w-1.5 h-1.5 rounded-full bg-[#30D158]"></span>
+                <span class="text-xs text-[#8E8E93]">1.2ms</span>
+              </div>
+            </div>
+            <div class="flex items-center justify-between">
+              <span class="text-sm">Redis</span>
+              <div class="flex items-center gap-3">
+                <div class="w-32 h-1.5 bg-[#2C2C2E] rounded-full overflow-hidden"><div class="h-full bg-[#30D158] rounded-full" style="width:66%"></div></div>
+                <span class="text-xs text-[#8E8E93] tabular-nums">340/512MB</span>
+              </div>
+            </div>
+            <div class="flex items-center justify-between">
+              <span class="text-sm">PostgreSQL</span>
+              <div class="flex items-center gap-3">
+                <div class="w-32 h-1.5 bg-[#2C2C2E] rounded-full overflow-hidden"><div class="h-full bg-[#30D158] rounded-full" style="width:21%"></div></div>
+                <span class="text-xs text-[#8E8E93] tabular-nums">2.1/10GB</span>
+              </div>
+            </div>
+            <div class="flex items-center justify-between">
+              <span class="text-sm">Oracle VM</span>
+              <div class="flex items-center gap-2">
+                <span class="text-xs text-[#8E8E93]">CPU 34% | RAM 62% | Disk 28%</span>
+              </div>
+            </div>
+            <div class="flex items-center justify-between">
+              <span class="text-sm">LLM APIs</span>
+              <div class="flex items-center gap-2 text-xs">
+                <span class="text-[#30D158]">Anthropic</span>
+                <span class="text-[#30D158]">OpenAI</span>
+                <span class="text-[#30D158]">Google</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Recent activity -->
+      <div class="admin-card p-6 mt-6 fade-in" style="animation-delay:0.3s">
+        <p class="text-[10px] text-[#636366] tracking-widest mb-4">ATIVIDADE GLOBAL</p>
+        <div class="space-y-2">
+          <div class="flex items-center gap-4 py-1.5 text-xs">
+            <span class="text-[#636366] tabular-nums w-12">17:02</span>
+            <span class="text-[#8E8E93] w-24">KTANA</span>
+            <span class="text-[#8E8E93] w-16">Yuki</span>
+            <span class="text-[#D2D2D7]">Relatorio diario enviado</span>
+          </div>
+          <div class="flex items-center gap-4 py-1.5 text-xs">
+            <span class="text-[#636366] tabular-nums w-12">17:00</span>
+            <span class="text-[#8E8E93] w-24">Startup Z</span>
+            <span class="text-[#8E8E93] w-16">CEO-Z</span>
+            <span class="text-[#D2D2D7]">Briefing consolidado enviado</span>
+          </div>
+          <div class="flex items-center gap-4 py-1.5 text-xs">
+            <span class="text-[#636366] tabular-nums w-12">16:58</span>
+            <span class="text-[#8E8E93] w-24">Empresa X</span>
+            <span class="text-[#8E8E93] w-16">SDR-X</span>
+            <span class="text-[#D2D2D7]">3 leads qualificados</span>
+          </div>
+          <div class="flex items-center gap-4 py-1.5 text-xs">
+            <span class="text-[#636366] tabular-nums w-12">16:55</span>
+            <span class="text-[#8E8E93] w-24">KTANA</span>
+            <span class="text-[#8E8E93] w-16">Hana</span>
+            <span class="text-[#D2D2D7]">23 emails filtrados</span>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- ========================================== -->
+  <!-- SCREEN 2: AGENT FLOW (real-time)           -->
+  <!-- ========================================== -->
+  <div id="flow" class="screen">
+    <header class="px-8 py-5 border-b border-white/[0.04] flex items-center justify-between">
+      <h1 class="text-lg font-semibold">Agent Flow</h1>
+      <div class="flex items-center gap-4 text-xs text-[#8E8E93]">
+        <span>847 samurais</span>
+        <span>124 tenants</span>
+        <span class="flex items-center gap-1.5"><span class="w-1.5 h-1.5 rounded-full bg-[#D70030] glow-active"></span> live</span>
+      </div>
+    </header>
+
+    <main class="flex-1 relative overflow-hidden bg-[#050505]">
+      <!-- Grid subtle -->
+      <div class="absolute inset-0 opacity-[0.03]" style="background-image: radial-gradient(circle at 1px 1px, #D70030 0.5px, transparent 0); background-size: 60px 60px;"></div>
+
+      <!-- Tenant clusters -->
+      <div class="absolute inset-0 flex items-center justify-center">
+        <div class="relative" style="width:900px; height:550px;">
+
+          <!-- KTANA Cluster -->
+          <div class="absolute left-[15%] top-[20%]">
+            <p class="text-[9px] text-[#636366] tracking-widest mb-3 text-center">KTANA</p>
+            <div class="relative" style="width:200px;height:160px;">
+              <div class="absolute left-[40%] top-0 node cursor-pointer" onclick="show('tenant-detail')">
+                <div class="w-10 h-10 rounded-full border border-[#D70030]/40 bg-[#D70030]/10 flex items-center justify-center glow-active"><span class="text-[#D70030] text-xs font-medium">A</span></div>
+                <p class="text-[9px] text-[#D2D2D7] text-center mt-1">CEO</p>
+              </div>
+              <div class="absolute left-0 top-[55%] node cursor-pointer">
+                <div class="w-8 h-8 rounded-full border border-white/10 bg-white/[0.04] flex items-center justify-center glow-active"><span class="text-[#8E8E93] text-[10px]">H</span></div>
+                <p class="text-[8px] text-[#636366] text-center mt-0.5">Sec</p>
+              </div>
+              <div class="absolute left-[35%] top-[60%] node cursor-pointer">
+                <div class="w-8 h-8 rounded-full border border-white/10 bg-white/[0.04] flex items-center justify-center glow-active"><span class="text-[#8E8E93] text-[10px]">Y</span></div>
+                <p class="text-[8px] text-[#636366] text-center mt-0.5">Fin</p>
+              </div>
+              <div class="absolute right-0 top-[55%] node cursor-pointer">
+                <div class="w-8 h-8 rounded-full border border-white/10 bg-white/[0.04] flex items-center justify-center glow-active"><span class="text-[#8E8E93] text-[10px]">H</span></div>
+                <p class="text-[8px] text-[#636366] text-center mt-0.5">PM</p>
+              </div>
+              <!-- Connection lines -->
+              <svg class="absolute inset-0 w-full h-full pointer-events-none" style="overflow:visible">
+                <line x1="90" y1="40" x2="30" y2="90" stroke="#D70030" stroke-width="0.5" opacity="0.2"/>
+                <line x1="90" y1="40" x2="85" y2="100" stroke="#D70030" stroke-width="0.5" opacity="0.2"/>
+                <line x1="90" y1="40" x2="170" y2="90" stroke="#D70030" stroke-width="0.5" opacity="0.2"/>
+              </svg>
+            </div>
+          </div>
+
+          <!-- Startup Z Cluster -->
+          <div class="absolute right-[10%] top-[15%]">
+            <p class="text-[9px] text-[#636366] tracking-widest mb-3 text-center">STARTUP Z</p>
+            <div class="relative" style="width:240px;height:180px;">
+              <div class="absolute left-[42%] top-0 node cursor-pointer">
+                <div class="w-10 h-10 rounded-full border border-[#D70030]/30 bg-[#D70030]/5 flex items-center justify-center glow-active"><span class="text-[#D70030]/70 text-xs font-medium">C</span></div>
+                <p class="text-[9px] text-[#D2D2D7] text-center mt-1">CEO</p>
+              </div>
+              <div class="absolute left-0 top-[40%] node"><div class="w-7 h-7 rounded-full border border-white/8 bg-white/[0.03] flex items-center justify-center glow-active"><span class="text-[#636366] text-[9px]">F</span></div></div>
+              <div class="absolute left-[25%] top-[45%] node"><div class="w-7 h-7 rounded-full border border-white/8 bg-white/[0.03] flex items-center justify-center glow-active"><span class="text-[#636366] text-[9px]">O</span></div></div>
+              <div class="absolute left-[50%] top-[43%] node"><div class="w-7 h-7 rounded-full border border-white/8 bg-white/[0.03] flex items-center justify-center glow-active"><span class="text-[#636366] text-[9px]">M</span></div></div>
+              <div class="absolute right-[10%] top-[40%] node"><div class="w-7 h-7 rounded-full border border-white/8 bg-white/[0.03] flex items-center justify-center glow-active"><span class="text-[#636366] text-[9px]">T</span></div></div>
+              <div class="absolute left-[10%] bottom-0 node"><div class="w-6 h-6 rounded-full border border-white/6 bg-white/[0.02] flex items-center justify-center"><span class="text-[#48484A] text-[8px]">a</span></div></div>
+              <div class="absolute left-[30%] bottom-[5%] node"><div class="w-6 h-6 rounded-full border border-white/6 bg-white/[0.02] flex items-center justify-center"><span class="text-[#48484A] text-[8px]">b</span></div></div>
+              <div class="absolute left-[50%] bottom-0 node"><div class="w-6 h-6 rounded-full border border-white/6 bg-white/[0.02] flex items-center justify-center"><span class="text-[#48484A] text-[8px]">c</span></div></div>
+              <div class="absolute right-[15%] bottom-[5%] node"><div class="w-6 h-6 rounded-full border border-white/6 bg-white/[0.02] flex items-center justify-center"><span class="text-[#48484A] text-[8px]">d</span></div></div>
+            </div>
+          </div>
+
+          <!-- Empresa X Cluster -->
+          <div class="absolute left-[40%] bottom-[15%]">
+            <p class="text-[9px] text-[#636366] tracking-widest mb-3 text-center">EMPRESA X</p>
+            <div class="relative" style="width:140px;height:100px;">
+              <div class="absolute left-[35%] top-0 node cursor-pointer">
+                <div class="w-9 h-9 rounded-full border border-[#D70030]/25 bg-[#D70030]/5 flex items-center justify-center glow-active"><span class="text-[#D70030]/60 text-[10px] font-medium">C</span></div>
+              </div>
+              <div class="absolute left-0 bottom-0 node"><div class="w-7 h-7 rounded-full border border-white/8 bg-white/[0.03] flex items-center justify-center glow-active"><span class="text-[#636366] text-[9px]">S</span></div></div>
+              <div class="absolute right-[15%] bottom-0 node"><div class="w-7 h-7 rounded-full border border-white/8 bg-white/[0.03] flex items-center justify-center glow-active"><span class="text-[#636366] text-[9px]">R</span></div></div>
+            </div>
+          </div>
+
+          <!-- Pessoa Y (single node) -->
+          <div class="absolute left-[8%] bottom-[20%]">
+            <div class="node cursor-pointer">
+              <div class="w-8 h-8 rounded-full border border-white/8 bg-white/[0.03] flex items-center justify-center glow-active"><span class="text-[#636366] text-[10px]">C</span></div>
+              <p class="text-[8px] text-[#48484A] text-center mt-1">Pessoa Y</p>
+              <p class="text-[7px] text-[#303030] text-center">RONIN</p>
+            </div>
+          </div>
+
+          <!-- Consultoria ABC Cluster -->
+          <div class="absolute right-[5%] bottom-[20%]">
+            <p class="text-[9px] text-[#636366] tracking-widest mb-3 text-center">CONSULTORIA ABC</p>
+            <div class="relative" style="width:160px;height:120px;">
+              <div class="absolute left-[38%] top-0 node cursor-pointer">
+                <div class="w-9 h-9 rounded-full border border-[#D70030]/25 bg-[#D70030]/5 flex items-center justify-center glow-active"><span class="text-[#D70030]/60 text-[10px] font-medium">C</span></div>
+              </div>
+              <div class="absolute left-0 top-[50%] node"><div class="w-6 h-6 rounded-full border border-white/6 bg-white/[0.02] flex items-center justify-center"><span class="text-[#48484A] text-[8px]">1</span></div></div>
+              <div class="absolute left-[30%] top-[55%] node"><div class="w-6 h-6 rounded-full border border-white/6 bg-white/[0.02] flex items-center justify-center"><span class="text-[#48484A] text-[8px]">2</span></div></div>
+              <div class="absolute right-[20%] top-[50%] node"><div class="w-6 h-6 rounded-full border border-white/6 bg-white/[0.02] flex items-center justify-center"><span class="text-[#48484A] text-[8px]">3</span></div></div>
+              <div class="absolute left-[15%] bottom-0 node"><div class="w-6 h-6 rounded-full border border-white/6 bg-white/[0.02] flex items-center justify-center"><span class="text-[#48484A] text-[8px]">4</span></div></div>
+              <div class="absolute right-[25%] bottom-0 node"><div class="w-6 h-6 rounded-full border border-white/6 bg-white/[0.02] flex items-center justify-center"><span class="text-[#48484A] text-[8px]">5</span></div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Bottom bar -->
+      <div class="absolute bottom-0 left-0 right-0 px-8 py-4 bg-gradient-to-t from-[#050505] to-transparent flex items-center justify-between text-[10px] text-[#636366]">
+        <span>124 tenants · 847 samurais · 12.4k acoes hoje</span>
+        <span>Zoom: scroll | Pan: drag | Click: inspecionar</span>
+        <span>Streaming: SSE · 60fps</span>
+      </div>
+    </main>
+  </div>
+
+  <!-- ========================================== -->
+  <!-- SCREEN 3: TENANTS                          -->
+  <!-- ========================================== -->
+  <div id="tenants" class="screen">
+    <header class="px-8 py-5 border-b border-white/[0.04] flex items-center justify-between">
+      <h1 class="text-lg font-semibold">Tenants</h1>
+      <div class="flex items-center gap-3">
+        <input type="text" placeholder="Buscar tenant..." class="admin-input px-3 py-1.5 text-xs w-48">
+        <span class="text-xs text-[#8E8E93]">124 ativos</span>
+      </div>
+    </header>
+
+    <main class="flex-1 px-8 py-8">
+      <div class="admin-card overflow-hidden fade-in">
+        <table class="w-full text-sm">
+          <thead>
+            <tr class="text-left text-[10px] text-[#636366] tracking-widest border-b border-white/[0.04]">
+              <th class="px-5 py-3">TENANT</th>
+              <th class="px-5 py-3">PLANO</th>
+              <th class="px-5 py-3">SAMURAIS</th>
+              <th class="px-5 py-3">ACOES/DIA</th>
+              <th class="px-5 py-3">MRR</th>
+              <th class="px-5 py-3">HEALTH</th>
+              <th class="px-5 py-3">CRIADO</th>
+            </tr>
+          </thead>
+          <tbody class="text-[#D2D2D7]">
+            <tr class="border-b border-white/[0.02] hover:bg-white/[0.02] cursor-pointer transition-colors" onclick="show('tenant-detail')">
+              <td class="px-5 py-3.5 font-medium">KTANA</td>
+              <td class="px-5 py-3.5"><span class="px-2 py-0.5 bg-[#D70030]/10 text-[#D70030] text-[10px] rounded-md">GUNDAN</span></td>
+              <td class="px-5 py-3.5 tabular-nums text-[#8E8E93]">8</td>
+              <td class="px-5 py-3.5 tabular-nums text-[#8E8E93]">312</td>
+              <td class="px-5 py-3.5 tabular-nums">R$297</td>
+              <td class="px-5 py-3.5"><span class="flex items-center gap-1.5"><span class="w-1.5 h-1.5 rounded-full bg-[#30D158]"></span><span class="text-[10px] text-[#8E8E93]">Healthy</span></span></td>
+              <td class="px-5 py-3.5 text-[#636366] text-xs">29/03/26</td>
+            </tr>
+            <tr class="border-b border-white/[0.02] hover:bg-white/[0.02] cursor-pointer transition-colors">
+              <td class="px-5 py-3.5 font-medium">Startup Z</td>
+              <td class="px-5 py-3.5"><span class="px-2 py-0.5 bg-[#D70030]/10 text-[#D70030] text-[10px] rounded-md">BAKUFU</span></td>
+              <td class="px-5 py-3.5 tabular-nums text-[#8E8E93]">15</td>
+              <td class="px-5 py-3.5 tabular-nums text-[#8E8E93]">1.2k</td>
+              <td class="px-5 py-3.5 tabular-nums">R$997</td>
+              <td class="px-5 py-3.5"><span class="flex items-center gap-1.5"><span class="w-1.5 h-1.5 rounded-full bg-[#FF9F0A]"></span><span class="text-[10px] text-[#8E8E93]">High usage</span></span></td>
+              <td class="px-5 py-3.5 text-[#636366] text-xs">15/03/26</td>
+            </tr>
+            <tr class="border-b border-white/[0.02] hover:bg-white/[0.02] cursor-pointer transition-colors">
+              <td class="px-5 py-3.5 font-medium">Empresa X</td>
+              <td class="px-5 py-3.5"><span class="px-2 py-0.5 bg-white/[0.06] text-[#8E8E93] text-[10px] rounded-md">BUSHI</span></td>
+              <td class="px-5 py-3.5 tabular-nums text-[#8E8E93]">3</td>
+              <td class="px-5 py-3.5 tabular-nums text-[#8E8E93]">89</td>
+              <td class="px-5 py-3.5 tabular-nums">R$97</td>
+              <td class="px-5 py-3.5"><span class="flex items-center gap-1.5"><span class="w-1.5 h-1.5 rounded-full bg-[#30D158]"></span><span class="text-[10px] text-[#8E8E93]">Healthy</span></span></td>
+              <td class="px-5 py-3.5 text-[#636366] text-xs">20/03/26</td>
+            </tr>
+            <tr class="border-b border-white/[0.02] hover:bg-white/[0.02] cursor-pointer transition-colors">
+              <td class="px-5 py-3.5 font-medium text-[#8E8E93]">Pessoa Y</td>
+              <td class="px-5 py-3.5"><span class="px-2 py-0.5 bg-white/[0.04] text-[#636366] text-[10px] rounded-md">RONIN</span></td>
+              <td class="px-5 py-3.5 tabular-nums text-[#636366]">1</td>
+              <td class="px-5 py-3.5 tabular-nums text-[#636366]">45</td>
+              <td class="px-5 py-3.5 tabular-nums text-[#636366]">R$0</td>
+              <td class="px-5 py-3.5"><span class="flex items-center gap-1.5"><span class="w-1.5 h-1.5 rounded-full bg-[#30D158]"></span><span class="text-[10px] text-[#636366]">Healthy</span></span></td>
+              <td class="px-5 py-3.5 text-[#636366] text-xs">28/03/26</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </main>
+  </div>
+
+  <!-- ========================================== -->
+  <!-- SCREEN 4: TENANT DETAIL                    -->
+  <!-- ========================================== -->
+  <div id="tenant-detail" class="screen">
+    <header class="px-8 py-5 border-b border-white/[0.04] flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <button onclick="show('tenants')" class="text-[#636366] text-xs">← Tenants</button>
+        <h1 class="text-lg font-semibold">KTANA</h1>
+        <span class="px-2 py-0.5 bg-[#D70030]/10 text-[#D70030] text-[10px] rounded-md">GUNDAN</span>
+      </div>
+      <div class="flex items-center gap-2">
+        <button class="admin-btn-secondary px-3 py-1.5 text-xs">Pausar tenant</button>
+        <button class="admin-btn-secondary px-3 py-1.5 text-xs text-[#FF453A]">Suspender</button>
+      </div>
+    </header>
+
+    <main class="flex-1 px-8 py-8">
+      <div class="grid grid-cols-4 gap-4 mb-8 fade-in">
+        <div class="stat-card p-4"><p class="text-2xl font-bold tabular-nums">8</p><p class="text-[10px] text-[#636366] mt-0.5">samurais</p></div>
+        <div class="stat-card p-4"><p class="text-2xl font-bold tabular-nums">312</p><p class="text-[10px] text-[#636366] mt-0.5">acoes hoje</p></div>
+        <div class="stat-card p-4"><p class="text-2xl font-bold tabular-nums">R$297</p><p class="text-[10px] text-[#636366] mt-0.5">MRR</p></div>
+        <div class="stat-card p-4"><p class="text-2xl font-bold tabular-nums">R$2.1k</p><p class="text-[10px] text-[#636366] mt-0.5">tokens/mes</p></div>
+      </div>
+
+      <div class="grid grid-cols-2 gap-6">
+        <!-- Agents -->
+        <div class="admin-card p-6 fade-in" style="animation-delay:0.1s">
+          <p class="text-[10px] text-[#636366] tracking-widest mb-4">SAMURAIS</p>
+          <div class="space-y-2.5">
+            <div class="flex items-center justify-between py-1.5">
+              <div class="flex items-center gap-3"><div class="w-8 h-8 rounded-full border border-[#D70030]/30 bg-[#D70030]/5 flex items-center justify-center"><span class="text-[#D70030] text-[10px]">A</span></div><div><p class="text-sm">Akira</p><p class="text-[10px] text-[#636366]">CEO</p></div></div>
+              <div class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-[#30D158]"></span><span class="text-[10px] text-[#636366]">24 acoes</span></div>
+            </div>
+            <div class="flex items-center justify-between py-1.5">
+              <div class="flex items-center gap-3"><div class="w-8 h-8 rounded-full border border-white/10 bg-white/[0.03] flex items-center justify-center"><span class="text-[#8E8E93] text-[10px]">H</span></div><div><p class="text-sm">Hana</p><p class="text-[10px] text-[#636366]">Secretaria</p></div></div>
+              <div class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-[#30D158]"></span><span class="text-[10px] text-[#636366]">58 acoes</span></div>
+            </div>
+            <div class="flex items-center justify-between py-1.5">
+              <div class="flex items-center gap-3"><div class="w-8 h-8 rounded-full border border-white/10 bg-white/[0.03] flex items-center justify-center"><span class="text-[#8E8E93] text-[10px]">Y</span></div><div><p class="text-sm">Yuki</p><p class="text-[10px] text-[#636366]">Controller</p></div></div>
+              <div class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-[#30D158]"></span><span class="text-[10px] text-[#636366]">47 acoes</span></div>
+            </div>
+            <div class="flex items-center justify-between py-1.5">
+              <div class="flex items-center gap-3"><div class="w-8 h-8 rounded-full border border-white/10 bg-white/[0.03] flex items-center justify-center"><span class="text-[#8E8E93] text-[10px]">H</span></div><div><p class="text-sm">Haruki</p><p class="text-[10px] text-[#636366]">PM</p></div></div>
+              <div class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-[#30D158]"></span><span class="text-[10px] text-[#636366]">65 acoes</span></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Info -->
+        <div class="admin-card p-6 fade-in" style="animation-delay:0.2s">
+          <p class="text-[10px] text-[#636366] tracking-widest mb-4">INFORMACOES</p>
+          <div class="space-y-3 text-sm">
+            <div class="flex justify-between"><span class="text-[#8E8E93]">Owner</span><span>Julio Cesar</span></div>
+            <div class="flex justify-between"><span class="text-[#8E8E93]">Email</span><span>contato@ktana.ai</span></div>
+            <div class="flex justify-between"><span class="text-[#8E8E93]">Tipo</span><span>PJ</span></div>
+            <div class="flex justify-between"><span class="text-[#8E8E93]">Plano</span><span>GUNDAN (R$297/mes)</span></div>
+            <div class="flex justify-between"><span class="text-[#8E8E93]">Criado</span><span>29/03/2026</span></div>
+            <div class="flex justify-between"><span class="text-[#8E8E93]">KYC</span><span class="text-[#30D158]">Verificado</span></div>
+            <div class="flex justify-between"><span class="text-[#8E8E93]">2FA</span><span class="text-[#30D158]">Ativo</span></div>
+            <div class="flex justify-between"><span class="text-[#8E8E93]">LLM mode</span><span>Equilibrio</span></div>
+            <div class="flex justify-between"><span class="text-[#8E8E93]">Conexoes</span><span>Gmail, WhatsApp, ClickUp</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Activity -->
+      <div class="admin-card p-6 mt-6 fade-in" style="animation-delay:0.3s">
+        <p class="text-[10px] text-[#636366] tracking-widest mb-4">ATIVIDADE RECENTE</p>
+        <div class="space-y-2">
+          <div class="flex items-center gap-4 py-1.5 text-xs">
+            <span class="text-[#636366] tabular-nums w-12">17:02</span>
+            <span class="text-[#8E8E93] w-16">Yuki</span>
+            <span class="text-[#D2D2D7]">Relatorio diario enviado para Kaito</span>
+          </div>
+          <div class="flex items-center gap-4 py-1.5 text-xs">
+            <span class="text-[#636366] tabular-nums w-12">16:45</span>
+            <span class="text-[#8E8E93] w-16">Yuki</span>
+            <span class="text-[#D2D2D7]">3 pagamentos conciliados</span>
+          </div>
+          <div class="flex items-center gap-4 py-1.5 text-xs">
+            <span class="text-[#636366] tabular-nums w-12">16:30</span>
+            <span class="text-[#8E8E93] w-16">Haruki</span>
+            <span class="text-[#D2D2D7]">Task "Deploy v2" concluida</span>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- ========================================== -->
+  <!-- SCREEN 5: AGENTS (global)                  -->
+  <!-- ========================================== -->
+  <div id="agents" class="screen">
+    <header class="px-8 py-5 border-b border-white/[0.04] flex items-center justify-between">
+      <h1 class="text-lg font-semibold">Agentes</h1>
+      <span class="text-xs text-[#8E8E93]">847 ativos</span>
+    </header>
+    <main class="flex-1 px-8 py-8">
+      <div class="admin-card overflow-hidden fade-in">
+        <table class="w-full text-sm">
+          <thead>
+            <tr class="text-left text-[10px] text-[#636366] tracking-widest border-b border-white/[0.04]">
+              <th class="px-5 py-3">AGENTE</th>
+              <th class="px-5 py-3">CARGO</th>
+              <th class="px-5 py-3">TENANT</th>
+              <th class="px-5 py-3">STATUS</th>
+              <th class="px-5 py-3">ACOES HOJE</th>
+              <th class="px-5 py-3">TOKENS/MES</th>
+              <th class="px-5 py-3">ALINHAMENTO</th>
+            </tr>
+          </thead>
+          <tbody class="text-[#D2D2D7]">
+            <tr class="border-b border-white/[0.02] hover:bg-white/[0.02] transition-colors">
+              <td class="px-5 py-3">Akira</td><td class="px-5 py-3 text-[#8E8E93]">CEO</td><td class="px-5 py-3 text-[#8E8E93]">KTANA</td>
+              <td class="px-5 py-3"><span class="flex items-center gap-1.5"><span class="w-1.5 h-1.5 rounded-full bg-[#30D158]"></span>Online</span></td>
+              <td class="px-5 py-3 tabular-nums text-[#8E8E93]">24</td><td class="px-5 py-3 tabular-nums text-[#8E8E93]">420k</td><td class="px-5 py-3 tabular-nums">91%</td>
+            </tr>
+            <tr class="border-b border-white/[0.02] hover:bg-white/[0.02] transition-colors">
+              <td class="px-5 py-3">Yuki</td><td class="px-5 py-3 text-[#8E8E93]">Controller</td><td class="px-5 py-3 text-[#8E8E93]">KTANA</td>
+              <td class="px-5 py-3"><span class="flex items-center gap-1.5"><span class="w-1.5 h-1.5 rounded-full bg-[#30D158]"></span>Online</span></td>
+              <td class="px-5 py-3 tabular-nums text-[#8E8E93]">47</td><td class="px-5 py-3 tabular-nums text-[#8E8E93]">280k</td><td class="px-5 py-3 tabular-nums">89%</td>
+            </tr>
+            <tr class="border-b border-white/[0.02] hover:bg-white/[0.02] transition-colors">
+              <td class="px-5 py-3">Hana</td><td class="px-5 py-3 text-[#8E8E93]">Secretaria</td><td class="px-5 py-3 text-[#8E8E93]">KTANA</td>
+              <td class="px-5 py-3"><span class="flex items-center gap-1.5"><span class="w-1.5 h-1.5 rounded-full bg-[#30D158]"></span>Online</span></td>
+              <td class="px-5 py-3 tabular-nums text-[#8E8E93]">58</td><td class="px-5 py-3 tabular-nums text-[#8E8E93]">190k</td><td class="px-5 py-3 tabular-nums">93%</td>
+            </tr>
+            <tr class="border-b border-white/[0.02] hover:bg-white/[0.02] transition-colors">
+              <td class="px-5 py-3 text-[#636366]">CEO-Z</td><td class="px-5 py-3 text-[#636366]">CEO</td><td class="px-5 py-3 text-[#636366]">Startup Z</td>
+              <td class="px-5 py-3"><span class="flex items-center gap-1.5"><span class="w-1.5 h-1.5 rounded-full bg-[#30D158]"></span>Online</span></td>
+              <td class="px-5 py-3 tabular-nums text-[#636366]">156</td><td class="px-5 py-3 tabular-nums text-[#636366]">890k</td><td class="px-5 py-3 tabular-nums text-[#636366]">87%</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </main>
+  </div>
+
+  <!-- ========================================== -->
+  <!-- SCREEN 6: SYSTEM HEALTH                    -->
+  <!-- ========================================== -->
+  <div id="health" class="screen">
+    <header class="px-8 py-5 border-b border-white/[0.04] flex items-center justify-between">
+      <h1 class="text-lg font-semibold">System Health</h1>
+      <span class="flex items-center gap-1.5 text-xs"><span class="w-1.5 h-1.5 rounded-full bg-[#30D158]"></span><span class="text-[#8E8E93]">All systems operational</span></span>
+    </header>
+    <main class="flex-1 px-8 py-8">
+      <div class="grid grid-cols-3 gap-6 fade-in">
+        <div class="admin-card p-6">
+          <p class="text-[10px] text-[#636366] tracking-widest mb-4">COMPUTE</p>
+          <div class="space-y-4">
+            <div><p class="text-xs text-[#8E8E93] mb-1">CPU</p><div class="w-full h-2 bg-[#2C2C2E] rounded-full"><div class="h-full bg-[#30D158] rounded-full" style="width:34%"></div></div><p class="text-[10px] text-[#636366] mt-1">34% — 4 OCPU ARM</p></div>
+            <div><p class="text-xs text-[#8E8E93] mb-1">RAM</p><div class="w-full h-2 bg-[#2C2C2E] rounded-full"><div class="h-full bg-[#30D158] rounded-full" style="width:62%"></div></div><p class="text-[10px] text-[#636366] mt-1">14.9GB / 24GB</p></div>
+            <div><p class="text-xs text-[#8E8E93] mb-1">Disk</p><div class="w-full h-2 bg-[#2C2C2E] rounded-full"><div class="h-full bg-[#30D158] rounded-full" style="width:28%"></div></div><p class="text-[10px] text-[#636366] mt-1">56GB / 200GB</p></div>
+          </div>
+        </div>
+        <div class="admin-card p-6">
+          <p class="text-[10px] text-[#636366] tracking-widest mb-4">SERVICES</p>
+          <div class="space-y-3">
+            <div class="flex items-center justify-between"><span class="text-sm">API Server</span><span class="flex items-center gap-1.5"><span class="w-1.5 h-1.5 rounded-full bg-[#30D158]"></span><span class="text-[10px] text-[#8E8E93]">12ms</span></span></div>
+            <div class="flex items-center justify-between"><span class="text-sm">Memory API</span><span class="flex items-center gap-1.5"><span class="w-1.5 h-1.5 rounded-full bg-[#30D158]"></span><span class="text-[10px] text-[#8E8E93]">1.2ms</span></span></div>
+            <div class="flex items-center justify-between"><span class="text-sm">Redis</span><span class="flex items-center gap-1.5"><span class="w-1.5 h-1.5 rounded-full bg-[#30D158]"></span><span class="text-[10px] text-[#8E8E93]">0.3ms</span></span></div>
+            <div class="flex items-center justify-between"><span class="text-sm">PostgreSQL</span><span class="flex items-center gap-1.5"><span class="w-1.5 h-1.5 rounded-full bg-[#30D158]"></span><span class="text-[10px] text-[#8E8E93]">2.1ms</span></span></div>
+            <div class="flex items-center justify-between"><span class="text-sm">Evolution API</span><span class="flex items-center gap-1.5"><span class="w-1.5 h-1.5 rounded-full bg-[#30D158]"></span><span class="text-[10px] text-[#8E8E93]">WhatsApp</span></span></div>
+            <div class="flex items-center justify-between"><span class="text-sm">Traefik</span><span class="flex items-center gap-1.5"><span class="w-1.5 h-1.5 rounded-full bg-[#30D158]"></span><span class="text-[10px] text-[#8E8E93]">Gateway</span></span></div>
+          </div>
+        </div>
+        <div class="admin-card p-6">
+          <p class="text-[10px] text-[#636366] tracking-widest mb-4">LLM PROVIDERS</p>
+          <div class="space-y-3">
+            <div class="flex items-center justify-between"><span class="text-sm">Anthropic</span><span class="flex items-center gap-1.5"><span class="w-1.5 h-1.5 rounded-full bg-[#30D158]"></span><span class="text-[10px] text-[#8E8E93]">89ms avg</span></span></div>
+            <div class="flex items-center justify-between"><span class="text-sm">OpenAI</span><span class="flex items-center gap-1.5"><span class="w-1.5 h-1.5 rounded-full bg-[#30D158]"></span><span class="text-[10px] text-[#8E8E93]">120ms avg</span></span></div>
+            <div class="flex items-center justify-between"><span class="text-sm">Google</span><span class="flex items-center gap-1.5"><span class="w-1.5 h-1.5 rounded-full bg-[#30D158]"></span><span class="text-[10px] text-[#8E8E93]">95ms avg</span></span></div>
+            <div class="flex items-center justify-between"><span class="text-sm">Groq</span><span class="flex items-center gap-1.5"><span class="w-1.5 h-1.5 rounded-full bg-[#30D158]"></span><span class="text-[10px] text-[#8E8E93]">23ms avg</span></span></div>
+          </div>
+          <div class="mt-4 pt-4 border-t border-white/[0.04]">
+            <p class="text-[10px] text-[#636366]">Tokens hoje: 18.2M</p>
+            <p class="text-[10px] text-[#636366]">Custo hoje: R$892</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Uptime -->
+      <div class="admin-card p-6 mt-6 fade-in" style="animation-delay:0.1s">
+        <p class="text-[10px] text-[#636366] tracking-widest mb-4">UPTIME (30 dias)</p>
+        <div class="flex gap-0.5">
+          <div class="flex-1 h-6 bg-[#30D158] rounded-[2px]" title="Day 1: 100%"></div>
+          <div class="flex-1 h-6 bg-[#30D158] rounded-[2px]"></div>
+          <div class="flex-1 h-6 bg-[#30D158] rounded-[2px]"></div>
+          <div class="flex-1 h-6 bg-[#30D158] rounded-[2px]"></div>
+          <div class="flex-1 h-6 bg-[#30D158] rounded-[2px]"></div>
+          <div class="flex-1 h-6 bg-[#30D158] rounded-[2px]"></div>
+          <div class="flex-1 h-6 bg-[#30D158] rounded-[2px]"></div>
+          <div class="flex-1 h-6 bg-[#FF9F0A] rounded-[2px]" title="98.5%"></div>
+          <div class="flex-1 h-6 bg-[#30D158] rounded-[2px]"></div>
+          <div class="flex-1 h-6 bg-[#30D158] rounded-[2px]"></div>
+          <div class="flex-1 h-6 bg-[#30D158] rounded-[2px]"></div>
+          <div class="flex-1 h-6 bg-[#30D158] rounded-[2px]"></div>
+          <div class="flex-1 h-6 bg-[#30D158] rounded-[2px]"></div>
+          <div class="flex-1 h-6 bg-[#30D158] rounded-[2px]"></div>
+          <div class="flex-1 h-6 bg-[#30D158] rounded-[2px]"></div>
+          <div class="flex-1 h-6 bg-[#30D158] rounded-[2px]"></div>
+          <div class="flex-1 h-6 bg-[#30D158] rounded-[2px]"></div>
+          <div class="flex-1 h-6 bg-[#30D158] rounded-[2px]"></div>
+          <div class="flex-1 h-6 bg-[#30D158] rounded-[2px]"></div>
+          <div class="flex-1 h-6 bg-[#30D158] rounded-[2px]"></div>
+          <div class="flex-1 h-6 bg-[#30D158] rounded-[2px]"></div>
+          <div class="flex-1 h-6 bg-[#30D158] rounded-[2px]"></div>
+          <div class="flex-1 h-6 bg-[#30D158] rounded-[2px]"></div>
+          <div class="flex-1 h-6 bg-[#30D158] rounded-[2px]"></div>
+          <div class="flex-1 h-6 bg-[#30D158] rounded-[2px]"></div>
+          <div class="flex-1 h-6 bg-[#30D158] rounded-[2px]"></div>
+          <div class="flex-1 h-6 bg-[#30D158] rounded-[2px]"></div>
+          <div class="flex-1 h-6 bg-[#30D158] rounded-[2px]"></div>
+          <div class="flex-1 h-6 bg-[#30D158] rounded-[2px]"></div>
+          <div class="flex-1 h-6 bg-[#30D158] rounded-[2px]"></div>
+        </div>
+        <p class="text-[10px] text-[#636366] mt-2">99.2% uptime · 1 incidente (dia 8: deploy com rollback)</p>
+      </div>
+    </main>
+  </div>
+
+  <!-- ========================================== -->
+  <!-- SCREEN 7: BILLING                          -->
+  <!-- ========================================== -->
+  <div id="billing" class="screen">
+    <header class="px-8 py-5 border-b border-white/[0.04]"><h1 class="text-lg font-semibold">Billing</h1></header>
+    <main class="flex-1 px-8 py-8">
+      <div class="grid grid-cols-4 gap-4 mb-8 fade-in">
+        <div class="stat-card p-5"><p class="text-2xl font-bold">R$34k</p><p class="text-[10px] text-[#636366] mt-1">MRR</p></div>
+        <div class="stat-card p-5"><p class="text-2xl font-bold">R$408k</p><p class="text-[10px] text-[#636366] mt-1">ARR projetado</p></div>
+        <div class="stat-card p-5"><p class="text-2xl font-bold">R$12k</p><p class="text-[10px] text-[#636366] mt-1">custo tokens/mes</p></div>
+        <div class="stat-card p-5"><p class="text-2xl font-bold">65%</p><p class="text-[10px] text-[#636366] mt-1">margem bruta</p></div>
+      </div>
+
+      <div class="admin-card p-6 fade-in" style="animation-delay:0.1s">
+        <p class="text-[10px] text-[#636366] tracking-widest mb-4">RECEITA POR PLANO</p>
+        <div class="space-y-3">
+          <div class="flex items-center justify-between">
+            <span class="text-sm">BAKUFU (R$997)</span>
+            <div class="flex items-center gap-3"><div class="w-48 h-1.5 bg-[#2C2C2E] rounded-full"><div class="h-full bg-[#D70030] rounded-full" style="width:58%"></div></div><span class="text-xs text-[#8E8E93] tabular-nums">12 tenants · R$11.9k</span></div>
+          </div>
+          <div class="flex items-center justify-between">
+            <span class="text-sm">GUNDAN (R$297)</span>
+            <div class="flex items-center gap-3"><div class="w-48 h-1.5 bg-[#2C2C2E] rounded-full"><div class="h-full bg-[#D70030]/70 rounded-full" style="width:42%"></div></div><span class="text-xs text-[#8E8E93] tabular-nums">34 tenants · R$10.1k</span></div>
+          </div>
+          <div class="flex items-center justify-between">
+            <span class="text-sm">BUSHI (R$97)</span>
+            <div class="flex items-center gap-3"><div class="w-48 h-1.5 bg-[#2C2C2E] rounded-full"><div class="h-full bg-[#D70030]/40 rounded-full" style="width:28%"></div></div><span class="text-xs text-[#8E8E93] tabular-nums">45 tenants · R$4.4k</span></div>
+          </div>
+          <div class="flex items-center justify-between">
+            <span class="text-sm text-[#636366]">RONIN (free)</span>
+            <div class="flex items-center gap-3"><span class="text-xs text-[#636366] tabular-nums">33 tenants · R$0</span></div>
+          </div>
+        </div>
+        <div class="mt-4 pt-4 border-t border-white/[0.04] flex justify-between text-xs text-[#636366]">
+          <span>+ Consumo extra: R$7.6k/mes</span>
+          <span>Churn: 2.1%</span>
+          <span>LTV medio: R$2.4k</span>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- ========================================== -->
+  <!-- SCREEN 8: COMPLIANCE                       -->
+  <!-- ========================================== -->
+  <div id="compliance" class="screen">
+    <header class="px-8 py-5 border-b border-white/[0.04]"><h1 class="text-lg font-semibold">Compliance</h1></header>
+    <main class="flex-1 px-8 py-8">
+      <div class="grid grid-cols-3 gap-6 fade-in">
+        <div class="admin-card p-6">
+          <p class="text-[10px] text-[#636366] tracking-widest mb-4">LGPD</p>
+          <div class="space-y-3 text-sm">
+            <div class="flex justify-between"><span class="text-[#8E8E93]">Requests pendentes</span><span class="text-[#30D158]">0</span></div>
+            <div class="flex justify-between"><span class="text-[#8E8E93]">Exportacoes (30d)</span><span>3</span></div>
+            <div class="flex justify-between"><span class="text-[#8E8E93]">Delecoes (30d)</span><span>1</span></div>
+            <div class="flex justify-between"><span class="text-[#8E8E93]">DPO</span><span>dpo@ktana.ai</span></div>
+          </div>
+        </div>
+        <div class="admin-card p-6">
+          <p class="text-[10px] text-[#636366] tracking-widest mb-4">AUDITORIA</p>
+          <div class="space-y-3 text-sm">
+            <div class="flex justify-between"><span class="text-[#8E8E93]">Registros totais</span><span class="tabular-nums">2.4M</span></div>
+            <div class="flex justify-between"><span class="text-[#8E8E93]">Integridade</span><span class="text-[#30D158]">Verificada (SHA-256)</span></div>
+            <div class="flex justify-between"><span class="text-[#8E8E93]">Retencao</span><span>2 anos</span></div>
+            <div class="flex justify-between"><span class="text-[#8E8E93]">Ultimo backup</span><span>29/03 03:00</span></div>
+          </div>
+        </div>
+        <div class="admin-card p-6">
+          <p class="text-[10px] text-[#636366] tracking-widest mb-4">SEGURANCA</p>
+          <div class="space-y-3 text-sm">
+            <div class="flex justify-between"><span class="text-[#8E8E93]">KYC verificados</span><span>98%</span></div>
+            <div class="flex justify-between"><span class="text-[#8E8E93]">2FA ativos</span><span>89%</span></div>
+            <div class="flex justify-between"><span class="text-[#8E8E93]">Incidentes (30d)</span><span class="text-[#30D158]">0</span></div>
+            <div class="flex justify-between"><span class="text-[#8E8E93]">Travamentos auto</span><span>0</span></div>
+            <div class="flex justify-between"><span class="text-[#8E8E93]">Kill switches</span><span>0</span></div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- ========================================== -->
+  <!-- SCREEN 9: CATALOG                          -->
+  <!-- ========================================== -->
+  <div id="catalog" class="screen">
+    <header class="px-8 py-5 border-b border-white/[0.04] flex items-center justify-between">
+      <h1 class="text-lg font-semibold">Catalogo de Cargos</h1>
+      <button class="admin-btn px-4 py-1.5 text-xs">+ Novo cargo</button>
+    </header>
+    <main class="flex-1 px-8 py-8">
+      <div class="admin-card overflow-hidden fade-in">
+        <table class="w-full text-sm">
+          <thead><tr class="text-left text-[10px] text-[#636366] tracking-widest border-b border-white/[0.04]">
+            <th class="px-5 py-3">CARGO</th><th class="px-5 py-3">DEPT</th><th class="px-5 py-3">NIVEL</th><th class="px-5 py-3">TIPO</th><th class="px-5 py-3">ATRIB.</th><th class="px-5 py-3">INSTANCIAS</th>
+          </tr></thead>
+          <tbody class="text-[#D2D2D7]">
+            <tr class="border-b border-white/[0.02] hover:bg-white/[0.02]"><td class="px-5 py-3">CEO</td><td class="px-5 py-3 text-[#8E8E93]">Gestao</td><td class="px-5 py-3 text-[#8E8E93]">c_level</td><td class="px-5 py-3 text-[#8E8E93]">PJ+PF</td><td class="px-5 py-3 tabular-nums text-[#8E8E93]">5</td><td class="px-5 py-3 tabular-nums">124</td></tr>
+            <tr class="border-b border-white/[0.02] hover:bg-white/[0.02]"><td class="px-5 py-3">Controller</td><td class="px-5 py-3 text-[#8E8E93]">Financeiro</td><td class="px-5 py-3 text-[#8E8E93]">worker</td><td class="px-5 py-3 text-[#8E8E93]">PJ</td><td class="px-5 py-3 tabular-nums text-[#8E8E93]">8</td><td class="px-5 py-3 tabular-nums">87</td></tr>
+            <tr class="border-b border-white/[0.02] hover:bg-white/[0.02]"><td class="px-5 py-3">Secretaria Exec.</td><td class="px-5 py-3 text-[#8E8E93]">Admin</td><td class="px-5 py-3 text-[#8E8E93]">worker</td><td class="px-5 py-3 text-[#8E8E93]">PJ+PF</td><td class="px-5 py-3 tabular-nums text-[#8E8E93]">12</td><td class="px-5 py-3 tabular-nums">156</td></tr>
+            <tr class="border-b border-white/[0.02] hover:bg-white/[0.02]"><td class="px-5 py-3">Gestor Projetos</td><td class="px-5 py-3 text-[#8E8E93]">Projetos</td><td class="px-5 py-3 text-[#8E8E93]">leader</td><td class="px-5 py-3 text-[#8E8E93]">PJ</td><td class="px-5 py-3 tabular-nums text-[#8E8E93]">10</td><td class="px-5 py-3 tabular-nums">98</td></tr>
+            <tr class="border-b border-white/[0.02] hover:bg-white/[0.02]"><td class="px-5 py-3">Mentor Saude</td><td class="px-5 py-3 text-[#8E8E93]">Saude</td><td class="px-5 py-3 text-[#8E8E93]">mentor</td><td class="px-5 py-3 text-[#8E8E93]">PF</td><td class="px-5 py-3 tabular-nums text-[#8E8E93]">7</td><td class="px-5 py-3 tabular-nums">43</td></tr>
+            <tr class="border-b border-white/[0.02] hover:bg-white/[0.02]"><td class="px-5 py-3">Coach de Vida</td><td class="px-5 py-3 text-[#8E8E93]">Pessoal</td><td class="px-5 py-3 text-[#8E8E93]">mentor</td><td class="px-5 py-3 text-[#8E8E93]">PF</td><td class="px-5 py-3 tabular-nums text-[#8E8E93]">9</td><td class="px-5 py-3 tabular-nums">67</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </main>
+  </div>
+
+  <!-- ========================================== -->
+  <!-- SCREEN 10: SETTINGS                        -->
+  <!-- ========================================== -->
+  <div id="settings-admin" class="screen">
+    <header class="px-8 py-5 border-b border-white/[0.04]"><h1 class="text-lg font-semibold">Configuracoes do Sistema</h1></header>
+    <main class="flex-1 px-8 py-8">
+      <div class="grid grid-cols-2 gap-6">
+        <div class="admin-card p-6 fade-in">
+          <p class="text-[10px] text-[#636366] tracking-widest mb-4">AMBIENTES</p>
+          <div class="space-y-3 text-sm">
+            <div class="flex justify-between"><span class="text-[#8E8E93]">Production</span><span class="flex items-center gap-1.5"><span class="w-1.5 h-1.5 rounded-full bg-[#30D158]"></span>app.ktana.ai</span></div>
+            <div class="flex justify-between"><span class="text-[#8E8E93]">Staging</span><span class="flex items-center gap-1.5"><span class="w-1.5 h-1.5 rounded-full bg-[#30D158]"></span>staging.ktana.ai</span></div>
+            <div class="flex justify-between"><span class="text-[#8E8E93]">Branch</span><span>main (prod) · staging · develop</span></div>
+            <div class="flex justify-between"><span class="text-[#8E8E93]">Last deploy</span><span>29/03 05:30</span></div>
+          </div>
+        </div>
+        <div class="admin-card p-6 fade-in" style="animation-delay:0.1s">
+          <p class="text-[10px] text-[#636366] tracking-widest mb-4">ADMINS</p>
+          <div class="space-y-3 text-sm">
+            <div class="flex justify-between"><span>admin@ktana.ai</span><span class="text-[#8E8E93]">superadmin</span></div>
+            <div class="flex justify-between"><span>julio@ktana.ai</span><span class="text-[#8E8E93]">admin</span></div>
+          </div>
+          <button class="admin-btn-secondary px-3 py-1.5 text-xs mt-4">+ Adicionar admin</button>
+        </div>
+        <div class="admin-card p-6 fade-in" style="animation-delay:0.2s">
+          <p class="text-[10px] text-[#636366] tracking-widest mb-4">LLM DEFAULTS</p>
+          <div class="space-y-3 text-sm">
+            <div class="flex justify-between"><span class="text-[#8E8E93]">Router</span><span>Haiku 4.5</span></div>
+            <div class="flex justify-between"><span class="text-[#8E8E93]">Execucao</span><span>Sonnet 4.6</span></div>
+            <div class="flex justify-between"><span class="text-[#8E8E93]">Decisao</span><span>Opus 4.6</span></div>
+            <div class="flex justify-between"><span class="text-[#8E8E93]">Spec Builder</span><span>Opus 4.6</span></div>
+            <div class="flex justify-between"><span class="text-[#8E8E93]">Metacognicao</span><span>Haiku 4.5</span></div>
+          </div>
+        </div>
+        <div class="admin-card p-6 fade-in" style="animation-delay:0.3s">
+          <p class="text-[10px] text-[#636366] tracking-widest mb-4">CONSTITUTION</p>
+          <div class="text-xs text-[#8E8E93] space-y-1">
+            <p>Versao: 1.0</p>
+            <p>Regras: 24 (inviolaveis)</p>
+            <p>Disclaimers: 5 areas</p>
+            <p>Ultima revisao: 29/03/2026</p>
+          </div>
+          <button class="admin-btn-secondary px-3 py-1.5 text-xs mt-4">Editar Constitution</button>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  </div><!-- end ml-56 -->
+
+  <script>
+    function show(id) {
+      document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+      document.getElementById(id).classList.add('active');
+      window.scrollTo(0, 0);
+      document.querySelectorAll('.nav-btn').forEach(b => { b.classList.remove('text-white', 'bg-white/[0.06]'); b.classList.add('text-[#8E8E93]'); });
+      if(event && event.target.classList.contains('nav-btn')) { event.target.classList.remove('text-[#8E8E93]'); event.target.classList.add('text-white', 'bg-white/[0.06]'); }
+    }
+  </script>
+</body>
+</html>
