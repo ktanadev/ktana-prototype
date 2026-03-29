@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SenseiIA · Painel Comportamental — KTANA</title>
+  <link rel="stylesheet" href="../shared.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Zen+Dots&display=swap" rel="stylesheet">
+  <style>
+    body { min-height: 100vh; background: #F5F5F7; }
+    .main { max-width: 760px; margin: 0 auto; padding: 32px 20px 100px; }
+
+    /* Header */
+    .page-header { margin-bottom: 24px; }
+    .page-header h1 { font-family: 'Zen Dots', cursive; font-size: 24px; color: #1D1D1F; margin-bottom: 6px; display: flex; align-items: center; gap: 10px; }
+    .page-header h1 .badge { font-size: 11px; font-family: 'Inter', sans-serif; font-weight: 600; background: rgba(215,0,48,0.08); color: #D70030; padding: 4px 10px; border-radius: 980px; }
+    .page-header .sub { font-family: 'Satoshi', sans-serif; font-size: 15px; color: #86868B; line-height: 1.5; }
+
+    /* Fullness Score — hero circle */
+    .fullness-hero { text-align: center; margin-bottom: 32px; animation: fadeUp 0.6s ease both; }
+    .fullness-ring { position: relative; width: 160px; height: 160px; margin: 0 auto 16px; }
+    .fullness-ring svg { transform: rotate(-90deg); }
+    .fullness-ring .track { fill: none; stroke: rgba(0,0,0,0.04); stroke-width: 10; }
+    .fullness-ring .fill { fill: none; stroke: #D70030; stroke-width: 10; stroke-linecap: round; stroke-dasharray: 440; stroke-dashoffset: 110; transition: stroke-dashoffset 1.5s cubic-bezier(0.4,0,0.2,1); }
+    .fullness-num { position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); font-family: 'Zen Dots', cursive; font-size: 42px; color: #1D1D1F; line-height: 1; }
+    .fullness-num small { font-size: 16px; color: #86868B; }
+    .fullness-label { font-family: 'Satoshi', sans-serif; font-size: 15px; color: #86868B; }
+    .fullness-label strong { color: #D70030; }
+
+    @keyframes fadeUp { from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)} }
+
+    /* Score cards grid */
+    .scores-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 28px; }
+    .score-card { background: #FFF; border: 1px solid rgba(0,0,0,0.04); border-radius: 18px; padding: 18px 14px; text-align: center; transition: transform 0.25s; animation: fadeUp 0.5s ease both; }
+    .score-card:nth-child(1){animation-delay:0.15s} .score-card:nth-child(2){animation-delay:0.2s} .score-card:nth-child(3){animation-delay:0.25s} .score-card:nth-child(4){animation-delay:0.3s}
+    .score-card:hover { transform: translateY(-3px); }
+    .score-val { font-family: 'Zen Dots', cursive; font-size: 26px; color: #1D1D1F; line-height: 1; margin-bottom: 4px; }
+    .score-label { font-family: 'Inter', sans-serif; font-size: 11px; color: #86868B; margin-bottom: 6px; }
+    .score-trend { font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 600; }
+    .trend-up { color: #30D158; }
+    .trend-down { color: #FF3B30; }
+    .trend-flat { color: #AEAEB2; }
+
+    /* Section label */
+    .section-label { font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: #D70030; margin-bottom: 14px; margin-top: 8px; }
+
+    /* Chart card */
+    .chart-card { background: #FFF; border: 1px solid rgba(0,0,0,0.04); border-radius: 20px; padding: 24px; margin-bottom: 16px; animation: fadeUp 0.6s ease both; animation-delay: 0.35s; }
+    .chart-title { font-family: 'Satoshi', sans-serif; font-size: 15px; font-weight: 600; color: #1D1D1F; margin-bottom: 4px; }
+    .chart-sub { font-family: 'Inter', sans-serif; font-size: 11px; color: #AEAEB2; margin-bottom: 18px; }
+    .chart-area { position: relative; height: 180px; overflow: hidden; }
+
+    /* SVG line chart */
+    .chart-area svg { width: 100%; height: 100%; }
+    .chart-line { fill: none; stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; }
+    .chart-line.saude { stroke: #FF3B30; }
+    .chart-line.mente { stroke: #5E6AD2; }
+    .chart-line.social { stroke: #BF5AF2; }
+    .chart-line.energia { stroke: #FF9F0A; }
+    .chart-fill { opacity: 0.06; }
+    .chart-fill.saude { fill: #FF3B30; }
+    .chart-fill.mente { fill: #5E6AD2; }
+    .chart-fill.social { fill: #BF5AF2; }
+    .chart-fill.energia { fill: #FF9F0A; }
+
+    .chart-legend { display: flex; gap: 16px; justify-content: center; margin-top: 14px; }
+    .legend-item { display: flex; align-items: center; gap: 6px; font-family: 'Inter', sans-serif; font-size: 11px; color: #86868B; }
+    .legend-dot { width: 8px; height: 8px; border-radius: 50%; }
+
+    /* Day labels */
+    .chart-days { display: flex; justify-content: space-between; padding: 0 4px; margin-top: 8px; }
+    .chart-days span { font-family: 'Inter', sans-serif; font-size: 10px; color: #AEAEB2; }
+
+    /* Correlations */
+    .correlations { display: flex; flex-direction: column; gap: 10px; margin-bottom: 28px; }
+    .corr-card { background: #FFF; border: 1px solid rgba(0,0,0,0.04); border-radius: 16px; padding: 18px 20px; display: flex; align-items: flex-start; gap: 14px; transition: transform 0.2s; animation: fadeUp 0.5s ease both; }
+    .corr-card:nth-child(1){animation-delay:0.4s} .corr-card:nth-child(2){animation-delay:0.5s} .corr-card:nth-child(3){animation-delay:0.6s}
+    .corr-card:hover { transform: translateX(4px); }
+    .corr-icon { width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .corr-icon.high { background: rgba(215,0,48,0.08); }
+    .corr-icon.med { background: rgba(255,159,10,0.08); }
+    .corr-icon.low { background: rgba(48,209,88,0.08); }
+    .corr-text { flex: 1; }
+    .corr-insight { font-family: 'Satoshi', sans-serif; font-size: 14px; color: #1D1D1F; line-height: 1.5; margin-bottom: 4px; }
+    .corr-insight strong { color: #D70030; }
+    .corr-meta { font-family: 'Inter', sans-serif; font-size: 11px; color: #AEAEB2; }
+    .corr-conf { font-family: 'Zen Dots', cursive; font-size: 14px; color: #1D1D1F; flex-shrink: 0; }
+
+    /* Activity bars */
+    .activity-card { background: #FFF; border: 1px solid rgba(0,0,0,0.04); border-radius: 20px; padding: 24px; margin-bottom: 28px; animation: fadeUp 0.6s ease both; animation-delay: 0.45s; }
+    .bars-row { display: flex; align-items: flex-end; gap: 6px; height: 100px; margin-top: 14px; }
+    .bar-col { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 4px; }
+    .bar { border-radius: 6px 6px 2px 2px; width: 100%; transition: height 1s cubic-bezier(0.4,0,0.2,1); }
+    .bar.brand { background: linear-gradient(180deg, #D70030 0%, rgba(215,0,48,0.3) 100%); }
+    .bar.muted { background: rgba(0,0,0,0.06); }
+    .bar-label { font-family: 'Inter', sans-serif; font-size: 9px; color: #AEAEB2; }
+    .bar-val { font-family: 'Zen Dots', cursive; font-size: 10px; color: #1D1D1F; }
+
+    /* Chat zone compact */
+    .chat-compact { background: #0A0A0A; border-radius: 20px; position: relative; overflow: hidden; box-shadow: 0 4px 24px rgba(0,0,0,0.1); }
+    .chat-compact .ambient-glow { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; }
+    .chat-compact .glow-orb { position: absolute; border-radius: 50%; pointer-events: none; filter: blur(50px); }
+    .chat-compact .glow-orb:nth-child(1) { width: 40%; height: 50%; top: -10%; left: -5%; background: radial-gradient(ellipse at center, rgba(215,0,48,0.15) 0%, transparent 70%); animation: orbDrift1 10s ease-in-out infinite; }
+    .chat-compact .glow-orb:nth-child(2) { width: 35%; height: 45%; bottom: -10%; right: -5%; background: radial-gradient(ellipse at center, rgba(220,80,25,0.1) 0%, transparent 70%); animation: orbDrift2 12s ease-in-out infinite; }
+    @keyframes orbDrift1 { 0%,100%{transform:translate(0,0)}50%{transform:translate(5%,3%)} }
+    @keyframes orbDrift2 { 0%,100%{transform:translate(0,0)}50%{transform:translate(-4%,-3%)} }
+
+    .chat-compact .inner { position: relative; z-index: 1; padding: 20px; }
+    .chat-compact .ch-header { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; }
+    .chat-compact .ch-avatar { width: 32px; height: 32px; border-radius: 50%; background: rgba(215,0,48,0.15); border: 1px solid rgba(215,0,48,0.3); display: flex; align-items: center; justify-content: center; }
+    .chat-compact .ch-name { font-family: 'Inter', sans-serif; font-size: 12px; font-weight: 600; color: #F5F5F7; }
+    .chat-compact .ch-role { font-family: 'Inter', sans-serif; font-size: 10px; color: rgba(255,255,255,0.35); }
+    .chat-compact .ch-dot { width: 5px; height: 5px; border-radius: 50%; background: #30D158; margin-left: auto; animation: pulse 2s infinite; }
+    @keyframes pulse { 0%,100%{opacity:1}50%{opacity:0.3} }
+
+    .chat-compact .ch-msg { background: rgba(255,255,255,0.06); backdrop-filter: blur(10px); border-radius: 16px; border-bottom-left-radius: 6px; padding: 14px 16px; font-family: 'Satoshi', sans-serif; font-size: 14px; color: #F5F5F7; line-height: 1.5; margin-bottom: 12px; }
+    .chat-compact .ch-msg strong { color: #D70030; }
+
+    .chat-compact .ch-actions { display: flex; gap: 8px; flex-wrap: wrap; }
+    .ch-action { font-family: 'Inter', sans-serif; font-size: 12px; color: rgba(255,255,255,0.6); background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.08); border-radius: 980px; padding: 8px 16px; cursor: pointer; transition: all 0.2s; }
+    .ch-action:hover { background: rgba(215,0,48,0.12); border-color: rgba(215,0,48,0.3); color: #F5F5F7; }
+
+    .chat-compact .ch-input-row { display: flex; gap: 8px; margin-top: 12px; }
+    .chat-compact .ch-input { flex: 1; font-family: 'Satoshi', sans-serif; font-size: 14px; padding: 12px 16px; border-radius: 16px; border: 1px solid rgba(255,255,255,0.06); background: rgba(255,255,255,0.04); color: #F5F5F7; outline: none; }
+    .chat-compact .ch-input::placeholder { color: rgba(255,255,255,0.2); }
+    .chat-compact .ch-send { width: 40px; height: 40px; border-radius: 50%; background: #D70030; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+
+    @media (max-width: 600px) {
+      .scores-grid { grid-template-columns: repeat(2, 1fr); }
+      .chart-legend { flex-wrap: wrap; gap: 10px; }
+    }
+  </style>
+</head>
+<body class="light">
+  <div class="main">
+
+    <!-- HEADER -->
+    <div class="page-header">
+      <h1>Seu Painel <span class="badge">SenseiIA</span></h1>
+      <p class="sub">Como voce esta, de verdade. Baseado em 4 fontes ativas.</p>
+    </div>
+
+    <!-- FULLNESS HERO -->
+    <div class="fullness-hero">
+      <div class="fullness-ring">
+        <svg width="160" height="160" viewBox="0 0 160 160">
+          <circle class="track" cx="80" cy="80" r="70"/>
+          <circle class="fill" cx="80" cy="80" r="70"/>
+        </svg>
+        <div class="fullness-num">75<small>%</small></div>
+      </div>
+      <div class="fullness-label">Plenitude geral — <strong>Bom</strong></div>
+    </div>
+
+    <!-- SCORE CARDS -->
+    <div class="scores-grid">
+      <div class="score-card">
+        <div class="score-val">78%</div>
+        <div class="score-label">Saude</div>
+        <div class="score-trend trend-up">+3%</div>
+      </div>
+      <div class="score-card">
+        <div class="score-val">82%</div>
+        <div class="score-label">Mente</div>
+        <div class="score-trend trend-down">-1%</div>
+      </div>
+      <div class="score-card">
+        <div class="score-val">65%</div>
+        <div class="score-label">Social</div>
+        <div class="score-trend trend-up">+7%</div>
+      </div>
+      <div class="score-card">
+        <div class="score-val">91%</div>
+        <div class="score-label">Energia</div>
+        <div class="score-trend trend-flat">=</div>
+      </div>
+    </div>
+
+    <!-- CHART: Evolution 7 days -->
+    <div class="chart-card">
+      <div class="chart-title">Evolucao 7 dias</div>
+      <div class="chart-sub">Tendencia por area de vida</div>
+      <div class="chart-area">
+        <svg viewBox="0 0 700 180" preserveAspectRatio="none">
+          <!-- Grid lines -->
+          <line x1="0" y1="45" x2="700" y2="45" stroke="rgba(0,0,0,0.03)" stroke-width="1"/>
+          <line x1="0" y1="90" x2="700" y2="90" stroke="rgba(0,0,0,0.03)" stroke-width="1"/>
+          <line x1="0" y1="135" x2="700" y2="135" stroke="rgba(0,0,0,0.03)" stroke-width="1"/>
+          <!-- Saude -->
+          <path class="chart-fill saude" d="M0,72 L117,63 L233,81 L350,54 L467,45 L583,50 L700,40 L700,180 L0,180 Z"/>
+          <polyline class="chart-line saude" points="0,72 117,63 233,81 350,54 467,45 583,50 700,40"/>
+          <!-- Mente -->
+          <path class="chart-fill mente" d="M0,54 L117,45 L233,63 L350,72 L467,54 L583,50 L700,32 L700,180 L0,180 Z"/>
+          <polyline class="chart-line mente" points="0,54 117,45 233,63 350,72 467,54 583,50 700,32"/>
+          <!-- Social -->
+          <path class="chart-fill social" d="M0,126 L117,117 L233,108 L350,99 L467,90 L583,72 L700,63 L700,180 L0,180 Z"/>
+          <polyline class="chart-line social" points="0,126 117,117 233,108 350,99 467,90 583,72 700,63"/>
+          <!-- Energia -->
+          <path class="chart-fill energia" d="M0,27 L117,36 L233,27 L350,18 L467,22 L583,18 L700,16 L700,180 L0,180 Z"/>
+          <polyline class="chart-line energia" points="0,27 117,36 233,27 350,18 467,22 583,18 700,16"/>
+        </svg>
+      </div>
+      <div class="chart-days">
+        <span>Seg</span><span>Ter</span><span>Qua</span><span>Qui</span><span>Sex</span><span>Sab</span><span>Dom</span>
+      </div>
+      <div class="chart-legend">
+        <div class="legend-item"><div class="legend-dot" style="background:#FF3B30"></div>Saude</div>
+        <div class="legend-item"><div class="legend-dot" style="background:#5E6AD2"></div>Mente</div>
+        <div class="legend-item"><div class="legend-dot" style="background:#BF5AF2"></div>Social</div>
+        <div class="legend-item"><div class="legend-dot" style="background:#FF9F0A"></div>Energia</div>
+      </div>
+    </div>
+
+    <!-- ACTIVITY BARS — Fontes ativas por dia -->
+    <div class="activity-card">
+      <div class="chart-title">Dados recebidos por dia</div>
+      <div class="chart-sub">Volume de sinais das suas fontes</div>
+      <div class="bars-row">
+        <div class="bar-col"><div class="bar-val">124</div><div class="bar brand" style="height:50px"></div><div class="bar-label">Seg</div></div>
+        <div class="bar-col"><div class="bar-val">187</div><div class="bar brand" style="height:75px"></div><div class="bar-label">Ter</div></div>
+        <div class="bar-col"><div class="bar-val">156</div><div class="bar brand" style="height:62px"></div><div class="bar-label">Qua</div></div>
+        <div class="bar-col"><div class="bar-val">203</div><div class="bar brand" style="height:82px"></div><div class="bar-label">Qui</div></div>
+        <div class="bar-col"><div class="bar-val">241</div><div class="bar brand" style="height:97px"></div><div class="bar-label">Sex</div></div>
+        <div class="bar-col"><div class="bar-val">89</div><div class="bar muted" style="height:36px"></div><div class="bar-label">Sab</div></div>
+        <div class="bar-col"><div class="bar-val">67</div><div class="bar muted" style="height:27px"></div><div class="bar-label">Dom</div></div>
+      </div>
+    </div>
+
+    <!-- CORRELATIONS -->
+    <div class="section-label">Correlacoes descobertas</div>
+    <div class="correlations">
+      <div class="corr-card">
+        <div class="corr-icon high">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#D70030" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+        </div>
+        <div class="corr-text">
+          <div class="corr-insight">Noites com <strong>menos de 6h de sono</strong> resultam em humor <strong>34% pior</strong> no dia seguinte.</div>
+          <div class="corr-meta">Watch + Check-in · 23 ocorrencias</div>
+        </div>
+        <div class="corr-conf">87%</div>
+      </div>
+      <div class="corr-card">
+        <div class="corr-icon low">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#30D158" stroke-width="2"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/></svg>
+        </div>
+        <div class="corr-text">
+          <div class="corr-insight">Apos <strong>treino pela manha</strong>, voce e <strong>2.3x mais produtivo</strong> no deep work.</div>
+          <div class="corr-meta">Watch + Carreira · 18 ocorrencias</div>
+        </div>
+        <div class="corr-conf">91%</div>
+      </div>
+      <div class="corr-card">
+        <div class="corr-icon med">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#FF9F0A" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        </div>
+        <div class="corr-text">
+          <div class="corr-insight">Tempo no Instagram <strong>subiu 40%</strong> essa semana. Historicamente indica <strong>padrao de evitacao</strong>.</div>
+          <div class="corr-meta">Instagram + Mente · 7 ocorrencias</div>
+        </div>
+        <div class="corr-conf">72%</div>
+      </div>
+    </div>
+
+    <!-- CHAT COMPACT -->
+    <div class="chat-compact">
+      <div class="ambient-glow">
+        <div class="glow-orb"></div>
+        <div class="glow-orb"></div>
+      </div>
+      <div class="inner">
+        <div class="ch-header">
+          <div class="ch-avatar">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#D70030" stroke-width="1.5"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>
+          </div>
+          <div>
+            <div class="ch-name">Dr. Kenji</div>
+            <div class="ch-role">Mentor de Saude</div>
+          </div>
+          <div class="ch-dot"></div>
+        </div>
+        <div class="ch-msg">
+          Seu <strong>HRV caiu 20%</strong> em relacao a media da semana. Combinado com sono de 5h42 ontem, recomendo <strong>pular o treino intenso</strong> hoje e fazer uma caminhada leve. Quer que eu ajuste sua agenda?
+        </div>
+        <div class="ch-actions">
+          <div class="ch-action">Sim, ajusta</div>
+          <div class="ch-action">Mantenho o treino</div>
+          <div class="ch-action">Me explica melhor</div>
+        </div>
+        <div class="ch-input-row">
+          <input class="ch-input" placeholder="Pergunte sobre seus dados...">
+          <button class="ch-send">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#FFF" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+  <script src="../shared-nav.js"></script>
+</body>
+</html>
