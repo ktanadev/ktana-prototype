@@ -84,32 +84,32 @@ select.form-input{appearance:none;background-image:url("data:image/svg+xml,%3Csv
   <!-- Department selector -->
   <div class="dept-grid">
     <div class="dept-card" onclick="selectDept(this,'financeiro')" data-dept="financeiro">
-      <div class="dept-icon">&#x1F4B0;</div>
+      <div class="dept-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1v22M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg></div>
       <p class="dept-name">Financeiro</p>
       <p class="dept-clevel">Reporta ao CFO</p>
     </div>
     <div class="dept-card" onclick="selectDept(this,'vendas')" data-dept="vendas">
-      <div class="dept-icon">&#x1F4C8;</div>
+      <div class="dept-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg></div>
       <p class="dept-name">Vendas</p>
       <p class="dept-clevel">Reporta ao COO</p>
     </div>
     <div class="dept-card" onclick="selectDept(this,'marketing')" data-dept="marketing">
-      <div class="dept-icon">&#x1F4E3;</div>
+      <div class="dept-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9M13.73 21a2 2 0 01-3.46 0"/></svg></div>
       <p class="dept-name">Marketing</p>
       <p class="dept-clevel">Reporta ao CMO</p>
     </div>
     <div class="dept-card" onclick="selectDept(this,'rh')" data-dept="rh">
-      <div class="dept-icon">&#x1F465;</div>
+      <div class="dept-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg></div>
       <p class="dept-name">RH</p>
       <p class="dept-clevel">Reporta ao COO</p>
     </div>
     <div class="dept-card" onclick="selectDept(this,'projetos')" data-dept="projetos">
-      <div class="dept-icon">&#x1F4CB;</div>
+      <div class="dept-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M16 4h2a2 2 0 012 2v14a2 2 0 01-2 2H6a2 2 0 01-2-2V6a2 2 0 012-2h2"/><rect x="8" y="2" width="8" height="4" rx="1"/></svg></div>
       <p class="dept-name">Projetos</p>
       <p class="dept-clevel">Reporta ao COO</p>
     </div>
     <div class="dept-card" onclick="selectDept(this,'tecnologia')" data-dept="tecnologia">
-      <div class="dept-icon">&#x1F4BB;</div>
+      <div class="dept-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg></div>
       <p class="dept-name">Tecnologia</p>
       <p class="dept-clevel">Reporta ao CTO</p>
     </div>
@@ -123,11 +123,11 @@ select.form-input{appearance:none;background-image:url("data:image/svg+xml,%3Csv
       <p class="card-label">Identidade do Lider</p>
       <div class="report-chain" id="reportChain">
         <span class="chain-node">Dono</span>
-        <span class="chain-arrow">&#x2192;</span>
+        <span class="chain-arrow"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
         <span class="chain-node">Takeshi (CEO)</span>
-        <span class="chain-arrow">&#x2192;</span>
+        <span class="chain-arrow"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
         <span class="chain-node" id="chainClevel">CFO</span>
-        <span class="chain-arrow">&#x2192;</span>
+        <span class="chain-arrow"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
         <span class="chain-node active" id="chainLeader">Lider</span>
       </div>
       <div class="form-group">
@@ -299,7 +299,7 @@ function selectDept(el, dept) {
   config.team.forEach(t => {
     const div = document.createElement('div');
     div.className = 'team-item';
-    div.innerHTML = '<div class="team-avatar">' + (t.active ? '&#x2694;&#xFE0F;' : '&#x2795;') + '</div><div class="team-info"><p class="team-name">' + (t.name || 'A contratar') + '</p><p class="team-role">' + t.role + '</p></div><div class="team-status ' + (t.active ? 'active' : 'empty') + '"></div>';
+    div.innerHTML = '<div class="team-avatar">' + (t.active ? '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 17.5L3 6V3h3l11.5 11.5M13 19l6-6M15 17l2 2M7 3l7 7"/></svg>' : '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>') + '</div><div class="team-info"><p class="team-name">' + (t.name || 'A contratar') + '</p><p class="team-role">' + t.role + '</p></div><div class="team-status ' + (t.active ? 'active' : 'empty') + '"></div>';
     teamList.appendChild(div);
   });
 
