@@ -94,13 +94,6 @@
     }
 
     /* Chat Section */
-    .chat-section { max-width: 760px; margin: 0 auto; padding: 0 20px 28px; }
-    .chat-divider { display: flex; align-items: center; gap: 12px; margin-bottom: 20px; }
-    .chat-divider-line { flex: 1; height: 1px; background: rgba(0,0,0,0.06); }
-    .chat-divider-label { font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 500; color: #D70030; letter-spacing: 0.04em; display: flex; align-items: center; gap: 6px; }
-    .chat-divider-dot { width: 6px; height: 6px; border-radius: 50%; background: #D70030; animation: urgentPulse 1.2s ease infinite; }
-    .chat-container { background: #FFF; border-radius: 20px; border: 1px solid rgba(0,0,0,0.04); overflow: hidden; }
-    .chat-messages { padding: 20px; display: flex; flex-direction: column; gap: 14px; max-height: 400px; overflow-y: auto; }
     .msg { display: flex; gap: 10px; max-width: 88%; opacity: 0; animation: msgSlide 0.4s cubic-bezier(0.25,0.1,0.25,1) forwards; }
     .msg:nth-child(1) { animation-delay: 0.2s; }
     @keyframes msgSlide { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
@@ -270,43 +263,6 @@
   </div></main>
 
   <!-- ═══ CHAT AKIRA — Modo Urgente ═══ -->
-  <section class="chat-section">
-    <div class="chat-divider">
-      <div class="chat-divider-line"></div>
-      <div class="chat-divider-label"><div class="chat-divider-dot"></div> Akira · Modo Urgente · Ativo</div>
-      <div class="chat-divider-line"></div>
-    </div>
-    <div class="chat-container">
-      <div class="chat-messages" id="chat">
-        <div class="msg">
-          <div class="msg-avatar"><span>A</span></div>
-          <div>
-            <div class="bubble bubble-agent">
-              <p><strong>5 itens criticos</strong> ativos. O mais grave: Cliente Z ameacou cancelar (R$45k/ano) — recomendo reuniao emergencial hoje. A cobranca do Cliente W ja esta pronta, so falta sua aprovacao. O token do Haruki eu posso renovar automaticamente se voce autorizar.</p>
-              <div class="quick-actions-chat">
-                <button class="quick-btn" onclick="sendSuggestion(this)">Agendar reuniao Cliente Z</button>
-                <button class="quick-btn" onclick="sendSuggestion(this)">Aprovar cobranca Cliente W</button>
-                <button class="quick-btn" onclick="sendSuggestion(this)">Renovar token Haruki</button>
-                <button class="quick-btn" onclick="sendSuggestion(this)">Resolver tudo de uma vez</button>
-              </div>
-            </div>
-            <p class="bubble-meta">Akira · Modo Urgente · agora</p>
-          </div>
-        </div>
-        <div class="typing" id="typing">
-          <div class="msg-avatar"><span>A</span></div>
-          <div class="typing-dots"><div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div></div>
-          <span class="typing-text">Akira monitorando...</span>
-        </div>
-      </div>
-      <div class="chat-input-area">
-        <textarea class="chat-input" id="chatInput" placeholder="Comandar Akira no modo urgente..." rows="1" onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();sendMessage()}" oninput="this.style.height='auto';this.style.height=Math.min(this.scrollHeight,100)+'px'"></textarea>
-        <button class="send-btn" onclick="sendMessage()">
-          <svg viewBox="0 0 24 24"><path d="M22 2L11 13"/><path d="M22 2L15 22L11 13L2 9L22 2Z"/></svg>
-        </button>
-      </div>
-    </div>
-  </section>
 
   <script>
     function addAgentMessage(text) {

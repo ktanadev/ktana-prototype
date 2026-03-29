@@ -1,17 +1,3 @@
 <!DOCTYPE html><html><head><meta http-equiv="refresh" content="0;url=index.html"><title>Redirecting...</title></head><body><a href="index.html">Ir para Escritorio (tooltips aparecem no hover)</a>
-  <section class="chat-section">
-    <div class="chat-divider"><div class="chat-divider-line"></div><div class="chat-divider-label"><div class="chat-divider-dot"></div> Akira · Info · Online</div><div class="chat-divider-line"></div></div>
-    <div class="chat-container">
-      <div class="chat-messages" id="cChat">
-        <div class="c-msg"><div class="c-av"><span>A</span></div><div><div class="c-bbl c-bbl-a"><p>Precisa de ajuda? Me diz o que nao entendeu e eu explico de forma simples.</p><div class="c-qk"><button class="c-qb" onclick="cQ(this)">Como funciona</button><button class="c-qb" onclick="cQ(this)">O que e isso</button><button class="c-qb" onclick="cQ(this)">Tutorial rapido</button></div></div><p class="c-meta">Akira · agora</p></div></div>
-        <div class="c-ty" id="cTy"><div class="c-av"><span>A</span></div><div class="c-ty-dots"><div class="c-ty-d"></div><div class="c-ty-d"></div><div class="c-ty-d"></div></div><span class="c-ty-t">Akira processando...</span></div>
-      </div>
-      <div class="c-inp-area">
-        <textarea class="c-inp" id="cInp" placeholder="Pergunte..." rows="1" onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();cM()}" oninput="this.style.height='auto';this.style.height=Math.min(this.scrollHeight,100)+'px'"></textarea>
-        <button class="c-snd" onclick="cM()"><svg viewBox="0 0 24 24"><path d="M22 2L11 13"/><path d="M22 2L15 22L11 13L2 9L22 2Z"/></svg></button>
-      </div>
-    </div>
-  </section>
-  <script>function cA(t){var c=document.getElementById('cChat'),y=document.getElementById('cTy');y.style.display='flex';c.scrollTop=c.scrollHeight;setTimeout(function(){y.style.display='none';var m=document.createElement('div');m.className='c-msg';m.style.animation='cSlide 0.4s ease forwards';m.innerHTML='<div class="c-av"><span>A</span></div><div><div class="c-bbl c-bbl-a"><p>'+t+'</p></div><p class="c-meta">Akira · '+new Date().toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'})+'</p></div>';c.insertBefore(m,y);c.scrollTop=c.scrollHeight;},1200);}function cM(){var i=document.getElementById('cInp'),t=i.value.trim();if(!t)return;var c=document.getElementById('cChat'),y=document.getElementById('cTy');var u=document.createElement('div');u.className='c-msg c-msg-user';u.style.animation='cSlide 0.3s ease forwards';u.innerHTML='<div><div class="c-bbl c-bbl-u"><p>'+t+'</p></div><p class="c-meta" style="text-align:right;">'+new Date().toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'})+'</p></div>';c.insertBefore(u,y);i.value='';i.style.height='auto';cA('Entendido. Ja estou processando.');c.scrollTop=c.scrollHeight;}function cQ(b){document.getElementById('cInp').value=b.textContent;cM();}</script>
 <script src="../../shared-nav.js?v=1774805559"></script>
 </body></html>

@@ -39,13 +39,6 @@
     .status-edited { background: rgba(255,159,10,0.06); color: #C77600; }
     .item-timestamp { font-family: 'Inter', sans-serif; font-size: 11px; color: #D2D2D7; }
     .date-sep { font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 500; color: #AEAEB2; letter-spacing: 0.04em; padding: 16px 0 8px; }
-    .chat-section { max-width: 720px; margin: 0 auto; padding: 0 24px 28px; }
-    .chat-divider { display: flex; align-items: center; gap: 12px; margin-bottom: 20px; }
-    .chat-divider-line { flex: 1; height: 1px; background: rgba(0,0,0,0.06); }
-    .chat-divider-label { font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 500; color: #D70030; letter-spacing: 0.04em; display: flex; align-items: center; gap: 6px; }
-    .chat-divider-dot { width: 6px; height: 6px; border-radius: 50%; background: #30D158; }
-    .chat-container { background: #FFF; border-radius: 20px; border: 1px solid rgba(0,0,0,0.04); overflow: hidden; }
-    .chat-messages { padding: 20px; display: flex; flex-direction: column; gap: 14px; max-height: 400px; overflow-y: auto; }
     .msg { display: flex; gap: 10px; max-width: 88%; opacity: 0; animation: msgSlide 0.4s cubic-bezier(0.25,0.1,0.25,1) forwards; }
     .msg:nth-child(1) { animation-delay: 0.2s; }
     @keyframes msgSlide { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
@@ -118,34 +111,6 @@
       <div class="item fade-in" data-type="approved"><div class="item-avatar"><span>K</span></div><div class="item-info"><p class="item-title">Enviar case de sucesso para lead quente</p><div class="item-meta"><span>Kaito</span><span class="dot"></span><span>Comercial</span><span class="dot"></span><span>Aprovado por Julio</span></div></div><div class="item-right"><span class="item-status status-approved">Aprovada</span><span class="item-timestamp">11:15</span></div></div>
     </div>
   </div></main>
-
-  <section class="chat-section">
-    <div class="chat-divider"><div class="chat-divider-line"></div><div class="chat-divider-label"><div class="chat-divider-dot"></div> Akira · Chefe de Gabinete · Online</div><div class="chat-divider-line"></div></div>
-    <div class="chat-container">
-      <div class="chat-messages" id="chat">
-        <div class="msg">
-          <div class="msg-avatar"><span>A</span></div>
-          <div>
-            <div class="bubble bubble-agent">
-              <p>Voce aprovou <strong>78%</strong> das acoes sem editar — seus samurais estao bem calibrados. As 3 rejeicoes foram todas financeiras (descontos e parcelamentos sem contrapartida).</p>
-              <div class="insight-card"><p class="insight-label">Padrao detectado</p><p class="insight-text">Voce rejeita quando envolve concessao financeira sem beneficio mensuravel. Posso ajustar a alcada da Yuki pra filtrar melhor.</p></div>
-              <div class="quick-actions-chat">
-                <button class="quick-btn" onclick="sendSuggestion(this)">Ajustar alcada da Yuki</button>
-                <button class="quick-btn" onclick="sendSuggestion(this)">Detalhar rejeicoes</button>
-                <button class="quick-btn" onclick="sendSuggestion(this)">Comparar com semana passada</button>
-              </div>
-            </div>
-            <p class="bubble-meta">Akira · agora</p>
-          </div>
-        </div>
-        <div class="typing" id="typing"><div class="msg-avatar"><span>A</span></div><div class="typing-dots"><div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div></div><span class="typing-text">Akira analisando...</span></div>
-      </div>
-      <div class="chat-input-area">
-        <textarea class="chat-input" id="chatInput" placeholder="Pergunte sobre suas decisoes..." rows="1" onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();sendMessage()}" oninput="this.style.height='auto';this.style.height=Math.min(this.scrollHeight,100)+'px'"></textarea>
-        <button class="send-btn" onclick="sendMessage()"><svg viewBox="0 0 24 24"><path d="M22 2L11 13"/><path d="M22 2L15 22L11 13L2 9L22 2Z"/></svg></button>
-      </div>
-    </div>
-  </section>
 
   <script>
     function filterItems(type, btn) {

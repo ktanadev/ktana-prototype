@@ -60,13 +60,6 @@
     @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
 
     /* Chat Section */
-    .chat-section { max-width: 860px; margin: 0 auto; padding: 0 24px 28px; }
-    .chat-divider { display: flex; align-items: center; gap: 12px; margin-bottom: 20px; }
-    .chat-divider-line { flex: 1; height: 1px; background: rgba(0,0,0,0.06); }
-    .chat-divider-label { font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 500; color: #D70030; letter-spacing: 0.04em; display: flex; align-items: center; gap: 6px; }
-    .chat-divider-dot { width: 6px; height: 6px; border-radius: 50%; background: #30D158; }
-    .chat-container { background: #FFF; border-radius: 20px; border: 1px solid rgba(0,0,0,0.04); overflow: hidden; }
-    .chat-messages { padding: 20px; display: flex; flex-direction: column; gap: 14px; max-height: 400px; overflow-y: auto; }
     .msg { display: flex; gap: 10px; max-width: 88%; opacity: 0; animation: msgSlide 0.4s cubic-bezier(0.25,0.1,0.25,1) forwards; }
     .msg:nth-child(1) { animation-delay: 0.2s; }
     .msg:nth-child(2) { animation-delay: 0.6s; }
@@ -100,7 +93,6 @@
   </style>
 </head>
 <body>
-
 
   <main class="main"><div class="gradient-header">
     <h1 class="fade-in">Insights do Conselho</h1>
@@ -276,43 +268,6 @@
   </main>
 
   <!-- ═══ CHAT CONSELHO ═══ -->
-  <section class="chat-section">
-    <div class="chat-divider">
-      <div class="chat-divider-line"></div>
-      <div class="chat-divider-label"><div class="chat-divider-dot"></div> Conselho · Online</div>
-      <div class="chat-divider-line"></div>
-    </div>
-    <div class="chat-container">
-      <div class="chat-messages" id="chat">
-        <div class="msg">
-          <div class="msg-avatar"><span>W</span></div>
-          <div>
-            <div class="bubble bubble-agent">
-              <p>Os 5 insights desta semana tem um tema em comum: <strong>voce esta crescendo mais rapido do que sua estrutura suporta</strong>. SDR gera mais do que o Closer fecha, CMO faz trabalho do SDR, onboarding nao escala. Isso e bom — significa que o negocio puxa. Mas precisa ajustar antes que vire gargalo.</p>
-              <div class="quick-actions-chat">
-                <button class="quick-btn" onclick="sendSuggestion(this)">Qual insight e mais urgente?</button>
-                <button class="quick-btn" onclick="sendSuggestion(this)">Falar com Musk sobre escala</button>
-                <button class="quick-btn" onclick="sendSuggestion(this)">Plano de acao completo</button>
-                <button class="quick-btn" onclick="sendSuggestion(this)">Historico de insights</button>
-              </div>
-            </div>
-            <p class="bubble-meta">Buffett · Conselheiro Financeiro · agora</p>
-          </div>
-        </div>
-        <div class="typing" id="typing">
-          <div class="msg-avatar"><span>W</span></div>
-          <div class="typing-dots"><div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div></div>
-          <span class="typing-text">Conselho esta analisando...</span>
-        </div>
-      </div>
-      <div class="chat-input-area">
-        <textarea class="chat-input" id="chatInput" placeholder="Converse com o Conselho..." rows="1" onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();sendMessage()}" oninput="this.style.height='auto';this.style.height=Math.min(this.scrollHeight,100)+'px'"></textarea>
-        <button class="send-btn" onclick="sendMessage()">
-          <svg viewBox="0 0 24 24"><path d="M22 2L11 13"/><path d="M22 2L15 22L11 13L2 9L22 2Z"/></svg>
-        </button>
-      </div>
-    </div>
-  </section>
 
   <script>
     function addAgentMessage(text) {
