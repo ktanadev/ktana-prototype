@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Terminal — KTANA</title>
+  <link rel="stylesheet" href="../shared.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Zen+Dots&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { min-height: 100vh; background: #0A0A0A; color: #E5E5EA; display: flex; flex-direction: column; overflow: hidden; }
+
+    /* Top Bar */
+    .top-bar { height: 44px; background: #1C1C1E; border-bottom: 0.5px solid rgba(255,255,255,0.06); display: flex; align-items: center; justify-content: space-between; padding: 0 16px; flex-shrink: 0; -webkit-app-region: drag; }
+    .top-bar-left { display: flex; align-items: center; gap: 14px; }
+    .top-bar-logo { font-family: 'Zen Dots', cursive; font-size: 12px; color: #D70030; }
+    .top-bar-sep { width: 1px; height: 16px; background: rgba(255,255,255,0.08); }
+    .top-bar-title { font-family: 'Inter', sans-serif; font-size: 12px; color: #8E8E93; }
+    .top-bar-center { display: flex; align-items: center; gap: 8px; }
+    .session-indicator { display: flex; align-items: center; gap: 6px; padding: 4px 10px; background: rgba(255,255,255,0.04); border-radius: 6px; font-family: 'Inter', sans-serif; font-size: 11px; color: #8E8E93; }
+    .session-dot { width: 6px; height: 6px; border-radius: 50%; background: #30D158; box-shadow: 0 0 6px rgba(48,209,88,0.5); }
+    .model-badge { padding: 3px 8px; background: rgba(215,0,48,0.12); border-radius: 4px; font-family: 'JetBrains Mono', monospace; font-size: 10px; color: #D70030; font-weight: 500; }
+    .top-bar-right { display: flex; align-items: center; gap: 10px; }
+    .top-btn { width: 28px; height: 28px; border-radius: 6px; background: rgba(255,255,255,0.04); border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; color: #8E8E93; transition: all 0.15s; }
+    .top-btn:hover { background: rgba(255,255,255,0.08); color: #E5E5EA; }
+    .back-link { font-family: 'Inter', sans-serif; font-size: 11px; color: #8E8E93; display: flex; align-items: center; gap: 4px; cursor: pointer; transition: color 0.15s; text-decoration: none; }
+    .back-link:hover { color: #E5E5EA; }
+
+    /* Main Layout */
+    .terminal-layout { flex: 1; display: flex; overflow: hidden; }
+
+    /* Sidebar */
+    .sidebar { width: 240px; background: #1C1C1E; border-right: 0.5px solid rgba(255,255,255,0.06); display: flex; flex-direction: column; flex-shrink: 0; transition: width 0.25s ease; overflow: hidden; }
+    .sidebar.collapsed { width: 0; border-right: none; }
+    .sidebar-header { padding: 14px 16px; display: flex; align-items: center; justify-content: space-between; border-bottom: 0.5px solid rgba(255,255,255,0.04); }
+    .sidebar-title { font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 600; color: #8E8E93; text-transform: uppercase; letter-spacing: 0.06em; }
+    .sidebar-close { background: none; border: none; color: #636366; cursor: pointer; padding: 4px; }
+    .sidebar-close:hover { color: #E5E5EA; }
+
+    .sidebar-section { padding: 12px 16px 8px; }
+    .sidebar-section-label { font-family: 'Inter', sans-serif; font-size: 10px; font-weight: 600; color: #48484A; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 8px; }
+
+    .shortcut-item { display: flex; align-items: center; gap: 10px; padding: 8px 10px; border-radius: 8px; cursor: pointer; transition: background 0.15s; margin-bottom: 2px; }
+    .shortcut-item:hover { background: rgba(255,255,255,0.04); }
+    .shortcut-icon { width: 28px; height: 28px; border-radius: 7px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .shortcut-icon svg { width: 14px; height: 14px; }
+    .shortcut-name { font-family: 'Inter', sans-serif; font-size: 12px; color: #E5E5EA; }
+    .shortcut-key { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: #48484A; margin-left: auto; background: rgba(255,255,255,0.04); padding: 2px 6px; border-radius: 4px; }
+
+    .history-item { padding: 8px 10px; border-radius: 8px; cursor: pointer; transition: background 0.15s; margin-bottom: 2px; }
+    .history-item:hover { background: rgba(255,255,255,0.04); }
+    .history-item-title { font-family: 'Inter', sans-serif; font-size: 12px; color: #E5E5EA; margin-bottom: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .history-item-meta { font-family: 'Inter', sans-serif; font-size: 10px; color: #48484A; }
+
+    /* Terminal Area */
+    .terminal-container { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
+
+    /* Tab Bar */
+    .tab-bar { height: 36px; background: #1C1C1E; display: flex; align-items: flex-end; padding: 0 12px; gap: 1px; border-bottom: 0.5px solid rgba(255,255,255,0.06); flex-shrink: 0; }
+    .tab { padding: 7px 14px; background: transparent; border-radius: 8px 8px 0 0; font-family: 'Inter', sans-serif; font-size: 11px; color: #636366; cursor: pointer; display: flex; align-items: center; gap: 6px; transition: all 0.15s; border: none; }
+    .tab.active { background: #0A0A0A; color: #E5E5EA; }
+    .tab:hover:not(.active) { color: #8E8E93; }
+    .tab-dot { width: 4px; height: 4px; border-radius: 50%; }
+    .tab-close { width: 14px; height: 14px; border-radius: 3px; display: flex; align-items: center; justify-content: center; opacity: 0; transition: opacity 0.15s; }
+    .tab:hover .tab-close { opacity: 0.5; }
+    .tab-new { width: 28px; height: 28px; border-radius: 6px; background: transparent; border: none; color: #636366; cursor: pointer; display: flex; align-items: center; justify-content: center; margin-left: 4px; align-self: center; }
+    .tab-new:hover { background: rgba(255,255,255,0.04); color: #8E8E93; }
+
+    /* Terminal Output */
+    .terminal-output { flex: 1; overflow-y: auto; padding: 20px 24px; font-family: 'JetBrains Mono', monospace; font-size: 13px; line-height: 1.7; }
+    .terminal-output::-webkit-scrollbar { width: 6px; }
+    .terminal-output::-webkit-scrollbar-track { background: transparent; }
+    .terminal-output::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 3px; }
+
+    /* Output Lines */
+    .line { margin-bottom: 2px; }
+    .line-prompt { color: #D70030; }
+    .line-user { color: #E5E5EA; }
+    .line-assistant { color: #A8A8AD; }
+    .line-success { color: #30D158; }
+    .line-error { color: #FF453A; }
+    .line-warning { color: #FFD60A; }
+    .line-info { color: #64D2FF; }
+    .line-dim { color: #48484A; }
+    .line-file { color: #BF5AF2; }
+    .line-code { background: rgba(255,255,255,0.03); border-radius: 4px; padding: 2px 6px; color: #FF9F0A; }
+
+    .block-header { color: #D70030; font-weight: 600; margin-top: 12px; margin-bottom: 4px; }
+    .block-content { padding-left: 16px; border-left: 2px solid rgba(215,0,48,0.2); margin-bottom: 12px; }
+
+    .tool-call { background: rgba(255,255,255,0.02); border-radius: 8px; border: 0.5px solid rgba(255,255,255,0.04); padding: 10px 14px; margin: 8px 0; }
+    .tool-name { font-size: 11px; color: #64D2FF; font-weight: 600; margin-bottom: 4px; }
+    .tool-result { font-size: 12px; color: #8E8E93; }
+
+    .spinner { display: inline-block; width: 12px; height: 12px; border: 2px solid rgba(215,0,48,0.2); border-top-color: #D70030; border-radius: 50%; animation: spin 0.8s linear infinite; margin-right: 8px; vertical-align: middle; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* Cost Bar */
+    .cost-bar { padding: 6px 24px; background: rgba(255,255,255,0.02); border-top: 0.5px solid rgba(255,255,255,0.04); border-bottom: 0.5px solid rgba(255,255,255,0.04); display: flex; align-items: center; gap: 16px; font-family: 'Inter', sans-serif; font-size: 11px; color: #48484A; flex-shrink: 0; }
+    .cost-item { display: flex; align-items: center; gap: 4px; }
+    .cost-item strong { color: #8E8E93; font-weight: 500; }
+    .cost-sep { width: 1px; height: 10px; background: rgba(255,255,255,0.06); }
+
+    /* Input Area */
+    .terminal-input-area { padding: 16px 24px 20px; background: #0A0A0A; flex-shrink: 0; }
+    .input-wrapper { display: flex; align-items: flex-end; gap: 10px; background: #1C1C1E; border-radius: 14px; border: 1px solid rgba(255,255,255,0.06); padding: 12px 14px; transition: border-color 0.2s; }
+    .input-wrapper:focus-within { border-color: rgba(215,0,48,0.3); }
+    .input-prompt-icon { color: #D70030; font-family: 'JetBrains Mono', monospace; font-size: 14px; font-weight: 600; flex-shrink: 0; line-height: 1.5; }
+    .input-field { flex: 1; background: none; border: none; outline: none; font-family: 'JetBrains Mono', monospace; font-size: 13px; color: #E5E5EA; resize: none; line-height: 1.5; min-height: 21px; max-height: 120px; }
+    .input-field::placeholder { color: #48484A; }
+    .input-actions { display: flex; align-items: center; gap: 6px; flex-shrink: 0; }
+    .input-action-btn { width: 32px; height: 32px; border-radius: 8px; background: transparent; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; color: #636366; transition: all 0.15s; }
+    .input-action-btn:hover { background: rgba(255,255,255,0.06); color: #E5E5EA; }
+    .input-send { background: #D70030; color: #FFF; border-radius: 8px; }
+    .input-send:hover { background: #B5002A; }
+
+    .input-hints { display: flex; gap: 12px; margin-top: 8px; padding: 0 4px; }
+    .input-hint { font-family: 'Inter', sans-serif; font-size: 10px; color: #48484A; display: flex; align-items: center; gap: 4px; }
+    .input-hint kbd { font-family: 'JetBrains Mono', monospace; background: rgba(255,255,255,0.04); padding: 1px 5px; border-radius: 3px; font-size: 10px; }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .sidebar { display: none; }
+      .terminal-output { padding: 16px; font-size: 12px; }
+      .terminal-input-area { padding: 12px 16px 16px; }
+      .cost-bar { padding: 6px 16px; overflow-x: auto; }
+    }
+
+    /* Animations */
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    .fade-in { animation: fadeIn 0.3s ease; }
+    @keyframes typeIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
+    .type-in { animation: typeIn 0.2s ease both; }
+  </style>
+</head>
+<body>
+
+  <!-- Top Bar -->
+  <div class="top-bar">
+    <div class="top-bar-left">
+      <a href="dashboard/home.html" class="back-link">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M15 18l-6-6 6-6"/></svg>
+        Painel
+      </a>
+      <div class="top-bar-sep"></div>
+      <span class="top-bar-logo">KTANA</span>
+      <span class="top-bar-title">Terminal</span>
+    </div>
+    <div class="top-bar-center">
+      <div class="session-indicator">
+        <span class="session-dot"></span>
+        Sessao ativa
+      </div>
+      <span class="model-badge">opus-4.6</span>
+    </div>
+    <div class="top-bar-right">
+      <button class="top-btn" title="Alternar sidebar" onclick="toggleSidebar()">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="9" y1="3" x2="9" y2="21"/></svg>
+      </button>
+      <button class="top-btn" title="Limpar terminal">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 6h18M8 6V4a2 2 0 012-2h4a2 2 0 012 2v2M19 6l-1 14a2 2 0 01-2 2H8a2 2 0 01-2-2L5 6"/></svg>
+      </button>
+      <button class="top-btn" title="Configuracoes">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- Main Layout -->
+  <div class="terminal-layout">
+
+    <!-- Sidebar -->
+    <div class="sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <span class="sidebar-title">Terminal</span>
+        <button class="sidebar-close" onclick="toggleSidebar()">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
+        </button>
+      </div>
+
+      <div class="sidebar-section">
+        <div class="sidebar-section-label">Atalhos</div>
+
+        <div class="shortcut-item">
+          <div class="shortcut-icon" style="background:rgba(215,0,48,0.1); color:#D70030;">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg>
+          </div>
+          <span class="shortcut-name">Deploy</span>
+          <span class="shortcut-key">/deploy</span>
+        </div>
+
+        <div class="shortcut-item">
+          <div class="shortcut-icon" style="background:rgba(48,209,88,0.1); color:#30D158;">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+          </div>
+          <span class="shortcut-name">Testes</span>
+          <span class="shortcut-key">/test</span>
+        </div>
+
+        <div class="shortcut-item">
+          <div class="shortcut-icon" style="background:rgba(100,210,255,0.1); color:#64D2FF;">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+          </div>
+          <span class="shortcut-name">Buscar</span>
+          <span class="shortcut-key">/search</span>
+        </div>
+
+        <div class="shortcut-item">
+          <div class="shortcut-icon" style="background:rgba(191,90,242,0.1); color:#BF5AF2;">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+          </div>
+          <span class="shortcut-name">Agentes</span>
+          <span class="shortcut-key">/agents</span>
+        </div>
+
+        <div class="shortcut-item">
+          <div class="shortcut-icon" style="background:rgba(255,159,10,0.1); color:#FF9F0A;">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+          </div>
+          <span class="shortcut-name">Memoria</span>
+          <span class="shortcut-key">/memory</span>
+        </div>
+      </div>
+
+      <div class="sidebar-section">
+        <div class="sidebar-section-label">Historico</div>
+
+        <div class="history-item" style="background:rgba(255,255,255,0.03);">
+          <div class="history-item-title">Deploy LP corporate v2</div>
+          <div class="history-item-meta">Hoje, 14:32 — 23 min</div>
+        </div>
+        <div class="history-item">
+          <div class="history-item-title">Fix N+1 queries API</div>
+          <div class="history-item-meta">Hoje, 11:08 — 12 min</div>
+        </div>
+        <div class="history-item">
+          <div class="history-item-title">Config Samurai CFO</div>
+          <div class="history-item-meta">Ontem, 18:45 — 8 min</div>
+        </div>
+        <div class="history-item">
+          <div class="history-item-title">Migrar webhook CRM</div>
+          <div class="history-item-meta">Ontem, 15:20 — 31 min</div>
+        </div>
+        <div class="history-item">
+          <div class="history-item-title">Auditoria LGPD dados</div>
+          <div class="history-item-meta">27 Mar — 45 min</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Terminal Container -->
+    <div class="terminal-container">
+
+      <!-- Tab Bar -->
+      <div class="tab-bar">
+        <button class="tab active">
+          <span class="tab-dot" style="background:#30D158;"></span>
+          principal
+          <span class="tab-close">
+            <svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
+          </span>
+        </button>
+        <button class="tab">
+          <span class="tab-dot" style="background:#FFD60A;"></span>
+          deploy
+          <span class="tab-close">
+            <svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
+          </span>
+        </button>
+        <button class="tab-new" title="Nova sessao">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        </button>
+      </div>
+
+      <!-- Terminal Output -->
+      <div class="terminal-output" id="output">
+
+        <div class="line line-dim fade-in">╭─────────────────────────────────────────────────────╮</div>
+        <div class="line line-dim fade-in">│  <span style="color:#D70030;font-weight:600;">KTANA</span> Terminal — Claude Code embedded             │</div>
+        <div class="line line-dim fade-in">│  Modelo: <span style="color:#E5E5EA;">claude-opus-4.6</span> · Contexto: <span style="color:#30D158;">1M tokens</span>    │</div>
+        <div class="line line-dim fade-in">│  Conexoes: <span style="color:#30D158;">5 ativas</span> · Agentes: <span style="color:#64D2FF;">12 online</span>          │</div>
+        <div class="line line-dim fade-in">╰─────────────────────────────────────────────────────╯</div>
+
+        <div class="line" style="margin-top:16px;"></div>
+
+        <!-- Example interaction 1 -->
+        <div class="line type-in" style="animation-delay:0.1s"><span class="line-prompt">❯</span> <span class="line-user">Analisa as metricas do Samurai CFO dos ultimos 7 dias</span></div>
+
+        <div class="line" style="margin-top:8px;"></div>
+        <div class="tool-call type-in" style="animation-delay:0.2s">
+          <div class="tool-name">Read — agent/metrics/cfo-7d.json</div>
+          <div class="tool-result">147 acoes · 3 aprovacoes pendentes · 98.2% precisao</div>
+        </div>
+
+        <div class="block-content type-in" style="animation-delay:0.3s">
+          <div class="line line-assistant">O <strong style="color:#E5E5EA;">Samurai CFO</strong> executou <span style="color:#30D158;">147 acoes</span> nos ultimos 7 dias:</div>
+          <div class="line line-assistant" style="margin-top:4px;">
+            &nbsp;&nbsp;<span style="color:#64D2FF;">89</span> classificacoes de despesas (99.1% precisao)
+          </div>
+          <div class="line line-assistant">
+            &nbsp;&nbsp;<span style="color:#64D2FF;">34</span> conciliacoes bancarias
+          </div>
+          <div class="line line-assistant">
+            &nbsp;&nbsp;<span style="color:#64D2FF;">18</span> relatorios gerados (DRE, fluxo caixa, aging)
+          </div>
+          <div class="line line-assistant">
+            &nbsp;&nbsp;<span style="color:#FFD60A;">3</span> aprovacoes pendentes → <a href="approvals/list.html" style="color:#D70030;text-decoration:underline;">ver fila</a>
+          </div>
+          <div class="line line-assistant" style="margin-top:8px;">
+            <span style="color:#30D158;">Custo total: R$ 4,23</span> <span style="color:#48484A;">(R$ 0,029 por acao)</span>
+          </div>
+        </div>
+
+        <div class="line" style="margin-top:12px;"></div>
+
+        <!-- Example interaction 2 -->
+        <div class="line type-in" style="animation-delay:0.4s"><span class="line-prompt">❯</span> <span class="line-user">Cria um webhook no n8n pra receber leads do HubSpot e salvar no Supabase</span></div>
+
+        <div class="line" style="margin-top:8px;"></div>
+        <div class="tool-call type-in" style="animation-delay:0.5s">
+          <div class="tool-name">Agent — devops-engineer</div>
+          <div class="tool-result">Criando workflow n8n: HubSpot → Transform → Supabase...</div>
+        </div>
+
+        <div class="block-content type-in" style="animation-delay:0.6s">
+          <div class="line line-assistant">Workflow criado com sucesso:</div>
+          <div class="line line-assistant" style="margin-top:4px;">
+            &nbsp;&nbsp;<span style="color:#30D158;">&#10003;</span> Webhook: <span class="line-code">POST /webhook/hubspot-leads</span>
+          </div>
+          <div class="line line-assistant">
+            &nbsp;&nbsp;<span style="color:#30D158;">&#10003;</span> Transform: normaliza campos (email, phone, company)
+          </div>
+          <div class="line line-assistant">
+            &nbsp;&nbsp;<span style="color:#30D158;">&#10003;</span> Supabase: insert em <span class="line-code">public.leads</span>
+          </div>
+          <div class="line line-assistant">
+            &nbsp;&nbsp;<span style="color:#30D158;">&#10003;</span> Error handler: notifica via Slack #alerts
+          </div>
+          <div class="line line-assistant" style="margin-top:8px;">
+            <span style="color:#48484A;">Workflow ID:</span> <span style="color:#BF5AF2;">wf_hubspot_leads_v1</span>
+            <span style="color:#48484A;">· Status:</span> <span style="color:#30D158;">ativo</span>
+          </div>
+        </div>
+
+        <div class="line" style="margin-top:12px;"></div>
+
+        <!-- Active spinner -->
+        <div class="line type-in" style="animation-delay:0.7s"><span class="line-prompt">❯</span> <span class="line-user">Roda auditoria LGPD em todos os dados de PF</span></div>
+        <div class="line" style="margin-top:8px;"></div>
+        <div class="line type-in" style="animation-delay:0.8s">
+          <span class="spinner"></span>
+          <span style="color:#8E8E93;">Executando auditoria em 37 tabelas... 14/37</span>
+        </div>
+
+      </div>
+
+      <!-- Cost Bar -->
+      <div class="cost-bar">
+        <div class="cost-item">Sessao: <strong>4m 23s</strong></div>
+        <div class="cost-sep"></div>
+        <div class="cost-item">Tokens: <strong>12.4K in · 3.2K out</strong></div>
+        <div class="cost-sep"></div>
+        <div class="cost-item">Custo: <strong style="color:#D70030;">R$ 0,47</strong></div>
+        <div class="cost-sep"></div>
+        <div class="cost-item">Tools: <strong>8 chamadas</strong></div>
+      </div>
+
+      <!-- Input Area -->
+      <div class="terminal-input-area">
+        <div class="input-wrapper">
+          <span class="input-prompt-icon">❯</span>
+          <textarea class="input-field" rows="1" placeholder="Envie um comando ou pergunte algo..." id="termInput" onkeydown="handleKey(event)"></textarea>
+          <div class="input-actions">
+            <button class="input-action-btn" title="Anexar arquivo">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21.44 11.05l-9.19 9.19a6 6 0 01-8.49-8.49l9.19-9.19a4 4 0 015.66 5.66l-9.2 9.19a2 2 0 01-2.83-2.83l8.49-8.48"/></svg>
+            </button>
+            <button class="input-action-btn" title="Slash commands">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M7 21L17 3"/></svg>
+            </button>
+            <button class="input-action-btn input-send" title="Enviar">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+            </button>
+          </div>
+        </div>
+        <div class="input-hints">
+          <span class="input-hint"><kbd>Enter</kbd> enviar</span>
+          <span class="input-hint"><kbd>Shift+Enter</kbd> nova linha</span>
+          <span class="input-hint"><kbd>/</kbd> comandos</span>
+          <span class="input-hint"><kbd>Esc</kbd> cancelar</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function toggleSidebar() {
+      document.getElementById('sidebar').classList.toggle('collapsed');
+    }
+
+    function handleKey(e) {
+      if (e.key === 'Enter' && !e.shiftKey) {
+        e.preventDefault();
+        const input = document.getElementById('termInput');
+        const val = input.value.trim();
+        if (!val) return;
+
+        const output = document.getElementById('output');
+
+        // Add user line
+        const userLine = document.createElement('div');
+        userLine.className = 'line type-in';
+        userLine.style.marginTop = '12px';
+        userLine.innerHTML = '<span class="line-prompt">❯</span> <span class="line-user">' + escapeHtml(val) + '</span>';
+        output.appendChild(userLine);
+
+        // Add thinking
+        const thinkLine = document.createElement('div');
+        thinkLine.className = 'line type-in';
+        thinkLine.style.marginTop = '8px';
+        thinkLine.innerHTML = '<span class="spinner"></span><span style="color:#8E8E93;">Processando...</span>';
+        output.appendChild(thinkLine);
+
+        input.value = '';
+        output.scrollTop = output.scrollHeight;
+      }
+    }
+
+    function escapeHtml(text) {
+      const map = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' };
+      return text.replace(/[&<>"']/g, m => map[m]);
+    }
+
+    // Auto-resize textarea
+    const textarea = document.getElementById('termInput');
+    textarea.addEventListener('input', function() {
+      this.style.height = 'auto';
+      this.style.height = Math.min(this.scrollHeight, 120) + 'px';
+    });
+
+    // Scroll to bottom
+    document.getElementById('output').scrollTop = document.getElementById('output').scrollHeight;
+  </script>
+
+</body>
+</html>
