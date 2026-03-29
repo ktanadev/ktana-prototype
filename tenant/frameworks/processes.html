@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Processos — KTANA</title>
+  <link rel="stylesheet" href="../../shared.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Zen+Dots&display=swap" rel="stylesheet">
+  <style>
+    body { min-height: 100vh; background: #F5F5F7; }
+    .main { max-width: 1080px; margin: 0 auto; padding: 32px 24px 80px; }
+    h1 { font-family: 'Satoshi', sans-serif; font-size: 28px; font-weight: 700; color: #1D1D1F; margin-bottom: 4px; }
+    .sub { font-family: 'Satoshi', sans-serif; font-size: 14px; color: #86868B; margin-bottom: 28px; line-height: 1.5; }
+
+    /* Tabs */
+    .tabs { display: flex; gap: 2px; background: rgba(0,0,0,0.03); border-radius: 10px; padding: 2px; margin-bottom: 28px; overflow-x: auto; width: fit-content; }
+    .tab { font-family: 'Inter', sans-serif; padding: 7px 18px; border-radius: 8px; font-size: 12px; color: #86868B; cursor: pointer; border: none; background: none; white-space: nowrap; text-decoration: none; display: inline-flex; align-items: center; }
+    .tab.on { background: #FFF; color: #1D1D1F; box-shadow: 0 1px 3px rgba(0,0,0,0.06); font-weight: 500; }
+
+    /* Section label */
+    .section-label { font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: #D70030; margin-bottom: 14px; margin-top: 8px; }
+
+    /* Process grid */
+    .process-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; margin-bottom: 32px; }
+    @media (max-width: 768px) { .process-grid { grid-template-columns: 1fr; } }
+
+    /* Process card */
+    .process-card { background: #FFF; border-radius: 20px; border: 1px solid rgba(0,0,0,0.04); padding: 24px; transition: all 0.25s; }
+    .process-card:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(0,0,0,0.06); }
+    .process-header { display: flex; align-items: center; gap: 14px; margin-bottom: 16px; }
+    .process-icon { width: 44px; height: 44px; border-radius: 14px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .process-name { font-family: 'Satoshi', sans-serif; font-size: 16px; font-weight: 600; color: #1D1D1F; }
+    .process-freq { font-family: 'Inter', sans-serif; font-size: 10px; color: #86868B; margin-top: 2px; }
+
+    /* Steps */
+    .steps { margin-bottom: 16px; }
+    .step { display: flex; align-items: flex-start; gap: 10px; padding: 6px 0; }
+    .step-dot { width: 6px; height: 6px; border-radius: 50%; background: #D70030; flex-shrink: 0; margin-top: 6px; }
+    .step-text { font-family: 'Satoshi', sans-serif; font-size: 12px; color: #1D1D1F; line-height: 1.4; }
+
+    /* Process meta */
+    .process-meta { display: flex; gap: 16px; padding-top: 14px; border-top: 0.5px solid rgba(0,0,0,0.04); }
+    .meta-item { text-align: center; }
+    .meta-val { font-family: 'Satoshi', sans-serif; font-size: 14px; font-weight: 700; color: #1D1D1F; }
+    .meta-label { font-family: 'Inter', sans-serif; font-size: 10px; color: #AEAEB2; }
+
+    /* Samurai tags */
+    .samurai-tags { display: flex; gap: 4px; flex-wrap: wrap; margin-bottom: 14px; }
+    .samurai-tag { font-family: 'Inter', sans-serif; font-size: 10px; font-weight: 500; padding: 2px 8px; border-radius: 6px; background: rgba(0,0,0,0.03); color: #86868B; }
+    .samurai-tag.primary { background: rgba(215,0,48,0.06); color: #D70030; }
+
+    .fade-in { animation: fadeIn 0.3s cubic-bezier(0.25,0.1,0.25,1) both; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+  </style>
+</head>
+<body>
+
+  <main class="main">
+    <h1 class="fade-in">Processos</h1>
+    <p class="sub fade-in">Processos mapeados para o seu segmento. Cada processo tem etapas, samurais responsaveis e SLA definido.</p>
+
+    <!-- Tabs -->
+    <div class="tabs fade-in">
+      <a class="tab" href="index.html">Organograma</a>
+      <a class="tab on" href="processes.html">Processos</a>
+      <a class="tab" href="kpis.html">KPIs</a>
+    </div>
+
+    <p class="section-label fade-in">Processos mapeados — Software House</p>
+
+    <div class="process-grid">
+
+      <!-- 1. Desenvolvimento de features -->
+      <div class="process-card fade-in" style="animation-delay:0.1s">
+        <div class="process-header">
+          <div class="process-icon" style="background:rgba(100,210,255,0.08);">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#64D2FF" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+          </div>
+          <div>
+            <div class="process-name">Desenvolvimento de features</div>
+            <div class="process-freq">Contínuo -- Sprint de 2 semanas</div>
+          </div>
+        </div>
+        <div class="steps">
+          <div class="step"><div class="step-dot"></div><div class="step-text">Receber e priorizar requisicao no backlog</div></div>
+          <div class="step"><div class="step-dot"></div><div class="step-text">Estimar complexidade e planejar sprint</div></div>
+          <div class="step"><div class="step-dot"></div><div class="step-text">Desenvolver com code review automatico</div></div>
+          <div class="step"><div class="step-dot"></div><div class="step-text">Testes automatizados e QA</div></div>
+          <div class="step"><div class="step-dot"></div><div class="step-text">Deploy e validacao em staging</div></div>
+        </div>
+        <div class="samurai-tags">
+          <span class="samurai-tag primary">CTO</span>
+          <span class="samurai-tag">Code Review</span>
+          <span class="samurai-tag">DevOps</span>
+        </div>
+        <div class="process-meta">
+          <div class="meta-item"><div class="meta-val">5</div><div class="meta-label">Etapas</div></div>
+          <div class="meta-item"><div class="meta-val">3</div><div class="meta-label">Samurais</div></div>
+          <div class="meta-item"><div class="meta-val">Semanal</div><div class="meta-label">Frequencia</div></div>
+          <div class="meta-item"><div class="meta-val">48h</div><div class="meta-label">SLA</div></div>
+        </div>
+      </div>
+
+      <!-- 2. Deploy to production -->
+      <div class="process-card fade-in" style="animation-delay:0.15s">
+        <div class="process-header">
+          <div class="process-icon" style="background:rgba(48,209,88,0.08);">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#30D158" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12l-4-4v3H3v2h15v3l4-4z"/></svg>
+          </div>
+          <div>
+            <div class="process-name">Deploy to production</div>
+            <div class="process-freq">Diario -- CI/CD automatizado</div>
+          </div>
+        </div>
+        <div class="steps">
+          <div class="step"><div class="step-dot"></div><div class="step-text">Merge na branch main apos aprovacao</div></div>
+          <div class="step"><div class="step-dot"></div><div class="step-text">Pipeline CI/CD: build, test, security scan</div></div>
+          <div class="step"><div class="step-dot"></div><div class="step-text">Deploy canary (5% do trafego)</div></div>
+          <div class="step"><div class="step-dot"></div><div class="step-text">Monitorar metricas por 15min</div></div>
+          <div class="step"><div class="step-dot"></div><div class="step-text">Rollout completo ou rollback automatico</div></div>
+        </div>
+        <div class="samurai-tags">
+          <span class="samurai-tag primary">DevOps</span>
+          <span class="samurai-tag">CTO</span>
+        </div>
+        <div class="process-meta">
+          <div class="meta-item"><div class="meta-val">5</div><div class="meta-label">Etapas</div></div>
+          <div class="meta-item"><div class="meta-val">2</div><div class="meta-label">Samurais</div></div>
+          <div class="meta-item"><div class="meta-val">Diario</div><div class="meta-label">Frequencia</div></div>
+          <div class="meta-item"><div class="meta-val">30min</div><div class="meta-label">SLA</div></div>
+        </div>
+      </div>
+
+      <!-- 3. Onboarding de cliente -->
+      <div class="process-card fade-in" style="animation-delay:0.2s">
+        <div class="process-header">
+          <div class="process-icon" style="background:rgba(255,159,10,0.08);">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FF9F0A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="8.5" cy="7" r="4"/><line x1="20" y1="8" x2="20" y2="14"/><line x1="23" y1="11" x2="17" y2="11"/></svg>
+          </div>
+          <div>
+            <div class="process-name">Onboarding de cliente</div>
+            <div class="process-freq">Por contrato -- apos fechamento</div>
+          </div>
+        </div>
+        <div class="steps">
+          <div class="step"><div class="step-dot"></div><div class="step-text">Enviar kit de boas-vindas e credenciais</div></div>
+          <div class="step"><div class="step-dot"></div><div class="step-text">Call de kickoff com setup tecnico</div></div>
+          <div class="step"><div class="step-dot"></div><div class="step-text">Configurar ambiente e integracoes</div></div>
+          <div class="step"><div class="step-dot"></div><div class="step-text">Treinamento inicial (1 semana)</div></div>
+        </div>
+        <div class="samurai-tags">
+          <span class="samurai-tag primary">SAC</span>
+          <span class="samurai-tag">Secretaria</span>
+          <span class="samurai-tag">CTO</span>
+        </div>
+        <div class="process-meta">
+          <div class="meta-item"><div class="meta-val">4</div><div class="meta-label">Etapas</div></div>
+          <div class="meta-item"><div class="meta-val">3</div><div class="meta-label">Samurais</div></div>
+          <div class="meta-item"><div class="meta-val">Por contrato</div><div class="meta-label">Frequencia</div></div>
+          <div class="meta-item"><div class="meta-val">5 dias</div><div class="meta-label">SLA</div></div>
+        </div>
+      </div>
+
+      <!-- 4. Suporte tecnico -->
+      <div class="process-card fade-in" style="animation-delay:0.25s">
+        <div class="process-header">
+          <div class="process-icon" style="background:rgba(215,0,48,0.06);">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#D70030" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+          </div>
+          <div>
+            <div class="process-name">Suporte tecnico</div>
+            <div class="process-freq">Contínuo -- L1 automatico, L2 humano</div>
+          </div>
+        </div>
+        <div class="steps">
+          <div class="step"><div class="step-dot"></div><div class="step-text">Triagem automatica (SAC classifica severidade)</div></div>
+          <div class="step"><div class="step-dot"></div><div class="step-text">L1: resposta automatica com KB</div></div>
+          <div class="step"><div class="step-dot"></div><div class="step-text">L2: escalonamento para humano se necessario</div></div>
+          <div class="step"><div class="step-dot"></div><div class="step-text">Resolucao e feedback ao cliente</div></div>
+        </div>
+        <div class="samurai-tags">
+          <span class="samurai-tag primary">SAC</span>
+          <span class="samurai-tag">CTO</span>
+        </div>
+        <div class="process-meta">
+          <div class="meta-item"><div class="meta-val">4</div><div class="meta-label">Etapas</div></div>
+          <div class="meta-item"><div class="meta-val">2</div><div class="meta-label">Samurais</div></div>
+          <div class="meta-item"><div class="meta-val">Contínuo</div><div class="meta-label">Frequencia</div></div>
+          <div class="meta-item"><div class="meta-val">4h</div><div class="meta-label">SLA</div></div>
+        </div>
+      </div>
+
+      <!-- 5. Cobranca e faturamento -->
+      <div class="process-card fade-in" style="animation-delay:0.3s">
+        <div class="process-header">
+          <div class="process-icon" style="background:rgba(48,209,88,0.08);">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#30D158" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1v22M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>
+          </div>
+          <div>
+            <div class="process-name">Cobranca e faturamento</div>
+            <div class="process-freq">Mensal -- dia 1 de cada mes</div>
+          </div>
+        </div>
+        <div class="steps">
+          <div class="step"><div class="step-dot"></div><div class="step-text">Calcular uso e gerar faturas automaticamente</div></div>
+          <div class="step"><div class="step-dot"></div><div class="step-text">Enviar NF-e e boleto/pix ao cliente</div></div>
+          <div class="step"><div class="step-dot"></div><div class="step-text">Monitorar pagamentos e enviar lembretes</div></div>
+          <div class="step"><div class="step-dot"></div><div class="step-text">Conciliacao bancaria e relatorio financeiro</div></div>
+        </div>
+        <div class="samurai-tags">
+          <span class="samurai-tag primary">CFO</span>
+          <span class="samurai-tag">Secretaria</span>
+        </div>
+        <div class="process-meta">
+          <div class="meta-item"><div class="meta-val">4</div><div class="meta-label">Etapas</div></div>
+          <div class="meta-item"><div class="meta-val">2</div><div class="meta-label">Samurais</div></div>
+          <div class="meta-item"><div class="meta-val">Mensal</div><div class="meta-label">Frequencia</div></div>
+          <div class="meta-item"><div class="meta-val">24h</div><div class="meta-label">SLA</div></div>
+        </div>
+      </div>
+
+      <!-- 6. Contratacao -->
+      <div class="process-card fade-in" style="animation-delay:0.35s">
+        <div class="process-header">
+          <div class="process-icon" style="background:rgba(191,90,242,0.08);">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#BF5AF2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          </div>
+          <div>
+            <div class="process-name">Contratacao</div>
+            <div class="process-freq">Sob demanda -- quando abrir vaga</div>
+          </div>
+        </div>
+        <div class="steps">
+          <div class="step"><div class="step-dot"></div><div class="step-text">Definir perfil e publicar vaga</div></div>
+          <div class="step"><div class="step-dot"></div><div class="step-text">Triagem automatica de curriculos</div></div>
+          <div class="step"><div class="step-dot"></div><div class="step-text">Entrevistas tecnicas e culturais</div></div>
+          <div class="step"><div class="step-dot"></div><div class="step-text">Proposta e onboarding interno</div></div>
+        </div>
+        <div class="samurai-tags">
+          <span class="samurai-tag primary">CEO Samurai</span>
+          <span class="samurai-tag">Secretaria</span>
+        </div>
+        <div class="process-meta">
+          <div class="meta-item"><div class="meta-val">4</div><div class="meta-label">Etapas</div></div>
+          <div class="meta-item"><div class="meta-val">2</div><div class="meta-label">Samurais</div></div>
+          <div class="meta-item"><div class="meta-val">Sob demanda</div><div class="meta-label">Frequencia</div></div>
+          <div class="meta-item"><div class="meta-val">15 dias</div><div class="meta-label">SLA</div></div>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+<script src="../../shared-nav.js"></script>
+</body>
+</html>
