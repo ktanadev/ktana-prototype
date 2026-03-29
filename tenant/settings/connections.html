@@ -736,9 +736,11 @@
       features.innerHTML = conn.features.map(f => `<li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>${f}</li>`).join('');
       const actions = document.getElementById('modalActions');
       if (conn.connected) {
-        actions.innerHTML = '<button class="btn btn-secondary" style="flex:1;min-height:52px;border-radius:14px;">Configurar</button><button class="btn" style="flex:0.6;min-height:52px;border-radius:14px;background:transparent;color:#D70030;border:1px solid rgba(215,0,48,0.2);" onclick="closeModal()">Desconectar</button>';
+        const setupUrl = id === 'whatsapp' ? 'whatsapp-setup.html' : '#';
+        actions.innerHTML = '<button class="btn btn-secondary" style="flex:1;min-height:52px;border-radius:14px;" onclick="location.href=\''+setupUrl+'\'">Configurar</button><button class="btn" style="flex:0.6;min-height:52px;border-radius:14px;background:transparent;color:#D70030;border:1px solid rgba(215,0,48,0.2);" onclick="closeModal()">Desconectar</button>';
       } else {
-        actions.innerHTML = '<button class="btn btn-primary" style="flex:1;min-height:52px;border-radius:14px;">Conectar com OAuth</button>';
+        const connectUrl = id === 'whatsapp' ? 'whatsapp-setup.html' : (id === 'gmail' ? '../onboarding/connect-gmail.html' : '#');
+        actions.innerHTML = '<button class="btn btn-primary" style="flex:1;min-height:52px;border-radius:14px;" onclick="location.href=\''+connectUrl+'\'">Conectar</button>';
       }
       document.getElementById('connModal').classList.add('active');
     }
