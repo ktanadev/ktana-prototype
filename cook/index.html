@@ -21,7 +21,8 @@
     .panel-label { font-size: 9px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: #D70030; margin-bottom: 12px; display: flex; align-items: center; justify-content: space-between; }
     .panel-count { font-size: 9px; color: #48484A; font-weight: 400; }
     .agent-mini { display: flex; align-items: center; gap: 10px; padding: 8px 10px; border-radius: 10px; margin-bottom: 4px; transition: background 0.15s; cursor: pointer; }
-    .agent-mini:hover { background: rgba(255,255,255,0.03); }
+    .agent-mini:hover { background: rgba(255,255,255,0.03); transform: translateX(2px); }
+    .agent-mini { transition: background 0.15s, transform 0.15s; }
     .agent-mini.active { background: rgba(215,0,48,0.06); }
     .a-av { width: 28px; height: 28px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-family: 'Zen Dots', cursive; font-size: 10px; flex-shrink: 0; }
     .a-av-ceo { background: rgba(215,0,48,0.1); color: #D70030; border: 1px solid rgba(215,0,48,0.2); }
@@ -68,12 +69,21 @@
     .filter-btn { font-size: 9px; padding: 4px 10px; border-radius: 6px; border: 1px solid rgba(255,255,255,0.06); background: transparent; color: #636366; cursor: pointer; transition: all 0.15s; }
     .filter-btn:hover, .filter-btn.active { background: rgba(215,0,48,0.1); color: #D70030; border-color: rgba(215,0,48,0.2); }
     .stats-row { display: grid; grid-template-columns: repeat(5,1fr); gap: 8px; margin-bottom: 20px; }
-    .stat-mini { background: #1C1C1E; border: 1px solid rgba(255,255,255,0.04); border-radius: 10px; padding: 12px; text-align: center; }
-    .stat-mini-val { font-family: 'Zen Dots', cursive; font-size: 20px; }
+    .stat-mini { background: #1C1C1E; border: 1px solid rgba(255,255,255,0.04); border-radius: 10px; padding: 12px; text-align: center; transition: border-color 0.3s, transform 0.2s; }
+    .stat-mini:hover { border-color: rgba(215,0,48,0.15); transform: translateY(-1px); }
+    .stat-mini-val { font-family: 'Zen Dots', cursive; font-size: 20px; font-variant-numeric: tabular-nums; }
+    .stat-mini-val.counting { color: #D70030; transition: color 0.3s; }
     .stat-mini-label { font-size: 9px; color: #48484A; margin-top: 2px; text-transform: uppercase; letter-spacing: 0.04em; }
+    @keyframes statPop { 0% { transform: scale(0.8); opacity: 0; } 60% { transform: scale(1.05); } 100% { transform: scale(1); opacity: 1; } }
+    .stat-mini { animation: statPop 0.4s cubic-bezier(0.34,1.56,0.64,1) both; }
+    .stat-mini:nth-child(1) { animation-delay: 0.05s; }
+    .stat-mini:nth-child(2) { animation-delay: 0.1s; }
+    .stat-mini:nth-child(3) { animation-delay: 0.15s; }
+    .stat-mini:nth-child(4) { animation-delay: 0.2s; }
+    .stat-mini:nth-child(5) { animation-delay: 0.25s; }
     .fw-list { display: flex; flex-direction: column; gap: 6px; }
     .fw { background: #1C1C1E; border: 1px solid rgba(255,255,255,0.04); border-radius: 12px; overflow: hidden; transition: border-color 0.2s; }
-    .fw:hover { border-color: rgba(255,255,255,0.08); }
+    .fw:hover { border-color: rgba(255,255,255,0.08); box-shadow: 0 2px 12px rgba(0,0,0,0.2); }
     .fw-head { display: flex; align-items: center; gap: 10px; padding: 14px 16px; cursor: pointer; user-select: none; }
     .fw-head:active { transform: scale(0.995); }
     .fw-chevron { width: 16px; height: 16px; color: #48484A; transition: transform 0.2s; flex-shrink: 0; }
@@ -289,11 +299,11 @@
     <!-- RIGHT PANEL -->
     <div class="right-panel">
       <div class="stats-row">
-        <div class="stat-mini"><p class="stat-mini-val">44</p><p class="stat-mini-label">Frameworks</p></div>
-        <div class="stat-mini"><p class="stat-mini-val">170</p><p class="stat-mini-label">Telas</p></div>
-        <div class="stat-mini"><p class="stat-mini-val">472</p><p class="stat-mini-label">Sessoes</p></div>
-        <div class="stat-mini"><p class="stat-mini-val">54</p><p class="stat-mini-label">Facts</p></div>
-        <div class="stat-mini"><p class="stat-mini-val" id="actionCount">214</p><p class="stat-mini-label">Acoes hoje</p></div>
+        <div class="stat-mini"><p class="stat-mini-val" data-count="44">0</p><p class="stat-mini-label">Frameworks</p></div>
+        <div class="stat-mini"><p class="stat-mini-val" data-count="170">0</p><p class="stat-mini-label">Telas</p></div>
+        <div class="stat-mini"><p class="stat-mini-val" data-count="472">0</p><p class="stat-mini-label">Sessoes</p></div>
+        <div class="stat-mini"><p class="stat-mini-val" data-count="54">0</p><p class="stat-mini-label">Facts</p></div>
+        <div class="stat-mini"><p class="stat-mini-val" data-count="214" id="actionCount">0</p><p class="stat-mini-label">Acoes hoje</p></div>
       </div>
       <div class="right-tabs">
         <button class="right-tab active" onclick="switchRightTab(this,'agentflow')">Agent Flow</button>
@@ -1031,6 +1041,87 @@
 
   // Metrics bars
   function animateMetricBars(){document.querySelectorAll('.token-bar-fill,.model-bar-fill').forEach(function(b){var t=b.getAttribute('data-target');if(t){b.style.width='0%';requestAnimationFrame(function(){b.style.width=t+'%';});}});}
+
+  // CountUp animation on load
+  (function initCountUp(){
+    var els = document.querySelectorAll('.stat-mini-val[data-count]');
+    els.forEach(function(el){
+      var target = parseInt(el.getAttribute('data-count'));
+      var duration = 1200;
+      var start = performance.now();
+      el.classList.add('counting');
+      function tick(now){
+        var elapsed = now - start;
+        var progress = Math.min(elapsed / duration, 1);
+        var eased = 1 - Math.pow(1 - progress, 3);
+        var current = Math.round(eased * target);
+        el.textContent = current.toLocaleString('pt-BR');
+        if(progress < 1){
+          requestAnimationFrame(tick);
+        } else {
+          el.classList.remove('counting');
+          el.textContent = target.toLocaleString('pt-BR');
+        }
+      }
+      setTimeout(function(){requestAnimationFrame(tick);}, 300);
+    });
+  })();
+
+  // Live increment — actionCount ticks up every few seconds
+  (function liveActionCount(){
+    var el = document.getElementById('actionCount');
+    if(!el) return;
+    var count = parseInt(el.getAttribute('data-count')) || 214;
+    function bump(){
+      count += Math.floor(Math.random() * 3) + 1;
+      el.setAttribute('data-count', count);
+      el.textContent = count.toLocaleString('pt-BR');
+      el.style.color = '#D70030';
+      el.style.transition = 'color 0.3s';
+      setTimeout(function(){ el.style.color = ''; }, 600);
+      setTimeout(bump, 3000 + Math.random() * 4000);
+    }
+    setTimeout(bump, 5000);
+  })();
+
+  // Micro-animation: agent list items stagger on load
+  (function staggerAgents(){
+    document.querySelectorAll('.agent-mini').forEach(function(el, i){
+      el.style.opacity = '0';
+      el.style.transform = 'translateX(-8px)';
+      el.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
+      setTimeout(function(){
+        el.style.opacity = '1';
+        el.style.transform = 'translateX(0)';
+      }, 100 + i * 50);
+    });
+  })();
+
+  // Micro-animation: feed items slide in
+  (function staggerFeed(){
+    document.querySelectorAll('.f-item').forEach(function(el, i){
+      el.style.opacity = '0';
+      el.style.transform = 'translateY(6px)';
+      el.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
+      setTimeout(function(){
+        el.style.opacity = '1';
+        el.style.transform = 'translateY(0)';
+      }, 200 + i * 80);
+    });
+  })();
+
+  // Micro-animation: framework cards stagger
+  (function staggerFrameworks(){
+    document.querySelectorAll('.fw').forEach(function(el, i){
+      el.style.opacity = '0';
+      el.style.transform = 'translateY(8px)';
+      el.style.transition = 'opacity 0.35s ease, transform 0.35s ease';
+      setTimeout(function(){
+        el.style.opacity = '1';
+        el.style.transform = 'translateY(0)';
+      }, 400 + i * 60);
+    });
+  })();
   </script>
 </body>
 </html>
