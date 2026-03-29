@@ -7,296 +7,351 @@
   <link rel="stylesheet" href="../../shared.css">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Zen+Dots&display=swap" rel="stylesheet">
   <style>
-    body { min-height: 100vh; background: #F5F5F7; }
-    .main { max-width: 860px; margin: 0 auto; padding: 32px 24px 80px; }
-    h1 { font-family: 'Satoshi', sans-serif; font-size: 28px; font-weight: 700; color: #1D1D1F; margin-bottom: 4px; }
-    .sub { font-family: 'Satoshi', sans-serif; font-size: 14px; color: #86868B; margin-bottom: 28px; }
+    body { min-height: 100vh; background: #F5F5F7; display: flex; flex-direction: column; }
 
-    /* Period selector */
-    .period { display: flex; gap: 2px; background: rgba(0,0,0,0.03); border-radius: 10px; padding: 2px; margin-bottom: 24px; width: fit-content; }
-    .period-btn { font-family: 'Inter', sans-serif; padding: 6px 16px; border-radius: 8px; font-size: 12px; color: #86868B; cursor: pointer; border: none; background: none; }
-    .period-btn.on { background: #FFF; color: #1D1D1F; box-shadow: 0 1px 3px rgba(0,0,0,0.06); font-weight: 500; }
+    .header { position: sticky; top: 0; z-index: 50; background: rgba(245,245,247,0.72); backdrop-filter: saturate(180%) blur(20px); -webkit-backdrop-filter: saturate(180%) blur(20px); border-bottom: 0.5px solid rgba(0,0,0,0.06); padding: 10px 20px; display: flex; align-items: center; gap: 12px; }
+    .header-back { color: #86868B; padding: 8px; cursor: pointer; display: flex; align-items: center; }
+    .header-avatar { width: 36px; height: 36px; border-radius: 50%; border: 1.5px solid rgba(215,0,48,0.15); display: flex; align-items: center; justify-content: center; flex-shrink: 0; background: #FFF; }
+    .header-avatar span { font-family: 'Zen Dots', cursive; font-size: 9px; color: #D70030; }
+    .header-info { flex: 1; }
+    .header-info h2 { font-family: 'Satoshi', sans-serif; font-size: 15px; font-weight: 600; color: #1D1D1F; }
+    .header-info p { font-family: 'Inter', sans-serif; font-size: 11px; color: #86868B; display: flex; align-items: center; gap: 5px; }
+    .header-info p::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: #30D158; }
 
-    /* Hero stats */
-    .hero-stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 28px; }
-    .hero-stat { background: #FFF; border-radius: 20px; border: 1px solid rgba(0,0,0,0.04); padding: 20px; }
-    .hero-stat-label { font-family: 'Inter', sans-serif; font-size: 11px; color: #86868B; margin-bottom: 6px; }
-    .hero-stat-value { font-family: 'Satoshi', sans-serif; font-size: 28px; font-weight: 700; color: #1D1D1F; }
-    .hero-stat-value.green { color: #30D158; }
-    .hero-stat-value.brand { color: #D70030; }
-    .hero-stat-delta { font-family: 'Inter', sans-serif; font-size: 11px; margin-top: 4px; }
-    .hero-stat-delta.up { color: #30D158; }
-    .hero-stat-delta.down { color: #FF453A; }
+    .chat { flex: 1; max-width: 720px; width: 100%; margin: 0 auto; padding: 20px 20px 16px; overflow-y: auto; display: flex; flex-direction: column; gap: 16px; }
+    .msg { display: flex; gap: 10px; max-width: 92%; }
+    .msg-user { align-self: flex-end; flex-direction: row-reverse; gap: 0; }
+    .msg-avatar { width: 30px; height: 30px; border-radius: 50%; border: 1px solid rgba(215,0,48,0.15); display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 2px; background: #FFF; }
+    .msg-avatar span { font-family: 'Zen Dots', cursive; font-size: 7px; color: #D70030; }
 
-    /* Balance card (extrato) */
-    .card { background: #FFF; border-radius: 20px; border: 1px solid rgba(0,0,0,0.04); padding: 24px; margin-bottom: 14px; }
-    .card-label { font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: #D70030; margin-bottom: 14px; }
+    .bubble { border-radius: 20px; padding: 14px 18px; }
+    .bubble-agent { background: #FFF; border: 0.5px solid rgba(0,0,0,0.04); border-top-left-radius: 6px; box-shadow: 0 1px 3px rgba(0,0,0,0.03); }
+    .bubble-user { background: #1D1D1F; color: #F5F5F7; border-bottom-right-radius: 6px; }
+    .bubble p { font-family: 'Satoshi', sans-serif; font-size: 15px; line-height: 1.55; }
+    .bubble p + p { margin-top: 8px; }
+    .bubble-meta { font-family: 'Inter', sans-serif; font-size: 11px; color: #AEAEB2; margin-top: 6px; }
 
-    /* Extrato rows */
-    .extrato-header { display: grid; grid-template-columns: 1fr 100px 120px 100px; gap: 8px; padding: 8px 0; border-bottom: 1px solid rgba(0,0,0,0.06); font-family: 'Inter', sans-serif; font-size: 10px; font-weight: 600; color: #AEAEB2; text-transform: uppercase; letter-spacing: 0.06em; }
-    .extrato-row { display: grid; grid-template-columns: 1fr 100px 120px 100px; gap: 8px; padding: 12px 0; border-bottom: 0.5px solid rgba(0,0,0,0.03); align-items: center; transition: background 0.15s; }
-    .extrato-row:hover { background: rgba(0,0,0,0.01); }
-    .extrato-row:last-child { border-bottom: none; }
-    .ext-desc { display: flex; align-items: center; gap: 10px; }
-    .ext-icon { width: 32px; height: 32px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 14px; flex-shrink: 0; }
-    .ext-title { font-family: 'Satoshi', sans-serif; font-size: 13px; font-weight: 500; color: #1D1D1F; }
+    /* Hero numbers inside chat */
+    .roi-hero { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 14px; }
+    .roi-box { background: #FAFAFA; border: 1px solid rgba(0,0,0,0.04); border-radius: 14px; padding: 14px; text-align: center; }
+    .roi-num { font-family: 'Zen Dots', cursive; font-size: 24px; }
+    .roi-num.green { color: #30D158; }
+    .roi-num.blue { color: #64D2FF; }
+    .roi-num.red { color: #FF453A; }
+    .roi-num.brand { color: #D70030; }
+    .roi-label { font-family: 'Inter', sans-serif; font-size: 10px; color: #AEAEB2; margin-top: 3px; }
+    .roi-delta { font-family: 'Inter', sans-serif; font-size: 10px; color: #30D158; margin-top: 2px; }
+
+    /* Extrato compact inside chat */
+    .extrato { margin-top: 14px; background: #FAFAFA; border: 1px solid rgba(0,0,0,0.04); border-radius: 16px; padding: 16px; }
+    .extrato-title { font-family: 'Inter', sans-serif; font-size: 10px; font-weight: 600; color: #D70030; letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 12px; }
+    .ext-day { font-family: 'Inter', sans-serif; font-size: 10px; color: #AEAEB2; margin-top: 10px; margin-bottom: 6px; }
+    .ext-day:first-child { margin-top: 0; }
+    .ext-row { display: flex; align-items: center; gap: 10px; padding: 6px 0; border-bottom: 1px solid rgba(0,0,0,0.02); }
+    .ext-row:last-child { border-bottom: none; }
+    .ext-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+    .ext-dot.gain { background: #30D158; }
+    .ext-dot.save { background: #64D2FF; }
+    .ext-dot.cost { background: #FF453A; }
+    .ext-text { flex: 1; font-family: 'Satoshi', sans-serif; font-size: 13px; color: #1D1D1F; }
     .ext-agent { font-family: 'Inter', sans-serif; font-size: 11px; color: #AEAEB2; }
-    .ext-hours { font-family: 'Inter', sans-serif; font-size: 12px; color: #86868B; text-align: right; }
-    .ext-type { font-family: 'Inter', sans-serif; font-size: 11px; text-align: center; }
-    .ext-type.gain { color: #30D158; background: rgba(48,209,88,0.06); padding: 3px 10px; border-radius: 6px; }
-    .ext-type.save { color: #64D2FF; background: rgba(100,210,255,0.06); padding: 3px 10px; border-radius: 6px; }
-    .ext-type.cost { color: #FF453A; background: rgba(255,69,58,0.06); padding: 3px 10px; border-radius: 6px; }
-    .ext-amount { font-family: 'Inter', sans-serif; font-size: 14px; font-weight: 600; text-align: right; }
-    .ext-amount.pos { color: #30D158; }
-    .ext-amount.neg { color: #FF453A; }
+    .ext-val { font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 600; flex-shrink: 0; }
+    .ext-val.pos { color: #30D158; }
+    .ext-val.neg { color: #FF453A; }
 
-    /* Section separator */
-    .date-sep { font-family: 'Inter', sans-serif; font-size: 11px; color: #AEAEB2; padding: 16px 0 8px; border-bottom: 0.5px solid rgba(0,0,0,0.04); margin-bottom: 4px; }
+    /* Agent ranking */
+    .ranking { margin-top: 14px; }
+    .rank-row { display: flex; align-items: center; gap: 10px; padding: 8px 0; }
+    .rank-pos { font-family: 'Zen Dots', cursive; font-size: 14px; color: #D70030; width: 20px; text-align: center; }
+    .rank-dot { width: 28px; height: 28px; border-radius: 50%; border: 1px solid rgba(215,0,48,0.12); display: flex; align-items: center; justify-content: center; background: #FFF; }
+    .rank-dot span { font-family: 'Zen Dots', cursive; font-size: 6px; color: #D70030; }
+    .rank-info { flex: 1; }
+    .rank-name { font-family: 'Satoshi', sans-serif; font-size: 13px; font-weight: 500; color: #1D1D1F; }
+    .rank-role { font-family: 'Inter', sans-serif; font-size: 11px; color: #AEAEB2; }
+    .rank-val { font-family: 'Inter', sans-serif; font-size: 14px; font-weight: 600; color: #30D158; }
 
-    /* Bottom summary */
-    .summary { display: flex; gap: 12px; margin-top: 20px; padding-top: 16px; border-top: 1px solid rgba(0,0,0,0.06); }
-    .summary-item { flex: 1; text-align: center; padding: 14px; border-radius: 14px; }
-    .summary-item.gain { background: rgba(48,209,88,0.04); }
-    .summary-item.save { background: rgba(100,210,255,0.04); }
-    .summary-item.cost { background: rgba(255,69,58,0.04); }
-    .summary-item.net { background: rgba(215,0,48,0.04); }
-    .sum-val { font-family: 'Satoshi', sans-serif; font-size: 20px; font-weight: 700; }
-    .sum-val.green { color: #30D158; }
-    .sum-val.blue { color: #64D2FF; }
-    .sum-val.red { color: #FF453A; }
-    .sum-val.brand { color: #D70030; }
-    .sum-label { font-family: 'Inter', sans-serif; font-size: 11px; color: #86868B; margin-top: 2px; }
+    /* Insight */
+    .insight-card { background: linear-gradient(135deg, rgba(215,0,48,0.03) 0%, rgba(215,0,48,0.01) 100%); border: 1px solid rgba(215,0,48,0.08); border-radius: 14px; padding: 14px 16px; margin-top: 12px; }
+    .insight-label { font-family: 'Inter', sans-serif; font-size: 10px; font-weight: 600; color: #D70030; letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 6px; }
+    .insight-text { font-family: 'Satoshi', sans-serif; font-size: 13px; color: #1D1D1F; line-height: 1.5; }
 
-    /* Agents breakdown */
-    .agent-row { display: flex; align-items: center; gap: 12px; padding: 12px 0; border-bottom: 0.5px solid rgba(0,0,0,0.03); }
-    .agent-row:last-child { border-bottom: none; }
-    .agent-avatar { width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: 'Inter', sans-serif; font-size: 12px; font-weight: 600; flex-shrink: 0; }
-    .agent-info { flex: 1; }
-    .agent-name { font-family: 'Satoshi', sans-serif; font-size: 14px; font-weight: 500; color: #1D1D1F; }
-    .agent-role { font-family: 'Inter', sans-serif; font-size: 11px; color: #86868B; }
-    .agent-hours { font-family: 'Inter', sans-serif; font-size: 12px; color: #86868B; text-align: right; width: 80px; }
-    .agent-roi { font-family: 'Inter', sans-serif; font-size: 14px; font-weight: 600; color: #30D158; text-align: right; width: 100px; }
+    .quick-actions { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 12px; }
+    .quick-btn { font-family: 'Inter', sans-serif; padding: 8px 16px; border-radius: 12px; background: rgba(0,0,0,0.02); border: 0.5px solid rgba(0,0,0,0.08); font-size: 13px; color: #1D1D1F; cursor: pointer; transition: all 0.15s; }
+    .quick-btn:hover { background: #1D1D1F; color: #F5F5F7; border-color: #1D1D1F; }
 
-    .bar-track { width: 120px; height: 4px; background: rgba(0,0,0,0.04); border-radius: 2px; overflow: hidden; }
-    .bar-fill { height: 100%; border-radius: 2px; }
+    /* Typing */
+    .typing { display: none; align-items: center; gap: 10px; padding: 8px 0; }
+    .typing-dots { display: flex; gap: 4px; }
+    .typing-dot { width: 6px; height: 6px; border-radius: 50%; background: #D2D2D7; animation: typingBounce 1.4s ease infinite; }
+    .typing-dot:nth-child(2) { animation-delay: 0.2s; }
+    .typing-dot:nth-child(3) { animation-delay: 0.4s; }
+    @keyframes typingBounce { 0%,60%,100% { transform: translateY(0); } 30% { transform: translateY(-4px); } }
+    .typing-text { font-family: 'Inter', sans-serif; font-size: 11px; color: #AEAEB2; }
 
-    .fade-in { animation: fadeIn 0.3s cubic-bezier(0.25,0.1,0.25,1) both; }
-    @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
-    @media (max-width: 640px) { .hero-stats { grid-template-columns: repeat(2, 1fr); } .extrato-header, .extrato-row { grid-template-columns: 1fr 80px 80px; } }
+    /* Input */
+    .input-area { padding: 12px 20px 28px; border-top: 0.5px solid rgba(0,0,0,0.06); background: rgba(245,245,247,0.9); backdrop-filter: blur(20px); }
+    .input-row { display: flex; gap: 8px; max-width: 720px; margin: 0 auto; align-items: flex-end; }
+    .chat-input { font-family: 'Satoshi', sans-serif; flex: 1; padding: 14px 20px; border-radius: 24px; border: 0.5px solid rgba(0,0,0,0.08); background: #FFF; font-size: 15px; color: #1D1D1F; outline: none; min-height: 48px; max-height: 120px; resize: none; transition: border-color 0.15s, box-shadow 0.15s; }
+    .chat-input:focus { border-color: rgba(215,0,48,0.2); box-shadow: 0 0 0 3px rgba(215,0,48,0.04); }
+    .chat-input::placeholder { color: #AEAEB2; }
+    .send-btn { width: 48px; height: 48px; border-radius: 50%; background: #1D1D1F; color: #F5F5F7; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: background 0.15s, transform 0.1s; flex-shrink: 0; }
+    .send-btn:hover { background: #000; }
+    .send-btn:active { transform: scale(0.93); }
+    .send-btn svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+
+    .suggestions { display: flex; gap: 6px; overflow-x: auto; padding: 8px 0 4px; -webkit-overflow-scrolling: touch; }
+    .suggestion { font-family: 'Inter', sans-serif; white-space: nowrap; padding: 8px 16px; border-radius: 20px; border: 0.5px solid rgba(0,0,0,0.08); font-size: 12px; color: #86868B; cursor: pointer; transition: all 0.15s; flex-shrink: 0; background: #FFF; }
+    .suggestion:hover { background: #1D1D1F; color: #F5F5F7; border-color: #1D1D1F; }
+
+    .msg { opacity: 0; animation: msgSlide 0.4s cubic-bezier(0.25,0.1,0.25,1) forwards; }
+    @keyframes msgSlide { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+    .msg:nth-child(1) { animation-delay: 0.1s; }
+    .msg:nth-child(2) { animation-delay: 0.5s; }
+    .msg:nth-child(3) { animation-delay: 1.0s; }
+    .msg:nth-child(4) { animation-delay: 1.5s; }
+    .msg:nth-child(5) { animation-delay: 2.0s; }
+    .msg:nth-child(6) { animation-delay: 2.4s; }
+
+    @media (max-width: 640px) {
+      .msg { max-width: 95%; }
+      .roi-hero { grid-template-columns: 1fr 1fr; }
+    }
   </style>
 </head>
 <body>
 
-
-  <main class="main"><div class="gradient-header">
-    <h1 class="fade-in">Lucro & ROI</h1>
-    <p class="sub fade-in">Quanto dinheiro real seus samurais colocaram no seu bolso. Como um extrato bancario.</p>
-
-    <!-- Period -->
-    <div class="period fade-in">
-      <button class="period-btn">7 dias</button>
-      <button class="period-btn on">30 dias</button>
-      <button class="period-btn">90 dias</button>
-      <button class="period-btn">12 meses</button>
+  <div class="header">
+    <a href="home.html" class="header-back"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg></a>
+    <div class="header-avatar"><span>K</span></div>
+    <div class="header-info">
+      <h2>Kaito</h2>
+      <p>CFO · Lucro & ROI</p>
     </div>
+  </div>
 
-    <!-- Hero Stats -->
-    <div class="hero-stats fade-in">
-      <div class="hero-stat">
-        <div class="hero-stat-label">Receita gerada</div>
-        <div class="hero-stat-value green">R$127k</div>
-        <div class="hero-stat-delta up">+23% vs mes anterior</div>
-      </div>
-      <div class="hero-stat">
-        <div class="hero-stat-label">Economia gerada</div>
-        <div class="hero-stat-value" style="color:#64D2FF;">R$34k</div>
-        <div class="hero-stat-delta up">+18% vs mes anterior</div>
-      </div>
-      <div class="hero-stat">
-        <div class="hero-stat-label">Custo dos samurais</div>
-        <div class="hero-stat-value" style="color:#FF453A;">R$2.1k</div>
-        <div class="hero-stat-delta">3.1% do plano usado</div>
-      </div>
-      <div class="hero-stat">
-        <div class="hero-stat-label">ROI liquido</div>
-        <div class="hero-stat-value brand">76x</div>
-        <div class="hero-stat-delta up">Cada R$1 gasto → R$76 retorno</div>
-      </div>
-    </div>
+  <div class="chat" id="chat">
 
-    <!-- Horas trabalhadas -->
-    <div class="card fade-in">
-      <div class="card-label">Horas trabalhadas pelos samurais</div>
-      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:8px;">
-        <div style="text-align:center;padding:14px;background:rgba(0,0,0,0.02);border-radius:12px;">
-          <div style="font-family:'Satoshi',sans-serif;font-size:24px;font-weight:700;color:#1D1D1F;">672h</div>
-          <div style="font-family:'Inter',sans-serif;font-size:11px;color:#86868B;">Este mes</div>
+    <!-- Kaito opens -->
+    <div class="msg">
+      <div class="msg-avatar"><span>K</span></div>
+      <div>
+        <div class="bubble bubble-agent">
+          <p>Bom dia. Aqui esta o resumo financeiro dos seus samurais nos ultimos <strong>30 dias</strong>:</p>
+
+          <div class="roi-hero">
+            <div class="roi-box">
+              <p class="roi-num green">R$127k</p>
+              <p class="roi-label">Receita gerada</p>
+              <p class="roi-delta">+23% vs mes anterior</p>
+            </div>
+            <div class="roi-box">
+              <p class="roi-num blue">R$34k</p>
+              <p class="roi-label">Economia gerada</p>
+              <p class="roi-delta">+18% vs mes anterior</p>
+            </div>
+            <div class="roi-box">
+              <p class="roi-num red">R$2.1k</p>
+              <p class="roi-label">Custo samurais</p>
+              <p class="roi-label">3.1% do plano usado</p>
+            </div>
+            <div class="roi-box">
+              <p class="roi-num brand">76x</p>
+              <p class="roi-label">ROI liquido</p>
+              <p class="roi-delta">R$1 gasto → R$76 retorno</p>
+            </div>
+          </div>
+
+          <p style="margin-top:14px;">Resumindo: cada real que voce investe na KTANA volta <strong>76 vezes</strong>. O time trabalhou <strong>672 horas</strong> este mes — equivale a 4 funcionarios CLT que custariam R$32.000. Voce pagou R$2.100.</p>
         </div>
-        <div style="text-align:center;padding:14px;background:rgba(0,0,0,0.02);border-radius:12px;">
-          <div style="font-family:'Satoshi',sans-serif;font-size:24px;font-weight:700;color:#1D1D1F;">168h</div>
-          <div style="font-family:'Inter',sans-serif;font-size:11px;color:#86868B;">Esta semana</div>
-        </div>
-        <div style="text-align:center;padding:14px;background:rgba(0,0,0,0.02);border-radius:12px;">
-          <div style="font-family:'Satoshi',sans-serif;font-size:24px;font-weight:700;color:#1D1D1F;">24/7</div>
-          <div style="font-family:'Inter',sans-serif;font-size:11px;color:#86868B;">Disponibilidade</div>
-        </div>
-        <div style="text-align:center;padding:14px;background:rgba(48,209,88,0.04);border-radius:12px;">
-          <div style="font-family:'Satoshi',sans-serif;font-size:24px;font-weight:700;color:#30D158;">R$3,80</div>
-          <div style="font-family:'Inter',sans-serif;font-size:11px;color:#86868B;">Custo por hora</div>
-        </div>
+        <p class="bubble-meta">Kaito · 08:30</p>
       </div>
-      <div style="font-family:'Inter',sans-serif;font-size:11px;color:#AEAEB2;text-align:center;margin-top:8px;">Equivalente a 4 funcionarios CLT trabalhando 168h/mes cada. Custo CLT equivalente: ~R$32.000/mes</div>
     </div>
 
     <!-- Extrato -->
-    <div class="card fade-in" style="animation-delay:0.1s;">
-      <div class="card-label">Extrato de ganhos e economias</div>
+    <div class="msg">
+      <div class="msg-avatar"><span>K</span></div>
+      <div>
+        <div class="bubble bubble-agent">
+          <p>Extrato dos ultimos dias — o que entrou e o que custou:</p>
 
-      <div class="extrato-header">
-        <span>Descricao</span>
-        <span style="text-align:center;">Tipo</span>
-        <span style="text-align:right;">Horas</span>
-        <span style="text-align:right;">Valor</span>
-      </div>
+          <div class="extrato">
+            <p class="extrato-title">Extrato de ganhos</p>
 
-      <div class="date-sep">Hoje — 29 Mar 2026</div>
+            <p class="ext-day">Hoje</p>
+            <div class="ext-row">
+              <div class="ext-dot gain"></div>
+              <div style="flex:1;"><p class="ext-text">Proposta aceita — Cliente Apex</p><p class="ext-agent">SDR + Closer · 12h</p></div>
+              <span class="ext-val pos">+R$45.000</span>
+            </div>
+            <div class="ext-row">
+              <div class="ext-dot save"></div>
+              <div style="flex:1;"><p class="ext-text">34 cobrancas automaticas</p><p class="ext-agent">Yuki (CFO) · 6h</p></div>
+              <span class="ext-val pos">+R$8.200</span>
+            </div>
+            <div class="ext-row">
+              <div class="ext-dot cost"></div>
+              <div style="flex:1;"><p class="ext-text">Custo tokens Claude API</p><p class="ext-agent">Todos os samurais</p></div>
+              <span class="ext-val neg">-R$67</span>
+            </div>
 
-      <div class="extrato-row">
-        <div class="ext-desc"><div class="ext-icon" style="background:rgba(48,209,88,0.08);"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1v22M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg></div><div><div class="ext-title">Proposta aceita — Cliente Apex</div><div class="ext-agent">SDR Samurai · Closer IA</div></div></div>
-        <span class="ext-type gain">Receita</span>
-        <span class="ext-hours">12h prospeccao</span>
-        <span class="ext-amount pos">+R$45.000</span>
-      </div>
+            <p class="ext-day">Ontem</p>
+            <div class="ext-row">
+              <div class="ext-dot gain"></div>
+              <div style="flex:1;"><p class="ext-text">89 leads qualificados</p><p class="ext-agent">SDR · 24h prospeccao</p></div>
+              <span class="ext-val pos">+R$12.400</span>
+            </div>
+            <div class="ext-row">
+              <div class="ext-dot save"></div>
+              <div style="flex:1;"><p class="ext-text">DRE mensal automatico</p><p class="ext-agent">Yuki (CFO) · 8h</p></div>
+              <span class="ext-val pos">+R$2.400</span>
+            </div>
+            <div class="ext-row">
+              <div class="ext-dot save"></div>
+              <div style="flex:1;"><p class="ext-text">340 atendimentos WhatsApp</p><p class="ext-agent">SAC · 40h</p></div>
+              <span class="ext-val pos">+R$6.800</span>
+            </div>
+            <div class="ext-row">
+              <div class="ext-dot cost"></div>
+              <div style="flex:1;"><p class="ext-text">Custo tokens Claude API</p><p class="ext-agent">Todos os samurais</p></div>
+              <span class="ext-val neg">-R$89</span>
+            </div>
 
-      <div class="extrato-row">
-        <div class="ext-desc"><div class="ext-icon" style="background:rgba(100,210,255,0.08);"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l2 2M5 3L2 6M22 6l-3-3"/></svg></div><div><div class="ext-title">34 cobracas automaticas enviadas</div><div class="ext-agent">CFO Samurai</div></div></div>
-        <span class="ext-type save">Economia</span>
-        <span class="ext-hours">6h trabalho</span>
-        <span class="ext-amount pos">+R$8.200</span>
-      </div>
-
-      <div class="extrato-row">
-        <div class="ext-desc"><div class="ext-icon" style="background:rgba(255,69,58,0.08);"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="4" width="22" height="16" rx="2"/><path d="M1 10h22"/></svg></div><div><div class="ext-title">Custo tokens Claude API</div><div class="ext-agent">Todos os samurais</div></div></div>
-        <span class="ext-type cost">Custo</span>
-        <span class="ext-hours">—</span>
-        <span class="ext-amount neg">-R$67</span>
-      </div>
-
-      <div class="date-sep">Ontem — 28 Mar 2026</div>
-
-      <div class="extrato-row">
-        <div class="ext-desc"><div class="ext-icon" style="background:rgba(48,209,88,0.08);"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M22 7l-10 7L2 7"/></svg></div><div><div class="ext-title">89 leads qualificados gerados</div><div class="ext-agent">SDR Samurai</div></div></div>
-        <span class="ext-type gain">Receita</span>
-        <span class="ext-hours">24h prospeccao</span>
-        <span class="ext-amount pos">+R$12.400</span>
-      </div>
-
-      <div class="extrato-row">
-        <div class="ext-desc"><div class="ext-icon" style="background:rgba(100,210,255,0.08);"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6M16 13H8M16 17H8M10 9H8"/></svg></div><div><div class="ext-title">DRE mensal gerado automaticamente</div><div class="ext-agent">CFO Samurai</div></div></div>
-        <span class="ext-type save">Economia</span>
-        <span class="ext-hours">8h contabilidade</span>
-        <span class="ext-amount pos">+R$2.400</span>
-      </div>
-
-      <div class="extrato-row">
-        <div class="ext-desc"><div class="ext-icon" style="background:rgba(48,209,88,0.08);"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2"/><path d="M12 18h.01"/></svg></div><div><div class="ext-title">12 posts publicados (LinkedIn+IG)</div><div class="ext-agent">CMO Samurai</div></div></div>
-        <span class="ext-type save">Economia</span>
-        <span class="ext-hours">15h criacao</span>
-        <span class="ext-amount pos">+R$4.500</span>
-      </div>
-
-      <div class="extrato-row">
-        <div class="ext-desc"><div class="ext-icon" style="background:rgba(48,209,88,0.08);"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg></div><div><div class="ext-title">340 atendimentos via WhatsApp</div><div class="ext-agent">SAC Samurai</div></div></div>
-        <span class="ext-type save">Economia</span>
-        <span class="ext-hours">40h atendimento</span>
-        <span class="ext-amount pos">+R$6.800</span>
-      </div>
-
-      <div class="extrato-row">
-        <div class="ext-desc"><div class="ext-icon" style="background:rgba(255,69,58,0.08);"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="4" width="22" height="16" rx="2"/><path d="M1 10h22"/></svg></div><div><div class="ext-title">Custo tokens Claude API</div><div class="ext-agent">Todos os samurais</div></div></div>
-        <span class="ext-type cost">Custo</span>
-        <span class="ext-hours">—</span>
-        <span class="ext-amount neg">-R$89</span>
-      </div>
-
-      <div class="date-sep">27 Mar 2026</div>
-
-      <div class="extrato-row">
-        <div class="ext-desc"><div class="ext-icon" style="background:rgba(48,209,88,0.08);"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1v22M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg></div><div><div class="ext-title">Upsell Cliente Beta — plano premium</div><div class="ext-agent">Account Manager · Closer IA</div></div></div>
-        <span class="ext-type gain">Receita</span>
-        <span class="ext-hours">4h negociacao</span>
-        <span class="ext-amount pos">+R$18.000</span>
-      </div>
-
-      <div class="extrato-row">
-        <div class="ext-desc"><div class="ext-icon" style="background:rgba(100,210,255,0.08);"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z"/></svg></div><div><div class="ext-title">Deploy automatico + code review</div><div class="ext-agent">CTO Samurai</div></div></div>
-        <span class="ext-type save">Economia</span>
-        <span class="ext-hours">12h devops</span>
-        <span class="ext-amount pos">+R$3.600</span>
-      </div>
-
-      <!-- Summary -->
-      <div class="summary">
-        <div class="summary-item gain"><div class="sum-val green">R$75.4k</div><div class="sum-label">Receita gerada</div></div>
-        <div class="summary-item save"><div class="sum-val blue">R$25.5k</div><div class="sum-label">Economia gerada</div></div>
-        <div class="summary-item cost"><div class="sum-val red">-R$2.1k</div><div class="sum-label">Custo samurais</div></div>
-        <div class="summary-item net"><div class="sum-val brand">R$98.8k</div><div class="sum-label">Lucro liquido IA</div></div>
+            <p class="ext-day">27 Mar</p>
+            <div class="ext-row">
+              <div class="ext-dot gain"></div>
+              <div style="flex:1;"><p class="ext-text">Upsell Cliente Beta — premium</p><p class="ext-agent">Account Manager · 4h</p></div>
+              <span class="ext-val pos">+R$18.000</span>
+            </div>
+            <div class="ext-row">
+              <div class="ext-dot save"></div>
+              <div style="flex:1;"><p class="ext-text">Deploy auto + code review</p><p class="ext-agent">CTO Samurai · 12h</p></div>
+              <span class="ext-val pos">+R$3.600</span>
+            </div>
+          </div>
+        </div>
+        <p class="bubble-meta">Kaito · 08:30</p>
       </div>
     </div>
 
-    <!-- Agent breakdown -->
-    <div class="card fade-in" style="animation-delay:0.2s;">
-      <div class="card-label">ROI por samurai</div>
+    <!-- Ranking -->
+    <div class="msg">
+      <div class="msg-avatar"><span>K</span></div>
+      <div>
+        <div class="bubble bubble-agent">
+          <p>Ranking dos samurais por ROI:</p>
 
-      <div class="agent-row">
-        <div class="agent-avatar" style="background:rgba(100,210,255,0.1);color:#64D2FF;">S</div>
-        <div class="agent-info"><div class="agent-name">SDR Samurai</div><div class="agent-role">Prospeccao e vendas</div></div>
-        <div class="agent-hours">168h/mes</div>
-        <div class="bar-track"><div class="bar-fill" style="width:85%;background:#30D158;"></div></div>
-        <div class="agent-roi">+R$57.4k</div>
-      </div>
-
-      <div class="agent-row">
-        <div class="agent-avatar" style="background:rgba(48,209,88,0.1);color:#30D158;">C</div>
-        <div class="agent-info"><div class="agent-name">CFO Samurai</div><div class="agent-role">Financeiro</div></div>
-        <div class="agent-hours">168h/mes</div>
-        <div class="bar-track"><div class="bar-fill" style="width:55%;background:#30D158;"></div></div>
-        <div class="agent-roi">+R$10.6k</div>
-      </div>
-
-      <div class="agent-row">
-        <div class="agent-avatar" style="background:rgba(255,159,10,0.1);color:#FF9F0A;">M</div>
-        <div class="agent-info"><div class="agent-name">CMO Samurai</div><div class="agent-role">Marketing</div></div>
-        <div class="agent-hours">168h/mes</div>
-        <div class="bar-track"><div class="bar-fill" style="width:40%;background:#30D158;"></div></div>
-        <div class="agent-roi">+R$4.5k</div>
-      </div>
-
-      <div class="agent-row">
-        <div class="agent-avatar" style="background:rgba(191,90,242,0.1);color:#BF5AF2;">A</div>
-        <div class="agent-info"><div class="agent-name">SAC Samurai</div><div class="agent-role">Atendimento 24/7</div></div>
-        <div class="agent-hours">720h/mes</div>
-        <div class="bar-track"><div class="bar-fill" style="width:48%;background:#30D158;"></div></div>
-        <div class="agent-roi">+R$6.8k</div>
-      </div>
-
-      <div class="agent-row">
-        <div class="agent-avatar" style="background:rgba(10,132,255,0.1);color:#0A84FF;">T</div>
-        <div class="agent-info"><div class="agent-name">CTO Samurai</div><div class="agent-role">Tecnologia</div></div>
-        <div class="agent-hours">168h/mes</div>
-        <div class="bar-track"><div class="bar-fill" style="width:30%;background:#30D158;"></div></div>
-        <div class="agent-roi">+R$3.6k</div>
-      </div>
-
-      <div style="padding:16px 0 0; border-top:1px solid rgba(0,0,0,0.06); display:flex; justify-content:space-between; font-family:'Inter',sans-serif; font-size:12px; color:#86868B; margin-top:8px;">
-        <span>Total: <strong style="color:#1D1D1F;">4 samurais ativos</strong></span>
-        <span>Horas: <strong style="color:#1D1D1F;">1.392h este mes</strong></span>
-        <span>CLT equivalente: <strong style="color:#FF453A;">R$32.000/mes</strong></span>
-        <span>Custo KTANA: <strong style="color:#30D158;">R$2.100/mes</strong></span>
+          <div class="ranking">
+            <div class="rank-row">
+              <span class="rank-pos">1</span>
+              <div class="rank-dot"><span>S</span></div>
+              <div class="rank-info"><p class="rank-name">SDR Samurai</p><p class="rank-role">Prospeccao · 168h</p></div>
+              <span class="rank-val">+R$57.4k</span>
+            </div>
+            <div class="rank-row">
+              <span class="rank-pos">2</span>
+              <div class="rank-dot"><span>Y</span></div>
+              <div class="rank-info"><p class="rank-name">Yuki (CFO)</p><p class="rank-role">Financeiro · 168h</p></div>
+              <span class="rank-val">+R$10.6k</span>
+            </div>
+            <div class="rank-row">
+              <span class="rank-pos">3</span>
+              <div class="rank-dot"><span>A</span></div>
+              <div class="rank-info"><p class="rank-name">SAC Samurai</p><p class="rank-role">Atendimento · 720h</p></div>
+              <span class="rank-val">+R$6.8k</span>
+            </div>
+            <div class="rank-row">
+              <span class="rank-pos">4</span>
+              <div class="rank-dot"><span>M</span></div>
+              <div class="rank-info"><p class="rank-name">CMO Samurai</p><p class="rank-role">Marketing · 168h</p></div>
+              <span class="rank-val">+R$4.5k</span>
+            </div>
+            <div class="rank-row">
+              <span class="rank-pos">5</span>
+              <div class="rank-dot"><span>T</span></div>
+              <div class="rank-info"><p class="rank-name">CTO Samurai</p><p class="rank-role">Tecnologia · 168h</p></div>
+              <span class="rank-val">+R$3.6k</span>
+            </div>
+          </div>
+        </div>
+        <p class="bubble-meta">Kaito · 08:31</p>
       </div>
     </div>
 
-  </main>
+    <!-- Insight -->
+    <div class="msg">
+      <div class="msg-avatar"><span>K</span></div>
+      <div>
+        <div class="bubble bubble-agent">
+          <div class="insight-card">
+            <p class="insight-label">Insight do Kaito</p>
+            <p class="insight-text">O SDR sozinho gera 45% da receita. Se investir mais no pipeline dele (mais leads, mais follow-ups), voce pode dobrar a receita sem aumentar custo. O SAC trabalha 720h mas o ROI por hora e o mais baixo — vale automatizar mais respostas padrao e liberar capacidade.</p>
+          </div>
+
+          <div class="quick-actions">
+            <button class="quick-btn" onclick="sendSuggestion(this)">Aumentar pipeline SDR</button>
+            <button class="quick-btn" onclick="sendSuggestion(this)">Detalhar custos</button>
+            <button class="quick-btn" onclick="sendSuggestion(this)">DRE completo</button>
+            <button class="quick-btn" onclick="sendSuggestion(this)">Comparar com mes passado</button>
+          </div>
+        </div>
+        <p class="bubble-meta">Kaito · 08:31</p>
+      </div>
+    </div>
+
+    <!-- Typing -->
+    <div class="typing" id="typing">
+      <div class="msg-avatar"><span>K</span></div>
+      <div class="typing-dots"><div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div></div>
+      <span class="typing-text">Kaito esta calculando...</span>
+    </div>
+  </div>
+
+  <div class="input-area">
+    <div style="max-width: 720px; margin: 0 auto;">
+      <div class="suggestions" id="suggestions">
+        <button class="suggestion" onclick="sendSuggestion(this)">Quanto lucrei hoje?</button>
+        <button class="suggestion" onclick="sendSuggestion(this)">Fluxo de caixa projetado</button>
+        <button class="suggestion" onclick="sendSuggestion(this)">Onde posso cortar custo?</button>
+        <button class="suggestion" onclick="sendSuggestion(this)">Exportar relatorio PDF</button>
+        <button class="suggestion" onclick="sendSuggestion(this)">Projecao proximo trimestre</button>
+      </div>
+      <div class="input-row">
+        <textarea class="chat-input" id="chatInput" placeholder="Pergunte ao Kaito..." rows="1" onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();sendMessage()}" oninput="autoResize(this)"></textarea>
+        <button class="send-btn" onclick="sendMessage()">
+          <svg viewBox="0 0 24 24"><path d="M22 2L11 13"/><path d="M22 2L15 22L11 13L2 9L22 2Z"/></svg>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function autoResize(el) { el.style.height='auto'; el.style.height=Math.min(el.scrollHeight,120)+'px'; }
+
+    function addAgentMessage(text) {
+      const chat=document.getElementById('chat'), typing=document.getElementById('typing');
+      typing.style.display='flex'; chat.scrollTop=chat.scrollHeight;
+      setTimeout(()=>{
+        typing.style.display='none';
+        const msg=document.createElement('div'); msg.className='msg'; msg.style.animation='msgSlide 0.4s ease forwards';
+        msg.innerHTML='<div class="msg-avatar"><span>K</span></div><div><div class="bubble bubble-agent"><p>'+text+'</p></div><p class="bubble-meta">Kaito · '+new Date().toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'})+'</p></div>';
+        chat.insertBefore(msg,typing); chat.scrollTop=chat.scrollHeight;
+      },1200);
+    }
+
+    function sendMessage() {
+      const input=document.getElementById('chatInput'), text=input.value.trim(); if(!text) return;
+      const chat=document.getElementById('chat'), typing=document.getElementById('typing');
+      const userMsg=document.createElement('div'); userMsg.className='msg msg-user'; userMsg.style.animation='msgSlide 0.3s ease forwards';
+      userMsg.innerHTML='<div><div class="bubble bubble-user"><p>'+text+'</p></div><p class="bubble-meta" style="text-align:right;">'+new Date().toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'})+'</p></div>';
+      chat.insertBefore(userMsg,typing); input.value=''; input.style.height='auto';
+      document.getElementById('suggestions').style.display='none';
+      addAgentMessage('Analisando os numeros... Ja trago o detalhamento.');
+      chat.scrollTop=chat.scrollHeight;
+    }
+
+    function sendSuggestion(btn) { document.getElementById('chatInput').value=btn.textContent; sendMessage(); }
+    window.addEventListener('load',()=>{ setTimeout(()=>{ document.getElementById('chat').scrollTop=document.getElementById('chat').scrollHeight; },2800); });
+  </script>
 <script src="../../shared-nav.js?v=1774805559"></script>
 </body>
 </html>
