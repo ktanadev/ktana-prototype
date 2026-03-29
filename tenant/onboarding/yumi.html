@@ -95,6 +95,25 @@
   <!-- Chat -->
   <div class="chat">
 
+    <!-- Termos — primeira mensagem obrigatoria -->
+    <div class="msg msg-agent">
+      <div class="msg-avatar"><span>Y</span></div>
+      <div>
+        <div class="bubble bubble-agent">
+          <p>Antes de comecarmos, preciso que voce aceite nossos termos:</p>
+          <div style="background:rgba(0,0,0,0.02);border-radius:12px;padding:14px;margin-top:10px;font-size:12px;line-height:1.6;color:#6E6E73;">
+            <p style="margin-bottom:8px;">Os samurais KTANA sao assistentes de inteligencia artificial. <strong style="color:#1D1D1F;">Nao substituem profissionais humanos</strong> e todas as acoes criticas passam pela sua aprovacao.</p>
+            <p>Dados da empresa sao criptografados, armazenados no Brasil e segregados por tenant. Conforme LGPD.</p>
+          </div>
+          <div style="display:flex;gap:8px;margin-top:12px;">
+            <button onclick="this.parentElement.parentElement.parentElement.style.opacity='0.5';this.innerHTML='Aceito';this.style.background='#30D158';this.style.color='#FFF';this.style.pointerEvents='none';this.parentElement.querySelector('.terms-decline').style.display='none';" style="font-family:'Inter',sans-serif;padding:10px 20px;border-radius:12px;background:#1D1D1F;color:#F5F5F7;font-size:13px;font-weight:500;border:none;cursor:pointer;min-height:44px;transition:all 0.15s;">Aceitar e continuar</button>
+            <button class="terms-decline" style="font-family:'Inter',sans-serif;padding:10px 20px;border-radius:12px;background:transparent;color:#86868B;font-size:13px;border:1px solid rgba(0,0,0,0.08);cursor:pointer;min-height:44px;">Ler termos completos</button>
+          </div>
+        </div>
+        <p class="bubble-time">Yumi</p>
+      </div>
+    </div>
+
     <!-- Yumi 1 -->
     <div class="msg msg-agent">
       <div class="msg-avatar"><span>Y</span></div>
