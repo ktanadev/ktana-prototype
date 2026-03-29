@@ -1073,10 +1073,10 @@
     {from:'Yuki',to:'Julio',msg:'DRE marco finalizado. R$34k MRR confirmado.',tags:['RESPOND','financeiro']},
   ];
   var liveFeedIdx = 0;
-  var feedEl = document.querySelector('.feed');
   var tagColors = {DELEGATE:'tag-delegate',RESPOND:'tag-respond',EXECUTE:'tag-execute',DECIDE:'tag-decide',ESCALATE:'tag-escalate'};
   setInterval(function(){
-    if(!feedEl) return;
+    var feedEl = document.querySelector('.feed');
+    if(!feedEl || feedEl.offsetParent === null) return;
     var m = liveFeedMsgs[liveFeedIdx % liveFeedMsgs.length];
     liveFeedIdx++;
     var now = new Date().toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'});
@@ -1088,23 +1088,27 @@
       return '<span class="f-tag '+cls+'">'+t+'</span>';
     }).join('');
     item.innerHTML = '<div class="f-row"><span class="f-from">'+m.from+'</span><span class="f-arrow">&rarr;</span><span class="f-to">'+m.to+'</span><span class="f-time">'+now+'</span></div><p class="f-msg">'+m.msg+'</p><div class="f-tags">'+tagsHtml+'</div>';
-    // Insert after typing indicator or at top
-    var typing = feedEl.querySelector('.typing-line');
-    if(typing) feedEl.insertBefore(item, typing);
-    else feedEl.insertBefore(item, feedEl.firstChild);
+    // Insert at TOP of feed (newest first)
+    feedEl.insertBefore(item, feedEl.firstChild);
+    feedEl.scrollTop = 0;
     // Remove old items to keep feed manageable
-    while(feedEl.children.length > 12){
-      var last = feedEl.lastElementChild;
-      if(last && !last.classList.contains('typing-line')) feedEl.removeChild(last);
-      else break;
+    while(feedEl.children.length > 15){
+      feedEl.removeChild(feedEl.lastElementChild);
     }
-    // Update typing indicator agent name
-    if(typing){
-      var names = ['Akira','Yuki','Hana','Haruki','Kaito','Yumi'];
-      var typSpan = typing.querySelector('span:first-child');
-      if(typSpan) typSpan.textContent = names[Math.floor(Math.random()*names.length)];
+    // Update typing indicator
+    var typing = feedEl.querySelector('.typing-line');
+    if(!typing){
+      var td = document.createElement('div');
+      td.className='typing-line';
+      var names=['Akira','Yuki','Hana','Haruki','Kaito','Yumi'];
+      td.innerHTML='<span>'+names[Math.floor(Math.random()*names.length)]+'</span><span class="typing-dots"><span></span><span></span><span></span></span>';
+      feedEl.appendChild(td);
+    } else {
+      var names=['Akira','Yuki','Hana','Haruki','Kaito','Yumi'];
+      var typSpan=typing.querySelector('span:first-child');
+      if(typSpan) typSpan.textContent=names[Math.floor(Math.random()*names.length)];
     }
-  }, 4000);
+  }, 3500);
 
   // Right Tabs
   function switchRightTab(btn,tabId){document.querySelectorAll('.right-tab').forEach(function(t){t.classList.remove('active');});btn.classList.add('active');document.querySelectorAll('.right-tab-content').forEach(function(c){c.classList.remove('active');});document.getElementById('rtab-'+tabId).classList.add('active');if(tabId==='metricas')animateMetricBars();}
