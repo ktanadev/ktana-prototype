@@ -1,0 +1,806 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>COOK — Orchestrator Brain — KTANA</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Zen+Dots&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Inter', -apple-system, system-ui, sans-serif; background: #0A0A0A; color: #F5F5F7; min-height: 100vh; -webkit-font-smoothing: antialiased; }
+
+    /* Layout */
+    .header { position: sticky; top: 0; z-index: 50; padding: 16px 32px; border-bottom: 0.5px solid rgba(255,255,255,0.04); background: rgba(10,10,10,0.85); backdrop-filter: blur(20px); display: flex; align-items: center; justify-content: space-between; }
+    .header-left { display: flex; align-items: center; gap: 12px; }
+    .logo { font-family: 'Zen Dots', cursive; font-size: 15px; color: #D70030; }
+    .logo-sub { font-size: 10px; color: #48484A; letter-spacing: 0.1em; text-transform: uppercase; }
+    .header-right { display: flex; align-items: center; gap: 12px; font-size: 10px; color: #48484A; }
+    .pulse { width: 6px; height: 6px; border-radius: 50%; background: #30D158; animation: pulse 2s ease-in-out infinite; }
+    @keyframes pulse { 0%,100% { box-shadow: 0 0 4px rgba(48,209,88,0.3); } 50% { box-shadow: 0 0 14px rgba(48,209,88,0.6); } }
+
+    .content { display: grid; grid-template-columns: 340px 1fr; min-height: calc(100vh - 53px); }
+
+    /* Left panel — Agents + Feed */
+    .left-panel { border-right: 0.5px solid rgba(255,255,255,0.04); overflow-y: auto; max-height: calc(100vh - 53px); }
+    .panel-section { padding: 20px 16px; border-bottom: 0.5px solid rgba(255,255,255,0.04); }
+    .panel-label { font-size: 9px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: #D70030; margin-bottom: 12px; display: flex; align-items: center; justify-content: space-between; }
+    .panel-count { font-size: 9px; color: #48484A; font-weight: 400; }
+
+    /* Agent cards mini */
+    .agent-mini { display: flex; align-items: center; gap: 10px; padding: 8px 10px; border-radius: 10px; margin-bottom: 4px; transition: background 0.15s; cursor: pointer; }
+    .agent-mini:hover { background: rgba(255,255,255,0.03); }
+    .agent-mini.active { background: rgba(215,0,48,0.06); }
+    .a-av { width: 28px; height: 28px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-family: 'Zen Dots', cursive; font-size: 10px; flex-shrink: 0; }
+    .a-av-ceo { background: rgba(215,0,48,0.1); color: #D70030; border: 1px solid rgba(215,0,48,0.2); }
+    .a-av-def { background: rgba(255,255,255,0.03); color: #8E8E93; border: 1px solid rgba(255,255,255,0.06); }
+    .a-name { font-size: 12px; font-weight: 500; }
+    .a-role { font-size: 9px; color: #636366; }
+    .a-status { font-size: 8px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.03em; display: flex; align-items: center; gap: 3px; margin-left: auto; }
+    .a-status.on { color: #30D158; }
+    .a-status.off { color: #48484A; }
+    .dot { width: 4px; height: 4px; border-radius: 50%; }
+    .dot-on { background: #30D158; animation: pulse 2s ease infinite; }
+
+    /* Feed */
+    .feed { max-height: 400px; overflow-y: auto; }
+    .f-item { padding: 12px 0; border-bottom: 0.5px solid rgba(255,255,255,0.02); }
+    .f-item:last-child { border: none; }
+    .f-row { display: flex; align-items: center; gap: 4px; margin-bottom: 4px; flex-wrap: wrap; }
+    .f-from { font-size: 11px; font-weight: 600; color: #D2D2D7; }
+    .f-arrow { font-size: 9px; color: #48484A; }
+    .f-to { font-size: 11px; font-weight: 500; color: #8E8E93; }
+    .f-time { font-size: 9px; color: #48484A; margin-left: auto; font-variant-numeric: tabular-nums; }
+    .f-msg { font-size: 12px; color: #AEAEB2; line-height: 1.5; }
+    .f-tags { display: flex; gap: 4px; margin-top: 6px; flex-wrap: wrap; }
+    .f-tag { font-size: 8px; font-weight: 600; padding: 2px 6px; border-radius: 3px; text-transform: uppercase; letter-spacing: 0.03em; }
+    .tag-delegate { background: rgba(0,122,255,0.12); color: #0A84FF; }
+    .tag-respond { background: rgba(48,209,88,0.12); color: #30D158; }
+    .tag-execute { background: rgba(191,90,242,0.12); color: #BF5AF2; }
+    .tag-decide { background: rgba(255,159,10,0.12); color: #FF9F0A; }
+    .tag-escalate { background: rgba(255,69,58,0.12); color: #FF453A; }
+    .tag-meta { background: rgba(255,255,255,0.04); color: #636366; }
+    .typing-line { display: flex; align-items: center; gap: 8px; padding: 10px 0; font-size: 11px; color: #636366; }
+    .typing-dots { display: inline-flex; gap: 2px; }
+    .typing-dots span { width: 3px; height: 3px; border-radius: 50%; background: #636366; animation: typ 1.2s ease infinite; }
+    .typing-dots span:nth-child(2) { animation-delay: 0.15s; }
+    .typing-dots span:nth-child(3) { animation-delay: 0.3s; }
+    @keyframes typ { 0%,60%,100% { opacity: 0.2; } 30% { opacity: 1; } }
+
+    /* Right panel — Frameworks */
+    .right-panel { overflow-y: auto; max-height: calc(100vh - 53px); padding: 20px 24px; }
+    .right-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; }
+    .right-title { font-size: 10px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: #D70030; }
+    .filter-bar { display: flex; gap: 4px; }
+    .filter-btn { font-size: 9px; padding: 4px 10px; border-radius: 6px; border: 1px solid rgba(255,255,255,0.06); background: transparent; color: #636366; cursor: pointer; transition: all 0.15s; }
+    .filter-btn:hover, .filter-btn.active { background: rgba(215,0,48,0.1); color: #D70030; border-color: rgba(215,0,48,0.2); }
+
+    /* Stats mini */
+    .stats-row { display: grid; grid-template-columns: repeat(5,1fr); gap: 8px; margin-bottom: 20px; }
+    .stat-mini { background: #1C1C1E; border: 1px solid rgba(255,255,255,0.04); border-radius: 10px; padding: 12px; text-align: center; }
+    .stat-mini-val { font-family: 'Zen Dots', cursive; font-size: 20px; }
+    .stat-mini-label { font-size: 9px; color: #48484A; margin-top: 2px; text-transform: uppercase; letter-spacing: 0.04em; }
+
+    /* Framework cards */
+    .fw-list { display: flex; flex-direction: column; gap: 6px; }
+    .fw { background: #1C1C1E; border: 1px solid rgba(255,255,255,0.04); border-radius: 12px; overflow: hidden; transition: border-color 0.2s; }
+    .fw:hover { border-color: rgba(255,255,255,0.08); }
+    .fw-head { display: flex; align-items: center; gap: 10px; padding: 14px 16px; cursor: pointer; user-select: none; }
+    .fw-head:active { transform: scale(0.995); }
+    .fw-chevron { width: 16px; height: 16px; color: #48484A; transition: transform 0.2s; flex-shrink: 0; }
+    .fw.open .fw-chevron { transform: rotate(90deg); color: #D70030; }
+    .fw-name { font-size: 13px; font-weight: 500; flex: 1; }
+    .fw-type { font-size: 8px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; padding: 2px 7px; border-radius: 4px; flex-shrink: 0; }
+    .t-rule { background: rgba(215,0,48,0.12); color: #D70030; }
+    .t-checklist { background: rgba(0,122,255,0.12); color: #0A84FF; }
+    .t-pattern { background: rgba(191,90,242,0.12); color: #BF5AF2; }
+    .t-template { background: rgba(48,209,88,0.12); color: #30D158; }
+    .t-runbook { background: rgba(255,159,10,0.12); color: #FF9F0A; }
+    .fw-toggle { width: 32px; height: 18px; border-radius: 9px; background: #2C2C2E; position: relative; cursor: pointer; flex-shrink: 0; transition: background 0.2s; }
+    .fw-toggle.on { background: #30D158; }
+    .fw-toggle::after { content: ''; position: absolute; top: 2px; left: 2px; width: 14px; height: 14px; border-radius: 50%; background: #FFF; transition: transform 0.2s; }
+    .fw-toggle.on::after { transform: translateX(14px); }
+    .fw-body { display: none; padding: 0 16px 16px; }
+    .fw.open .fw-body { display: block; }
+    .fw-desc { font-size: 11px; color: #8E8E93; line-height: 1.5; margin-bottom: 12px; }
+    .fw-steps { list-style: none; counter-reset: step; }
+    .fw-steps li { counter-increment: step; position: relative; padding: 6px 0 6px 28px; font-size: 11px; color: #AEAEB2; line-height: 1.5; border-bottom: 0.5px solid rgba(255,255,255,0.02); }
+    .fw-steps li:last-child { border: none; }
+    .fw-steps li::before { content: counter(step); position: absolute; left: 0; top: 6px; width: 18px; height: 18px; border-radius: 5px; background: rgba(215,0,48,0.08); color: #D70030; font-size: 9px; font-weight: 600; display: flex; align-items: center; justify-content: center; }
+    .fw-tags-row { display: flex; gap: 4px; margin-top: 10px; flex-wrap: wrap; }
+    .fw-tag { font-size: 8px; padding: 2px 6px; border-radius: 3px; background: rgba(255,255,255,0.04); color: #636366; }
+    .fw-scope { font-size: 9px; color: #48484A; margin-top: 8px; }
+
+    /* Agent Drawer */
+    .drawer-tabs { display: flex; gap: 0; margin-bottom: 12px; border-bottom: 1px solid rgba(255,255,255,0.04); }
+    .drawer-tab { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; padding: 8px 12px; background: none; border: none; color: #636366; cursor: pointer; border-bottom: 2px solid transparent; transition: all 0.15s; }
+    .drawer-tab.active { color: #D70030; border-bottom-color: #D70030; }
+    .drawer-tab:hover { color: #D2D2D7; }
+    .drawer-content { max-height: 360px; overflow-y: auto; }
+    .drawer-subtitle { font-size: 9px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: #48484A; margin-bottom: 8px; }
+    .drawer-chat { display: flex; flex-direction: column; gap: 10px; margin-bottom: 12px; }
+    .dc-msg { max-width: 90%; }
+    .dc-agent { align-self: flex-start; }
+    .dc-user { align-self: flex-end; }
+    .dc-text { font-size: 12px; line-height: 1.5; padding: 10px 14px; border-radius: 14px; }
+    .dc-agent .dc-text { background: #1C1C1E; color: #D2D2D7; border-bottom-left-radius: 4px; }
+    .dc-user .dc-text { background: #D70030; color: #FFF; border-bottom-right-radius: 4px; }
+    .dc-time { font-size: 9px; color: #48484A; margin-top: 3px; }
+    .dc-user .dc-time { text-align: right; }
+    .dc-input-row { display: flex; gap: 6px; }
+    .dc-input { flex: 1; background: #1C1C1E; border: 1px solid rgba(255,255,255,0.06); border-radius: 8px; padding: 8px 12px; font-size: 11px; color: #F5F5F7; outline: none; }
+    .dc-input:focus { border-color: #D70030; }
+    .dc-input::placeholder { color: #48484A; }
+    .dc-send { background: #D70030; color: #FFF; border: none; border-radius: 8px; padding: 8px 14px; font-size: 10px; font-weight: 600; cursor: pointer; transition: opacity 0.15s; }
+    .dc-send:hover { opacity: 0.85; }
+    .train-skills { display: flex; flex-direction: column; gap: 6px; }
+    .train-skill { display: flex; align-items: center; justify-content: space-between; padding: 6px 0; border-bottom: 0.5px solid rgba(255,255,255,0.02); }
+    .train-skill-name { font-size: 11px; color: #AEAEB2; }
+    .train-refs { display: flex; flex-wrap: wrap; gap: 4px; }
+    .train-ref { font-size: 9px; padding: 3px 8px; border-radius: 6px; background: rgba(255,255,255,0.04); color: #8E8E93; cursor: pointer; }
+    .train-ref:last-child { color: #D70030; background: rgba(215,0,48,0.08); }
+    .train-rules { display: flex; flex-direction: column; gap: 4px; }
+    .train-rule { font-size: 11px; color: #8E8E93; padding: 6px 0; border-bottom: 0.5px solid rgba(255,255,255,0.02); }
+    .config-rows { display: flex; flex-direction: column; }
+    .config-row { display: flex; justify-content: space-between; padding: 7px 0; border-bottom: 0.5px solid rgba(255,255,255,0.02); font-size: 11px; }
+    .config-label { color: #636366; }
+    .config-val { color: #D2D2D7; }
+
+    /* Agent Flow Canvas */
+    .flow-canvas { position: relative; background: #050505; border: 1px solid rgba(255,255,255,0.04); border-radius: 14px; height: 340px; overflow: hidden; }
+    .flow-grid { position: absolute; inset: 0; opacity: 0.04; background-image: radial-gradient(circle at 1px 1px, #D70030 0.5px, transparent 0); background-size: 40px 40px; }
+    .flow-svg { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
+    .flow-node { position: absolute; text-align: center; z-index: 2; }
+    .flow-av { width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: 'Zen Dots', cursive; font-size: 13px; margin: 0 auto 4px; }
+    .flow-av-ceo { background: rgba(215,0,48,0.12); border: 1.5px solid rgba(215,0,48,0.4); color: #D70030; }
+    .flow-av-w { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.1); color: #8E8E93; }
+    .flow-name { font-size: 11px; font-weight: 500; color: #D2D2D7; }
+    .flow-role-label { font-size: 9px; color: #636366; }
+    .flow-action-tag { font-size: 8px; font-weight: 500; margin-top: 4px; padding: 2px 8px; border-radius: 4px; background: rgba(215,0,48,0.1); color: #D70030; display: inline-block; }
+    .flow-tag-green { background: rgba(48,209,88,0.1); color: #30D158; }
+    .flow-tag-blue { background: rgba(10,132,255,0.1); color: #0A84FF; }
+    .flow-tag-orange { background: rgba(255,159,10,0.1); color: #FF9F0A; }
+    .flow-glow { position: absolute; top: -4px; left: 50%; transform: translateX(-50%); width: 48px; height: 48px; border-radius: 50%; z-index: -1; animation: flowGlow 3s ease-in-out infinite; }
+    .flow-glow { box-shadow: 0 0 20px rgba(215,0,48,0.2), 0 0 40px rgba(215,0,48,0.05); }
+    .flow-g-green { box-shadow: 0 0 20px rgba(48,209,88,0.2), 0 0 40px rgba(48,209,88,0.05); }
+    .flow-g-blue { box-shadow: 0 0 20px rgba(10,132,255,0.2), 0 0 40px rgba(10,132,255,0.05); }
+    .flow-g-orange { box-shadow: 0 0 20px rgba(255,159,10,0.2), 0 0 40px rgba(255,159,10,0.05); }
+    @keyframes flowGlow { 0%,100% { opacity: 0.4; } 50% { opacity: 1; } }
+    .flow-bottom { position: absolute; bottom: 0; left: 0; right: 0; padding: 10px 16px; display: flex; gap: 16px; font-size: 9px; color: #48484A; background: linear-gradient(transparent, #050505); }
+    .flow-live-badge { color: #D70030; font-weight: 700; letter-spacing: 0.08em; display: flex; align-items: center; gap: 4px; margin-left: auto; }
+    .flow-live-badge::before { content: ''; width: 5px; height: 5px; border-radius: 50%; background: #D70030; animation: pulse 1.5s ease infinite; }
+
+    /* Responsive */
+    @media (max-width: 900px) {
+      .content { grid-template-columns: 1fr; }
+      .left-panel { max-height: none; border-right: none; border-bottom: 0.5px solid rgba(255,255,255,0.04); }
+      .right-panel { max-height: none; }
+      .stats-row { grid-template-columns: repeat(3,1fr); }
+    }
+  </style>
+</head>
+<body>
+
+  <header class="header">
+    <div class="header-left">
+      <span class="logo">KTANA</span>
+      <span class="logo-sub">COOK — Orchestrator Brain</span>
+    </div>
+    <div class="header-right">
+      <div class="pulse"></div>
+      <span>Operacional</span>
+      <span>·</span>
+      <span id="clock">--:--</span>
+      <span>·</span>
+      <a href="../admin/index.html" style="color:#636366;text-decoration:none;font-size:10px;">← Admin</a>
+    </div>
+  </header>
+
+  <div class="content">
+
+    <!-- LEFT: Agents + Live Feed -->
+    <div class="left-panel">
+
+      <div class="panel-section">
+        <p class="panel-label">Samurais ativos <span class="panel-count">6 online</span></p>
+        <div class="agent-mini active" onclick="openAgent('akira')">
+          <div class="a-av a-av-ceo">A</div>
+          <div><p class="a-name">Akira</p><p class="a-role">CEO</p></div>
+          <div class="a-status on"><span class="dot dot-on"></span> 24</div>
+        </div>
+        <div class="agent-mini" onclick="openAgent('yuki')">
+          <div class="a-av a-av-def">Y</div>
+          <div><p class="a-name">Yuki</p><p class="a-role">Controller</p></div>
+          <div class="a-status on"><span class="dot dot-on"></span> 47</div>
+        </div>
+        <div class="agent-mini" onclick="openAgent('hana')">
+          <div class="a-av a-av-def">H</div>
+          <div><p class="a-name">Hana</p><p class="a-role">Secretaria</p></div>
+          <div class="a-status on"><span class="dot dot-on"></span> 58</div>
+        </div>
+        <div class="agent-mini" onclick="openAgent('haruki')">
+          <div class="a-av a-av-def">H</div>
+          <div><p class="a-name">Haruki</p><p class="a-role">PM</p></div>
+          <div class="a-status on"><span class="dot dot-on"></span> 65</div>
+        </div>
+        <div class="agent-mini" onclick="openAgent('kaito')">
+          <div class="a-av a-av-def">K</div>
+          <div><p class="a-name">Kaito</p><p class="a-role">Builder</p></div>
+          <div class="a-status on"><span class="dot dot-on"></span> 12</div>
+        </div>
+        <div class="agent-mini" onclick="openAgent('yumi')">
+          <div class="a-av a-av-def">Y</div>
+          <div><p class="a-name">Yumi</p><p class="a-role">Mentora PF</p></div>
+          <div class="a-status on"><span class="dot dot-on"></span> 8</div>
+        </div>
+      </div>
+
+      <!-- Agent Detail Drawer (hidden by default) -->
+      <div class="panel-section agent-drawer" id="agentDrawer" style="display:none;border-bottom:none;">
+        <p class="panel-label"><span id="drawerTitle">Akira — CEO</span> <span class="panel-count" style="cursor:pointer;" onclick="closeAgent()">✕ Fechar</span></p>
+
+        <!-- Tabs -->
+        <div class="drawer-tabs">
+          <button class="drawer-tab active" onclick="switchDrawerTab(this,'chat')">Chat</button>
+          <button class="drawer-tab" onclick="switchDrawerTab(this,'train')">Treinamento</button>
+          <button class="drawer-tab" onclick="switchDrawerTab(this,'config')">Config</button>
+        </div>
+
+        <!-- Chat Tab -->
+        <div class="drawer-content" id="tab-chat">
+          <div class="drawer-chat">
+            <div class="dc-msg dc-agent">
+              <p class="dc-text">Ola Julio. Estou consolidando o briefing diario. 3 aprovacoes pendentes e 1 escalacao do Haruki sobre API Celcoin. Como quer proceder?</p>
+              <p class="dc-time" id="drawerAgentName">Akira · 17:05</p>
+            </div>
+            <div class="dc-msg dc-user">
+              <p class="dc-text">Aprova o bypass temporario da Celcoin. Quero o sprint fechado ate sexta.</p>
+              <p class="dc-time">Julio · 17:06</p>
+            </div>
+            <div class="dc-msg dc-agent">
+              <p class="dc-text">Entendido. Bypass aprovado. Notifiquei Haruki para retomar as 2 tasks bloqueadas. Sprint sera fechado sexta 18h.</p>
+              <p class="dc-time" id="drawerAgentName2">Akira · 17:06</p>
+            </div>
+          </div>
+          <div class="dc-input-row">
+            <input type="text" class="dc-input" placeholder="Instruir agente...">
+            <button class="dc-send">Enviar</button>
+          </div>
+        </div>
+
+        <!-- Training Tab -->
+        <div class="drawer-content" id="tab-train" style="display:none;">
+          <p class="drawer-subtitle">Skills ativas</p>
+          <div class="train-skills">
+            <div class="train-skill"><span class="train-skill-name">Consolidar briefing diario</span><div class="fw-toggle on" onclick="this.classList.toggle('on')"></div></div>
+            <div class="train-skill"><span class="train-skill-name">Delegar tasks para equipe</span><div class="fw-toggle on" onclick="this.classList.toggle('on')"></div></div>
+            <div class="train-skill"><span class="train-skill-name">Escalar decisoes pro Shogun</span><div class="fw-toggle on" onclick="this.classList.toggle('on')"></div></div>
+            <div class="train-skill"><span class="train-skill-name">Gerar relatorio semanal</span><div class="fw-toggle on" onclick="this.classList.toggle('on')"></div></div>
+            <div class="train-skill"><span class="train-skill-name">Aprovar gastos < R$500</span><div class="fw-toggle" onclick="this.classList.toggle('on')"></div></div>
+          </div>
+          <p class="drawer-subtitle" style="margin-top:16px;">Referencias de personalidade</p>
+          <div class="train-refs">
+            <span class="train-ref">Steve Jobs</span>
+            <span class="train-ref">Elon Musk</span>
+            <span class="train-ref">Ray Dalio</span>
+            <span class="train-ref">+ Adicionar</span>
+          </div>
+          <p class="drawer-subtitle" style="margin-top:16px;">Regras exclusivas</p>
+          <div class="train-rules">
+            <p class="train-rule">Nunca enviar email externo sem aprovacao</p>
+            <p class="train-rule">Sempre incluir ROI estimado nas propostas</p>
+            <p class="train-rule">Check-in diario as 08:00 via WhatsApp</p>
+          </div>
+        </div>
+
+        <!-- Config Tab -->
+        <div class="drawer-content" id="tab-config" style="display:none;">
+          <div class="config-rows">
+            <div class="config-row"><span class="config-label">Modelo LLM</span><span class="config-val">Sonnet 4.6</span></div>
+            <div class="config-row"><span class="config-label">Fallback</span><span class="config-val">Haiku 4.5</span></div>
+            <div class="config-row"><span class="config-label">Temperatura</span><span class="config-val">0.3</span></div>
+            <div class="config-row"><span class="config-label">Max tokens/dia</span><span class="config-val">50.000</span></div>
+            <div class="config-row"><span class="config-label">Custo/mes</span><span class="config-val">R$420</span></div>
+            <div class="config-row"><span class="config-label">Conexoes</span><span class="config-val">Gmail, WhatsApp, ClickUp</span></div>
+            <div class="config-row"><span class="config-label">Nivel confianca</span><span class="config-val" style="color:#30D158;">91%</span></div>
+            <div class="config-row"><span class="config-label">Criado em</span><span class="config-val">29/03/2026</span></div>
+          </div>
+          <div style="display:flex;gap:8px;margin-top:16px;">
+            <button class="dc-send" style="flex:1;" onclick="location.href='../tenant/agent/config.html'">Editar completo</button>
+            <button class="dc-send" style="flex:1;background:#2C2C2E;color:#FF453A;" onclick="">Pausar agente</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel-section" id="feedSection" style="border-bottom:none;">
+        <p class="panel-label">Live feed <span class="panel-count">Interacoes entre agentes</span></p>
+        <div class="feed">
+
+          <div class="f-item">
+            <div class="f-row"><span class="f-from">Akira</span><span class="f-arrow">→</span><span class="f-to">Yuki</span><span class="f-time">17:02</span></div>
+            <p class="f-msg">Preciso do DRE consolidado de marco ate amanha 09h. Inclui breakdown por departamento.</p>
+            <div class="f-tags"><span class="f-tag tag-delegate">DELEGATE</span><span class="f-tag tag-meta">alta prioridade</span></div>
+          </div>
+
+          <div class="f-item">
+            <div class="f-row"><span class="f-from">Yuki</span><span class="f-arrow">→</span><span class="f-to">Akira</span><span class="f-time">17:04</span></div>
+            <p class="f-msg">Recebido. DRE 80% pronto. 3 conciliacoes Bradesco em andamento. Entrego 18h.</p>
+            <div class="f-tags"><span class="f-tag tag-respond">RESPOND</span><span class="f-tag tag-meta">confianca 94%</span></div>
+          </div>
+
+          <div class="f-item">
+            <div class="f-row"><span class="f-from">Hana</span><span class="f-arrow">→</span><span class="f-to">Haruki</span><span class="f-time">16:58</span></div>
+            <p class="f-msg">Reuniao Empresa X reagendada quinta 14h. Calendario atualizado, Julio notificado via WhatsApp.</p>
+            <div class="f-tags"><span class="f-tag tag-execute">EXECUTE</span><span class="f-tag tag-meta">Calendar + WhatsApp</span></div>
+          </div>
+
+          <div class="f-item">
+            <div class="f-row"><span class="f-from">Haruki</span><span class="f-arrow">→</span><span class="f-to">Akira</span><span class="f-time">16:55</span></div>
+            <p class="f-msg">Sprint: 8/10 tasks ok. 2 bloqueadas por API Celcoin. Recomendo escalar pro Julio.</p>
+            <div class="f-tags"><span class="f-tag tag-decide">DECIDE</span><span class="f-tag tag-meta">aprovacao</span></div>
+          </div>
+
+          <div class="f-item">
+            <div class="f-row"><span class="f-from">Akira</span><span class="f-arrow">→</span><span class="f-to">Julio</span><span class="f-time">16:56</span></div>
+            <p class="f-msg">2 tasks bloqueadas Celcoin. Bypass temporario ou aguardar suporte? Prazo: sexta.</p>
+            <div class="f-tags"><span class="f-tag tag-escalate">ESCALATE</span><span class="f-tag tag-meta">aguardando Shogun</span></div>
+          </div>
+
+          <div class="f-item">
+            <div class="f-row"><span class="f-from">Kaito</span><span class="f-arrow">→</span><span class="f-to">Akira</span><span class="f-time">16:50</span></div>
+            <p class="f-msg">3 novos modulos prontos no marketplace: SDR Auto v2, Smart Billing, Objection Breaker.</p>
+            <div class="f-tags"><span class="f-tag tag-respond">DELIVER</span><span class="f-tag tag-meta">marketplace</span></div>
+          </div>
+
+          <div class="typing-line">
+            <span>Yuki</span>
+            <span class="typing-dots"><span></span><span></span><span></span></span>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+
+    <!-- RIGHT: Stats + Frameworks -->
+    <div class="right-panel">
+
+      <div class="stats-row">
+        <div class="stat-mini"><p class="stat-mini-val">44</p><p class="stat-mini-label">Frameworks</p></div>
+        <div class="stat-mini"><p class="stat-mini-val">170</p><p class="stat-mini-label">Telas</p></div>
+        <div class="stat-mini"><p class="stat-mini-val">472</p><p class="stat-mini-label">Sessoes</p></div>
+        <div class="stat-mini"><p class="stat-mini-val">54</p><p class="stat-mini-label">Facts</p></div>
+        <div class="stat-mini"><p class="stat-mini-val">214</p><p class="stat-mini-label">Acoes hoje</p></div>
+      </div>
+
+      <!-- AGENT FLOW — Visual Canvas -->
+      <div style="margin-bottom:24px;">
+        <p class="right-title" style="margin-bottom:12px;">Agent Flow — Escritorio virtual</p>
+        <div class="flow-canvas">
+          <div class="flow-grid"></div>
+          <svg class="flow-svg" viewBox="0 0 900 340">
+            <line x1="450" y1="65" x2="450" y2="120" stroke="#D70030" stroke-width="1" opacity="0.3"/>
+            <circle cx="450" cy="90" r="2" fill="#D70030"><animate attributeName="cy" values="65;120" dur="2s" repeatCount="indefinite"/><animate attributeName="opacity" values="1;0" dur="2s" repeatCount="indefinite"/></circle>
+            <line x1="400" y1="170" x2="200" y2="260" stroke="rgba(255,255,255,0.08)" stroke-width="0.5"/>
+            <circle cx="300" cy="215" r="1.5" fill="#30D158"><animate attributeName="cx" values="400;200" dur="3s" repeatCount="indefinite"/><animate attributeName="cy" values="170;260" dur="3s" repeatCount="indefinite"/><animate attributeName="opacity" values="1;0" dur="3s" repeatCount="indefinite"/></circle>
+            <line x1="450" y1="170" x2="450" y2="260" stroke="rgba(255,255,255,0.08)" stroke-width="0.5"/>
+            <circle cx="450" cy="215" r="1.5" fill="#0A84FF"><animate attributeName="cy" values="170;260" dur="2.5s" repeatCount="indefinite"/><animate attributeName="opacity" values="1;0" dur="2.5s" repeatCount="indefinite"/></circle>
+            <line x1="500" y1="170" x2="700" y2="260" stroke="rgba(255,255,255,0.08)" stroke-width="0.5"/>
+            <circle cx="600" cy="215" r="1.5" fill="#FF9F0A"><animate attributeName="cx" values="500;700" dur="3.5s" repeatCount="indefinite"/><animate attributeName="cy" values="170;260" dur="3.5s" repeatCount="indefinite"/><animate attributeName="opacity" values="1;0" dur="3.5s" repeatCount="indefinite"/></circle>
+            <line x1="240" y1="280" x2="660" y2="280" stroke="rgba(255,255,255,0.03)" stroke-width="0.5" stroke-dasharray="4,4"/>
+          </svg>
+          <div class="flow-node" style="left:50%;top:25px;transform:translateX(-50%);"><div class="flow-av" style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.1);color:#636366;">J</div><p class="flow-name" style="color:#636366;">Julio</p><p class="flow-role-label" style="color:#48484A;">Shogun</p></div>
+          <div class="flow-node" style="left:50%;top:105px;transform:translateX(-50%);"><div class="flow-av flow-av-ceo">A</div><p class="flow-name">Akira</p><p class="flow-role-label">CEO</p><div class="flow-action-tag">Consolidando briefing</div><div class="flow-glow"></div></div>
+          <div class="flow-node" style="left:18%;top:225px;transform:translateX(-50%);"><div class="flow-av flow-av-w">H</div><p class="flow-name">Hana</p><p class="flow-role-label">Secretaria</p><div class="flow-action-tag flow-tag-green">23 emails filtrados</div><div class="flow-glow flow-g-green"></div></div>
+          <div class="flow-node" style="left:50%;top:225px;transform:translateX(-50%);"><div class="flow-av flow-av-w">Y</div><p class="flow-name">Yuki</p><p class="flow-role-label">Controller</p><div class="flow-action-tag flow-tag-blue">DRE marco 80%</div><div class="flow-glow flow-g-blue"></div></div>
+          <div class="flow-node" style="left:82%;top:225px;transform:translateX(-50%);"><div class="flow-av flow-av-w">H</div><p class="flow-name">Haruki</p><p class="flow-role-label">PM</p><div class="flow-action-tag flow-tag-orange">Sprint 8/10</div><div class="flow-glow flow-g-orange"></div></div>
+          <div class="flow-bottom"><span>6 samurais</span><span>214 acoes</span><span>R$67 gastos</span><span class="flow-live-badge">LIVE</span></div>
+        </div>
+      </div>
+
+      <div class="right-header">
+        <p class="right-title">Frameworks cognitivos</p>
+        <div class="filter-bar">
+          <button class="filter-btn active" onclick="filterFw('all')">Todos</button>
+          <button class="filter-btn" onclick="filterFw('rule')">Rules</button>
+          <button class="filter-btn" onclick="filterFw('checklist')">Checklists</button>
+          <button class="filter-btn" onclick="filterFw('pattern')">Patterns</button>
+          <button class="filter-btn" onclick="filterFw('template')">Templates</button>
+          <button class="filter-btn" onclick="filterFw('runbook')">Runbooks</button>
+        </div>
+      </div>
+
+      <div class="fw-list" id="fwList">
+
+        <div class="fw" data-type="rule">
+          <div class="fw-head" onclick="toggleFw(this)">
+            <svg class="fw-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg>
+            <p class="fw-name">Execution Mode — Ciclo Completo Sem Parar</p>
+            <span class="fw-type t-rule">RULE</span>
+            <div class="fw-toggle on" onclick="event.stopPropagation(); this.classList.toggle('on')"></div>
+          </div>
+          <div class="fw-body">
+            <p class="fw-desc">NUNCA parar para perguntar. Executar ciclicamente, validar etapas enquanto avanca, entregar 100% completo.</p>
+            <ol class="fw-steps">
+              <li>OUVIR o pedido completo</li>
+              <li>RECALL contexto da memoria (segundo cerebro + MEMORY.md)</li>
+              <li>CRIAR tasks para tudo que precisa ser feito</li>
+              <li>EXECUTAR cada task em sequencia, marcando completed</li>
+              <li>VALIDAR visualmente no browser (Puppeteer) em etapas criticas</li>
+              <li>SE falta info que NAO pode ser inferida, perguntar. Senao, inferir e executar</li>
+              <li>NUNCA entregar parcial com pergunta. Entregar TUDO</li>
+              <li>SALVAR na memoria o que foi feito e decisoes tomadas</li>
+              <li>COMMIT e PUSH no final</li>
+            </ol>
+            <div class="fw-tags-row"><span class="fw-tag">execution</span><span class="fw-tag">autonomous</span><span class="fw-tag">workflow</span></div>
+            <p class="fw-scope">Scope: global · Trigger: TODA sessao, TODA tarefa</p>
+          </div>
+        </div>
+
+        <div class="fw" data-type="checklist">
+          <div class="fw-head" onclick="toggleFw(this)">
+            <svg class="fw-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg>
+            <p class="fw-name">Admin Panel Review (Ive + Nielsen)</p>
+            <span class="fw-type t-checklist">CHECKLIST</span>
+            <div class="fw-toggle on" onclick="event.stopPropagation(); this.classList.toggle('on')"></div>
+          </div>
+          <div class="fw-body">
+            <p class="fw-desc">Framework para avaliar qualquer area admin como Jony Ive + Jakob Nielsen. 15 itens obrigatorios.</p>
+            <ol class="fw-steps">
+              <li>VISIBILIDADE: Cada tab mostra status do sistema em tempo real?</li>
+              <li>DRILL-DOWN: Todo card resumo tem link para detalhe? Zero dead-ends?</li>
+              <li>CONSISTENCIA: Mesmo padrao visual em todas as tabs?</li>
+              <li>SILENCIO VISUAL: Remover ate nao ter mais o que remover. Cada pixel tem proposito?</li>
+              <li>HIERARQUIA: Stats em cima, detalhes no meio, drill-down embaixo?</li>
+              <li>DARK MODE: #0A0A0A, cards #1C1C1E, borders 0.04, accent #D70030?</li>
+              <li>NAVEGACAO IDA: SPA tabs linkam para TODAS sub-pages?</li>
+              <li>NAVEGACAO VOLTA: Sub-pages sidebar preserva hash state?</li>
+              <li>BREADCRUMB: Sub-pages mostram caminho Admin > Secao > Detalhe?</li>
+              <li>TABELA CLICAVEL: Toda row leva ao detalhe? cursor:pointer?</li>
+              <li>SIDEBAR COMPLETA: 10 tabs + utilidades + user info?</li>
+              <li>MOBILE: Nao quebra em tablet</li>
+              <li>ESCALA: Dados mockados refletem cenario real?</li>
+              <li>ADVERSIDADE: Health mostra status degradado quando servico cai?</li>
+              <li>COMPLIANCE: LGPD, audit logs, kill switches acessiveis?</li>
+            </ol>
+            <div class="fw-tags-row"><span class="fw-tag">admin</span><span class="fw-tag">review</span><span class="fw-tag">ive</span><span class="fw-tag">nielsen</span></div>
+            <p class="fw-scope">Scope: ktana-prototype · Trigger: Criar/revisar area admin</p>
+          </div>
+        </div>
+
+        <div class="fw" data-type="rule">
+          <div class="fw-head" onclick="toggleFw(this)">
+            <svg class="fw-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg>
+            <p class="fw-name">Trillion-Dollar Scale Lens</p>
+            <span class="fw-type t-rule">RULE</span>
+            <div class="fw-toggle on" onclick="event.stopPropagation(); this.classList.toggle('on')"></div>
+          </div>
+          <div class="fw-body">
+            <p class="fw-desc">Pensar como plataforma com milhoes de usuarios. Escala, efeito de rede, custo marginal zero.</p>
+            <ol class="fw-steps">
+              <li>ESCALA: Funciona com 1 e com 100.000 tenants?</li>
+              <li>MULTI-TENANT: Isolamento total, zero data leakage</li>
+              <li>ADVERSIDADE: O que acontece se X falha? Status visual?</li>
+              <li>MONETIZACAO: 7 camadas visiveis (RONIN→BAKUFU + extras)</li>
+              <li>EFEITO DE REDE: Cada tenant melhora o produto?</li>
+              <li>FLYWHEEL: Mais tenants > melhor IA > mais valor > mais tenants</li>
+              <li>VERTICAL INTEGRATION: Agente controla toda a cadeia</li>
+              <li>CUSTO MARGINAL ZERO: +1 tenant nao custa mais</li>
+              <li>LOCK-IN POSITIVO: Quanto mais usa, mais dificil sair</li>
+              <li>COMPLIANCE BY DESIGN: LGPD e auditoria sao features, nao afterthought</li>
+            </ol>
+            <div class="fw-tags-row"><span class="fw-tag">scale</span><span class="fw-tag">platform</span><span class="fw-tag">trillion</span><span class="fw-tag">strategy</span></div>
+            <p class="fw-scope">Scope: ktana-assistant · Trigger: Criar qualquer feature</p>
+          </div>
+        </div>
+
+        <div class="fw" data-type="rule">
+          <div class="fw-head" onclick="toggleFw(this)">
+            <svg class="fw-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg>
+            <p class="fw-name">AI-First Business Rules — Resultado > Solucao</p>
+            <span class="fw-type t-rule">RULE</span>
+            <div class="fw-toggle on" onclick="event.stopPropagation(); this.classList.toggle('on')"></div>
+          </div>
+          <div class="fw-body">
+            <p class="fw-desc">Tendencia e a ENTREGA DO RESULTADO, nao a solucao agentica. O dono quer trabalho feito.</p>
+            <ol class="fw-steps">
+              <li>RESULTADO PRIMEIRO: O que o dono recebe de valor?</li>
+              <li>INVISIBILIDADE: Melhor agente e o que voce esquece que existe</li>
+              <li>PROGRESSIVE DISCLOSURE: Resultado resumido, detalhe so se quiser</li>
+              <li>CONFIANCA PROGRESSIVA: Mes 1 aprova tudo, mes 12 agente age sozinho</li>
+              <li>METRICA: Nao e acoes feitas, e dinheiro/tempo economizado</li>
+              <li>ROI VISIVEL: Extrato bancario de lucro, nao metricas tecnicas</li>
+              <li>TRABALHO > FERRAMENTA: Mostrar resultado, nao processo</li>
+              <li>HUMAN-IN-THE-LOOP MINIMO: Aprovacao so para irreversiveis</li>
+              <li>FEEDBACK LOOP: Dono corrige, agente aprende. Nunca 2x</li>
+              <li>COMPETIDOR: Nao e outro SaaS, e o funcionario. 10x mais barato, 3x mais rapido</li>
+            </ol>
+            <div class="fw-tags-row"><span class="fw-tag">ai-first</span><span class="fw-tag">business-rules</span><span class="fw-tag">resultado</span><span class="fw-tag">calm-tech</span></div>
+            <p class="fw-scope">Scope: ktana-assistant · Trigger: Avaliar dashboards e chat</p>
+          </div>
+        </div>
+
+        <div class="fw" data-type="checklist">
+          <div class="fw-head" onclick="toggleFw(this)">
+            <svg class="fw-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg>
+            <p class="fw-name">Adversity & Risk Scenarios</p>
+            <span class="fw-type t-checklist">CHECKLIST</span>
+            <div class="fw-toggle on" onclick="event.stopPropagation(); this.classList.toggle('on')"></div>
+          </div>
+          <div class="fw-body">
+            <p class="fw-desc">14 cenarios de falha e risco para plataforma com milhares de clientes pagando.</p>
+            <ol class="fw-steps">
+              <li>LLM PROVIDER CAI: Fallback automatico? Health mostra degraded?</li>
+              <li>TENANT ABUSA: Rate limiting? Throttle automatico?</li>
+              <li>AGENTE ALUCINA: Kill switch? Audit log?</li>
+              <li>DADOS VAZAM: Isolamento multi-tenant verificado?</li>
+              <li>PICO DE CARGA: Auto-scaling? Workers suficientes?</li>
+              <li>CHURN EM MASSA: Early warning (usage drop)?</li>
+              <li>COMPLIANCE BREACH: Export em 48h funciona?</li>
+              <li>DEPLOY QUEBRA: Rollback 1 clique? Staging testado?</li>
+              <li>MEMORIA CORROMPIDA: Dream engine consolida? Admin inspeciona brain?</li>
+              <li>DONO SOME: Agentes pausam auto? Cobranca para?</li>
+              <li>AGENTE CARO: Billing mostra breakdown por cargo?</li>
+              <li>BRUTE FORCE: 2FA obrigatorio? Rate limit auth?</li>
+              <li>ESCALA EQUIPE: 4→40 agentes escala visualmente?</li>
+              <li>DOWNTIME: Status page? Comunicacao auto para tenants?</li>
+            </ol>
+            <div class="fw-tags-row"><span class="fw-tag">risk</span><span class="fw-tag">adversity</span><span class="fw-tag">resilience</span><span class="fw-tag">security</span></div>
+            <p class="fw-scope">Scope: ktana-assistant · Trigger: Admin, health, billing, compliance</p>
+          </div>
+        </div>
+
+        <div class="fw" data-type="checklist">
+          <div class="fw-head" onclick="toggleFw(this)">
+            <svg class="fw-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg>
+            <p class="fw-name">Visual Navigation Review — Browser Flow</p>
+            <span class="fw-type t-checklist">CHECKLIST</span>
+            <div class="fw-toggle on" onclick="event.stopPropagation(); this.classList.toggle('on')"></div>
+          </div>
+          <div class="fw-body">
+            <p class="fw-desc">Navegar todos os fluxos ponta a ponta no browser real antes de declarar pronto.</p>
+            <ol class="fw-steps">
+              <li>ABRIR no Puppeteer com cache-bust</li>
+              <li>FLUXO PJ: Landing→Signup→Verify→Plans→Checkout→Onboarding→Dashboard→Chat→Approvals→Team→Settings</li>
+              <li>FLUXO PF: Landing→Signup→Verify→Onboarding→Areas→Mentor→Chat→Spirit</li>
+              <li>FLUXO ADMIN: Overview→cada tab(10)→drill-down sub-pages(16)→volta via sidebar</li>
+              <li>GUARD: Auth SEM nav. Landing SEM nav. Admin SEM nav light</li>
+              <li>DEAD-END: Toda pagina tem saida</li>
+              <li>LINK: Zero href=# exceto acoes inline</li>
+              <li>SCREENSHOT de cada etapa critica</li>
+              <li>SO declarar pronto apos TODAS evidencias visuais</li>
+            </ol>
+            <div class="fw-tags-row"><span class="fw-tag">qa</span><span class="fw-tag">navigation</span><span class="fw-tag">browser</span></div>
+            <p class="fw-scope">Scope: ktana-prototype · Trigger: Mudanca em nav ou estrutura</p>
+          </div>
+        </div>
+
+        <div class="fw" data-type="template">
+          <div class="fw-head" onclick="toggleFw(this)">
+            <svg class="fw-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg>
+            <p class="fw-name">Screen Creation — Master Prompt</p>
+            <span class="fw-type t-template">TEMPLATE</span>
+            <div class="fw-toggle on" onclick="event.stopPropagation(); this.classList.toggle('on')"></div>
+          </div>
+          <div class="fw-body">
+            <p class="fw-desc">Template completo para criar qualquer tela do zero com todo contexto.</p>
+            <ol class="fw-steps">
+              <li>PROJETO: SaaS samurais IA. Repo ktanadev/ktana-prototype. 170+ HTMLs</li>
+              <li>ESTRUTURA: /tenant/ PJ, /pf/ PF, /admin/ backoffice. shared.css + shared-nav.js</li>
+              <li>CORES: #F5F5F7 light, #0A0A0A dark, #D70030 accent, cards #FFF r20</li>
+              <li>FONTS: Inter (UI), Satoshi (body), Zen Dots (brand). Min 11px. Touch 44px</li>
+              <li>AVATARES: Circulo + inicial. NUNCA imagens. CEO = #D70030</li>
+              <li>ICONES: SVG inline 1.5 currentColor 24x24. NUNCA emojis/fontawesome</li>
+              <li>ANIMACOES: fadeIn 0.4s, stagger delay, hover translateY(-1px), spring ease</li>
+              <li>FILOSOFIA: Ive + Jobs + Calm Tech + Nielsen. Silencio = confianca</li>
+            </ol>
+            <div class="fw-tags-row"><span class="fw-tag">template</span><span class="fw-tag">creation</span><span class="fw-tag">design-system</span></div>
+            <p class="fw-scope">Scope: ktana-prototype · Trigger: Criar nova tela HTML</p>
+          </div>
+        </div>
+
+        <div class="fw" data-type="pattern">
+          <div class="fw-head" onclick="toggleFw(this)">
+            <svg class="fw-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg>
+            <p class="fw-name">SUPER CEREBRO — Metamodelo Neural</p>
+            <span class="fw-type t-pattern">PATTERN</span>
+            <div class="fw-toggle on" onclick="event.stopPropagation(); this.classList.toggle('on')"></div>
+          </div>
+          <div class="fw-body">
+            <p class="fw-desc">Arquitetura cognitiva que orquestra todos os outros frameworks. O cerebro que pensa sobre como pensar.</p>
+            <ol class="fw-steps">
+              <li>Knowledge Graph: entidades, relacoes, observations (quem existe e como conecta)</li>
+              <li>Semantic Memory: facts, preferences (fatos sobre o mundo)</li>
+              <li>Episodic Memory: episodes, sessions, decisions (o que aconteceu)</li>
+              <li>Procedural Memory: procedures (como fazer — frameworks, regras, runbooks)</li>
+              <li>Working Memory: working_items (estado atual, tarefas ativas)</li>
+              <li>Dream Engine: consolida, merge, prune, archive (4 fases)</li>
+            </ol>
+            <div class="fw-tags-row"><span class="fw-tag">neural</span><span class="fw-tag">metamodel</span><span class="fw-tag">cognition</span><span class="fw-tag">memory</span></div>
+            <p class="fw-scope">Scope: ktana-assistant · Trigger: Toda decisao arquitetural</p>
+          </div>
+        </div>
+
+        <div class="fw" data-type="pattern">
+          <div class="fw-head" onclick="toggleFw(this)">
+            <svg class="fw-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg>
+            <p class="fw-name">KATANA SHIELD — Defesa Adversarial</p>
+            <span class="fw-type t-pattern">PATTERN</span>
+            <div class="fw-toggle on" onclick="event.stopPropagation(); this.classList.toggle('on')"></div>
+          </div>
+          <div class="fw-body">
+            <p class="fw-desc">Mente criminal suprema de defesa. 3 sub-frameworks de seguranca ofensiva e defensiva.</p>
+            <ol class="fw-steps">
+              <li>Adversarial Trinity: 3 vetores de ataque simulados constantemente</li>
+              <li>Red Team Agent (Ronin): Hacker etico autonomo testando a propria plataforma</li>
+              <li>Security Architecture: Infra hardening, encryption, auth, audit</li>
+              <li>Kill Switches: Capacidade de desligar qualquer agente em 1 clique</li>
+              <li>Constitution: 24 regras inviolaveis que nenhum agente pode quebrar</li>
+            </ol>
+            <div class="fw-tags-row"><span class="fw-tag">security</span><span class="fw-tag">red-team</span><span class="fw-tag">adversarial</span><span class="fw-tag">defense</span></div>
+            <p class="fw-scope">Scope: ktana-assistant · Trigger: Review de seguranca</p>
+          </div>
+        </div>
+
+        <div class="fw" data-type="pattern">
+          <div class="fw-head" onclick="toggleFw(this)">
+            <svg class="fw-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg>
+            <p class="fw-name">Strategic Trinity — Musk + Jobs + Gates</p>
+            <span class="fw-type t-pattern">PATTERN</span>
+            <div class="fw-toggle on" onclick="event.stopPropagation(); this.classList.toggle('on')"></div>
+          </div>
+          <div class="fw-body">
+            <p class="fw-desc">Conselho visionario. Cada decisao estrategica passa pelo filtro dos 3 mestres de escala.</p>
+            <ol class="fw-steps">
+              <li>MUSK: 10x thinking, vertical integration, flywheel, first principles</li>
+              <li>JOBS: Simplicidade radical, design como estrategia, experiencia > feature</li>
+              <li>GATES: Platform play, developer ecosystem, enterprise lock-in, standards</li>
+            </ol>
+            <div class="fw-tags-row"><span class="fw-tag">strategy</span><span class="fw-tag">council</span><span class="fw-tag">vision</span></div>
+            <p class="fw-scope">Scope: ktana-assistant · Trigger: Decisoes estrategicas de produto</p>
+          </div>
+        </div>
+
+        <div class="fw" data-type="checklist">
+          <div class="fw-head" onclick="toggleFw(this)">
+            <svg class="fw-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg>
+            <p class="fw-name">22 Frameworks — Aplicar em cada tela</p>
+            <span class="fw-type t-checklist">CHECKLIST</span>
+            <div class="fw-toggle on" onclick="event.stopPropagation(); this.classList.toggle('on')"></div>
+          </div>
+          <div class="fw-body">
+            <p class="fw-desc">6 blocos de frameworks aplicados em toda tela criada.</p>
+            <ol class="fw-steps">
+              <li>MESTRES (6): Filtros Ive, Nielsen, Jobs, Musk, Wozniak, Senna</li>
+              <li>HCI (6): Calm Tech, Ambient Intelligence, ACID, Invisible Interface, Progressive Trust, DxD</li>
+              <li>INTELIGENCIA (3): Simbiose Cognitiva, Metacognicao, Collective Intelligence</li>
+              <li>NEGOCIO (3): Semantica do Produto, 7 Camadas Rentabilizacao, Prevencao Legal</li>
+              <li>SEGURANCA (3): Adversarial Trinity, Constitution, Kill Switches</li>
+              <li>VALIDACAO (1): Stress Test Atemporalidade — funciona em 2026 e em 2100</li>
+            </ol>
+            <div class="fw-tags-row"><span class="fw-tag">ktana</span><span class="fw-tag">design</span><span class="fw-tag">ux</span><span class="fw-tag">complete</span></div>
+            <p class="fw-scope">Scope: shared · Trigger: Toda tela criada ou revisada</p>
+          </div>
+        </div>
+
+        <div class="fw" data-type="runbook">
+          <div class="fw-head" onclick="toggleFw(this)">
+            <svg class="fw-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg>
+            <p class="fw-name">Deploy Memory API</p>
+            <span class="fw-type t-runbook">RUNBOOK</span>
+            <div class="fw-toggle on" onclick="event.stopPropagation(); this.classList.toggle('on')"></div>
+          </div>
+          <div class="fw-body">
+            <p class="fw-desc">Passos para deploy seguro da Memory API no VPS 960192.</p>
+            <ol class="fw-steps">
+              <li>SSH para VPS 960192 (82.29.62.106)</li>
+              <li>cd /opt/claude-memory && git pull</li>
+              <li>docker compose build && docker compose up -d</li>
+              <li>Verificar health: curl localhost:8000/api/v1/stats</li>
+              <li>Verificar logs: docker logs claude-memory-api --tail 50</li>
+            </ol>
+            <div class="fw-tags-row"><span class="fw-tag">deploy</span><span class="fw-tag">memory</span><span class="fw-tag">docker</span><span class="fw-tag">vps</span></div>
+            <p class="fw-scope">Scope: shared · Trigger: Atualizar API de memoria</p>
+          </div>
+        </div>
+
+        <div class="fw" data-type="runbook">
+          <div class="fw-head" onclick="toggleFw(this)">
+            <svg class="fw-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg>
+            <p class="fw-name">Infra Migration — Hostinger → AWS</p>
+            <span class="fw-type t-runbook">RUNBOOK</span>
+            <div class="fw-toggle" onclick="event.stopPropagation(); this.classList.toggle('on')"></div>
+          </div>
+          <div class="fw-body">
+            <p class="fw-desc">Caminho de migracao sem trauma. Fases, rollback, zero downtime.</p>
+            <ol class="fw-steps">
+              <li>Fase 1: MVP em Hostinger VPS (atual)</li>
+              <li>Fase 2: Docker Compose com Traefik (pronto)</li>
+              <li>Fase 3: AWS ECS ou EKS quando > 100 tenants pagantes</li>
+              <li>Fase 4: Multi-region quando > 1000 tenants</li>
+            </ol>
+            <div class="fw-tags-row"><span class="fw-tag">infra</span><span class="fw-tag">migration</span><span class="fw-tag">aws</span></div>
+            <p class="fw-scope">Scope: shared · Trigger: Decisao de infra</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Clock
+    setInterval(() => {
+      document.getElementById('clock').textContent = new Date().toLocaleTimeString('pt-BR', { hour:'2-digit', minute:'2-digit', second:'2-digit' });
+    }, 1000);
+    document.getElementById('clock').textContent = new Date().toLocaleTimeString('pt-BR', { hour:'2-digit', minute:'2-digit', second:'2-digit' });
+
+    // Toggle framework expand
+    function toggleFw(head) {
+      head.closest('.fw').classList.toggle('open');
+    }
+
+    // Filter frameworks
+    function filterFw(type) {
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      event.target.classList.add('active');
+      document.querySelectorAll('.fw').forEach(fw => {
+        if (type === 'all' || fw.dataset.type === type) {
+          fw.style.display = '';
+        } else {
+          fw.style.display = 'none';
+        }
+      });
+    }
+
+    // Agent Drawer
+    const agents = {
+      akira: { name:'Akira', role:'CEO', model:'Sonnet 4.6', fallback:'Haiku 4.5', temp:'0.3', tokens:'50.000', cost:'R$420', conns:'Gmail, WhatsApp, ClickUp', conf:'91%', skills:['Consolidar briefing diario','Delegar tasks para equipe','Escalar decisoes pro Shogun','Gerar relatorio semanal','Aprovar gastos < R$500'], refs:['Steve Jobs','Elon Musk','Ray Dalio'], rules:['Nunca enviar email externo sem aprovacao','Sempre incluir ROI estimado','Check-in diario 08:00 WhatsApp'] },
+      yuki: { name:'Yuki', role:'Controller', model:'Sonnet 4.6', fallback:'Haiku 4.5', temp:'0.2', tokens:'30.000', cost:'R$280', conns:'Gmail, Bradesco API, Planilhas', conf:'94%', skills:['Conciliar pagamentos','Gerar DRE mensal','Fluxo de caixa semanal','Alerta de inadimplencia','Relatorio fiscal'], refs:['Warren Buffett','Ramit Sethi'], rules:['Nunca aprovar pagamento > R$5000','Sempre conferir com extrato bancario','Enviar DRE ate dia 5'] },
+      hana: { name:'Hana', role:'Secretaria Executiva', model:'Haiku 4.5', fallback:'Haiku 4.5', temp:'0.1', tokens:'20.000', cost:'R$190', conns:'Gmail, Calendar, WhatsApp', conf:'96%', skills:['Filtrar emails','Agendar reunioes','Notificar via WhatsApp','Organizar documentos','Triage de urgencia'], refs:['Marie Kondo','Tim Ferriss'], rules:['Nunca agendar antes das 09:00','Prioridade para reunioes com cliente','Confirmar com Julio antes de cancelar'] },
+      haruki: { name:'Haruki', role:'Gestor de Projetos', model:'Sonnet 4.6', fallback:'Haiku 4.5', temp:'0.3', tokens:'40.000', cost:'R$340', conns:'ClickUp, GitHub, Slack', conf:'89%', skills:['Sprint planning','Task decomposition','Dependency mapping','Weekly review','Escalar bloqueios'], refs:['David Allen','Cal Newport','Basecamp'], rules:['Sprint max 2 semanas','Escalar bloqueio em 24h','Daily standup 09:30'] },
+      kaito: { name:'Kaito', role:'Solutions Builder', model:'Opus 4.6', fallback:'Sonnet 4.6', temp:'0.4', tokens:'60.000', cost:'R$520', conns:'GitHub, Vercel, APIs', conf:'87%', skills:['Criar modulos marketplace','Integrar APIs externas','Prototipar solucoes','Documentar specs','Testar end-to-end'], refs:['Linus Torvalds','DHH'], rules:['Code review obrigatorio','Zero deploy sem teste','Documentar toda API'] },
+      yumi: { name:'Yumi', role:'Mentora PF', model:'Sonnet 4.6', fallback:'Haiku 4.5', temp:'0.5', tokens:'25.000', cost:'R$230', conns:'WhatsApp, Calendar, Health', conf:'92%', skills:['Onboarding pessoal','Configurar mentores','Plano de vida','Check-in semanal','Radar espiritual'], refs:['Brene Brown','James Clear','Viktor Frankl'], rules:['Tom empatico sempre','Nunca julgar escolhas','Respeitar ritmo do usuario'] }
+    };
+
+    function openAgent(id) {
+      const a = agents[id];
+      if (!a) return;
+      document.getElementById('drawerTitle').textContent = a.name + ' — ' + a.role;
+      document.getElementById('feedSection').style.display = 'none';
+      document.getElementById('agentDrawer').style.display = '';
+      // Update config tab
+      const configRows = document.querySelector('#tab-config .config-rows');
+      configRows.innerHTML = [
+        ['Modelo LLM', a.model], ['Fallback', a.fallback], ['Temperatura', a.temp],
+        ['Max tokens/dia', a.tokens], ['Custo/mes', a.cost], ['Conexoes', a.conns],
+        ['Nivel confianca', a.conf]
+      ].map(([l,v]) => `<div class="config-row"><span class="config-label">${l}</span><span class="config-val"${v.includes('%')?` style="color:#30D158"`:``}>${v}</span></div>`).join('');
+      // Update training tab
+      const skillsEl = document.querySelector('#tab-train .train-skills');
+      skillsEl.innerHTML = a.skills.map(s => `<div class="train-skill"><span class="train-skill-name">${s}</span><div class="fw-toggle on" onclick="this.classList.toggle('on')"></div></div>`).join('');
+      const refsEl = document.querySelector('#tab-train .train-refs');
+      refsEl.innerHTML = a.refs.map(r => `<span class="train-ref">${r}</span>`).join('') + '<span class="train-ref" style="color:#D70030;background:rgba(215,0,48,0.08);">+ Adicionar</span>';
+      const rulesEl = document.querySelector('#tab-train .train-rules');
+      rulesEl.innerHTML = a.rules.map(r => `<p class="train-rule">${r}</p>`).join('');
+      // Reset to chat tab
+      switchDrawerTab(document.querySelector('.drawer-tab'), 'chat');
+      // Highlight active agent
+      document.querySelectorAll('.agent-mini').forEach(m => m.classList.remove('active'));
+      event.currentTarget.classList.add('active');
+    }
+
+    function closeAgent() {
+      document.getElementById('agentDrawer').style.display = 'none';
+      document.getElementById('feedSection').style.display = '';
+    }
+
+    function switchDrawerTab(btn, tabId) {
+      document.querySelectorAll('.drawer-tab').forEach(t => t.classList.remove('active'));
+      btn.classList.add('active');
+      ['chat','train','config'].forEach(id => {
+        document.getElementById('tab-' + id).style.display = id === tabId ? '' : 'none';
+      });
+    }
+  </script>
+</body>
+</html>
