@@ -62,7 +62,53 @@ tbody td{padding:10px 12px;border-bottom:0.5px solid rgba(255,255,255,0.03)}
 <main class="main">
 <div class="breadcrumb"><a href="index.html">Admin</a> / <a href="billing.html">Faturamento</a> / Custos</div>
 <h1>Custos de Tokens & LLM</h1>
-<p style="font-size:13px;color:#8E8E93;margin-bottom:24px">Breakdown detalhado de custos por provider, modelo, tier e tenant</p>
+<p style="font-size:13px;color:#8E8E93;margin-bottom:16px">Gerencie custos conversando com o agente financeiro. Sem formularios.</p>
+
+<!-- Chat IA-first para gerenciamento de custos -->
+<div class="card" style="margin-bottom:20px;padding:16px;">
+  <div style="display:flex;flex-direction:column;gap:8px;max-height:200px;overflow-y:auto;margin-bottom:10px;" id="costChat">
+    <div style="align-self:flex-start;max-width:85%;">
+      <div style="font-size:12px;line-height:1.5;padding:10px 14px;border-radius:14px;border-bottom-left-radius:4px;background:#2C2C2E;color:#D2D2D7;">Sou o Yuki, Controller financeiro. Posso analisar custos, sugerir otimizacoes, mudar modelos LLM, definir budgets e alertas. Pergunte: "quanto gastei essa semana?", "otimiza custos do Akira" ou "muda Kaito pra Sonnet".</div>
+      <div style="font-size:9px;color:#636366;margin-top:3px;">Yuki &middot; Controller</div>
+    </div>
+  </div>
+  <div style="display:flex;gap:6px;">
+    <input type="text" style="flex:1;background:#2C2C2E;border:1px solid rgba(255,255,255,0.08);border-radius:8px;padding:8px 12px;font-size:11px;color:#F5F5F7;outline:none;font-family:'Inter',sans-serif;" placeholder="Pergunte sobre custos, otimize modelos, defina budgets..." id="costInput" onkeydown="if(event.key==='Enter')sendCostChat()">
+    <button onclick="sendCostChat()" style="background:#D70030;color:#FFF;border:none;border-radius:8px;padding:8px 14px;font-size:10px;font-weight:600;cursor:pointer;">Enviar</button>
+  </div>
+</div>
+<script>
+var costResponses = {
+  'gast':['Esta semana: US$ 612. Anthropic US$ 478 (78%), OpenAI US$ 89 (15%), Google US$ 45 (7%). Comparado a semana passada: +8%. Principal aumento: Kaito usando Opus para code review.'],
+  'otimi':['Analisando... Recomendo: (1) Migrar Hana de Haiku para Haiku 4.5 batch — economia de 30%. (2) Kaito: usar Opus so para decisoes estrategicas, Sonnet para code review — economia US$ 120/mes. (3) Ativar cache de contexto para Akira — reduz 40% tokens repetidos. Economia total estimada: US$ 340/mes.'],
+  'muda':['Feito. Modelo atualizado. O custo estimado novo sera recalculado em 24h. Quer que eu monitore e alerte se ultrapassar o budget?'],
+  'budget':['Budget atual: US$ 5,000/mes. Consumo atual (projecao): US$ 4,287. Margem: US$ 713 (14.3%). Recomendo definir alerta em 90% (US$ 4,500). Quer que eu configure?'],
+  'alert':['Alerta configurado: notificacao WhatsApp quando consumo atingir 90% do budget (US$ 4,500). Tambem envio relatorio semanal toda segunda as 09h. Confirmado.'],
+  'default':['Entendi. Vou analisar e dar minha recomendacao. Me de mais contexto sobre o que quer otimizar e eu calculo o impacto.']
+};
+function sendCostChat(){
+  var input=document.getElementById('costInput');
+  if(!input||!input.value.trim())return;
+  var chat=document.getElementById('costChat');
+  var val=input.value;
+  var msg=document.createElement('div');
+  msg.style.cssText='align-self:flex-end;max-width:85%;';
+  msg.innerHTML='<div style="font-size:12px;line-height:1.5;padding:10px 14px;border-radius:14px;border-bottom-right-radius:4px;background:#D70030;color:#FFF;">'+val+'</div><div style="font-size:9px;color:#636366;margin-top:3px;text-align:right;">Julio &middot; '+new Date().toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'})+'</div>';
+  chat.appendChild(msg);input.value='';chat.scrollTop=chat.scrollHeight;
+  setTimeout(function(){
+    var key='default';var low=val.toLowerCase();
+    if(low.indexOf('gast')!==-1||low.indexOf('quanto')!==-1||low.indexOf('semana')!==-1)key='gast';
+    else if(low.indexOf('otimi')!==-1||low.indexOf('reduz')!==-1||low.indexOf('economi')!==-1)key='otimi';
+    else if(low.indexOf('muda')!==-1||low.indexOf('troca')!==-1||low.indexOf('migra')!==-1)key='muda';
+    else if(low.indexOf('budget')!==-1||low.indexOf('limite')!==-1||low.indexOf('orcamento')!==-1)key='budget';
+    else if(low.indexOf('alert')!==-1||low.indexOf('notific')!==-1||low.indexOf('avisa')!==-1)key='alert';
+    var r=document.createElement('div');r.style.cssText='align-self:flex-start;max-width:85%;';
+    var resps=costResponses[key];
+    r.innerHTML='<div style="font-size:12px;line-height:1.5;padding:10px 14px;border-radius:14px;border-bottom-left-radius:4px;background:#2C2C2E;color:#D2D2D7;">'+resps[0]+'</div><div style="font-size:9px;color:#636366;margin-top:3px;">Yuki &middot; '+new Date().toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'})+'</div>';
+    chat.appendChild(r);chat.scrollTop=chat.scrollHeight;
+  },900);
+}
+</script>
 
 <div class="stats-grid">
   <div class="stat-box">
