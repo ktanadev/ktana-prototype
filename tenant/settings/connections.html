@@ -9,59 +9,772 @@
   <style>
     body { min-height: 100vh; background: #F5F5F7; }
     .nav { position: sticky; top: 0; z-index: 50; height: 48px; display: flex; align-items: center; justify-content: center; background: rgba(245,245,247,0.72); backdrop-filter: saturate(180%) blur(20px); border-bottom: 0.5px solid rgba(0,0,0,0.06); }
-    .nav-inner { width: 100%; max-width: 720px; padding: 0 24px; display: flex; align-items: center; justify-content: space-between; }
+    .nav-inner { width: 100%; max-width: 980px; padding: 0 24px; display: flex; align-items: center; justify-content: space-between; }
     .nav-logo { font-family: 'Zen Dots', cursive; font-size: 14px; color: #D70030; }
     .nav-links a { font-family: 'Inter', sans-serif; font-size: 12px; color: #1D1D1F; opacity: 0.4; margin-left: 24px; }
     .nav-links a.active { opacity: 1; }
-    .main { max-width: 720px; margin: 0 auto; padding: 40px 24px 80px; }
-    h1 { font-family: 'Satoshi', sans-serif; font-size: 22px; font-weight: 700; color: #1D1D1F; margin-bottom: 32px; }
+    .main { max-width: 980px; margin: 0 auto; padding: 40px 24px 80px; }
+    h1 { font-family: 'Satoshi', sans-serif; font-size: 28px; font-weight: 700; color: #1D1D1F; margin-bottom: 6px; }
+    .page-desc { font-family: 'Satoshi', sans-serif; font-size: 15px; color: #86868B; margin-bottom: 28px; line-height: 1.5; }
+
+    /* Settings Nav */
     .settings-nav { display: flex; gap: 2px; background: rgba(0,0,0,0.03); border-radius: 10px; padding: 2px; margin-bottom: 32px; overflow-x: auto; }
-    .settings-tab { font-family: 'Inter', sans-serif; padding: 6px 14px; border-radius: 8px; font-size: 11px; color: #86868B; cursor: pointer; border: none; background: none; white-space: nowrap; }
+    .settings-tab { font-family: 'Inter', sans-serif; padding: 6px 14px; border-radius: 8px; font-size: 11px; color: #86868B; cursor: pointer; border: none; background: none; white-space: nowrap; min-height: 32px; }
     .settings-tab.active { background: #FFF; color: #1D1D1F; box-shadow: 0 1px 3px rgba(0,0,0,0.06); font-weight: 500; }
-    .card { background: #FFF; border-radius: 20px; border: 1px solid rgba(0,0,0,0.04); padding: 24px; margin-bottom: 12px; }
-    .card-label { font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: #D70030; margin-bottom: 14px; }
-    .row { display: flex; align-items: center; justify-content: space-between; padding: 10px 0; border-bottom: 0.5px solid rgba(0,0,0,0.03); }
-    .row:last-child { border-bottom: none; }
-    .row-title { font-family: 'Satoshi', sans-serif; font-size: 14px; color: #1D1D1F; }
-    .row-desc { font-family: 'Satoshi', sans-serif; font-size: 11px; color: #86868B; margin-top: 2px; }
-    .row-value { font-family: 'Inter', sans-serif; font-size: 13px; color: #86868B; }
-    .toggle { width: 44px; height: 26px; border-radius: 13px; background: #E8E8ED; cursor: pointer; position: relative; transition: background 0.2s; }
-    .toggle.on { background: #D70030; }
-    .toggle::after { content: ''; position: absolute; width: 22px; height: 22px; border-radius: 11px; background: #FFF; top: 2px; left: 2px; transition: transform 0.2s; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
-    .toggle.on::after { transform: translateX(18px); }
-    .mode-selector { display: flex; gap: 2px; background: rgba(0,0,0,0.03); border-radius: 8px; padding: 2px; }
-    .mode-btn { font-family: 'Inter', sans-serif; padding: 5px 12px; border-radius: 6px; font-size: 11px; color: #86868B; cursor: pointer; border: none; background: none; }
-    .mode-btn.active { background: #FFF; color: #1D1D1F; box-shadow: 0 1px 3px rgba(0,0,0,0.06); }
-    .conn-item { display: flex; align-items: center; gap: 12px; padding: 10px 0; border-bottom: 0.5px solid rgba(0,0,0,0.03); }
-    .conn-item:last-child { border-bottom: none; }
-    .conn-icon { width: 32px; height: 32px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 700; flex-shrink: 0; }
-    .conn-name { font-family: 'Satoshi', sans-serif; font-size: 13px; color: #1D1D1F; }
-    .conn-desc { font-family: 'Inter', sans-serif; font-size: 11px; color: #86868B; }
-    .conn-status { font-family: 'Inter', sans-serif; font-size: 11px; color: #86868B; margin-left: auto; display: flex; align-items: center; gap: 4px; }
-    .conn-status::before { content: ''; width: 5px; height: 5px; border-radius: 50%; background: #30D158; }
-    .conn-btn { font-family: 'Inter', sans-serif; padding: 5px 12px; border-radius: 980px; background: #1D1D1F; color: #F5F5F7; font-size: 11px; font-weight: 500; border: none; cursor: pointer; margin-left: auto; }
-    .bar-row { display: flex; align-items: center; gap: 12px; padding: 6px 0; }
-    .bar-label { font-family: 'Satoshi', sans-serif; font-size: 12px; color: #86868B; width: 120px; flex-shrink: 0; }
-    .bar-track { flex: 1; height: 4px; background: rgba(0,0,0,0.04); border-radius: 2px; overflow: hidden; }
-    .bar-fill { height: 100%; border-radius: 2px; background: #1D1D1F; }
-    .bar-value { font-family: 'Inter', sans-serif; font-size: 11px; color: #86868B; width: 60px; text-align: right; }
-    .btn-danger { font-family: 'Inter', sans-serif; padding: 10px 20px; border-radius: 12px; background: transparent; color: #D70030; font-size: 12px; border: 0.5px solid rgba(215,0,48,0.2); cursor: pointer; font-weight: 500; }
+
+    /* Search & Filters */
+    .search-bar { position: relative; margin-bottom: 20px; }
+    .search-bar input { width: 100%; padding: 12px 16px 12px 44px; background: #FFF; border: 1px solid rgba(0,0,0,0.06); border-radius: 14px; font-family: 'Inter', sans-serif; font-size: 14px; color: #1D1D1F; outline: none; transition: border-color 0.2s, box-shadow 0.2s; }
+    .search-bar input:focus { border-color: rgba(215,0,48,0.3); box-shadow: 0 0 0 3px rgba(215,0,48,0.06); }
+    .search-bar input::placeholder { color: #AEAEB2; }
+    .search-bar svg { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); color: #AEAEB2; }
+
+    .filter-chips { display: flex; gap: 6px; margin-bottom: 24px; overflow-x: auto; padding-bottom: 4px; }
+    .filter-chip { font-family: 'Inter', sans-serif; padding: 6px 14px; border-radius: 980px; font-size: 11px; font-weight: 500; color: #86868B; background: #FFF; border: 1px solid rgba(0,0,0,0.06); cursor: pointer; white-space: nowrap; transition: all 0.2s; min-height: 32px; display: flex; align-items: center; }
+    .filter-chip:hover { border-color: rgba(0,0,0,0.12); color: #1D1D1F; }
+    .filter-chip.active { background: #1D1D1F; color: #FFF; border-color: #1D1D1F; }
+
+    /* Stats Row */
+    .stats-row { display: flex; gap: 12px; margin-bottom: 28px; }
+    .stat-card { background: #FFF; border-radius: 16px; border: 1px solid rgba(0,0,0,0.04); padding: 16px 20px; flex: 1; }
+    .stat-number { font-family: 'Satoshi', sans-serif; font-size: 24px; font-weight: 700; color: #1D1D1F; }
+    .stat-label { font-family: 'Inter', sans-serif; font-size: 11px; color: #86868B; margin-top: 2px; }
+    .stat-number.brand { color: #D70030; }
+
+    /* Section Headers */
+    .section-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; margin-top: 8px; }
+    .section-title { font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: #D70030; }
+    .section-count { font-family: 'Inter', sans-serif; font-size: 11px; color: #AEAEB2; }
+
+    /* Marketplace Grid */
+    .marketplace-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 32px; }
+    @media (max-width: 768px) { .marketplace-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 480px) { .marketplace-grid { grid-template-columns: 1fr; } }
+
+    /* Connection Card */
+    .conn-card { background: #FFF; border-radius: 20px; border: 1px solid rgba(0,0,0,0.04); padding: 20px; cursor: pointer; transition: all 0.25s cubic-bezier(0.25,0.1,0.25,1); position: relative; overflow: hidden; }
+    .conn-card:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(0,0,0,0.06); }
+    .conn-card.connected { border-color: rgba(0,0,0,0.06); }
+    .conn-card.connected::after { content: ''; position: absolute; top: 12px; right: 12px; width: 8px; height: 8px; border-radius: 50%; background: #30D158; box-shadow: 0 0 6px rgba(48,209,88,0.4); }
+
+    .conn-card-header { display: flex; align-items: flex-start; gap: 12px; margin-bottom: 12px; }
+    .conn-card-icon { width: 44px; height: 44px; border-radius: 12px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: filter 0.3s; }
+    .conn-card-icon svg { width: 24px; height: 24px; }
+    .conn-card:not(.connected) .conn-card-icon { filter: grayscale(1) opacity(0.5); }
+    .conn-card.connected .conn-card-icon { filter: none; }
+
+    .conn-card-name { font-family: 'Satoshi', sans-serif; font-size: 15px; font-weight: 600; color: #1D1D1F; margin-bottom: 2px; }
+    .conn-card-desc { font-family: 'Satoshi', sans-serif; font-size: 12px; color: #86868B; line-height: 1.4; }
+
+    .conn-card-footer { display: flex; align-items: center; justify-content: space-between; margin-top: 14px; padding-top: 14px; border-top: 0.5px solid rgba(0,0,0,0.04); }
+    .conn-card-category { font-family: 'Inter', sans-serif; font-size: 10px; font-weight: 500; color: #AEAEB2; text-transform: uppercase; letter-spacing: 0.05em; }
+    .conn-card-btn { font-family: 'Inter', sans-serif; padding: 6px 14px; border-radius: 980px; font-size: 11px; font-weight: 500; border: none; cursor: pointer; min-height: 32px; transition: all 0.2s; }
+    .conn-card-btn.connect { background: #1D1D1F; color: #F5F5F7; }
+    .conn-card-btn.connect:hover { background: #D70030; }
+    .conn-card-btn.manage { background: rgba(0,0,0,0.04); color: #6E6E73; }
+    .conn-card-btn.manage:hover { background: rgba(0,0,0,0.08); color: #1D1D1F; }
+
+    /* Custom Connection Builder */
+    .custom-builder { background: #FFF; border-radius: 20px; border: 2px dashed rgba(215,0,48,0.15); padding: 32px; text-align: center; margin-bottom: 32px; cursor: pointer; transition: all 0.25s; }
+    .custom-builder:hover { border-color: rgba(215,0,48,0.4); background: rgba(215,0,48,0.015); }
+    .custom-builder-icon { width: 52px; height: 52px; border-radius: 14px; background: rgba(215,0,48,0.06); display: flex; align-items: center; justify-content: center; margin: 0 auto 14px; }
+    .custom-builder-icon svg { width: 24px; height: 24px; color: #D70030; }
+    .custom-builder-title { font-family: 'Satoshi', sans-serif; font-size: 16px; font-weight: 600; color: #1D1D1F; margin-bottom: 6px; }
+    .custom-builder-desc { font-family: 'Satoshi', sans-serif; font-size: 13px; color: #86868B; max-width: 380px; margin: 0 auto; line-height: 1.5; }
+
+    /* Modal Overlay */
+    .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.4); backdrop-filter: blur(8px); z-index: 100; align-items: center; justify-content: center; padding: 24px; }
+    .modal-overlay.active { display: flex; }
+    .modal { background: #FFF; border-radius: 24px; width: 100%; max-width: 560px; max-height: 85vh; overflow-y: auto; animation: fadeUp 0.3s cubic-bezier(0.25,0.1,0.25,1); }
+    .modal-header { padding: 24px 24px 0; display: flex; align-items: flex-start; justify-content: space-between; }
+    .modal-close { width: 32px; height: 32px; border-radius: 50%; background: rgba(0,0,0,0.04); border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; color: #86868B; transition: background 0.2s; flex-shrink: 0; }
+    .modal-close:hover { background: rgba(0,0,0,0.08); }
+    .modal-body { padding: 20px 24px 24px; }
+    .modal-icon { width: 56px; height: 56px; border-radius: 16px; display: flex; align-items: center; justify-content: center; margin-bottom: 16px; }
+    .modal-icon svg { width: 28px; height: 28px; }
+    .modal-title { font-family: 'Satoshi', sans-serif; font-size: 22px; font-weight: 700; color: #1D1D1F; margin-bottom: 6px; }
+    .modal-desc { font-family: 'Satoshi', sans-serif; font-size: 14px; color: #86868B; line-height: 1.6; margin-bottom: 20px; }
+    .modal-section { margin-bottom: 20px; }
+    .modal-section-title { font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: #D70030; margin-bottom: 10px; }
+    .modal-features { list-style: none; }
+    .modal-features li { font-family: 'Satoshi', sans-serif; font-size: 13px; color: #1D1D1F; padding: 8px 0; border-bottom: 0.5px solid rgba(0,0,0,0.04); display: flex; align-items: center; gap: 10px; }
+    .modal-features li:last-child { border-bottom: none; }
+    .modal-features li svg { width: 16px; height: 16px; color: #30D158; flex-shrink: 0; }
+
+    /* Video Tutorial */
+    .tutorial-embed { background: #0A0A0A; border-radius: 14px; overflow: hidden; margin-bottom: 20px; aspect-ratio: 16/9; display: flex; align-items: center; justify-content: center; position: relative; cursor: pointer; }
+    .tutorial-embed::before { content: ''; position: absolute; inset: 0; background: linear-gradient(135deg, rgba(215,0,48,0.1) 0%, rgba(0,0,0,0.6) 100%); }
+    .tutorial-play { width: 56px; height: 56px; border-radius: 50%; background: rgba(255,255,255,0.95); display: flex; align-items: center; justify-content: center; z-index: 1; box-shadow: 0 4px 20px rgba(0,0,0,0.2); }
+    .tutorial-play svg { width: 20px; height: 20px; color: #1D1D1F; margin-left: 2px; }
+    .tutorial-label { position: absolute; bottom: 12px; left: 12px; font-family: 'Inter', sans-serif; font-size: 11px; color: rgba(255,255,255,0.8); z-index: 1; display: flex; align-items: center; gap: 6px; }
+    .tutorial-label svg { width: 12px; height: 12px; }
+    .tutorial-duration { position: absolute; bottom: 12px; right: 12px; font-family: 'Inter', sans-serif; font-size: 11px; color: rgba(255,255,255,0.6); z-index: 1; background: rgba(0,0,0,0.4); padding: 2px 8px; border-radius: 4px; }
+
+    .modal-actions { display: flex; gap: 8px; padding-top: 4px; }
+    .modal-actions .btn { flex: 1; text-align: center; min-height: 52px; display: flex; align-items: center; justify-content: center; font-size: 14px; border-radius: 14px; }
+
+    /* Custom Builder Modal */
+    .builder-steps { display: flex; gap: 8px; margin-bottom: 24px; }
+    .builder-step { flex: 1; height: 3px; border-radius: 2px; background: rgba(0,0,0,0.06); }
+    .builder-step.active { background: #D70030; }
+    .builder-step.done { background: #1D1D1F; }
+    .builder-field { margin-bottom: 16px; }
+    .builder-label { font-family: 'Inter', sans-serif; font-size: 12px; font-weight: 500; color: #1D1D1F; margin-bottom: 6px; display: block; }
+    .builder-input { width: 100%; padding: 12px 16px; background: #F5F5F7; border: 1px solid rgba(0,0,0,0.06); border-radius: 12px; font-family: 'Inter', sans-serif; font-size: 14px; color: #1D1D1F; outline: none; transition: border-color 0.2s; }
+    .builder-input:focus { border-color: rgba(215,0,48,0.3); }
+    .builder-input::placeholder { color: #AEAEB2; }
+    .builder-select { appearance: none; background-image: url("data:image/svg+xml,%3Csvg width='10' height='6' viewBox='0 0 10 6' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1L5 5L9 1' stroke='%2386868B' stroke-width='1.5' stroke-linecap='round'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 14px center; padding-right: 36px; cursor: pointer; }
+    .builder-textarea { min-height: 80px; resize: vertical; font-family: 'SF Mono', 'Menlo', monospace; font-size: 12px; line-height: 1.5; }
+    .builder-hint { font-family: 'Inter', sans-serif; font-size: 11px; color: #AEAEB2; margin-top: 4px; }
+
+    /* Animations */
+    .fade-in { animation: fadeIn 0.3s cubic-bezier(0.25,0.1,0.25,1) both; }
+    .stagger-1 { animation-delay: 0.03s; }
+    .stagger-2 { animation-delay: 0.06s; }
+    .stagger-3 { animation-delay: 0.09s; }
+    .stagger-4 { animation-delay: 0.12s; }
+    .stagger-5 { animation-delay: 0.15s; }
+    .stagger-6 { animation-delay: 0.18s; }
+    .stagger-7 { animation-delay: 0.21s; }
+    .stagger-8 { animation-delay: 0.24s; }
+    .stagger-9 { animation-delay: 0.27s; }
+    .stagger-10 { animation-delay: 0.30s; }
+    .stagger-11 { animation-delay: 0.33s; }
+    .stagger-12 { animation-delay: 0.36s; }
   </style>
 </head>
 <body>
-  <nav class="nav"><div class="nav-inner"><a href="../landing.html" class="nav-logo">KTANA</a><div class="nav-links"><a href="../dashboard/home.html">Painel</a><a href="general.html" class="active">Config</a></div></div></nav>
+
+  <!-- Nav -->
+  <nav class="nav">
+    <div class="nav-inner">
+      <a href="../landing.html" class="nav-logo">KTANA</a>
+      <div class="nav-links">
+        <a href="../dashboard/home.html">Painel</a>
+        <a href="general.html" class="active">Config</a>
+      </div>
+    </div>
+  </nav>
+
   <main class="main">
-    <h1 class="fade-in">Configuracoes</h1>
+    <h1 class="fade-in">Conexoes</h1>
+    <p class="page-desc fade-in">Marketplace de integracoes. Conecte seus samurais a qualquer plataforma — ou crie sua propria via MCP.</p>
+
+    <!-- Settings Tabs -->
     <div class="settings-nav fade-in">
       <button class="settings-tab" onclick="location.href='general.html'">Geral</button>
-      <button class="settings-tab " onclick="location.href='models.html'">Inteligencia</button>
+      <button class="settings-tab" onclick="location.href='models.html'">Inteligencia</button>
       <button class="settings-tab active" onclick="location.href='connections.html'">Conexoes</button>
       <button class="settings-tab" onclick="location.href='brain.html'">Cerebro</button>
-      <button class="settings-tab " onclick="location.href='security.html'">Seguranca</button>
-      <button class="settings-tab " onclick="location.href='privacy.html'">Privacidade</button>
-      <button class="settings-tab " onclick="location.href='billing.html'">Plano</button>
+      <button class="settings-tab" onclick="location.href='security.html'">Seguranca</button>
+      <button class="settings-tab" onclick="location.href='privacy.html'">Privacidade</button>
+      <button class="settings-tab" onclick="location.href='billing.html'">Plano</button>
     </div>
-    <div class="card fade-in"><p class="card-label">Conectadas</p><div class="conn-item"><div class="conn-icon" style="background:#FEE2E2;color:#DC2626;">G</div><div><p class="conn-name">Gmail</p><p class="conn-desc">contato@ktana.ai</p></div><span class="conn-status">Conectado</span></div><div class="conn-item"><div class="conn-icon" style="background:#DCFCE7;color:#16A34A;">W</div><div><p class="conn-name">WhatsApp</p><p class="conn-desc">+55 11 9999-9999</p></div><span class="conn-status">Conectado</span></div><div class="conn-item"><div class="conn-icon" style="background:#DBEAFE;color:#2563EB;">C</div><div><p class="conn-name">Google Calendar</p><p class="conn-desc">contato@ktana.ai</p></div><span class="conn-status">Conectado</span></div></div><div class="card fade-in" style="animation-delay:0.1s"><p class="card-label">Disponiveis</p><div class="conn-item"><div class="conn-icon" style="background:#F3E8FF;color:#7C3AED;">C</div><div><p class="conn-name">ClickUp</p><p class="conn-desc">Gerenciar tarefas e projetos</p></div><button class="conn-btn">Conectar</button></div><div class="conn-item"><div class="conn-icon" style="background:#F0F0F0;color:#86868B;">N</div><div><p class="conn-name">Notion</p><p class="conn-desc">Documentos e wikis</p></div><button class="conn-btn">Conectar</button></div><div class="conn-item"><div class="conn-icon" style="background:#F0F0F0;color:#86868B;">E</div><div><p class="conn-name">ERP (Omie)</p><p class="conn-desc">Gestao financeira</p></div><button class="conn-btn">Conectar</button></div></div>
+
+    <!-- Stats -->
+    <div class="stats-row fade-in">
+      <div class="stat-card">
+        <div class="stat-number brand">5</div>
+        <div class="stat-label">Conectadas</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number">18</div>
+        <div class="stat-label">Disponiveis</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number">2</div>
+        <div class="stat-label">Customizadas</div>
+      </div>
+    </div>
+
+    <!-- Search -->
+    <div class="search-bar fade-in">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+      <input type="text" placeholder="Buscar integracoes..." id="searchInput" oninput="filterConnections()">
+    </div>
+
+    <!-- Filter Chips -->
+    <div class="filter-chips fade-in">
+      <button class="filter-chip active" onclick="setFilter('all', this)">Todas</button>
+      <button class="filter-chip" onclick="setFilter('communication', this)">Comunicacao</button>
+      <button class="filter-chip" onclick="setFilter('productivity', this)">Produtividade</button>
+      <button class="filter-chip" onclick="setFilter('finance', this)">Financeiro</button>
+      <button class="filter-chip" onclick="setFilter('crm', this)">CRM & Vendas</button>
+      <button class="filter-chip" onclick="setFilter('development', this)">Desenvolvimento</button>
+      <button class="filter-chip" onclick="setFilter('custom', this)">Customizadas</button>
+    </div>
+
+    <!-- Connected Section -->
+    <div class="section-header fade-in">
+      <span class="section-title">Conectadas</span>
+      <span class="section-count" id="connectedCount">5 ativas</span>
+    </div>
+
+    <div class="marketplace-grid" id="connectedGrid">
+
+      <!-- Gmail -->
+      <div class="conn-card connected fade-in stagger-1" data-category="communication" data-name="Gmail" onclick="openModal('gmail')">
+        <div class="conn-card-header">
+          <div class="conn-card-icon" style="background:#FEE2E2;">
+            <svg viewBox="0 0 24 24" fill="none"><path d="M2 6l10 7 10-7" stroke="#EA4335" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><rect x="2" y="4" width="20" height="16" rx="3" stroke="#EA4335" stroke-width="2"/></svg>
+          </div>
+          <div>
+            <div class="conn-card-name">Gmail</div>
+            <div class="conn-card-desc">contato@ktana.ai</div>
+          </div>
+        </div>
+        <div class="conn-card-footer">
+          <span class="conn-card-category">Comunicacao</span>
+          <button class="conn-card-btn manage">Configurar</button>
+        </div>
+      </div>
+
+      <!-- WhatsApp -->
+      <div class="conn-card connected fade-in stagger-2" data-category="communication" data-name="WhatsApp" onclick="openModal('whatsapp')">
+        <div class="conn-card-header">
+          <div class="conn-card-icon" style="background:#DCFCE7;">
+            <svg viewBox="0 0 24 24" fill="none"><path d="M3 21l1.65-3.8a9 9 0 113.15 2.85L3 21z" stroke="#25D366" stroke-width="2" stroke-linejoin="round"/><path d="M9 10a1 1 0 011-1h.01M14 10a1 1 0 011-1h.01M9.5 15.5s1.5 1 3 1 3-1 3-1" stroke="#25D366" stroke-width="1.5" stroke-linecap="round"/></svg>
+          </div>
+          <div>
+            <div class="conn-card-name">WhatsApp</div>
+            <div class="conn-card-desc">+55 11 9999-9999</div>
+          </div>
+        </div>
+        <div class="conn-card-footer">
+          <span class="conn-card-category">Comunicacao</span>
+          <button class="conn-card-btn manage">Configurar</button>
+        </div>
+      </div>
+
+      <!-- Google Calendar -->
+      <div class="conn-card connected fade-in stagger-3" data-category="productivity" data-name="Google Calendar" onclick="openModal('gcal')">
+        <div class="conn-card-header">
+          <div class="conn-card-icon" style="background:#DBEAFE;">
+            <svg viewBox="0 0 24 24" fill="none"><rect x="3" y="4" width="18" height="18" rx="3" stroke="#4285F4" stroke-width="2"/><path d="M3 9h18M9 4v4M15 4v4" stroke="#4285F4" stroke-width="2" stroke-linecap="round"/><circle cx="12" cy="15" r="1.5" fill="#4285F4"/></svg>
+          </div>
+          <div>
+            <div class="conn-card-name">Google Calendar</div>
+            <div class="conn-card-desc">contato@ktana.ai</div>
+          </div>
+        </div>
+        <div class="conn-card-footer">
+          <span class="conn-card-category">Produtividade</span>
+          <button class="conn-card-btn manage">Configurar</button>
+        </div>
+      </div>
+
+      <!-- Slack -->
+      <div class="conn-card connected fade-in stagger-4" data-category="communication" data-name="Slack" onclick="openModal('slack')">
+        <div class="conn-card-header">
+          <div class="conn-card-icon" style="background:#FEF3C7;">
+            <svg viewBox="0 0 24 24" fill="none"><path d="M6 15a2 2 0 01-2-2 2 2 0 012-2h2v2a2 2 0 01-2 2zM11 15a2 2 0 002-2V6a2 2 0 10-4 0v7a2 2 0 002 2z" fill="#E01E5A"/><path d="M18 11a2 2 0 01-2 2 2 2 0 01-2-2V9h2a2 2 0 012 2zM9 11a2 2 0 002 2h7a2 2 0 000-4h-7a2 2 0 00-2 2z" fill="#36C5F0"/></svg>
+          </div>
+          <div>
+            <div class="conn-card-name">Slack</div>
+            <div class="conn-card-desc">Workspace KTANA</div>
+          </div>
+        </div>
+        <div class="conn-card-footer">
+          <span class="conn-card-category">Comunicacao</span>
+          <button class="conn-card-btn manage">Configurar</button>
+        </div>
+      </div>
+
+      <!-- Notion -->
+      <div class="conn-card connected fade-in stagger-5" data-category="productivity" data-name="Notion" onclick="openModal('notion')">
+        <div class="conn-card-header">
+          <div class="conn-card-icon" style="background:#F0F0F0;">
+            <svg viewBox="0 0 24 24" fill="none"><path d="M4 4h10l6 6v10a2 2 0 01-2 2H6a2 2 0 01-2-2V4z" stroke="#1D1D1F" stroke-width="2" stroke-linejoin="round"/><path d="M14 4v6h6" stroke="#1D1D1F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M8 13h8M8 17h5" stroke="#1D1D1F" stroke-width="1.5" stroke-linecap="round"/></svg>
+          </div>
+          <div>
+            <div class="conn-card-name">Notion</div>
+            <div class="conn-card-desc">KTANA Workspace</div>
+          </div>
+        </div>
+        <div class="conn-card-footer">
+          <span class="conn-card-category">Produtividade</span>
+          <button class="conn-card-btn manage">Configurar</button>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Available Section -->
+    <div class="section-header fade-in">
+      <span class="section-title">Disponiveis</span>
+      <span class="section-count" id="availableCount">13 integracoes</span>
+    </div>
+
+    <div class="marketplace-grid" id="availableGrid">
+
+      <!-- HubSpot -->
+      <div class="conn-card fade-in stagger-1" data-category="crm" data-name="HubSpot" onclick="openModal('hubspot')">
+        <div class="conn-card-header">
+          <div class="conn-card-icon" style="background:#FEE2E2;">
+            <svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="3" stroke="#FF7A59" stroke-width="2"/><path d="M12 2v4M12 18v4M2 12h4M18 12h4" stroke="#FF7A59" stroke-width="2" stroke-linecap="round"/><path d="M5.6 5.6l2.8 2.8M15.6 15.6l2.8 2.8M5.6 18.4l2.8-2.8M15.6 8.4l2.8-2.8" stroke="#FF7A59" stroke-width="1.5" stroke-linecap="round"/></svg>
+          </div>
+          <div>
+            <div class="conn-card-name">HubSpot</div>
+            <div class="conn-card-desc">CRM, marketing e vendas</div>
+          </div>
+        </div>
+        <div class="conn-card-footer">
+          <span class="conn-card-category">CRM & Vendas</span>
+          <button class="conn-card-btn connect">Conectar</button>
+        </div>
+      </div>
+
+      <!-- ClickUp -->
+      <div class="conn-card fade-in stagger-2" data-category="productivity" data-name="ClickUp" onclick="openModal('clickup')">
+        <div class="conn-card-header">
+          <div class="conn-card-icon" style="background:#F3E8FF;">
+            <svg viewBox="0 0 24 24" fill="none"><path d="M5 15l7-6 7 6" stroke="#7B68EE" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M8 19l4-3.5 4 3.5" stroke="#7B68EE" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" opacity="0.5"/></svg>
+          </div>
+          <div>
+            <div class="conn-card-name">ClickUp</div>
+            <div class="conn-card-desc">Gerenciar tarefas e projetos</div>
+          </div>
+        </div>
+        <div class="conn-card-footer">
+          <span class="conn-card-category">Produtividade</span>
+          <button class="conn-card-btn connect">Conectar</button>
+        </div>
+      </div>
+
+      <!-- GitHub -->
+      <div class="conn-card fade-in stagger-3" data-category="development" data-name="GitHub" onclick="openModal('github')">
+        <div class="conn-card-header">
+          <div class="conn-card-icon" style="background:#F0F0F0;">
+            <svg viewBox="0 0 24 24" fill="none"><path d="M12 2C6.477 2 2 6.477 2 12c0 4.42 2.865 8.166 6.839 9.49.5.09.682-.218.682-.484 0-.237-.009-.866-.013-1.7-2.782.603-3.369-1.342-3.369-1.342-.454-1.155-1.11-1.462-1.11-1.462-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.831.092-.646.35-1.086.636-1.336-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.268 2.75 1.026A9.578 9.578 0 0112 6.836a9.59 9.59 0 012.504.337c1.909-1.294 2.747-1.026 2.747-1.026.546 1.377.203 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .269.18.579.688.481C19.138 20.161 22 16.416 22 12c0-5.523-4.477-10-10-10z" fill="#1D1D1F"/></svg>
+          </div>
+          <div>
+            <div class="conn-card-name">GitHub</div>
+            <div class="conn-card-desc">Repositorios e codigo</div>
+          </div>
+        </div>
+        <div class="conn-card-footer">
+          <span class="conn-card-category">Desenvolvimento</span>
+          <button class="conn-card-btn connect">Conectar</button>
+        </div>
+      </div>
+
+      <!-- Stripe -->
+      <div class="conn-card fade-in stagger-4" data-category="finance" data-name="Stripe" onclick="openModal('stripe')">
+        <div class="conn-card-header">
+          <div class="conn-card-icon" style="background:#EDE9FE;">
+            <svg viewBox="0 0 24 24" fill="none"><path d="M13.5 4.06c-1.14-.1-2.5.18-3.5 1.02-1.86 1.56-2 4.15-.4 5.9 1.44 1.58 4.06 2.12 4.4 4.12.18 1.02-.42 2.08-1.5 2.4-1.3.38-2.72-.28-3.2-1.5" stroke="#635BFF" stroke-width="2" stroke-linecap="round"/><path d="M12 2v20" stroke="#635BFF" stroke-width="2" stroke-linecap="round"/></svg>
+          </div>
+          <div>
+            <div class="conn-card-name">Stripe</div>
+            <div class="conn-card-desc">Pagamentos e assinaturas</div>
+          </div>
+        </div>
+        <div class="conn-card-footer">
+          <span class="conn-card-category">Financeiro</span>
+          <button class="conn-card-btn connect">Conectar</button>
+        </div>
+      </div>
+
+      <!-- Omie -->
+      <div class="conn-card fade-in stagger-5" data-category="finance" data-name="Omie ERP" onclick="openModal('omie')">
+        <div class="conn-card-header">
+          <div class="conn-card-icon" style="background:#CCFBF1;">
+            <svg viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="7" height="7" rx="2" stroke="#0D9488" stroke-width="2"/><rect x="14" y="3" width="7" height="7" rx="2" stroke="#0D9488" stroke-width="2"/><rect x="3" y="14" width="7" height="7" rx="2" stroke="#0D9488" stroke-width="2"/><path d="M17.5 14v7M14 17.5h7" stroke="#0D9488" stroke-width="2" stroke-linecap="round"/></svg>
+          </div>
+          <div>
+            <div class="conn-card-name">Omie ERP</div>
+            <div class="conn-card-desc">Gestao financeira completa</div>
+          </div>
+        </div>
+        <div class="conn-card-footer">
+          <span class="conn-card-category">Financeiro</span>
+          <button class="conn-card-btn connect">Conectar</button>
+        </div>
+      </div>
+
+      <!-- Salesforce -->
+      <div class="conn-card fade-in stagger-6" data-category="crm" data-name="Salesforce" onclick="openModal('salesforce')">
+        <div class="conn-card-header">
+          <div class="conn-card-icon" style="background:#DBEAFE;">
+            <svg viewBox="0 0 24 24" fill="none"><path d="M5.5 14.5a4 4 0 017-2.65 3.5 3.5 0 016.5 1.65 3 3 0 01-1 5.5H6a3.5 3.5 0 01-.5-7z" stroke="#00A1E0" stroke-width="2" stroke-linejoin="round"/></svg>
+          </div>
+          <div>
+            <div class="conn-card-name">Salesforce</div>
+            <div class="conn-card-desc">CRM enterprise</div>
+          </div>
+        </div>
+        <div class="conn-card-footer">
+          <span class="conn-card-category">CRM & Vendas</span>
+          <button class="conn-card-btn connect">Conectar</button>
+        </div>
+      </div>
+
+      <!-- Jira -->
+      <div class="conn-card fade-in stagger-7" data-category="development" data-name="Jira" onclick="openModal('jira')">
+        <div class="conn-card-header">
+          <div class="conn-card-icon" style="background:#DBEAFE;">
+            <svg viewBox="0 0 24 24" fill="none"><path d="M12 2L2 12l10 10 10-10L12 2z" stroke="#2684FF" stroke-width="2" stroke-linejoin="round"/><circle cx="12" cy="12" r="2" fill="#2684FF"/></svg>
+          </div>
+          <div>
+            <div class="conn-card-name">Jira</div>
+            <div class="conn-card-desc">Tracking de issues e sprints</div>
+          </div>
+        </div>
+        <div class="conn-card-footer">
+          <span class="conn-card-category">Desenvolvimento</span>
+          <button class="conn-card-btn connect">Conectar</button>
+        </div>
+      </div>
+
+      <!-- Linear -->
+      <div class="conn-card fade-in stagger-8" data-category="development" data-name="Linear" onclick="openModal('linear')">
+        <div class="conn-card-header">
+          <div class="conn-card-icon" style="background:#F3E8FF;">
+            <svg viewBox="0 0 24 24" fill="none"><path d="M3 17L17 3M3 21L21 3M7 21L21 7M11 21L21 11M15 21L21 15" stroke="#5E6AD2" stroke-width="1.5" stroke-linecap="round"/></svg>
+          </div>
+          <div>
+            <div class="conn-card-name">Linear</div>
+            <div class="conn-card-desc">Project management moderno</div>
+          </div>
+        </div>
+        <div class="conn-card-footer">
+          <span class="conn-card-category">Desenvolvimento</span>
+          <button class="conn-card-btn connect">Conectar</button>
+        </div>
+      </div>
+
+      <!-- Trello -->
+      <div class="conn-card fade-in stagger-9" data-category="productivity" data-name="Trello" onclick="openModal('trello')">
+        <div class="conn-card-header">
+          <div class="conn-card-icon" style="background:#DBEAFE;">
+            <svg viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="18" height="18" rx="3" stroke="#0079BF" stroke-width="2"/><rect x="6" y="6" width="4" height="10" rx="1" fill="#0079BF"/><rect x="13" y="6" width="4" height="6" rx="1" fill="#0079BF"/></svg>
+          </div>
+          <div>
+            <div class="conn-card-name">Trello</div>
+            <div class="conn-card-desc">Kanban e boards visuais</div>
+          </div>
+        </div>
+        <div class="conn-card-footer">
+          <span class="conn-card-category">Produtividade</span>
+          <button class="conn-card-btn connect">Conectar</button>
+        </div>
+      </div>
+
+      <!-- Discord -->
+      <div class="conn-card fade-in stagger-10" data-category="communication" data-name="Discord" onclick="openModal('discord')">
+        <div class="conn-card-header">
+          <div class="conn-card-icon" style="background:#EDE9FE;">
+            <svg viewBox="0 0 24 24" fill="none"><path d="M9.5 11.5a1 1 0 100 2 1 1 0 000-2zM14.5 11.5a1 1 0 100 2 1 1 0 000-2z" fill="#5865F2"/><path d="M7 4s3-1 5-1 5 1 5 1M7 20s3 1 5 1 5-1 5-1M4 8s1-2 3-3M20 8s-1-2-3-3M4 16s1 2 3 3M20 16s-1 2-3 3" stroke="#5865F2" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <div>
+            <div class="conn-card-name">Discord</div>
+            <div class="conn-card-desc">Servidores e comunidades</div>
+          </div>
+        </div>
+        <div class="conn-card-footer">
+          <span class="conn-card-category">Comunicacao</span>
+          <button class="conn-card-btn connect">Conectar</button>
+        </div>
+      </div>
+
+      <!-- Shopify -->
+      <div class="conn-card fade-in stagger-11" data-category="finance" data-name="Shopify" onclick="openModal('shopify')">
+        <div class="conn-card-header">
+          <div class="conn-card-icon" style="background:#DCFCE7;">
+            <svg viewBox="0 0 24 24" fill="none"><path d="M15 3l2 4h4l-3 4 1.5 5L15 13.5 10.5 16 12 11 9 7h4l2-4z" stroke="#96BF48" stroke-width="2" stroke-linejoin="round"/><path d="M6 21h12" stroke="#96BF48" stroke-width="2" stroke-linecap="round"/></svg>
+          </div>
+          <div>
+            <div class="conn-card-name">Shopify</div>
+            <div class="conn-card-desc">E-commerce e loja virtual</div>
+          </div>
+        </div>
+        <div class="conn-card-footer">
+          <span class="conn-card-category">Financeiro</span>
+          <button class="conn-card-btn connect">Conectar</button>
+        </div>
+      </div>
+
+      <!-- Asana -->
+      <div class="conn-card fade-in stagger-12" data-category="productivity" data-name="Asana" onclick="openModal('asana')">
+        <div class="conn-card-header">
+          <div class="conn-card-icon" style="background:#FEE2E2;">
+            <svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="8" r="3" stroke="#F06A6A" stroke-width="2"/><circle cx="6" cy="16" r="3" stroke="#F06A6A" stroke-width="2"/><circle cx="18" cy="16" r="3" stroke="#F06A6A" stroke-width="2"/></svg>
+          </div>
+          <div>
+            <div class="conn-card-name">Asana</div>
+            <div class="conn-card-desc">Gerenciamento de trabalho</div>
+          </div>
+        </div>
+        <div class="conn-card-footer">
+          <span class="conn-card-category">Produtividade</span>
+          <button class="conn-card-btn connect">Conectar</button>
+        </div>
+      </div>
+
+      <!-- Google Drive -->
+      <div class="conn-card fade-in stagger-1" data-category="productivity" data-name="Google Drive" onclick="openModal('gdrive')">
+        <div class="conn-card-header">
+          <div class="conn-card-icon" style="background:#FEF3C7;">
+            <svg viewBox="0 0 24 24" fill="none"><path d="M8 6l4 7H2l4-7z" stroke="#FBBC04" stroke-width="2" stroke-linejoin="round"/><path d="M16 6l-4 7h10l-4-7z" stroke="#4285F4" stroke-width="2" stroke-linejoin="round"/><path d="M12 13l-4 7h8l-4-7z" stroke="#34A853" stroke-width="2" stroke-linejoin="round"/></svg>
+          </div>
+          <div>
+            <div class="conn-card-name">Google Drive</div>
+            <div class="conn-card-desc">Arquivos e documentos</div>
+          </div>
+        </div>
+        <div class="conn-card-footer">
+          <span class="conn-card-category">Produtividade</span>
+          <button class="conn-card-btn connect">Conectar</button>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Custom Connection Builder -->
+    <div class="section-header fade-in">
+      <span class="section-title">Customizadas</span>
+      <span class="section-count">Conexoes MCP proprias</span>
+    </div>
+
+    <!-- Existing custom connections -->
+    <div class="marketplace-grid" id="customGrid" style="margin-bottom: 16px;">
+
+      <div class="conn-card connected fade-in" data-category="custom" data-name="API Interna" onclick="openModal('custom-api')">
+        <div class="conn-card-header">
+          <div class="conn-card-icon" style="background:rgba(215,0,48,0.08);">
+            <svg viewBox="0 0 24 24" fill="none"><path d="M4 6h16M4 12h16M4 18h16" stroke="#D70030" stroke-width="2" stroke-linecap="round"/><circle cx="8" cy="6" r="1.5" fill="#D70030"/><circle cx="16" cy="12" r="1.5" fill="#D70030"/><circle cx="10" cy="18" r="1.5" fill="#D70030"/></svg>
+          </div>
+          <div>
+            <div class="conn-card-name">API Interna</div>
+            <div class="conn-card-desc">ERP legado via REST</div>
+          </div>
+        </div>
+        <div class="conn-card-footer">
+          <span class="conn-card-category">MCP Custom</span>
+          <button class="conn-card-btn manage">Editar</button>
+        </div>
+      </div>
+
+      <div class="conn-card connected fade-in" data-category="custom" data-name="Webhook CRM" onclick="openModal('custom-webhook')">
+        <div class="conn-card-header">
+          <div class="conn-card-icon" style="background:rgba(215,0,48,0.08);">
+            <svg viewBox="0 0 24 24" fill="none"><path d="M12 2v6M12 16v6M2 12h6M16 12h6" stroke="#D70030" stroke-width="2" stroke-linecap="round"/><circle cx="12" cy="12" r="4" stroke="#D70030" stroke-width="2"/></svg>
+          </div>
+          <div>
+            <div class="conn-card-name">Webhook CRM</div>
+            <div class="conn-card-desc">Eventos inbound via webhook</div>
+          </div>
+        </div>
+        <div class="conn-card-footer">
+          <span class="conn-card-category">MCP Custom</span>
+          <button class="conn-card-btn manage">Editar</button>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="custom-builder fade-in" onclick="openBuilderModal()">
+      <div class="custom-builder-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+      </div>
+      <div class="custom-builder-title">Criar conexao customizada</div>
+      <div class="custom-builder-desc">Conecte qualquer API, webhook ou servico MCP sem escrever codigo. Configure visualmente em minutos.</div>
+    </div>
+
   </main>
+
+  <!-- Connection Detail Modal -->
+  <div class="modal-overlay" id="connModal" onclick="if(event.target===this)closeModal()">
+    <div class="modal">
+      <div class="modal-header">
+        <div></div>
+        <button class="modal-close" onclick="closeModal()">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="modal-icon" id="modalIcon" style="background:#FEE2E2;">
+          <svg viewBox="0 0 24 24" fill="none"><path d="M2 6l10 7 10-7" stroke="#EA4335" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><rect x="2" y="4" width="20" height="16" rx="3" stroke="#EA4335" stroke-width="2"/></svg>
+        </div>
+        <h2 class="modal-title" id="modalTitle">Gmail</h2>
+        <p class="modal-desc" id="modalDesc">Integre seu Gmail para que seus samurais possam ler, responder e gerenciar emails automaticamente. Suporte a labels, drafts e envio programado.</p>
+
+        <!-- Video Tutorial -->
+        <div class="tutorial-embed" id="modalVideo">
+          <div class="tutorial-play">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5.14v14.72a1 1 0 001.5.86l11-7.36a1 1 0 000-1.72l-11-7.36a1 1 0 00-1.5.86z"/></svg>
+          </div>
+          <span class="tutorial-label">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg>
+            Tutorial de configuracao
+          </span>
+          <span class="tutorial-duration" id="modalDuration">2:30</span>
+        </div>
+
+        <div class="modal-section">
+          <div class="modal-section-title">Capacidades</div>
+          <ul class="modal-features" id="modalFeatures">
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Ler e responder emails</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Criar drafts e templates</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Organizar por labels</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Envio programado</li>
+          </ul>
+        </div>
+
+        <div class="modal-actions" id="modalActions">
+          <button class="btn btn-primary" style="flex:1; min-height:52px; border-radius:14px;">Conectar com OAuth</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Custom Builder Modal -->
+  <div class="modal-overlay" id="builderModal" onclick="if(event.target===this)closeBuilderModal()">
+    <div class="modal">
+      <div class="modal-header">
+        <div></div>
+        <button class="modal-close" onclick="closeBuilderModal()">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="modal-icon" style="background:rgba(215,0,48,0.08);">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#D70030" stroke-width="2" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        </div>
+        <h2 class="modal-title">Nova conexao MCP</h2>
+        <p class="modal-desc">Configure visualmente sem codigo. Seus samurais vao poder usar essa conexao imediatamente apos a criacao.</p>
+
+        <!-- Steps -->
+        <div class="builder-steps">
+          <div class="builder-step active"></div>
+          <div class="builder-step"></div>
+          <div class="builder-step"></div>
+        </div>
+
+        <!-- Step 1: Basic Info -->
+        <div class="builder-field">
+          <label class="builder-label">Nome da conexao</label>
+          <input class="builder-input" type="text" placeholder="Ex: API de Vendas, Webhook RH...">
+        </div>
+
+        <div class="builder-field">
+          <label class="builder-label">Tipo de conexao</label>
+          <select class="builder-input builder-select">
+            <option value="">Selecione o tipo...</option>
+            <option value="rest">API REST</option>
+            <option value="graphql">API GraphQL</option>
+            <option value="webhook">Webhook (inbound)</option>
+            <option value="websocket">WebSocket</option>
+            <option value="mcp">MCP Server</option>
+            <option value="database">Database (read-only)</option>
+          </select>
+        </div>
+
+        <div class="builder-field">
+          <label class="builder-label">URL base</label>
+          <input class="builder-input" type="text" placeholder="https://api.exemplo.com/v1">
+          <div class="builder-hint">Endpoint principal da API ou URL do webhook</div>
+        </div>
+
+        <div class="builder-field">
+          <label class="builder-label">Autenticacao</label>
+          <select class="builder-input builder-select">
+            <option value="">Selecione...</option>
+            <option value="bearer">Bearer Token</option>
+            <option value="apikey">API Key (header)</option>
+            <option value="oauth2">OAuth 2.0</option>
+            <option value="basic">Basic Auth</option>
+            <option value="none">Sem autenticacao</option>
+          </select>
+        </div>
+
+        <div class="builder-field">
+          <label class="builder-label">Descricao (para o samurai)</label>
+          <textarea class="builder-input builder-textarea" placeholder="Descreva o que essa conexao faz para que o samurai saiba quando e como usa-la..."></textarea>
+          <div class="builder-hint">Quanto mais claro, melhor o samurai vai usar essa conexao</div>
+        </div>
+
+        <div class="modal-actions" style="gap: 8px;">
+          <button class="btn btn-ghost" onclick="closeBuilderModal()" style="flex:1; min-height:52px; border-radius:14px;">Cancelar</button>
+          <button class="btn btn-brand" style="flex:1; min-height:52px; border-radius:14px;">Testar e criar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Connection data for modal
+    const connections = {
+      gmail: { name: 'Gmail', desc: 'Integre seu Gmail para que seus samurais possam ler, responder e gerenciar emails automaticamente. Suporte a labels, drafts e envio programado.', color: '#FEE2E2', features: ['Ler e responder emails', 'Criar drafts e templates', 'Organizar por labels', 'Envio programado'], connected: true, duration: '2:30', action: 'Desconectar' },
+      whatsapp: { name: 'WhatsApp', desc: 'Seus samurais podem conversar via WhatsApp Business. Atendimento, notificacoes e follow-ups automaticos com linguagem natural.', color: '#DCFCE7', features: ['Enviar e receber mensagens', 'Templates de notificacao', 'Atendimento automatico', 'Transferencia para humano'], connected: true, duration: '3:15', action: 'Desconectar' },
+      gcal: { name: 'Google Calendar', desc: 'Permita que seus samurais agendem, cancelem e reorganizem reunioes. Verificacao de disponibilidade em tempo real.', color: '#DBEAFE', features: ['Criar e editar eventos', 'Verificar disponibilidade', 'Enviar convites', 'Reagendar inteligente'], connected: true, duration: '1:45', action: 'Desconectar' },
+      slack: { name: 'Slack', desc: 'Conecte ao Slack para que seus samurais participem de canais, respondam mensagens e enviem notificacoes para o time.', color: '#FEF3C7', features: ['Ler e enviar mensagens', 'Participar de canais', 'Threads e reacoes', 'Notificacoes programadas'], connected: true, duration: '2:00', action: 'Desconectar' },
+      notion: { name: 'Notion', desc: 'Integre o Notion para que seus samurais criem paginas, atualizem databases e organizem documentacao automaticamente.', color: '#F0F0F0', features: ['Criar e editar paginas', 'Consultar databases', 'Organizar wikis', 'Templates automaticos'], connected: true, duration: '2:45', action: 'Desconectar' },
+      hubspot: { name: 'HubSpot', desc: 'CRM completo. Seus samurais podem gerenciar contatos, deals, pipelines e automatizar follow-ups de vendas.', color: '#FEE2E2', features: ['Gerenciar contatos e deals', 'Automatizar follow-ups', 'Pipeline de vendas', 'Relatorios e analytics'], connected: false, duration: '4:00', action: 'Conectar' },
+      clickup: { name: 'ClickUp', desc: 'Gerenciamento de tarefas e projetos. Seus samurais podem criar, atualizar e priorizar tasks automaticamente.', color: '#F3E8FF', features: ['Criar e atualizar tasks', 'Gerenciar sprints', 'Automatizar workflows', 'Time tracking'], connected: false, duration: '2:30', action: 'Conectar' },
+      github: { name: 'GitHub', desc: 'Conecte repositorios para que seus samurais revisem PRs, gerenciem issues e monitorem deployments.', color: '#F0F0F0', features: ['Revisar pull requests', 'Gerenciar issues', 'Monitorar CI/CD', 'Code review automatico'], connected: false, duration: '3:30', action: 'Conectar' },
+      stripe: { name: 'Stripe', desc: 'Pagamentos e assinaturas. Seus samurais podem monitorar transacoes, gerar relatorios e responder disputas.', color: '#EDE9FE', features: ['Monitorar transacoes', 'Gerenciar assinaturas', 'Gerar relatorios', 'Responder disputas'], connected: false, duration: '3:00', action: 'Conectar' },
+      omie: { name: 'Omie ERP', desc: 'Gestao financeira completa. Emissao de NFs, contas a pagar/receber, fluxo de caixa e relatorios gerenciais.', color: '#CCFBF1', features: ['Emissao de NF-e', 'Contas a pagar e receber', 'Fluxo de caixa', 'Relatorios gerenciais'], connected: false, duration: '5:00', action: 'Conectar' },
+      salesforce: { name: 'Salesforce', desc: 'CRM enterprise. Integre leads, oportunidades, campanhas e automacoes de vendas em escala.', color: '#DBEAFE', features: ['Gerenciar leads', 'Pipeline de oportunidades', 'Automatizar campanhas', 'Relatorios avancados'], connected: false, duration: '4:30', action: 'Conectar' },
+      jira: { name: 'Jira', desc: 'Tracking de issues e sprints. Seus samurais podem criar tickets, atualizar status e gerar relatorios de sprint.', color: '#DBEAFE', features: ['Criar e atualizar issues', 'Gerenciar sprints', 'Boards e backlogs', 'Relatorios de velocity'], connected: false, duration: '2:45', action: 'Conectar' },
+      linear: { name: 'Linear', desc: 'Project management moderno. Issues, cycles e roadmaps com interface limpa e rapida.', color: '#F3E8FF', features: ['Criar e gerenciar issues', 'Planejar cycles', 'Roadmap visual', 'Integracao com Git'], connected: false, duration: '2:00', action: 'Conectar' },
+      trello: { name: 'Trello', desc: 'Kanban visual. Seus samurais podem mover cards, criar checklists e automatizar workflows.', color: '#DBEAFE', features: ['Mover cards entre listas', 'Criar checklists', 'Automatizar com Butler', 'Power-ups integrados'], connected: false, duration: '1:30', action: 'Conectar' },
+      discord: { name: 'Discord', desc: 'Comunidades e servidores. Seus samurais podem moderar, responder e gerenciar canais automaticamente.', color: '#EDE9FE', features: ['Enviar mensagens em canais', 'Moderar conteudo', 'Gerenciar roles', 'Bots customizados'], connected: false, duration: '2:15', action: 'Conectar' },
+      shopify: { name: 'Shopify', desc: 'E-commerce completo. Gerenciar produtos, pedidos, estoque e atendimento ao cliente automaticamente.', color: '#DCFCE7', features: ['Gerenciar produtos', 'Processar pedidos', 'Controle de estoque', 'Atendimento ao cliente'], connected: false, duration: '3:45', action: 'Conectar' },
+      asana: { name: 'Asana', desc: 'Gerenciamento de trabalho em equipe. Tarefas, projetos, timelines e portfolios.', color: '#FEE2E2', features: ['Criar e atribuir tarefas', 'Gerenciar projetos', 'Timeline e dependencias', 'Portfolios e metas'], connected: false, duration: '2:30', action: 'Conectar' },
+      gdrive: { name: 'Google Drive', desc: 'Acesso a arquivos e documentos. Seus samurais podem buscar, criar e organizar documentos.', color: '#FEF3C7', features: ['Buscar documentos', 'Criar e editar Docs', 'Organizar pastas', 'Compartilhar arquivos'], connected: false, duration: '2:00', action: 'Conectar' },
+    };
+
+    function openModal(id) {
+      const conn = connections[id];
+      if (!conn) return;
+      document.getElementById('modalTitle').textContent = conn.name;
+      document.getElementById('modalDesc').textContent = conn.desc;
+      document.getElementById('modalIcon').style.background = conn.color;
+      document.getElementById('modalDuration').textContent = conn.duration;
+      const features = document.getElementById('modalFeatures');
+      features.innerHTML = conn.features.map(f => `<li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>${f}</li>`).join('');
+      const actions = document.getElementById('modalActions');
+      if (conn.connected) {
+        actions.innerHTML = '<button class="btn btn-secondary" style="flex:1;min-height:52px;border-radius:14px;">Configurar</button><button class="btn" style="flex:0.6;min-height:52px;border-radius:14px;background:transparent;color:#D70030;border:1px solid rgba(215,0,48,0.2);" onclick="closeModal()">Desconectar</button>';
+      } else {
+        actions.innerHTML = '<button class="btn btn-primary" style="flex:1;min-height:52px;border-radius:14px;">Conectar com OAuth</button>';
+      }
+      document.getElementById('connModal').classList.add('active');
+    }
+
+    function closeModal() { document.getElementById('connModal').classList.remove('active'); }
+    function openBuilderModal() { document.getElementById('builderModal').classList.add('active'); }
+    function closeBuilderModal() { document.getElementById('builderModal').classList.remove('active'); }
+
+    // Filter
+    let currentFilter = 'all';
+    function setFilter(category, btn) {
+      currentFilter = category;
+      document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
+      btn.classList.add('active');
+      filterConnections();
+    }
+
+    function filterConnections() {
+      const query = document.getElementById('searchInput').value.toLowerCase();
+      document.querySelectorAll('.conn-card').forEach(card => {
+        const name = card.dataset.name.toLowerCase();
+        const cat = card.dataset.category;
+        const matchSearch = !query || name.includes(query);
+        const matchFilter = currentFilter === 'all' || cat === currentFilter;
+        card.style.display = (matchSearch && matchFilter) ? '' : 'none';
+      });
+    }
+
+    // Toggle interactions
+    document.querySelectorAll('.toggle').forEach(t => t.addEventListener('click', () => t.classList.toggle('on')));
+
+    // Close modals on Escape
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape') { closeModal(); closeBuilderModal(); }
+    });
+  </script>
+
 </body>
 </html>
