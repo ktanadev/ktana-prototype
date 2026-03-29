@@ -7,110 +7,418 @@
   <link rel="stylesheet" href="../../shared.css">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Zen+Dots&display=swap" rel="stylesheet">
   <style>
-    body { min-height: 100vh; background: #F5F5F7; }
+    body { min-height: 100vh; background: #F5F5F7; display: flex; flex-direction: column; }
 
-    .main { max-width: 720px; margin: 0 auto; padding: 40px 24px 80px; }
-    h1 { font-family: 'Satoshi', sans-serif; font-size: 22px; font-weight: 700; color: #1D1D1F; margin-bottom: 4px; }
-    .sub { font-family: 'Satoshi', sans-serif; font-size: 13px; color: #86868B; margin-bottom: 32px; }
+    /* Header */
+    .header { position: sticky; top: 0; z-index: 50; background: rgba(245,245,247,0.72); backdrop-filter: saturate(180%) blur(20px); -webkit-backdrop-filter: saturate(180%) blur(20px); border-bottom: 0.5px solid rgba(0,0,0,0.06); padding: 10px 20px; display: flex; align-items: center; gap: 12px; }
+    .header-back { color: #86868B; padding: 8px; cursor: pointer; display: flex; align-items: center; }
+    .header-avatar { width: 36px; height: 36px; border-radius: 50%; border: 1.5px solid rgba(215,0,48,0.15); display: flex; align-items: center; justify-content: center; flex-shrink: 0; background: #FFF; }
+    .header-avatar span { font-family: 'Zen Dots', cursive; font-size: 9px; color: #D70030; }
+    .header-info { flex: 1; }
+    .header-info h2 { font-family: 'Satoshi', sans-serif; font-size: 15px; font-weight: 600; color: #1D1D1F; }
+    .header-info p { font-family: 'Inter', sans-serif; font-size: 11px; color: #86868B; display: flex; align-items: center; gap: 5px; }
+    .header-info p::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: #30D158; }
+    .badge-count { font-family: 'Inter', sans-serif; background: #D70030; color: #FFF; font-size: 11px; font-weight: 600; padding: 2px 8px; border-radius: 10px; flex-shrink: 0; }
 
-    .tabs { display: flex; gap: 2px; background: rgba(0,0,0,0.03); border-radius: 10px; padding: 2px; margin-bottom: 24px; width: fit-content; }
-    .tab { font-family: 'Inter', sans-serif; padding: 6px 16px; border-radius: 8px; font-size: 12px; color: #86868B; cursor: pointer; border: none; background: none; transition: all 0.15s; }
-    .tab.active { background: #FFF; color: #1D1D1F; box-shadow: 0 1px 3px rgba(0,0,0,0.06); font-weight: 500; }
+    /* Chat area */
+    .chat { flex: 1; max-width: 720px; width: 100%; margin: 0 auto; padding: 20px 20px 16px; overflow-y: auto; display: flex; flex-direction: column; gap: 16px; }
 
-    .approval { background: #FFF; border-radius: 20px; border: 1px solid rgba(0,0,0,0.04); padding: 24px; margin-bottom: 10px; transition: box-shadow 0.2s; cursor: pointer; }
-    .approval:hover { box-shadow: 0 4px 20px rgba(0,0,0,0.04); }
-    .approval-urgent { border-left: 2px solid #D70030; }
+    /* Messages */
+    .msg { display: flex; gap: 10px; max-width: 88%; }
+    .msg-user { align-self: flex-end; flex-direction: row-reverse; gap: 0; }
+    .msg-avatar { width: 30px; height: 30px; border-radius: 50%; border: 1px solid rgba(215,0,48,0.15); display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 2px; background: #FFF; }
+    .msg-avatar span { font-family: 'Zen Dots', cursive; font-size: 7px; color: #D70030; }
 
-    .approval-top { display: flex; align-items: start; justify-content: space-between; margin-bottom: 10px; }
-    .approval-agent { display: flex; align-items: center; gap: 10px; }
-    .approval-avatar { width: 32px; height: 32px; border-radius: 50%; border: 1px solid #D2D2D7; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
-    .approval-avatar span { font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 500; color: #86868B; }
-    .approval-meta { font-family: 'Inter', sans-serif; font-size: 11px; color: #86868B; }
-    .approval-title { font-family: 'Satoshi', sans-serif; font-size: 15px; font-weight: 500; color: #1D1D1F; margin-top: 2px; }
+    .bubble { border-radius: 20px; padding: 14px 18px; position: relative; }
+    .bubble-agent { background: #FFF; border: 0.5px solid rgba(0,0,0,0.04); border-top-left-radius: 6px; box-shadow: 0 1px 3px rgba(0,0,0,0.03); }
+    .bubble-user { background: #1D1D1F; color: #F5F5F7; border-bottom-right-radius: 6px; }
+    .bubble p { font-family: 'Satoshi', sans-serif; font-size: 15px; line-height: 1.55; }
+    .bubble p + p { margin-top: 8px; }
+    .bubble-meta { font-family: 'Inter', sans-serif; font-size: 11px; color: #AEAEB2; margin-top: 6px; }
+    .bubble-user .bubble-meta { color: rgba(255,255,255,0.35); }
 
-    .badge-urgent { font-family: 'Inter', sans-serif; padding: 2px 8px; border-radius: 6px; font-size: 11px; font-weight: 500; border: 1px solid rgba(215,0,48,0.15); color: #D70030; }
-    .badge-normal { font-family: 'Inter', sans-serif; padding: 2px 8px; border-radius: 6px; font-size: 11px; font-weight: 500; background: rgba(0,0,0,0.03); color: #86868B; }
+    /* Approval card inside chat */
+    .approval-card {
+      background: #FAFAFA;
+      border: 1px solid rgba(0,0,0,0.06);
+      border-radius: 16px;
+      padding: 16px;
+      margin-top: 12px;
+    }
+    .approval-card.urgent { border-left: 3px solid #D70030; }
+    .approval-card-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
+    .approval-card-agent { display: flex; align-items: center; gap: 8px; }
+    .agent-dot { width: 24px; height: 24px; border-radius: 50%; border: 1px solid rgba(215,0,48,0.12); display: flex; align-items: center; justify-content: center; background: #FFF; }
+    .agent-dot span { font-family: 'Zen Dots', cursive; font-size: 6px; color: #D70030; }
+    .agent-name { font-family: 'Inter', sans-serif; font-size: 12px; color: #86868B; }
+    .agent-name strong { color: #1D1D1F; font-weight: 500; }
+    .badge-urgent { font-family: 'Inter', sans-serif; font-size: 10px; font-weight: 500; color: #D70030; background: rgba(215,0,48,0.06); padding: 2px 8px; border-radius: 6px; }
+    .badge-normal { font-family: 'Inter', sans-serif; font-size: 10px; font-weight: 500; color: #86868B; background: rgba(0,0,0,0.03); padding: 2px 8px; border-radius: 6px; }
 
-    .approval-body { font-family: 'Satoshi', sans-serif; font-size: 13px; color: #86868B; line-height: 1.5; margin-left: 42px; margin-bottom: 14px; }
-    .approval-rec { font-family: 'Satoshi', sans-serif; font-size: 12px; color: #86868B; margin-left: 42px; margin-bottom: 14px; font-style: italic; }
+    .approval-card-title { font-family: 'Satoshi', sans-serif; font-size: 14px; font-weight: 600; color: #1D1D1F; margin-bottom: 6px; }
+    .approval-card-body { font-family: 'Satoshi', sans-serif; font-size: 13px; color: #86868B; line-height: 1.5; margin-bottom: 4px; }
+    .approval-card-rec { font-family: 'Satoshi', sans-serif; font-size: 12px; color: #6E6E73; font-style: italic; margin-bottom: 12px; }
 
-    .approval-actions { display: flex; gap: 8px; margin-left: 42px; }
-    .btn-approve { font-family: 'Inter', sans-serif; padding: 7px 18px; border-radius: 980px; background: #1D1D1F; color: #F5F5F7; font-size: 12px; font-weight: 500; border: none; cursor: pointer; }
-    .btn-edit { font-family: 'Inter', sans-serif; padding: 7px 18px; border-radius: 980px; background: transparent; color: #86868B; font-size: 12px; border: 0.5px solid rgba(0,0,0,0.08); cursor: pointer; }
-    .btn-reject { font-family: 'Inter', sans-serif; padding: 7px 14px; border-radius: 980px; background: transparent; color: #D70030; font-size: 12px; border: none; cursor: pointer; font-weight: 500; }
+    .approval-actions { display: flex; gap: 8px; flex-wrap: wrap; }
+    .btn-approve { font-family: 'Inter', sans-serif; padding: 8px 20px; border-radius: 980px; background: #1D1D1F; color: #F5F5F7; font-size: 13px; font-weight: 500; border: none; cursor: pointer; transition: all 0.15s; display: flex; align-items: center; gap: 6px; }
+    .btn-approve:hover { background: #000; }
+    .btn-approve:active { transform: scale(0.97); }
+    .btn-edit { font-family: 'Inter', sans-serif; padding: 8px 16px; border-radius: 980px; background: transparent; color: #86868B; font-size: 13px; border: 0.5px solid rgba(0,0,0,0.08); cursor: pointer; transition: all 0.15s; }
+    .btn-edit:hover { background: rgba(0,0,0,0.03); color: #1D1D1F; }
+    .btn-reject { font-family: 'Inter', sans-serif; padding: 8px 16px; border-radius: 980px; background: transparent; color: #D70030; font-size: 13px; border: none; cursor: pointer; font-weight: 500; transition: all 0.15s; }
+    .btn-reject:hover { background: rgba(215,0,48,0.04); }
 
-    .approval-time { font-family: 'Inter', sans-serif; font-size: 11px; color: #AEAEB2; margin-left: 42px; margin-top: 10px; }
+    /* Approved state */
+    .approval-card.approved { opacity: 0.5; border-color: rgba(48,209,88,0.2); }
+    .approval-card.approved .approval-actions { display: none; }
+    .approval-card.rejected { opacity: 0.35; }
+    .approval-card.rejected .approval-actions { display: none; }
+    .status-badge { font-family: 'Inter', sans-serif; display: inline-flex; align-items: center; gap: 5px; padding: 6px 12px; border-radius: 10px; font-size: 12px; font-weight: 500; margin-top: 8px; }
+    .status-approved { background: rgba(48,209,88,0.08); color: #248A3D; }
+    .status-rejected { background: rgba(215,0,48,0.06); color: #D70030; }
+
+    /* Separator in chat */
+    .chat-separator { text-align: center; padding: 8px 0; }
+    .chat-separator span { font-family: 'Inter', sans-serif; font-size: 11px; color: #AEAEB2; background: #F5F5F7; padding: 0 12px; }
+
+    /* Typing indicator */
+    .typing { display: flex; align-items: center; gap: 10px; padding: 8px 0; }
+    .typing-dots { display: flex; gap: 4px; }
+    .typing-dot { width: 6px; height: 6px; border-radius: 50%; background: #D2D2D7; animation: typingBounce 1.4s ease infinite; }
+    .typing-dot:nth-child(2) { animation-delay: 0.2s; }
+    .typing-dot:nth-child(3) { animation-delay: 0.4s; }
+    @keyframes typingBounce { 0%,60%,100% { transform: translateY(0); } 30% { transform: translateY(-4px); } }
+    .typing-text { font-family: 'Inter', sans-serif; font-size: 11px; color: #AEAEB2; }
+
+    /* Input area */
+    .input-area { padding: 12px 20px 28px; border-top: 0.5px solid rgba(0,0,0,0.06); background: rgba(245,245,247,0.9); backdrop-filter: blur(20px); }
+    .input-row { display: flex; gap: 8px; max-width: 720px; margin: 0 auto; align-items: flex-end; }
+    .chat-input {
+      font-family: 'Satoshi', sans-serif; flex: 1;
+      padding: 14px 20px; border-radius: 24px;
+      border: 0.5px solid rgba(0,0,0,0.08); background: #FFF;
+      font-size: 15px; color: #1D1D1F; outline: none;
+      min-height: 48px; max-height: 120px; resize: none;
+      transition: border-color 0.15s, box-shadow 0.15s;
+    }
+    .chat-input:focus { border-color: rgba(215,0,48,0.2); box-shadow: 0 0 0 3px rgba(215,0,48,0.04); }
+    .chat-input::placeholder { color: #AEAEB2; }
+    .send-btn {
+      width: 48px; height: 48px; border-radius: 50%;
+      background: #1D1D1F; color: #F5F5F7;
+      border: none; cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      transition: background 0.15s, transform 0.1s;
+      flex-shrink: 0;
+    }
+    .send-btn:hover { background: #000; }
+    .send-btn:active { transform: scale(0.93); }
+    .send-btn svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+
+    /* Suggestions */
+    .suggestions { display: flex; gap: 6px; overflow-x: auto; padding: 8px 0 4px; -webkit-overflow-scrolling: touch; }
+    .suggestion { font-family: 'Inter', sans-serif; white-space: nowrap; padding: 8px 16px; border-radius: 20px; border: 0.5px solid rgba(0,0,0,0.08); font-size: 12px; color: #86868B; cursor: pointer; transition: all 0.15s; flex-shrink: 0; background: #FFF; }
+    .suggestion:hover { background: #1D1D1F; color: #F5F5F7; border-color: #1D1D1F; }
+
+    /* Animations */
+    .msg { opacity: 0; animation: msgSlide 0.4s cubic-bezier(0.25,0.1,0.25,1) forwards; }
+    @keyframes msgSlide { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+    .msg:nth-child(1) { animation-delay: 0.1s; }
+    .msg:nth-child(2) { animation-delay: 0.5s; }
+    .msg:nth-child(3) { animation-delay: 0.9s; }
+    .msg:nth-child(4) { animation-delay: 1.3s; }
+    .msg:nth-child(5) { animation-delay: 1.7s; }
+    .msg:nth-child(6) { animation-delay: 2.1s; }
+
+    @media (max-width: 640px) {
+      .msg { max-width: 95%; }
+      .approval-card { padding: 14px; }
+      .approval-actions { gap: 6px; }
+    }
   </style>
 </head>
 <body>
 
-  <main class="main"><div class="gradient-header">
-    <h1 class="fade-in">Aprovacoes</h1>
-    <p class="sub fade-in">3 acoes precisam da sua decisao.</p>
+  <!-- Header -->
+  <div class="header">
+    <a href="../dashboard/home.html" class="header-back"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg></a>
+    <div class="header-avatar"><span>A</span></div>
+    <div class="header-info">
+      <h2>Akira</h2>
+      <p>Chefe de Gabinete · 3 pendentes</p>
+    </div>
+    <span class="badge-count">3</span>
+  </div>
 
-    <div class="tabs fade-in">
-      <button class="tab active">Pendentes (3)</button>
-      <button class="tab">Resolvidas</button>
-      <button class="tab">Todas</button>
+  <!-- Chat -->
+  <div class="chat" id="chat">
+
+    <!-- Akira greeting -->
+    <div class="msg">
+      <div class="msg-avatar"><span>A</span></div>
+      <div>
+        <div class="bubble bubble-agent">
+          <p>Bom dia. Voce tem <strong>3 decisoes</strong> pendentes. Resumo rapido:</p>
+          <p>1 urgente (financeiro), 2 normais (comunicacao e agenda). Vou te apresentar uma por uma — aprova, rejeita ou me pede mais contexto.</p>
+        </div>
+        <p class="bubble-meta">Akira · 08:15</p>
+      </div>
     </div>
 
-    <div class="approval approval-urgent fade-in" style="animation-delay:0.1s">
-      <div class="approval-top">
-        <div class="approval-agent">
-          <div class="approval-avatar"><span>Y</span></div>
-          <div>
-            <p class="approval-meta">Yuki · Controller · ha 2 horas</p>
-            <p class="approval-title">Cobrar Cliente Y — R$ 12.000</p>
+    <!-- Approval 1 — Urgent -->
+    <div class="msg">
+      <div class="msg-avatar"><span>A</span></div>
+      <div>
+        <div class="bubble bubble-agent">
+          <p><strong>Decisao 1 de 3</strong></p>
+
+          <div class="approval-card urgent" id="card-1">
+            <div class="approval-card-header">
+              <div class="approval-card-agent">
+                <div class="agent-dot"><span>Y</span></div>
+                <span class="agent-name"><strong>Yuki</strong> · Controller</span>
+              </div>
+              <span class="badge-urgent">Urgente</span>
+            </div>
+            <p class="approval-card-title">Cobrar Cliente Y — R$ 12.000</p>
+            <p class="approval-card-body">15 dias de atraso. Fatura #892. Duas tentativas de contato sem retorno (email 20/03, WhatsApp 25/03). Acima da sua alcada de R$5.000.</p>
+            <p class="approval-card-rec">Kaito (CFO) recomenda: aprovar com juros de 2% — total R$12.240, prazo 5 dias uteis.</p>
+            <div class="approval-actions">
+              <button class="btn-approve" onclick="approveCard('card-1', this)">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+                Aprovar cobranca
+              </button>
+              <button class="btn-edit" onclick="location.href='detail.html'">Ver rascunho</button>
+              <button class="btn-reject" onclick="rejectCard('card-1', this)">Rejeitar</button>
+            </div>
           </div>
         </div>
-        <span class="badge-urgent">Urgente</span>
-      </div>
-      <p class="approval-body">15 dias de atraso. Fatura #892. Acima da alcada de R$5.000. Rascunho da cobranca com juros de 2% preparado.</p>
-      <p class="approval-rec">Kaito (CFO) recomenda: aprovar com juros de 2%.</p>
-      <div class="approval-actions">
-        <button class="btn-approve" onclick="this.closest('.approval').style.opacity='0.4'; this.textContent='Aprovado'">Aprovar</button>
-        <button class="btn-edit">Editar rascunho</button>
-        <button class="btn-reject">Rejeitar</button>
+        <p class="bubble-meta">Akira · 08:15</p>
       </div>
     </div>
 
-    <div class="approval fade-in" style="animation-delay:0.2s">
-      <div class="approval-top">
-        <div class="approval-agent">
-          <div class="approval-avatar"><span>H</span></div>
-          <div>
-            <p class="approval-meta">Hana · Secretaria · ha 1 hora</p>
-            <p class="approval-title">Responder email do investidor</p>
+    <!-- Approval 2 -->
+    <div class="msg">
+      <div class="msg-avatar"><span>A</span></div>
+      <div>
+        <div class="bubble bubble-agent">
+          <p><strong>Decisao 2 de 3</strong></p>
+
+          <div class="approval-card" id="card-2">
+            <div class="approval-card-header">
+              <div class="approval-card-agent">
+                <div class="agent-dot"><span>H</span></div>
+                <span class="agent-name"><strong>Hana</strong> · Secretaria</span>
+              </div>
+              <span class="badge-normal">Normal</span>
+            </div>
+            <p class="approval-card-title">Responder email do investidor</p>
+            <p class="approval-card-body">"Prezado Sr. Silva, confirmamos a reuniao de 02/04 as 14h. Segue em anexo a pauta atualizada conforme discutido."</p>
+            <p class="approval-card-rec">Hana preparou o rascunho. Tom profissional, pauta anexada.</p>
+            <div class="approval-actions">
+              <button class="btn-approve" onclick="approveCard('card-2', this)">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+                Aprovar envio
+              </button>
+              <button class="btn-edit" onclick="location.href='edit.html'">Editar antes</button>
+              <button class="btn-reject" onclick="rejectCard('card-2', this)">Rejeitar</button>
+            </div>
           </div>
         </div>
-        <span class="badge-normal">Normal</span>
-      </div>
-      <p class="approval-body">"Prezado Sr. Silva, confirmamos a reuniao de 02/04 as 14h. Segue em anexo a pauta atualizada conforme discutido."</p>
-      <div class="approval-actions">
-        <button class="btn-approve" onclick="this.closest('.approval').style.opacity='0.4'; this.textContent='Aprovado'">Aprovar envio</button>
-        <button class="btn-edit">Editar antes</button>
-        <button class="btn-reject">Rejeitar</button>
+        <p class="bubble-meta">Akira · 08:15</p>
       </div>
     </div>
 
-    <div class="approval fade-in" style="animation-delay:0.3s">
-      <div class="approval-top">
-        <div class="approval-agent">
-          <div class="approval-avatar"><span>H</span></div>
-          <div>
-            <p class="approval-meta">Haruki · PM · ha 30 min</p>
-            <p class="approval-title">Remarcar daily de terca para quarta</p>
+    <!-- Approval 3 -->
+    <div class="msg">
+      <div class="msg-avatar"><span>A</span></div>
+      <div>
+        <div class="bubble bubble-agent">
+          <p><strong>Decisao 3 de 3</strong></p>
+
+          <div class="approval-card" id="card-3">
+            <div class="approval-card-header">
+              <div class="approval-card-agent">
+                <div class="agent-dot"><span>H</span></div>
+                <span class="agent-name"><strong>Haruki</strong> · PM</span>
+              </div>
+              <span class="badge-normal">Normal</span>
+            </div>
+            <p class="approval-card-title">Remarcar daily de terca para quarta</p>
+            <p class="approval-card-body">Conflito com reuniao de cliente. Todos os participantes ja foram notificados previamente. Sala mantida.</p>
+            <div class="approval-actions">
+              <button class="btn-approve" onclick="approveCard('card-3', this)">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+                Aprovar
+              </button>
+              <button class="btn-reject" onclick="rejectCard('card-3', this)">Rejeitar</button>
+            </div>
           </div>
         </div>
-        <span class="badge-normal">Normal</span>
-      </div>
-      <p class="approval-body">Motivo: conflito com reuniao de cliente. Todos os participantes ja foram notificados.</p>
-      <div class="approval-actions">
-        <button class="btn-approve" onclick="this.closest('.approval').style.opacity='0.4'; this.textContent='Aprovado'">Aprovar</button>
-        <button class="btn-reject">Rejeitar</button>
+        <p class="bubble-meta">Akira · 08:16</p>
       </div>
     </div>
-  </main>
+
+    <!-- Akira summary prompt -->
+    <div class="msg">
+      <div class="msg-avatar"><span>A</span></div>
+      <div>
+        <div class="bubble bubble-agent">
+          <p>Essas sao as 3. Se quiser, posso aprovar todas de uma vez, ou me diz qual quer discutir.</p>
+        </div>
+        <p class="bubble-meta">Akira · 08:16</p>
+      </div>
+    </div>
+
+    <!-- Typing indicator -->
+    <div class="typing" id="typing" style="display: none;">
+      <div class="msg-avatar"><span>A</span></div>
+      <div class="typing-dots">
+        <div class="typing-dot"></div>
+        <div class="typing-dot"></div>
+        <div class="typing-dot"></div>
+      </div>
+      <span class="typing-text">Akira esta processando...</span>
+    </div>
+  </div>
+
+  <!-- Input area -->
+  <div class="input-area">
+    <div style="max-width: 720px; margin: 0 auto;">
+      <div class="suggestions" id="suggestions">
+        <button class="suggestion" onclick="sendSuggestion(this)">Aprovar todas</button>
+        <button class="suggestion" onclick="sendSuggestion(this)">Me conta mais sobre o Cliente Y</button>
+        <button class="suggestion" onclick="sendSuggestion(this)">Editar email do investidor</button>
+        <button class="suggestion" onclick="sendSuggestion(this)">Historico de aprovacoes</button>
+        <button class="suggestion" onclick="sendSuggestion(this)">O que mais aconteceu hoje?</button>
+      </div>
+
+      <div class="input-row">
+        <textarea class="chat-input" id="chatInput" placeholder="Fale com Akira..." rows="1" onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();sendMessage()}" oninput="autoResize(this)"></textarea>
+        <button class="send-btn" onclick="sendMessage()">
+          <svg viewBox="0 0 24 24"><path d="M22 2L11 13"/><path d="M22 2L15 22L11 13L2 9L22 2Z"/></svg>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    let pendingCount = 3;
+
+    function updateBadge() {
+      const badge = document.querySelector('.badge-count');
+      const info = document.querySelector('.header-info p');
+      if (pendingCount > 0) {
+        badge.textContent = pendingCount;
+        info.innerHTML = '';
+        info.textContent = 'Chefe de Gabinete · ' + pendingCount + ' pendente' + (pendingCount > 1 ? 's' : '');
+        // Re-add the green dot
+        const dot = document.createElement('span');
+        dot.style.cssText = 'width:6px;height:6px;border-radius:50%;background:#30D158;display:inline-block;margin-right:5px;';
+        info.prepend(dot);
+      } else {
+        badge.style.background = '#30D158';
+        badge.textContent = '0';
+        info.innerHTML = '';
+        info.textContent = 'Chefe de Gabinete · Tudo em dia';
+        const dot = document.createElement('span');
+        dot.style.cssText = 'width:6px;height:6px;border-radius:50%;background:#30D158;display:inline-block;margin-right:5px;';
+        info.prepend(dot);
+        // Akira celebrates
+        addAgentMessage('Pronto. Todas as decisoes processadas. Seus samurais ja estao executando. Precisa de mais alguma coisa?');
+      }
+    }
+
+    function approveCard(cardId, btn) {
+      const card = document.getElementById(cardId);
+      card.classList.add('approved');
+      const statusEl = document.createElement('div');
+      statusEl.className = 'status-badge status-approved';
+      statusEl.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg> Aprovado';
+      card.appendChild(statusEl);
+      pendingCount--;
+      updateBadge();
+    }
+
+    function rejectCard(cardId, btn) {
+      const card = document.getElementById(cardId);
+      card.classList.add('rejected');
+      const statusEl = document.createElement('div');
+      statusEl.className = 'status-badge status-rejected';
+      statusEl.textContent = 'Rejeitado';
+      card.appendChild(statusEl);
+      pendingCount--;
+      updateBadge();
+    }
+
+    function autoResize(el) {
+      el.style.height = 'auto';
+      el.style.height = Math.min(el.scrollHeight, 120) + 'px';
+    }
+
+    function addAgentMessage(text) {
+      const chat = document.getElementById('chat');
+      const typing = document.getElementById('typing');
+      typing.style.display = 'flex';
+      chat.scrollTop = chat.scrollHeight;
+
+      setTimeout(() => {
+        typing.style.display = 'none';
+        const msg = document.createElement('div');
+        msg.className = 'msg';
+        msg.style.animation = 'msgSlide 0.4s ease forwards';
+        msg.innerHTML = '<div class="msg-avatar"><span>A</span></div><div><div class="bubble bubble-agent"><p>' + text + '</p></div><p class="bubble-meta">Akira · ' + new Date().toLocaleTimeString('pt-BR', {hour:'2-digit',minute:'2-digit'}) + '</p></div>';
+        chat.insertBefore(msg, typing);
+        chat.scrollTop = chat.scrollHeight;
+      }, 1200);
+    }
+
+    function sendMessage() {
+      const input = document.getElementById('chatInput');
+      const text = input.value.trim();
+      if (!text) return;
+
+      const chat = document.getElementById('chat');
+      const typing = document.getElementById('typing');
+
+      const userMsg = document.createElement('div');
+      userMsg.className = 'msg msg-user';
+      userMsg.style.animation = 'msgSlide 0.3s ease forwards';
+      userMsg.innerHTML = '<div><div class="bubble bubble-user"><p>' + text + '</p></div><p class="bubble-meta" style="text-align:right;">' + new Date().toLocaleTimeString('pt-BR', {hour:'2-digit',minute:'2-digit'}) + '</p></div>';
+      chat.insertBefore(userMsg, typing);
+
+      input.value = '';
+      input.style.height = 'auto';
+      document.getElementById('suggestions').style.display = 'none';
+
+      // Handle "aprovar todas"
+      const lower = text.toLowerCase();
+      if (lower.includes('aprovar todas') || lower.includes('aprova tudo') || lower.includes('aprova todas')) {
+        setTimeout(() => {
+          document.querySelectorAll('.approval-card:not(.approved):not(.rejected)').forEach(card => {
+            approveCard(card.id, null);
+          });
+        }, 800);
+      } else {
+        // Generic response
+        addAgentMessage('Entendido. Ja estou processando.');
+      }
+
+      chat.scrollTop = chat.scrollHeight;
+    }
+
+    function sendSuggestion(btn) {
+      document.getElementById('chatInput').value = btn.textContent;
+      sendMessage();
+    }
+
+    // Auto-scroll to bottom on load
+    window.addEventListener('load', () => {
+      setTimeout(() => {
+        document.getElementById('chat').scrollTop = document.getElementById('chat').scrollHeight;
+      }, 2500);
+    });
+  </script>
 <script src="../../shared-nav.js?v=1774805559"></script>
 </body>
 </html>
