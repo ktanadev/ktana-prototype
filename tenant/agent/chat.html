@@ -113,10 +113,164 @@
     .msg:nth-child(4) { animation-delay: 0.85s; }
     .msg:nth-child(5) { animation-delay: 1.1s; }
 
+    /* ═══ PIPELINE STAGES ═══ */
+    .pipeline-stages {
+      display: flex;
+      align-items: flex-start;
+      gap: 0;
+      padding: 14px 20px 10px;
+      max-width: 520px;
+      opacity: 0;
+      animation: fadeInPipeline 0.35s ease forwards;
+    }
+    @keyframes fadeInPipeline {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .pipeline-stages .stage {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+      flex: 1;
+    }
+    .pipeline-stages .stage-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: #E8E8ED;
+      border: 2px solid #D2D2D7;
+      transition: all 0.35s cubic-bezier(0.25,0.1,0.25,1);
+      position: relative;
+      z-index: 2;
+    }
+    .pipeline-stages .stage-label {
+      font-family: 'Inter', sans-serif;
+      font-size: 10px;
+      color: #AEAEB2;
+      margin-top: 6px;
+      white-space: nowrap;
+      transition: color 0.3s ease;
+    }
+    .pipeline-stages .stage-line {
+      position: absolute;
+      top: 5px;
+      left: calc(50% + 5px);
+      right: calc(-50% + 5px);
+      height: 2px;
+      background: #E8E8ED;
+      z-index: 1;
+      transition: background 0.35s ease;
+    }
+    .pipeline-stages .stage:last-child .stage-line { display: none; }
+
+    /* Pipeline stage states */
+    .pipeline-stages .stage.active .stage-dot {
+      background: #D70030;
+      border-color: #D70030;
+      box-shadow: 0 0 0 4px rgba(215,0,48,0.12);
+      animation: pipelinePulse 1.2s ease infinite;
+    }
+    .pipeline-stages .stage.active .stage-label {
+      color: #D70030;
+      font-weight: 500;
+    }
+    .pipeline-stages .stage.done .stage-dot {
+      background: #30D158;
+      border-color: #30D158;
+      box-shadow: none;
+    }
+    .pipeline-stages .stage.done .stage-label {
+      color: #248A3D;
+    }
+    .pipeline-stages .stage.done .stage-line {
+      background: #30D158;
+    }
+    .pipeline-stages .stage.pending .stage-dot {
+      background: #E8E8ED;
+      border-color: #D2D2D7;
+    }
+    .pipeline-stages .stage.pending .stage-label {
+      color: #AEAEB2;
+    }
+    @keyframes pipelinePulse {
+      0%, 100% { box-shadow: 0 0 0 4px rgba(215,0,48,0.12); }
+      50% { box-shadow: 0 0 0 7px rgba(215,0,48,0.06); }
+    }
+
+    /* ═══ AGENT BADGE ═══ */
+    .agent-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 3px 10px;
+      border-radius: 8px;
+      background: rgba(215,0,48,0.04);
+      border: 0.5px solid rgba(215,0,48,0.08);
+      margin-bottom: 8px;
+    }
+    .agent-badge-name {
+      font-family: 'Inter', sans-serif;
+      font-size: 11px;
+      font-weight: 600;
+      color: #D70030;
+    }
+    .agent-badge-role {
+      font-family: 'Inter', sans-serif;
+      font-size: 11px;
+      color: #86868B;
+    }
+    .agent-badge-dot {
+      width: 3px;
+      height: 3px;
+      border-radius: 50%;
+      background: #AEAEB2;
+    }
+
+    /* ═══ TOOL INDICATOR ═══ */
+    .tool-indicator {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-family: 'Inter', sans-serif;
+      font-size: 11px;
+      color: #AEAEB2;
+      margin-top: 6px;
+      margin-left: 4px;
+    }
+    .tool-indicator svg {
+      width: 12px;
+      height: 12px;
+      flex-shrink: 0;
+    }
+
+    /* ═══ QUICK ACTION VARIANTS ═══ */
+    .quick-btn-escalate {
+      color: #D70030;
+      border-color: rgba(215,0,48,0.15);
+      background: rgba(215,0,48,0.03);
+    }
+    .quick-btn-escalate:hover {
+      background: #D70030;
+      color: #F5F5F7;
+      border-color: #D70030;
+    }
+    .quick-btn-edit {
+      color: #86868B;
+      border-color: rgba(0,0,0,0.08);
+    }
+    .quick-btn-edit:hover {
+      background: #6E6E73;
+      color: #F5F5F7;
+      border-color: #6E6E73;
+    }
+
     @media (max-width: 640px) {
       .header-tabs { display: none; }
       .metrics { padding: 8px 16px; }
       .msg { max-width: 92%; }
+      .pipeline-stages { max-width: 100%; padding: 12px 12px 8px; }
+      .pipeline-stages .stage-label { font-size: 9px; }
     }
   </style>
 </head>
@@ -166,10 +320,15 @@
     <!-- Agent message with rich content -->
     <div class="msg">
       <div class="msg-avatar">
-        
+
       </div>
       <div>
         <div class="bubble bubble-agent">
+          <div class="agent-badge">
+            <span class="agent-badge-name">Yuki</span>
+            <span class="agent-badge-dot"></span>
+            <span class="agent-badge-role">Controller</span>
+          </div>
           <p>Cliente Y tem <strong>R$12.000</strong> em aberto ha 15 dias. Fatura #892.</p>
           <p>Historico:</p>
           <ul>
@@ -183,6 +342,8 @@
             <button class="quick-btn" onclick="approve(this)">Aprovar cobranca</button>
             <button class="quick-btn" onclick="this.textContent='Abrindo...'; location.href='../approvals/detail.html'">Ver rascunho</button>
             <button class="quick-btn" onclick="this.textContent='Ligando...'">Ligar pro cliente</button>
+            <button class="quick-btn quick-btn-escalate" onclick="escalate(this)">Escalar para lider</button>
+            <button class="quick-btn quick-btn-edit" onclick="editResponse(this)">Editar resposta</button>
           </div>
         </div>
         <p class="bubble-meta">Yuki · 14:32</p>
@@ -202,14 +363,27 @@
     <!-- Agent confirms with action badge -->
     <div class="msg">
       <div class="msg-avatar">
-        
+
       </div>
       <div>
         <div class="bubble bubble-agent">
+          <div class="agent-badge">
+            <span class="agent-badge-name">Yuki</span>
+            <span class="agent-badge-dot"></span>
+            <span class="agent-badge-role">Controller</span>
+          </div>
           <p>Feito. Enviado email + WhatsApp para Cliente Y.</p>
           <p><strong>R$12.240</strong> (com juros 2%). Prazo: 5 dias uteis.</p>
           <p>Acompanho e te aviso quando responder.</p>
           <div class="bubble-action action-done"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg> Cobranca enviada</div>
+          <span class="tool-indicator">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M22 7l-10 7L2 7"/></svg>
+            via Email
+          </span>
+          <span class="tool-indicator">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+            via WhatsApp
+          </span>
         </div>
         <p class="bubble-meta">Yuki · 14:33</p>
       </div>
@@ -218,28 +392,60 @@
     <!-- Pending action from another context -->
     <div class="msg">
       <div class="msg-avatar">
-        
+
       </div>
       <div>
         <div class="bubble bubble-agent">
+          <div class="agent-badge">
+            <span class="agent-badge-name">Yuki</span>
+            <span class="agent-badge-dot"></span>
+            <span class="agent-badge-role">Controller</span>
+          </div>
           <p>Ah, tambem detectei: <strong>Fatura #789</strong> do Cliente Z vence amanha (R$8.200). Ja enviei lembrete por email.</p>
           <div class="bubble-action action-pending">Aguardando pagamento</div>
+          <span class="tool-indicator">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M22 7l-10 7L2 7"/></svg>
+            via Email
+          </span>
         </div>
         <p class="bubble-meta">Yuki · 14:35</p>
+      </div>
+    </div>
+
+    <!-- Pipeline stages (execution transparency) -->
+    <div class="pipeline-stages" id="pipeline" style="display: none;">
+      <div class="stage pending" data-stage="0">
+        <div class="stage-dot"></div>
+        <span class="stage-label">Entendendo...</span>
+        <div class="stage-line"></div>
+      </div>
+      <div class="stage pending" data-stage="1">
+        <div class="stage-dot"></div>
+        <span class="stage-label">Roteando p/ Yuki</span>
+        <div class="stage-line"></div>
+      </div>
+      <div class="stage pending" data-stage="2">
+        <div class="stage-dot"></div>
+        <span class="stage-label">Executando</span>
+        <div class="stage-line"></div>
+      </div>
+      <div class="stage pending" data-stage="3">
+        <div class="stage-dot"></div>
+        <span class="stage-label">Concluido</span>
       </div>
     </div>
 
     <!-- Typing indicator -->
     <div class="typing" id="typing" style="display: none;">
       <div class="msg-avatar">
-        <div style="width:30px;height:30px;border-radius:50%;border:1px solid rgba(215,0,48,0.15);display:flex;align-items:center;justify-content:center;background:#FFF;"><span style="font-family:Zen Dots,cursive;font-size:8px;color:#D70030;">Y</span></div><span style=font-size:11px;color:#86868B>Y</span></div>'">
+        <div style="width:30px;height:30px;border-radius:50%;border:1px solid rgba(215,0,48,0.15);display:flex;align-items:center;justify-content:center;background:#FFF;"><span style="font-family:'Zen Dots',cursive;font-size:8px;color:#D70030;">Y</span></div>
       </div>
       <div class="typing-dots">
         <div class="typing-dot"></div>
         <div class="typing-dot"></div>
         <div class="typing-dot"></div>
       </div>
-      <span class="typing-text">Yuki esta digitando...</span>
+      <span class="typing-text">Yuki esta analisando...</span>
     </div>
   </div>
 
