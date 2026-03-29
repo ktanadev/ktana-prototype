@@ -67,28 +67,43 @@
       '</div>' +
     '</div>';
 
-  // Insert after the page header (h1 + subtitle) — find first card/section after header
+  // Insert after the page header block (h1 + subtitle)
   var h1 = document.querySelector('h1');
   if (!h1) return;
 
-  // Walk forward from h1 to find the first card/section element
-  var node = h1;
-  while (node && node.nextElementSibling) {
-    node = node.nextElementSibling;
-    var cls = node.className || '';
-    var tag = node.tagName;
-    // Stop when we find a card, section, or substantial content block
-    if (cls.includes('card') || cls.includes('section') || cls.includes('cmd-') || cls.includes('stagger') || cls.includes('area-header') || (tag === 'DIV' && node.children.length > 1)) {
-      node.parentNode.insertBefore(widget, node);
-      return;
+  // Find the header container (parent of h1 if it's a wrapper div)
+  var headerBlock = h1.parentNode;
+  // If parent is a small wrapper (area-header, greeting, ikigai-hero), use parent level
+  var headerCls = (headerBlock.className || '');
+  if (headerCls.includes('header') || headerCls.includes('greeting') || headerCls.includes('hero') || headerBlock.children.length <= 3) {
+    // Insert after the header block
+    if (headerBlock.nextElementSibling) {
+      headerBlock.parentNode.insertBefore(widget, headerBlock.nextElementSibling);
+    } else {
+      headerBlock.parentNode.appendChild(widget);
     }
-  }
-  // Fallback: insert after h1's parent block
-  var parent = h1.parentNode;
-  if (parent && parent.nextElementSibling) {
-    parent.parentNode.insertBefore(widget, parent.nextElementSibling);
-  } else if (parent) {
-    parent.appendChild(widget);
+  } else {
+    // h1 is directly in a large container — walk forward from h1
+    var node = h1;
+    var found = false;
+    while (node.nextElementSibling) {
+      node = node.nextElementSibling;
+      var cls = node.className || '';
+      if (cls.includes('card') || cls.includes('section') || cls.includes('cmd-') || cls.includes('stagger') || (node.tagName === 'DIV' && node.children.length > 2)) {
+        node.parentNode.insertBefore(widget, node);
+        found = true;
+        break;
+      }
+    }
+    if (!found) {
+      // Insert after subtitle (p after h1)
+      var sub = h1.nextElementSibling;
+      if (sub && sub.tagName === 'P') {
+        sub.parentNode.insertBefore(widget, sub.nextElementSibling);
+      } else {
+        h1.parentNode.insertBefore(widget, h1.nextElementSibling);
+      }
+    }
   }
 
   // Inject styles
