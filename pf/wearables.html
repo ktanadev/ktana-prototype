@@ -66,6 +66,8 @@
     .potential-icon { width: 40px; height: 40px; border-radius: 12px; background: rgba(0,0,0,0.02); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
     .potential-name { font-family: 'Satoshi', sans-serif; font-size: 14px; color: #AEAEB2; flex: 1; }
     .potential-data { font-family: 'Inter', sans-serif; font-size: 11px; color: #D2D2D7; }
+    .fallback-link { font-family: 'Inter', sans-serif; font-size: 11px; color: #AEAEB2; cursor: pointer; flex-shrink: 0; transition: color 0.15s; text-decoration: none; }
+    .fallback-link:hover { color: #D70030; }
 
     .fade-in { animation: fadeIn 0.3s cubic-bezier(0.25,0.1,0.25,1) both; }
     @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
@@ -159,15 +161,15 @@
 
     <!-- Compatible (visual reference — greyed) -->
     <p class="section-label fade-in" style="animation-delay:0.2s">Compativeis</p>
-    <div class="device fade-in" style="animation-delay:0.25s;opacity:0.6;">
-      <div class="potential"><div class="potential-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#D2D2D7" stroke-width="1.5"><rect x="6" y="2" width="12" height="20" rx="3"/><circle cx="12" cy="12" r="4"/></svg></div><span class="potential-name">Samsung Galaxy Watch</span><span class="potential-data">FC, sono, passos</span></div>
-      <div class="potential"><div class="potential-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#D2D2D7" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div><span class="potential-name">Garmin</span><span class="potential-data">VO2max, Body Battery</span></div>
-      <div class="potential"><div class="potential-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#D2D2D7" stroke-width="1.5"><rect x="7" y="4" width="10" height="16" rx="2"/></svg></div><span class="potential-name">Fitbit</span><span class="potential-data">Passos, sono, FC</span></div>
-      <div class="potential"><div class="potential-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#D2D2D7" stroke-width="1.5"><rect x="8" y="3" width="8" height="18" rx="4"/></svg></div><span class="potential-name">Xiaomi Smart Band</span><span class="potential-data">Passos, sono</span></div>
-      <div class="potential"><div class="potential-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#D2D2D7" stroke-width="1.5"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg></div><span class="potential-name">Whoop 4.0</span><span class="potential-data">Strain, recovery, HRV</span></div>
-      <div class="potential"><div class="potential-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#D2D2D7" stroke-width="1.5"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></div><span class="potential-name">Meta Ray-Ban Smart Glasses</span><span class="potential-data">Visao, audio, contexto</span></div>
+    <div class="device fade-in" style="animation-delay:0.25s;">
+      <div class="potential"><div class="potential-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#D2D2D7" stroke-width="1.5"><rect x="6" y="2" width="12" height="20" rx="3"/><circle cx="12" cy="12" r="4"/></svg></div><span class="potential-name">Samsung Galaxy Watch</span><a class="fallback-link" onclick="quickMsg('Quero conectar meu Samsung Galaxy Watch')">Conectar</a></div>
+      <div class="potential"><div class="potential-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#D2D2D7" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div><span class="potential-name">Garmin</span><a class="fallback-link" onclick="quickMsg('Tenho um Garmin')">Conectar</a></div>
+      <div class="potential"><div class="potential-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#D2D2D7" stroke-width="1.5"><rect x="7" y="4" width="10" height="16" rx="2"/></svg></div><span class="potential-name">Fitbit</span><a class="fallback-link" onclick="quickMsg('Quero conectar meu Fitbit')">Conectar</a></div>
+      <div class="potential"><div class="potential-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#D2D2D7" stroke-width="1.5"><rect x="8" y="3" width="8" height="18" rx="4"/></svg></div><span class="potential-name">Xiaomi Smart Band</span><a class="fallback-link" onclick="quickMsg('Tenho Xiaomi Smart Band')">Conectar</a></div>
+      <div class="potential"><div class="potential-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#D2D2D7" stroke-width="1.5"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg></div><span class="potential-name">Whoop 4.0</span><a class="fallback-link" onclick="quickMsg('Uso Whoop')">Conectar</a></div>
+      <div class="potential"><div class="potential-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#D2D2D7" stroke-width="1.5"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></div><span class="potential-name">Meta Ray-Ban Smart Glasses</span><a class="fallback-link" onclick="quickMsg('Quero conectar Meta Ray-Ban')">Conectar</a></div>
     </div>
-    <p style="font-family:'Inter',sans-serif;font-size:11px;color:#AEAEB2;text-align:center;margin-top:8px;">Para conectar, basta conversar com Yumi acima.</p>
+    <p style="font-family:'Inter',sans-serif;font-size:11px;color:#AEAEB2;text-align:center;margin-top:8px;">Clicar em Conectar inicia a conversa com Yumi automaticamente.</p>
 
   </div></main>
 
@@ -194,8 +196,11 @@
     }
 
     function quickMsg(text) {
-      document.getElementById('chatInput').value = text;
-      sendMsg();
+      document.querySelector('.chat-card').scrollIntoView({behavior:'smooth',block:'center'});
+      setTimeout(function() {
+        document.getElementById('chatInput').value = text;
+        sendMsg();
+      }, 400);
     }
 
     function escapeHtml(t) { var d = document.createElement('div'); d.appendChild(document.createTextNode(t)); return d.innerHTML; }
