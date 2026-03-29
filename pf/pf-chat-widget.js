@@ -115,8 +115,9 @@
   // Inject styles
   var style = document.createElement('style');
   style.textContent =
-    '.pf-chat-widget { margin-bottom: 24px; }' +
-    '.pcw-inner { background: #FFF; border-radius: 24px; border: 1px solid rgba(0,0,0,0.04); padding: 20px; box-shadow: 0 2px 16px rgba(0,0,0,0.03); }' +
+    '.pf-chat-widget { margin-bottom: 24px; animation: fadeIn 0.3s ease both; }' +
+    '@keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }' +
+    '.pcw-inner { background: #FFF; border-radius: 24px; border: 1px solid rgba(215,0,48,0.08); padding: 20px; box-shadow: 0 2px 20px rgba(215,0,48,0.04); }' +
     '.pcw-header { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; }' +
     '.pcw-avatar { width: 36px; height: 36px; border-radius: 50%; border: 1.5px solid; display: flex; align-items: center; justify-content: center; flex-shrink: 0; background: #FFF; }' +
     '.pcw-avatar span { font-family: "Zen Dots", cursive; font-size: 11px; }' +

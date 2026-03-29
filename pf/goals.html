@@ -17,6 +17,21 @@
     /* Overall progress card */
     .overall-card { background: #FFF; border-radius: 20px; border: 1px solid rgba(0,0,0,0.04); padding: 28px; margin-bottom: 24px; text-align: center; }
     .overall-label { font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: #D70030; margin-bottom: 20px; }
+
+    /* Mentor summary */
+    .mentor-summary { display: flex; align-items: flex-start; gap: 12px; padding: 18px 20px; background: rgba(215,0,48,0.02); border: 0.5px solid rgba(215,0,48,0.08); border-radius: 16px; margin-bottom: 18px; }
+    .mentor-summary-avatar { width: 34px; height: 34px; border-radius: 10px; background: rgba(215,0,48,0.06); border: 1px solid rgba(215,0,48,0.1); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .mentor-summary-avatar span { font-family: 'Zen Dots', cursive; font-size: 12px; color: #D70030; }
+    .mentor-summary-text { font-family: 'Satoshi', sans-serif; font-size: 14px; color: #1D1D1F; line-height: 1.6; }
+    .mentor-summary-text strong { color: #D70030; font-weight: 600; }
+    .mentor-summary-time { font-family: 'Inter', sans-serif; font-size: 11px; color: #AEAEB2; margin-top: 4px; }
+    .chat-cta { display: flex; align-items: center; gap: 12px; padding: 16px 20px; background: #1D1D1F; border-radius: 16px; cursor: pointer; transition: all 0.15s; margin-bottom: 12px; }
+    .chat-cta:hover { background: #000; }
+    .chat-cta:active { transform: scale(0.98); }
+    .chat-cta-avatar { width: 32px; height: 32px; border-radius: 8px; background: rgba(215,0,48,0.15); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .chat-cta-avatar span { font-family: 'Zen Dots', cursive; font-size: 11px; color: #D70030; }
+    .chat-cta-text { font-family: 'Satoshi', sans-serif; font-size: 14px; color: #F5F5F7; flex: 1; }
+    .chat-cta-arrow { color: #86868B; flex-shrink: 0; }
     .progress-ring-wrap { position: relative; width: 140px; height: 140px; margin: 0 auto 20px; }
     .progress-ring-wrap svg { transform: rotate(-90deg); }
     .progress-ring-bg { fill: none; stroke: rgba(0,0,0,0.04); stroke-width: 8; }
@@ -74,12 +89,23 @@
     <!-- Header -->
     <div class="page-header fade-in">
       <h1>Metas de Vida</h1>
-      <p>Seus objetivos em cada area — os mentores trabalham para voce chegar la</p>
+      <p>Seus mentores estao trabalhando nestas metas — veja o progresso</p>
+    </div>
+
+    <!-- Mentor summary -->
+    <div class="mentor-summary fade-in" style="animation-delay:0.03s;">
+      <div class="mentor-summary-avatar"><span>Y</span></div>
+      <div>
+        <div class="mentor-summary-text">
+          Seus <strong>8 mentores</strong> estao cuidando de suas metas. Saude precisa de atencao — Dr. Kenji ajustou sua rotina noturna ontem. Financas esta quase la: <strong>R$23.400 de R$30k</strong>. Quer que eu ajuste alguma prioridade?
+        </div>
+        <div class="mentor-summary-time">Yumi — resumo do dia</div>
+      </div>
     </div>
 
     <!-- Overall Progress -->
     <div class="overall-card fade-in" style="animation-delay:0.05s;">
-      <div class="overall-label">Progresso geral</div>
+      <div class="overall-label">Seus mentores mediram</div>
       <div class="progress-ring-wrap">
         <svg width="140" height="140" viewBox="0 0 140 140">
           <circle class="progress-ring-bg" cx="70" cy="70" r="58"/>
@@ -447,9 +473,16 @@
       <div class="goal-status"><span class="status-dot"></span>Mika: cozinha e sala organizadas — proximo: escritorio</div>
     </div>
 
+    <!-- Chat CTA -->
+    <div class="chat-cta fade-in" style="animation-delay:0.5s;" onclick="location.href='chat.html'">
+      <div class="chat-cta-avatar"><span>Y</span></div>
+      <div class="chat-cta-text">Falar com Yumi sobre ajustar minhas metas</div>
+      <svg class="chat-cta-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+    </div>
+
   </div></main>
 
-  <script src="pf-chat-widget.js?v=1774805559"></script>
-<script src="../shared-nav.js?v=1774805559"></script>
+  <script src="pf-chat-widget.js?v=1774900000"></script>
+<script src="../shared-nav.js?v=1774900000"></script>
 </body>
 </html>

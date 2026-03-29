@@ -74,6 +74,16 @@
     .btn-chat { font-family: 'Inter', sans-serif; width: 100%; padding: 14px; border-radius: 14px; background: transparent; color: #D70030; font-size: 14px; font-weight: 500; border: 1px solid rgba(215,0,48,0.15); cursor: pointer; margin-top: 10px; transition: background 0.15s; min-height: 52px; }
     .btn-chat:hover { background: rgba(215,0,48,0.02); }
 
+    /* Data viz shared */
+    .chart-header { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 14px; }
+    .chart-header h3 { font-family: 'Zen Dots', cursive; font-size: 15px; color: #1D1D1F; }
+    .chart-period { font-family: 'Inter', sans-serif; font-size: 11px; color: #AEAEB2; }
+    .chart-value-big { font-family: 'Inter', sans-serif; font-size: 28px; font-weight: 700; color: #1D1D1F; line-height: 1; margin-bottom: 4px; }
+    .chart-value-sub { font-family: 'Satoshi', sans-serif; font-size: 12px; color: #86868B; }
+    .data-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .data-grid .card { margin-bottom: 0; }
+    .gauge-label { font-family: 'Satoshi', sans-serif; font-size: 13px; color: #86868B; text-align: center; margin-top: 8px; }
+
     /* Staggered animations */
     .stagger-1 { animation: fadeUp 0.5s cubic-bezier(0.25,0.1,0.25,1) 0.05s both; }
     .stagger-2 { animation: fadeUp 0.5s cubic-bezier(0.25,0.1,0.25,1) 0.12s both; }
@@ -82,10 +92,13 @@
     .stagger-5 { animation: fadeUp 0.5s cubic-bezier(0.25,0.1,0.25,1) 0.33s both; }
     .stagger-6 { animation: fadeUp 0.5s cubic-bezier(0.25,0.1,0.25,1) 0.40s both; }
     .stagger-7 { animation: fadeUp 0.5s cubic-bezier(0.25,0.1,0.25,1) 0.47s both; }
+    .stagger-8 { animation: fadeUp 0.5s cubic-bezier(0.25,0.1,0.25,1) 0.54s both; }
+    .stagger-9 { animation: fadeUp 0.5s cubic-bezier(0.25,0.1,0.25,1) 0.61s both; }
+    .stagger-10 { animation: fadeUp 0.5s cubic-bezier(0.25,0.1,0.25,1) 0.68s both; }
   </style>
 </head>
 <body>
-  <a href="onboarding.html" class="back">← Areas</a>
+  <a href="dashboard.html" class="back">← Meu dia</a>
 
   <div class="container">
 
@@ -98,7 +111,7 @@
 
     <!-- Mentor Card -->
     <div class="card stagger-2">
-      <p class="card-label">Mentor principal</p>
+      <p class="card-label">Mentor cuidando desta area</p>
       <div class="mentor">
         <div class="mentor-avatar"><span>S</span></div>
         <div class="mentor-info">
@@ -116,7 +129,7 @@
 
     <!-- Specialists -->
     <div class="card stagger-3">
-      <p class="card-label">Especialistas (reportam a Sakura)</p>
+      <p class="card-label">Especialistas trabalhando (reportam a Sakura)</p>
       <div class="specialist-list">
         <div class="specialist-item">
           <div class="specialist-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg></div>
@@ -145,9 +158,103 @@
       </div>
     </div>
 
-    <!-- Weekly Goals -->
+    <!-- Health Data: Contact Frequency Heatmap -->
     <div class="card stagger-4">
-      <p class="card-label">Metas desta semana</p>
+      <p class="card-label">Frequencia de Contato — Semanal</p>
+      <div class="chart-header">
+        <h3>Heatmap Social</h3>
+        <span class="chart-period">Ultimas 4 semanas</span>
+      </div>
+      <svg width="100%" height="180" viewBox="0 0 480 180" preserveAspectRatio="xMidYMid meet" style="display:block;">
+        <!-- Row labels -->
+        <text x="0" y="50" font-family="Inter,sans-serif" font-size="10" fill="#86868B">Familia</text>
+        <text x="0" y="82" font-family="Inter,sans-serif" font-size="10" fill="#86868B">Amigos</text>
+        <text x="0" y="114" font-family="Inter,sans-serif" font-size="10" fill="#86868B">Parceiro(a)</text>
+        <text x="0" y="146" font-family="Inter,sans-serif" font-size="10" fill="#86868B">Colegas</text>
+        <!-- Col labels -->
+        <text x="110" y="26" font-family="Inter,sans-serif" font-size="10" fill="#AEAEB2" text-anchor="middle">Sem 1</text>
+        <text x="195" y="26" font-family="Inter,sans-serif" font-size="10" fill="#AEAEB2" text-anchor="middle">Sem 2</text>
+        <text x="280" y="26" font-family="Inter,sans-serif" font-size="10" fill="#AEAEB2" text-anchor="middle">Sem 3</text>
+        <text x="365" y="26" font-family="Inter,sans-serif" font-size="10" fill="#AEAEB2" text-anchor="middle">Sem 4</text>
+        <!-- Heatmap cells: Familia -->
+        <rect x="75" y="36" width="70" height="22" rx="6" fill="#D70030" opacity="0.3"/>
+        <rect x="160" y="36" width="70" height="22" rx="6" fill="#D70030" opacity="0.6"/>
+        <rect x="245" y="36" width="70" height="22" rx="6" fill="#D70030" opacity="0.2"/>
+        <rect x="330" y="36" width="70" height="22" rx="6" fill="#D70030" opacity="0.8"/>
+        <!-- Amigos -->
+        <rect x="75" y="68" width="70" height="22" rx="6" fill="#D70030" opacity="0.5"/>
+        <rect x="160" y="68" width="70" height="22" rx="6" fill="#D70030" opacity="0.3"/>
+        <rect x="245" y="68" width="70" height="22" rx="6" fill="#D70030" opacity="0.7"/>
+        <rect x="330" y="68" width="70" height="22" rx="6" fill="#D70030" opacity="0.4"/>
+        <!-- Parceiro -->
+        <rect x="75" y="100" width="70" height="22" rx="6" fill="#D70030" opacity="0.9"/>
+        <rect x="160" y="100" width="70" height="22" rx="6" fill="#D70030" opacity="0.85"/>
+        <rect x="245" y="100" width="70" height="22" rx="6" fill="#D70030" opacity="0.7"/>
+        <rect x="330" y="100" width="70" height="22" rx="6" fill="#D70030" opacity="0.95"/>
+        <!-- Colegas -->
+        <rect x="75" y="132" width="70" height="22" rx="6" fill="#D70030" opacity="0.4"/>
+        <rect x="160" y="132" width="70" height="22" rx="6" fill="#D70030" opacity="0.5"/>
+        <rect x="245" y="132" width="70" height="22" rx="6" fill="#D70030" opacity="0.6"/>
+        <rect x="330" y="132" width="70" height="22" rx="6" fill="#D70030" opacity="0.3"/>
+        <!-- Scale -->
+        <text x="420" y="90" font-family="Inter,sans-serif" font-size="9" fill="#AEAEB2" text-anchor="start">Intensidade</text>
+        <rect x="420" y="96" width="12" height="8" rx="2" fill="#D70030" opacity="0.2"/>
+        <rect x="436" y="96" width="12" height="8" rx="2" fill="#D70030" opacity="0.5"/>
+        <rect x="452" y="96" width="12" height="8" rx="2" fill="#D70030" opacity="0.8"/>
+        <text x="420" y="118" font-family="Inter,sans-serif" font-size="8" fill="#AEAEB2">Baixo</text>
+        <text x="452" y="118" font-family="Inter,sans-serif" font-size="8" fill="#AEAEB2">Alto</text>
+      </svg>
+    </div>
+
+    <!-- Health Data: Quality Time + Communication Score -->
+    <div class="data-grid stagger-5">
+      <!-- Quality Time Hours -->
+      <div class="card">
+        <p class="card-label">Tempo de Qualidade</p>
+        <div class="chart-value-big">12.5<span style="font-size:14px;font-weight:500;color:#86868B;"> hrs</span></div>
+        <div class="chart-value-sub">Esta semana</div>
+        <svg width="100%" height="80" viewBox="0 0 200 80" preserveAspectRatio="xMidYMid meet" style="display:block;margin-top:12px;">
+          <!-- Area -->
+          <polygon points="10,65 40,50 70,55 100,40 130,35 160,42 190,30 190,75 10,75" fill="#D70030" opacity="0.06"/>
+          <polyline points="10,65 40,50 70,55 100,40 130,35 160,42 190,30" fill="none" stroke="#D70030" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          <circle cx="10" cy="65" r="2.5" fill="#D70030"/>
+          <circle cx="40" cy="50" r="2.5" fill="#D70030"/>
+          <circle cx="70" cy="55" r="2.5" fill="#D70030"/>
+          <circle cx="100" cy="40" r="2.5" fill="#D70030"/>
+          <circle cx="130" cy="35" r="2.5" fill="#D70030"/>
+          <circle cx="160" cy="42" r="2.5" fill="#D70030"/>
+          <circle cx="190" cy="30" r="3.5" fill="#D70030"/>
+          <text x="10" y="76" font-family="Inter,sans-serif" font-size="9" fill="#AEAEB2">Seg</text>
+          <text x="100" y="76" font-family="Inter,sans-serif" font-size="9" fill="#AEAEB2">Qui</text>
+          <text x="180" y="76" font-family="Inter,sans-serif" font-size="9" fill="#AEAEB2">Dom</text>
+        </svg>
+      </div>
+
+      <!-- Communication Score -->
+      <div class="card">
+        <p class="card-label">Score Comunicacao</p>
+        <svg width="100%" height="110" viewBox="0 0 160 110" preserveAspectRatio="xMidYMid meet" style="display:block;margin:0 auto;">
+          <!-- Background arc -->
+          <path d="M 20 90 A 60 60 0 0 1 140 90" fill="none" stroke="rgba(0,0,0,0.06)" stroke-width="12" stroke-linecap="round"/>
+          <!-- Low zone -->
+          <path d="M 20 90 A 60 60 0 0 1 50 38" fill="none" stroke="#D70030" stroke-width="12" stroke-linecap="round" opacity="0.15"/>
+          <!-- Mid zone -->
+          <path d="M 50 38 A 60 60 0 0 1 110 38" fill="none" stroke="#FF9500" stroke-width="12" stroke-linecap="round" opacity="0.15"/>
+          <!-- High zone -->
+          <path d="M 110 38 A 60 60 0 0 1 140 90" fill="none" stroke="#30D158" stroke-width="12" stroke-linecap="round" opacity="0.15"/>
+          <!-- Active (7.8/10 = 78%) -->
+          <path d="M 20 90 A 60 60 0 0 1 124 52" fill="none" stroke="#30D158" stroke-width="12" stroke-linecap="round"/>
+          <circle cx="124" cy="52" r="5" fill="#30D158"/>
+          <text x="80" y="80" font-family="Inter,sans-serif" font-size="22" font-weight="700" fill="#1D1D1F" text-anchor="middle">7.8</text>
+          <text x="80" y="95" font-family="Inter,sans-serif" font-size="10" fill="#86868B" text-anchor="middle">de 10</text>
+        </svg>
+        <p class="gauge-label">Escuta ativa melhorando</p>
+      </div>
+    </div>
+
+    <!-- Weekly Goals -->
+    <div class="card stagger-6">
+      <p class="card-label">Seu mentor esta trabalhando nestas metas</p>
       <div class="goal-row">
         <span class="goal-label">Ligar pra familia 2x</span>
         <div class="goal-progress">
@@ -186,8 +293,8 @@
     </div>
 
     <!-- Recent Activity -->
-    <div class="card stagger-5">
-      <p class="card-label">Atividade recente</p>
+    <div class="card stagger-7">
+      <p class="card-label">O que seu mentor fez por voce</p>
       <div class="activity-item">
         <span class="activity-time">19:00</span>
         <span class="activity-agent">Sakura</span>
@@ -216,14 +323,14 @@
     </div>
 
     <!-- Disclaimer -->
-    <div class="disclaimer stagger-6">
+    <div class="disclaimer stagger-8">
       <div class="disclaimer-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0zM12 9v4M12 17h.01"/></svg></div>
       <p><strong>Aviso importante:</strong> Mentores de relacionamento sao assistentes de inteligencia artificial. Nao substituem terapia de casal ou acompanhamento psicologico. Em crises emocionais, ligue <strong>188 (CVV)</strong>.</p>
     </div>
 
     <!-- Actions -->
-    <button class="btn-edit stagger-7" onclick="location.href='chat.html'" style="display:flex;align-items:center;justify-content:center;gap:8px;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>Falar com Sakura</button>
+    <button class="btn-edit stagger-9" onclick="location.href='chat.html'" style="display:flex;align-items:center;justify-content:center;gap:8px;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>Falar com Sakura</button>
   </div>
 </body>
-</html><script src="pf-chat-widget.js?v=1774805559"></script>
-<script src="../shared-nav.js?v=1774805559"></script>
+</html><script src="pf-chat-widget.js?v=1774900000"></script>
+<script src="../shared-nav.js?v=1774900000"></script>
