@@ -1,21 +1,186 @@
 <!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>Atividade do Tenant — KTANA Admin</title><link rel="stylesheet" href="../shared.css"><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Zen+Dots&display=swap" rel="stylesheet">
-<style>body{min-height:100vh;background:#0A0A0A;color:#F5F5F7;display:flex}.sidebar{position:fixed;left:0;top:0;bottom:0;width:220px;background:#111;border-right:0.5px solid rgba(255,255,255,0.04);padding:20px 0;display:flex;flex-direction:column}.sidebar-logo{padding:0 20px 16px;font-family:'Zen Dots',cursive;font-size:14px;color:#D70030;border-bottom:0.5px solid rgba(255,255,255,0.04);margin-bottom:12px;display:flex;align-items:center;gap:6px}.sidebar-logo span{font-family:'Inter',sans-serif;font-size:11px;color:#AEAEB2}.sidebar a{display:block;padding:8px 20px;font-family:'Inter',sans-serif;font-size:12px;color:#8E8E93;transition:all 0.15s}.sidebar a:hover,.sidebar a.active{color:#F5F5F7;background:rgba(255,255,255,0.04)}.main{margin-left:220px;flex:1;padding:32px}.main h1{font-family:'Satoshi',sans-serif;font-size:20px;font-weight:600;margin-bottom:24px}.card{background:#1C1C1E;border:1px solid rgba(255,255,255,0.04);border-radius:16px;padding:24px;margin-bottom:12px}.card-label{font-family:'Inter',sans-serif;font-size:11px;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;color:#AEAEB2;margin-bottom:14px}.row{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:0.5px solid rgba(255,255,255,0.03);font-size:13px}.row:last-child{border-bottom:none}.row-label{font-family:'Satoshi',sans-serif;color:#8E8E93}.row-value{font-family:'Inter',sans-serif;color:#D2D2D7}.placeholder{font-family:'Satoshi',sans-serif;font-size:14px;color:#AEAEB2;text-align:center;padding:48px 0}</style></head>
+<style>
+body{min-height:100vh;background:#0A0A0A;color:#F5F5F7;display:flex;margin:0;font-family:'Inter',sans-serif}
+.sidebar{position:fixed;left:0;top:0;bottom:0;width:220px;background:#111;border-right:0.5px solid rgba(255,255,255,0.04);padding:20px 0;display:flex;flex-direction:column;z-index:10}
+.sidebar-logo{padding:0 20px 16px;font-family:'Zen Dots',cursive;font-size:14px;color:#D70030;border-bottom:0.5px solid rgba(255,255,255,0.04);margin-bottom:12px;display:flex;align-items:center;gap:6px}
+.sidebar-logo span{font-family:'Inter',sans-serif;font-size:11px;color:#AEAEB2}
+.sidebar a{display:block;padding:8px 20px;font-family:'Inter',sans-serif;font-size:12px;color:#8E8E93;text-decoration:none;transition:all 0.15s}
+.sidebar a:hover,.sidebar a.active{color:#F5F5F7;background:rgba(255,255,255,0.04)}
+.main{margin-left:220px;flex:1;padding:32px}
+.main h1{font-family:'Zen Dots',cursive;font-size:20px;font-weight:600;margin-bottom:8px}
+.breadcrumb{font-size:12px;color:#8E8E93;margin-bottom:24px}
+.breadcrumb a{color:#D70030;text-decoration:none}
+.card{background:#1C1C1E;border:1px solid rgba(255,255,255,0.04);border-radius:16px;padding:24px;margin-bottom:16px}
+.card-label{font-family:'Inter',sans-serif;font-size:11px;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;color:#AEAEB2;margin-bottom:14px}
+.toolbar{display:flex;align-items:center;gap:12px;margin-bottom:20px;flex-wrap:wrap}
+.search-input{background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.06);border-radius:8px;padding:8px 14px;font-size:12px;color:#F5F5F7;width:280px;font-family:'Inter',sans-serif}
+.search-input::placeholder{color:#8E8E93}
+.filter-btn{padding:6px 14px;border-radius:8px;border:1px solid rgba(255,255,255,0.08);background:transparent;color:#8E8E93;font-size:11px;cursor:pointer;font-family:'Inter',sans-serif;transition:all 0.15s}
+.filter-btn:hover,.filter-btn.active{color:#F5F5F7;border-color:rgba(255,255,255,0.15)}
+.activity-item{display:flex;align-items:flex-start;gap:16px;padding:14px 0;border-bottom:0.5px solid rgba(255,255,255,0.03)}
+.activity-item:last-child{border-bottom:none}
+.activity-time{font-size:11px;color:#AEAEB2;white-space:nowrap;min-width:70px;padding-top:2px;font-family:monospace}
+.activity-agent{font-size:12px;font-weight:600;color:#D70030;min-width:110px;white-space:nowrap}
+.activity-desc{font-size:13px;color:#F5F5F7;flex:1;line-height:1.5}
+.tag{display:inline-block;font-size:10px;font-weight:600;padding:2px 8px;border-radius:4px;margin-left:8px;text-transform:uppercase;letter-spacing:0.02em;vertical-align:middle}
+.tag-execute{background:rgba(0,122,255,0.12);color:#0A84FF}
+.tag-decide{background:rgba(191,90,242,0.12);color:#BF5AF2}
+.tag-reflect{background:rgba(255,159,10,0.12);color:#FF9F0A}
+.tag-memory{background:rgba(52,199,89,0.12);color:#34C759}
+.tag-security{background:rgba(215,0,48,0.12);color:#D70030}
+.tag-route{background:rgba(100,210,255,0.12);color:#64D2FF}
+.live-indicator{display:inline-flex;align-items:center;gap:6px;font-size:11px;color:#34C759;font-weight:600;margin-left:auto}
+.live-dot{width:8px;height:8px;border-radius:50%;background:#34C759;animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.4}}
+.date-separator{font-size:12px;color:#AEAEB2;font-weight:600;padding:16px 0 8px;border-bottom:1px solid rgba(255,255,255,0.06);margin-bottom:4px;text-transform:uppercase;letter-spacing:0.04em}
+</style></head>
 <body>
 <nav class="sidebar">
 <div class="sidebar-logo">KTANA <span>ADMIN</span></div>
 <a href="index.html">Overview</a>
-<a href="index.html">Agent Flow</a>
-<a href="index.html">Tenants</a>
-<a href="index.html">Agentes</a>
-<a href="index.html">Health</a>
-<a href="index.html">Billing</a>
-<a href="index.html">Compliance</a>
-<a href="index.html">Catalogo</a>
-<a href="index.html">Config</a>
+<a href="flow.html">Agent Flow</a>
+<a class="active" href="tenants.html">Tenants</a>
+<a href="agents.html">Agentes</a>
+<a href="health.html">Health</a>
+<a href="billing.html">Billing</a>
+<a href="compliance.html">Compliance</a>
+<a href="catalog.html">Catalogo</a>
+<a href="settings.html">Config</a>
 </nav>
 <main class="main">
-<h1 class="fade-in">Atividade do Tenant</h1>
-<div class="card fade-in"><p class="card-label">Detalhes</p><p class="placeholder">Tela detalhada do modulo Atividade do Tenant.<br>Dados de exemplo serao preenchidos conforme especificacao.</p></div>
-<div class="card fade-in" style="animation-delay:0.1s"><p class="card-label">Acoes</p><div class="row"><span class="row-label">Voltar</span><span class="row-value"><a href="index.html" style="color:#D70030;">← Admin</a></span></div></div>
+<div class="breadcrumb"><a href="index.html">Admin</a> / <a href="tenants.html">Tenants</a> / KTANA / Atividade</div>
+<div style="display:flex;align-items:center;gap:16px;margin-bottom:24px">
+  <h1 style="margin:0">Atividade — KTANA</h1>
+  <span class="live-indicator"><span class="live-dot"></span> Live</span>
+</div>
+
+<div class="toolbar">
+  <input type="text" class="search-input" placeholder="Filtrar por agente, acao ou descricao...">
+  <button class="filter-btn active">Todos</button>
+  <button class="filter-btn">Execute</button>
+  <button class="filter-btn">Decide</button>
+  <button class="filter-btn">Reflect</button>
+  <button class="filter-btn">Memory</button>
+  <button class="filter-btn">Security</button>
+</div>
+
+<div class="card">
+  <div class="date-separator">Hoje — 29 Mar 2026</div>
+
+  <div class="activity-item">
+    <span class="activity-time">14:32:08</span>
+    <span class="activity-agent">Ronin-PO</span>
+    <span class="activity-desc">Executou spec-builder para feature "Dashboard Analytics v2" — 4 user stories geradas <span class="tag tag-execute">execute</span></span>
+  </div>
+  <div class="activity-item">
+    <span class="activity-time">14:30:55</span>
+    <span class="activity-agent">Kenshi-Dev</span>
+    <span class="activity-desc">Commit automatico no branch feature/auth-flow — 3 arquivos, 247 linhas <span class="tag tag-execute">execute</span></span>
+  </div>
+  <div class="activity-item">
+    <span class="activity-time">14:28:44</span>
+    <span class="activity-agent">Ronin-PO</span>
+    <span class="activity-desc">Decidiu priorizar backlog #187 sobre #192 — criterio: impacto em retencao <span class="tag tag-decide">decide</span></span>
+  </div>
+  <div class="activity-item">
+    <span class="activity-time">14:22:17</span>
+    <span class="activity-agent">Yojimbo-Sec</span>
+    <span class="activity-desc">Scan de vulnerabilidades completo — 0 criticas, 2 medium (deps desatualizadas) <span class="tag tag-security">security</span></span>
+  </div>
+  <div class="activity-item">
+    <span class="activity-time">14:15:21</span>
+    <span class="activity-agent">Ronin-PO</span>
+    <span class="activity-desc">Reflexao metacognitiva: taxa de acerto em priorizacao +4% apos pattern learning <span class="tag tag-reflect">reflect</span></span>
+  </div>
+  <div class="activity-item">
+    <span class="activity-time">14:10:03</span>
+    <span class="activity-agent">Shinobi-QA</span>
+    <span class="activity-desc">Executou suite de testes E2E — 142/142 passed, 0 flaky, tempo: 3m 22s <span class="tag tag-execute">execute</span></span>
+  </div>
+  <div class="activity-item">
+    <span class="activity-time">13:58:03</span>
+    <span class="activity-agent">Ronin-PO</span>
+    <span class="activity-desc">Consolidou 12 fatos episodicos em 3 fatos semanticos sobre preferencias do tenant <span class="tag tag-memory">memory</span></span>
+  </div>
+  <div class="activity-item">
+    <span class="activity-time">13:45:30</span>
+    <span class="activity-agent">Sensei-Arch</span>
+    <span class="activity-desc">Revisou arquitetura do modulo de billing — recomendou event sourcing para audit trail <span class="tag tag-decide">decide</span></span>
+  </div>
+  <div class="activity-item">
+    <span class="activity-time">13:42:17</span>
+    <span class="activity-agent">Ronin-PO</span>
+    <span class="activity-desc">Gerou user stories para epic "Onboarding Simplificado" — 8 stories com criterios <span class="tag tag-execute">execute</span></span>
+  </div>
+  <div class="activity-item">
+    <span class="activity-time">13:30:00</span>
+    <span class="activity-agent">Router</span>
+    <span class="activity-desc">Roteou tarefa de priorizacao para Ronin-PO — confianca: 94%, latencia: 120ms <span class="tag tag-route">route</span></span>
+  </div>
+  <div class="activity-item">
+    <span class="activity-time">13:15:42</span>
+    <span class="activity-agent">Kenshi-Dev</span>
+    <span class="activity-desc">Implementou endpoint POST /api/v1/agents — validacao, testes unitarios, docs <span class="tag tag-execute">execute</span></span>
+  </div>
+  <div class="activity-item">
+    <span class="activity-time">12:55:42</span>
+    <span class="activity-agent">Ronin-PO</span>
+    <span class="activity-desc">Analise de dependencias entre 5 epics do roadmap Q2 — grafo gerado <span class="tag tag-execute">execute</span></span>
+  </div>
+  <div class="activity-item">
+    <span class="activity-time">12:40:08</span>
+    <span class="activity-agent">Geisha-UX</span>
+    <span class="activity-desc">Gerou 3 variantes de wireframe para tela de onboarding mobile <span class="tag tag-execute">execute</span></span>
+  </div>
+  <div class="activity-item">
+    <span class="activity-time">12:20:11</span>
+    <span class="activity-agent">Ronin-PO</span>
+    <span class="activity-desc">Reflexao: specs com +3 acceptance criteria = 2x retrabalho — ajustando template <span class="tag tag-reflect">reflect</span></span>
+  </div>
+  <div class="activity-item">
+    <span class="activity-time">11:50:33</span>
+    <span class="activity-agent">Shogun-Lead</span>
+    <span class="activity-desc">Code review no PR #234 — aprovado com 2 sugestoes de performance <span class="tag tag-execute">execute</span></span>
+  </div>
+  <div class="activity-item">
+    <span class="activity-time">11:30:00</span>
+    <span class="activity-agent">Kenshi-Dev</span>
+    <span class="activity-desc">Refatorou modulo de autenticacao — reducao de 40% em complexidade ciclomatica <span class="tag tag-execute">execute</span></span>
+  </div>
+  <div class="activity-item">
+    <span class="activity-time">10:45:22</span>
+    <span class="activity-agent">Yojimbo-Sec</span>
+    <span class="activity-desc">Atualizou dependencias com CVEs: next@16.2.1, zod@3.24.3 <span class="tag tag-security">security</span></span>
+  </div>
+  <div class="activity-item">
+    <span class="activity-time">09:00:00</span>
+    <span class="activity-agent">Sistema</span>
+    <span class="activity-desc">Dream engine completou consolidacao noturna — 47 fatos episodicos processados, 12 semanticos gerados <span class="tag tag-memory">memory</span></span>
+  </div>
+
+  <div class="date-separator">Ontem — 28 Mar 2026</div>
+
+  <div class="activity-item">
+    <span class="activity-time">23:45:00</span>
+    <span class="activity-agent">Sistema</span>
+    <span class="activity-desc">Inicio do ciclo de dream engine — consolidacao de memoria noturna <span class="tag tag-memory">memory</span></span>
+  </div>
+  <div class="activity-item">
+    <span class="activity-time">18:30:12</span>
+    <span class="activity-agent">Kenshi-Dev</span>
+    <span class="activity-desc">Deploy automatico para staging — build #1247, 0 erros, 0 warnings <span class="tag tag-execute">execute</span></span>
+  </div>
+  <div class="activity-item">
+    <span class="activity-time">16:20:45</span>
+    <span class="activity-agent">Ronin-PO</span>
+    <span class="activity-desc">Sprint planning automatico — 14 stories selecionadas para Sprint 24 <span class="tag tag-decide">decide</span></span>
+  </div>
+</div>
+
+<div class="card" style="display:flex;justify-content:space-between;align-items:center;padding:16px 24px">
+  <span style="font-size:12px;color:#8E8E93">Mostrando 21 eventos mais recentes</span>
+  <button class="filter-btn">Carregar mais</button>
+</div>
+
 </main>
 </body></html>

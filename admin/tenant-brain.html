@@ -1,21 +1,201 @@
 <!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>Cerebro do Tenant — KTANA Admin</title><link rel="stylesheet" href="../shared.css"><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Zen+Dots&display=swap" rel="stylesheet">
-<style>body{min-height:100vh;background:#0A0A0A;color:#F5F5F7;display:flex}.sidebar{position:fixed;left:0;top:0;bottom:0;width:220px;background:#111;border-right:0.5px solid rgba(255,255,255,0.04);padding:20px 0;display:flex;flex-direction:column}.sidebar-logo{padding:0 20px 16px;font-family:'Zen Dots',cursive;font-size:14px;color:#D70030;border-bottom:0.5px solid rgba(255,255,255,0.04);margin-bottom:12px;display:flex;align-items:center;gap:6px}.sidebar-logo span{font-family:'Inter',sans-serif;font-size:11px;color:#AEAEB2}.sidebar a{display:block;padding:8px 20px;font-family:'Inter',sans-serif;font-size:12px;color:#8E8E93;transition:all 0.15s}.sidebar a:hover,.sidebar a.active{color:#F5F5F7;background:rgba(255,255,255,0.04)}.main{margin-left:220px;flex:1;padding:32px}.main h1{font-family:'Satoshi',sans-serif;font-size:20px;font-weight:600;margin-bottom:24px}.card{background:#1C1C1E;border:1px solid rgba(255,255,255,0.04);border-radius:16px;padding:24px;margin-bottom:12px}.card-label{font-family:'Inter',sans-serif;font-size:11px;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;color:#AEAEB2;margin-bottom:14px}.row{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:0.5px solid rgba(255,255,255,0.03);font-size:13px}.row:last-child{border-bottom:none}.row-label{font-family:'Satoshi',sans-serif;color:#8E8E93}.row-value{font-family:'Inter',sans-serif;color:#D2D2D7}.placeholder{font-family:'Satoshi',sans-serif;font-size:14px;color:#AEAEB2;text-align:center;padding:48px 0}</style></head>
+<style>
+body{min-height:100vh;background:#0A0A0A;color:#F5F5F7;display:flex;margin:0;font-family:'Inter',sans-serif}
+.sidebar{position:fixed;left:0;top:0;bottom:0;width:220px;background:#111;border-right:0.5px solid rgba(255,255,255,0.04);padding:20px 0;display:flex;flex-direction:column;z-index:10}
+.sidebar-logo{padding:0 20px 16px;font-family:'Zen Dots',cursive;font-size:14px;color:#D70030;border-bottom:0.5px solid rgba(255,255,255,0.04);margin-bottom:12px;display:flex;align-items:center;gap:6px}
+.sidebar-logo span{font-family:'Inter',sans-serif;font-size:11px;color:#AEAEB2}
+.sidebar a{display:block;padding:8px 20px;font-family:'Inter',sans-serif;font-size:12px;color:#8E8E93;text-decoration:none;transition:all 0.15s}
+.sidebar a:hover,.sidebar a.active{color:#F5F5F7;background:rgba(255,255,255,0.04)}
+.main{margin-left:220px;flex:1;padding:32px}
+.main h1{font-family:'Zen Dots',cursive;font-size:20px;font-weight:600;margin-bottom:8px}
+.breadcrumb{font-size:12px;color:#8E8E93;margin-bottom:24px}
+.breadcrumb a{color:#D70030;text-decoration:none}
+.card{background:#1C1C1E;border:1px solid rgba(255,255,255,0.04);border-radius:16px;padding:24px;margin-bottom:16px}
+.card-label{font-family:'Inter',sans-serif;font-size:11px;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;color:#AEAEB2;margin-bottom:14px}
+.stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:20px}
+.stat-box{background:#1C1C1E;border:1px solid rgba(255,255,255,0.04);border-radius:16px;padding:20px;text-align:center}
+.stat-value{font-family:'Zen Dots',cursive;font-size:24px;color:#F5F5F7;margin-bottom:4px}
+.stat-label{font-size:11px;color:#8E8E93;text-transform:uppercase;letter-spacing:0.04em}
+.search-box{display:flex;gap:12px;margin-bottom:20px}
+.search-input{background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.06);border-radius:8px;padding:10px 16px;font-size:13px;color:#F5F5F7;flex:1;font-family:'Inter',sans-serif}
+.search-input::placeholder{color:#8E8E93}
+.btn{padding:8px 20px;border-radius:8px;border:none;font-size:12px;cursor:pointer;font-family:'Inter',sans-serif;font-weight:600;transition:all 0.15s}
+.btn-primary{background:#D70030;color:#fff}
+.btn-ghost{background:transparent;border:1px solid rgba(255,255,255,0.08);color:#AEAEB2}
+.btn-ghost:hover{color:#F5F5F7;border-color:rgba(255,255,255,0.15)}
+.row{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:0.5px solid rgba(255,255,255,0.03);font-size:13px}
+.row:last-child{border-bottom:none}
+.row-label{color:#8E8E93}
+.row-value{color:#D2D2D7}
+.agent-bar{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:0.5px solid rgba(255,255,255,0.03)}
+.agent-bar:last-child{border-bottom:none}
+.agent-name{font-weight:600;color:#F5F5F7;min-width:120px;font-size:13px}
+.bar-track{flex:1;height:8px;background:rgba(255,255,255,0.04);border-radius:4px;overflow:hidden}
+.bar-fill{height:100%;border-radius:4px;transition:width 0.3s}
+.bar-count{font-size:12px;color:#AEAEB2;min-width:60px;text-align:right}
+.learning-item{padding:12px 0;border-bottom:0.5px solid rgba(255,255,255,0.03)}
+.learning-item:last-child{border-bottom:none}
+.learning-time{font-size:11px;color:#AEAEB2;margin-bottom:2px}
+.learning-agent{font-size:11px;color:#D70030;font-weight:600}
+.learning-text{font-size:13px;color:#F5F5F7;line-height:1.5;margin-top:4px}
+.learning-type{display:inline-block;font-size:10px;font-weight:600;padding:2px 8px;border-radius:4px;text-transform:uppercase}
+.type-fact{background:rgba(0,122,255,0.12);color:#0A84FF}
+.type-pref{background:rgba(191,90,242,0.12);color:#BF5AF2}
+.type-episode{background:rgba(52,199,89,0.12);color:#34C759}
+.type-decision{background:rgba(255,159,10,0.12);color:#FF9F0A}
+.dream-status{display:flex;align-items:center;gap:8px;padding:12px 16px;background:rgba(52,199,89,0.06);border:1px solid rgba(52,199,89,0.15);border-radius:12px;font-size:13px;color:#34C759;margin-bottom:16px}
+</style></head>
 <body>
 <nav class="sidebar">
 <div class="sidebar-logo">KTANA <span>ADMIN</span></div>
 <a href="index.html">Overview</a>
-<a href="index.html">Agent Flow</a>
-<a href="index.html">Tenants</a>
-<a href="index.html">Agentes</a>
-<a href="index.html">Health</a>
-<a href="index.html">Billing</a>
-<a href="index.html">Compliance</a>
-<a href="index.html">Catalogo</a>
-<a href="index.html">Config</a>
+<a href="flow.html">Agent Flow</a>
+<a class="active" href="tenants.html">Tenants</a>
+<a href="agents.html">Agentes</a>
+<a href="health.html">Health</a>
+<a href="billing.html">Billing</a>
+<a href="compliance.html">Compliance</a>
+<a href="catalog.html">Catalogo</a>
+<a href="settings.html">Config</a>
 </nav>
 <main class="main">
-<h1 class="fade-in">Cerebro do Tenant</h1>
-<div class="card fade-in"><p class="card-label">Detalhes</p><p class="placeholder">Tela detalhada do modulo Cerebro do Tenant.<br>Dados de exemplo serao preenchidos conforme especificacao.</p></div>
-<div class="card fade-in" style="animation-delay:0.1s"><p class="card-label">Acoes</p><div class="row"><span class="row-label">Voltar</span><span class="row-value"><a href="index.html" style="color:#D70030;">← Admin</a></span></div></div>
+<div class="breadcrumb"><a href="index.html">Admin</a> / <a href="tenants.html">Tenants</a> / KTANA / Cerebro</div>
+<h1>Cerebro — KTANA</h1>
+<p style="font-size:13px;color:#8E8E93;margin-bottom:24px">Memoria compartilhada e individual de todos os agentes do tenant</p>
+
+<div class="stats-grid">
+  <div class="stat-box"><div class="stat-value">2,847</div><div class="stat-label">Fatos Totais</div></div>
+  <div class="stat-box"><div class="stat-value">412</div><div class="stat-label">Compartilhados</div></div>
+  <div class="stat-box"><div class="stat-value">6,194</div><div class="stat-label">Embeddings</div></div>
+  <div class="stat-box"><div class="stat-value">8,321</div><div class="stat-label">Episodios</div></div>
+</div>
+
+<div class="dream-status">
+  <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><circle cx="8" cy="8" r="6"/><path d="M8 4v4l2 2"/></svg>
+  Dream Engine: ultima consolidacao em 29 Mar 2026 04:00 — 47 episodios processados, 12 fatos semanticos gerados — Proxima: 30 Mar 04:00
+</div>
+
+<div class="card">
+  <p class="card-label">Busca Semantica na Memoria</p>
+  <div class="search-box">
+    <input type="text" class="search-input" placeholder="Buscar fatos, episodios, decisoes... (busca por similaridade semantica)">
+    <button class="btn btn-primary">Buscar</button>
+  </div>
+  <div style="font-size:12px;color:#8E8E93">Exemplos: "preferencias de priorizacao" &middot; "decisoes sobre arquitetura" &middot; "feedback do stakeholder"</div>
+</div>
+
+<div class="card">
+  <p class="card-label">Fatos por Agente</p>
+  <div class="agent-bar">
+    <span class="agent-name">Ronin-PO</span>
+    <div class="bar-track"><div class="bar-fill" style="width:60%;background:#D70030"></div></div>
+    <span class="bar-count">342 fatos</span>
+  </div>
+  <div class="agent-bar">
+    <span class="agent-name">Kenshi-Dev</span>
+    <div class="bar-track"><div class="bar-fill" style="width:85%;background:#0A84FF"></div></div>
+    <span class="bar-count">487 fatos</span>
+  </div>
+  <div class="agent-bar">
+    <span class="agent-name">Shinobi-QA</span>
+    <div class="bar-track"><div class="bar-fill" style="width:35%;background:#34C759"></div></div>
+    <span class="bar-count">198 fatos</span>
+  </div>
+  <div class="agent-bar">
+    <span class="agent-name">Sensei-Arch</span>
+    <div class="bar-track"><div class="bar-fill" style="width:70%;background:#BF5AF2"></div></div>
+    <span class="bar-count">401 fatos</span>
+  </div>
+  <div class="agent-bar">
+    <span class="agent-name">Yojimbo-Sec</span>
+    <div class="bar-track"><div class="bar-fill" style="width:45%;background:#FF9F0A"></div></div>
+    <span class="bar-count">256 fatos</span>
+  </div>
+  <div class="agent-bar">
+    <span class="agent-name">Geisha-UX</span>
+    <div class="bar-track"><div class="bar-fill" style="width:30%;background:#FF375F"></div></div>
+    <span class="bar-count">174 fatos</span>
+  </div>
+  <div class="agent-bar">
+    <span class="agent-name">Shogun-Lead</span>
+    <div class="bar-track"><div class="bar-fill" style="width:55%;background:#64D2FF"></div></div>
+    <span class="bar-count">318 fatos</span>
+  </div>
+  <div class="agent-bar">
+    <span class="agent-name">Tanuki-Data</span>
+    <div class="bar-track"><div class="bar-fill" style="width:25%;background:#8E8E93"></div></div>
+    <span class="bar-count">142 fatos</span>
+  </div>
+  <div style="margin-top:12px;padding-top:12px;border-top:1px solid rgba(255,255,255,0.04)">
+    <div class="agent-bar">
+      <span class="agent-name" style="color:#D70030">Compartilhados</span>
+      <div class="bar-track"><div class="bar-fill" style="width:72%;background:linear-gradient(90deg,#D70030,#FF375F)"></div></div>
+      <span class="bar-count">412 fatos</span>
+    </div>
+  </div>
+</div>
+
+<div class="card">
+  <p class="card-label">Aprendizados Recentes</p>
+  <div class="learning-item">
+    <div style="display:flex;gap:8px;align-items:center">
+      <span class="learning-time">29 Mar — 14:15</span>
+      <span class="learning-agent">Ronin-PO</span>
+      <span class="learning-type type-fact">fato</span>
+    </div>
+    <div class="learning-text">Taxa de acerto em priorizacao aumentou 4% apos incorporar pattern de feedback ciclico com stakeholders. Specs com feedback em menos de 24h tem 3x menos retrabalho.</div>
+  </div>
+  <div class="learning-item">
+    <div style="display:flex;gap:8px;align-items:center">
+      <span class="learning-time">29 Mar — 13:45</span>
+      <span class="learning-agent">Sensei-Arch</span>
+      <span class="learning-type type-decision">decisao</span>
+    </div>
+    <div class="learning-text">Event sourcing e mais adequado que CRUD para modulos de billing e compliance — garante audit trail imutavel e facilita debug de estados inconsistentes.</div>
+  </div>
+  <div class="learning-item">
+    <div style="display:flex;gap:8px;align-items:center">
+      <span class="learning-time">29 Mar — 12:20</span>
+      <span class="learning-agent">Ronin-PO</span>
+      <span class="learning-type type-pref">preferencia</span>
+    </div>
+    <div class="learning-text">Specs com mais de 3 acceptance criteria geram 2x mais retrabalho. Ajustar template para maximo 3 criterios, quebrando em sub-tasks se necessario.</div>
+  </div>
+  <div class="learning-item">
+    <div style="display:flex;gap:8px;align-items:center">
+      <span class="learning-time">29 Mar — 10:45</span>
+      <span class="learning-agent">Yojimbo-Sec</span>
+      <span class="learning-type type-fact">fato</span>
+    </div>
+    <div class="learning-text">Dependencias com CVE score > 7.0 devem ser atualizadas em menos de 48h. Tenant KTANA tem politica de zero-tolerance para CVE criticos em producao.</div>
+  </div>
+  <div class="learning-item">
+    <div style="display:flex;gap:8px;align-items:center">
+      <span class="learning-time">28 Mar — 18:30</span>
+      <span class="learning-agent">Kenshi-Dev</span>
+      <span class="learning-type type-episode">episodio</span>
+    </div>
+    <div class="learning-text">Deploy para staging do build #1247 passou sem erros. Refatoracao do modulo de auth reduziu complexidade ciclomatica em 40% sem breaking changes.</div>
+  </div>
+  <div class="learning-item">
+    <div style="display:flex;gap:8px;align-items:center">
+      <span class="learning-time">28 Mar — 16:20</span>
+      <span class="learning-agent">Ronin-PO</span>
+      <span class="learning-type type-decision">decisao</span>
+    </div>
+    <div class="learning-text">Sprint 24 prioriza onboarding simplificado e dashboard analytics v2. Criterio: NPS de onboarding caiu 12 pontos — impacto direto em retencao 30d.</div>
+  </div>
+</div>
+
+<div class="card">
+  <p class="card-label">Metricas de Memoria</p>
+  <div class="row"><span class="row-label">Storage utilizado</span><span class="row-value">1.2 GB de 5 GB</span></div>
+  <div class="row"><span class="row-label">Dimensao do embedding</span><span class="row-value">1536 (text-embedding-3-small)</span></div>
+  <div class="row"><span class="row-label">Fatos decaidos (esquecidos)</span><span class="row-value">187 (last 30d)</span></div>
+  <div class="row"><span class="row-label">Fatos promovidos (episodio → semantico)</span><span class="row-value">89 (last 30d)</span></div>
+  <div class="row"><span class="row-label">Latencia media de recall</span><span class="row-value">34ms</span></div>
+  <div class="row"><span class="row-label">Queries de recall hoje</span><span class="row-value">1,247</span></div>
+</div>
+
 </main>
 </body></html>

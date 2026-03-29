@@ -1,10 +1,242 @@
-<!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>Editar rascunho — KTANA</title><link rel="stylesheet" href="../../shared.css"><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Zen+Dots&display=swap" rel="stylesheet">
-<style>body{min-height:100vh;background:#F5F5F7;padding:48px 24px}.container{max-width:580px;margin:0 auto}.back{position:fixed;top:20px;left:24px;font-family:'Inter',sans-serif;font-size:12px;color:#86868B}h1{font-family:'Satoshi',sans-serif;font-size:20px;font-weight:600;color:#1D1D1F;margin-bottom:8px}.sub{font-family:'Satoshi',sans-serif;font-size:13px;color:#86868B;margin-bottom:24px}.editor{font-family:'Satoshi',sans-serif;width:100%;min-height:240px;padding:20px;border-radius:16px;border:0.5px solid rgba(0,0,0,0.06);background:#FFF;font-size:14px;line-height:1.7;color:#1D1D1F;outline:none;resize:vertical}.editor:focus{border-color:rgba(215,0,48,0.2)}.actions{display:flex;gap:10px;margin-top:20px}.btn-send{font-family:'Inter',sans-serif;flex:1;padding:14px;border-radius:14px;background:#1D1D1F;color:#F5F5F7;font-size:14px;font-weight:500;border:none;cursor:pointer}.btn-cancel{font-family:'Inter',sans-serif;padding:14px 24px;border-radius:14px;background:transparent;color:#86868B;font-size:14px;border:0.5px solid rgba(0,0,0,0.08);cursor:pointer}.note{font-family:'Inter',sans-serif;font-size:11px;color:#AEAEB2;margin-top:12px;text-align:center}</style></head>
-<body><a href="detail.html" class="back">← Voltar</a><div class="container fade-in"><h1>Editar rascunho</h1><p class="sub">Cobranca para Cliente Y — editado por voce antes de enviar</p><textarea class="editor">Prezado Cliente Y,
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Editar e instruir — KTANA</title>
+  <link rel="stylesheet" href="../../shared.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Zen+Dots&display=swap" rel="stylesheet">
+  <style>
+    body { min-height: 100vh; background: #F5F5F7; padding: 48px 24px; }
+    .container { max-width: 600px; margin: 0 auto; }
+    .back { position: fixed; top: 20px; left: 24px; font-family: 'Inter', sans-serif; font-size: 13px; color: #86868B; display: flex; align-items: center; gap: 6px; }
+    .back svg { width: 16px; height: 16px; stroke: currentColor; fill: none; stroke-width: 1.5; }
+
+    h1 { font-family: 'Satoshi', sans-serif; font-size: 22px; font-weight: 600; color: #1D1D1F; margin-bottom: 6px; }
+    .sub { font-family: 'Satoshi', sans-serif; font-size: 14px; color: #86868B; margin-bottom: 28px; }
+
+    /* Context card */
+    .context { background: #FFF; border-radius: 18px; border: 1px solid rgba(0,0,0,0.04); padding: 18px 20px; margin-bottom: 16px; display: flex; align-items: center; gap: 12px; }
+    .context-avatar { width: 36px; height: 36px; border-radius: 50%; border: 1.5px solid #D2D2D7; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .context-avatar span { font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 500; color: #86868B; }
+    .context-info { flex: 1; }
+    .context-title { font-family: 'Satoshi', sans-serif; font-size: 14px; font-weight: 500; color: #1D1D1F; }
+    .context-meta { font-family: 'Inter', sans-serif; font-size: 12px; color: #86868B; margin-top: 2px; }
+
+    /* Tabs for action mode */
+    .mode-tabs { display: flex; gap: 2px; background: rgba(0,0,0,0.03); border-radius: 12px; padding: 3px; margin-bottom: 20px; }
+    .mode-tab {
+      font-family: 'Inter', sans-serif; flex: 1;
+      padding: 12px 16px; border-radius: 10px;
+      font-size: 13px; font-weight: 500; color: #86868B;
+      cursor: pointer; border: none; background: none;
+      text-align: center; transition: all 0.2s;
+    }
+    .mode-tab.active { background: #FFF; color: #1D1D1F; box-shadow: 0 1px 4px rgba(0,0,0,0.06); }
+    .mode-tab:hover:not(.active) { color: #1D1D1F; }
+
+    /* Mode panels */
+    .mode-panel { display: none; }
+    .mode-panel.active { display: block; }
+
+    /* Editor */
+    .editor-label { font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: #D70030; margin-bottom: 10px; }
+    .editor {
+      font-family: 'Satoshi', sans-serif;
+      width: 100%; min-height: 200px;
+      padding: 20px; border-radius: 16px;
+      border: 0.5px solid rgba(0,0,0,0.06);
+      background: #FFF; font-size: 15px;
+      line-height: 1.7; color: #1D1D1F;
+      outline: none; resize: vertical;
+      transition: border-color 0.15s;
+    }
+    .editor:focus { border-color: rgba(215,0,48,0.2); }
+
+    /* Instruction field */
+    .instruction {
+      font-family: 'Satoshi', sans-serif;
+      width: 100%; min-height: 120px;
+      padding: 20px; border-radius: 16px;
+      border: 0.5px solid rgba(0,0,0,0.06);
+      background: #FFF; font-size: 15px;
+      line-height: 1.6; color: #1D1D1F;
+      outline: none; resize: vertical;
+      transition: border-color 0.15s;
+    }
+    .instruction:focus { border-color: rgba(215,0,48,0.2); }
+    .instruction::placeholder { color: #AEAEB2; }
+
+    .instruction-hint { font-family: 'Satoshi', sans-serif; font-size: 13px; color: #86868B; margin-bottom: 14px; line-height: 1.5; }
+
+    /* Quick instruction chips */
+    .quick-instructions { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 16px; }
+    .quick-chip {
+      font-family: 'Inter', sans-serif;
+      padding: 8px 16px; border-radius: 12px;
+      border: 0.5px solid rgba(0,0,0,0.06);
+      background: #FFF; font-size: 13px;
+      color: #86868B; cursor: pointer;
+      transition: all 0.15s;
+    }
+    .quick-chip:hover { background: #1D1D1F; color: #F5F5F7; border-color: #1D1D1F; }
+    .quick-chip:active { transform: scale(0.97); }
+
+    /* Actions */
+    .actions { display: flex; gap: 10px; margin-top: 24px; }
+    .btn-primary {
+      font-family: 'Inter', sans-serif; flex: 1;
+      padding: 16px; border-radius: 14px;
+      background: #1D1D1F; color: #F5F5F7;
+      font-size: 15px; font-weight: 500;
+      border: none; cursor: pointer;
+      min-height: 52px; transition: all 0.15s;
+    }
+    .btn-primary:hover { background: #000; }
+    .btn-primary:active { transform: scale(0.98); }
+    .btn-cancel {
+      font-family: 'Inter', sans-serif;
+      padding: 16px 24px; border-radius: 14px;
+      background: transparent; color: #86868B;
+      font-size: 14px; border: 0.5px solid rgba(0,0,0,0.08);
+      cursor: pointer; min-height: 52px;
+    }
+    .btn-reject {
+      font-family: 'Inter', sans-serif;
+      padding: 16px 20px; border-radius: 14px;
+      background: transparent; color: #D70030;
+      font-size: 14px; font-weight: 500;
+      border: none; cursor: pointer;
+      min-height: 52px;
+    }
+
+    .note { font-family: 'Inter', sans-serif; font-size: 12px; color: #AEAEB2; margin-top: 16px; text-align: center; line-height: 1.6; }
+
+    /* Example of what agent will do */
+    .preview { background: rgba(0,0,0,0.02); border-radius: 14px; padding: 16px; margin-top: 16px; display: none; }
+    .preview.visible { display: block; animation: fadeIn 0.3s ease; }
+    .preview-label { font-family: 'Inter', sans-serif; font-size: 11px; color: #86868B; margin-bottom: 8px; }
+    .preview-text { font-family: 'Satoshi', sans-serif; font-size: 14px; color: #1D1D1F; line-height: 1.6; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+  </style>
+</head>
+<body>
+  <a href="detail.html" class="back">
+    <svg viewBox="0 0 24 24"><path d="M19 12H5"/><path d="M12 19l-7-7 7-7"/></svg>
+    Voltar
+  </a>
+
+  <div class="container fade-in">
+    <!-- Context -->
+    <div class="context">
+      <div class="context-avatar"><span>Y</span></div>
+      <div class="context-info">
+        <p class="context-title">Yuki quer cobrar Cliente Y — R$12.000</p>
+        <p class="context-meta">15 dias atraso · Kaito recomenda juros 2%</p>
+      </div>
+    </div>
+
+    <h1>O que voce quer fazer?</h1>
+    <p class="sub">Escolha como Yuki deve agir nessa situacao.</p>
+
+    <!-- Mode tabs -->
+    <div class="mode-tabs">
+      <button class="mode-tab active" onclick="switchMode('edit')">Editar e aprovar</button>
+      <button class="mode-tab" onclick="switchMode('instruct')">Instruir diferente</button>
+      <button class="mode-tab" onclick="switchMode('reject')">Rejeitar</button>
+    </div>
+
+    <!-- MODE 1: Edit and approve (original flow) -->
+    <div class="mode-panel active" id="panel-edit">
+      <p class="editor-label">Editar rascunho da cobranca</p>
+      <textarea class="editor">Prezado Cliente Y,
 
 Identificamos que a fatura #892 no valor de R$12.240,00 (R$12.000 + 2% juros por atraso de 15 dias) encontra-se pendente.
 
 Solicitamos a regularizacao em ate 5 dias uteis. Em caso de duvidas, estamos a disposicao.
 
 Atenciosamente,
-KTANA</textarea><div class="actions"><button class="btn-cancel" onclick="location.href='detail.html'">Cancelar</button><button class="btn-send" onclick="this.textContent='Enviado';this.style.opacity='0.5';">Aprovar e enviar</button></div><p class="note">Yuki aprendera com suas edicoes para proximas cobrancas.</p></div></body></html>
+KTANA</textarea>
+
+      <div class="actions">
+        <button class="btn-cancel" onclick="location.href='detail.html'">Cancelar</button>
+        <button class="btn-primary" onclick="this.innerHTML='&#x2713; Enviado'; this.style.background='#30D158'; setTimeout(()=>location.href='resolved.html',1500)">Aprovar e enviar editado</button>
+      </div>
+      <p class="note">Yuki aprendera com suas edicoes e usara esse tom nas proximas cobrancas similares.</p>
+    </div>
+
+    <!-- MODE 2: Instruct differently (NEW — the missing flow) -->
+    <div class="mode-panel" id="panel-instruct">
+      <p class="editor-label">Instruir Yuki a agir diferente</p>
+      <p class="instruction-hint">Diga a Yuki o que fazer em vez da cobranca padrao. Ela vai entender e executar.</p>
+
+      <!-- Quick instruction chips -->
+      <div class="quick-instructions">
+        <button class="quick-chip" onclick="setInstruction('Liga pro cliente antes de enviar email. Tenta resolver por telefone primeiro.')">Ligar antes</button>
+        <button class="quick-chip" onclick="setInstruction('Oferece parcelamento em 3x sem juros. Cliente Y e estrategico, nao quero perder.')">Parcelar sem juros</button>
+        <button class="quick-chip" onclick="setInstruction('Espera mais 5 dias. Se nao pagar, ai cobra com juros. Cliente Y sempre paga atrasado mas paga.')">Esperar mais</button>
+        <button class="quick-chip" onclick="setInstruction('Cobra sem juros dessa vez. E manda por WhatsApp, nao email. Tom amigavel.')">Cobrar sem juros</button>
+        <button class="quick-chip" onclick="setInstruction('Agenda reuniao com Cliente Y pra discutir o contrato. A divida pode ser sintoma de um problema maior.')">Agendar reuniao</button>
+      </div>
+
+      <textarea class="instruction" id="instruction-field" placeholder="Escreva sua instrucao com suas palavras...&#10;&#10;Ex: 'Nao cobra agora. Liga pro cliente, pergunta se esta tudo bem, e oferece parcelar em 2x. Se ele aceitar, manda boleto parcelado.'"></textarea>
+
+      <!-- Preview of what Yuki will do -->
+      <div class="preview" id="instruction-preview">
+        <p class="preview-label">Yuki vai:</p>
+        <p class="preview-text" id="preview-text"></p>
+      </div>
+
+      <div class="actions">
+        <button class="btn-cancel" onclick="location.href='detail.html'">Cancelar</button>
+        <button class="btn-primary" onclick="this.innerHTML='&#x2713; Yuki instruida'; this.style.background='#30D158'; setTimeout(()=>location.href='../dashboard/home.html',1500)">Enviar instrucao</button>
+      </div>
+      <p class="note">Yuki vai executar sua instrucao e aprender essa abordagem para situacoes similares no futuro.</p>
+    </div>
+
+    <!-- MODE 3: Reject with reason -->
+    <div class="mode-panel" id="panel-reject">
+      <p class="editor-label">Motivo da rejeicao</p>
+      <p class="instruction-hint">Explique pra Yuki porque esta rejeitando. Ela vai aprender e evitar esse tipo de acao no futuro.</p>
+
+      <div class="quick-instructions">
+        <button class="quick-chip" onclick="setRejection('Nao quero cobrar esse cliente agora. Ele e estrategico.')">Cliente estrategico</button>
+        <button class="quick-chip" onclick="setRejection('O valor esta errado. Confere no ERP antes.')">Valor errado</button>
+        <button class="quick-chip" onclick="setRejection('Ja resolvi isso direto com o cliente. Cancela.')">Ja resolvi</button>
+      </div>
+
+      <textarea class="instruction" id="rejection-field" placeholder="Explique porque esta rejeitando (opcional)..."></textarea>
+
+      <div class="actions">
+        <button class="btn-cancel" onclick="location.href='detail.html'">Cancelar</button>
+        <button class="btn-reject" onclick="this.innerHTML='&#x2713; Rejeitado'; this.style.color='#86868B'; setTimeout(()=>location.href='resolved.html',1500)">Rejeitar e instruir</button>
+      </div>
+      <p class="note">Yuki vai registrar o motivo e ajustar o comportamento para nao repetir.</p>
+    </div>
+  </div>
+
+  <script>
+    function switchMode(mode) {
+      document.querySelectorAll('.mode-tab').forEach(t => t.classList.remove('active'));
+      document.querySelectorAll('.mode-panel').forEach(p => p.classList.remove('active'));
+      event.target.classList.add('active');
+      document.getElementById('panel-' + mode).classList.add('active');
+    }
+
+    function setInstruction(text) {
+      const field = document.getElementById('instruction-field');
+      field.value = text;
+      field.focus();
+      // Show preview
+      const preview = document.getElementById('instruction-preview');
+      const previewText = document.getElementById('preview-text');
+      preview.classList.add('visible');
+      previewText.textContent = 'Executar: "' + text + '" em vez da cobranca padrao para Cliente Y.';
+    }
+
+    function setRejection(text) {
+      document.getElementById('rejection-field').value = text;
+    }
+  </script>
+</body>
+</html>

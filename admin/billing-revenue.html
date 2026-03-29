@@ -1,21 +1,216 @@
 <!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>Receita por Plano — KTANA Admin</title><link rel="stylesheet" href="../shared.css"><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Zen+Dots&display=swap" rel="stylesheet">
-<style>body{min-height:100vh;background:#0A0A0A;color:#F5F5F7;display:flex}.sidebar{position:fixed;left:0;top:0;bottom:0;width:220px;background:#111;border-right:0.5px solid rgba(255,255,255,0.04);padding:20px 0;display:flex;flex-direction:column}.sidebar-logo{padding:0 20px 16px;font-family:'Zen Dots',cursive;font-size:14px;color:#D70030;border-bottom:0.5px solid rgba(255,255,255,0.04);margin-bottom:12px;display:flex;align-items:center;gap:6px}.sidebar-logo span{font-family:'Inter',sans-serif;font-size:11px;color:#AEAEB2}.sidebar a{display:block;padding:8px 20px;font-family:'Inter',sans-serif;font-size:12px;color:#8E8E93;transition:all 0.15s}.sidebar a:hover,.sidebar a.active{color:#F5F5F7;background:rgba(255,255,255,0.04)}.main{margin-left:220px;flex:1;padding:32px}.main h1{font-family:'Satoshi',sans-serif;font-size:20px;font-weight:600;margin-bottom:24px}.card{background:#1C1C1E;border:1px solid rgba(255,255,255,0.04);border-radius:16px;padding:24px;margin-bottom:12px}.card-label{font-family:'Inter',sans-serif;font-size:11px;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;color:#AEAEB2;margin-bottom:14px}.row{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:0.5px solid rgba(255,255,255,0.03);font-size:13px}.row:last-child{border-bottom:none}.row-label{font-family:'Satoshi',sans-serif;color:#8E8E93}.row-value{font-family:'Inter',sans-serif;color:#D2D2D7}.placeholder{font-family:'Satoshi',sans-serif;font-size:14px;color:#AEAEB2;text-align:center;padding:48px 0}</style></head>
+<style>
+body{min-height:100vh;background:#0A0A0A;color:#F5F5F7;display:flex;margin:0;font-family:'Inter',sans-serif}
+.sidebar{position:fixed;left:0;top:0;bottom:0;width:220px;background:#111;border-right:0.5px solid rgba(255,255,255,0.04);padding:20px 0;display:flex;flex-direction:column;z-index:10}
+.sidebar-logo{padding:0 20px 16px;font-family:'Zen Dots',cursive;font-size:14px;color:#D70030;border-bottom:0.5px solid rgba(255,255,255,0.04);margin-bottom:12px;display:flex;align-items:center;gap:6px}
+.sidebar-logo span{font-family:'Inter',sans-serif;font-size:11px;color:#AEAEB2}
+.sidebar a{display:block;padding:8px 20px;font-family:'Inter',sans-serif;font-size:12px;color:#8E8E93;text-decoration:none;transition:all 0.15s}
+.sidebar a:hover,.sidebar a.active{color:#F5F5F7;background:rgba(255,255,255,0.04)}
+.main{margin-left:220px;flex:1;padding:32px}
+.main h1{font-family:'Zen Dots',cursive;font-size:20px;font-weight:600;margin-bottom:8px}
+.breadcrumb{font-size:12px;color:#8E8E93;margin-bottom:24px}
+.breadcrumb a{color:#D70030;text-decoration:none}
+.card{background:#1C1C1E;border:1px solid rgba(255,255,255,0.04);border-radius:16px;padding:24px;margin-bottom:16px}
+.card-label{font-family:'Inter',sans-serif;font-size:11px;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;color:#AEAEB2;margin-bottom:14px}
+.stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:20px}
+.stat-box{background:#1C1C1E;border:1px solid rgba(255,255,255,0.04);border-radius:16px;padding:20px;text-align:center}
+.stat-value{font-family:'Zen Dots',cursive;font-size:22px;color:#F5F5F7;margin-bottom:4px}
+.stat-label{font-size:11px;color:#8E8E93;text-transform:uppercase;letter-spacing:0.04em}
+.stat-delta{font-size:11px;margin-top:4px;font-weight:600}
+.delta-up{color:#34C759}
+.delta-down{color:#D70030}
+.row{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:0.5px solid rgba(255,255,255,0.03);font-size:13px}
+.row:last-child{border-bottom:none}
+.row-label{color:#8E8E93}
+.row-value{color:#D2D2D7}
+.bar-chart-row{display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:0.5px solid rgba(255,255,255,0.03)}
+.bar-chart-row:last-child{border-bottom:none}
+.bar-label{min-width:120px;font-size:13px;font-weight:600;color:#F5F5F7}
+.bar-track{flex:1;height:24px;background:rgba(255,255,255,0.03);border-radius:6px;overflow:hidden;position:relative}
+.bar-fill{height:100%;border-radius:6px;display:flex;align-items:center;padding-left:10px;font-size:11px;font-weight:600;color:#fff;transition:width 0.4s}
+.bar-amount{min-width:100px;text-align:right;font-size:13px;color:#AEAEB2;font-family:monospace}
+table{width:100%;border-collapse:collapse;font-size:13px}
+thead th{text-align:left;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.04em;color:#AEAEB2;padding:10px 12px;border-bottom:1px solid rgba(255,255,255,0.06)}
+tbody td{padding:10px 12px;border-bottom:0.5px solid rgba(255,255,255,0.03)}
+.trend-row{display:flex;align-items:center;gap:16px;padding:8px 0;border-bottom:0.5px solid rgba(255,255,255,0.03)}
+.trend-row:last-child{border-bottom:none}
+.trend-month{min-width:80px;font-size:12px;color:#8E8E93}
+.trend-bar{flex:1;height:12px;background:rgba(255,255,255,0.03);border-radius:6px;overflow:hidden}
+.trend-fill{height:100%;border-radius:6px}
+.trend-val{min-width:80px;text-align:right;font-size:12px;color:#F5F5F7;font-family:monospace}
+.churn-item{display:flex;align-items:center;gap:16px;padding:12px 0;border-bottom:0.5px solid rgba(255,255,255,0.03)}
+.churn-item:last-child{border-bottom:none}
+.churn-tenant{font-weight:600;color:#F5F5F7;font-size:13px;min-width:140px}
+.churn-plan{font-size:12px;color:#AEAEB2;min-width:80px}
+.churn-date{font-size:12px;color:#8E8E93;min-width:100px}
+.churn-reason{font-size:12px;color:#FF9F0A;flex:1}
+</style></head>
 <body>
 <nav class="sidebar">
 <div class="sidebar-logo">KTANA <span>ADMIN</span></div>
 <a href="index.html">Overview</a>
-<a href="index.html">Agent Flow</a>
-<a href="index.html">Tenants</a>
-<a href="index.html">Agentes</a>
-<a href="index.html">Health</a>
-<a href="index.html">Billing</a>
-<a href="index.html">Compliance</a>
-<a href="index.html">Catalogo</a>
-<a href="index.html">Config</a>
+<a href="flow.html">Agent Flow</a>
+<a href="tenants.html">Tenants</a>
+<a href="agents.html">Agentes</a>
+<a href="health.html">Health</a>
+<a class="active" href="billing.html">Billing</a>
+<a href="compliance.html">Compliance</a>
+<a href="catalog.html">Catalogo</a>
+<a href="settings.html">Config</a>
 </nav>
 <main class="main">
-<h1 class="fade-in">Receita por Plano</h1>
-<div class="card fade-in"><p class="card-label">Detalhes</p><p class="placeholder">Tela detalhada do modulo Receita por Plano.<br>Dados de exemplo serao preenchidos conforme especificacao.</p></div>
-<div class="card fade-in" style="animation-delay:0.1s"><p class="card-label">Acoes</p><div class="row"><span class="row-label">Voltar</span><span class="row-value"><a href="index.html" style="color:#D70030;">← Admin</a></span></div></div>
+<div class="breadcrumb"><a href="index.html">Admin</a> / <a href="billing.html">Billing</a> / Receita</div>
+<h1>Receita & Revenue</h1>
+<p style="font-size:13px;color:#8E8E93;margin-bottom:24px">Breakdown de receita recorrente por plano e metricas de crescimento</p>
+
+<div class="stats-grid">
+  <div class="stat-box">
+    <div class="stat-value" style="color:#34C759">R$ 47.2k</div>
+    <div class="stat-label">MRR Total</div>
+    <div class="stat-delta delta-up">+12.4% vs mes anterior</div>
+  </div>
+  <div class="stat-box">
+    <div class="stat-value">R$ 566k</div>
+    <div class="stat-label">ARR Projetado</div>
+    <div class="stat-delta delta-up">+18.7% YoY</div>
+  </div>
+  <div class="stat-box">
+    <div class="stat-value">R$ 3.9k</div>
+    <div class="stat-label">ARPU</div>
+    <div class="stat-delta delta-up">+5.2% vs mes anterior</div>
+  </div>
+  <div class="stat-box">
+    <div class="stat-value">2.1%</div>
+    <div class="stat-label">Churn Rate</div>
+    <div class="stat-delta delta-down">+0.3% vs mes anterior</div>
+  </div>
+</div>
+
+<div class="card">
+  <p class="card-label">MRR por Plano</p>
+  <div class="bar-chart-row">
+    <span class="bar-label">Enterprise</span>
+    <div class="bar-track"><div class="bar-fill" style="width:52%;background:#D70030">R$ 24.5k</div></div>
+    <span class="bar-amount">R$ 24,500/mo</span>
+  </div>
+  <div class="bar-chart-row">
+    <span class="bar-label">Professional</span>
+    <div class="bar-track"><div class="bar-fill" style="width:34%;background:#0A84FF">R$ 16.1k</div></div>
+    <span class="bar-amount">R$ 16,100/mo</span>
+  </div>
+  <div class="bar-chart-row">
+    <span class="bar-label">Starter</span>
+    <div class="bar-track"><div class="bar-fill" style="width:11%;background:#BF5AF2">R$ 5.1k</div></div>
+    <span class="bar-amount">R$ 5,100/mo</span>
+  </div>
+  <div class="bar-chart-row">
+    <span class="bar-label">Trial</span>
+    <div class="bar-track"><div class="bar-fill" style="width:3%;background:#8E8E93">R$ 1.5k</div></div>
+    <span class="bar-amount">R$ 1,500/mo</span>
+  </div>
+</div>
+
+<div class="card">
+  <p class="card-label">Tenants por Tier</p>
+  <table>
+    <thead>
+      <tr><th>Plano</th><th>Tenants</th><th>Preco Medio</th><th>MRR</th><th>% do Total</th><th>Agentes Medio</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td style="font-weight:600;color:#D70030">Enterprise</td>
+        <td>3</td>
+        <td>R$ 8,167</td>
+        <td>R$ 24,500</td>
+        <td>51.9%</td>
+        <td>12 agentes</td>
+      </tr>
+      <tr>
+        <td style="font-weight:600;color:#0A84FF">Professional</td>
+        <td>4</td>
+        <td>R$ 4,025</td>
+        <td>R$ 16,100</td>
+        <td>34.1%</td>
+        <td>6 agentes</td>
+      </tr>
+      <tr>
+        <td style="font-weight:600;color:#BF5AF2">Starter</td>
+        <td>3</td>
+        <td>R$ 1,700</td>
+        <td>R$ 5,100</td>
+        <td>10.8%</td>
+        <td>3 agentes</td>
+      </tr>
+      <tr>
+        <td style="font-weight:600;color:#8E8E93">Trial (14d)</td>
+        <td>2</td>
+        <td>R$ 750</td>
+        <td>R$ 1,500</td>
+        <td>3.2%</td>
+        <td>2 agentes</td>
+      </tr>
+    </tbody>
+  </table>
+  <div style="margin-top:12px;padding-top:12px;border-top:1px solid rgba(255,255,255,0.04);display:flex;justify-content:space-between;font-size:13px">
+    <span style="color:#8E8E93">Total</span>
+    <span style="font-weight:600">12 tenants &middot; R$ 47,200/mo</span>
+  </div>
+</div>
+
+<div class="card">
+  <p class="card-label">Tendencia MRR — Ultimos 6 Meses</p>
+  <div class="trend-row">
+    <span class="trend-month">Out 2025</span>
+    <div class="trend-bar"><div class="trend-fill" style="width:55%;background:#D70030"></div></div>
+    <span class="trend-val">R$ 28,400</span>
+  </div>
+  <div class="trend-row">
+    <span class="trend-month">Nov 2025</span>
+    <div class="trend-bar"><div class="trend-fill" style="width:62%;background:#D70030"></div></div>
+    <span class="trend-val">R$ 31,200</span>
+  </div>
+  <div class="trend-row">
+    <span class="trend-month">Dez 2025</span>
+    <div class="trend-bar"><div class="trend-fill" style="width:68%;background:#D70030"></div></div>
+    <span class="trend-val">R$ 34,800</span>
+  </div>
+  <div class="trend-row">
+    <span class="trend-month">Jan 2026</span>
+    <div class="trend-bar"><div class="trend-fill" style="width:75%;background:#D70030"></div></div>
+    <span class="trend-val">R$ 38,500</span>
+  </div>
+  <div class="trend-row">
+    <span class="trend-month">Fev 2026</span>
+    <div class="trend-bar"><div class="trend-fill" style="width:82%;background:#D70030"></div></div>
+    <span class="trend-val">R$ 42,000</span>
+  </div>
+  <div class="trend-row">
+    <span class="trend-month">Mar 2026</span>
+    <div class="trend-bar"><div class="trend-fill" style="width:92%;background:linear-gradient(90deg,#D70030,#FF375F)"></div></div>
+    <span class="trend-val" style="color:#34C759;font-weight:600">R$ 47,200</span>
+  </div>
+</div>
+
+<div class="card">
+  <p class="card-label">Churn Recente</p>
+  <div class="churn-item">
+    <span class="churn-tenant">Acme Logistics</span>
+    <span class="churn-plan">Starter</span>
+    <span class="churn-date">15 Mar 2026</span>
+    <span class="churn-reason">Motivo: orcamento cortado no Q1 — nao encontrou ROI em 30 dias</span>
+  </div>
+  <div class="churn-item">
+    <span class="churn-tenant">NovaTech Labs</span>
+    <span class="churn-plan">Professional</span>
+    <span class="churn-date">02 Mar 2026</span>
+    <span class="churn-reason">Motivo: migrou para solucao interna — team de 15 devs achou que poderia replicar</span>
+  </div>
+  <div style="margin-top:16px;display:flex;gap:20px;font-size:12px;color:#8E8E93">
+    <div>Churn MRR Mar: <span style="color:#D70030;font-weight:600">-R$ 5,725</span></div>
+    <div>Expansion MRR Mar: <span style="color:#34C759;font-weight:600">+R$ 10,925</span></div>
+    <div>Net Revenue Retention: <span style="color:#34C759;font-weight:600">111%</span></div>
+  </div>
+</div>
+
 </main>
 </body></html>
