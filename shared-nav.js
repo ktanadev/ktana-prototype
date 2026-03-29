@@ -261,7 +261,7 @@
     .kt-org-chev { color: #AEAEB2; transition: transform 0.2s; }
     .kt-org.open .kt-org-chev { transform: rotate(180deg); }
 
-    .kt-org-drop { position: fixed; top: 52px; left: 60px; width: 280px; background: #FFF; border-radius: 16px; border: 1px solid rgba(0,0,0,0.06); box-shadow: 0 12px 48px rgba(0,0,0,0.12); z-index: 400; display: none; overflow: hidden; }
+    .kt-org-drop { position: fixed; width: 280px; background: #FFF; border-radius: 16px; border: 1px solid rgba(0,0,0,0.06); box-shadow: 0 12px 48px rgba(0,0,0,0.12); z-index: 400; display: none; overflow: hidden; }
     .kt-org-drop.open { display: block; animation: kaUp 0.2s cubic-bezier(0.32,0.72,0,1); }
     .kt-org-head { font-family: 'Inter', sans-serif; font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; color: #AEAEB2; padding: 14px 16px 8px; }
     .kt-org-item { display: flex; align-items: center; gap: 12px; padding: 10px 16px; cursor: pointer; transition: background 0.12s; text-decoration: none; color: inherit; }
@@ -439,8 +439,13 @@
   window.toggleOrgSwitcher = function() {
     const drop = document.getElementById('ktOrgDrop');
     const org = document.querySelector('.kt-org');
-    drop.classList.toggle('open');
+    const isOpen = drop.classList.toggle('open');
     org.classList.toggle('open');
+    if (isOpen) {
+      const rect = org.getBoundingClientRect();
+      drop.style.top = (rect.bottom + 6) + 'px';
+      drop.style.left = rect.left + 'px';
+    }
   };
 
   window.switchOrg = function(name, e) {
