@@ -213,7 +213,8 @@
   const style = document.createElement('style');
   style.textContent = `
     /* Top Bar */
-    .kt { position: sticky; top: 0; z-index: 200; height: 52px; background: rgba(245,245,247,0.8); backdrop-filter: saturate(180%) blur(20px); -webkit-backdrop-filter: saturate(180%) blur(20px); border-bottom: 0.5px solid rgba(0,0,0,0.06); }
+    .kt { position: sticky; top: 0; z-index: 200; height: 52px; background: linear-gradient(180deg, rgba(240,240,242,0.95) 0%, rgba(245,245,247,0.85) 100%); backdrop-filter: saturate(180%) blur(20px); -webkit-backdrop-filter: saturate(180%) blur(20px); border-bottom: 0.5px solid rgba(0,0,0,0.06); }
+    .kt::after { content: ''; position: absolute; bottom: -1px; left: 0; right: 0; height: 1px; background: linear-gradient(90deg, transparent 0%, rgba(215,0,48,0.06) 20%, rgba(215,0,48,0.1) 50%, rgba(215,0,48,0.06) 80%, transparent 100%); }
     .kt-inner { max-width: 1200px; margin: 0 auto; height: 100%; padding: 0 20px; display: flex; align-items: center; gap: 16px; }
     .kt-toggle { width: 36px; height: 36px; border-radius: 10px; border: none; background: transparent; cursor: pointer; display: flex; align-items: center; justify-content: center; color: #1D1D1F; transition: background 0.15s; }
     .kt-toggle:hover { background: rgba(0,0,0,0.04); }
