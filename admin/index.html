@@ -58,6 +58,10 @@
       <button onclick="show('compliance')" class="nav-btn w-full text-left px-3 py-2 rounded-lg text-[#8E8E93] hover:text-white hover:bg-white/[0.04] transition-colors">Conformidade</button>
       <button onclick="show('catalog')" class="nav-btn w-full text-left px-3 py-2 rounded-lg text-[#8E8E93] hover:text-white hover:bg-white/[0.04] transition-colors">Catalogo</button>
       <button onclick="show('settings-admin')" class="nav-btn w-full text-left px-3 py-2 rounded-lg text-[#8E8E93] hover:text-white hover:bg-white/[0.04] transition-colors">Config</button>
+      <div class="mt-3 pt-3 border-t border-white/[0.04]">
+        <a href="impersonate.html" class="block px-3 py-2 rounded-lg text-[13px] text-[#636366] hover:text-white hover:bg-white/[0.04] transition-colors" style="text-decoration:none">Impersonate</a>
+        <a href="support.html" class="block px-3 py-2 rounded-lg text-[13px] text-[#636366] hover:text-white hover:bg-white/[0.04] transition-colors" style="text-decoration:none">Suporte</a>
+      </div>
     </nav>
     <div class="px-5 py-4 border-t border-white/[0.04]">
       <p class="text-[11px] text-[#636366]">admin@ktana.ai</p>
@@ -402,7 +406,7 @@
               <td class="px-5 py-3.5"><span class="flex items-center gap-1.5"><span class="w-1.5 h-1.5 rounded-full bg-[#30D158]"></span><span class="text-[10px] text-[#8E8E93]">Saudavel</span></span></td>
               <td class="px-5 py-3.5 text-[#636366] text-xs">29/03/26</td>
             </tr>
-            <tr class="border-b border-white/[0.02] hover:bg-white/[0.02] cursor-pointer transition-colors">
+            <tr class="border-b border-white/[0.02] hover:bg-white/[0.02] cursor-pointer transition-colors" onclick="show('tenant-detail')">
               <td class="px-5 py-3.5 font-medium">Startup Z</td>
               <td class="px-5 py-3.5"><span class="px-2 py-0.5 bg-[#D70030]/10 text-[#D70030] text-[10px] rounded-md">BAKUFU</span></td>
               <td class="px-5 py-3.5 tabular-nums text-[#8E8E93]">15</td>
@@ -411,7 +415,7 @@
               <td class="px-5 py-3.5"><span class="flex items-center gap-1.5"><span class="w-1.5 h-1.5 rounded-full bg-[#FF9F0A]"></span><span class="text-[10px] text-[#8E8E93]">High usage</span></span></td>
               <td class="px-5 py-3.5 text-[#636366] text-xs">15/03/26</td>
             </tr>
-            <tr class="border-b border-white/[0.02] hover:bg-white/[0.02] cursor-pointer transition-colors">
+            <tr class="border-b border-white/[0.02] hover:bg-white/[0.02] cursor-pointer transition-colors" onclick="show('tenant-detail')">
               <td class="px-5 py-3.5 font-medium">Empresa X</td>
               <td class="px-5 py-3.5"><span class="px-2 py-0.5 bg-white/[0.06] text-[#8E8E93] text-[10px] rounded-md">BUSHI</span></td>
               <td class="px-5 py-3.5 tabular-nums text-[#8E8E93]">3</td>
@@ -420,7 +424,7 @@
               <td class="px-5 py-3.5"><span class="flex items-center gap-1.5"><span class="w-1.5 h-1.5 rounded-full bg-[#30D158]"></span><span class="text-[10px] text-[#8E8E93]">Saudavel</span></span></td>
               <td class="px-5 py-3.5 text-[#636366] text-xs">20/03/26</td>
             </tr>
-            <tr class="border-b border-white/[0.02] hover:bg-white/[0.02] cursor-pointer transition-colors">
+            <tr class="border-b border-white/[0.02] hover:bg-white/[0.02] cursor-pointer transition-colors" onclick="show('tenant-detail')">
               <td class="px-5 py-3.5 font-medium text-[#8E8E93]">Pessoa Y</td>
               <td class="px-5 py-3.5"><span class="px-2 py-0.5 bg-white/[0.04] text-[#636366] text-[10px] rounded-md">RONIN</span></td>
               <td class="px-5 py-3.5 tabular-nums text-[#636366]">1</td>
@@ -502,7 +506,10 @@
 
       <!-- Activity -->
       <div class="admin-card p-6 mt-6 fade-in" style="animation-delay:0.3s">
-        <p class="text-[10px] text-[#636366] tracking-widest mb-4">ATIVIDADE RECENTE</p>
+        <div class="flex items-center justify-between mb-4">
+          <p class="text-[10px] text-[#636366] tracking-widest">ATIVIDADE RECENTE</p>
+          <a href="tenant-activity.html" class="text-[10px] text-[#636366] hover:text-[#D70030] transition-colors" style="text-decoration:none">Ver tudo ›</a>
+        </div>
         <div class="space-y-2">
           <div class="flex items-center gap-4 py-1.5 text-xs">
             <span class="text-[#636366] tabular-nums w-12">17:02</span>
@@ -520,6 +527,21 @@
             <span class="text-[#D2D2D7]">Task "Deploy v2" concluida</span>
           </div>
         </div>
+      </div>
+
+      <div class="grid grid-cols-3 gap-4 mt-6 fade-in" style="animation-delay:0.4s">
+        <a href="tenant-agents.html" class="admin-card p-5 flex items-center justify-between group hover:border-white/10 transition-colors" style="text-decoration:none">
+          <div><p class="text-sm text-[#D2D2D7] group-hover:text-white transition-colors">Samurais</p><p class="text-[10px] text-[#636366] mt-0.5">Config, skills, metricas por agente</p></div>
+          <span class="text-[#636366] group-hover:text-[#D70030] transition-colors text-sm">›</span>
+        </a>
+        <a href="tenant-brain.html" class="admin-card p-5 flex items-center justify-between group hover:border-white/10 transition-colors" style="text-decoration:none">
+          <div><p class="text-sm text-[#D2D2D7] group-hover:text-white transition-colors">Cerebro</p><p class="text-[10px] text-[#636366] mt-0.5">Memory, facts, constitution local</p></div>
+          <span class="text-[#636366] group-hover:text-[#D70030] transition-colors text-sm">›</span>
+        </a>
+        <a href="tenant-activity.html" class="admin-card p-5 flex items-center justify-between group hover:border-white/10 transition-colors" style="text-decoration:none">
+          <div><p class="text-sm text-[#D2D2D7] group-hover:text-white transition-colors">Atividade</p><p class="text-[10px] text-[#636366] mt-0.5">Timeline completa de acoes</p></div>
+          <span class="text-[#636366] group-hover:text-[#D70030] transition-colors text-sm">›</span>
+        </a>
       </div>
     </main>
   </div>
@@ -547,22 +569,22 @@
             </tr>
           </thead>
           <tbody class="text-[#D2D2D7]">
-            <tr class="border-b border-white/[0.02] hover:bg-white/[0.02] transition-colors">
+            <tr class="border-b border-white/[0.02] hover:bg-white/[0.02] transition-colors cursor-pointer" onclick="location.href='agent-detail.html'">
               <td class="px-5 py-3">Akira</td><td class="px-5 py-3 text-[#8E8E93]">CEO</td><td class="px-5 py-3 text-[#8E8E93]">KTANA</td>
               <td class="px-5 py-3"><span class="flex items-center gap-1.5"><span class="w-1.5 h-1.5 rounded-full bg-[#30D158]"></span>Online</span></td>
               <td class="px-5 py-3 tabular-nums text-[#8E8E93]">24</td><td class="px-5 py-3 tabular-nums text-[#8E8E93]">420k</td><td class="px-5 py-3 tabular-nums">91%</td>
             </tr>
-            <tr class="border-b border-white/[0.02] hover:bg-white/[0.02] transition-colors">
+            <tr class="border-b border-white/[0.02] hover:bg-white/[0.02] transition-colors cursor-pointer" onclick="location.href='agent-detail.html'">
               <td class="px-5 py-3">Yuki</td><td class="px-5 py-3 text-[#8E8E93]">Controller</td><td class="px-5 py-3 text-[#8E8E93]">KTANA</td>
               <td class="px-5 py-3"><span class="flex items-center gap-1.5"><span class="w-1.5 h-1.5 rounded-full bg-[#30D158]"></span>Online</span></td>
               <td class="px-5 py-3 tabular-nums text-[#8E8E93]">47</td><td class="px-5 py-3 tabular-nums text-[#8E8E93]">280k</td><td class="px-5 py-3 tabular-nums">89%</td>
             </tr>
-            <tr class="border-b border-white/[0.02] hover:bg-white/[0.02] transition-colors">
+            <tr class="border-b border-white/[0.02] hover:bg-white/[0.02] transition-colors cursor-pointer" onclick="location.href='agent-detail.html'">
               <td class="px-5 py-3">Hana</td><td class="px-5 py-3 text-[#8E8E93]">Secretaria</td><td class="px-5 py-3 text-[#8E8E93]">KTANA</td>
               <td class="px-5 py-3"><span class="flex items-center gap-1.5"><span class="w-1.5 h-1.5 rounded-full bg-[#30D158]"></span>Online</span></td>
               <td class="px-5 py-3 tabular-nums text-[#8E8E93]">58</td><td class="px-5 py-3 tabular-nums text-[#8E8E93]">190k</td><td class="px-5 py-3 tabular-nums">93%</td>
             </tr>
-            <tr class="border-b border-white/[0.02] hover:bg-white/[0.02] transition-colors">
+            <tr class="border-b border-white/[0.02] hover:bg-white/[0.02] transition-colors cursor-pointer" onclick="location.href='agent-detail.html'">
               <td class="px-5 py-3 text-[#636366]">CEO-Z</td><td class="px-5 py-3 text-[#636366]">CEO</td><td class="px-5 py-3 text-[#636366]">Startup Z</td>
               <td class="px-5 py-3"><span class="flex items-center gap-1.5"><span class="w-1.5 h-1.5 rounded-full bg-[#30D158]"></span>Online</span></td>
               <td class="px-5 py-3 tabular-nums text-[#636366]">156</td><td class="px-5 py-3 tabular-nums text-[#636366]">890k</td><td class="px-5 py-3 tabular-nums text-[#636366]">87%</td>
@@ -654,6 +676,17 @@
         </div>
         <p class="text-[10px] text-[#636366] mt-2">99.2% uptime · 1 incidente (dia 8: deploy com rollback)</p>
       </div>
+
+      <div class="grid grid-cols-2 gap-4 mt-6 fade-in" style="animation-delay:0.2s">
+        <a href="health-memory.html" class="admin-card p-5 flex items-center justify-between group hover:border-white/10 transition-colors" style="text-decoration:none">
+          <div><p class="text-sm text-[#D2D2D7] group-hover:text-white transition-colors">Memory API</p><p class="text-[10px] text-[#636366] mt-0.5">pgvector, latencia, facts, sessions, dream engine</p></div>
+          <span class="text-[#636366] group-hover:text-[#D70030] transition-colors text-sm">›</span>
+        </a>
+        <a href="health-workers.html" class="admin-card p-5 flex items-center justify-between group hover:border-white/10 transition-colors" style="text-decoration:none">
+          <div><p class="text-sm text-[#D2D2D7] group-hover:text-white transition-colors">Workers</p><p class="text-[10px] text-[#636366] mt-0.5">Filas, throughput, erros, workers por tenant</p></div>
+          <span class="text-[#636366] group-hover:text-[#D70030] transition-colors text-sm">›</span>
+        </a>
+      </div>
     </main>
   </div>
 
@@ -696,6 +729,17 @@
           <span>LTV medio: R$2.4k</span>
         </div>
       </div>
+
+      <div class="grid grid-cols-2 gap-4 mt-6 fade-in" style="animation-delay:0.2s">
+        <a href="billing-costs.html" class="admin-card p-5 flex items-center justify-between group hover:border-white/10 transition-colors" style="text-decoration:none">
+          <div><p class="text-sm text-[#D2D2D7] group-hover:text-white transition-colors">Custos de Tokens</p><p class="text-[10px] text-[#636366] mt-0.5">Breakdown por provider, tenant e modelo</p></div>
+          <span class="text-[#636366] group-hover:text-[#D70030] transition-colors text-sm">›</span>
+        </a>
+        <a href="billing-revenue.html" class="admin-card p-5 flex items-center justify-between group hover:border-white/10 transition-colors" style="text-decoration:none">
+          <div><p class="text-sm text-[#D2D2D7] group-hover:text-white transition-colors">Receita por Plano</p><p class="text-[10px] text-[#636366] mt-0.5">Distribuicao de revenue e cohort analysis</p></div>
+          <span class="text-[#636366] group-hover:text-[#D70030] transition-colors text-sm">›</span>
+        </a>
+      </div>
     </main>
   </div>
 
@@ -735,6 +779,17 @@
           </div>
         </div>
       </div>
+
+      <div class="grid grid-cols-2 gap-4 mt-6 fade-in" style="animation-delay:0.1s">
+        <a href="compliance-audit.html" class="admin-card p-5 flex items-center justify-between group hover:border-white/10 transition-colors" style="text-decoration:none">
+          <div><p class="text-sm text-[#D2D2D7] group-hover:text-white transition-colors">Audit Logs</p><p class="text-[10px] text-[#636366] mt-0.5">2.4M registros, integridade SHA-256, busca avancada</p></div>
+          <span class="text-[#636366] group-hover:text-[#D70030] transition-colors text-sm">›</span>
+        </a>
+        <a href="compliance-lgpd.html" class="admin-card p-5 flex items-center justify-between group hover:border-white/10 transition-colors" style="text-decoration:none">
+          <div><p class="text-sm text-[#D2D2D7] group-hover:text-white transition-colors">LGPD Requests</p><p class="text-[10px] text-[#636366] mt-0.5">Exportacoes, delecoes, consentimentos, RIPD</p></div>
+          <span class="text-[#636366] group-hover:text-[#D70030] transition-colors text-sm">›</span>
+        </a>
+      </div>
     </main>
   </div>
 
@@ -761,6 +816,17 @@
             <tr class="border-b border-white/[0.02] hover:bg-white/[0.02]"><td class="px-5 py-3">Coach de Vida</td><td class="px-5 py-3 text-[#8E8E93]">Pessoal</td><td class="px-5 py-3 text-[#8E8E93]">mentor</td><td class="px-5 py-3 text-[#8E8E93]">PF</td><td class="px-5 py-3 tabular-nums text-[#8E8E93]">9</td><td class="px-5 py-3 tabular-nums">67</td></tr>
           </tbody>
         </table>
+      </div>
+
+      <div class="grid grid-cols-2 gap-4 mt-6 fade-in" style="animation-delay:0.1s">
+        <a href="catalog-edit.html" class="admin-card p-5 flex items-center justify-between group hover:border-white/10 transition-colors" style="text-decoration:none">
+          <div><p class="text-sm text-[#D2D2D7] group-hover:text-white transition-colors">Editar Cargo</p><p class="text-[10px] text-[#636366] mt-0.5">Prompt base, skills, restricoes, custo por cargo</p></div>
+          <span class="text-[#636366] group-hover:text-[#D70030] transition-colors text-sm">›</span>
+        </a>
+        <a href="catalog-attributions.html" class="admin-card p-5 flex items-center justify-between group hover:border-white/10 transition-colors" style="text-decoration:none">
+          <div><p class="text-sm text-[#D2D2D7] group-hover:text-white transition-colors">Atribuicoes</p><p class="text-[10px] text-[#636366] mt-0.5">Skills, tools, intencoes por cargo</p></div>
+          <span class="text-[#636366] group-hover:text-[#D70030] transition-colors text-sm">›</span>
+        </a>
       </div>
     </main>
   </div>
@@ -807,8 +873,27 @@
             <p>Disclaimers: 5 areas</p>
             <p>Ultima revisao: 29/03/2026</p>
           </div>
-          <button class="admin-btn-secondary px-3 py-1.5 text-xs mt-4">Editar Constitution</button>
+          <a href="settings-constitution.html" class="admin-btn-secondary px-3 py-1.5 text-xs mt-4 inline-block text-center" style="text-decoration:none">Editar Constitution</a>
         </div>
+      </div>
+
+      <div class="grid grid-cols-4 gap-4 mt-6 fade-in" style="animation-delay:0.4s">
+        <a href="settings-admins.html" class="admin-card p-4 group hover:border-white/10 transition-colors" style="text-decoration:none">
+          <p class="text-xs text-[#D2D2D7] group-hover:text-white transition-colors">Administradores</p>
+          <p class="text-[10px] text-[#636366] mt-1">Roles, permissoes, audit</p>
+        </a>
+        <a href="settings-environments.html" class="admin-card p-4 group hover:border-white/10 transition-colors" style="text-decoration:none">
+          <p class="text-xs text-[#D2D2D7] group-hover:text-white transition-colors">Ambientes</p>
+          <p class="text-[10px] text-[#636366] mt-1">Prod, staging, deploy</p>
+        </a>
+        <a href="settings-llm.html" class="admin-card p-4 group hover:border-white/10 transition-colors" style="text-decoration:none">
+          <p class="text-xs text-[#D2D2D7] group-hover:text-white transition-colors">LLM Defaults</p>
+          <p class="text-[10px] text-[#636366] mt-1">Router, execucao, decisao</p>
+        </a>
+        <a href="impersonate.html" class="admin-card p-4 group hover:border-white/10 transition-colors" style="text-decoration:none">
+          <p class="text-xs text-[#D2D2D7] group-hover:text-white transition-colors">Impersonate</p>
+          <p class="text-[10px] text-[#636366] mt-1">Visualizar como tenant</p>
+        </a>
       </div>
     </main>
   </div>
