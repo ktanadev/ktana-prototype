@@ -3,6 +3,10 @@
 
 (function() {
   const path = window.location.pathname;
+
+  // Guard: skip nav injection on auth, landing, admin, onboarding, and legal pages
+  const skipPatterns = ['/auth/', '/landing', '/admin/', '/legal/'];
+  if (skipPatterns.some(p => path.includes(p))) return;
   function t(p) {
     if (path.includes('/tenant/')) {
       const segs = path.split('/tenant/')[1].split('/');
@@ -47,6 +51,8 @@
       { label: 'Conversar', href: pf('chat.html'), icon: 'M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z' },
       { label: 'Configurar mentores', href: pf('mentor-config.html'), icon: 'M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4' },
       { label: 'Especialistas', href: pf('specialist-config.html'), icon: 'M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3' },
+      { label: 'Meu mapa interior', href: pf('psychology.html'), icon: 'M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z' },
+      { label: 'Minha evolucao', href: pf('evolution.html'), icon: 'M22 12h-4l-3 9L9 3l-3 9H2' },
     ]},
     { id: 'cerebro', label: 'Cerebro', icon: 'M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707', items: [
       { label: 'Meu cerebro', href: pf('brain.html'), icon: 'M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3' },
