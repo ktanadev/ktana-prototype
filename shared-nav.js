@@ -99,9 +99,8 @@
           <span class="kt-logo">KTANA</span>
           <span class="kt-client-name" style="font-family:'Inter',sans-serif;font-size:12px;color:#86868B;margin-left:8px;">CSB Fintechs</span>
           <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" class="kt-org-chev"><path d="M6 9l6 6 6-6"/></svg>
-        </div>
-        <!-- Org Switcher -->
-        <div class="kt-org-drop" id="ktOrgDrop">
+          <!-- Org Switcher (inside kt-org for correct positioning) -->
+          <div class="kt-org-drop" id="ktOrgDrop">
           <div class="kt-org-head">Suas organizacoes</div>
           <div class="kt-org-item kt-org-active" onclick="switchOrg('CSB Fintechs', event)">
             <div class="kt-org-av" style="background:rgba(127,177,189,0.12);font-family:'Inter',sans-serif;font-size:10px;font-weight:600;color:#7FB1BD;">CSB</div>
@@ -125,6 +124,7 @@
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M12.22 2h-.44a2 2 0 00-2 2v.18a2 2 0 01-1 1.73l-.43.25a2 2 0 01-2 0l-.15-.08a2 2 0 00-2.73.73l-.22.38a2 2 0 00.73 2.73l.15.1a2 2 0 011 1.72v.51a2 2 0 01-1 1.74l-.15.09a2 2 0 00-.73 2.73l.22.38a2 2 0 002.73.73l.15-.08a2 2 0 012 0l.43.25a2 2 0 011 1.73V20a2 2 0 002 2h.44"/></svg>
             <span>Gerenciar organizacoes</span>
           </a>
+          </div>
         </div>
         <div class="kt-spacer"></div>
         <button class="kt-ai-btn" onclick="toggleAI()" title="Assistente IA">
@@ -261,7 +261,7 @@
     .kt-org-chev { color: #AEAEB2; transition: transform 0.2s; }
     .kt-org.open .kt-org-chev { transform: rotate(180deg); }
 
-    .kt-org-drop { position: fixed; width: 280px; background: #FFF; border-radius: 16px; border: 1px solid rgba(0,0,0,0.06); box-shadow: 0 12px 48px rgba(0,0,0,0.12); z-index: 400; display: none; overflow: hidden; }
+    .kt-org-drop { position: absolute; top: calc(100% + 6px); left: 0; width: 280px; background: #FFF; border-radius: 16px; border: 1px solid rgba(0,0,0,0.06); box-shadow: 0 12px 48px rgba(0,0,0,0.12); z-index: 400; display: none; overflow: hidden; }
     .kt-org-drop.open { display: block; animation: kaUp 0.2s cubic-bezier(0.32,0.72,0,1); }
     .kt-org-head { font-family: 'Inter', sans-serif; font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; color: #AEAEB2; padding: 14px 16px 8px; }
     .kt-org-item { display: flex; align-items: center; gap: 12px; padding: 10px 16px; cursor: pointer; transition: background 0.12s; text-decoration: none; color: inherit; }
@@ -439,13 +439,8 @@
   window.toggleOrgSwitcher = function() {
     const drop = document.getElementById('ktOrgDrop');
     const org = document.querySelector('.kt-org');
-    const isOpen = drop.classList.toggle('open');
+    drop.classList.toggle('open');
     org.classList.toggle('open');
-    if (isOpen) {
-      const rect = org.getBoundingClientRect();
-      drop.style.top = (rect.bottom + 6) + 'px';
-      drop.style.left = rect.left + 'px';
-    }
   };
 
   window.switchOrg = function(name, e) {
