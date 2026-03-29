@@ -17,32 +17,231 @@
     .card-label { font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: #D70030; margin-bottom: 14px; }
     .row { display: flex; align-items: center; justify-content: space-between; padding: 10px 0; border-bottom: 0.5px solid rgba(0,0,0,0.03); }
     .row:last-child { border-bottom: none; }
+    .row-info { flex: 1; }
     .row-title { font-family: 'Satoshi', sans-serif; font-size: 14px; color: #1D1D1F; }
     .row-desc { font-family: 'Satoshi', sans-serif; font-size: 11px; color: #86868B; margin-top: 2px; }
     .row-value { font-family: 'Inter', sans-serif; font-size: 13px; color: #86868B; }
-    .toggle { width: 44px; height: 26px; border-radius: 13px; background: #E8E8ED; cursor: pointer; position: relative; transition: background 0.2s; }
-    .toggle.on { background: #D70030; }
-    .toggle::after { content: ''; position: absolute; width: 22px; height: 22px; border-radius: 11px; background: #FFF; top: 2px; left: 2px; transition: transform 0.2s; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
-    .toggle.on::after { transform: translateX(18px); }
-    .mode-selector { display: flex; gap: 2px; background: rgba(0,0,0,0.03); border-radius: 8px; padding: 2px; }
-    .mode-btn { font-family: 'Inter', sans-serif; padding: 5px 12px; border-radius: 6px; font-size: 11px; color: #86868B; cursor: pointer; border: none; background: none; }
-    .mode-btn.active { background: #FFF; color: #1D1D1F; box-shadow: 0 1px 3px rgba(0,0,0,0.06); }
-    .conn-item { display: flex; align-items: center; gap: 12px; padding: 10px 0; border-bottom: 0.5px solid rgba(0,0,0,0.03); }
-    .conn-item:last-child { border-bottom: none; }
-    .conn-icon { width: 32px; height: 32px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 700; flex-shrink: 0; }
-    .conn-name { font-family: 'Satoshi', sans-serif; font-size: 13px; color: #1D1D1F; }
-    .conn-desc { font-family: 'Inter', sans-serif; font-size: 11px; color: #86868B; }
-    .conn-status { font-family: 'Inter', sans-serif; font-size: 11px; color: #86868B; margin-left: auto; display: flex; align-items: center; gap: 4px; }
-    .conn-status::before { content: ''; width: 5px; height: 5px; border-radius: 50%; background: #30D158; }
-    .conn-btn { font-family: 'Inter', sans-serif; padding: 5px 12px; border-radius: 980px; background: #1D1D1F; color: #F5F5F7; font-size: 11px; font-weight: 500; border: none; cursor: pointer; margin-left: auto; }
-    .bar-row { display: flex; align-items: center; gap: 12px; padding: 6px 0; }
-    .bar-label { font-family: 'Satoshi', sans-serif; font-size: 12px; color: #86868B; width: 120px; flex-shrink: 0; }
-    .bar-track { flex: 1; height: 4px; background: rgba(0,0,0,0.04); border-radius: 2px; overflow: hidden; }
-    .bar-fill { height: 100%; border-radius: 2px; background: #1D1D1F; }
-    .bar-value { font-family: 'Inter', sans-serif; font-size: 11px; color: #86868B; width: 60px; text-align: right; }
-    .btn-danger { font-family: 'Inter', sans-serif; padding: 10px 20px; border-radius: 12px; background: transparent; color: #D70030; font-size: 12px; border: 0.5px solid rgba(215,0,48,0.2); cursor: pointer; font-weight: 500; }
+    .row-value a { color: #D70030; font-weight: 500; }
+
+    /* Plan hero */
+    .plan-hero { display: flex; align-items: center; justify-content: space-between; padding: 20px; background: rgba(0,0,0,0.02); border-radius: 16px; margin-bottom: 14px; }
+    .plan-name { font-family: 'Zen Dots', cursive; font-size: 20px; color: #D70030; }
+    .plan-price { font-family: 'Satoshi', sans-serif; font-size: 28px; font-weight: 700; color: #1D1D1F; }
+    .plan-price span { font-size: 14px; font-weight: 400; color: #86868B; }
+    .btn-upgrade { font-family: 'Inter', sans-serif; padding: 10px 20px; border-radius: 14px; background: #1D1D1F; color: #F5F5F7; font-size: 13px; font-weight: 500; border: none; cursor: pointer; min-height: 44px; }
+
+    /* Usage bars */
+    .usage-item { padding: 14px 0; border-bottom: 0.5px solid rgba(0,0,0,0.03); }
+    .usage-item:last-child { border-bottom: none; }
+    .usage-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+    .usage-label { font-family: 'Satoshi', sans-serif; font-size: 14px; color: #1D1D1F; }
+    .usage-value { font-family: 'Inter', sans-serif; font-size: 13px; color: #86868B; }
+    .usage-track { width: 100%; height: 6px; background: rgba(0,0,0,0.04); border-radius: 3px; overflow: hidden; }
+    .usage-fill { height: 100%; border-radius: 3px; transition: width 0.6s ease; }
+    .usage-fill.normal { background: #1D1D1F; }
+    .usage-fill.warning { background: #FF9F0A; }
+    .usage-fill.critical { background: #D70030; }
+
+    /* Samurai cost */
+    .samurai-cost { display: flex; align-items: center; gap: 12px; padding: 10px 0; border-bottom: 0.5px solid rgba(0,0,0,0.03); }
+    .samurai-cost:last-child { border-bottom: none; }
+    .samurai-avatar { width: 32px; height: 32px; border-radius: 50%; border: 1.5px solid #D2D2D7; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .samurai-avatar span { font-family: 'Inter', sans-serif; font-size: 11px; color: #86868B; }
+    .samurai-avatar.ceo { border-color: rgba(215,0,48,0.3); }
+    .samurai-avatar.ceo span { color: #D70030; }
+    .samurai-info { flex: 1; min-width: 0; }
+    .samurai-name { font-family: 'Satoshi', sans-serif; font-size: 13px; font-weight: 500; color: #1D1D1F; }
+    .samurai-role { font-family: 'Inter', sans-serif; font-size: 11px; color: #86868B; }
+    .samurai-bar { flex: 1; max-width: 120px; }
+    .samurai-bar-track { height: 4px; background: rgba(0,0,0,0.04); border-radius: 2px; overflow: hidden; }
+    .samurai-bar-fill { height: 100%; border-radius: 2px; background: #1D1D1F; }
+    .samurai-cost-value { font-family: 'Inter', sans-serif; font-size: 12px; color: #86868B; width: 70px; text-align: right; flex-shrink: 0; }
+
+    /* Invoice table */
+    .invoice-table { width: 100%; border-collapse: collapse; margin-top: 4px; }
+    .invoice-table th { font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 500; color: #AEAEB2; text-align: left; padding: 8px 0; border-bottom: 0.5px solid rgba(0,0,0,0.06); }
+    .invoice-table td { font-family: 'Inter', sans-serif; font-size: 13px; color: #1D1D1F; padding: 10px 0; border-bottom: 0.5px solid rgba(0,0,0,0.03); }
+    .invoice-table tr:last-child td { border-bottom: none; }
+    .invoice-status { font-size: 11px; padding: 2px 8px; border-radius: 6px; font-weight: 500; }
+    .invoice-status.paid { background: rgba(48,209,88,0.1); color: #30D158; }
+    .invoice-status.pending { background: rgba(255,159,10,0.1); color: #FF9F0A; }
+    .invoice-link { color: #D70030; font-weight: 500; font-size: 12px; cursor: pointer; }
+
+    .fade-in { animation: fadeIn 0.3s cubic-bezier(0.25,0.1,0.25,1) both; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
   </style>
 </head>
 <body>
 
+  <main class="main">
+    <h1 class="fade-in">Plano</h1>
+
+    <div class="settings-nav fade-in">
+      <button class="settings-tab" onclick="location.href='general.html'">Geral</button>
+      <button class="settings-tab" onclick="location.href='models.html'">Inteligencia</button>
+      <button class="settings-tab" onclick="location.href='connections.html'">Conexoes</button>
+      <button class="settings-tab" onclick="location.href='brain.html'">Cerebro</button>
+      <button class="settings-tab" onclick="location.href='security.html'">Seguranca</button>
+      <button class="settings-tab" onclick="location.href='privacy.html'">Privacidade</button>
+      <button class="settings-tab active">Plano</button>
+      <button class="settings-tab" onclick="location.href='notifications.html'">Notificacoes</button>
+      <button class="settings-tab" onclick="location.href='api.html'">API</button>
+      <button class="settings-tab" onclick="location.href='ethics.html'">Etica</button>
+    </div>
+
+    <!-- Plano atual -->
+    <div class="card fade-in" style="animation-delay:0.1s">
+      <p class="card-label">Plano atual</p>
+      <div class="plan-hero">
+        <div>
+          <div class="plan-name">GUNDAN</div>
+          <div class="plan-price">R$297 <span>/mes</span></div>
+        </div>
+        <button class="btn-upgrade">Upgrade</button>
+      </div>
+      <div class="row">
+        <div class="row-info">
+          <p class="row-title">Proxima cobranca</p>
+        </div>
+        <span class="row-value">15 Abril 2026</span>
+      </div>
+      <div class="row">
+        <div class="row-info">
+          <p class="row-title">Metodo de pagamento</p>
+        </div>
+        <span class="row-value"><a href="#">Visa **** 4821</a></span>
+      </div>
+      <div class="row">
+        <div class="row-info">
+          <p class="row-title">Ciclo de cobranca</p>
+        </div>
+        <span class="row-value">Mensal</span>
+      </div>
+    </div>
+
+    <!-- Uso do mes -->
+    <div class="card fade-in" style="animation-delay:0.2s">
+      <p class="card-label">Uso do mes</p>
+
+      <div class="usage-item">
+        <div class="usage-header">
+          <span class="usage-label">Samurais ativos</span>
+          <span class="usage-value">4 / 10</span>
+        </div>
+        <div class="usage-track"><div class="usage-fill normal" style="width:40%;"></div></div>
+      </div>
+
+      <div class="usage-item">
+        <div class="usage-header">
+          <span class="usage-label">Acoes executadas</span>
+          <span class="usage-value">3.147 / 5.000</span>
+        </div>
+        <div class="usage-track"><div class="usage-fill warning" style="width:63%;"></div></div>
+      </div>
+
+      <div class="usage-item">
+        <div class="usage-header">
+          <span class="usage-label">Custo de tokens</span>
+          <span class="usage-value">R$2.140 / R$3.000</span>
+        </div>
+        <div class="usage-track"><div class="usage-fill critical" style="width:71%;"></div></div>
+      </div>
+    </div>
+
+    <!-- Custo por samurai -->
+    <div class="card fade-in" style="animation-delay:0.3s">
+      <p class="card-label">Custo por samurai</p>
+
+      <div class="samurai-cost">
+        <div class="samurai-avatar ceo"><span>A</span></div>
+        <div class="samurai-info">
+          <div class="samurai-name">Akira</div>
+          <div class="samurai-role">CEO</div>
+        </div>
+        <div class="samurai-bar"><div class="samurai-bar-track"><div class="samurai-bar-fill" style="width:38%;"></div></div></div>
+        <span class="samurai-cost-value">R$812</span>
+      </div>
+
+      <div class="samurai-cost">
+        <div class="samurai-avatar"><span>H</span></div>
+        <div class="samurai-info">
+          <div class="samurai-name">Hana</div>
+          <div class="samurai-role">Secretaria</div>
+        </div>
+        <div class="samurai-bar"><div class="samurai-bar-track"><div class="samurai-bar-fill" style="width:28%;"></div></div></div>
+        <span class="samurai-cost-value">R$598</span>
+      </div>
+
+      <div class="samurai-cost">
+        <div class="samurai-avatar"><span>Y</span></div>
+        <div class="samurai-info">
+          <div class="samurai-name">Yuki</div>
+          <div class="samurai-role">Controller</div>
+        </div>
+        <div class="samurai-bar"><div class="samurai-bar-track"><div class="samurai-bar-fill" style="width:22%;"></div></div></div>
+        <span class="samurai-cost-value">R$465</span>
+      </div>
+
+      <div class="samurai-cost">
+        <div class="samurai-avatar"><span>H</span></div>
+        <div class="samurai-info">
+          <div class="samurai-name">Haruki</div>
+          <div class="samurai-role">PM</div>
+        </div>
+        <div class="samurai-bar"><div class="samurai-bar-track"><div class="samurai-bar-fill" style="width:12%;"></div></div></div>
+        <span class="samurai-cost-value">R$265</span>
+      </div>
+    </div>
+
+    <!-- Historico de faturas -->
+    <div class="card fade-in" style="animation-delay:0.4s">
+      <p class="card-label">Historico de faturas</p>
+      <table class="invoice-table">
+        <thead>
+          <tr>
+            <th>Mes</th>
+            <th>Valor</th>
+            <th>Status</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Marco 2026</td>
+            <td>R$297,00</td>
+            <td><span class="invoice-status pending">Em aberto</span></td>
+            <td><span class="invoice-link">PDF</span></td>
+          </tr>
+          <tr>
+            <td>Fevereiro 2026</td>
+            <td>R$297,00</td>
+            <td><span class="invoice-status paid">Pago</span></td>
+            <td><span class="invoice-link">PDF</span></td>
+          </tr>
+          <tr>
+            <td>Janeiro 2026</td>
+            <td>R$297,00</td>
+            <td><span class="invoice-status paid">Pago</span></td>
+            <td><span class="invoice-link">PDF</span></td>
+          </tr>
+          <tr>
+            <td>Dezembro 2025</td>
+            <td>R$297,00</td>
+            <td><span class="invoice-status paid">Pago</span></td>
+            <td><span class="invoice-link">PDF</span></td>
+          </tr>
+          <tr>
+            <td>Novembro 2025</td>
+            <td>R$197,00</td>
+            <td><span class="invoice-status paid">Pago</span></td>
+            <td><span class="invoice-link">PDF</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+  </main>
+
 <script src="../../shared-nav.js"></script>
+</body>
+</html>
