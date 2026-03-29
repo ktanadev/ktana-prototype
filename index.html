@@ -19,6 +19,33 @@
     .link-item .url { margin-left: auto; font-size: 11px; color: #AEAEB2; }
     .progress { height: 4px; background: #E8E8ED; border-radius: 2px; margin-top: 8px; }
     .progress-fill { height: 100%; border-radius: 2px; }
+
+    /* OVERRIDE: Chat horizontal no topo (inventario) */
+    .kc {
+      position: relative !important;
+      top: auto !important;
+      left: auto !important;
+      width: 100% !important;
+      height: auto !important;
+      border-right: none !important;
+      border-radius: 0 0 16px 16px !important;
+      margin-top: 52px !important;
+    }
+    body.kc-open {
+      margin: 0 auto !important;
+    }
+    .kc-glow { display: none !important; }
+    .kc-msgs {
+      max-height: 140px !important;
+      flex: none !important;
+      padding: 14px 20px !important;
+    }
+    .kc-input-area {
+      padding: 12px 20px !important;
+    }
+    .kc-head {
+      padding: 14px 20px !important;
+    }
   </style>
 </head>
 <body class="light" style="max-width: 1100px; margin: 0 auto;">
@@ -380,3 +407,15 @@
 </body>
 </html>
 <script src="shared-nav.js?v=1774999999"></script>
+<script>
+// Move chat para o topo do conteudo (inventario)
+(function() {
+  var chat = document.getElementById('ktChat');
+  if (chat) {
+    document.body.insertBefore(chat, document.body.firstElementChild);
+  }
+  // Ajustar padding do header (chat ja ocupa espaco no topo)
+  var header = document.querySelector('div[style*="padding: 80px"]');
+  if (header) header.style.paddingTop = '32px';
+})();
+</script>
