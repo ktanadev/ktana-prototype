@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Solucoes Prontas — KTANA</title>
+  <link rel="stylesheet" href="../../shared.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Zen+Dots&display=swap" rel="stylesheet">
+  <style>
+    body { min-height: 100vh; background: #F5F5F7; }
+    .nav { position: sticky; top: 0; z-index: 50; height: 48px; display: flex; align-items: center; justify-content: center; background: rgba(245,245,247,0.72); backdrop-filter: saturate(180%) blur(20px); border-bottom: 0.5px solid rgba(0,0,0,0.06); }
+    .nav-inner { width: 100%; max-width: 1080px; padding: 0 24px; display: flex; align-items: center; justify-content: space-between; }
+    .nav-logo { font-family: 'Zen Dots', cursive; font-size: 14px; color: #D70030; }
+    .nav-links a { font-family: 'Inter', sans-serif; font-size: 12px; color: #1D1D1F; opacity: 0.4; margin-left: 24px; }
+    .nav-links a.active { opacity: 1; }
+    .main { max-width: 1080px; margin: 0 auto; padding: 32px 24px 80px; }
+
+    /* Header */
+    .page-header { display: flex; align-items: flex-end; justify-content: space-between; margin-bottom: 24px; }
+    h1 { font-family: 'Satoshi', sans-serif; font-size: 28px; font-weight: 700; color: #1D1D1F; }
+    .page-sub { font-family: 'Satoshi', sans-serif; font-size: 14px; color: #86868B; margin-top: 4px; }
+    .header-stats { display: flex; gap: 16px; font-family: 'Inter', sans-serif; font-size: 12px; color: #86868B; }
+    .header-stats strong { color: #D70030; font-weight: 600; }
+
+    /* Search + Filters */
+    .toolbar { display: flex; gap: 12px; margin-bottom: 24px; align-items: center; flex-wrap: wrap; }
+    .search-bar { position: relative; flex: 1; min-width: 200px; }
+    .search-bar input { width: 100%; padding: 10px 14px 10px 38px; background: #FFF; border: 1px solid rgba(0,0,0,0.06); border-radius: 12px; font-family: 'Inter', sans-serif; font-size: 13px; color: #1D1D1F; outline: none; }
+    .search-bar input:focus { border-color: rgba(215,0,48,0.3); }
+    .search-bar input::placeholder { color: #AEAEB2; }
+    .search-bar svg { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: #AEAEB2; }
+    .filter-chips { display: flex; gap: 6px; overflow-x: auto; }
+    .chip { font-family: 'Inter', sans-serif; padding: 7px 14px; border-radius: 980px; font-size: 11px; font-weight: 500; color: #86868B; background: #FFF; border: 1px solid rgba(0,0,0,0.06); cursor: pointer; white-space: nowrap; transition: all 0.15s; }
+    .chip:hover { border-color: rgba(0,0,0,0.12); color: #1D1D1F; }
+    .chip.active { background: #1D1D1F; color: #FFF; border-color: #1D1D1F; }
+
+    /* Solution Grid */
+    .sol-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+    @media (max-width: 768px) { .sol-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 480px) { .sol-grid { grid-template-columns: 1fr; } }
+
+    /* Solution Card */
+    .sol-card { background: #FFF; border-radius: 20px; border: 1px solid rgba(0,0,0,0.04); padding: 22px; cursor: pointer; transition: all 0.25s cubic-bezier(0.25,0.1,0.25,1); position: relative; }
+    .sol-card:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(0,0,0,0.06); }
+    .sol-card.activated { border-color: rgba(48,209,88,0.2); }
+    .sol-card.activated::after { content: ''; position: absolute; top: 14px; right: 14px; width: 8px; height: 8px; border-radius: 50%; background: #30D158; box-shadow: 0 0 6px rgba(48,209,88,0.4); }
+
+    .sol-icon { width: 44px; height: 44px; border-radius: 14px; display: flex; align-items: center; justify-content: center; margin-bottom: 14px; font-size: 20px; }
+    .sol-cat { font-family: 'Inter', sans-serif; font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; color: #AEAEB2; margin-bottom: 6px; }
+    .sol-name { font-family: 'Satoshi', sans-serif; font-size: 16px; font-weight: 600; color: #1D1D1F; margin-bottom: 6px; }
+    .sol-desc { font-family: 'Satoshi', sans-serif; font-size: 12px; color: #86868B; line-height: 1.5; margin-bottom: 14px; }
+    .sol-footer { display: flex; align-items: center; justify-content: space-between; padding-top: 14px; border-top: 0.5px solid rgba(0,0,0,0.04); }
+    .sol-meta { font-family: 'Inter', sans-serif; font-size: 11px; color: #AEAEB2; }
+    .sol-btn { font-family: 'Inter', sans-serif; padding: 6px 16px; border-radius: 980px; font-size: 11px; font-weight: 500; border: none; cursor: pointer; min-height: 32px; }
+    .sol-btn.activate { background: #1D1D1F; color: #F5F5F7; }
+    .sol-btn.activate:hover { background: #D70030; }
+    .sol-btn.active { background: rgba(48,209,88,0.1); color: #30D158; }
+    .sol-badge { position: absolute; top: 14px; right: 14px; font-family: 'Inter', sans-serif; font-size: 9px; font-weight: 600; padding: 3px 8px; border-radius: 4px; }
+    .sol-badge.popular { background: rgba(215,0,48,0.06); color: #D70030; }
+    .sol-badge.new { background: rgba(100,210,255,0.1); color: #64D2FF; }
+
+    /* Section */
+    .section-label { font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: #D70030; margin-bottom: 14px; margin-top: 32px; }
+    .section-label:first-of-type { margin-top: 0; }
+
+    .fade-in { animation: fadeIn 0.3s cubic-bezier(0.25,0.1,0.25,1) both; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+  </style>
+</head>
+<body>
+
+  <nav class="nav">
+    <div class="nav-inner">
+      <a href="../dashboard/home.html" class="nav-logo">KTANA</a>
+      <div class="nav-links">
+        <a href="../dashboard/home.html">Painel</a>
+        <a href="../office/index.html">Escritorio</a>
+        <a href="../team/list.html">Equipe</a>
+        <a href="index.html" class="active">Solucoes</a>
+        <a href="../approvals/list.html">Aprovacoes</a>
+        <a href="../settings/general.html">Config</a>
+      </div>
+    </div>
+  </nav>
+
+  <main class="main">
+
+    <div class="page-header fade-in">
+      <div>
+        <h1>Solucoes Prontas</h1>
+        <p class="page-sub">Modulos plug & play. Peca ao seu samurai para ativar qualquer solucao.</p>
+      </div>
+      <div class="header-stats">
+        <span><strong>7</strong> ativas</span>
+        <span><strong>42</strong> disponiveis</span>
+      </div>
+    </div>
+
+    <!-- Toolbar -->
+    <div class="toolbar fade-in">
+      <div class="search-bar">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+        <input type="text" placeholder="Buscar solucoes..." id="searchInput" oninput="filterSolutions()">
+      </div>
+      <div class="filter-chips">
+        <button class="chip active" onclick="setFilter('all',this)">Todas</button>
+        <button class="chip" onclick="setFilter('vendas',this)">Vendas</button>
+        <button class="chip" onclick="setFilter('marketing',this)">Marketing</button>
+        <button class="chip" onclick="setFilter('atendimento',this)">Atendimento</button>
+        <button class="chip" onclick="setFilter('rh',this)">RH</button>
+        <button class="chip" onclick="setFilter('financeiro',this)">Financeiro</button>
+        <button class="chip" onclick="setFilter('operacoes',this)">Operacoes</button>
+        <button class="chip" onclick="setFilter('dados',this)">Dados</button>
+      </div>
+    </div>
+
+    <!-- ATIVAS -->
+    <p class="section-label fade-in">Ativas na sua empresa</p>
+    <div class="sol-grid" id="activeGrid">
+
+      <div class="sol-card activated fade-in" data-cat="vendas" data-name="SDR Automatico" onclick="location.href='sdr-auto.html'">
+        <div class="sol-icon" style="background:rgba(100,210,255,0.08);">&#x1F3AF;</div>
+        <div class="sol-cat">Vendas</div>
+        <div class="sol-name">SDR Automatico</div>
+        <div class="sol-desc">Prospeccao outbound automatizada. Encontra leads, envia mensagens personalizadas e agenda reunioes.</div>
+        <div class="sol-footer"><span class="sol-meta">89 leads/dia · Ativo</span><button class="sol-btn active">Ativo</button></div>
+      </div>
+
+      <div class="sol-card activated fade-in" data-cat="marketing" data-name="Postagem Redes Sociais" onclick="location.href='social-posting.html'">
+        <div class="sol-icon" style="background:rgba(255,159,10,0.08);">&#x1F4F1;</div>
+        <div class="sol-cat">Marketing</div>
+        <div class="sol-name">Postagem Redes Sociais</div>
+        <div class="sol-desc">Criacao e agendamento automatico de posts no LinkedIn, Instagram e Twitter. Calendario editorial com IA.</div>
+        <div class="sol-footer"><span class="sol-meta">12 posts/sem · Ativo</span><button class="sol-btn active">Ativo</button></div>
+      </div>
+
+      <div class="sol-card activated fade-in" data-cat="atendimento" data-name="SAC WhatsApp" onclick="location.href='sac-whatsapp.html'">
+        <div class="sol-icon" style="background:rgba(48,209,88,0.08);">&#x1F4AC;</div>
+        <div class="sol-cat">Atendimento</div>
+        <div class="sol-name">SAC WhatsApp 24/7</div>
+        <div class="sol-desc">Atendimento automatico via WhatsApp. Responde duvidas, escala para humano e faz follow-up.</div>
+        <div class="sol-footer"><span class="sol-meta">340 msgs/dia · Ativo</span><button class="sol-btn active">Ativo</button></div>
+      </div>
+
+      <div class="sol-card activated fade-in" data-cat="financeiro" data-name="Cobranca Inteligente" onclick="location.href='smart-billing.html'">
+        <div class="sol-icon" style="background:rgba(48,209,88,0.08);">&#x1F4B0;</div>
+        <div class="sol-cat">Financeiro</div>
+        <div class="sol-name">Cobranca Inteligente</div>
+        <div class="sol-desc">Lembretes automaticos antes do vencimento. Negociacao por WhatsApp. Reduz inadimplencia em 80%.</div>
+        <div class="sol-footer"><span class="sol-meta">R$42k recuperado · Ativo</span><button class="sol-btn active">Ativo</button></div>
+      </div>
+
+      <div class="sol-card activated fade-in" data-cat="marketing" data-name="Email Marketing" onclick="location.href='email-marketing.html'">
+        <div class="sol-icon" style="background:rgba(255,159,10,0.08);">&#x2709;&#xFE0F;</div>
+        <div class="sol-cat">Marketing</div>
+        <div class="sol-name">Email Marketing IA</div>
+        <div class="sol-desc">Sequencias de email personalizadas. A/B testing automatico. Segmentacao inteligente de base.</div>
+        <div class="sol-footer"><span class="sol-meta">32% open rate · Ativo</span><button class="sol-btn active">Ativo</button></div>
+      </div>
+
+      <div class="sol-card activated fade-in" data-cat="marketing" data-name="SEO Automatico" onclick="location.href='seo-auto.html'">
+        <div class="sol-icon" style="background:rgba(255,159,10,0.08);">&#x1F50D;</div>
+        <div class="sol-cat">Marketing</div>
+        <div class="sol-name">SEO Automatico</div>
+        <div class="sol-desc">Auditoria tecnica, pesquisa de keywords, otimizacao on-page e monitoramento de rankings.</div>
+        <div class="sol-footer"><span class="sol-meta">+340% trafego · Ativo</span><button class="sol-btn active">Ativo</button></div>
+      </div>
+
+      <div class="sol-card activated fade-in" data-cat="financeiro" data-name="DRE Automatico" onclick="location.href='dre-auto.html'">
+        <div class="sol-icon" style="background:rgba(48,209,88,0.08);">&#x1F4CA;</div>
+        <div class="sol-cat">Financeiro</div>
+        <div class="sol-name">DRE e Fluxo de Caixa</div>
+        <div class="sol-desc">Demonstracao de resultados e fluxo de caixa gerados automaticamente. Classificacao inteligente de despesas.</div>
+        <div class="sol-footer"><span class="sol-meta">99.1% precisao · Ativo</span><button class="sol-btn active">Ativo</button></div>
+      </div>
+
+    </div>
+
+    <!-- VENDAS -->
+    <p class="section-label fade-in">Vendas</p>
+    <div class="sol-grid" id="vendasGrid">
+
+      <div class="sol-card fade-in" data-cat="vendas" data-name="Quebra de Objecoes" onclick="location.href='objection-breaker.html'">
+        <span class="sol-badge popular">Popular</span>
+        <div class="sol-icon" style="background:rgba(100,210,255,0.08);">&#x1F4AA;</div>
+        <div class="sol-cat">Vendas</div>
+        <div class="sol-name">Quebra de Objecoes</div>
+        <div class="sol-desc">Agente que analisa objecoes do cliente em tempo real e sugere respostas usando SPIN, BANT e Sandler.</div>
+        <div class="sol-footer"><span class="sol-meta">+47% conversao</span><button class="sol-btn activate">Ativar</button></div>
+      </div>
+
+      <div class="sol-card fade-in" data-cat="vendas" data-name="Follow-up Automatico">
+        <div class="sol-icon" style="background:rgba(100,210,255,0.08);">&#x1F504;</div>
+        <div class="sol-cat">Vendas</div>
+        <div class="sol-name">Follow-up Automatico</div>
+        <div class="sol-desc">Sequencia de follow-ups por email e WhatsApp. Timing inteligente baseado em engajamento do lead.</div>
+        <div class="sol-footer"><span class="sol-meta">3x mais respostas</span><button class="sol-btn activate">Ativar</button></div>
+      </div>
+
+      <div class="sol-card fade-in" data-cat="vendas" data-name="Proposta Automatica">
+        <div class="sol-icon" style="background:rgba(100,210,255,0.08);">&#x1F4DD;</div>
+        <div class="sol-cat">Vendas</div>
+        <div class="sol-name">Gerador de Propostas</div>
+        <div class="sol-desc">Cria propostas comerciais personalizadas em PDF. Precificacao dinamica e follow-up pos-envio.</div>
+        <div class="sol-footer"><span class="sol-meta">5min por proposta</span><button class="sol-btn activate">Ativar</button></div>
+      </div>
+
+      <div class="sol-card fade-in" data-cat="vendas" data-name="Qualificacao de Leads">
+        <div class="sol-icon" style="background:rgba(100,210,255,0.08);">&#x2B50;</div>
+        <div class="sol-cat">Vendas</div>
+        <div class="sol-name">Qualificacao de Leads</div>
+        <div class="sol-desc">Scoring automatico de leads por perfil, engajamento e fit. Prioriza os com maior chance de fechar.</div>
+        <div class="sol-footer"><span class="sol-meta">Lead scoring IA</span><button class="sol-btn activate">Ativar</button></div>
+      </div>
+
+      <div class="sol-card fade-in" data-cat="vendas" data-name="CRM Automatizado">
+        <div class="sol-icon" style="background:rgba(100,210,255,0.08);">&#x1F4CB;</div>
+        <div class="sol-cat">Vendas</div>
+        <div class="sol-name">CRM Automatizado</div>
+        <div class="sol-desc">Atualiza pipeline automaticamente. Move deals entre etapas baseado em interacoes detectadas.</div>
+        <div class="sol-footer"><span class="sol-meta">Zero entrada manual</span><button class="sol-btn activate">Ativar</button></div>
+      </div>
+
+    </div>
+
+    <!-- MARKETING -->
+    <p class="section-label fade-in">Marketing</p>
+    <div class="sol-grid">
+
+      <div class="sol-card fade-in" data-cat="marketing" data-name="Gerador de Conteudo">
+        <span class="sol-badge popular">Popular</span>
+        <div class="sol-icon" style="background:rgba(255,159,10,0.08);">&#x270D;&#xFE0F;</div>
+        <div class="sol-cat">Marketing</div>
+        <div class="sol-name">Gerador de Conteudo</div>
+        <div class="sol-desc">Artigos de blog, copies para ads, scripts de video e legendas para redes sociais. Tom da marca preservado.</div>
+        <div class="sol-footer"><span class="sol-meta">20 conteudos/sem</span><button class="sol-btn activate">Ativar</button></div>
+      </div>
+
+      <div class="sol-card fade-in" data-cat="marketing" data-name="Ads Manager IA">
+        <div class="sol-icon" style="background:rgba(255,159,10,0.08);">&#x1F4B5;</div>
+        <div class="sol-cat">Marketing</div>
+        <div class="sol-name">Ads Manager IA</div>
+        <div class="sol-desc">Gerencia campanhas Google Ads e Meta Ads. Otimiza budget, testa criativos e ajusta lances automaticamente.</div>
+        <div class="sol-footer"><span class="sol-meta">-30% CPA</span><button class="sol-btn activate">Ativar</button></div>
+      </div>
+
+      <div class="sol-card fade-in" data-cat="marketing" data-name="Analise de Concorrentes">
+        <span class="sol-badge new">Novo</span>
+        <div class="sol-icon" style="background:rgba(255,159,10,0.08);">&#x1F50E;</div>
+        <div class="sol-cat">Marketing</div>
+        <div class="sol-name">Analise de Concorrentes</div>
+        <div class="sol-desc">Monitora concorrentes em redes sociais, SEO e pricing. Alerta quando mudam estrategia.</div>
+        <div class="sol-footer"><span class="sol-meta">Monitoramento 24/7</span><button class="sol-btn activate">Ativar</button></div>
+      </div>
+
+      <div class="sol-card fade-in" data-cat="marketing" data-name="Landing Page Builder">
+        <div class="sol-icon" style="background:rgba(255,159,10,0.08);">&#x1F310;</div>
+        <div class="sol-cat">Marketing</div>
+        <div class="sol-name">Landing Page Builder</div>
+        <div class="sol-desc">Cria landing pages otimizadas com copy persuasiva, formulario e tracking. A/B test incluso.</div>
+        <div class="sol-footer"><span class="sol-meta">LP em 10min</span><button class="sol-btn activate">Ativar</button></div>
+      </div>
+
+    </div>
+
+    <!-- ATENDIMENTO -->
+    <p class="section-label fade-in">Atendimento</p>
+    <div class="sol-grid">
+
+      <div class="sol-card fade-in" data-cat="atendimento" data-name="Chatbot Inteligente">
+        <span class="sol-badge popular">Popular</span>
+        <div class="sol-icon" style="background:rgba(191,90,242,0.08);">&#x1F916;</div>
+        <div class="sol-cat">Atendimento</div>
+        <div class="sol-name">Chatbot Multicanal</div>
+        <div class="sol-desc">Bot inteligente para site, WhatsApp e Instagram. Resolve 80% das duvidas sem humano. Escala automaticamente.</div>
+        <div class="sol-footer"><span class="sol-meta">80% resolucao</span><button class="sol-btn activate">Ativar</button></div>
+      </div>
+
+      <div class="sol-card fade-in" data-cat="atendimento" data-name="NPS Automatico">
+        <div class="sol-icon" style="background:rgba(191,90,242,0.08);">&#x1F4CA;</div>
+        <div class="sol-cat">Atendimento</div>
+        <div class="sol-name">Pesquisa NPS Automatica</div>
+        <div class="sol-desc">Envia NPS no momento certo, analisa respostas e gera plano de acao para detratores.</div>
+        <div class="sol-footer"><span class="sol-meta">+15 pontos NPS</span><button class="sol-btn activate">Ativar</button></div>
+      </div>
+
+      <div class="sol-card fade-in" data-cat="atendimento" data-name="Onboarding Clientes">
+        <div class="sol-icon" style="background:rgba(191,90,242,0.08);">&#x1F91D;</div>
+        <div class="sol-cat">Atendimento</div>
+        <div class="sol-name">Onboarding de Clientes</div>
+        <div class="sol-desc">Guia novos clientes passo a passo. Sequencia de boas-vindas, setup e primeiro valor em 24h.</div>
+        <div class="sol-footer"><span class="sol-meta">-60% churn 30d</span><button class="sol-btn activate">Ativar</button></div>
+      </div>
+
+    </div>
+
+    <!-- RH -->
+    <p class="section-label fade-in">Recursos Humanos</p>
+    <div class="sol-grid">
+
+      <div class="sol-card fade-in" data-cat="rh" data-name="Triagem de CVs">
+        <div class="sol-icon" style="background:rgba(255,69,58,0.08);">&#x1F4C4;</div>
+        <div class="sol-cat">RH</div>
+        <div class="sol-name">Triagem de CVs</div>
+        <div class="sol-desc">Analisa curriculos automaticamente, faz matching com a vaga e rankeia candidatos por fit.</div>
+        <div class="sol-footer"><span class="sol-meta">500 CVs/hora</span><button class="sol-btn activate">Ativar</button></div>
+      </div>
+
+      <div class="sol-card fade-in" data-cat="rh" data-name="Onboarding Funcionarios">
+        <div class="sol-icon" style="background:rgba(255,69,58,0.08);">&#x1F680;</div>
+        <div class="sol-cat">RH</div>
+        <div class="sol-name">Onboarding Funcionarios</div>
+        <div class="sol-desc">Guia o novo funcionario nos primeiros 30 dias. Documentos, treinamentos, apresentacoes e checklist.</div>
+        <div class="sol-footer"><span class="sol-meta">30 dias guiados</span><button class="sol-btn activate">Ativar</button></div>
+      </div>
+
+      <div class="sol-card fade-in" data-cat="rh" data-name="Pesquisa de Clima">
+        <span class="sol-badge new">Novo</span>
+        <div class="sol-icon" style="background:rgba(255,69,58,0.08);">&#x1F321;&#xFE0F;</div>
+        <div class="sol-cat">RH</div>
+        <div class="sol-name">Pesquisa de Clima</div>
+        <div class="sol-desc">Pesquisa anonima automatica com analise de sentimento. Detecta problemas antes de virarem crises.</div>
+        <div class="sol-footer"><span class="sol-meta">Analise mensal</span><button class="sol-btn activate">Ativar</button></div>
+      </div>
+
+      <div class="sol-card fade-in" data-cat="rh" data-name="Job Description IA">
+        <div class="sol-icon" style="background:rgba(255,69,58,0.08);">&#x1F4DD;</div>
+        <div class="sol-cat">RH</div>
+        <div class="sol-name">Job Description IA</div>
+        <div class="sol-desc">Gera descricoes de vaga otimizadas para atrair os melhores candidatos. SEO para LinkedIn e portais.</div>
+        <div class="sol-footer"><span class="sol-meta">3x mais candidatos</span><button class="sol-btn activate">Ativar</button></div>
+      </div>
+
+    </div>
+
+    <!-- FINANCEIRO -->
+    <p class="section-label fade-in">Financeiro</p>
+    <div class="sol-grid">
+
+      <div class="sol-card fade-in" data-cat="financeiro" data-name="Conciliacao Bancaria">
+        <div class="sol-icon" style="background:rgba(48,209,88,0.08);">&#x1F3E6;</div>
+        <div class="sol-cat">Financeiro</div>
+        <div class="sol-name">Conciliacao Bancaria</div>
+        <div class="sol-desc">Concilia extrato com lancamentos automaticamente. Identifica divergencias e classifica transacoes.</div>
+        <div class="sol-footer"><span class="sol-meta">99% match</span><button class="sol-btn activate">Ativar</button></div>
+      </div>
+
+      <div class="sol-card fade-in" data-cat="financeiro" data-name="Emissao NF-e">
+        <div class="sol-icon" style="background:rgba(48,209,88,0.08);">&#x1F4C3;</div>
+        <div class="sol-cat">Financeiro</div>
+        <div class="sol-name">Emissao de NF-e</div>
+        <div class="sol-desc">Emite notas fiscais automaticamente apos confirmacao de pagamento. Integra com Omie, Bling e NFe.io.</div>
+        <div class="sol-footer"><span class="sol-meta">Zero erro fiscal</span><button class="sol-btn activate">Ativar</button></div>
+      </div>
+
+      <div class="sol-card fade-in" data-cat="financeiro" data-name="Previsao Fluxo Caixa">
+        <span class="sol-badge new">Novo</span>
+        <div class="sol-icon" style="background:rgba(48,209,88,0.08);">&#x1F52E;</div>
+        <div class="sol-cat">Financeiro</div>
+        <div class="sol-name">Previsao de Fluxo de Caixa</div>
+        <div class="sol-desc">Projeta receitas e despesas para 30, 60 e 90 dias usando historico e sazonalidade. Alerta de risco.</div>
+        <div class="sol-footer"><span class="sol-meta">90 dias projecao</span><button class="sol-btn activate">Ativar</button></div>
+      </div>
+
+    </div>
+
+    <!-- OPERACOES -->
+    <p class="section-label fade-in">Operacoes</p>
+    <div class="sol-grid">
+
+      <div class="sol-card fade-in" data-cat="operacoes" data-name="Automacao de Processos">
+        <div class="sol-icon" style="background:rgba(255,214,10,0.08);">&#x2699;&#xFE0F;</div>
+        <div class="sol-cat">Operacoes</div>
+        <div class="sol-name">Automacao de Processos</div>
+        <div class="sol-desc">Mapeia processos repetitivos e cria automacoes. Conecta sistemas via API sem codigo.</div>
+        <div class="sol-footer"><span class="sol-meta">-70% trabalho manual</span><button class="sol-btn activate">Ativar</button></div>
+      </div>
+
+      <div class="sol-card fade-in" data-cat="operacoes" data-name="Gestao de Contratos">
+        <div class="sol-icon" style="background:rgba(255,214,10,0.08);">&#x1F4DC;</div>
+        <div class="sol-cat">Operacoes</div>
+        <div class="sol-name">Gestao de Contratos</div>
+        <div class="sol-desc">Analisa, renova e alerta sobre prazos de contratos. Revisao automatica de clausulas de risco.</div>
+        <div class="sol-footer"><span class="sol-meta">Zero contrato vencido</span><button class="sol-btn activate">Ativar</button></div>
+      </div>
+
+      <div class="sol-card fade-in" data-cat="operacoes" data-name="Relatorio Executivo">
+        <div class="sol-icon" style="background:rgba(255,214,10,0.08);">&#x1F4CA;</div>
+        <div class="sol-cat">Operacoes</div>
+        <div class="sol-name">Relatorio Executivo Semanal</div>
+        <div class="sol-desc">Consolida dados de todos os departamentos e gera relatorio executivo automatico toda segunda.</div>
+        <div class="sol-footer"><span class="sol-meta">Toda segunda 08h</span><button class="sol-btn activate">Ativar</button></div>
+      </div>
+
+    </div>
+
+    <!-- DADOS -->
+    <p class="section-label fade-in">Dados & Analytics</p>
+    <div class="sol-grid">
+
+      <div class="sol-card fade-in" data-cat="dados" data-name="Dashboard Automatico">
+        <div class="sol-icon" style="background:rgba(94,106,210,0.08);">&#x1F4C8;</div>
+        <div class="sol-cat">Dados</div>
+        <div class="sol-name">Dashboard Automatico</div>
+        <div class="sol-desc">Cria dashboards com KPIs automaticamente. Conecta fontes de dados e atualiza em tempo real.</div>
+        <div class="sol-footer"><span class="sol-meta">Real-time</span><button class="sol-btn activate">Ativar</button></div>
+      </div>
+
+      <div class="sol-card fade-in" data-cat="dados" data-name="Analise Preditiva">
+        <span class="sol-badge new">Novo</span>
+        <div class="sol-icon" style="background:rgba(94,106,210,0.08);">&#x1F52E;</div>
+        <div class="sol-cat">Dados</div>
+        <div class="sol-name">Analise Preditiva</div>
+        <div class="sol-desc">Usa machine learning para prever churn, vendas e tendencias. Sugere acoes preventivas.</div>
+        <div class="sol-footer"><span class="sol-meta">Previsao 90 dias</span><button class="sol-btn activate">Ativar</button></div>
+      </div>
+
+    </div>
+
+  </main>
+
+  <script>
+    let currentFilter = 'all';
+    function setFilter(cat, btn) {
+      currentFilter = cat;
+      document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
+      btn.classList.add('active');
+      filterSolutions();
+    }
+    function filterSolutions() {
+      const q = document.getElementById('searchInput').value.toLowerCase();
+      document.querySelectorAll('.sol-card').forEach(card => {
+        const name = card.dataset.name ? card.dataset.name.toLowerCase() : '';
+        const cat = card.dataset.cat || '';
+        const matchQ = !q || name.includes(q) || card.textContent.toLowerCase().includes(q);
+        const matchCat = currentFilter === 'all' || cat === currentFilter;
+        card.style.display = (matchQ && matchCat) ? '' : 'none';
+      });
+      // Hide empty section labels
+      document.querySelectorAll('.section-label').forEach(label => {
+        const grid = label.nextElementSibling;
+        if (grid && grid.classList.contains('sol-grid')) {
+          const visible = grid.querySelectorAll('.sol-card:not([style*="display: none"])').length;
+          label.style.display = visible ? '' : 'none';
+        }
+      });
+    }
+  </script>
+
+</body>
+</html>

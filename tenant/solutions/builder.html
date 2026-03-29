@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Builder de Solucoes — KTANA</title>
+  <link rel="stylesheet" href="../../shared.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Zen+Dots&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    body { min-height: 100vh; background: #F5F5F7; display: flex; flex-direction: column; }
+    .nav { position: sticky; top: 0; z-index: 50; height: 48px; display: flex; align-items: center; justify-content: center; background: rgba(245,245,247,0.72); backdrop-filter: saturate(180%) blur(20px); border-bottom: 0.5px solid rgba(0,0,0,0.06); flex-shrink: 0; }
+    .nav-inner { width: 100%; max-width: 100%; padding: 0 24px; display: flex; align-items: center; justify-content: space-between; }
+    .nav-logo { font-family: 'Zen Dots', cursive; font-size: 14px; color: #D70030; }
+    .nav-links a { font-family: 'Inter', sans-serif; font-size: 12px; color: #1D1D1F; opacity: 0.4; margin-left: 24px; }
+    .nav-links a.active { opacity: 1; }
+    .back-link { font-family: 'Inter', sans-serif; font-size: 12px; color: #86868B; display: flex; align-items: center; gap: 4px; }
+
+    /* Main Split Layout */
+    .builder-layout { flex: 1; display: flex; overflow: hidden; }
+
+    /* LEFT: Chat Panel */
+    .chat-panel { width: 420px; background: #FFF; border-right: 0.5px solid rgba(0,0,0,0.06); display: flex; flex-direction: column; flex-shrink: 0; }
+    .chat-header { padding: 18px 20px; border-bottom: 0.5px solid rgba(0,0,0,0.04); }
+    .chat-agent { display: flex; align-items: center; gap: 12px; }
+    .chat-avatar { width: 36px; height: 36px; border-radius: 50%; background: rgba(215,0,48,0.08); display: flex; align-items: center; justify-content: center; font-family: 'Zen Dots', cursive; font-size: 12px; color: #D70030; border: 1.5px solid rgba(215,0,48,0.15); }
+    .chat-name { font-family: 'Satoshi', sans-serif; font-size: 14px; font-weight: 600; color: #1D1D1F; }
+    .chat-status { font-family: 'Inter', sans-serif; font-size: 11px; color: #30D158; display: flex; align-items: center; gap: 4px; }
+    .chat-status::before { content: ''; width: 5px; height: 5px; border-radius: 50%; background: #30D158; }
+
+    .chat-messages { flex: 1; overflow-y: auto; padding: 20px; }
+    .msg { margin-bottom: 16px; max-width: 90%; }
+    .msg.agent { margin-right: auto; }
+    .msg.user { margin-left: auto; }
+    .msg-bubble { padding: 12px 16px; border-radius: 18px; font-family: 'Satoshi', sans-serif; font-size: 14px; line-height: 1.6; }
+    .msg.agent .msg-bubble { background: #F0F0F0; color: #1D1D1F; border-bottom-left-radius: 4px; }
+    .msg.user .msg-bubble { background: #1D1D1F; color: #F5F5F7; border-bottom-right-radius: 4px; }
+    .msg-time { font-family: 'Inter', sans-serif; font-size: 10px; color: #AEAEB2; margin-top: 4px; padding: 0 4px; }
+    .msg.user .msg-time { text-align: right; }
+
+    .msg-suggestion { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+    .msg-chip { font-family: 'Inter', sans-serif; padding: 6px 14px; border-radius: 980px; font-size: 12px; color: #1D1D1F; background: #FFF; border: 1px solid rgba(0,0,0,0.08); cursor: pointer; transition: all 0.15s; }
+    .msg-chip:hover { border-color: #D70030; color: #D70030; }
+
+    .chat-input-area { padding: 16px 20px; border-top: 0.5px solid rgba(0,0,0,0.04); }
+    .chat-input-wrap { display: flex; gap: 8px; align-items: flex-end; }
+    .chat-input { flex: 1; padding: 12px 16px; background: #F5F5F7; border: 1px solid rgba(0,0,0,0.06); border-radius: 14px; font-family: 'Satoshi', sans-serif; font-size: 14px; color: #1D1D1F; outline: none; resize: none; min-height: 44px; max-height: 120px; }
+    .chat-input:focus { border-color: rgba(215,0,48,0.3); }
+    .chat-input::placeholder { color: #AEAEB2; }
+    .chat-send { width: 44px; height: 44px; border-radius: 14px; background: #D70030; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; color: #FFF; flex-shrink: 0; }
+    .chat-send:hover { background: #B5002A; }
+
+    /* RIGHT: Preview Panel */
+    .preview-panel { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
+    .preview-tabs { height: 44px; background: #FFF; border-bottom: 0.5px solid rgba(0,0,0,0.06); display: flex; align-items: center; padding: 0 20px; gap: 4px; }
+    .preview-tab { font-family: 'Inter', sans-serif; padding: 6px 16px; border-radius: 8px; font-size: 12px; color: #86868B; cursor: pointer; border: none; background: none; }
+    .preview-tab.active { background: rgba(0,0,0,0.04); color: #1D1D1F; font-weight: 500; }
+    .preview-actions { margin-left: auto; display: flex; gap: 6px; }
+    .preview-btn { font-family: 'Inter', sans-serif; padding: 6px 14px; border-radius: 8px; font-size: 11px; font-weight: 500; cursor: pointer; border: none; }
+    .preview-btn.primary { background: #D70030; color: #FFF; }
+    .preview-btn.secondary { background: rgba(0,0,0,0.04); color: #6E6E73; }
+
+    /* Preview: Flow Canvas */
+    .preview-content { flex: 1; overflow: auto; padding: 32px; }
+
+    /* Flow Preview */
+    .flow-canvas { position: relative; min-height: 500px; }
+    .flow-step { background: #FFF; border-radius: 16px; border: 1px solid rgba(0,0,0,0.06); padding: 18px 20px; position: absolute; width: 280px; box-shadow: 0 2px 12px rgba(0,0,0,0.03); }
+    .flow-step.active { border-color: rgba(215,0,48,0.2); box-shadow: 0 0 0 3px rgba(215,0,48,0.06); }
+    .flow-step-header { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }
+    .flow-step-num { width: 24px; height: 24px; border-radius: 8px; background: rgba(215,0,48,0.08); display: flex; align-items: center; justify-content: center; font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 600; color: #D70030; flex-shrink: 0; }
+    .flow-step-title { font-family: 'Satoshi', sans-serif; font-size: 14px; font-weight: 600; color: #1D1D1F; }
+    .flow-step-desc { font-family: 'Inter', sans-serif; font-size: 12px; color: #86868B; line-height: 1.5; }
+    .flow-step-tag { font-family: 'Inter', sans-serif; font-size: 10px; color: #AEAEB2; margin-top: 8px; display: flex; align-items: center; gap: 4px; }
+    .flow-step-tag svg { width: 10px; height: 10px; }
+    .flow-connector { position: absolute; width: 2px; background: rgba(215,0,48,0.1); }
+
+    /* Config Preview */
+    .config-card { background: #FFF; border-radius: 20px; border: 1px solid rgba(0,0,0,0.04); padding: 24px; margin-bottom: 14px; }
+    .config-label { font-family: 'Inter', sans-serif; font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; color: #D70030; margin-bottom: 12px; }
+    .config-row { display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 0.5px solid rgba(0,0,0,0.03); font-size: 13px; }
+    .config-row:last-child { border-bottom: none; }
+    .config-key { font-family: 'Satoshi', sans-serif; color: #86868B; }
+    .config-val { font-family: 'Inter', sans-serif; color: #1D1D1F; font-weight: 500; }
+
+    /* Status bar */
+    .status-bar { height: 36px; background: #FFF; border-top: 0.5px solid rgba(0,0,0,0.04); display: flex; align-items: center; padding: 0 20px; font-family: 'Inter', sans-serif; font-size: 11px; color: #AEAEB2; gap: 16px; flex-shrink: 0; }
+    .status-dot { width: 6px; height: 6px; border-radius: 50%; background: #30D158; }
+
+    @media (max-width: 768px) {
+      .builder-layout { flex-direction: column; }
+      .chat-panel { width: 100%; height: 50vh; }
+    }
+
+    .fade-in { animation: fadeIn 0.3s cubic-bezier(0.25,0.1,0.25,1) both; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+  </style>
+</head>
+<body>
+
+  <nav class="nav">
+    <div class="nav-inner">
+      <a href="index.html" class="back-link">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M15 18l-6-6 6-6"/></svg>
+        Solucoes
+      </a>
+      <div style="display:flex;align-items:center;gap:8px;">
+        <span class="nav-logo">KTANA</span>
+        <span style="font-family:'Inter',sans-serif;font-size:12px;color:#86868B;">Builder</span>
+      </div>
+      <div class="nav-links">
+        <a href="../dashboard/home.html">Painel</a>
+      </div>
+    </div>
+  </nav>
+
+  <div class="builder-layout">
+
+    <!-- Chat Panel (left) -->
+    <div class="chat-panel">
+      <div class="chat-header">
+        <div class="chat-agent">
+          <div class="chat-avatar">K</div>
+          <div>
+            <div class="chat-name">Kaito — Arquiteto de Solucoes</div>
+            <div class="chat-status">Online</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="chat-messages">
+
+        <div class="msg agent fade-in">
+          <div class="msg-bubble">Ola! Sou o Kaito, seu arquiteto de solucoes. Me conta o que voce precisa automatizar e eu monto a solucao pra voce. Pode ser algo simples como "postar no Instagram" ou complexo como "todo meu funil de vendas".</div>
+          <div class="msg-time">14:32</div>
+        </div>
+
+        <div class="msg user fade-in">
+          <div class="msg-bubble">Quero automatizar o processo de postagem nas redes sociais. LinkedIn e Instagram. Precisa criar os posts, escolher horario e publicar automaticamente.</div>
+          <div class="msg-time">14:33</div>
+        </div>
+
+        <div class="msg agent fade-in">
+          <div class="msg-bubble">Perfeito! Montei um fluxo em 4 etapas. Olha no preview ao lado. Basicamente: voce define o tema da semana, eu crio os posts com copy e imagem, voce aprova (ou eu publico direto se quiser), e eu publico nos horarios de maior engajamento.<br><br>Quer que eu ajuste algo?</div>
+          <div class="msg-time">14:33</div>
+          <div class="msg-suggestion">
+            <span class="msg-chip">Adicionar Twitter</span>
+            <span class="msg-chip">Publicar sem aprovacao</span>
+            <span class="msg-chip">Incluir stories</span>
+            <span class="msg-chip">Mudar frequencia</span>
+          </div>
+        </div>
+
+        <div class="msg user fade-in">
+          <div class="msg-bubble">Adiciona Twitter tambem e pode publicar sem aprovacao nos posts de conteudo. So preciso aprovar os promocionais.</div>
+          <div class="msg-time">14:34</div>
+        </div>
+
+        <div class="msg agent fade-in">
+          <div class="msg-bubble">Feito! Atualizei o fluxo: conteudo vai direto, promocional precisa da sua aprovacao. Twitter adicionado. O custo estimado e R$47/mes (incluido no seu plano GUNDAN). Quer ativar agora?</div>
+          <div class="msg-time">14:34</div>
+          <div class="msg-suggestion">
+            <span class="msg-chip" style="border-color:#D70030;color:#D70030;font-weight:500;">Ativar solucao</span>
+            <span class="msg-chip">Ver detalhes</span>
+            <span class="msg-chip">Ajustar mais</span>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="chat-input-area">
+        <div class="chat-input-wrap">
+          <textarea class="chat-input" placeholder="Descreva o que quer automatizar..." rows="1"></textarea>
+          <button class="chat-send">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Preview Panel (right) -->
+    <div class="preview-panel">
+      <div class="preview-tabs">
+        <button class="preview-tab active" onclick="showTab('flow',this)">Fluxo</button>
+        <button class="preview-tab" onclick="showTab('config',this)">Configuracao</button>
+        <button class="preview-tab" onclick="showTab('rules',this)">Regras de Negocio</button>
+        <div class="preview-actions">
+          <button class="preview-btn secondary">Exportar</button>
+          <button class="preview-btn primary">Ativar Solucao</button>
+        </div>
+      </div>
+
+      <!-- Flow Tab -->
+      <div class="preview-content" id="tab-flow">
+        <div class="flow-canvas">
+
+          <!-- Step 1: Trigger -->
+          <div class="flow-step" style="left:40px; top:0;">
+            <div class="flow-step-header">
+              <div class="flow-step-num">1</div>
+              <div class="flow-step-title">Trigger: Calendario Editorial</div>
+            </div>
+            <div class="flow-step-desc">Todo domingo 20h, o samurai analisa o calendario da semana e identifica os temas planejados.</div>
+            <div class="flow-step-tag">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+              Automatico · Semanal
+            </div>
+          </div>
+          <div class="flow-connector" style="left:180px; top:108px; height:32px;"></div>
+
+          <!-- Step 2: Create -->
+          <div class="flow-step active" style="left:40px; top:140px;">
+            <div class="flow-step-header">
+              <div class="flow-step-num">2</div>
+              <div class="flow-step-title">Criar Posts com IA</div>
+            </div>
+            <div class="flow-step-desc">Gera copy + sugestao de imagem para cada post. Tom da marca preservado. LinkedIn (profissional), Instagram (visual), Twitter (conciso).</div>
+            <div class="flow-step-tag">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5z"/></svg>
+              CMO Samurai · Claude Sonnet 4.6
+            </div>
+          </div>
+          <div class="flow-connector" style="left:180px; top:280px; height:32px;"></div>
+
+          <!-- Step 3: Approve -->
+          <div class="flow-step" style="left:40px; top:312px;">
+            <div class="flow-step-header">
+              <div class="flow-step-num">3</div>
+              <div class="flow-step-title">Decisao: Conteudo ou Promocional?</div>
+            </div>
+            <div class="flow-step-desc">Conteudo educativo → publica direto (sem aprovacao). Promocional/vendas → envia para aprovacao do dono.</div>
+            <div class="flow-step-tag">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+              Regra de negocio · Automatico
+            </div>
+          </div>
+
+          <!-- Branch: Direct publish -->
+          <div class="flow-connector" style="left:100px; top:448px; height:32px;"></div>
+          <div class="flow-step" style="left:0; top:480px; width:220px;">
+            <div class="flow-step-header">
+              <div class="flow-step-num" style="background:rgba(48,209,88,0.1); color:#30D158;">A</div>
+              <div class="flow-step-title" style="font-size:13px;">Publicar Direto</div>
+            </div>
+            <div class="flow-step-desc">Conteudo educativo publicado automaticamente no melhor horario por plataforma.</div>
+          </div>
+
+          <!-- Branch: Approval -->
+          <div class="flow-connector" style="left:260px; top:448px; height:32px;"></div>
+          <div class="flow-step" style="left:180px; top:480px; width:220px;">
+            <div class="flow-step-header">
+              <div class="flow-step-num" style="background:rgba(255,159,10,0.1); color:#FF9F0A;">B</div>
+              <div class="flow-step-title" style="font-size:13px;">Pedir Aprovacao</div>
+            </div>
+            <div class="flow-step-desc">Promocional vai para fila de aprovacao. Dono edita, aprova ou rejeita.</div>
+          </div>
+
+          <!-- Step 4: Publish -->
+          <div class="flow-connector" style="left:180px; top:590px; height:32px;"></div>
+          <div class="flow-step" style="left:40px; top:622px;">
+            <div class="flow-step-header">
+              <div class="flow-step-num">4</div>
+              <div class="flow-step-title">Publicar + Monitorar</div>
+            </div>
+            <div class="flow-step-desc">Publica em LinkedIn, Instagram e Twitter nos horarios otimizados. Monitora engajamento por 48h e gera relatorio.</div>
+            <div class="flow-step-tag">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 20V10M12 20V4M6 20v-6"/></svg>
+              3 plataformas · Relatorio automatico
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Config Tab -->
+      <div class="preview-content" id="tab-config" style="display:none;">
+        <div class="config-card">
+          <div class="config-label">Informacoes da Solucao</div>
+          <div class="config-row"><span class="config-key">Nome</span><span class="config-val">Postagem Redes Sociais</span></div>
+          <div class="config-row"><span class="config-key">Categoria</span><span class="config-val">Marketing</span></div>
+          <div class="config-row"><span class="config-key">Samurai responsavel</span><span class="config-val">CMO Samurai (Mei)</span></div>
+          <div class="config-row"><span class="config-key">Modelo IA</span><span class="config-val">Claude Sonnet 4.6</span></div>
+          <div class="config-row"><span class="config-key">Custo estimado</span><span class="config-val" style="color:#D70030;">R$47/mes (incluso no plano)</span></div>
+        </div>
+        <div class="config-card">
+          <div class="config-label">Plataformas</div>
+          <div class="config-row"><span class="config-key">LinkedIn</span><span class="config-val" style="color:#30D158;">Ativo</span></div>
+          <div class="config-row"><span class="config-key">Instagram</span><span class="config-val" style="color:#30D158;">Ativo</span></div>
+          <div class="config-row"><span class="config-key">Twitter/X</span><span class="config-val" style="color:#30D158;">Ativo</span></div>
+          <div class="config-row"><span class="config-key">TikTok</span><span class="config-val" style="color:#AEAEB2;">Desativado</span></div>
+          <div class="config-row"><span class="config-key">Facebook</span><span class="config-val" style="color:#AEAEB2;">Desativado</span></div>
+        </div>
+        <div class="config-card">
+          <div class="config-label">Frequencia e Horarios</div>
+          <div class="config-row"><span class="config-key">Posts por semana</span><span class="config-val">12 (4 por plataforma)</span></div>
+          <div class="config-row"><span class="config-key">LinkedIn</span><span class="config-val">Seg-Qui 08:00</span></div>
+          <div class="config-row"><span class="config-key">Instagram</span><span class="config-val">Ter-Sex 12:00</span></div>
+          <div class="config-row"><span class="config-key">Twitter</span><span class="config-val">Seg-Sex 10:00, 16:00</span></div>
+        </div>
+        <div class="config-card">
+          <div class="config-label">Aprovacoes</div>
+          <div class="config-row"><span class="config-key">Conteudo educativo</span><span class="config-val" style="color:#30D158;">Publica direto</span></div>
+          <div class="config-row"><span class="config-key">Promocional/vendas</span><span class="config-val" style="color:#FF9F0A;">Precisa aprovacao</span></div>
+          <div class="config-row"><span class="config-key">Aprovador</span><span class="config-val">Julio (dono)</span></div>
+        </div>
+      </div>
+
+      <!-- Rules Tab -->
+      <div class="preview-content" id="tab-rules" style="display:none;">
+        <div class="config-card">
+          <div class="config-label">Regras de Negocio</div>
+          <div style="font-family:'Satoshi',sans-serif; font-size:13px; color:#1D1D1F; line-height:1.8;">
+            <p style="margin-bottom:12px;"><strong style="color:#D70030;">R1.</strong> Tom de voz deve seguir brand guidelines da empresa (formal B2B no LinkedIn, visual e leve no Instagram, conciso no Twitter).</p>
+            <p style="margin-bottom:12px;"><strong style="color:#D70030;">R2.</strong> NUNCA publicar conteudo promocional sem aprovacao do dono. Conteudo educativo pode ir direto.</p>
+            <p style="margin-bottom:12px;"><strong style="color:#D70030;">R3.</strong> Maximo de 1 post promocional por semana por plataforma. Ratio 80% educativo / 20% promocional.</p>
+            <p style="margin-bottom:12px;"><strong style="color:#D70030;">R4.</strong> Se engajamento de um post cair abaixo de 50% da media, pausar e notificar para revisao de estrategia.</p>
+            <p style="margin-bottom:12px;"><strong style="color:#D70030;">R5.</strong> Hashtags: maximo 5 no LinkedIn, 15 no Instagram, 3 no Twitter. Pesquisa de trending toda segunda.</p>
+            <p style="margin-bottom:12px;"><strong style="color:#D70030;">R6.</strong> Imagens: usar banco interno primeiro. Se nao tiver, gerar com IA mantendo identidade visual.</p>
+            <p style="margin-bottom:12px;"><strong style="color:#D70030;">R7.</strong> Relatorio de performance enviado toda sexta 17h com: impressoes, engajamento, crescimento de seguidores, melhor post da semana.</p>
+            <p><strong style="color:#D70030;">R8.</strong> Respostas a comentarios: responder em ate 2h no horario comercial. Escalar para humano se for reclamacao.</p>
+          </div>
+        </div>
+        <div class="config-card">
+          <div class="config-label">Conexoes Necessarias</div>
+          <div class="config-row"><span class="config-key">LinkedIn</span><span class="config-val" style="color:#30D158;">Conectado</span></div>
+          <div class="config-row"><span class="config-key">Instagram Business</span><span class="config-val" style="color:#30D158;">Conectado</span></div>
+          <div class="config-row"><span class="config-key">Twitter/X</span><span class="config-val" style="color:#FF9F0A;">Pendente</span></div>
+          <div class="config-row"><span class="config-key">Canva (imagens)</span><span class="config-val" style="color:#AEAEB2;">Opcional</span></div>
+        </div>
+      </div>
+
+      <!-- Status Bar -->
+      <div class="status-bar">
+        <span class="status-dot"></span>
+        <span>Solucao pronta para ativar</span>
+        <span style="margin-left:auto;">4 etapas · 3 plataformas · 8 regras · R$47/mes</span>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    function showTab(tab, btn) {
+      document.querySelectorAll('[id^="tab-"]').forEach(t => t.style.display = 'none');
+      document.getElementById('tab-' + tab).style.display = '';
+      document.querySelectorAll('.preview-tab').forEach(t => t.classList.remove('active'));
+      btn.classList.add('active');
+    }
+  </script>
+
+</body>
+</html>
