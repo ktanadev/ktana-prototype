@@ -48,14 +48,14 @@
       <span class="text-[10px] text-[#636366] ml-1">ADMIN</span>
     </div>
     <nav class="flex-1 px-3 py-4 space-y-0.5 text-[13px]">
-      <button onclick="show('overview')" class="nav-btn w-full text-left px-3 py-2 rounded-lg text-[#8E8E93] hover:text-white hover:bg-white/[0.04] transition-colors">Overview</button>
-      <button onclick="show('flow')" class="nav-btn w-full text-left px-3 py-2 rounded-lg text-[#8E8E93] hover:text-white hover:bg-white/[0.04] transition-colors">Agent Flow</button>
-      <button onclick="show('tenants')" class="nav-btn w-full text-left px-3 py-2 rounded-lg text-[#8E8E93] hover:text-white hover:bg-white/[0.04] transition-colors">Tenants</button>
-      <button onclick="show('tenant-detail')" class="nav-btn w-full text-left px-3 py-2 rounded-lg text-[#8E8E93] hover:text-white hover:bg-white/[0.04] transition-colors">Tenant Detail</button>
+      <button onclick="show('overview')" class="nav-btn w-full text-left px-3 py-2 rounded-lg text-[#8E8E93] hover:text-white hover:bg-white/[0.04] transition-colors">Visao Geral</button>
+      <button onclick="show('flow')" class="nav-btn w-full text-left px-3 py-2 rounded-lg text-[#8E8E93] hover:text-white hover:bg-white/[0.04] transition-colors">Fluxo de Agentes</button>
+      <button onclick="show('tenants')" class="nav-btn w-full text-left px-3 py-2 rounded-lg text-[#8E8E93] hover:text-white hover:bg-white/[0.04] transition-colors">Inquilinos</button>
+      <button onclick="show('tenant-detail')" class="nav-btn w-full text-left px-3 py-2 rounded-lg text-[#8E8E93] hover:text-white hover:bg-white/[0.04] transition-colors">Detalhe do Inquilino</button>
       <button onclick="show('agents')" class="nav-btn w-full text-left px-3 py-2 rounded-lg text-[#8E8E93] hover:text-white hover:bg-white/[0.04] transition-colors">Agentes</button>
-      <button onclick="show('health')" class="nav-btn w-full text-left px-3 py-2 rounded-lg text-[#8E8E93] hover:text-white hover:bg-white/[0.04] transition-colors">System Health</button>
-      <button onclick="show('billing')" class="nav-btn w-full text-left px-3 py-2 rounded-lg text-[#8E8E93] hover:text-white hover:bg-white/[0.04] transition-colors">Billing</button>
-      <button onclick="show('compliance')" class="nav-btn w-full text-left px-3 py-2 rounded-lg text-[#8E8E93] hover:text-white hover:bg-white/[0.04] transition-colors">Compliance</button>
+      <button onclick="show('health')" class="nav-btn w-full text-left px-3 py-2 rounded-lg text-[#8E8E93] hover:text-white hover:bg-white/[0.04] transition-colors">Saude do Sistema</button>
+      <button onclick="show('billing')" class="nav-btn w-full text-left px-3 py-2 rounded-lg text-[#8E8E93] hover:text-white hover:bg-white/[0.04] transition-colors">Faturamento</button>
+      <button onclick="show('compliance')" class="nav-btn w-full text-left px-3 py-2 rounded-lg text-[#8E8E93] hover:text-white hover:bg-white/[0.04] transition-colors">Conformidade</button>
       <button onclick="show('catalog')" class="nav-btn w-full text-left px-3 py-2 rounded-lg text-[#8E8E93] hover:text-white hover:bg-white/[0.04] transition-colors">Catalogo</button>
       <button onclick="show('settings-admin')" class="nav-btn w-full text-left px-3 py-2 rounded-lg text-[#8E8E93] hover:text-white hover:bg-white/[0.04] transition-colors">Config</button>
     </nav>
@@ -72,7 +72,7 @@
   <!-- ========================================== -->
   <div id="overview" class="screen active">
     <header class="px-8 py-5 border-b border-white/[0.04] flex items-center justify-between">
-      <h1 class="text-lg font-semibold">Overview</h1>
+      <h1 class="text-lg font-semibold">Visao Geral</h1>
       <div class="flex items-center gap-3">
         <span class="w-2 h-2 rounded-full bg-[#30D158]"></span>
         <span class="text-xs text-[#8E8E93]">Todos sistemas operacionais</span>
@@ -255,7 +255,7 @@
   <!-- ========================================== -->
   <div id="flow" class="screen">
     <header class="px-8 py-5 border-b border-white/[0.04] flex items-center justify-between">
-      <h1 class="text-lg font-semibold">Agent Flow</h1>
+      <h1 class="text-lg font-semibold">Fluxo de Agentes</h1>
       <div class="flex items-center gap-4 text-xs text-[#8E8E93]">
         <span>847 samurais</span>
         <span>124 tenants</span>
@@ -371,7 +371,7 @@
   <!-- ========================================== -->
   <div id="tenants" class="screen">
     <header class="px-8 py-5 border-b border-white/[0.04] flex items-center justify-between">
-      <h1 class="text-lg font-semibold">Tenants</h1>
+      <h1 class="text-lg font-semibold">Inquilinos</h1>
       <div class="flex items-center gap-3">
         <input type="text" placeholder="Buscar tenant..." class="admin-input px-3 py-1.5 text-xs w-48">
         <span class="text-xs text-[#8E8E93]">124 ativos</span>
@@ -399,7 +399,7 @@
               <td class="px-5 py-3.5 tabular-nums text-[#8E8E93]">8</td>
               <td class="px-5 py-3.5 tabular-nums text-[#8E8E93]">312</td>
               <td class="px-5 py-3.5 tabular-nums">R$297</td>
-              <td class="px-5 py-3.5"><span class="flex items-center gap-1.5"><span class="w-1.5 h-1.5 rounded-full bg-[#30D158]"></span><span class="text-[10px] text-[#8E8E93]">Healthy</span></span></td>
+              <td class="px-5 py-3.5"><span class="flex items-center gap-1.5"><span class="w-1.5 h-1.5 rounded-full bg-[#30D158]"></span><span class="text-[10px] text-[#8E8E93]">Saudavel</span></span></td>
               <td class="px-5 py-3.5 text-[#636366] text-xs">29/03/26</td>
             </tr>
             <tr class="border-b border-white/[0.02] hover:bg-white/[0.02] cursor-pointer transition-colors">
@@ -417,7 +417,7 @@
               <td class="px-5 py-3.5 tabular-nums text-[#8E8E93]">3</td>
               <td class="px-5 py-3.5 tabular-nums text-[#8E8E93]">89</td>
               <td class="px-5 py-3.5 tabular-nums">R$97</td>
-              <td class="px-5 py-3.5"><span class="flex items-center gap-1.5"><span class="w-1.5 h-1.5 rounded-full bg-[#30D158]"></span><span class="text-[10px] text-[#8E8E93]">Healthy</span></span></td>
+              <td class="px-5 py-3.5"><span class="flex items-center gap-1.5"><span class="w-1.5 h-1.5 rounded-full bg-[#30D158]"></span><span class="text-[10px] text-[#8E8E93]">Saudavel</span></span></td>
               <td class="px-5 py-3.5 text-[#636366] text-xs">20/03/26</td>
             </tr>
             <tr class="border-b border-white/[0.02] hover:bg-white/[0.02] cursor-pointer transition-colors">
@@ -426,7 +426,7 @@
               <td class="px-5 py-3.5 tabular-nums text-[#636366]">1</td>
               <td class="px-5 py-3.5 tabular-nums text-[#636366]">45</td>
               <td class="px-5 py-3.5 tabular-nums text-[#636366]">R$0</td>
-              <td class="px-5 py-3.5"><span class="flex items-center gap-1.5"><span class="w-1.5 h-1.5 rounded-full bg-[#30D158]"></span><span class="text-[10px] text-[#636366]">Healthy</span></span></td>
+              <td class="px-5 py-3.5"><span class="flex items-center gap-1.5"><span class="w-1.5 h-1.5 rounded-full bg-[#30D158]"></span><span class="text-[10px] text-[#636366]">Saudavel</span></span></td>
               <td class="px-5 py-3.5 text-[#636366] text-xs">28/03/26</td>
             </tr>
           </tbody>
@@ -441,7 +441,7 @@
   <div id="tenant-detail" class="screen">
     <header class="px-8 py-5 border-b border-white/[0.04] flex items-center justify-between">
       <div class="flex items-center gap-3">
-        <button onclick="show('tenants')" class="text-[#636366] text-xs">← Tenants</button>
+        <button onclick="show('tenants')" class="text-[#636366] text-xs">← Inquilinos</button>
         <h1 class="text-lg font-semibold">KTANA</h1>
         <span class="px-2 py-0.5 bg-[#D70030]/10 text-[#D70030] text-[10px] rounded-md">GUNDAN</span>
       </div>
@@ -578,7 +578,7 @@
   <!-- ========================================== -->
   <div id="health" class="screen">
     <header class="px-8 py-5 border-b border-white/[0.04] flex items-center justify-between">
-      <h1 class="text-lg font-semibold">System Health</h1>
+      <h1 class="text-lg font-semibold">Saude do Sistema</h1>
       <span class="flex items-center gap-1.5 text-xs"><span class="w-1.5 h-1.5 rounded-full bg-[#30D158]"></span><span class="text-[#8E8E93]">All systems operational</span></span>
     </header>
     <main class="flex-1 px-8 py-8">
@@ -661,7 +661,7 @@
   <!-- SCREEN 7: BILLING                          -->
   <!-- ========================================== -->
   <div id="billing" class="screen">
-    <header class="px-8 py-5 border-b border-white/[0.04]"><h1 class="text-lg font-semibold">Billing</h1></header>
+    <header class="px-8 py-5 border-b border-white/[0.04]"><h1 class="text-lg font-semibold">Faturamento</h1></header>
     <main class="flex-1 px-8 py-8">
       <div class="grid grid-cols-4 gap-4 mb-8 fade-in">
         <div class="stat-card p-5"><p class="text-2xl font-bold">R$34k</p><p class="text-[10px] text-[#636366] mt-1">MRR</p></div>
@@ -703,7 +703,7 @@
   <!-- SCREEN 8: COMPLIANCE                       -->
   <!-- ========================================== -->
   <div id="compliance" class="screen">
-    <header class="px-8 py-5 border-b border-white/[0.04]"><h1 class="text-lg font-semibold">Compliance</h1></header>
+    <header class="px-8 py-5 border-b border-white/[0.04]"><h1 class="text-lg font-semibold">Conformidade</h1></header>
     <main class="flex-1 px-8 py-8">
       <div class="grid grid-cols-3 gap-6 fade-in">
         <div class="admin-card p-6">
@@ -818,11 +818,32 @@
   <script>
     function show(id) {
       document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-      document.getElementById(id).classList.add('active');
+      const target = document.getElementById(id);
+      if (target) target.classList.add('active');
       window.scrollTo(0, 0);
-      document.querySelectorAll('.nav-btn').forEach(b => { b.classList.remove('text-white', 'bg-white/[0.06]'); b.classList.add('text-[#8E8E93]'); });
-      if(event && event.target.classList.contains('nav-btn')) { event.target.classList.remove('text-[#8E8E93]'); event.target.classList.add('text-white', 'bg-white/[0.06]'); }
+      // Update hash for state persistence
+      history.replaceState(null, '', '#' + id);
+      // Highlight active nav button
+      document.querySelectorAll('.nav-btn').forEach((b, i) => {
+        b.classList.remove('text-white', 'bg-white/[0.06]');
+        b.classList.add('text-[#8E8E93]');
+        // Match button to screen by onclick attribute
+        const onclick = b.getAttribute('onclick') || '';
+        if (onclick.includes("'" + id + "'")) {
+          b.classList.remove('text-[#8E8E93]');
+          b.classList.add('text-white', 'bg-white/[0.06]');
+        }
+      });
     }
+    // Restore tab state from URL hash on load
+    (function() {
+      const hash = location.hash.replace('#', '');
+      if (hash && document.getElementById(hash)) {
+        show(hash);
+      } else {
+        show('overview');
+      }
+    })();
   </script>
 </body>
 </html>
