@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Minhas Organizacoes — KTANA</title>
+  <link rel="stylesheet" href="../../shared.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Zen+Dots&display=swap" rel="stylesheet">
+  <style>
+    body { min-height: 100vh; background: #F5F5F7; }
+    .main { max-width: 720px; margin: 0 auto; padding: 80px 24px; }
+    h1 { font-family: 'Satoshi', sans-serif; font-size: 28px; font-weight: 700; color: #1D1D1F; margin-bottom: 4px; }
+    .sub { font-family: 'Satoshi', sans-serif; font-size: 14px; color: #86868B; margin-bottom: 32px; line-height: 1.5; }
+
+    .org-list { display: flex; flex-direction: column; gap: 12px; margin-bottom: 32px; }
+
+    .org-card { background: #FFF; border-radius: 20px; border: 1px solid rgba(0,0,0,0.04); padding: 24px; display: flex; align-items: center; gap: 18px; cursor: pointer; transition: all 0.25s cubic-bezier(0.25,0.1,0.25,1); }
+    .org-card:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(0,0,0,0.06); }
+    .org-card.active { border-color: rgba(215,0,48,0.2); box-shadow: 0 0 0 3px rgba(215,0,48,0.06); }
+
+    .org-avatar { width: 52px; height: 52px; border-radius: 16px; display: flex; align-items: center; justify-content: center; font-family: 'Zen Dots', cursive; font-size: 16px; flex-shrink: 0; }
+    .org-info { flex: 1; }
+    .org-name { font-family: 'Satoshi', sans-serif; font-size: 18px; font-weight: 600; color: #1D1D1F; }
+    .org-details { font-family: 'Inter', sans-serif; font-size: 12px; color: #86868B; margin-top: 4px; display: flex; gap: 16px; }
+    .org-detail { display: flex; align-items: center; gap: 4px; }
+
+    .org-status { display: flex; flex-direction: column; align-items: flex-end; gap: 4px; flex-shrink: 0; }
+    .org-badge { font-family: 'Inter', sans-serif; font-size: 10px; font-weight: 600; padding: 3px 10px; border-radius: 6px; }
+    .org-badge.active-badge { background: rgba(48,209,88,0.1); color: #30D158; }
+    .org-badge.plan { background: rgba(215,0,48,0.06); color: #D70030; }
+    .org-btn { font-family: 'Inter', sans-serif; font-size: 12px; color: #86868B; display: flex; align-items: center; gap: 4px; }
+    .org-btn svg { width: 14px; height: 14px; }
+
+    /* Stats per org */
+    .org-stats { display: flex; gap: 12px; margin-top: 12px; padding-top: 12px; border-top: 0.5px solid rgba(0,0,0,0.04); }
+    .org-stat { text-align: center; flex: 1; }
+    .org-stat-val { font-family: 'Satoshi', sans-serif; font-size: 16px; font-weight: 700; color: #1D1D1F; }
+    .org-stat-label { font-family: 'Inter', sans-serif; font-size: 10px; color: #AEAEB2; }
+
+    /* Create new */
+    .create-card { background: transparent; border-radius: 20px; border: 2px dashed rgba(215,0,48,0.15); padding: 32px; text-align: center; cursor: pointer; transition: all 0.2s; }
+    .create-card:hover { border-color: rgba(215,0,48,0.4); background: rgba(215,0,48,0.01); }
+    .create-icon { width: 48px; height: 48px; border-radius: 14px; background: rgba(215,0,48,0.06); display: flex; align-items: center; justify-content: center; margin: 0 auto 12px; }
+    .create-icon svg { width: 20px; height: 20px; color: #D70030; }
+    .create-title { font-family: 'Satoshi', sans-serif; font-size: 15px; font-weight: 600; color: #1D1D1F; margin-bottom: 4px; }
+    .create-desc { font-family: 'Satoshi', sans-serif; font-size: 13px; color: #86868B; }
+
+    .fade-in { animation: fadeIn 0.3s cubic-bezier(0.25,0.1,0.25,1) both; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+  </style>
+</head>
+<body>
+
+  <main class="main">
+    <h1 class="fade-in">Minhas organizacoes</h1>
+    <p class="sub fade-in">Gerencie todas as suas empresas em um so lugar. Cada organizacao tem seus proprios samurais, solucoes e configuracoes.</p>
+
+    <div class="org-list">
+
+      <!-- Org 1: Active -->
+      <div class="org-card active fade-in" onclick="location.href='../dashboard/home.html'">
+        <div class="org-avatar" style="background:rgba(215,0,48,0.06); color:#D70030;">CSB</div>
+        <div class="org-info">
+          <div class="org-name">CSB Fintechs</div>
+          <div class="org-details">
+            <span class="org-detail">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
+              4 samurais
+            </span>
+            <span class="org-detail">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+              7 solucoes ativas
+            </span>
+            <span class="org-detail">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M12 1v22M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>
+              R$2.1k/mes
+            </span>
+          </div>
+          <div class="org-stats">
+            <div class="org-stat"><div class="org-stat-val" style="color:#30D158;">R$127k</div><div class="org-stat-label">Receita gerada</div></div>
+            <div class="org-stat"><div class="org-stat-val">672h</div><div class="org-stat-label">Horas trabalhadas</div></div>
+            <div class="org-stat"><div class="org-stat-val" style="color:#D70030;">76x</div><div class="org-stat-label">ROI</div></div>
+          </div>
+        </div>
+        <div class="org-status">
+          <span class="org-badge active-badge">Ativa</span>
+          <span class="org-badge plan">GUNDAN</span>
+          <span class="org-btn">
+            Acessar
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M9 18l6-6-6-6"/></svg>
+          </span>
+        </div>
+      </div>
+
+      <!-- Org 2 -->
+      <div class="org-card fade-in" style="animation-delay:0.1s;" onclick="location.href='../dashboard/home.html'">
+        <div class="org-avatar" style="background:rgba(100,210,255,0.08); color:#64D2FF;">KT</div>
+        <div class="org-info">
+          <div class="org-name">KTANA</div>
+          <div class="org-details">
+            <span class="org-detail">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
+              8 samurais
+            </span>
+            <span class="org-detail">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+              12 solucoes ativas
+            </span>
+            <span class="org-detail">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M12 1v22M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>
+              R$4.8k/mes
+            </span>
+          </div>
+          <div class="org-stats">
+            <div class="org-stat"><div class="org-stat-val" style="color:#30D158;">R$342k</div><div class="org-stat-label">Receita gerada</div></div>
+            <div class="org-stat"><div class="org-stat-val">1.4kh</div><div class="org-stat-label">Horas trabalhadas</div></div>
+            <div class="org-stat"><div class="org-stat-val" style="color:#D70030;">71x</div><div class="org-stat-label">ROI</div></div>
+          </div>
+        </div>
+        <div class="org-status">
+          <span class="org-badge active-badge">Ativa</span>
+          <span class="org-badge plan">BAKUFU</span>
+          <span class="org-btn">
+            Acessar
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M9 18l6-6-6-6"/></svg>
+          </span>
+        </div>
+      </div>
+
+      <!-- Org 3: Smaller -->
+      <div class="org-card fade-in" style="animation-delay:0.2s;" onclick="location.href='../dashboard/home.html'">
+        <div class="org-avatar" style="background:rgba(48,209,88,0.08); color:#30D158;">VD</div>
+        <div class="org-info">
+          <div class="org-name">Vende Direito</div>
+          <div class="org-details">
+            <span class="org-detail">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
+              1 samurai
+            </span>
+            <span class="org-detail">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+              2 solucoes ativas
+            </span>
+            <span class="org-detail">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M12 1v22M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>
+              Gratis
+            </span>
+          </div>
+        </div>
+        <div class="org-status">
+          <span class="org-badge active-badge">Ativa</span>
+          <span class="org-badge plan">RONIN</span>
+          <span class="org-btn">
+            Acessar
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M9 18l6-6-6-6"/></svg>
+          </span>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Create new org -->
+    <div class="create-card fade-in" style="animation-delay:0.3s;">
+      <div class="create-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+      </div>
+      <div class="create-title">Adicionar nova organizacao</div>
+      <div class="create-desc">Crie uma empresa separada com seus proprios samurais, solucoes e faturamento independente.</div>
+    </div>
+
+  </main>
+
+<script src="../../shared-nav.js"></script>
+</body>
+</html>

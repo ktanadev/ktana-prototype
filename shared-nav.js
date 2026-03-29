@@ -85,7 +85,37 @@
         <button class="kt-toggle" onclick="toggleSidebar()" title="Menu">
           ${svg('M4 6h16M4 12h16M4 18h16', 18)}
         </button>
-        <a href="${t('dashboard/home.html')}" class="kt-logo">KTANA</a>
+        <div class="kt-org" onclick="toggleOrgSwitcher()">
+          <span class="kt-logo">KTANA</span>
+          <span class="kt-org-name">CSB Fintechs</span>
+          <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" class="kt-org-chev"><path d="M6 9l6 6 6-6"/></svg>
+        </div>
+        <!-- Org Switcher -->
+        <div class="kt-org-drop" id="ktOrgDrop">
+          <div class="kt-org-head">Suas organizacoes</div>
+          <a href="${t('organizations/index.html')}" class="kt-org-item kt-org-active">
+            <div class="kt-org-av" style="background:rgba(215,0,48,0.06);color:#D70030;">CSB</div>
+            <div class="kt-org-info"><div class="kt-org-n">CSB Fintechs</div><div class="kt-org-p">GUNDAN · 4 samurais</div></div>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#30D158" stroke-width="2.5" stroke-linecap="round"><path d="M20 6L9 17l-5-5"/></svg>
+          </a>
+          <a href="${t('organizations/index.html')}" class="kt-org-item">
+            <div class="kt-org-av" style="background:rgba(100,210,255,0.08);color:#64D2FF;">KT</div>
+            <div class="kt-org-info"><div class="kt-org-n">KTANA</div><div class="kt-org-p">BAKUFU · 8 samurais</div></div>
+          </a>
+          <a href="${t('organizations/index.html')}" class="kt-org-item">
+            <div class="kt-org-av" style="background:rgba(48,209,88,0.08);color:#30D158;">VD</div>
+            <div class="kt-org-info"><div class="kt-org-n">Vende Direito</div><div class="kt-org-p">RONIN · 1 samurai</div></div>
+          </a>
+          <div class="kt-org-sep"></div>
+          <a href="${t('organizations/index.html')}" class="kt-org-item kt-org-manage">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            <span>Nova organizacao</span>
+          </a>
+          <a href="${t('organizations/index.html')}" class="kt-org-item kt-org-manage">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M12.22 2h-.44a2 2 0 00-2 2v.18a2 2 0 01-1 1.73l-.43.25a2 2 0 01-2 0l-.15-.08a2 2 0 00-2.73.73l-.22.38a2 2 0 00.73 2.73l.15.1a2 2 0 011 1.72v.51a2 2 0 01-1 1.74l-.15.09a2 2 0 00-.73 2.73l.22.38a2 2 0 002.73.73l.15-.08a2 2 0 012 0l.43.25a2 2 0 011 1.73V20a2 2 0 002 2h.44"/></svg>
+            <span>Gerenciar organizacoes</span>
+          </a>
+        </div>
         <div class="kt-spacer"></div>
         <button class="kt-ai-btn" onclick="toggleAI()" title="Assistente IA">
           ${svg('M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z', 18)}
@@ -149,6 +179,27 @@
     .kt-ai-label { }
     .kt-avatar { width: 32px; height: 32px; border-radius: 50%; background: rgba(0,0,0,0.04); display: flex; align-items: center; justify-content: center; color: #86868B; text-decoration: none; transition: background 0.15s; }
     .kt-avatar:hover { background: rgba(0,0,0,0.08); color: #1D1D1F; }
+
+    /* Org Switcher */
+    .kt-org { display: flex; align-items: center; gap: 6px; cursor: pointer; padding: 4px 10px 4px 0; border-radius: 8px; transition: background 0.15s; position: relative; }
+    .kt-org:hover { background: rgba(0,0,0,0.03); }
+    .kt-org-name { font-family: 'Inter', -apple-system, sans-serif; font-size: 12px; color: #6E6E73; max-width: 120px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .kt-org-chev { color: #AEAEB2; transition: transform 0.2s; }
+    .kt-org.open .kt-org-chev { transform: rotate(180deg); }
+
+    .kt-org-drop { position: absolute; top: 44px; left: 20px; width: 280px; background: #FFF; border-radius: 16px; border: 1px solid rgba(0,0,0,0.06); box-shadow: 0 12px 48px rgba(0,0,0,0.12); z-index: 400; display: none; overflow: hidden; }
+    .kt-org-drop.open { display: block; animation: kaUp 0.2s cubic-bezier(0.32,0.72,0,1); }
+    .kt-org-head { font-family: 'Inter', sans-serif; font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; color: #AEAEB2; padding: 14px 16px 8px; }
+    .kt-org-item { display: flex; align-items: center; gap: 12px; padding: 10px 16px; cursor: pointer; transition: background 0.12s; text-decoration: none; color: inherit; }
+    .kt-org-item:hover { background: rgba(0,0,0,0.03); }
+    .kt-org-active { background: rgba(215,0,48,0.02); }
+    .kt-org-av { width: 32px; height: 32px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-family: 'Zen Dots', cursive; font-size: 10px; flex-shrink: 0; }
+    .kt-org-info { flex: 1; }
+    .kt-org-n { font-family: 'Satoshi', sans-serif; font-size: 13px; font-weight: 600; color: #1D1D1F; }
+    .kt-org-p { font-family: 'Inter', sans-serif; font-size: 11px; color: #AEAEB2; }
+    .kt-org-sep { height: 1px; background: rgba(0,0,0,0.04); margin: 4px 0; }
+    .kt-org-manage { color: #86868B; font-family: 'Inter', sans-serif; font-size: 13px; gap: 10px; }
+    .kt-org-manage:hover { color: #1D1D1F; }
 
     /* Sidebar */
     .ks { position: fixed; top: 0; left: 0; bottom: 0; width: 272px; background: #FFF; z-index: 300; transform: translateX(-100%); transition: transform 0.3s cubic-bezier(0.4,0,0.2,1); box-shadow: none; display: flex; flex-direction: column; border-right: 0.5px solid rgba(0,0,0,0.06); }
@@ -306,6 +357,21 @@
     }, 800);
     msgs.scrollTop = msgs.scrollHeight;
   };
+
+  window.toggleOrgSwitcher = function() {
+    const drop = document.getElementById('ktOrgDrop');
+    const org = document.querySelector('.kt-org');
+    drop.classList.toggle('open');
+    org.classList.toggle('open');
+  };
+  document.addEventListener('click', function(e) {
+    if (!e.target.closest('.kt-org') && !e.target.closest('.kt-org-drop')) {
+      const d = document.getElementById('ktOrgDrop');
+      const o = document.querySelector('.kt-org');
+      if (d) d.classList.remove('open');
+      if (o) o.classList.remove('open');
+    }
+  });
 
   // Close sidebar on Escape
   document.addEventListener('keydown', e => {

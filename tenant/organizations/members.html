@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Membros da Organizacao — KTANA</title>
+  <link rel="stylesheet" href="../../shared.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Zen+Dots&display=swap" rel="stylesheet">
+  <style>
+    body { min-height: 100vh; background: #F5F5F7; }
+    .main { max-width: 860px; margin: 0 auto; padding: 80px 24px; }
+    h1 { font-family: 'Satoshi', sans-serif; font-size: 28px; font-weight: 700; color: #1D1D1F; margin-bottom: 4px; }
+    .sub { font-family: 'Satoshi', sans-serif; font-size: 14px; color: #86868B; margin-bottom: 28px; line-height: 1.5; }
+
+    .header-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 24px; }
+    .invite-btn { font-family: 'Inter', sans-serif; padding: 10px 20px; border-radius: 12px; background: #1D1D1F; color: #F5F5F7; font-size: 13px; font-weight: 500; border: none; cursor: pointer; display: flex; align-items: center; gap: 8px; min-height: 44px; }
+    .invite-btn:hover { background: #D70030; }
+    .invite-btn svg { width: 14px; height: 14px; }
+
+    .stats-row { display: flex; gap: 12px; margin-bottom: 24px; }
+    .stat { background: #FFF; border-radius: 14px; border: 1px solid rgba(0,0,0,0.04); padding: 14px 18px; flex: 1; }
+    .stat-val { font-family: 'Satoshi', sans-serif; font-size: 20px; font-weight: 700; color: #1D1D1F; }
+    .stat-label { font-family: 'Inter', sans-serif; font-size: 11px; color: #86868B; }
+
+    .section-label { font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: #D70030; margin-bottom: 12px; margin-top: 28px; }
+
+    /* Member card */
+    .card { background: #FFF; border-radius: 20px; border: 1px solid rgba(0,0,0,0.04); margin-bottom: 8px; }
+    .member { display: flex; align-items: center; gap: 14px; padding: 16px 20px; }
+    .member-avatar { width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: 'Inter', sans-serif; font-size: 14px; font-weight: 600; flex-shrink: 0; }
+    .member-info { flex: 1; }
+    .member-name { font-family: 'Satoshi', sans-serif; font-size: 14px; font-weight: 600; color: #1D1D1F; }
+    .member-email { font-family: 'Inter', sans-serif; font-size: 12px; color: #86868B; }
+    .member-role { font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 500; padding: 4px 12px; border-radius: 8px; border: 1px solid rgba(0,0,0,0.06); cursor: pointer; display: flex; align-items: center; gap: 4px; color: #6E6E73; background: #FFF; }
+    .member-role svg { width: 10px; height: 10px; }
+    .member-status { font-family: 'Inter', sans-serif; font-size: 11px; display: flex; align-items: center; gap: 4px; margin-left: 12px; }
+    .member-status.online { color: #30D158; }
+    .member-status.offline { color: #AEAEB2; }
+    .member-status::before { content: ''; width: 6px; height: 6px; border-radius: 50%; }
+    .member-status.online::before { background: #30D158; }
+    .member-status.offline::before { background: #D2D2D7; }
+    .member-actions { display: flex; gap: 4px; margin-left: 8px; }
+    .member-btn { width: 32px; height: 32px; border-radius: 8px; background: transparent; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; color: #AEAEB2; }
+    .member-btn:hover { background: rgba(0,0,0,0.03); color: #86868B; }
+
+    /* Permissions grid */
+    .perms { display: flex; gap: 6px; margin-top: 8px; padding: 0 20px 14px; flex-wrap: wrap; }
+    .perm-tag { font-family: 'Inter', sans-serif; font-size: 10px; padding: 3px 10px; border-radius: 6px; background: rgba(0,0,0,0.03); color: #86868B; }
+    .perm-tag.full { background: rgba(215,0,48,0.06); color: #D70030; }
+
+    /* Pending invites */
+    .pending { opacity: 0.6; }
+    .pending .member-name { color: #86868B; }
+    .pending-badge { font-family: 'Inter', sans-serif; font-size: 10px; padding: 3px 10px; border-radius: 6px; background: rgba(255,159,10,0.08); color: #FF9F0A; margin-left: 8px; }
+
+    /* Invite modal */
+    .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.3); backdrop-filter: blur(4px); z-index: 500; align-items: center; justify-content: center; }
+    .modal-overlay.open { display: flex; }
+    .modal { background: #FFF; border-radius: 24px; width: 100%; max-width: 480px; padding: 28px; margin: 24px; animation: kaUp 0.25s cubic-bezier(0.32,0.72,0,1); }
+    .modal h2 { font-family: 'Satoshi', sans-serif; font-size: 20px; font-weight: 700; color: #1D1D1F; margin-bottom: 4px; }
+    .modal .sub { margin-bottom: 20px; }
+    .field { margin-bottom: 14px; }
+    .field label { font-family: 'Inter', sans-serif; font-size: 12px; font-weight: 500; color: #1D1D1F; display: block; margin-bottom: 4px; }
+    .field input, .field select { width: 100%; padding: 12px 14px; border: 1px solid rgba(0,0,0,0.08); border-radius: 12px; font-family: 'Inter', sans-serif; font-size: 14px; color: #1D1D1F; outline: none; background: #F5F5F7; }
+    .field input:focus { border-color: rgba(215,0,48,0.3); }
+    .field input::placeholder { color: #AEAEB2; }
+    .field select { cursor: pointer; appearance: none; }
+    .field-hint { font-family: 'Inter', sans-serif; font-size: 11px; color: #AEAEB2; margin-top: 4px; }
+
+    .perm-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; margin-top: 8px; }
+    .perm-option { padding: 10px 12px; border-radius: 10px; border: 1.5px solid rgba(0,0,0,0.06); cursor: pointer; transition: all 0.15s; }
+    .perm-option:hover { border-color: rgba(0,0,0,0.12); }
+    .perm-option.selected { border-color: #D70030; background: rgba(215,0,48,0.02); }
+    .perm-option-name { font-family: 'Inter', sans-serif; font-size: 12px; font-weight: 600; color: #1D1D1F; }
+    .perm-option-desc { font-family: 'Inter', sans-serif; font-size: 10px; color: #86868B; margin-top: 2px; }
+
+    .modal-actions { display: flex; gap: 8px; margin-top: 20px; }
+    .modal-actions button { flex: 1; padding: 12px; border-radius: 12px; font-family: 'Inter', sans-serif; font-size: 14px; font-weight: 500; border: none; cursor: pointer; min-height: 48px; }
+    .btn-cancel { background: transparent; color: #86868B; border: 1px solid rgba(0,0,0,0.06); }
+    .btn-invite { background: #D70030; color: #FFF; }
+
+    @keyframes kaUp { from { opacity: 0; transform: translateY(12px) scale(0.97); } to { opacity: 1; transform: translateY(0) scale(1); } }
+    .fade-in { animation: fadeIn 0.3s ease both; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+  </style>
+</head>
+<body>
+
+  <main class="main">
+
+    <div class="header-row fade-in">
+      <div>
+        <h1>Membros — CSB Fintechs</h1>
+        <p class="sub" style="margin-bottom:0;">Convide pessoas da sua equipe para acessar e gerenciar os samurais desta organizacao.</p>
+      </div>
+      <button class="invite-btn" onclick="openInvite()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M16 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2M19 8l3 3-3 3M15 11h7"/><circle cx="8.5" cy="7" r="4"/></svg>
+        Convidar membro
+      </button>
+    </div>
+
+    <div class="stats-row fade-in">
+      <div class="stat"><div class="stat-val">3</div><div class="stat-label">Membros ativos</div></div>
+      <div class="stat"><div class="stat-val">1</div><div class="stat-label">Convite pendente</div></div>
+      <div class="stat"><div class="stat-val">5</div><div class="stat-label">Limite do plano</div></div>
+    </div>
+
+    <p class="section-label fade-in">Membros ativos</p>
+
+    <!-- Owner -->
+    <div class="card fade-in">
+      <div class="member">
+        <div class="member-avatar" style="background:rgba(215,0,48,0.06); color:#D70030;">JC</div>
+        <div class="member-info">
+          <div class="member-name">Julio Cesar</div>
+          <div class="member-email">julio@ktana.ai</div>
+        </div>
+        <div class="member-role" style="background:rgba(215,0,48,0.04); color:#D70030; border-color:rgba(215,0,48,0.15);">Dono</div>
+        <span class="member-status online">Online</span>
+      </div>
+      <div class="perms">
+        <span class="perm-tag full">Acesso total</span>
+        <span class="perm-tag">Billing</span>
+        <span class="perm-tag">Samurais</span>
+        <span class="perm-tag">Config</span>
+        <span class="perm-tag">Membros</span>
+      </div>
+    </div>
+
+    <!-- Admin member -->
+    <div class="card fade-in" style="animation-delay:0.05s;">
+      <div class="member">
+        <div class="member-avatar" style="background:rgba(100,210,255,0.08); color:#64D2FF;">AM</div>
+        <div class="member-info">
+          <div class="member-name">Ana Martins</div>
+          <div class="member-email">ana@csbfintechs.com.br</div>
+        </div>
+        <div class="member-role">
+          Administrador
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg>
+        </div>
+        <span class="member-status online">Online</span>
+        <div class="member-actions">
+          <button class="member-btn" title="Editar">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+          </button>
+        </div>
+      </div>
+      <div class="perms">
+        <span class="perm-tag">Samurais</span>
+        <span class="perm-tag">Solucoes</span>
+        <span class="perm-tag">Aprovacoes</span>
+        <span class="perm-tag">Config</span>
+      </div>
+    </div>
+
+    <!-- Viewer member -->
+    <div class="card fade-in" style="animation-delay:0.1s;">
+      <div class="member">
+        <div class="member-avatar" style="background:rgba(48,209,88,0.08); color:#30D158;">RS</div>
+        <div class="member-info">
+          <div class="member-name">Rafael Santos</div>
+          <div class="member-email">rafael@csbfintechs.com.br</div>
+        </div>
+        <div class="member-role">
+          Operador
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg>
+        </div>
+        <span class="member-status offline">Offline</span>
+        <div class="member-actions">
+          <button class="member-btn" title="Editar">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+          </button>
+        </div>
+      </div>
+      <div class="perms">
+        <span class="perm-tag">Aprovacoes</span>
+        <span class="perm-tag">Solucoes (ver)</span>
+      </div>
+    </div>
+
+    <p class="section-label fade-in" style="animation-delay:0.15s;">Convites pendentes</p>
+
+    <div class="card pending fade-in" style="animation-delay:0.2s;">
+      <div class="member">
+        <div class="member-avatar" style="background:rgba(0,0,0,0.04); color:#AEAEB2;">MC</div>
+        <div class="member-info">
+          <div class="member-name">Maria Costa</div>
+          <div class="member-email">maria@csbfintechs.com.br</div>
+        </div>
+        <div class="member-role">Visualizador</div>
+        <span class="pending-badge">Pendente</span>
+        <div class="member-actions">
+          <button class="member-btn" title="Reenviar convite">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M23 4v6h-6M1 20v-6h6"/><path d="M3.51 9a9 9 0 0114.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0020.49 15"/></svg>
+          </button>
+          <button class="member-btn" title="Cancelar convite">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- Invite Modal -->
+  <div class="modal-overlay" id="inviteModal" onclick="if(event.target===this)closeInvite()">
+    <div class="modal">
+      <h2>Convidar membro</h2>
+      <p class="sub">Envie um convite por email. A pessoa recebe acesso imediato apos aceitar.</p>
+
+      <div class="field">
+        <label>Email</label>
+        <input type="email" placeholder="pessoa@empresa.com">
+      </div>
+
+      <div class="field">
+        <label>Nome (opcional)</label>
+        <input type="text" placeholder="Nome da pessoa">
+      </div>
+
+      <div class="field">
+        <label>Nivel de acesso</label>
+        <div class="perm-grid">
+          <div class="perm-option" onclick="selectPerm(this)">
+            <div class="perm-option-name">Administrador</div>
+            <div class="perm-option-desc">Acesso total exceto billing e membros</div>
+          </div>
+          <div class="perm-option selected" onclick="selectPerm(this)">
+            <div class="perm-option-name">Operador</div>
+            <div class="perm-option-desc">Usar samurais, aprovar acoes, ver solucoes</div>
+          </div>
+          <div class="perm-option" onclick="selectPerm(this)">
+            <div class="perm-option-name">Visualizador</div>
+            <div class="perm-option-desc">Somente leitura — ver dashboards e relatorios</div>
+          </div>
+          <div class="perm-option" onclick="selectPerm(this)">
+            <div class="perm-option-name">Personalizado</div>
+            <div class="perm-option-desc">Escolher permissoes individualmente</div>
+          </div>
+        </div>
+        <div class="field-hint">Voce pode alterar o nivel de acesso a qualquer momento.</div>
+      </div>
+
+      <div class="modal-actions">
+        <button class="btn-cancel" onclick="closeInvite()">Cancelar</button>
+        <button class="btn-invite" onclick="closeInvite()">Enviar convite</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function openInvite() { document.getElementById('inviteModal').classList.add('open'); }
+    function closeInvite() { document.getElementById('inviteModal').classList.remove('open'); }
+    function selectPerm(el) {
+      document.querySelectorAll('.perm-option').forEach(p => p.classList.remove('selected'));
+      el.classList.add('selected');
+    }
+  </script>
+
+<script src="../../shared-nav.js"></script>
+</body>
+</html>
