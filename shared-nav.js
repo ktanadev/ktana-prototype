@@ -373,7 +373,8 @@
   const style = document.createElement('style');
   style.textContent = `
     /* Top Bar */
-    .kt { position: sticky; top: 0; z-index: 200; height: 52px; background: ${isPF ? 'linear-gradient(180deg, #D70030 0%, #C0002A 100%)' : 'linear-gradient(180deg, #1D1D1F 0%, #2C2C2E 100%)'}; backdrop-filter: saturate(180%) blur(20px); -webkit-backdrop-filter: saturate(180%) blur(20px); border-bottom: 0.5px solid rgba(0,0,0,0.1); }
+    .kt { position: fixed; top: 0; left: 0; right: 0; z-index: 200; height: 52px; background: ${isPF ? 'linear-gradient(180deg, #D70030 0%, #C0002A 100%)' : 'linear-gradient(180deg, #1D1D1F 0%, #2C2C2E 100%)'}; backdrop-filter: saturate(180%) blur(20px); -webkit-backdrop-filter: saturate(180%) blur(20px); border-bottom: 0.5px solid rgba(0,0,0,0.1); }
+    body { padding-top: 52px; }
     .kt::after { content: ''; position: absolute; bottom: -1px; left: 0; right: 0; height: 1px; background: ${isPF ? 'linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.1) 50%, transparent 100%)' : 'linear-gradient(90deg, transparent 0%, rgba(215,0,48,0.08) 50%, transparent 100%)'}; }
     .kt-inner { max-width: 1200px; margin: 0 auto; height: 100%; padding: 0 20px; display: flex; align-items: center; gap: 16px; }
     .kt-toggle { width: 36px; height: 36px; border-radius: 10px; border: none; background: transparent; cursor: pointer; display: flex; align-items: center; justify-content: center; color: #FFF; transition: background 0.15s; }
