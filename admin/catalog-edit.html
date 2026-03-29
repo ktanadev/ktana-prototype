@@ -1,21 +1,241 @@
 <!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>Editar Cargo — KTANA Admin</title><link rel="stylesheet" href="../shared.css"><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Zen+Dots&display=swap" rel="stylesheet">
-<style>body{min-height:100vh;background:#0A0A0A;color:#F5F5F7;display:flex}.sidebar{position:fixed;left:0;top:0;bottom:0;width:220px;background:#111;border-right:0.5px solid rgba(255,255,255,0.04);padding:20px 0;display:flex;flex-direction:column}.sidebar-logo{padding:0 20px 16px;font-family:'Zen Dots',cursive;font-size:14px;color:#D70030;border-bottom:0.5px solid rgba(255,255,255,0.04);margin-bottom:12px;display:flex;align-items:center;gap:6px}.sidebar-logo span{font-family:'Inter',sans-serif;font-size:11px;color:#AEAEB2}.sidebar a{display:block;padding:8px 20px;font-family:'Inter',sans-serif;font-size:12px;color:#8E8E93;transition:all 0.15s}.sidebar a:hover,.sidebar a.active{color:#F5F5F7;background:rgba(255,255,255,0.04)}.main{margin-left:220px;flex:1;padding:32px}.main h1{font-family:'Satoshi',sans-serif;font-size:20px;font-weight:600;margin-bottom:24px}.card{background:#1C1C1E;border:1px solid rgba(255,255,255,0.04);border-radius:16px;padding:24px;margin-bottom:12px}.card-label{font-family:'Inter',sans-serif;font-size:11px;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;color:#AEAEB2;margin-bottom:14px}.row{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:0.5px solid rgba(255,255,255,0.03);font-size:13px}.row:last-child{border-bottom:none}.row-label{font-family:'Satoshi',sans-serif;color:#8E8E93}.row-value{font-family:'Inter',sans-serif;color:#D2D2D7}.placeholder{font-family:'Satoshi',sans-serif;font-size:14px;color:#AEAEB2;text-align:center;padding:48px 0}</style></head>
+<style>
+body{min-height:100vh;background:#0A0A0A;color:#F5F5F7;display:flex;margin:0;font-family:'Inter',sans-serif}
+.sidebar{position:fixed;left:0;top:0;bottom:0;width:220px;background:#111;border-right:0.5px solid rgba(255,255,255,0.04);padding:20px 0;display:flex;flex-direction:column;z-index:10}
+.sidebar-logo{padding:0 20px 16px;font-family:'Zen Dots',cursive;font-size:14px;color:#D70030;border-bottom:0.5px solid rgba(255,255,255,0.04);margin-bottom:12px;display:flex;align-items:center;gap:6px}
+.sidebar-logo span{font-family:'Inter',sans-serif;font-size:11px;color:#AEAEB2}
+.sidebar a{display:block;padding:8px 20px;font-family:'Inter',sans-serif;font-size:12px;color:#8E8E93;text-decoration:none;transition:all 0.15s}
+.sidebar a:hover,.sidebar a.active{color:#F5F5F7;background:rgba(255,255,255,0.04)}
+.main{margin-left:220px;flex:1;padding:32px;max-width:900px}
+.main h1{font-family:'Zen Dots',cursive;font-size:20px;font-weight:600;margin-bottom:8px}
+.breadcrumb{font-size:12px;color:#8E8E93;margin-bottom:24px}
+.breadcrumb a{color:#D70030;text-decoration:none}
+.card{background:#1C1C1E;border:1px solid rgba(255,255,255,0.04);border-radius:16px;padding:24px;margin-bottom:16px}
+.card-label{font-family:'Inter',sans-serif;font-size:11px;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;color:#AEAEB2;margin-bottom:14px}
+.form-group{margin-bottom:20px}
+.form-label{display:block;font-size:12px;font-weight:600;color:#AEAEB2;margin-bottom:6px;text-transform:uppercase;letter-spacing:0.04em}
+.form-hint{font-size:11px;color:#8E8E93;margin-top:4px}
+.form-input{width:100%;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:8px;padding:10px 14px;font-size:13px;color:#F5F5F7;font-family:'Inter',sans-serif;box-sizing:border-box;transition:border-color 0.15s}
+.form-input:focus{outline:none;border-color:rgba(215,0,48,0.5)}
+.form-input::placeholder{color:#8E8E93}
+select.form-input{appearance:auto}
+select.form-input option{background:#1C1C1E;color:#F5F5F7}
+textarea.form-input{min-height:120px;resize:vertical;font-family:'Courier New',monospace;font-size:12px;line-height:1.6}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.form-row-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px}
+.trait-list{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
+.trait-tag{display:inline-flex;align-items:center;gap:4px;padding:5px 12px;border-radius:8px;background:rgba(215,0,48,0.08);border:1px solid rgba(215,0,48,0.15);font-size:12px;color:#D70030}
+.trait-remove{cursor:pointer;opacity:0.6;font-size:14px}
+.trait-remove:hover{opacity:1}
+.ref-item{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:0.5px solid rgba(255,255,255,0.03);font-size:13px}
+.ref-item:last-child{border-bottom:none}
+.ref-icon{width:28px;height:28px;border-radius:6px;background:rgba(255,255,255,0.04);display:flex;align-items:center;justify-content:center;font-size:11px;color:#8E8E93;flex-shrink:0}
+.ref-name{color:#F5F5F7;font-weight:500}
+.ref-type{font-size:11px;color:#8E8E93}
+.btn{padding:10px 24px;border-radius:8px;border:none;font-size:13px;cursor:pointer;font-family:'Inter',sans-serif;font-weight:600;transition:all 0.15s}
+.btn-primary{background:#D70030;color:#fff}
+.btn-primary:hover{background:#B80028}
+.btn-ghost{background:transparent;border:1px solid rgba(255,255,255,0.08);color:#AEAEB2}
+.btn-ghost:hover{color:#F5F5F7;border-color:rgba(255,255,255,0.15)}
+.version-info{font-size:11px;color:#8E8E93;display:flex;gap:16px;align-items:center}
+</style></head>
 <body>
 <nav class="sidebar">
 <div class="sidebar-logo">KTANA <span>ADMIN</span></div>
 <a href="index.html">Overview</a>
-<a href="index.html">Agent Flow</a>
-<a href="index.html">Tenants</a>
-<a href="index.html">Agentes</a>
-<a href="index.html">Health</a>
-<a href="index.html">Billing</a>
-<a href="index.html">Compliance</a>
-<a href="index.html">Catalogo</a>
-<a href="index.html">Config</a>
+<a href="flow.html">Agent Flow</a>
+<a href="tenants.html">Tenants</a>
+<a href="agents.html">Agentes</a>
+<a href="health.html">Health</a>
+<a href="billing.html">Billing</a>
+<a href="compliance.html">Compliance</a>
+<a class="active" href="catalog.html">Catalogo</a>
+<a href="settings.html">Config</a>
 </nav>
 <main class="main">
-<h1 class="fade-in">Editar Cargo</h1>
-<div class="card fade-in"><p class="card-label">Detalhes</p><p class="placeholder">Tela detalhada do modulo Editar Cargo.<br>Dados de exemplo serao preenchidos conforme especificacao.</p></div>
-<div class="card fade-in" style="animation-delay:0.1s"><p class="card-label">Acoes</p><div class="row"><span class="row-label">Voltar</span><span class="row-value"><a href="index.html" style="color:#D70030;">← Admin</a></span></div></div>
+<div class="breadcrumb"><a href="index.html">Admin</a> / <a href="catalog.html">Catalogo</a> / Editar Cargo</div>
+<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:24px">
+  <h1 style="margin:0">Editar Cargo</h1>
+  <div class="version-info">
+    <span>Versao: v3.1</span>
+    <span>Ultima edicao: 27 Mar 2026</span>
+    <span>Por: julio@ktana.ai</span>
+  </div>
+</div>
+
+<div class="card">
+  <p class="card-label">Identificacao</p>
+  <div class="form-row">
+    <div class="form-group">
+      <label class="form-label">Slug</label>
+      <input type="text" class="form-input" value="product-owner-autonomo" placeholder="ex: dev-senior-fullstack">
+      <div class="form-hint">Identificador unico, usado como referencia interna. Nao alterar apos criacao.</div>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Titulo do Cargo</label>
+      <input type="text" class="form-input" value="Product Owner Autonomo" placeholder="Nome legivel do cargo">
+    </div>
+  </div>
+  <div class="form-row-3">
+    <div class="form-group">
+      <label class="form-label">Departamento</label>
+      <select class="form-input">
+        <option selected>Produto</option>
+        <option>Engenharia</option>
+        <option>Design</option>
+        <option>QA</option>
+        <option>Seguranca</option>
+        <option>Data</option>
+        <option>Lideranca</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Nivel</label>
+      <select class="form-input">
+        <option>Junior</option>
+        <option>Pleno</option>
+        <option selected>Senior</option>
+        <option>Lead</option>
+        <option>Principal</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Tipo de Agente</label>
+      <select class="form-input">
+        <option selected>Autonomo (L3)</option>
+        <option>Semi-autonomo (L2)</option>
+        <option>Assistido (L1)</option>
+        <option>Supervisionado (L0)</option>
+      </select>
+    </div>
+  </div>
+</div>
+
+<div class="card">
+  <p class="card-label">Funcao Default (System Prompt)</p>
+  <div class="form-group" style="margin-bottom:0">
+    <textarea class="form-input" style="min-height:200px">Voce e um Product Owner autonomo especializado em transformar requisitos de negocio em especificacoes tecnicas executaveis.
+
+## Responsabilidades Primarias
+- Priorizar backlog baseado em impacto de negocio, esforco tecnico e dependencias
+- Gerar user stories com acceptance criteria claros e testaveise
+- Criar specs tecnicas usando o template spec-builder
+- Manter roadmap atualizado com dependencias mapeadas
+- Realizar sprint planning automatico baseado em velocidade e capacidade
+
+## Restricoes
+- NUNCA alterar prioridades sem justificativa baseada em dados
+- NUNCA gerar specs com mais de 3 acceptance criteria (quebrar em sub-tasks)
+- SEMPRE validar specs com feedback do tenant antes de marcar como final
+- SEMPRE considerar impacto em retencao e NPS ao priorizar
+
+## Modelo de Decisao
+- Decisoes de priorizacao: usar framework RICE (Reach, Impact, Confidence, Effort)
+- Decisoes de escopo: consultar Sensei-Arch para viabilidade tecnica
+- Decisoes de UX: consultar Geisha-UX para validacao de experiencia</textarea>
+    <div class="form-hint">System prompt usado como base para o agente. Variaveis disponiveis: {{tenant_name}}, {{agent_name}}, {{context}}</div>
+  </div>
+</div>
+
+<div class="card">
+  <p class="card-label">Tracos de Personalidade</p>
+  <div class="form-group">
+    <div class="trait-list">
+      <span class="trait-tag">Analitico <span class="trait-remove">&times;</span></span>
+      <span class="trait-tag">Orientado a Dados <span class="trait-remove">&times;</span></span>
+      <span class="trait-tag">Pragmatico <span class="trait-remove">&times;</span></span>
+      <span class="trait-tag">Comunicativo <span class="trait-remove">&times;</span></span>
+      <span class="trait-tag">Decisivo <span class="trait-remove">&times;</span></span>
+      <span class="trait-tag">Colaborativo <span class="trait-remove">&times;</span></span>
+      <span class="trait-tag">Metacognitivo <span class="trait-remove">&times;</span></span>
+    </div>
+    <div style="margin-top:12px;display:flex;gap:8px">
+      <input type="text" class="form-input" style="width:200px" placeholder="Novo traco...">
+      <button class="btn btn-ghost" style="padding:8px 16px;font-size:12px;white-space:nowrap">+ Adicionar</button>
+    </div>
+  </div>
+</div>
+
+<div class="card">
+  <p class="card-label">Referencias Sugeridas</p>
+  <div class="form-hint" style="margin-bottom:12px">Documentos, frameworks e bases de conhecimento que o agente deve consultar</div>
+  <div class="ref-item">
+    <div class="ref-icon">F</div>
+    <div>
+      <div class="ref-name">Framework RICE</div>
+      <div class="ref-type">Priorizacao &middot; Documento interno</div>
+    </div>
+  </div>
+  <div class="ref-item">
+    <div class="ref-icon">T</div>
+    <div>
+      <div class="ref-name">Template Spec-Builder v2</div>
+      <div class="ref-type">Template &middot; /templates/spec-builder.md</div>
+    </div>
+  </div>
+  <div class="ref-item">
+    <div class="ref-icon">G</div>
+    <div>
+      <div class="ref-name">Guia de User Stories</div>
+      <div class="ref-type">Best Practices &middot; Agile Alliance</div>
+    </div>
+  </div>
+  <div class="ref-item">
+    <div class="ref-icon">C</div>
+    <div>
+      <div class="ref-name">Constituicao KTANA v2.4</div>
+      <div class="ref-type">Regras obrigatorias &middot; 24 regras</div>
+    </div>
+  </div>
+  <div style="margin-top:12px">
+    <button class="btn btn-ghost" style="font-size:12px;padding:8px 16px">+ Adicionar Referencia</button>
+  </div>
+</div>
+
+<div class="card">
+  <p class="card-label">Configuracoes Avancadas</p>
+  <div class="form-row">
+    <div class="form-group">
+      <label class="form-label">Modelo Default</label>
+      <select class="form-input">
+        <option selected>claude-sonnet-4 (Anthropic)</option>
+        <option>claude-opus-4 (Anthropic)</option>
+        <option>gpt-4o (OpenAI)</option>
+        <option>gemini-2.5-pro (Google)</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Max Tokens/Dia</label>
+      <input type="number" class="form-input" value="500000">
+    </div>
+  </div>
+  <div class="form-row">
+    <div class="form-group">
+      <label class="form-label">Intervalo de Reflexao</label>
+      <select class="form-input">
+        <option>A cada 25 acoes</option>
+        <option selected>A cada 50 acoes</option>
+        <option>A cada 100 acoes</option>
+        <option>Desativado</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Nivel de Autonomia</label>
+      <select class="form-input">
+        <option>L0 — Supervisionado (tudo requer aprovacao)</option>
+        <option>L1 — Assistido (decisoes simples automaticas)</option>
+        <option>L2 — Semi-autonomo (maioria automatica)</option>
+        <option selected>L3 — Autonomo (age independente, reporta)</option>
+      </select>
+    </div>
+  </div>
+</div>
+
+<div style="display:flex;gap:12px;justify-content:flex-end;margin-top:8px">
+  <button class="btn btn-ghost">Cancelar</button>
+  <button class="btn btn-ghost">Salvar Rascunho</button>
+  <button class="btn btn-primary">Salvar & Publicar</button>
+</div>
+
 </main>
 </body></html>

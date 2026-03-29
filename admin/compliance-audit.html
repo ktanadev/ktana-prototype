@@ -1,21 +1,234 @@
 <!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>Audit Logs — KTANA Admin</title><link rel="stylesheet" href="../shared.css"><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Zen+Dots&display=swap" rel="stylesheet">
-<style>body{min-height:100vh;background:#0A0A0A;color:#F5F5F7;display:flex}.sidebar{position:fixed;left:0;top:0;bottom:0;width:220px;background:#111;border-right:0.5px solid rgba(255,255,255,0.04);padding:20px 0;display:flex;flex-direction:column}.sidebar-logo{padding:0 20px 16px;font-family:'Zen Dots',cursive;font-size:14px;color:#D70030;border-bottom:0.5px solid rgba(255,255,255,0.04);margin-bottom:12px;display:flex;align-items:center;gap:6px}.sidebar-logo span{font-family:'Inter',sans-serif;font-size:11px;color:#AEAEB2}.sidebar a{display:block;padding:8px 20px;font-family:'Inter',sans-serif;font-size:12px;color:#8E8E93;transition:all 0.15s}.sidebar a:hover,.sidebar a.active{color:#F5F5F7;background:rgba(255,255,255,0.04)}.main{margin-left:220px;flex:1;padding:32px}.main h1{font-family:'Satoshi',sans-serif;font-size:20px;font-weight:600;margin-bottom:24px}.card{background:#1C1C1E;border:1px solid rgba(255,255,255,0.04);border-radius:16px;padding:24px;margin-bottom:12px}.card-label{font-family:'Inter',sans-serif;font-size:11px;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;color:#AEAEB2;margin-bottom:14px}.row{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:0.5px solid rgba(255,255,255,0.03);font-size:13px}.row:last-child{border-bottom:none}.row-label{font-family:'Satoshi',sans-serif;color:#8E8E93}.row-value{font-family:'Inter',sans-serif;color:#D2D2D7}.placeholder{font-family:'Satoshi',sans-serif;font-size:14px;color:#AEAEB2;text-align:center;padding:48px 0}</style></head>
+<style>
+body{min-height:100vh;background:#0A0A0A;color:#F5F5F7;display:flex;margin:0;font-family:'Inter',sans-serif}
+.sidebar{position:fixed;left:0;top:0;bottom:0;width:220px;background:#111;border-right:0.5px solid rgba(255,255,255,0.04);padding:20px 0;display:flex;flex-direction:column;z-index:10}
+.sidebar-logo{padding:0 20px 16px;font-family:'Zen Dots',cursive;font-size:14px;color:#D70030;border-bottom:0.5px solid rgba(255,255,255,0.04);margin-bottom:12px;display:flex;align-items:center;gap:6px}
+.sidebar-logo span{font-family:'Inter',sans-serif;font-size:11px;color:#AEAEB2}
+.sidebar a{display:block;padding:8px 20px;font-family:'Inter',sans-serif;font-size:12px;color:#8E8E93;text-decoration:none;transition:all 0.15s}
+.sidebar a:hover,.sidebar a.active{color:#F5F5F7;background:rgba(255,255,255,0.04)}
+.main{margin-left:220px;flex:1;padding:32px}
+.main h1{font-family:'Zen Dots',cursive;font-size:20px;font-weight:600;margin-bottom:8px}
+.breadcrumb{font-size:12px;color:#8E8E93;margin-bottom:24px}
+.breadcrumb a{color:#D70030;text-decoration:none}
+.card{background:#1C1C1E;border:1px solid rgba(255,255,255,0.04);border-radius:16px;padding:24px;margin-bottom:16px}
+.card-label{font-family:'Inter',sans-serif;font-size:11px;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;color:#AEAEB2;margin-bottom:14px}
+.toolbar{display:flex;align-items:center;gap:12px;margin-bottom:20px;flex-wrap:wrap}
+.search-input{background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.06);border-radius:8px;padding:8px 14px;font-size:12px;color:#F5F5F7;width:300px;font-family:'Inter',sans-serif}
+.search-input::placeholder{color:#8E8E93}
+.filter-select{background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.06);border-radius:8px;padding:7px 12px;font-size:12px;color:#F5F5F7;font-family:'Inter',sans-serif;appearance:auto}
+.filter-select option{background:#1C1C1E;color:#F5F5F7}
+.btn-sm{padding:5px 12px;border-radius:6px;border:none;font-size:11px;cursor:pointer;font-family:'Inter',sans-serif;font-weight:500}
+.btn-primary{background:#D70030;color:#fff}
+.btn-ghost{background:transparent;border:1px solid rgba(255,255,255,0.08);color:#AEAEB2}
+table{width:100%;border-collapse:collapse;font-size:12px}
+thead th{text-align:left;font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:0.04em;color:#AEAEB2;padding:10px 8px;border-bottom:1px solid rgba(255,255,255,0.06);white-space:nowrap}
+tbody tr{border-bottom:0.5px solid rgba(255,255,255,0.03);transition:background 0.15s}
+tbody tr:hover{background:rgba(255,255,255,0.02)}
+tbody td{padding:10px 8px;vertical-align:middle}
+.event-type{display:inline-block;font-size:10px;font-weight:600;padding:2px 8px;border-radius:4px;text-transform:uppercase;white-space:nowrap}
+.evt-auth{background:rgba(0,122,255,0.12);color:#0A84FF}
+.evt-agent{background:rgba(52,199,89,0.12);color:#34C759}
+.evt-config{background:rgba(191,90,242,0.12);color:#BF5AF2}
+.evt-data{background:rgba(255,159,10,0.12);color:#FF9F0A}
+.evt-security{background:rgba(215,0,48,0.12);color:#D70030}
+.evt-billing{background:rgba(234,219,98,0.12);color:#EADB62}
+.hash{font-family:monospace;font-size:10px;color:#8E8E93;max-width:120px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:20px}
+.stat-mini{background:#1C1C1E;border:1px solid rgba(255,255,255,0.04);border-radius:16px;padding:16px;text-align:center}
+.stat-mini-val{font-family:'Zen Dots',cursive;font-size:20px;color:#F5F5F7}
+.stat-mini-label{font-size:11px;color:#8E8E93;text-transform:uppercase;letter-spacing:0.04em;margin-top:4px}
+.integrity-badge{display:inline-flex;align-items:center;gap:4px;font-size:11px;font-weight:600;padding:3px 10px;border-radius:20px;background:rgba(52,199,89,0.12);color:#34C759}
+</style></head>
 <body>
 <nav class="sidebar">
 <div class="sidebar-logo">KTANA <span>ADMIN</span></div>
 <a href="index.html">Overview</a>
-<a href="index.html">Agent Flow</a>
-<a href="index.html">Tenants</a>
-<a href="index.html">Agentes</a>
-<a href="index.html">Health</a>
-<a href="index.html">Billing</a>
-<a href="index.html">Compliance</a>
-<a href="index.html">Catalogo</a>
-<a href="index.html">Config</a>
+<a href="flow.html">Agent Flow</a>
+<a href="tenants.html">Tenants</a>
+<a href="agents.html">Agentes</a>
+<a href="health.html">Health</a>
+<a href="billing.html">Billing</a>
+<a class="active" href="compliance.html">Compliance</a>
+<a href="catalog.html">Catalogo</a>
+<a href="settings.html">Config</a>
 </nav>
 <main class="main">
-<h1 class="fade-in">Audit Logs</h1>
-<div class="card fade-in"><p class="card-label">Detalhes</p><p class="placeholder">Tela detalhada do modulo Audit Logs.<br>Dados de exemplo serao preenchidos conforme especificacao.</p></div>
-<div class="card fade-in" style="animation-delay:0.1s"><p class="card-label">Acoes</p><div class="row"><span class="row-label">Voltar</span><span class="row-value"><a href="index.html" style="color:#D70030;">← Admin</a></span></div></div>
+<div class="breadcrumb"><a href="index.html">Admin</a> / <a href="compliance.html">Compliance</a> / Audit Logs</div>
+<h1>Audit Logs</h1>
+<p style="font-size:13px;color:#8E8E93;margin-bottom:24px">Log imutavel de todas as acoes do sistema — hash SHA-256 encadeado para integridade</p>
+
+<div class="stats-row">
+  <div class="stat-mini"><div class="stat-mini-val">24,871</div><div class="stat-mini-label">Eventos Totais</div></div>
+  <div class="stat-mini"><div class="stat-mini-val">1,247</div><div class="stat-mini-label">Eventos Hoje</div></div>
+  <div class="stat-mini"><div class="stat-mini-val"><span class="integrity-badge">Integro</span></div><div class="stat-mini-label">Hash Chain</div></div>
+  <div class="stat-mini"><div class="stat-mini-val">90d</div><div class="stat-mini-label">Retencao</div></div>
+</div>
+
+<div class="card">
+  <div class="toolbar">
+    <input type="text" class="search-input" placeholder="Buscar por tenant, agente, evento ou descricao...">
+    <select class="filter-select">
+      <option>Todos os Tenants</option>
+      <option>KTANA</option>
+      <option>TechCorp Brasil</option>
+      <option>Fintech Solutions</option>
+      <option>StartupXYZ</option>
+      <option>DataDriven Co</option>
+    </select>
+    <select class="filter-select">
+      <option>Todos os Tipos</option>
+      <option>auth</option>
+      <option>agent</option>
+      <option>config</option>
+      <option>data</option>
+      <option>security</option>
+      <option>billing</option>
+    </select>
+    <select class="filter-select">
+      <option>Ultimas 24h</option>
+      <option>Ultimos 7 dias</option>
+      <option>Ultimos 30 dias</option>
+      <option>Ultimos 90 dias</option>
+    </select>
+    <button class="btn-sm btn-primary" style="margin-left:auto">Exportar CSV</button>
+  </div>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Timestamp</th>
+        <th>Tenant</th>
+        <th>Agente / User</th>
+        <th>Tipo</th>
+        <th>Descricao</th>
+        <th>Hash (SHA-256)</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td style="font-family:monospace;white-space:nowrap">29 Mar 14:32:08</td>
+        <td>KTANA</td>
+        <td style="font-weight:600">Ronin-PO</td>
+        <td><span class="event-type evt-agent">agent</span></td>
+        <td>Executou spec-builder: Dashboard Analytics v2 — 4 user stories geradas</td>
+        <td><span class="hash" title="a3f7c2e8d1b4f6a9c0e2d5b8a1f4c7e0d3b6a9f2c5e8d1b4a7f0c3e6d9b2a5f8">a3f7c2e8d1b4...f8</span></td>
+      </tr>
+      <tr>
+        <td style="font-family:monospace;white-space:nowrap">29 Mar 14:30:55</td>
+        <td>KTANA</td>
+        <td style="font-weight:600">Kenshi-Dev</td>
+        <td><span class="event-type evt-agent">agent</span></td>
+        <td>Git commit em feature/auth-flow — 3 arquivos, 247 linhas adicionadas</td>
+        <td><span class="hash" title="b8e2f5a1c4d7b0e3f6a9c2d5b8a1f4e7c0d3b6a9f2e5c8d1b4a7f0c3e6d9b2">b8e2f5a1c4d7...b2</span></td>
+      </tr>
+      <tr>
+        <td style="font-family:monospace;white-space:nowrap">29 Mar 14:28:00</td>
+        <td>TechCorp</td>
+        <td style="font-weight:600">admin@techcorp.com</td>
+        <td><span class="event-type evt-auth">auth</span></td>
+        <td>Login via SSO — IP: 189.44.72.31, User-Agent: Chrome/124</td>
+        <td><span class="hash" title="c5d8a1f4e7b0c3d6a9f2e5b8c1d4a7f0e3b6c9d2a5f8e1b4c7d0a3f6e9b2c5">c5d8a1f4e7b0...c5</span></td>
+      </tr>
+      <tr>
+        <td style="font-family:monospace;white-space:nowrap">29 Mar 14:22:17</td>
+        <td>KTANA</td>
+        <td style="font-weight:600">Yojimbo-Sec</td>
+        <td><span class="event-type evt-security">security</span></td>
+        <td>Vulnerability scan completo — 0 criticas, 2 medium encontradas</td>
+        <td><span class="hash" title="d2e5f8a1b4c7d0e3a6f9b2c5d8a1e4f7b0c3d6a9e2f5b8c1d4a7e0f3b6c9d2">d2e5f8a1b4c7...d2</span></td>
+      </tr>
+      <tr>
+        <td style="font-family:monospace;white-space:nowrap">29 Mar 14:15:21</td>
+        <td>KTANA</td>
+        <td style="font-weight:600">Ronin-PO</td>
+        <td><span class="event-type evt-agent">agent</span></td>
+        <td>Metacognitive reflection — ciclo #847, self-score: 8.4/10</td>
+        <td><span class="hash" title="e9f2a5b8c1d4e7a0f3b6c9d2e5a8f1b4c7d0e3a6f9b2c5e8d1a4f7b0c3d6e9">e9f2a5b8c1d4...e9</span></td>
+      </tr>
+      <tr>
+        <td style="font-family:monospace;white-space:nowrap">29 Mar 14:10:00</td>
+        <td>Fintech Sol.</td>
+        <td style="font-weight:600">julio@ktana.ai</td>
+        <td><span class="event-type evt-config">config</span></td>
+        <td>Alterou modelo padrao de gpt-4o para claude-sonnet-4 no tenant</td>
+        <td><span class="hash" title="f6a9b2c5d8e1f4a7b0c3d6e9a2f5b8c1d4e7a0f3b6c9d2e5f8a1b4c7d0e3f6">f6a9b2c5d8e1...f6</span></td>
+      </tr>
+      <tr>
+        <td style="font-family:monospace;white-space:nowrap">29 Mar 13:58:03</td>
+        <td>KTANA</td>
+        <td style="font-weight:600">Ronin-PO</td>
+        <td><span class="event-type evt-data">data</span></td>
+        <td>Memory consolidation — 12 episodicos → 3 fatos semanticos</td>
+        <td><span class="hash" title="a1b4c7d0e3f6a9b2c5d8e1f4a7b0c3d6e9a2f5b8c1d4e7a0f3b6c9d2e5f8a1">a1b4c7d0e3f6...a1</span></td>
+      </tr>
+      <tr>
+        <td style="font-family:monospace;white-space:nowrap">29 Mar 13:45:30</td>
+        <td>KTANA</td>
+        <td style="font-weight:600">Sensei-Arch</td>
+        <td><span class="event-type evt-agent">agent</span></td>
+        <td>Architecture review: modulo billing — recomendou event sourcing</td>
+        <td><span class="hash" title="b7c0d3e6f9a2b5c8d1e4f7a0b3c6d9e2f5a8b1c4d7e0f3a6b9c2d5e8f1a4b7">b7c0d3e6f9a2...b7</span></td>
+      </tr>
+      <tr>
+        <td style="font-family:monospace;white-space:nowrap">29 Mar 13:30:00</td>
+        <td>StartupXYZ</td>
+        <td style="font-weight:600">admin@startupxyz.io</td>
+        <td><span class="event-type evt-billing">billing</span></td>
+        <td>Upgrade de plano: Starter → Professional — MRR +R$ 2,300</td>
+        <td><span class="hash" title="c4d7e0f3a6b9c2d5e8f1a4b7c0d3e6f9a2b5c8d1e4f7a0b3c6d9e2f5a8b1c4">c4d7e0f3a6b9...c4</span></td>
+      </tr>
+      <tr>
+        <td style="font-family:monospace;white-space:nowrap">29 Mar 13:15:42</td>
+        <td>KTANA</td>
+        <td style="font-weight:600">Kenshi-Dev</td>
+        <td><span class="event-type evt-agent">agent</span></td>
+        <td>Implementou endpoint POST /api/v1/agents — testes, validacao, docs</td>
+        <td><span class="hash" title="d1e4f7a0b3c6d9e2f5a8b1c4d7e0f3a6b9c2d5e8f1a4b7c0d3e6f9a2b5c8d1">d1e4f7a0b3c6...d1</span></td>
+      </tr>
+      <tr>
+        <td style="font-family:monospace;white-space:nowrap">29 Mar 12:55:42</td>
+        <td>KTANA</td>
+        <td style="font-weight:600">julio@ktana.ai</td>
+        <td><span class="event-type evt-security">security</span></td>
+        <td>Rotacao de API key — provider: Anthropic — old key revogada</td>
+        <td><span class="hash" title="e8f1a4b7c0d3e6f9a2b5c8d1e4f7a0b3c6d9e2f5a8b1c4d7e0f3a6b9c2d5e8">e8f1a4b7c0d3...e8</span></td>
+      </tr>
+      <tr>
+        <td style="font-family:monospace;white-space:nowrap">29 Mar 12:40:08</td>
+        <td>DataDriven</td>
+        <td style="font-weight:600">Analyst-01</td>
+        <td><span class="event-type evt-data">data</span></td>
+        <td>LGPD data export executado — titular: Roberto Almeida — hash verificado</td>
+        <td><span class="hash" title="f5a8b1c4d7e0f3a6b9c2d5e8f1a4b7c0d3e6f9a2b5c8d1e4f7a0b3c6d9e2f5">f5a8b1c4d7e0...f5</span></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div style="margin-top:16px;display:flex;justify-content:space-between;align-items:center;padding-top:16px;border-top:1px solid rgba(255,255,255,0.04)">
+    <span style="font-size:12px;color:#8E8E93">Mostrando 12 de 1,247 eventos hoje</span>
+    <div style="display:flex;gap:8px">
+      <button class="btn-sm btn-ghost" disabled style="opacity:0.4">Anterior</button>
+      <span style="font-size:12px;color:#8E8E93;padding:5px 8px">Pag 1 / 104</span>
+      <button class="btn-sm btn-ghost">Proxima</button>
+    </div>
+  </div>
+</div>
+
+<div class="card">
+  <p class="card-label">Integridade do Log</p>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+    <div>
+      <div style="font-size:13px;color:#8E8E93;margin-bottom:8px">Hash Chain Status</div>
+      <div style="font-size:14px;color:#34C759;font-weight:600;margin-bottom:4px">Todos os 24,871 eventos verificados</div>
+      <div style="font-size:12px;color:#8E8E93">Ultima verificacao: 29 Mar 2026, 14:00 UTC</div>
+    </div>
+    <div>
+      <div style="font-size:13px;color:#8E8E93;margin-bottom:8px">Algoritmo</div>
+      <div style="font-size:13px;color:#F5F5F7;margin-bottom:4px;font-family:monospace">SHA-256 com encadeamento</div>
+      <div style="font-size:12px;color:#8E8E93">Cada evento inclui hash do evento anterior — qualquer alteracao invalida a cadeia</div>
+    </div>
+  </div>
+</div>
+
 </main>
 </body></html>

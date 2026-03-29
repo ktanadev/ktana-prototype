@@ -1,21 +1,238 @@
 <!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>LGPD Requests — KTANA Admin</title><link rel="stylesheet" href="../shared.css"><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Zen+Dots&display=swap" rel="stylesheet">
-<style>body{min-height:100vh;background:#0A0A0A;color:#F5F5F7;display:flex}.sidebar{position:fixed;left:0;top:0;bottom:0;width:220px;background:#111;border-right:0.5px solid rgba(255,255,255,0.04);padding:20px 0;display:flex;flex-direction:column}.sidebar-logo{padding:0 20px 16px;font-family:'Zen Dots',cursive;font-size:14px;color:#D70030;border-bottom:0.5px solid rgba(255,255,255,0.04);margin-bottom:12px;display:flex;align-items:center;gap:6px}.sidebar-logo span{font-family:'Inter',sans-serif;font-size:11px;color:#AEAEB2}.sidebar a{display:block;padding:8px 20px;font-family:'Inter',sans-serif;font-size:12px;color:#8E8E93;transition:all 0.15s}.sidebar a:hover,.sidebar a.active{color:#F5F5F7;background:rgba(255,255,255,0.04)}.main{margin-left:220px;flex:1;padding:32px}.main h1{font-family:'Satoshi',sans-serif;font-size:20px;font-weight:600;margin-bottom:24px}.card{background:#1C1C1E;border:1px solid rgba(255,255,255,0.04);border-radius:16px;padding:24px;margin-bottom:12px}.card-label{font-family:'Inter',sans-serif;font-size:11px;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;color:#AEAEB2;margin-bottom:14px}.row{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:0.5px solid rgba(255,255,255,0.03);font-size:13px}.row:last-child{border-bottom:none}.row-label{font-family:'Satoshi',sans-serif;color:#8E8E93}.row-value{font-family:'Inter',sans-serif;color:#D2D2D7}.placeholder{font-family:'Satoshi',sans-serif;font-size:14px;color:#AEAEB2;text-align:center;padding:48px 0}</style></head>
+<style>
+body{min-height:100vh;background:#0A0A0A;color:#F5F5F7;display:flex;margin:0;font-family:'Inter',sans-serif}
+.sidebar{position:fixed;left:0;top:0;bottom:0;width:220px;background:#111;border-right:0.5px solid rgba(255,255,255,0.04);padding:20px 0;display:flex;flex-direction:column;z-index:10}
+.sidebar-logo{padding:0 20px 16px;font-family:'Zen Dots',cursive;font-size:14px;color:#D70030;border-bottom:0.5px solid rgba(255,255,255,0.04);margin-bottom:12px;display:flex;align-items:center;gap:6px}
+.sidebar-logo span{font-family:'Inter',sans-serif;font-size:11px;color:#AEAEB2}
+.sidebar a{display:block;padding:8px 20px;font-family:'Inter',sans-serif;font-size:12px;color:#8E8E93;text-decoration:none;transition:all 0.15s}
+.sidebar a:hover,.sidebar a.active{color:#F5F5F7;background:rgba(255,255,255,0.04)}
+.main{margin-left:220px;flex:1;padding:32px}
+.main h1{font-family:'Zen Dots',cursive;font-size:20px;font-weight:600;margin-bottom:8px}
+.breadcrumb{font-size:12px;color:#8E8E93;margin-bottom:24px}
+.breadcrumb a{color:#D70030;text-decoration:none}
+.card{background:#1C1C1E;border:1px solid rgba(255,255,255,0.04);border-radius:16px;padding:24px;margin-bottom:16px}
+.card-label{font-family:'Inter',sans-serif;font-size:11px;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;color:#AEAEB2;margin-bottom:14px}
+.stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:20px}
+.stat-box{background:#1C1C1E;border:1px solid rgba(255,255,255,0.04);border-radius:16px;padding:20px;text-align:center}
+.stat-value{font-family:'Zen Dots',cursive;font-size:22px;color:#F5F5F7;margin-bottom:4px}
+.stat-label{font-size:11px;color:#8E8E93;text-transform:uppercase;letter-spacing:0.04em}
+.row{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:0.5px solid rgba(255,255,255,0.03);font-size:13px}
+.row:last-child{border-bottom:none}
+.row-label{color:#8E8E93}
+.row-value{color:#D2D2D7}
+table{width:100%;border-collapse:collapse;font-size:13px}
+thead th{text-align:left;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.04em;color:#AEAEB2;padding:10px 12px;border-bottom:1px solid rgba(255,255,255,0.06)}
+tbody td{padding:12px;border-bottom:0.5px solid rgba(255,255,255,0.03);vertical-align:middle}
+.badge{display:inline-flex;align-items:center;gap:4px;font-size:11px;font-weight:600;padding:3px 10px;border-radius:20px;text-transform:uppercase;letter-spacing:0.02em}
+.badge-pending{background:rgba(255,159,10,0.12);color:#FF9F0A}
+.badge-progress{background:rgba(0,122,255,0.12);color:#0A84FF}
+.badge-done{background:rgba(52,199,89,0.12);color:#34C759}
+.badge-overdue{background:rgba(215,0,48,0.12);color:#D70030}
+.type-badge{display:inline-block;font-size:10px;font-weight:600;padding:2px 8px;border-radius:4px;text-transform:uppercase}
+.type-export{background:rgba(0,122,255,0.12);color:#0A84FF}
+.type-delete{background:rgba(215,0,48,0.12);color:#D70030}
+.type-pause{background:rgba(255,159,10,0.12);color:#FF9F0A}
+.type-access{background:rgba(191,90,242,0.12);color:#BF5AF2}
+.sla-bar{width:80px;height:6px;border-radius:3px;background:rgba(255,255,255,0.06);overflow:hidden;display:inline-block;vertical-align:middle;margin-right:6px}
+.sla-fill{height:100%;border-radius:3px}
+.btn-sm{padding:5px 12px;border-radius:6px;border:none;font-size:11px;cursor:pointer;font-family:'Inter',sans-serif;font-weight:500;transition:all 0.15s}
+.btn-primary{background:#D70030;color:#fff}
+.btn-ghost{background:transparent;border:1px solid rgba(255,255,255,0.08);color:#AEAEB2}
+.btn-ghost:hover{color:#F5F5F7;border-color:rgba(255,255,255,0.15)}
+.dpo-card{background:rgba(215,0,48,0.04);border:1px solid rgba(215,0,48,0.12);border-radius:12px;padding:16px;display:flex;align-items:center;gap:16px}
+.dpo-avatar{width:40px;height:40px;border-radius:10px;background:rgba(215,0,48,0.12);display:flex;align-items:center;justify-content:center;color:#D70030;font-weight:700;font-size:14px;flex-shrink:0}
+.alert-box{background:rgba(215,0,48,0.06);border:1px solid rgba(215,0,48,0.15);border-radius:12px;padding:12px 16px;font-size:12px;color:#D70030;margin-bottom:16px;display:flex;align-items:center;gap:8px}
+</style></head>
 <body>
 <nav class="sidebar">
 <div class="sidebar-logo">KTANA <span>ADMIN</span></div>
 <a href="index.html">Overview</a>
-<a href="index.html">Agent Flow</a>
-<a href="index.html">Tenants</a>
-<a href="index.html">Agentes</a>
-<a href="index.html">Health</a>
-<a href="index.html">Billing</a>
-<a href="index.html">Compliance</a>
-<a href="index.html">Catalogo</a>
-<a href="index.html">Config</a>
+<a href="flow.html">Agent Flow</a>
+<a href="tenants.html">Tenants</a>
+<a href="agents.html">Agentes</a>
+<a href="health.html">Health</a>
+<a href="billing.html">Billing</a>
+<a class="active" href="compliance.html">Compliance</a>
+<a href="catalog.html">Catalogo</a>
+<a href="settings.html">Config</a>
 </nav>
 <main class="main">
-<h1 class="fade-in">LGPD Requests</h1>
-<div class="card fade-in"><p class="card-label">Detalhes</p><p class="placeholder">Tela detalhada do modulo LGPD Requests.<br>Dados de exemplo serao preenchidos conforme especificacao.</p></div>
-<div class="card fade-in" style="animation-delay:0.1s"><p class="card-label">Acoes</p><div class="row"><span class="row-label">Voltar</span><span class="row-value"><a href="index.html" style="color:#D70030;">← Admin</a></span></div></div>
+<div class="breadcrumb"><a href="index.html">Admin</a> / <a href="compliance.html">Compliance</a> / LGPD</div>
+<h1>LGPD — Requisicoes de Dados</h1>
+<p style="font-size:13px;color:#8E8E93;margin-bottom:24px">Fila de requisicoes LGPD (Lei 13.709/2018) — exportacao, exclusao e pausa de processamento</p>
+
+<div class="alert-box">
+  <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><circle cx="8" cy="8" r="6"/><path d="M8 5v3M8 10h0"/></svg>
+  1 requisicao proxima do prazo legal (15 dias). Acao imediata necessaria.
+</div>
+
+<div class="stats-grid">
+  <div class="stat-box">
+    <div class="stat-value" style="color:#FF9F0A">3</div>
+    <div class="stat-label">Pendentes</div>
+  </div>
+  <div class="stat-box">
+    <div class="stat-value" style="color:#0A84FF">1</div>
+    <div class="stat-label">Em Andamento</div>
+  </div>
+  <div class="stat-box">
+    <div class="stat-value" style="color:#34C759">14</div>
+    <div class="stat-label">Concluidas (90d)</div>
+  </div>
+  <div class="stat-box">
+    <div class="stat-value">2.3d</div>
+    <div class="stat-label">Tempo Medio</div>
+  </div>
+</div>
+
+<div class="card">
+  <p class="card-label">Requisicoes Pendentes</p>
+  <table>
+    <thead>
+      <tr><th>ID</th><th>Titular</th><th>Tenant</th><th>Tipo</th><th>Status</th><th>SLA Restante</th><th>Criada em</th><th></th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td style="font-family:monospace;font-size:12px">#LGPD-047</td>
+        <td style="font-weight:600">Maria Souza</td>
+        <td>TechCorp Brasil</td>
+        <td><span class="type-badge type-delete">Exclusao</span></td>
+        <td><span class="badge badge-overdue">Urgente</span></td>
+        <td>
+          <span class="sla-bar"><span class="sla-fill" style="width:90%;background:#D70030"></span></span>
+          <span style="color:#D70030;font-weight:600">2 dias</span>
+        </td>
+        <td>16 Mar 2026</td>
+        <td><button class="btn-sm btn-primary">Processar</button></td>
+      </tr>
+      <tr>
+        <td style="font-family:monospace;font-size:12px">#LGPD-048</td>
+        <td style="font-weight:600">Carlos Lima</td>
+        <td>Fintech Solutions</td>
+        <td><span class="type-badge type-export">Exportacao</span></td>
+        <td><span class="badge badge-pending">Pendente</span></td>
+        <td>
+          <span class="sla-bar"><span class="sla-fill" style="width:45%;background:#FF9F0A"></span></span>
+          <span>8 dias</span>
+        </td>
+        <td>22 Mar 2026</td>
+        <td><button class="btn-sm btn-ghost">Iniciar</button></td>
+      </tr>
+      <tr>
+        <td style="font-family:monospace;font-size:12px">#LGPD-049</td>
+        <td style="font-weight:600">Ana Oliveira</td>
+        <td>StartupXYZ</td>
+        <td><span class="type-badge type-pause">Pausa</span></td>
+        <td><span class="badge badge-pending">Pendente</span></td>
+        <td>
+          <span class="sla-bar"><span class="sla-fill" style="width:30%;background:#34C759"></span></span>
+          <span>11 dias</span>
+        </td>
+        <td>25 Mar 2026</td>
+        <td><button class="btn-sm btn-ghost">Iniciar</button></td>
+      </tr>
+      <tr>
+        <td style="font-family:monospace;font-size:12px">#LGPD-050</td>
+        <td style="font-weight:600">Pedro Santos</td>
+        <td>KTANA</td>
+        <td><span class="type-badge type-access">Acesso</span></td>
+        <td><span class="badge badge-progress">Em Andamento</span></td>
+        <td>
+          <span class="sla-bar"><span class="sla-fill" style="width:55%;background:#0A84FF"></span></span>
+          <span>7 dias</span>
+        </td>
+        <td>23 Mar 2026</td>
+        <td><button class="btn-sm btn-ghost">Ver</button></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="card">
+  <p class="card-label">Requisicoes Concluidas Recentes</p>
+  <table>
+    <thead>
+      <tr><th>ID</th><th>Titular</th><th>Tenant</th><th>Tipo</th><th>Concluida em</th><th>Tempo</th><th>Status</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td style="font-family:monospace;font-size:12px">#LGPD-046</td>
+        <td>Roberto Almeida</td>
+        <td>DataDriven Co</td>
+        <td><span class="type-badge type-export">Exportacao</span></td>
+        <td>20 Mar 2026</td>
+        <td>1.5 dias</td>
+        <td><span class="badge badge-done">Concluida</span></td>
+      </tr>
+      <tr>
+        <td style="font-family:monospace;font-size:12px">#LGPD-045</td>
+        <td>Julia Ferreira</td>
+        <td>TechCorp Brasil</td>
+        <td><span class="type-badge type-delete">Exclusao</span></td>
+        <td>18 Mar 2026</td>
+        <td>3.2 dias</td>
+        <td><span class="badge badge-done">Concluida</span></td>
+      </tr>
+      <tr>
+        <td style="font-family:monospace;font-size:12px">#LGPD-044</td>
+        <td>Lucas Pereira</td>
+        <td>KTANA</td>
+        <td><span class="type-badge type-access">Acesso</span></td>
+        <td>15 Mar 2026</td>
+        <td>0.8 dias</td>
+        <td><span class="badge badge-done">Concluida</span></td>
+      </tr>
+      <tr>
+        <td style="font-family:monospace;font-size:12px">#LGPD-043</td>
+        <td>Fernanda Costa</td>
+        <td>Fintech Solutions</td>
+        <td><span class="type-badge type-pause">Pausa</span></td>
+        <td>12 Mar 2026</td>
+        <td>2.1 dias</td>
+        <td><span class="badge badge-done">Concluida</span></td>
+      </tr>
+      <tr>
+        <td style="font-family:monospace;font-size:12px">#LGPD-042</td>
+        <td>Marcos Ribeiro</td>
+        <td>StartupXYZ</td>
+        <td><span class="type-badge type-export">Exportacao</span></td>
+        <td>10 Mar 2026</td>
+        <td>1.9 dias</td>
+        <td><span class="badge badge-done">Concluida</span></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+  <div class="card">
+    <p class="card-label">DPO — Encarregado de Dados</p>
+    <div class="dpo-card">
+      <div class="dpo-avatar">RC</div>
+      <div>
+        <div style="font-weight:600;font-size:14px;margin-bottom:2px">Renata Campos</div>
+        <div style="font-size:12px;color:#8E8E93">Data Protection Officer</div>
+        <div style="font-size:12px;color:#AEAEB2;margin-top:4px">dpo@ktana.ai &middot; +55 11 99999-0001</div>
+      </div>
+    </div>
+    <div style="margin-top:16px">
+      <div class="row"><span class="row-label">Registro ANPD</span><span class="row-value">ANPD-2025-004721</span></div>
+      <div class="row"><span class="row-label">Ultima auditoria</span><span class="row-value">15 Jan 2026</span></div>
+      <div class="row"><span class="row-label">Proxima auditoria</span><span class="row-value">15 Jul 2026</span></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <p class="card-label">SLA & Conformidade</p>
+    <div class="row"><span class="row-label">Prazo legal LGPD</span><span class="row-value">15 dias uteis</span></div>
+    <div class="row"><span class="row-label">Tempo medio de resposta</span><span class="row-value" style="color:#34C759">2.3 dias</span></div>
+    <div class="row"><span class="row-label">Requisicoes dentro do prazo</span><span class="row-value" style="color:#34C759">100% (ultimos 90d)</span></div>
+    <div class="row"><span class="row-label">Total processadas (2026)</span><span class="row-value">47</span></div>
+    <div class="row"><span class="row-label">Canal de entrada</span><span class="row-value">Email + Portal do Titular</span></div>
+    <div class="row"><span class="row-label">Base legal predominante</span><span class="row-value">Consentimento (Art. 7, I)</span></div>
+    <div class="row"><span class="row-label">Relatorio RIPD</span><span class="row-value"><a href="#" style="color:#D70030;text-decoration:none">Baixar PDF</a></span></div>
+  </div>
+</div>
+
 </main>
 </body></html>

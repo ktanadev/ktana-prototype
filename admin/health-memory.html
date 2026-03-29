@@ -1,21 +1,244 @@
 <!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>Memory API Detail — KTANA Admin</title><link rel="stylesheet" href="../shared.css"><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Zen+Dots&display=swap" rel="stylesheet">
-<style>body{min-height:100vh;background:#0A0A0A;color:#F5F5F7;display:flex}.sidebar{position:fixed;left:0;top:0;bottom:0;width:220px;background:#111;border-right:0.5px solid rgba(255,255,255,0.04);padding:20px 0;display:flex;flex-direction:column}.sidebar-logo{padding:0 20px 16px;font-family:'Zen Dots',cursive;font-size:14px;color:#D70030;border-bottom:0.5px solid rgba(255,255,255,0.04);margin-bottom:12px;display:flex;align-items:center;gap:6px}.sidebar-logo span{font-family:'Inter',sans-serif;font-size:11px;color:#AEAEB2}.sidebar a{display:block;padding:8px 20px;font-family:'Inter',sans-serif;font-size:12px;color:#8E8E93;transition:all 0.15s}.sidebar a:hover,.sidebar a.active{color:#F5F5F7;background:rgba(255,255,255,0.04)}.main{margin-left:220px;flex:1;padding:32px}.main h1{font-family:'Satoshi',sans-serif;font-size:20px;font-weight:600;margin-bottom:24px}.card{background:#1C1C1E;border:1px solid rgba(255,255,255,0.04);border-radius:16px;padding:24px;margin-bottom:12px}.card-label{font-family:'Inter',sans-serif;font-size:11px;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;color:#AEAEB2;margin-bottom:14px}.row{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:0.5px solid rgba(255,255,255,0.03);font-size:13px}.row:last-child{border-bottom:none}.row-label{font-family:'Satoshi',sans-serif;color:#8E8E93}.row-value{font-family:'Inter',sans-serif;color:#D2D2D7}.placeholder{font-family:'Satoshi',sans-serif;font-size:14px;color:#AEAEB2;text-align:center;padding:48px 0}</style></head>
+<style>
+body{min-height:100vh;background:#0A0A0A;color:#F5F5F7;display:flex;margin:0;font-family:'Inter',sans-serif}
+.sidebar{position:fixed;left:0;top:0;bottom:0;width:220px;background:#111;border-right:0.5px solid rgba(255,255,255,0.04);padding:20px 0;display:flex;flex-direction:column;z-index:10}
+.sidebar-logo{padding:0 20px 16px;font-family:'Zen Dots',cursive;font-size:14px;color:#D70030;border-bottom:0.5px solid rgba(255,255,255,0.04);margin-bottom:12px;display:flex;align-items:center;gap:6px}
+.sidebar-logo span{font-family:'Inter',sans-serif;font-size:11px;color:#AEAEB2}
+.sidebar a{display:block;padding:8px 20px;font-family:'Inter',sans-serif;font-size:12px;color:#8E8E93;text-decoration:none;transition:all 0.15s}
+.sidebar a:hover,.sidebar a.active{color:#F5F5F7;background:rgba(255,255,255,0.04)}
+.main{margin-left:220px;flex:1;padding:32px}
+.main h1{font-family:'Zen Dots',cursive;font-size:20px;font-weight:600;margin-bottom:8px}
+.breadcrumb{font-size:12px;color:#8E8E93;margin-bottom:24px}
+.breadcrumb a{color:#D70030;text-decoration:none}
+.card{background:#1C1C1E;border:1px solid rgba(255,255,255,0.04);border-radius:16px;padding:24px;margin-bottom:16px}
+.card-label{font-family:'Inter',sans-serif;font-size:11px;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;color:#AEAEB2;margin-bottom:14px}
+.stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:20px}
+.stat-box{background:#1C1C1E;border:1px solid rgba(255,255,255,0.04);border-radius:16px;padding:20px;text-align:center}
+.stat-value{font-family:'Zen Dots',cursive;font-size:22px;color:#F5F5F7;margin-bottom:4px}
+.stat-label{font-size:11px;color:#8E8E93;text-transform:uppercase;letter-spacing:0.04em}
+.row{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:0.5px solid rgba(255,255,255,0.03);font-size:13px}
+.row:last-child{border-bottom:none}
+.row-label{color:#8E8E93}
+.row-value{color:#D2D2D7}
+.health-status{display:flex;align-items:center;gap:8px;padding:12px 16px;border-radius:12px;font-size:13px;margin-bottom:16px}
+.health-ok{background:rgba(52,199,89,0.06);border:1px solid rgba(52,199,89,0.15);color:#34C759}
+.latency-chart{display:flex;align-items:flex-end;gap:4px;height:80px;padding:0;margin-bottom:8px}
+.latency-bar{flex:1;background:#D70030;border-radius:3px 3px 0 0;min-width:12px;transition:height 0.3s;position:relative}
+.latency-bar:hover{background:#FF375F}
+.latency-labels{display:flex;justify-content:space-between;font-size:10px;color:#8E8E93;padding-top:4px}
+.meter-section{margin-bottom:20px}
+.meter-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+.meter-title{font-size:13px;color:#F5F5F7;font-weight:600}
+.meter-val{font-size:13px;color:#AEAEB2}
+.meter-track{height:10px;background:rgba(255,255,255,0.04);border-radius:5px;overflow:hidden}
+.meter-fill{height:100%;border-radius:5px;transition:width 0.3s}
+.endpoint-row{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:0.5px solid rgba(255,255,255,0.03);font-size:12px}
+.endpoint-row:last-child{border-bottom:none}
+.endpoint-name{font-family:monospace;font-size:12px;color:#F5F5F7;min-width:200px}
+.endpoint-method{font-size:10px;font-weight:600;padding:2px 6px;border-radius:4px;min-width:40px;text-align:center}
+.method-get{background:rgba(52,199,89,0.12);color:#34C759}
+.method-post{background:rgba(0,122,255,0.12);color:#0A84FF}
+.endpoint-latency{min-width:60px;text-align:right;color:#AEAEB2}
+.endpoint-status{min-width:40px;text-align:center}
+.dot-status{width:8px;height:8px;border-radius:50%;display:inline-block}
+.dream-card{background:rgba(191,90,242,0.04);border:1px solid rgba(191,90,242,0.12);border-radius:12px;padding:16px}
+</style></head>
 <body>
 <nav class="sidebar">
 <div class="sidebar-logo">KTANA <span>ADMIN</span></div>
 <a href="index.html">Overview</a>
-<a href="index.html">Agent Flow</a>
-<a href="index.html">Tenants</a>
-<a href="index.html">Agentes</a>
-<a href="index.html">Health</a>
-<a href="index.html">Billing</a>
-<a href="index.html">Compliance</a>
-<a href="index.html">Catalogo</a>
-<a href="index.html">Config</a>
+<a href="flow.html">Agent Flow</a>
+<a href="tenants.html">Tenants</a>
+<a href="agents.html">Agentes</a>
+<a class="active" href="health.html">Health</a>
+<a href="billing.html">Billing</a>
+<a href="compliance.html">Compliance</a>
+<a href="catalog.html">Catalogo</a>
+<a href="settings.html">Config</a>
 </nav>
 <main class="main">
-<h1 class="fade-in">Memory API Detail</h1>
-<div class="card fade-in"><p class="card-label">Detalhes</p><p class="placeholder">Tela detalhada do modulo Memory API Detail.<br>Dados de exemplo serao preenchidos conforme especificacao.</p></div>
-<div class="card fade-in" style="animation-delay:0.1s"><p class="card-label">Acoes</p><div class="row"><span class="row-label">Voltar</span><span class="row-value"><a href="index.html" style="color:#D70030;">← Admin</a></span></div></div>
+<div class="breadcrumb"><a href="index.html">Admin</a> / <a href="health.html">Health</a> / Memory API</div>
+<h1>Memory API — Health</h1>
+<p style="font-size:13px;color:#8E8E93;margin-bottom:24px">Monitoramento da API de memoria, pgvector, embeddings e dream engine</p>
+
+<div class="health-status health-ok">
+  <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><circle cx="8" cy="8" r="6"/><path d="M5 8l2 2 4-4"/></svg>
+  Memory API operacional — Uptime: 99.97% (30d) — Ultimo incidente: 14 Mar 2026 (restart programado)
+</div>
+
+<div class="stats-grid">
+  <div class="stat-box">
+    <div class="stat-value" style="color:#34C759">34ms</div>
+    <div class="stat-label">Latencia P50</div>
+  </div>
+  <div class="stat-box">
+    <div class="stat-value">89ms</div>
+    <div class="stat-label">Latencia P95</div>
+  </div>
+  <div class="stat-box">
+    <div class="stat-value">1.2 GB</div>
+    <div class="stat-label">Storage Usado</div>
+  </div>
+  <div class="stat-box">
+    <div class="stat-value">6,194</div>
+    <div class="stat-label">Total Embeddings</div>
+  </div>
+</div>
+
+<div class="card">
+  <p class="card-label">Latencia — Ultimas 24h (ms)</p>
+  <div class="latency-chart">
+    <div class="latency-bar" style="height:28%" title="00h: 22ms"></div>
+    <div class="latency-bar" style="height:25%" title="01h: 20ms"></div>
+    <div class="latency-bar" style="height:24%" title="02h: 19ms"></div>
+    <div class="latency-bar" style="height:30%" title="03h: 24ms"></div>
+    <div class="latency-bar" style="height:55%" title="04h: 44ms (dream engine)"></div>
+    <div class="latency-bar" style="height:35%" title="05h: 28ms"></div>
+    <div class="latency-bar" style="height:30%" title="06h: 24ms"></div>
+    <div class="latency-bar" style="height:32%" title="07h: 26ms"></div>
+    <div class="latency-bar" style="height:38%" title="08h: 30ms"></div>
+    <div class="latency-bar" style="height:42%" title="09h: 34ms"></div>
+    <div class="latency-bar" style="height:48%" title="10h: 38ms"></div>
+    <div class="latency-bar" style="height:52%" title="11h: 42ms"></div>
+    <div class="latency-bar" style="height:58%" title="12h: 46ms"></div>
+    <div class="latency-bar" style="height:62%" title="13h: 50ms"></div>
+    <div class="latency-bar" style="height:55%" title="14h: 44ms"></div>
+    <div class="latency-bar" style="height:48%" title="15h: 38ms"></div>
+    <div class="latency-bar" style="height:45%" title="16h: 36ms"></div>
+    <div class="latency-bar" style="height:40%" title="17h: 32ms"></div>
+    <div class="latency-bar" style="height:42%" title="18h: 34ms"></div>
+    <div class="latency-bar" style="height:38%" title="19h: 30ms"></div>
+    <div class="latency-bar" style="height:35%" title="20h: 28ms"></div>
+    <div class="latency-bar" style="height:32%" title="21h: 26ms"></div>
+    <div class="latency-bar" style="height:30%" title="22h: 24ms"></div>
+    <div class="latency-bar" style="height:28%" title="23h: 22ms"></div>
+  </div>
+  <div class="latency-labels">
+    <span>00:00</span><span>04:00</span><span>08:00</span><span>12:00</span><span>16:00</span><span>20:00</span><span>Agora</span>
+  </div>
+  <div style="font-size:11px;color:#8E8E93;margin-top:8px">Pico as 04h corresponde ao ciclo do dream engine (consolidacao noturna)</div>
+</div>
+
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+  <div class="card">
+    <p class="card-label">Storage & Banco</p>
+    <div class="meter-section">
+      <div class="meter-header">
+        <span class="meter-title">Disco pgvector</span>
+        <span class="meter-val">1.2 GB / 5 GB</span>
+      </div>
+      <div class="meter-track"><div class="meter-fill" style="width:24%;background:#34C759"></div></div>
+    </div>
+    <div class="meter-section">
+      <div class="meter-header">
+        <span class="meter-title">Indice HNSW</span>
+        <span class="meter-val">420 MB</span>
+      </div>
+      <div class="meter-track"><div class="meter-fill" style="width:35%;background:#0A84FF"></div></div>
+    </div>
+    <div class="row"><span class="row-label">Tabelas</span><span class="row-value">12</span></div>
+    <div class="row"><span class="row-label">Conexoes ativas</span><span class="row-value">8 / 50</span></div>
+    <div class="row"><span class="row-label">Connection pool</span><span class="row-value">PgBouncer (session mode)</span></div>
+    <div class="row"><span class="row-label">Ultimo vacuum</span><span class="row-value">29 Mar, 03:00</span></div>
+    <div class="row"><span class="row-label">PostgreSQL version</span><span class="row-value">16.2 + pgvector 0.7.4</span></div>
+  </div>
+
+  <div class="card">
+    <p class="card-label">Contagem de Dados</p>
+    <div class="row"><span class="row-label">Fatos totais (todos tenants)</span><span class="row-value" style="font-weight:600">2,847</span></div>
+    <div class="row"><span class="row-label">Episodios totais</span><span class="row-value">8,321</span></div>
+    <div class="row"><span class="row-label">Embeddings (1536-dim)</span><span class="row-value">6,194</span></div>
+    <div class="row"><span class="row-label">Preferencias</span><span class="row-value">412</span></div>
+    <div class="row"><span class="row-label">Decisoes logadas</span><span class="row-value">1,087</span></div>
+    <div class="row"><span class="row-label">Fatos decaidos (30d)</span><span class="row-value">187</span></div>
+    <div class="row"><span class="row-label">Modelo de embedding</span><span class="row-value">text-embedding-3-small</span></div>
+    <div class="row"><span class="row-label">Queries recall/dia (avg)</span><span class="row-value">3,842</span></div>
+  </div>
+</div>
+
+<div class="card">
+  <p class="card-label">Endpoints — Status & Latencia</p>
+  <div class="endpoint-row">
+    <span class="endpoint-method method-post">POST</span>
+    <span class="endpoint-name">/api/v1/agent/recall</span>
+    <span style="flex:1;color:#8E8E93;font-size:11px">Busca semantica de memoria</span>
+    <span class="endpoint-latency">34ms</span>
+    <span class="endpoint-status"><span class="dot-status" style="background:#34C759"></span></span>
+  </div>
+  <div class="endpoint-row">
+    <span class="endpoint-method method-post">POST</span>
+    <span class="endpoint-name">/api/v1/agent/remember</span>
+    <span style="flex:1;color:#8E8E93;font-size:11px">Salva novo episodio/fato</span>
+    <span class="endpoint-latency">28ms</span>
+    <span class="endpoint-status"><span class="dot-status" style="background:#34C759"></span></span>
+  </div>
+  <div class="endpoint-row">
+    <span class="endpoint-method method-post">POST</span>
+    <span class="endpoint-name">/api/v1/memory/search</span>
+    <span style="flex:1;color:#8E8E93;font-size:11px">Busca hibrida (semantica + keyword)</span>
+    <span class="endpoint-latency">42ms</span>
+    <span class="endpoint-status"><span class="dot-status" style="background:#34C759"></span></span>
+  </div>
+  <div class="endpoint-row">
+    <span class="endpoint-method method-post">POST</span>
+    <span class="endpoint-name">/api/v1/memory/facts</span>
+    <span style="flex:1;color:#8E8E93;font-size:11px">Fato atomico (subject-predicate-object)</span>
+    <span class="endpoint-latency">18ms</span>
+    <span class="endpoint-status"><span class="dot-status" style="background:#34C759"></span></span>
+  </div>
+  <div class="endpoint-row">
+    <span class="endpoint-method method-post">POST</span>
+    <span class="endpoint-name">/api/v1/memory/preferences</span>
+    <span style="flex:1;color:#8E8E93;font-size:11px">Upsert de preferencia</span>
+    <span class="endpoint-latency">15ms</span>
+    <span class="endpoint-status"><span class="dot-status" style="background:#34C759"></span></span>
+  </div>
+  <div class="endpoint-row">
+    <span class="endpoint-method method-get">GET</span>
+    <span class="endpoint-name">/api/v1/stats</span>
+    <span style="flex:1;color:#8E8E93;font-size:11px">Estatisticas gerais da memoria</span>
+    <span class="endpoint-latency">8ms</span>
+    <span class="endpoint-status"><span class="dot-status" style="background:#34C759"></span></span>
+  </div>
+  <div class="endpoint-row">
+    <span class="endpoint-method method-get">GET</span>
+    <span class="endpoint-name">/health</span>
+    <span style="flex:1;color:#8E8E93;font-size:11px">Health check (liveness + readiness)</span>
+    <span class="endpoint-latency">2ms</span>
+    <span class="endpoint-status"><span class="dot-status" style="background:#34C759"></span></span>
+  </div>
+</div>
+
+<div class="card">
+  <p class="card-label">Dream Engine</p>
+  <div class="dream-card">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+      <div>
+        <div style="font-size:14px;font-weight:600;color:#BF5AF2;margin-bottom:2px">Dream Engine v1.2</div>
+        <div style="font-size:12px;color:#8E8E93">Consolidacao noturna de memoria episodica em fatos semanticos</div>
+      </div>
+      <span style="font-size:11px;font-weight:600;padding:3px 10px;border-radius:20px;background:rgba(52,199,89,0.12);color:#34C759">Ativo</span>
+    </div>
+    <div class="row"><span class="row-label">Schedule</span><span class="row-value">Diario, 04:00 UTC-3</span></div>
+    <div class="row"><span class="row-label">Ultima execucao</span><span class="row-value">29 Mar 2026, 04:00 — duracao: 12m 34s</span></div>
+    <div class="row"><span class="row-label">Episodios processados</span><span class="row-value">47</span></div>
+    <div class="row"><span class="row-label">Fatos semanticos gerados</span><span class="row-value">12</span></div>
+    <div class="row"><span class="row-label">Fatos decaidos (esquecidos)</span><span class="row-value">3</span></div>
+    <div class="row"><span class="row-label">Modelo usado</span><span class="row-value">claude-haiku-3.5 (custo otimizado)</span></div>
+    <div class="row"><span class="row-label">Custo ultima execucao</span><span class="row-value">US$ 0.42</span></div>
+    <div class="row"><span class="row-label">Proxima execucao</span><span class="row-value">30 Mar 2026, 04:00</span></div>
+  </div>
+</div>
+
+<div class="card">
+  <p class="card-label">Infraestrutura</p>
+  <div class="row"><span class="row-label">Host</span><span class="row-value">VPS 960192 — 82.29.62.106</span></div>
+  <div class="row"><span class="row-label">Runtime</span><span class="row-value">Python 3.12 + FastAPI 0.115</span></div>
+  <div class="row"><span class="row-label">Workers (Uvicorn)</span><span class="row-value">4 workers</span></div>
+  <div class="row"><span class="row-label">RAM alocada</span><span class="row-value">2.4 GB / 16 GB total VPS</span></div>
+  <div class="row"><span class="row-label">SSL</span><span class="row-value">Let's Encrypt (auto-renew)</span></div>
+  <div class="row"><span class="row-label">Autenticacao</span><span class="row-value">API Key (X-API-Key header)</span></div>
+</div>
+
 </main>
 </body></html>
