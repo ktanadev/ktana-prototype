@@ -420,7 +420,7 @@
     /* AI Quick Chat */
     .ka { position: fixed; top: 52px; right: 0; width: 380px; height: calc(100vh - 52px); background: #FAFAFA; border-left: 1px solid rgba(0,0,0,0.06); box-shadow: -4px 0 24px rgba(0,0,0,0.06); z-index: 190; display: flex; flex-direction: column; overflow: hidden; transform: translateX(100%); transition: transform 0.3s cubic-bezier(0.25,0.1,0.25,1); pointer-events: none; }
     .ka.open { transform: translateX(0); pointer-events: auto; }
-    body.ka-open { margin-right: 380px; transition: margin-right 0.3s cubic-bezier(0.25,0.1,0.25,1); }
+    body.ka-open::before { content: ''; position: fixed; inset: 0; background: rgba(0,0,0,0.3); backdrop-filter: blur(2px); z-index: 185; transition: opacity 0.3s; }
     .ka.open { display: flex; animation: kaUp 0.25s cubic-bezier(0.4,0,0.2,1); }
     @keyframes kaUp { from { opacity: 0; transform: translateY(12px) scale(0.97); } to { opacity: 1; transform: translateY(0) scale(1); } }
     .ka-head { padding: 16px 20px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid rgba(0,0,0,0.06); background: #FFF; }
@@ -497,13 +497,7 @@
   const isDashboardHome = currentFile === 'home.html' && path.includes('/dashboard/');
   const isDesktop = window.innerWidth > 768;
   let sidebarOpen = isDashboardHome && isDesktop;
-  let aiOpen = isDesktop;
-
-  // Auto-open chat panel on desktop
-  if (aiOpen) {
-    document.getElementById('ktAI').classList.add('open');
-    document.body.classList.add('ka-open');
-  }
+  let aiOpen = false;
 
   window.toggleSidebar = function() {
     sidebarOpen = !sidebarOpen;
@@ -531,6 +525,13 @@
       setTimeout(function() { document.querySelector('#kaInput input').focus(); }, 350);
     }
   };
+
+  // Close chat on backdrop click
+  document.addEventListener('click', function(e) {
+    if (aiOpen && !e.target.closest('.ka') && !e.target.closest('.kt-ai-btn') && document.body.classList.contains('ka-open')) {
+      toggleAI();
+    }
+  });
 
   window.sendKaMsg = function() {
     const input = document.querySelector('#kaInput input');
@@ -591,10 +592,7 @@
     document.getElementById('ksOverlay').classList.add('open');
   }
 
-  // Open AI chat by default on dashboard home
-  if (aiOpen) {
-    document.getElementById('ktAI').classList.add('open');
-  }
+  // Chat starts closed — user opens explicitly
 
   // Profile dropdown
   let profileOpen = false;
