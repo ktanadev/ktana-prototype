@@ -53,6 +53,43 @@
     @media (max-width: 480px) { .steps { grid-template-columns: 1fr; } .cta { flex-direction: column; } }
     .fade-in { animation: fadeIn 0.4s cubic-bezier(0.25,0.1,0.25,1) both; }
     .delay-1 { animation-delay: 0.08s; } .delay-2 { animation-delay: 0.16s; } .delay-3 { animation-delay: 0.24s; } .delay-4 { animation-delay: 0.32s; }
+  
+    /* Chat Section */
+    .chat-section { max-width: 720px; margin: 0 auto; padding: 0 24px 28px; }
+    .chat-divider { display: flex; align-items: center; gap: 12px; margin-bottom: 20px; }
+    .chat-divider-line { flex: 1; height: 1px; background: rgba(0,0,0,0.06); }
+    .chat-divider-label { font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 500; color: #D70030; letter-spacing: 0.04em; display: flex; align-items: center; gap: 6px; }
+    .chat-divider-dot { width: 6px; height: 6px; border-radius: 50%; background: #30D158; }
+    .chat-container { background: #FFF; border-radius: 20px; border: 1px solid rgba(0,0,0,0.04); overflow: hidden; }
+    .chat-messages { padding: 20px; display: flex; flex-direction: column; gap: 14px; max-height: 400px; overflow-y: auto; }
+    .c-msg { display: flex; gap: 10px; max-width: 88%; opacity: 0; animation: cSlide 0.4s cubic-bezier(0.25,0.1,0.25,1) forwards; animation-delay: 0.2s; }
+    @keyframes cSlide { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    .c-msg-user { align-self: flex-end; flex-direction: row-reverse; gap: 0; }
+    .c-av { width: 28px; height: 28px; border-radius: 50%; border: 1px solid rgba(215,0,48,0.12); display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 2px; background: #FFF; }
+    .c-av span { font-family: 'Zen Dots', cursive; font-size: 6px; color: #D70030; }
+    .c-bbl { border-radius: 18px; padding: 12px 16px; }
+    .c-bbl-a { background: #FAFAFA; border: 0.5px solid rgba(0,0,0,0.04); border-top-left-radius: 6px; }
+    .c-bbl-u { background: #1D1D1F; color: #F5F5F7; border-bottom-right-radius: 6px; }
+    .c-bbl p { font-family: 'Satoshi', sans-serif; font-size: 14px; line-height: 1.5; }
+    .c-meta { font-family: 'Inter', sans-serif; font-size: 10px; color: #AEAEB2; margin-top: 4px; }
+    .c-qk { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 8px; }
+    .c-qb { font-family: 'Inter', sans-serif; padding: 6px 14px; border-radius: 10px; background: rgba(0,0,0,0.02); border: 0.5px solid rgba(0,0,0,0.08); font-size: 12px; color: #1D1D1F; cursor: pointer; transition: all 0.15s; }
+    .c-qb:hover { background: #1D1D1F; color: #F5F5F7; border-color: #1D1D1F; }
+    .c-ty { display: none; align-items: center; gap: 8px; padding: 4px 0; }
+    .c-ty-dots { display: flex; gap: 3px; }
+    .c-ty-d { width: 5px; height: 5px; border-radius: 50%; background: #D2D2D7; animation: cBnc 1.4s ease infinite; }
+    .c-ty-d:nth-child(2) { animation-delay: 0.2s; }
+    .c-ty-d:nth-child(3) { animation-delay: 0.4s; }
+    @keyframes cBnc { 0%,60%,100% { transform: translateY(0); } 30% { transform: translateY(-3px); } }
+    .c-ty-t { font-family: 'Inter', sans-serif; font-size: 10px; color: #AEAEB2; }
+    .c-inp-area { padding: 12px 16px; border-top: 0.5px solid rgba(0,0,0,0.04); display: flex; gap: 8px; align-items: flex-end; }
+    .c-inp { font-family: 'Satoshi', sans-serif; flex: 1; padding: 12px 18px; border-radius: 22px; border: 0.5px solid rgba(0,0,0,0.08); background: #FAFAFA; font-size: 14px; color: #1D1D1F; outline: none; min-height: 44px; max-height: 100px; resize: none; }
+    .c-inp:focus { border-color: rgba(215,0,48,0.2); background: #FFF; }
+    .c-inp::placeholder { color: #AEAEB2; }
+    .c-snd { width: 44px; height: 44px; border-radius: 50%; background: #1D1D1F; color: #F5F5F7; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .c-snd:hover { background: #000; }
+    .c-snd:active { transform: scale(0.93); }
+    .c-snd svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
   </style>
 </head>
 <body>
@@ -192,6 +229,21 @@
 
   </main>
 
+
+  <section class="chat-section">
+    <div class="chat-divider"><div class="chat-divider-line"></div><div class="chat-divider-label"><div class="chat-divider-dot"></div> Akira · SEO Automatico · Online</div><div class="chat-divider-line"></div></div>
+    <div class="chat-container">
+      <div class="chat-messages" id="cChat">
+        <div class="c-msg"><div class="c-av"><span>A</span></div><div><div class="c-bbl c-bbl-a"><p>SEO automatico: 12 artigos/mes, link building, monitoramento de posicoes. 34 keywords no top 10.</p><div class="c-qk"><button class="c-qb" onclick="cQ(this)">Ver keywords</button><button class="c-qb" onclick="cQ(this)">Criar artigo</button><button class="c-qb" onclick="cQ(this)">Relatorio posicoes</button></div></div><p class="c-meta">Akira · agora</p></div></div>
+        <div class="c-ty" id="cTy"><div class="c-av"><span>A</span></div><div class="c-ty-dots"><div class="c-ty-d"></div><div class="c-ty-d"></div><div class="c-ty-d"></div></div><span class="c-ty-t">Akira processando...</span></div>
+      </div>
+      <div class="c-inp-area">
+        <textarea class="c-inp" id="cInp" placeholder="Configure SEO..." rows="1" onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();cM()}" oninput="this.style.height='auto';this.style.height=Math.min(this.scrollHeight,100)+'px'"></textarea>
+        <button class="c-snd" onclick="cM()"><svg viewBox="0 0 24 24"><path d="M22 2L11 13"/><path d="M22 2L15 22L11 13L2 9L22 2Z"/></svg></button>
+      </div>
+    </div>
+  </section>
+  <script>function cA(t){var c=document.getElementById('cChat'),y=document.getElementById('cTy');y.style.display='flex';c.scrollTop=c.scrollHeight;setTimeout(function(){y.style.display='none';var m=document.createElement('div');m.className='c-msg';m.style.animation='cSlide 0.4s ease forwards';m.innerHTML='<div class="c-av"><span>A</span></div><div><div class="c-bbl c-bbl-a"><p>'+t+'</p></div><p class="c-meta">Akira · '+new Date().toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'})+'</p></div>';c.insertBefore(m,y);c.scrollTop=c.scrollHeight;},1200);}function cM(){var i=document.getElementById('cInp'),t=i.value.trim();if(!t)return;var c=document.getElementById('cChat'),y=document.getElementById('cTy');var u=document.createElement('div');u.className='c-msg c-msg-user';u.style.animation='cSlide 0.3s ease forwards';u.innerHTML='<div><div class="c-bbl c-bbl-u"><p>'+t+'</p></div><p class="c-meta" style="text-align:right;">'+new Date().toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'})+'</p></div>';c.insertBefore(u,y);i.value='';i.style.height='auto';cA('Entendido. Ja estou processando.');c.scrollTop=c.scrollHeight;}function cQ(b){document.getElementById('cInp').value=b.textContent;cM();}</script>
 <script src="../../shared-nav.js?v=1774805559"></script>
 </body>
 </html>

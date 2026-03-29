@@ -1,0 +1,424 @@
+<!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>KTANA — Empresa inteligente</title><link rel="stylesheet" href="../shared.css"><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Zen+Dots&display=swap" rel="stylesheet">
+<style>
+body{min-height:100vh;background:#F5F5F7;color:#1D1D1F}
+
+/* ═══ NAV ═══ */
+.nav{position:fixed;top:0;left:0;right:0;z-index:50;height:48px;display:flex;align-items:center;justify-content:center;background:#D70030}
+.nav-inner{width:100%;max-width:980px;padding:0 24px;display:flex;align-items:center;justify-content:space-between}
+.nav-logo{font-family:'Zen Dots',cursive;font-size:14px;color:#FFF}
+.nav-links{display:flex;align-items:center;gap:24px}
+.nav-links a{font-family:'Inter',sans-serif;font-size:12px;color:rgba(255,255,255,0.7);transition:color 0.2s}
+.nav-links a:hover{color:#FFF}
+.nav-cta{font-family:'Inter',sans-serif;font-size:11px;font-weight:600;color:#D70030;background:#FFF;padding:6px 14px;border-radius:980px;transition:opacity 0.2s}
+.nav-cta:hover{opacity:0.9}
+a{text-decoration:none;color:inherit}
+
+/* ═══ HERO — Limpa, so titulo + CTA ═══ */
+.hero{min-height:100svh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:48px 24px}
+.hero-tag{display:inline-flex;align-items:center;gap:8px;font-family:'Inter',sans-serif;font-size:13px;font-weight:500;color:#86868B;margin-bottom:28px;opacity:0;animation:fadeUp 0.8s 0.2s forwards}
+.hero-tag::before{content:'';width:5px;height:5px;border-radius:50%;background:#D70030}
+.hero h1{font-family:'Zen Dots',cursive;font-size:clamp(38px,7.5vw,76px);font-weight:400;line-height:1.08;margin-bottom:20px;opacity:0;animation:fadeUp 0.8s 0.35s forwards;letter-spacing:-0.02em}
+.hero p{font-family:'Satoshi',sans-serif;font-size:clamp(17px,2.2vw,21px);line-height:1.6;color:#86868B;max-width:460px;margin-bottom:44px;opacity:0;animation:fadeUp 0.8s 0.5s forwards}
+.hero-actions{display:flex;gap:12px;flex-wrap:wrap;justify-content:center;opacity:0;animation:fadeUp 0.8s 0.65s forwards}
+.hero-btn{font-family:'Inter',sans-serif;display:inline-block;padding:15px 30px;border-radius:980px;font-size:15px;font-weight:600;transition:all 0.2s}
+.btn-primary{background:#D70030;color:#FFF;box-shadow:0 4px 20px rgba(215,0,48,0.3)}
+.btn-primary:hover{box-shadow:0 6px 28px rgba(215,0,48,0.45);transform:translateY(-1px)}
+.btn-secondary{background:transparent;color:#1D1D1F;border:1.5px solid rgba(0,0,0,0.12)}
+.btn-secondary:hover{border-color:rgba(0,0,0,0.25)}
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+
+/* ═══ SECTIONS ═══ */
+.s{padding:120px 24px;max-width:980px;margin:0 auto}
+.s-center{text-align:center}
+.s-label{font-family:'Inter',sans-serif;font-size:11px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:#D70030;margin-bottom:12px}
+.s-headline{font-family:'Zen Dots',cursive;font-size:clamp(28px,4.5vw,48px);font-weight:400;line-height:1.12;color:#1D1D1F;margin-bottom:16px;letter-spacing:-0.01em}
+.s-sub{font-family:'Satoshi',sans-serif;font-size:17px;line-height:1.6;color:#86868B;max-width:460px}
+.s-center .s-sub{margin:0 auto}
+
+/* ═══ CHAT SHOWCASE — Secao propria, destaque maximo ═══ */
+.chat-showcase{padding:0 24px 140px;max-width:980px;margin:0 auto;display:flex;align-items:center;gap:64px}
+.chat-showcase-text{flex:1}
+.chat-showcase-text .s-sub{margin-top:16px}
+.chat-showcase-demo{flex:1;max-width:420px}
+
+.chat-demo{width:100%;background:#FFF;border-radius:20px;box-shadow:0 4px 48px rgba(0,0,0,0.08);overflow:hidden}
+.chat-header{display:flex;align-items:center;gap:10px;padding:14px 18px;border-bottom:1px solid rgba(0,0,0,0.04)}
+.chat-avatar{width:36px;height:36px;border-radius:50%;background:#D70030;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.chat-avatar svg{width:18px;height:18px;fill:none;stroke:#FFF;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.chat-avatar-info{display:flex;flex-direction:column}
+.chat-avatar-name{font-family:'Zen Dots',cursive;font-size:12px;color:#1D1D1F}
+.chat-avatar-status{font-family:'Inter',sans-serif;font-size:10px;color:#34C759;display:flex;align-items:center;gap:4px}
+.chat-avatar-status::before{content:'';width:5px;height:5px;border-radius:50%;background:#34C759}
+.chat-body{padding:16px 18px;min-height:180px;display:flex;flex-direction:column;gap:10px}
+.chat-msg{max-width:82%;padding:10px 14px;border-radius:16px;font-family:'Satoshi',sans-serif;font-size:14px;line-height:1.5;opacity:0;transform:translateY(8px);transition:all 0.3s}
+.chat-msg.show{opacity:1;transform:translateY(0)}
+.chat-msg-ai{background:#F0F0F2;color:#1D1D1F;border-bottom-left-radius:4px;align-self:flex-start}
+.chat-msg-user{background:#D70030;color:#FFF;border-bottom-right-radius:4px;align-self:flex-end}
+.chat-input{display:flex;align-items:center;gap:8px;padding:12px 18px;border-top:1px solid rgba(0,0,0,0.04)}
+.chat-input-field{flex:1;font-family:'Inter',sans-serif;font-size:13px;color:#AEAEB2;background:none;border:none;outline:none}
+.chat-input-send{width:28px;height:28px;border-radius:50%;background:#D70030;display:flex;align-items:center;justify-content:center;cursor:pointer;border:none;transition:opacity 0.2s}
+.chat-input-send:hover{opacity:0.85}
+.chat-input-send svg{width:12px;height:12px;fill:#FFF}
+.typing-dot{display:inline-block;width:6px;height:6px;border-radius:50%;background:#86868B;animation:typingBounce 1.4s infinite;margin-right:3px}
+.typing-dot:nth-child(2){animation-delay:0.2s}
+.typing-dot:nth-child(3){animation-delay:0.4s;margin-right:0}
+@keyframes typingBounce{0%,60%,100%{transform:translateY(0)}30%{transform:translateY(-4px)}}
+
+/* ═══ COMO FUNCIONA — 3 steps ═══ */
+.steps-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:56px}
+.step-card{text-align:center;padding:32px 24px}
+.step-num{font-family:'Zen Dots',cursive;font-size:32px;color:#D70030;margin-bottom:16px;opacity:0.3}
+.step-card h3{font-family:'Satoshi',sans-serif;font-size:17px;font-weight:600;color:#1D1D1F;margin-bottom:8px}
+.step-card p{font-family:'Satoshi',sans-serif;font-size:14px;color:#86868B;line-height:1.5}
+
+/* ═══ DEPARTAMENTOS ═══ */
+.depts-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:48px}
+.dept-card{background:#FFF;border-radius:20px;padding:28px 20px;transition:all 0.3s;cursor:default}
+.dept-card:hover{box-shadow:0 8px 40px rgba(0,0,0,0.06);transform:translateY(-2px)}
+.dept-icon{width:36px;height:36px;border-radius:10px;background:rgba(215,0,48,0.06);display:flex;align-items:center;justify-content:center;margin-bottom:14px}
+.dept-icon svg{width:18px;height:18px;stroke:#D70030;fill:none;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
+.dept-card h3{font-family:'Satoshi',sans-serif;font-size:15px;font-weight:600;color:#1D1D1F;margin-bottom:4px}
+.dept-card p{font-family:'Satoshi',sans-serif;font-size:12px;color:#86868B;line-height:1.5}
+
+/* ═══ PROVA SOCIAL ═══ */
+.proof{padding:80px 24px;background:#FFF;border-top:1px solid rgba(0,0,0,0.04);border-bottom:1px solid rgba(0,0,0,0.04)}
+.proof-inner{max-width:980px;margin:0 auto;text-align:center}
+.proof-numbers{display:flex;justify-content:center;gap:64px;margin-bottom:48px}
+.proof-stat{display:flex;flex-direction:column;align-items:center}
+.proof-stat-num{font-family:'Zen Dots',cursive;font-size:clamp(28px,4vw,40px);color:#D70030;margin-bottom:4px}
+.proof-stat-label{font-family:'Inter',sans-serif;font-size:12px;color:#86868B}
+.proof-quote{max-width:520px;margin:0 auto}
+.proof-quote blockquote{font-family:'Satoshi',sans-serif;font-size:18px;line-height:1.6;color:#1D1D1F;font-style:italic;margin-bottom:16px}
+.proof-quote cite{font-family:'Inter',sans-serif;font-size:13px;color:#86868B;font-style:normal}
+
+/* ═══ VIDEO ═══ */
+.video-s{padding:0 24px 120px;max-width:980px;margin:0 auto;text-align:center}
+.video-s .s-sub{max-width:440px;margin:0 auto 48px}
+.video-wrapper{position:relative;width:100%;border-radius:20px;overflow:hidden;background:#000;aspect-ratio:16/9;cursor:pointer}
+.video-wrapper iframe{position:absolute;top:0;left:0;width:100%;height:100%;border:none}
+.video-placeholder{position:absolute;top:0;left:0;width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;background:linear-gradient(135deg,#1D1D1F 0%,#2C2C2E 100%)}
+.play-btn{width:64px;height:64px;border-radius:50%;background:rgba(215,0,48,0.9);display:flex;align-items:center;justify-content:center;margin-bottom:16px;transition:transform 0.2s}
+.play-btn:hover{transform:scale(1.08)}
+.play-btn svg{width:24px;height:24px;fill:#FFF;margin-left:2px}
+.video-label{font-family:'Inter',sans-serif;font-size:13px;color:rgba(255,255,255,0.5);font-weight:500}
+
+/* ═══ CTA FINAL ═══ */
+.cta{text-align:center;padding:140px 24px;background:linear-gradient(180deg,#F5F5F7 0%,#EFEFEF 100%)}
+.cta h2{font-family:'Zen Dots',cursive;font-size:clamp(28px,5vw,52px);font-weight:400;line-height:1.1;color:#1D1D1F;margin-bottom:12px;letter-spacing:-0.01em}
+.cta p{font-family:'Satoshi',sans-serif;font-size:18px;color:#86868B;margin-bottom:40px}
+.cta .hero-btn{opacity:1;animation:none;padding:17px 36px;font-size:16px}
+
+/* ═══ FOOTER ═══ */
+.footer{padding:40px 24px 28px;border-top:0.5px solid rgba(0,0,0,0.08)}
+.footer-inner{max-width:980px;margin:0 auto}
+.footer-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:24px}
+.footer-brand{font-family:'Zen Dots',cursive;font-size:13px;color:#D70030}
+.footer-social{display:flex;gap:12px}
+.footer-social a{width:32px;height:32px;border-radius:50%;background:rgba(0,0,0,0.04);display:flex;align-items:center;justify-content:center;transition:background 0.2s}
+.footer-social a:hover{background:rgba(215,0,48,0.08)}
+.footer-social a svg{width:14px;height:14px;fill:#86868B;transition:fill 0.2s}
+.footer-social a:hover svg{fill:#D70030}
+.footer-links{display:flex;gap:20px;margin-bottom:16px}
+.footer-links a{font-family:'Inter',sans-serif;font-size:11px;color:#AEAEB2}
+.footer-links a:hover{color:#86868B}
+.footer-copy{font-family:'Satoshi',sans-serif;font-size:11px;color:#AEAEB2}
+
+/* ═══ FAB ═══ */
+.chat-fab{position:fixed;bottom:28px;right:28px;z-index:100;width:56px;height:56px;border-radius:50%;background:#D70030;display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 4px 20px rgba(215,0,48,0.3);border:none;transition:transform 0.2s,box-shadow 0.2s;animation:fabPulse 3s ease-in-out infinite}
+.chat-fab:hover{transform:scale(1.08);box-shadow:0 6px 28px rgba(215,0,48,0.4)}
+.chat-fab svg{width:22px;height:22px;fill:none;stroke:#FFF;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.fab-badge{position:absolute;top:-2px;right:-2px;width:14px;height:14px;border-radius:50%;background:#34C759;border:2px solid #F5F5F7}
+@keyframes fabPulse{0%,100%{box-shadow:0 4px 20px rgba(215,0,48,0.3)}50%{box-shadow:0 4px 28px rgba(215,0,48,0.5)}}
+
+/* ═══ REVEAL ═══ */
+.reveal{opacity:0;transform:translateY(24px);transition:opacity 0.6s cubic-bezier(0.25,0.1,0.25,1),transform 0.6s cubic-bezier(0.25,0.1,0.25,1)}
+.reveal.visible{opacity:1;transform:translateY(0)}
+
+/* ═══ RESPONSIVE ═══ */
+@media(max-width:768px){
+  .chat-showcase{flex-direction:column;gap:40px;padding:0 24px 100px}
+  .chat-showcase-demo{max-width:100%}
+  .steps-grid{grid-template-columns:1fr;gap:16px}
+  .depts-grid{grid-template-columns:repeat(2,1fr)}
+  .proof-numbers{gap:32px}
+  .footer-top{flex-direction:column;gap:16px;text-align:center}
+  .footer-links{justify-content:center;flex-wrap:wrap}
+  .nav-links a:not(.nav-cta){display:none}
+  .chat-fab{bottom:20px;right:20px;width:48px;height:48px}
+  .chat-fab svg{width:18px;height:18px}
+}
+@media(max-width:480px){
+  .depts-grid{grid-template-columns:1fr}
+  .proof-numbers{flex-direction:column;gap:24px}
+}
+</style></head>
+<body>
+
+<!-- NAV -->
+<nav class="nav"><div class="nav-inner"><a href="../tenant/landing.html" class="nav-logo">KTANA</a><div class="nav-links"><a href="#como">Como funciona</a><a href="#areas">Departamentos</a><a href="../tenant/auth/signup.html" class="nav-cta">Comecar gratis</a></div></div></nav>
+
+<!-- HERO — Limpa, respira -->
+<section class="hero">
+<p class="hero-tag">IA-first. Voce conversa, ela executa.</p>
+<h1>Sua empresa<br>inteligente.</h1>
+<p>Diga o que precisa. A KTANA cria os agentes, monta os departamentos e toca sua operacao. Sem saber nada de IA.</p>
+<div class="hero-actions">
+  <a href="../tenant/auth/signup.html" class="hero-btn btn-primary">Comecar gratis</a>
+  <a href="#conversa" class="hero-btn btn-secondary">Ver na pratica</a>
+</div>
+</section>
+
+<!-- CHAT SHOWCASE — KTANA viva, secao propria, lado a lado -->
+<section class="s s-center reveal" id="conversa">
+<p class="s-label">IA-first</p>
+<h2 class="s-headline">Voce conversa.<br>Ela faz.</h2>
+</section>
+<div class="chat-showcase">
+  <div class="chat-showcase-text reveal">
+    <h3 style="font-family:'Satoshi',sans-serif;font-size:22px;font-weight:600;color:#1D1D1F;line-height:1.4;margin-bottom:12px">Crie departamentos inteiros<br>conversando naturalmente.</h3>
+    <p class="s-sub" style="max-width:360px">Sem formularios. Sem configuracao. Voce fala o que precisa como falaria com um socio. A KTANA entende e monta tudo.</p>
+  </div>
+  <div class="chat-showcase-demo">
+    <div class="chat-demo" id="chatDemo">
+      <div class="chat-header">
+        <div class="chat-avatar">
+          <!-- Katana icon -->
+          <svg viewBox="0 0 24 24"><path d="M5 20L19 4M12 4v4M8 8l4-4"/></svg>
+        </div>
+        <div class="chat-avatar-info">
+          <span class="chat-avatar-name">KTANA</span>
+          <span class="chat-avatar-status">Online agora</span>
+        </div>
+      </div>
+      <div class="chat-body" id="chatBody"></div>
+      <div class="chat-input">
+        <span class="chat-input-field" id="chatInputText">Preciso de ajuda com financeiro...</span>
+        <button class="chat-input-send"><svg viewBox="0 0 24 24"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z" fill="#FFF"/></svg></button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- COMO FUNCIONA — 3 passos -->
+<section class="s s-center reveal" id="como">
+<p class="s-label">Como funciona</p>
+<h2 class="s-headline">3 passos. Sem complicacao.</h2>
+<div class="steps-grid">
+  <div class="step-card reveal">
+    <div class="step-num">1</div>
+    <h3>Diga o que precisa</h3>
+    <p>Fale naturalmente: "preciso de alguem pro financeiro". Como mandaria um audio pro socio.</p>
+  </div>
+  <div class="step-card reveal">
+    <div class="step-num">2</div>
+    <h3>KTANA cria o agente</h3>
+    <p>Ela monta o samurai certo com as habilidades, metas e hierarquia do departamento.</p>
+  </div>
+  <div class="step-card reveal">
+    <div class="step-num">3</div>
+    <h3>Ele trabalha 24/7</h3>
+    <p>O agente comeca imediatamente. Reports, execucao, cobrancas. Voce so acompanha.</p>
+  </div>
+</div>
+</section>
+
+<!-- DEPARTAMENTOS — Com icones -->
+<section class="s reveal" id="areas">
+<p class="s-label">Departamentos</p>
+<h2 class="s-headline">Um samurai pra<br>cada area.</h2>
+<p class="s-sub">Cada departamento com hierarquia propria, metas e execucao autonoma.</p>
+<div class="depts-grid">
+  <div class="dept-card reveal">
+    <div class="dept-icon"><svg viewBox="0 0 24 24"><path d="M12 1v22M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg></div>
+    <h3>Financeiro</h3><p>Controller, DRE, fluxo de caixa, cobrancas</p>
+  </div>
+  <div class="dept-card reveal">
+    <div class="dept-icon"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg></div>
+    <h3>Administrativo</h3><p>Agenda, emails, briefings, organizacao</p>
+  </div>
+  <div class="dept-card reveal">
+    <div class="dept-icon"><svg viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><path d="M22 4L12 14.01l-3-3"/></svg></div>
+    <h3>Projetos</h3><p>PM, sprints, prazos, entregas, reports</p>
+  </div>
+  <div class="dept-card reveal">
+    <div class="dept-icon"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg></div>
+    <h3>Comercial</h3><p>SDR, prospeccao, follow-up, CRM</p>
+  </div>
+  <div class="dept-card reveal">
+    <div class="dept-icon"><svg viewBox="0 0 24 24"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><path d="M4 22v-7"/></svg></div>
+    <h3>Marketing</h3><p>Conteudo, campanhas, social media</p>
+  </div>
+  <div class="dept-card reveal">
+    <div class="dept-icon"><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
+    <h3>RH</h3><p>Vagas, triagem, entrevistas, onboarding</p>
+  </div>
+  <div class="dept-card reveal">
+    <div class="dept-icon"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6M16 13H8M16 17H8M10 9H8"/></svg></div>
+    <h3>Juridico</h3><p>Contratos, compliance, certidoes</p>
+  </div>
+  <div class="dept-card reveal">
+    <div class="dept-icon"><svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg></div>
+    <h3>Tecnologia</h3><p>Infra, devops, arquitetura, monitoria</p>
+  </div>
+</div>
+</section>
+
+<!-- PROVA SOCIAL -->
+<section class="proof reveal">
+<div class="proof-inner">
+  <div class="proof-numbers">
+    <div class="proof-stat">
+      <span class="proof-stat-num">500+</span>
+      <span class="proof-stat-label">agentes criados</span>
+    </div>
+    <div class="proof-stat">
+      <span class="proof-stat-num">24/7</span>
+      <span class="proof-stat-label">operacao continua</span>
+    </div>
+    <div class="proof-stat">
+      <span class="proof-stat-num">90%</span>
+      <span class="proof-stat-label">reducao de custo</span>
+    </div>
+  </div>
+  <div class="proof-quote">
+    <blockquote>"Montei o financeiro, comercial e projetos em 10 minutos. Conversando. Sem ler manual nenhum."</blockquote>
+    <cite>— CEO, empresa de tecnologia</cite>
+  </div>
+</div>
+</section>
+
+<!-- VIDEO -->
+<section class="s s-center reveal" id="video">
+<p class="s-label">Veja na pratica</p>
+<h2 class="s-headline">2 minutos. Zero enrolacao.</h2>
+<p class="s-sub">Veja como montar sua empresa inteligente do zero.</p>
+</section>
+<div class="video-s">
+<div class="video-wrapper reveal" id="videoContainer" onclick="loadVideo()">
+  <div class="video-placeholder">
+    <div class="play-btn"><svg viewBox="0 0 24 24"><polygon points="8,5 20,12 8,19"/></svg></div>
+    <span class="video-label">Assistir demonstracao</span>
+  </div>
+</div>
+</div>
+
+<!-- CTA FINAL -->
+<section class="cta">
+<h2>Comece agora.<br>Gratis.</h2>
+<p>Seu primeiro samurai (CEO) esta pronto. Sem cartao. 2 minutos.</p>
+<a href="../tenant/auth/signup.html" class="hero-btn btn-primary">Criar minha empresa inteligente</a>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+<div class="footer-inner">
+  <div class="footer-top">
+    <span class="footer-brand">KTANA</span>
+    <div class="footer-social">
+      <a href="https://instagram.com/ktana.ai" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg></a>
+      <a href="https://linkedin.com/company/ktana-ai" target="_blank" rel="noopener" aria-label="LinkedIn"><svg viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg></a>
+      <a href="https://youtube.com/@ktana-ai" target="_blank" rel="noopener" aria-label="YouTube"><svg viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 00-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 00.502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 002.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 002.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg></a>
+      <a href="https://x.com/ktana_ai" target="_blank" rel="noopener" aria-label="X"><svg viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a>
+    </div>
+  </div>
+  <div class="footer-links">
+    <a href="../legal/terms.html">Termos</a>
+    <a href="../legal/privacy.html">Privacidade</a>
+    <a href="../legal/lgpd.html">LGPD</a>
+    <a href="../legal/status.html">Status</a>
+  </div>
+  <p class="footer-copy">&copy; 2026 KTANA. Funcionarios inteligentes que trabalham 24/7.</p>
+</div>
+</footer>
+
+<!-- FAB — Katana icon -->
+<button class="chat-fab" onclick="window.location.href='../tenant/auth/signup.html'" aria-label="Falar com KTANA">
+  <svg viewBox="0 0 24 24"><path d="M5 20L19 4M12 4v4M8 8l4-4"/></svg>
+  <span class="fab-badge"></span>
+</button>
+
+<script>
+// Video loader
+function loadVideo(){
+  var c=document.getElementById('videoContainer');
+  c.innerHTML='<iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1&rel=0&modestbranding=1" allow="autoplay;encrypted-media" allowfullscreen></iframe>';
+}
+
+// Scroll reveal
+var revealObs=new IntersectionObserver(function(entries){
+  entries.forEach(function(e){if(e.isIntersecting){e.target.classList.add('visible');revealObs.unobserve(e.target)}});
+},{threshold:0.12});
+document.querySelectorAll('.reveal').forEach(function(el){revealObs.observe(el)});
+
+// Conversas rotativas — mostra multiplos cenarios
+var conversations=[
+  [
+    {type:'user',text:'Preciso de alguem pra cuidar do financeiro'},
+    {type:'typing'},
+    {type:'ai',text:'Posso criar seu samurai financeiro. Ele cuida de DRE, fluxo de caixa e cobrancas. Configuro agora?'},
+    {type:'user',text:'Sim, configura'},
+    {type:'typing'},
+    {type:'ai',text:'Pronto. Seu financeiro esta ativo e ja comecou a analisar suas contas.'},
+  ],
+  [
+    {type:'user',text:'Quero montar um time comercial'},
+    {type:'typing'},
+    {type:'ai',text:'Vou criar um SDR e um closer pra voce. O SDR prospecta, o closer fecha. Mando os dois?'},
+    {type:'user',text:'Manda'},
+    {type:'typing'},
+    {type:'ai',text:'Time comercial ativo. SDR ja esta buscando leads no seu CRM.'},
+  ],
+  [
+    {type:'user',text:'Preciso de um PM pra organizar meus projetos'},
+    {type:'typing'},
+    {type:'ai',text:'Crio um samurai de projetos: sprints, prazos, cobranca de entregas e reports semanais. Quer?'},
+    {type:'user',text:'Quero, e adiciona reports toda sexta'},
+    {type:'typing'},
+    {type:'ai',text:'PM ativo com report automatico toda sexta as 18h. Primeiro sprint ja criado.'},
+  ],
+];
+
+var currentConv=0;
+function runChat(){
+  var body=document.getElementById('chatBody');
+  var inputText=document.getElementById('chatInputText');
+  var msgs=conversations[currentConv];
+  body.innerHTML='';
+  var delay=800;
+  msgs.forEach(function(msg){
+    if(msg.type==='typing'){delay+=1000;}
+    else{delay+=1400;}
+    setTimeout(function(){
+      // Remove typing
+      var ti=document.getElementById('typingIndicator');
+      if(ti)ti.remove();
+      if(msg.type==='typing'){
+        var t=document.createElement('div');
+        t.className='chat-msg chat-msg-ai';t.id='typingIndicator';
+        t.innerHTML='<span class="typing-dot"></span><span class="typing-dot"></span><span class="typing-dot"></span>';
+        body.appendChild(t);
+      }else{
+        var m=document.createElement('div');
+        m.className='chat-msg chat-msg-'+(msg.type==='ai'?'ai':'user');
+        m.textContent=msg.text;
+        body.appendChild(m);
+        requestAnimationFrame(function(){m.classList.add('show')});
+        if(msg.type==='user')inputText.textContent='Digite sua mensagem...';
+      }
+      body.scrollTop=body.scrollHeight;
+    },delay);
+  });
+  // Next conversation
+  setTimeout(function(){
+    currentConv=(currentConv+1)%conversations.length;
+    runChat();
+  },delay+3500);
+}
+
+// Start when visible
+var chatObs=new IntersectionObserver(function(entries){
+  if(entries[0].isIntersecting){runChat();chatObs.disconnect();}
+},{threshold:0.3});
+chatObs.observe(document.getElementById('chatDemo'));
+</script>
+</body></html>
