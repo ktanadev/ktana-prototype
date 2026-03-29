@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Status — KTANA</title>
+  <link rel="stylesheet" href="../shared.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Zen+Dots&display=swap" rel="stylesheet">
+  <style>
+    body { min-height: 100vh; padding: 60px 24px 80px; }
+    .status-container { max-width: 560px; margin: 0 auto; }
+    .status-header { text-align: center; margin-bottom: 40px; }
+    .status-header h1 { font-size: 28px; margin-bottom: 12px; }
+    .status-badge { display: inline-flex; align-items: center; gap: 8px; background: rgba(48,209,88,0.08); border: 1px solid rgba(48,209,88,0.2); border-radius: 100px; padding: 8px 20px; font-size: 14px; font-weight: 500; color: #30D158; font-family: 'Inter', system-ui, sans-serif; }
+    .status-dot { width: 8px; height: 8px; border-radius: 50%; background: #30D158; animation: pulse-dot 2s infinite; }
+    @keyframes pulse-dot { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+    .service-list { margin-top: 32px; }
+    .service-item { display: flex; align-items: center; justify-content: space-between; padding: 16px 0; border-bottom: 1px solid rgba(0,0,0,0.04); }
+    .service-name { font-size: 14px; font-weight: 500; color: #1D1D1F; font-family: 'Inter', system-ui, sans-serif; }
+    .service-name span { display: block; font-size: 12px; color: #86868B; font-weight: 400; margin-top: 2px; }
+    .service-status { font-size: 12px; font-weight: 500; color: #30D158; font-family: 'Inter', system-ui, sans-serif; display: flex; align-items: center; gap: 6px; }
+    .service-status .dot { width: 6px; height: 6px; border-radius: 50%; background: #30D158; }
+    .uptime-section { margin-top: 40px; text-align: center; }
+    .uptime-section h2 { font-size: 14px; font-weight: 600; color: #1D1D1F; margin-bottom: 16px; font-family: 'Inter', system-ui, sans-serif; }
+    .uptime-bar { display: flex; gap: 2px; justify-content: center; margin-bottom: 8px; }
+    .uptime-day { width: 6px; height: 28px; border-radius: 3px; background: #30D158; }
+    .uptime-day.partial { background: #FF9F0A; }
+    .uptime-label { display: flex; justify-content: space-between; font-size: 11px; color: #AEAEB2; font-family: 'Inter', system-ui, sans-serif; max-width: 300px; margin: 0 auto; }
+    .uptime-pct { font-size: 32px; font-weight: 700; color: #30D158; font-family: 'Inter', system-ui, sans-serif; margin-top: 16px; }
+    .uptime-pct span { font-size: 14px; color: #86868B; font-weight: 400; }
+    .incidents { margin-top: 40px; }
+    .incidents h2 { font-size: 14px; font-weight: 600; color: #1D1D1F; margin-bottom: 16px; font-family: 'Inter', system-ui, sans-serif; }
+    .incident-empty { text-align: center; padding: 24px; color: #86868B; font-size: 13px; font-family: 'Inter', system-ui, sans-serif; }
+    .back-link { position: fixed; top: 20px; left: 24px; font-size: 12px; color: #86868B; text-decoration: none; font-family: 'Inter', system-ui, sans-serif; z-index: 10; }
+    .back-link:hover { color: #1D1D1F; }
+    .legal-nav { display: flex; gap: 16px; justify-content: center; margin-top: 48px; padding-top: 24px; border-top: 1px solid rgba(0,0,0,0.06); }
+    .legal-nav a { font-size: 12px; color: #86868B; text-decoration: none; font-family: 'Inter', system-ui, sans-serif; }
+    .legal-nav a:hover { color: #D70030; }
+  </style>
+</head>
+<body class="light">
+  <a href="javascript:history.back()" class="back-link">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="vertical-align: middle; margin-right: 4px;"><path d="M15 19l-7-7 7-7"/></svg>
+    Voltar
+  </a>
+
+  <div class="status-container fade-in">
+    <div class="status-header">
+      <h1 class="font-display text-brand">Status</h1>
+      <div class="status-badge">
+        <div class="status-dot"></div>
+        Todos os sistemas operacionais
+      </div>
+    </div>
+
+    <div class="service-list">
+      <div class="service-item">
+        <div class="service-name">Plataforma KTANA<span>App, dashboard, agentes</span></div>
+        <div class="service-status"><div class="dot"></div>Operacional</div>
+      </div>
+      <div class="service-item">
+        <div class="service-name">API de Agentes<span>Processamento de acoes e decisoes</span></div>
+        <div class="service-status"><div class="dot"></div>Operacional</div>
+      </div>
+      <div class="service-item">
+        <div class="service-name">Integracoes<span>Google, WhatsApp, Slack, etc</span></div>
+        <div class="service-status"><div class="dot"></div>Operacional</div>
+      </div>
+      <div class="service-item">
+        <div class="service-name">Segundo Cerebro<span>Memoria e contexto dos agentes</span></div>
+        <div class="service-status"><div class="dot"></div>Operacional</div>
+      </div>
+      <div class="service-item">
+        <div class="service-name">Pagamentos<span>Cobrancas e faturamento</span></div>
+        <div class="service-status"><div class="dot"></div>Operacional</div>
+      </div>
+    </div>
+
+    <div class="uptime-section">
+      <h2>Uptime — Ultimos 30 dias</h2>
+      <div class="uptime-bar">
+        <div class="uptime-day"></div><div class="uptime-day"></div><div class="uptime-day"></div>
+        <div class="uptime-day"></div><div class="uptime-day"></div><div class="uptime-day"></div>
+        <div class="uptime-day"></div><div class="uptime-day"></div><div class="uptime-day"></div>
+        <div class="uptime-day"></div><div class="uptime-day partial"></div><div class="uptime-day"></div>
+        <div class="uptime-day"></div><div class="uptime-day"></div><div class="uptime-day"></div>
+        <div class="uptime-day"></div><div class="uptime-day"></div><div class="uptime-day"></div>
+        <div class="uptime-day"></div><div class="uptime-day"></div><div class="uptime-day"></div>
+        <div class="uptime-day"></div><div class="uptime-day"></div><div class="uptime-day"></div>
+        <div class="uptime-day"></div><div class="uptime-day"></div><div class="uptime-day"></div>
+        <div class="uptime-day"></div><div class="uptime-day"></div><div class="uptime-day"></div>
+      </div>
+      <div class="uptime-label"><span>30 dias atras</span><span>Hoje</span></div>
+      <div class="uptime-pct">99.97% <span>uptime</span></div>
+    </div>
+
+    <div class="incidents">
+      <h2>Incidentes Recentes</h2>
+      <div class="incident-empty">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#AEAEB2" stroke-width="1.5" style="margin-bottom: 8px;"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+        <p>Nenhum incidente nos ultimos 7 dias</p>
+      </div>
+    </div>
+
+    <nav class="legal-nav">
+      <a href="terms.html">Termos de Uso</a>
+      <a href="privacy.html">Politica de Privacidade</a>
+      <a href="lgpd.html">LGPD</a>
+    </nav>
+  </div>
+</body>
+</html>

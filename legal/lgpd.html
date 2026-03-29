@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LGPD — KTANA</title>
+  <link rel="stylesheet" href="../shared.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Zen+Dots&display=swap" rel="stylesheet">
+  <style>
+    body { min-height: 100vh; padding: 60px 24px 80px; }
+    .legal-container { max-width: 680px; margin: 0 auto; }
+    .legal-header { text-align: center; margin-bottom: 48px; }
+    .legal-header h1 { font-size: 28px; margin-bottom: 8px; }
+    .legal-header .date { font-size: 12px; color: #86868B; font-family: 'Inter', system-ui, sans-serif; }
+    .legal-section { margin-bottom: 32px; }
+    .legal-section h2 { font-size: 16px; font-weight: 600; color: #1D1D1F; margin-bottom: 12px; font-family: 'Inter', system-ui, sans-serif; }
+    .legal-section p, .legal-section li { font-size: 14px; line-height: 1.7; color: #6E6E73; margin-bottom: 8px; }
+    .legal-section ul { padding-left: 20px; list-style: disc; }
+    .legal-section ul li { margin-bottom: 6px; }
+    .basis-table { width: 100%; border-collapse: collapse; margin: 16px 0; font-size: 13px; font-family: 'Inter', system-ui, sans-serif; }
+    .basis-table th { text-align: left; padding: 10px 12px; background: rgba(0,0,0,0.02); border-bottom: 1px solid rgba(0,0,0,0.06); font-weight: 600; color: #1D1D1F; }
+    .basis-table td { padding: 10px 12px; border-bottom: 1px solid rgba(0,0,0,0.04); color: #6E6E73; }
+    .highlight-box { background: rgba(215,0,48,0.04); border: 1px solid rgba(215,0,48,0.1); border-radius: 12px; padding: 16px 20px; margin: 16px 0; }
+    .highlight-box p { color: #1D1D1F; font-weight: 500; margin: 0; }
+    .back-link { position: fixed; top: 20px; left: 24px; font-size: 12px; color: #86868B; text-decoration: none; font-family: 'Inter', system-ui, sans-serif; z-index: 10; }
+    .back-link:hover { color: #1D1D1F; }
+    .legal-nav { display: flex; gap: 16px; justify-content: center; margin-top: 48px; padding-top: 24px; border-top: 1px solid rgba(0,0,0,0.06); }
+    .legal-nav a { font-size: 12px; color: #86868B; text-decoration: none; font-family: 'Inter', system-ui, sans-serif; }
+    .legal-nav a:hover { color: #D70030; }
+  </style>
+</head>
+<body class="light">
+  <a href="javascript:history.back()" class="back-link">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="vertical-align: middle; margin-right: 4px;"><path d="M15 19l-7-7 7-7"/></svg>
+    Voltar
+  </a>
+
+  <div class="legal-container fade-in">
+    <div class="legal-header">
+      <h1 class="font-display text-brand">LGPD</h1>
+      <p class="date">Lei Geral de Protecao de Dados — Lei 13.709/2018</p>
+    </div>
+
+    <div class="highlight-box">
+      <p>A KTANA foi projetada com privacidade desde a concepcao (Privacy by Design). Nao armazenamos dados pessoais alem do minimo necessario.</p>
+    </div>
+
+    <div class="legal-section">
+      <h2>1. Controlador</h2>
+      <p><strong>KTANA Tecnologia Ltda.</strong></p>
+      <p>Encarregado (DPO): privacidade@ktana.ai</p>
+    </div>
+
+    <div class="legal-section">
+      <h2>2. Bases Legais</h2>
+      <table class="basis-table">
+        <thead>
+          <tr><th>Tratamento</th><th>Base Legal (Art. 7)</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Cadastro e autenticacao</td><td>Execucao de contrato</td></tr>
+          <tr><td>Consulta em tempo real (Gmail, Calendar)</td><td>Consentimento</td></tr>
+          <tr><td>Observacao WhatsApp</td><td>Consentimento explicito</td></tr>
+          <tr><td>Insights e decisoes da IA</td><td>Legitimo interesse</td></tr>
+          <tr><td>Cobranca e faturamento</td><td>Execucao de contrato</td></tr>
+          <tr><td>Logs de seguranca</td><td>Obrigacao legal</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="legal-section">
+      <h2>3. Direitos do Titular (Art. 18)</h2>
+      <ul>
+        <li><strong>Confirmacao e acesso:</strong> Saber quais dados temos sobre voce</li>
+        <li><strong>Correcao:</strong> Atualizar dados incompletos ou incorretos</li>
+        <li><strong>Anonimizacao:</strong> Solicitar anonimizacao de dados desnecessarios</li>
+        <li><strong>Portabilidade:</strong> Exportar dados em formato aberto (JSON/CSV)</li>
+        <li><strong>Eliminacao:</strong> Excluir dados tratados com consentimento</li>
+        <li><strong>Revogacao:</strong> Retirar consentimento a qualquer momento</li>
+        <li><strong>Oposicao:</strong> Opor-se a tratamento com base em legitimo interesse</li>
+      </ul>
+      <p>Exerca seus direitos em: <strong>Configuracoes &gt; Privacidade</strong> ou via email <strong>privacidade@ktana.ai</strong>. Prazo de resposta: 15 dias uteis.</p>
+    </div>
+
+    <div class="legal-section">
+      <h2>4. Transferencia Internacional</h2>
+      <p>A KTANA utiliza provedores de IA (Anthropic/Claude) com servidores nos EUA. Dados enviados para processamento de IA sao:</p>
+      <ul>
+        <li>Anonimizados antes do envio</li>
+        <li>Transmitidos com criptografia TLS 1.3</li>
+        <li>Nao retidos pelo provedor apos processamento</li>
+      </ul>
+    </div>
+
+    <div class="legal-section">
+      <h2>5. Medidas de Seguranca</h2>
+      <ul>
+        <li>Criptografia em transito (TLS 1.3) e em repouso (pgcrypto)</li>
+        <li>Tokens OAuth isolados por tenant</li>
+        <li>Autenticacao multi-fator (2FA)</li>
+        <li>Logs de auditoria imutaveis</li>
+        <li>Infraestrutura principal no Brasil (Sao Paulo)</li>
+        <li>Revisao de seguranca periodica</li>
+      </ul>
+    </div>
+
+    <div class="legal-section">
+      <h2>6. Incidentes</h2>
+      <p>Em caso de incidente de seguranca que envolva dados pessoais, a KTANA notificara a ANPD e os titulares afetados conforme Art. 48 da LGPD, em prazo razoavel.</p>
+    </div>
+
+    <div class="legal-section">
+      <h2>7. RIPD</h2>
+      <p>A KTANA mantem Relatorio de Impacto a Protecao de Dados Pessoais (RIPD) atualizado, disponivel para a ANPD quando solicitado.</p>
+    </div>
+
+    <nav class="legal-nav">
+      <a href="terms.html">Termos de Uso</a>
+      <a href="privacy.html">Politica de Privacidade</a>
+      <a href="status.html">Status</a>
+    </nav>
+  </div>
+</body>
+</html>

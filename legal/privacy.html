@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Politica de Privacidade — KTANA</title>
+  <link rel="stylesheet" href="../shared.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Zen+Dots&display=swap" rel="stylesheet">
+  <style>
+    body { min-height: 100vh; padding: 60px 24px 80px; }
+    .legal-container { max-width: 680px; margin: 0 auto; }
+    .legal-header { text-align: center; margin-bottom: 48px; }
+    .legal-header h1 { font-size: 28px; margin-bottom: 8px; }
+    .legal-header .date { font-size: 12px; color: #86868B; font-family: 'Inter', system-ui, sans-serif; }
+    .legal-section { margin-bottom: 32px; }
+    .legal-section h2 { font-size: 16px; font-weight: 600; color: #1D1D1F; margin-bottom: 12px; font-family: 'Inter', system-ui, sans-serif; }
+    .legal-section p, .legal-section li { font-size: 14px; line-height: 1.7; color: #6E6E73; margin-bottom: 8px; }
+    .legal-section ul { padding-left: 20px; list-style: disc; }
+    .legal-section ul li { margin-bottom: 6px; }
+    .highlight-box { background: rgba(215,0,48,0.04); border: 1px solid rgba(215,0,48,0.1); border-radius: 12px; padding: 16px 20px; margin: 16px 0; }
+    .highlight-box p { color: #1D1D1F; font-weight: 500; margin: 0; }
+    .back-link { position: fixed; top: 20px; left: 24px; font-size: 12px; color: #86868B; text-decoration: none; font-family: 'Inter', system-ui, sans-serif; z-index: 10; }
+    .back-link:hover { color: #1D1D1F; }
+    .legal-nav { display: flex; gap: 16px; justify-content: center; margin-top: 48px; padding-top: 24px; border-top: 1px solid rgba(0,0,0,0.06); }
+    .legal-nav a { font-size: 12px; color: #86868B; text-decoration: none; font-family: 'Inter', system-ui, sans-serif; }
+    .legal-nav a:hover { color: #D70030; }
+  </style>
+</head>
+<body class="light">
+  <a href="javascript:history.back()" class="back-link">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="vertical-align: middle; margin-right: 4px;"><path d="M15 19l-7-7 7-7"/></svg>
+    Voltar
+  </a>
+
+  <div class="legal-container fade-in">
+    <div class="legal-header">
+      <h1 class="font-display text-brand">Politica de Privacidade</h1>
+      <p class="date">Ultima atualizacao: 29 de marco de 2026</p>
+    </div>
+
+    <div class="highlight-box">
+      <p>A KTANA NAO armazena seus dados. Orquestramos consultas em tempo real nas plataformas originais (Google, WhatsApp, etc). Seus dados ficam onde sempre estiveram.</p>
+    </div>
+
+    <div class="legal-section">
+      <h2>1. Dados que Coletamos</h2>
+      <p><strong>Dados de conta:</strong> Nome, email, telefone, foto de perfil (opcional).</p>
+      <p><strong>Dados de uso:</strong> Interacoes com agentes, aprovacoes, configuracoes.</p>
+      <p><strong>Dados de integracao:</strong> Tokens OAuth para conexao com plataformas externas. Nunca armazenamos suas senhas.</p>
+      <p><strong>Insights e decisoes:</strong> Resumos anonimizados gerados pela IA para seu beneficio.</p>
+    </div>
+
+    <div class="legal-section">
+      <h2>2. O que NAO Coletamos</h2>
+      <ul>
+        <li>Conteudo de emails (consultado em tempo real, nunca armazenado)</li>
+        <li>Mensagens de WhatsApp (observadas sob demanda, nunca copiadas)</li>
+        <li>Arquivos do Google Drive (acessados quando necessario, nunca baixados)</li>
+        <li>Dados financeiros alem do necessario para cobranca</li>
+      </ul>
+    </div>
+
+    <div class="legal-section">
+      <h2>3. Como Usamos seus Dados</h2>
+      <ul>
+        <li>Operar e melhorar o Servico</li>
+        <li>Personalizar a experiencia dos agentes</li>
+        <li>Processar pagamentos</li>
+        <li>Enviar notificacoes sobre sua conta</li>
+        <li>Cumprir obrigacoes legais</li>
+      </ul>
+    </div>
+
+    <div class="legal-section">
+      <h2>4. Seguranca</h2>
+      <ul>
+        <li>Dados em transito: criptografia TLS 1.3</li>
+        <li>Tokens OAuth: isolados por tenant, criptografados em repouso (pgcrypto)</li>
+        <li>Acesso: autenticacao multi-fator disponivel</li>
+        <li>Infraestrutura: servidores no Brasil (Sao Paulo)</li>
+      </ul>
+    </div>
+
+    <div class="legal-section">
+      <h2>5. Compartilhamento</h2>
+      <p>Nao vendemos, alugamos ou compartilhamos seus dados com terceiros, exceto:</p>
+      <ul>
+        <li>Provedores de pagamento (para processar cobrancas)</li>
+        <li>Provedores de IA (Claude/Anthropic — dados anonimizados)</li>
+        <li>Exigencias legais (ordem judicial)</li>
+      </ul>
+    </div>
+
+    <div class="legal-section">
+      <h2>6. Seus Direitos</h2>
+      <p>Voce pode a qualquer momento:</p>
+      <ul>
+        <li>Acessar todos os seus dados</li>
+        <li>Corrigir informacoes incorretas</li>
+        <li>Excluir sua conta e todos os dados</li>
+        <li>Revogar acesso a integracoes (Google, WhatsApp, etc)</li>
+        <li>Exportar seus dados em formato aberto</li>
+        <li>Retirar consentimento para processamento</li>
+      </ul>
+      <p>Para exercer esses direitos: <strong>privacidade@ktana.ai</strong></p>
+    </div>
+
+    <div class="legal-section">
+      <h2>7. Retencao</h2>
+      <p>Dados de conta sao mantidos enquanto a conta estiver ativa. Apos exclusao, todos os dados sao removidos em ate 30 dias, exceto quando exigido por lei.</p>
+    </div>
+
+    <div class="legal-section">
+      <h2>8. Cookies</h2>
+      <p>Utilizamos apenas cookies essenciais para autenticacao e preferencias. Nao utilizamos cookies de rastreamento ou publicidade.</p>
+    </div>
+
+    <div class="legal-section">
+      <h2>9. Contato</h2>
+      <p>Encarregado de dados (DPO): <strong>privacidade@ktana.ai</strong></p>
+    </div>
+
+    <nav class="legal-nav">
+      <a href="terms.html">Termos de Uso</a>
+      <a href="lgpd.html">LGPD</a>
+      <a href="status.html">Status</a>
+    </nav>
+  </div>
+</body>
+</html>
