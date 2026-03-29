@@ -27,7 +27,9 @@
   const PF_SECTIONS = [
     { id: 'painel-pf', label: 'Painel', icon: 'M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z', items: [
       { label: 'Meu dia', href: pf('dashboard.html'), icon: 'M4 6h16M4 12h16M4 18h7' },
-      { label: 'Recomendacoes', href: pf('approvals.html'), icon: 'M9 11l3 3L22 4' },
+      { label: 'Metas de vida', href: pf('goals.html'), icon: 'M22 11.08V12a10 10 0 11-5.93-9.14' },
+      { label: 'Habitos', href: pf('habits.html'), icon: 'M9 11l3 3L22 4' },
+      { label: 'Recomendacoes', href: pf('approvals.html'), icon: 'M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z' },
       { label: 'Insights', href: pf('insights.html'), icon: 'M22 12h-4l-3 9L9 3l-3 9H2' },
       { label: 'Atividade', href: pf('activity.html'), icon: 'M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z' },
     ]},
@@ -46,15 +48,19 @@
       { label: 'Configurar mentores', href: pf('mentor-config.html'), icon: 'M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4' },
       { label: 'Especialistas', href: pf('specialist-config.html'), icon: 'M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3' },
     ]},
+    { id: 'cerebro', label: 'Cerebro', icon: 'M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707', items: [
+      { label: 'Meu cerebro', href: pf('brain.html'), icon: 'M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3' },
+      { label: 'Frameworks', href: pf('frameworks.html'), icon: 'M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6z' },
+      { label: 'Espirito / Ikigai', href: pf('spirit.html'), icon: 'M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z' },
+    ]},
     { id: 'solucoes-pf', label: 'Solucoes', icon: 'M13 10V3L4 14h7v7l9-11h-7z', items: [
-      { label: 'Marketplace', href: pf('solutions.html'), icon: 'M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6z' },
+      { label: 'Automacoes de vida', href: pf('solutions.html'), icon: 'M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6z' },
       { label: 'Builder', href: pf('builder.html'), icon: 'M12 4v16m8-8H4' },
     ]},
     { id: 'config-pf', label: 'Config', icon: 'M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.066 2.573c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.573 1.066c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.066-2.573c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z', items: [
       { label: 'Configuracoes', href: pf('settings.html'), icon: 'M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4' },
       { label: 'Meu perfil', href: pf('profile.html'), icon: 'M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2M12 3a4 4 0 100 8 4 4 0 000-8z' },
-      { label: 'Espirito', href: pf('spirit.html'), icon: 'M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z' },
-      { label: 'Conexoes', href: pf('connect.html'), icon: 'M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101' },
+      { label: 'Conexoes e fontes', href: pf('connect.html'), icon: 'M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101' },
     ]},
   ];
 
@@ -147,8 +153,31 @@
           <span class="kt-logo">KTANA</span>
           <span class="kt-client-name" style="font-family:'Inter',sans-serif;font-size:12px;color:#86868B;margin-left:8px;">${isPF ? 'Pessoal' : 'CSB Fintechs'}</span>
           <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" class="kt-org-chev"><path d="M6 9l6 6 6-6"/></svg>
-          <!-- Org Switcher (inside kt-org for correct positioning) -->
+          <!-- Context Switcher (inside kt-org for correct positioning) -->
           <div class="kt-org-drop" id="ktOrgDrop">
+          ${isPF ? `
+          <div class="kt-org-head">Seus perfis</div>
+          <div class="kt-org-item kt-org-active" onclick="switchOrg('Pessoal', event)">
+            <div class="kt-org-av" style="background:rgba(215,0,48,0.06);font-family:'Inter',sans-serif;font-size:10px;font-weight:600;color:#D70030;">JC</div>
+            <div class="kt-org-info"><div class="kt-org-n">Julio Cesar</div><div class="kt-org-p">8 areas · 8 mentores ativos</div></div>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#30D158" stroke-width="2.5" stroke-linecap="round"><path d="M20 6L9 17l-5-5"/></svg>
+          </div>
+          <div class="kt-org-sep"></div>
+          <div class="kt-org-head">Familia</div>
+          <div class="kt-org-item" onclick="switchOrg('Ana', event)">
+            <div class="kt-org-av" style="background:rgba(191,90,242,0.08);font-family:'Inter',sans-serif;font-size:10px;font-weight:600;color:#BF5AF2;">AC</div>
+            <div class="kt-org-info"><div class="kt-org-n">Ana Cesar</div><div class="kt-org-p">5 areas · 5 mentores</div></div>
+          </div>
+          <div class="kt-org-item" onclick="switchOrg('Pedro', event)">
+            <div class="kt-org-av" style="background:rgba(100,210,255,0.08);font-family:'Inter',sans-serif;font-size:10px;font-weight:600;color:#64D2FF;">PC</div>
+            <div class="kt-org-info"><div class="kt-org-n">Pedro Cesar</div><div class="kt-org-p">3 areas · 3 mentores</div></div>
+          </div>
+          <div class="kt-org-sep"></div>
+          <a href="settings.html" class="kt-org-item kt-org-manage">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            <span>Adicionar familiar</span>
+          </a>
+          ` : `
           <div class="kt-org-head">Suas organizacoes</div>
           <div class="kt-org-item kt-org-active" onclick="switchOrg('CSB Fintechs', event)">
             <div class="kt-org-av" style="background:rgba(127,177,189,0.12);font-family:'Inter',sans-serif;font-size:10px;font-weight:600;color:#7FB1BD;">CSB</div>
@@ -172,6 +201,7 @@
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M12.22 2h-.44a2 2 0 00-2 2v.18a2 2 0 01-1 1.73l-.43.25a2 2 0 01-2 0l-.15-.08a2 2 0 00-2.73.73l-.22.38a2 2 0 00.73 2.73l.15.1a2 2 0 011 1.72v.51a2 2 0 01-1 1.74l-.15.09a2 2 0 00-.73 2.73l.22.38a2 2 0 002.73.73l.15-.08a2 2 0 012 0l.43.25a2 2 0 011 1.73V20a2 2 0 002 2h.44"/></svg>
             <span>Gerenciar organizacoes</span>
           </a>
+          `}
           </div>
         </div>
         <div class="kt-spacer"></div>

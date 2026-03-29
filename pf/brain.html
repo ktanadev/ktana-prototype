@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Seu Cerebro — KTANA PF</title>
+  <link rel="stylesheet" href="../shared.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Zen+Dots&display=swap" rel="stylesheet">
+  <style>
+    body { min-height: 100vh; background: #F5F5F7; }
+    .main { max-width: 720px; margin: 0 auto; padding: 40px 24px 80px; }
+
+    .page-header { text-align: center; margin-bottom: 36px; }
+    .page-header h1 { font-family: 'Zen Dots', cursive; font-size: 24px; color: #1D1D1F; margin-bottom: 6px; }
+    .page-header p { font-family: 'Satoshi', sans-serif; font-size: 14px; color: #86868B; line-height: 1.5; }
+
+    .card { background: #FFF; border-radius: 20px; border: 1px solid rgba(0,0,0,0.04); padding: 24px; margin-bottom: 12px; }
+    .card-label { font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: #D70030; margin-bottom: 14px; }
+
+    /* Neural network SVG */
+    .network-card { padding: 20px; }
+    .network-wrap { display: flex; justify-content: center; }
+    .network-wrap svg { max-width: 100%; height: auto; }
+
+    /* Pulsing lines */
+    @keyframes pulse-line { 0%,100% { opacity: 0.15; } 50% { opacity: 0.5; } }
+    .conn-line { animation: pulse-line 3s ease-in-out infinite; }
+    .conn-line-strong { stroke-width: 2.5; animation: pulse-line 2s ease-in-out infinite; }
+    .conn-line-medium { stroke-width: 1.5; animation: pulse-line 3.5s ease-in-out infinite; }
+    .conn-line-light { stroke-width: 0.75; animation: pulse-line 4s ease-in-out infinite; }
+
+    /* Node hover */
+    .node-group { cursor: pointer; transition: transform 0.2s; }
+    .node-group:hover { transform: scale(1.08); }
+
+    /* Node score ring animation */
+    @keyframes node-pulse { 0%,100% { r: 28; opacity: 0.06; } 50% { r: 32; opacity: 0.03; } }
+
+    /* Correlation cards */
+    .corr-card { background: #FFF; border-radius: 20px; border: 1px solid rgba(0,0,0,0.04); padding: 20px 22px; margin-bottom: 10px; }
+    .corr-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
+    .corr-title { font-family: 'Satoshi', sans-serif; font-size: 15px; font-weight: 600; color: #1D1D1F; display: flex; align-items: center; gap: 8px; }
+    .corr-arrow { font-family: 'Inter', sans-serif; font-size: 12px; color: #AEAEB2; }
+    .corr-score { font-family: 'Zen Dots', cursive; font-size: 14px; padding: 4px 12px; border-radius: 8px; }
+    .corr-score.negative { background: rgba(255,69,58,0.06); color: #FF453A; }
+    .corr-score.positive { background: rgba(48,209,88,0.06); color: #30D158; }
+    .corr-text { font-family: 'Satoshi', sans-serif; font-size: 13px; color: #86868B; line-height: 1.6; }
+    .corr-text strong { color: #1D1D1F; }
+    .corr-strength { display: flex; align-items: center; gap: 8px; margin-top: 10px; padding-top: 10px; border-top: 0.5px solid rgba(0,0,0,0.03); }
+    .corr-strength-label { font-family: 'Inter', sans-serif; font-size: 11px; color: #AEAEB2; }
+    .corr-bar { flex: 1; height: 3px; border-radius: 2px; background: rgba(0,0,0,0.04); overflow: hidden; }
+    .corr-bar-fill { height: 100%; border-radius: 2px; transition: width 0.8s ease; }
+
+    /* Autonomous actions */
+    .action-item { display: flex; align-items: flex-start; gap: 12px; padding: 12px 0; border-bottom: 0.5px solid rgba(0,0,0,0.03); }
+    .action-item:last-child { border-bottom: none; }
+    .action-avatar { width: 32px; height: 32px; border-radius: 50%; border: 1.5px solid rgba(0,0,0,0.06); display: flex; align-items: center; justify-content: center; flex-shrink: 0; background: #F5F5F7; }
+    .action-avatar span { font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 600; color: #86868B; }
+    .action-text { font-family: 'Satoshi', sans-serif; font-size: 13px; color: #86868B; line-height: 1.5; flex: 1; }
+    .action-text strong { color: #1D1D1F; font-weight: 500; }
+    .action-time { font-family: 'Inter', sans-serif; font-size: 11px; color: #AEAEB2; flex-shrink: 0; }
+
+    /* Footer insight */
+    .footer-insight { background: rgba(215,0,48,0.02); border: 0.5px solid rgba(215,0,48,0.08); border-radius: 16px; padding: 18px 20px; text-align: center; margin-top: 12px; }
+    .footer-insight-text { font-family: 'Satoshi', sans-serif; font-size: 13px; color: #86868B; line-height: 1.6; }
+    .footer-insight-text strong { color: #D70030; font-weight: 600; }
+
+    .fade-in { animation: fadeIn 0.3s cubic-bezier(0.25,0.1,0.25,1) both; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+  </style>
+</head>
+<body>
+
+  <main class="main"><div class="gradient-header">
+
+    <!-- Header -->
+    <div class="page-header fade-in">
+      <h1>Seu Cerebro</h1>
+      <p>Como suas areas de vida se conectam — padroes que seus mentores descobriram</p>
+    </div>
+
+    <!-- Neural Network -->
+    <div class="card network-card fade-in" style="animation-delay:0.05s;">
+      <div class="card-label">Rede neural da sua vida</div>
+      <div class="network-wrap">
+        <svg viewBox="0 0 500 400" xmlns="http://www.w3.org/2000/svg">
+
+          <!-- Connection lines (from center "Voce" to each area) -->
+          <line x1="250" y1="200" x2="250" y2="60" class="conn-line conn-line-strong" stroke="#FF453A" stroke-opacity="0.35"/>
+          <line x1="250" y1="200" x2="380" y2="100" class="conn-line conn-line-medium" stroke="#BF5AF2" stroke-opacity="0.25"/>
+          <line x1="250" y1="200" x2="430" y2="220" class="conn-line conn-line-medium" stroke="#D70030" stroke-opacity="0.25"/>
+          <line x1="250" y1="200" x2="380" y2="320" class="conn-line conn-line-medium" stroke="#BFA730" stroke-opacity="0.25"/>
+          <line x1="250" y1="200" x2="250" y2="360" class="conn-line conn-line-medium" stroke="#FF9F0A" stroke-opacity="0.25"/>
+          <line x1="250" y1="200" x2="120" y2="320" class="conn-line conn-line-strong" stroke="#30D158" stroke-opacity="0.35"/>
+          <line x1="250" y1="200" x2="70" y2="220" class="conn-line conn-line-light" stroke="#BF5AF2" stroke-opacity="0.15"/>
+          <line x1="250" y1="200" x2="120" y2="100" class="conn-line conn-line-light" stroke="#64D2FF" stroke-opacity="0.15"/>
+
+          <!-- Cross-area correlation lines -->
+          <!-- Sono(Saude) → Produtividade (strong) -->
+          <line x1="250" y1="60" x2="120" y2="320" class="conn-line conn-line-strong" stroke="#D70030" stroke-opacity="0.4"/>
+          <!-- Mente → Produtividade (strong) -->
+          <line x1="380" y1="100" x2="120" y2="320" class="conn-line conn-line-strong" stroke="#BF5AF2" stroke-opacity="0.3"/>
+          <!-- Saude → Mente (moderate) -->
+          <line x1="250" y1="60" x2="380" y2="100" class="conn-line conn-line-medium" stroke="#FF453A" stroke-opacity="0.2"/>
+          <!-- Financas → Mente (moderate) -->
+          <line x1="380" y1="320" x2="380" y2="100" class="conn-line conn-line-medium" stroke="#BFA730" stroke-opacity="0.2"/>
+          <!-- Relacionamentos → Proposito (light) -->
+          <line x1="70" y1="220" x2="250" y2="360" class="conn-line conn-line-light" stroke="#BF5AF2" stroke-opacity="0.12"/>
+
+          <!-- Center node: Voce -->
+          <g class="node-group">
+            <circle cx="250" cy="200" r="28" fill="#D70030" fill-opacity="0.06">
+              <animate attributeName="r" values="28;32;28" dur="3s" repeatCount="indefinite"/>
+            </circle>
+            <circle cx="250" cy="200" r="20" fill="#D70030"/>
+            <text x="250" y="204" text-anchor="middle" font-family="Zen Dots, cursive" font-size="8" fill="#FFF" font-weight="400">Voce</text>
+          </g>
+
+          <!-- Saude (top) — score 7.2 -->
+          <g class="node-group">
+            <circle cx="250" cy="60" r="24" fill="#FF453A" fill-opacity="0.06"/>
+            <circle cx="250" cy="60" r="16" fill="#FFF" stroke="#FF453A" stroke-width="1.5"/>
+            <text x="250" y="56" text-anchor="middle" font-family="Inter, sans-serif" font-size="7" fill="#FF453A" font-weight="600">7.2</text>
+            <text x="250" y="65" text-anchor="middle" font-family="Inter, sans-serif" font-size="6" fill="#86868B">Saude</text>
+            <text x="250" y="38" text-anchor="middle" font-family="Satoshi, sans-serif" font-size="9" fill="#1D1D1F" font-weight="500">Saude</text>
+          </g>
+
+          <!-- Mente (top-right) — score 7.8 -->
+          <g class="node-group">
+            <circle cx="380" cy="100" r="24" fill="#BF5AF2" fill-opacity="0.06"/>
+            <circle cx="380" cy="100" r="16" fill="#FFF" stroke="#BF5AF2" stroke-width="1.5"/>
+            <text x="380" y="96" text-anchor="middle" font-family="Inter, sans-serif" font-size="7" fill="#BF5AF2" font-weight="600">7.8</text>
+            <text x="380" y="105" text-anchor="middle" font-family="Inter, sans-serif" font-size="6" fill="#86868B">Mente</text>
+            <text x="410" y="82" text-anchor="start" font-family="Satoshi, sans-serif" font-size="9" fill="#1D1D1F" font-weight="500">Mente</text>
+          </g>
+
+          <!-- Carreira (right) — score 6.5 -->
+          <g class="node-group">
+            <circle cx="430" cy="220" r="22" fill="#D70030" fill-opacity="0.06"/>
+            <circle cx="430" cy="220" r="14" fill="#FFF" stroke="#D70030" stroke-width="1.5"/>
+            <text x="430" y="216" text-anchor="middle" font-family="Inter, sans-serif" font-size="7" fill="#D70030" font-weight="600">6.5</text>
+            <text x="430" y="225" text-anchor="middle" font-family="Inter, sans-serif" font-size="6" fill="#86868B">Carreira</text>
+            <text x="454" y="210" text-anchor="start" font-family="Satoshi, sans-serif" font-size="9" fill="#1D1D1F" font-weight="500">Carreira</text>
+          </g>
+
+          <!-- Financas (bottom-right) — score 7.0 -->
+          <g class="node-group">
+            <circle cx="380" cy="320" r="22" fill="#BFA730" fill-opacity="0.06"/>
+            <circle cx="380" cy="320" r="14" fill="#FFF" stroke="#BFA730" stroke-width="1.5"/>
+            <text x="380" y="316" text-anchor="middle" font-family="Inter, sans-serif" font-size="7" fill="#BFA730" font-weight="600">7.0</text>
+            <text x="380" y="325" text-anchor="middle" font-family="Inter, sans-serif" font-size="6" fill="#86868B">Financas</text>
+            <text x="406" y="334" text-anchor="start" font-family="Satoshi, sans-serif" font-size="9" fill="#1D1D1F" font-weight="500">Financas</text>
+          </g>
+
+          <!-- Proposito (bottom) — score 8.2 -->
+          <g class="node-group">
+            <circle cx="250" cy="360" r="26" fill="#FF9F0A" fill-opacity="0.06"/>
+            <circle cx="250" cy="360" r="17" fill="#FFF" stroke="#FF9F0A" stroke-width="1.5"/>
+            <text x="250" y="356" text-anchor="middle" font-family="Inter, sans-serif" font-size="7" fill="#FF9F0A" font-weight="600">8.2</text>
+            <text x="250" y="365" text-anchor="middle" font-family="Inter, sans-serif" font-size="6" fill="#86868B">Propos.</text>
+            <text x="250" y="388" text-anchor="middle" font-family="Satoshi, sans-serif" font-size="9" fill="#1D1D1F" font-weight="500">Proposito</text>
+          </g>
+
+          <!-- Produtividade (bottom-left) — score 6.8 -->
+          <g class="node-group">
+            <circle cx="120" cy="320" r="22" fill="#30D158" fill-opacity="0.06"/>
+            <circle cx="120" cy="320" r="14" fill="#FFF" stroke="#30D158" stroke-width="1.5"/>
+            <text x="120" y="316" text-anchor="middle" font-family="Inter, sans-serif" font-size="7" fill="#30D158" font-weight="600">6.8</text>
+            <text x="120" y="325" text-anchor="middle" font-family="Inter, sans-serif" font-size="6" fill="#86868B">Produtiv.</text>
+            <text x="94" y="334" text-anchor="end" font-family="Satoshi, sans-serif" font-size="9" fill="#1D1D1F" font-weight="500">Produtividade</text>
+          </g>
+
+          <!-- Relacionamentos (left) — score 6.2 -->
+          <g class="node-group">
+            <circle cx="70" cy="220" r="20" fill="#BF5AF2" fill-opacity="0.06"/>
+            <circle cx="70" cy="220" r="13" fill="#FFF" stroke="#BF5AF2" stroke-width="1.5"/>
+            <text x="70" y="216" text-anchor="middle" font-family="Inter, sans-serif" font-size="7" fill="#BF5AF2" font-weight="600">6.2</text>
+            <text x="70" y="225" text-anchor="middle" font-family="Inter, sans-serif" font-size="6" fill="#86868B">Relac.</text>
+            <text x="46" y="210" text-anchor="end" font-family="Satoshi, sans-serif" font-size="9" fill="#1D1D1F" font-weight="500">Relacionamentos</text>
+          </g>
+
+          <!-- Casa (top-left) — score 5.4 -->
+          <g class="node-group">
+            <circle cx="120" cy="100" r="18" fill="#64D2FF" fill-opacity="0.06"/>
+            <circle cx="120" cy="100" r="12" fill="#FFF" stroke="#64D2FF" stroke-width="1.5"/>
+            <text x="120" y="96" text-anchor="middle" font-family="Inter, sans-serif" font-size="7" fill="#64D2FF" font-weight="600">5.4</text>
+            <text x="120" y="105" text-anchor="middle" font-family="Inter, sans-serif" font-size="6" fill="#86868B">Casa</text>
+            <text x="94" y="82" text-anchor="end" font-family="Satoshi, sans-serif" font-size="9" fill="#1D1D1F" font-weight="500">Casa</text>
+          </g>
+
+        </svg>
+      </div>
+    </div>
+
+    <!-- Correlation Insight 1 -->
+    <div class="corr-card fade-in" style="animation-delay:0.12s;">
+      <div class="corr-top">
+        <div class="corr-title">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#FF453A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>
+          Sono
+          <span class="corr-arrow">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#AEAEB2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          </span>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#30D158" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          Produtividade
+        </div>
+        <span class="corr-score negative">-0.82</span>
+      </div>
+      <p class="corr-text">Quando voce dorme menos de 6h, sua produtividade cai <strong>40%</strong> no dia seguinte. Nos ultimos 30 dias isso aconteceu <strong>8 vezes</strong>.</p>
+      <div class="corr-strength">
+        <span class="corr-strength-label">Forca</span>
+        <div class="corr-bar"><div class="corr-bar-fill" style="width:82%; background:#FF453A;"></div></div>
+        <span class="corr-strength-label">Forte</span>
+      </div>
+    </div>
+
+    <!-- Correlation Insight 2 -->
+    <div class="corr-card fade-in" style="animation-delay:0.18s;">
+      <div class="corr-top">
+        <div class="corr-title">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#BF5AF2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a7 7 0 017 7c0 3.5-2 5.5-3.5 7S12 19 12 22c0-3-2-4.5-3.5-6S5 12.5 5 9a7 7 0 017-7z"/><circle cx="12" cy="9" r="2"/></svg>
+          Meditacao
+          <span class="corr-arrow">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#AEAEB2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          </span>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#30D158" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>
+          Bem-estar
+        </div>
+        <span class="corr-score positive">+0.76</span>
+      </div>
+      <p class="corr-text">Dias com meditacao matinal tem score de bem-estar <strong>35% maior</strong>. Voce meditou <strong>22 dos ultimos 30 dias</strong>.</p>
+      <div class="corr-strength">
+        <span class="corr-strength-label">Forca</span>
+        <div class="corr-bar"><div class="corr-bar-fill" style="width:76%; background:#30D158;"></div></div>
+        <span class="corr-strength-label">Forte</span>
+      </div>
+    </div>
+
+    <!-- Correlation Insight 3 -->
+    <div class="corr-card fade-in" style="animation-delay:0.24s;">
+      <div class="corr-top">
+        <div class="corr-title">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#FF453A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg>
+          Exercicio
+          <span class="corr-arrow">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#AEAEB2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          </span>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#5E6AD2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
+          Sono
+        </div>
+        <span class="corr-score positive">+0.64</span>
+      </div>
+      <p class="corr-text">Treinos pela manha melhoram qualidade do sono em <strong>28%</strong>. Treinos apos 20h pioram em <strong>15%</strong>.</p>
+      <div class="corr-strength">
+        <span class="corr-strength-label">Forca</span>
+        <div class="corr-bar"><div class="corr-bar-fill" style="width:64%; background:#30D158;"></div></div>
+        <span class="corr-strength-label">Moderada</span>
+      </div>
+    </div>
+
+    <!-- Correlation Insight 4 -->
+    <div class="corr-card fade-in" style="animation-delay:0.3s;">
+      <div class="corr-top">
+        <div class="corr-title">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#BFA730" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>
+          Financas
+          <span class="corr-arrow">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#AEAEB2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          </span>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#FF453A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a7 7 0 017 7c0 3.5-2 5.5-3.5 7S12 19 12 22c0-3-2-4.5-3.5-6S5 12.5 5 9a7 7 0 017-7z"/><circle cx="12" cy="9" r="2"/></svg>
+          Estresse
+        </div>
+        <span class="corr-score negative">-0.58</span>
+      </div>
+      <p class="corr-text">Semanas com gastos acima do orcamento correlacionam com <strong>45% mais sintomas de ansiedade</strong>.</p>
+      <div class="corr-strength">
+        <span class="corr-strength-label">Forca</span>
+        <div class="corr-bar"><div class="corr-bar-fill" style="width:58%; background:#FF9F0A;"></div></div>
+        <span class="corr-strength-label">Moderada</span>
+      </div>
+    </div>
+
+    <!-- Autonomous actions -->
+    <div class="card fade-in" style="animation-delay:0.36s;">
+      <div class="card-label">O que seus mentores estao fazendo</div>
+
+      <div class="action-item">
+        <div class="action-avatar"><span>K</span></div>
+        <div class="action-text"><strong>Dr. Kenji</strong> ajustou seu treino de hoje porque <strong>Aiko</strong> detectou sono insuficiente</div>
+        <span class="action-time">14:30</span>
+      </div>
+
+      <div class="action-item">
+        <div class="action-avatar"><span>T</span></div>
+        <div class="action-text"><strong>Takeshi</strong> bloqueou notificacoes no seu horario de deep work porque <strong>Sensei Sora</strong> detectou reuniao importante amanha</div>
+        <span class="action-time">13:15</span>
+      </div>
+
+      <div class="action-item">
+        <div class="action-avatar"><span>S</span></div>
+        <div class="action-text"><strong>Sakura</strong> lembrou voce de ligar para sua mae porque detectou 12 dias sem contato</div>
+        <span class="action-time">11:00</span>
+      </div>
+    </div>
+
+    <!-- Footer insight -->
+    <div class="footer-insight fade-in" style="animation-delay:0.42s;">
+      <p class="footer-insight-text">
+        Seu cerebro analisou <strong>847 dados</strong> nas ultimas 4 semanas. <strong>12 correlacoes significativas</strong> encontradas. <strong>3 ajustes autonomos</strong> realizados hoje.
+      </p>
+    </div>
+
+  </div></main>
+
+  <script src="../shared-nav.js?v=1774794914"></script>
+</body>
+</html>

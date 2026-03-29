@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Metas de Vida — KTANA PF</title>
+  <link rel="stylesheet" href="../shared.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Zen+Dots&display=swap" rel="stylesheet">
+  <style>
+    body { min-height: 100vh; background: #F5F5F7; }
+    .main { max-width: 720px; margin: 0 auto; padding: 40px 24px 80px; }
+
+    .page-header { text-align: center; margin-bottom: 36px; }
+    .page-header h1 { font-family: 'Zen Dots', cursive; font-size: 24px; color: #1D1D1F; margin-bottom: 6px; }
+    .page-header p { font-family: 'Satoshi', sans-serif; font-size: 14px; color: #86868B; line-height: 1.5; }
+
+    /* Overall progress card */
+    .overall-card { background: #FFF; border-radius: 20px; border: 1px solid rgba(0,0,0,0.04); padding: 28px; margin-bottom: 24px; text-align: center; }
+    .overall-label { font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: #D70030; margin-bottom: 20px; }
+    .progress-ring-wrap { position: relative; width: 140px; height: 140px; margin: 0 auto 20px; }
+    .progress-ring-wrap svg { transform: rotate(-90deg); }
+    .progress-ring-bg { fill: none; stroke: rgba(0,0,0,0.04); stroke-width: 8; }
+    .progress-ring-fill { fill: none; stroke: #D70030; stroke-width: 8; stroke-linecap: round; transition: stroke-dashoffset 1s cubic-bezier(0.25,0.1,0.25,1); }
+    .progress-ring-text { position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); }
+    .progress-ring-pct { font-family: 'Zen Dots', cursive; font-size: 28px; color: #1D1D1F; }
+    .progress-ring-label { font-family: 'Inter', sans-serif; font-size: 11px; color: #86868B; }
+    .areas-breakdown { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-top: 16px; padding-top: 16px; border-top: 1px solid rgba(0,0,0,0.04); }
+    .area-mini { text-align: center; }
+    .area-mini-name { font-family: 'Inter', sans-serif; font-size: 10px; color: #86868B; margin-bottom: 4px; }
+    .area-mini-bar { height: 4px; border-radius: 2px; background: rgba(0,0,0,0.04); overflow: hidden; }
+    .area-mini-fill { height: 100%; border-radius: 2px; transition: width 0.8s ease; }
+    .area-mini-pct { font-family: 'Inter', sans-serif; font-size: 10px; color: #AEAEB2; margin-top: 3px; }
+
+    /* Goal cards */
+    .goal-card { background: #FFF; border-radius: 20px; border: 1px solid rgba(0,0,0,0.04); padding: 22px 24px; margin-bottom: 12px; cursor: pointer; transition: box-shadow 0.2s, transform 0.15s; }
+    .goal-card:hover { box-shadow: 0 4px 24px rgba(0,0,0,0.04); transform: translateY(-1px); }
+    .goal-top { display: flex; align-items: center; gap: 14px; margin-bottom: 14px; }
+    .goal-icon { width: 42px; height: 42px; border-radius: 13px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .goal-info { flex: 1; min-width: 0; }
+    .goal-area-row { display: flex; align-items: center; gap: 8px; margin-bottom: 3px; }
+    .goal-area-name { font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 600; color: #D70030; }
+    .goal-mentor-name { font-family: 'Inter', sans-serif; font-size: 11px; color: #AEAEB2; }
+    .goal-meta-text { font-family: 'Satoshi', sans-serif; font-size: 15px; font-weight: 600; color: #1D1D1F; line-height: 1.4; }
+    .goal-progress-row { display: flex; align-items: center; gap: 10px; margin-bottom: 16px; }
+    .goal-bar { flex: 1; height: 6px; border-radius: 3px; background: rgba(0,0,0,0.04); overflow: hidden; }
+    .goal-bar-fill { height: 100%; border-radius: 3px; background: linear-gradient(90deg, #D70030, #FF453A); transition: width 0.8s cubic-bezier(0.25,0.1,0.25,1); }
+    .goal-pct { font-family: 'Zen Dots', cursive; font-size: 14px; color: #D70030; flex-shrink: 0; min-width: 36px; text-align: right; }
+
+    /* Habit rows */
+    .habit-row { display: flex; align-items: center; gap: 10px; padding: 7px 0; border-top: 0.5px solid rgba(0,0,0,0.03); }
+    .habit-dot { width: 5px; height: 5px; border-radius: 50%; flex-shrink: 0; }
+    .habit-name { font-family: 'Satoshi', sans-serif; font-size: 13px; color: #1D1D1F; flex: 1; }
+    .habit-progress { font-family: 'Inter', sans-serif; font-size: 12px; color: #86868B; flex-shrink: 0; }
+    .habit-mini-bar { width: 48px; height: 3px; border-radius: 2px; background: rgba(0,0,0,0.04); overflow: hidden; flex-shrink: 0; }
+    .habit-mini-fill { height: 100%; border-radius: 2px; }
+
+    /* Mentor status */
+    .goal-status { font-family: 'Satoshi', sans-serif; font-size: 12px; color: #86868B; margin-top: 12px; padding-top: 10px; border-top: 0.5px solid rgba(0,0,0,0.03); display: flex; align-items: center; gap: 6px; }
+    .status-dot { width: 5px; height: 5px; border-radius: 50%; background: #30D158; animation: pulseStatus 2s infinite; flex-shrink: 0; }
+    @keyframes pulseStatus { 0%,100% { opacity:1; } 50% { opacity:0.4; } }
+
+    .fade-in { animation: fadeIn 0.3s cubic-bezier(0.25,0.1,0.25,1) both; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+
+    @media (max-width: 640px) {
+      .areas-breakdown { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+    }
+  </style>
+</head>
+<body>
+
+  <main class="main"><div class="gradient-header">
+
+    <!-- Header -->
+    <div class="page-header fade-in">
+      <h1>Metas de Vida</h1>
+      <p>Seus objetivos em cada area — os mentores trabalham para voce chegar la</p>
+    </div>
+
+    <!-- Overall Progress -->
+    <div class="overall-card fade-in" style="animation-delay:0.05s;">
+      <div class="overall-label">Progresso geral</div>
+      <div class="progress-ring-wrap">
+        <svg width="140" height="140" viewBox="0 0 140 140">
+          <circle class="progress-ring-bg" cx="70" cy="70" r="58"/>
+          <circle class="progress-ring-fill" cx="70" cy="70" r="58"
+            stroke-dasharray="364.4" stroke-dashoffset="120.3"/>
+        </svg>
+        <div class="progress-ring-text">
+          <div class="progress-ring-pct">67%</div>
+          <div class="progress-ring-label">concluido</div>
+        </div>
+      </div>
+      <div class="areas-breakdown">
+        <div class="area-mini">
+          <div class="area-mini-name">Saude</div>
+          <div class="area-mini-bar"><div class="area-mini-fill" style="width:62%; background:#FF453A;"></div></div>
+          <div class="area-mini-pct">62%</div>
+        </div>
+        <div class="area-mini">
+          <div class="area-mini-name">Mente</div>
+          <div class="area-mini-bar"><div class="area-mini-fill" style="width:73%; background:#BF5AF2;"></div></div>
+          <div class="area-mini-pct">73%</div>
+        </div>
+        <div class="area-mini">
+          <div class="area-mini-name">Carreira</div>
+          <div class="area-mini-bar"><div class="area-mini-fill" style="width:45%; background:#D70030;"></div></div>
+          <div class="area-mini-pct">45%</div>
+        </div>
+        <div class="area-mini">
+          <div class="area-mini-name">Financas</div>
+          <div class="area-mini-bar"><div class="area-mini-fill" style="width:78%; background:#BFA730;"></div></div>
+          <div class="area-mini-pct">78%</div>
+        </div>
+        <div class="area-mini">
+          <div class="area-mini-name">Produtivid.</div>
+          <div class="area-mini-bar"><div class="area-mini-fill" style="width:50%; background:#30D158;"></div></div>
+          <div class="area-mini-pct">50%</div>
+        </div>
+        <div class="area-mini">
+          <div class="area-mini-name">Proposito</div>
+          <div class="area-mini-bar"><div class="area-mini-fill" style="width:85%; background:#FF9F0A;"></div></div>
+          <div class="area-mini-pct">85%</div>
+        </div>
+        <div class="area-mini">
+          <div class="area-mini-name">Relacion.</div>
+          <div class="area-mini-bar"><div class="area-mini-fill" style="width:60%; background:#BF5AF2;"></div></div>
+          <div class="area-mini-pct">60%</div>
+        </div>
+        <div class="area-mini">
+          <div class="area-mini-name">Casa</div>
+          <div class="area-mini-bar"><div class="area-mini-fill" style="width:37%; background:#64D2FF;"></div></div>
+          <div class="area-mini-pct">37%</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SAUDE -->
+    <div class="goal-card fade-in" style="animation-delay:0.1s;" onclick="location.href='area-saude.html'">
+      <div class="goal-top">
+        <div class="goal-icon" style="background:rgba(255,69,58,0.06);">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FF453A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>
+        </div>
+        <div class="goal-info">
+          <div class="goal-area-row">
+            <span class="goal-area-name">Saude</span>
+            <span class="goal-mentor-name">Dr. Kenji</span>
+          </div>
+          <div class="goal-meta-text">Dormir 7h30 por noite ate junho</div>
+        </div>
+      </div>
+      <div class="goal-progress-row">
+        <div class="goal-bar"><div class="goal-bar-fill" style="width:62%;"></div></div>
+        <span class="goal-pct">62%</span>
+      </div>
+      <div class="habit-row">
+        <span class="habit-dot" style="background:#FF453A;"></span>
+        <span class="habit-name">Sem cafeina apos 14h</span>
+        <span class="habit-progress">5/7</span>
+        <div class="habit-mini-bar"><div class="habit-mini-fill" style="width:71%; background:#FF453A;"></div></div>
+      </div>
+      <div class="habit-row">
+        <span class="habit-dot" style="background:#FF453A;"></span>
+        <span class="habit-name">Tela off 22h</span>
+        <span class="habit-progress">3/7</span>
+        <div class="habit-mini-bar"><div class="habit-mini-fill" style="width:43%; background:#FF9F0A;"></div></div>
+      </div>
+      <div class="habit-row">
+        <span class="habit-dot" style="background:#FF453A;"></span>
+        <span class="habit-name">Magnesio antes de dormir</span>
+        <span class="habit-progress">6/7</span>
+        <div class="habit-mini-bar"><div class="habit-mini-fill" style="width:86%; background:#30D158;"></div></div>
+      </div>
+      <div class="goal-status"><span class="status-dot"></span>Dr. Kenji ajustou rotina noturna ontem</div>
+    </div>
+
+    <!-- MENTE -->
+    <div class="goal-card fade-in" style="animation-delay:0.15s;" onclick="location.href='area-mente.html'">
+      <div class="goal-top">
+        <div class="goal-icon" style="background:rgba(191,90,242,0.06);">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#BF5AF2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a7 7 0 017 7c0 3.5-2 5.5-3.5 7S12 19 12 22c0-3-2-4.5-3.5-6S5 12.5 5 9a7 7 0 017-7z"/><circle cx="12" cy="9" r="2"/></svg>
+        </div>
+        <div class="goal-info">
+          <div class="goal-area-row">
+            <span class="goal-area-name">Mente</span>
+            <span class="goal-mentor-name">Aiko</span>
+          </div>
+          <div class="goal-meta-text">30 dias seguidos de meditacao</div>
+        </div>
+      </div>
+      <div class="goal-progress-row">
+        <div class="goal-bar"><div class="goal-bar-fill" style="width:73%;"></div></div>
+        <span class="goal-pct">73%</span>
+      </div>
+      <div class="habit-row">
+        <span class="habit-dot" style="background:#BF5AF2;"></span>
+        <span class="habit-name">Meditacao 15min manha</span>
+        <span class="habit-progress">22/30</span>
+        <div class="habit-mini-bar"><div class="habit-mini-fill" style="width:73%; background:#BF5AF2;"></div></div>
+      </div>
+      <div class="habit-row">
+        <span class="habit-dot" style="background:#BF5AF2;"></span>
+        <span class="habit-name">Journaling noturno</span>
+        <span class="habit-progress">18/30</span>
+        <div class="habit-mini-bar"><div class="habit-mini-fill" style="width:60%; background:#FF9F0A;"></div></div>
+      </div>
+      <div class="habit-row">
+        <span class="habit-dot" style="background:#BF5AF2;"></span>
+        <span class="habit-name">Respiracao 4-7-8</span>
+        <span class="habit-progress">25/30</span>
+        <div class="habit-mini-bar"><div class="habit-mini-fill" style="width:83%; background:#30D158;"></div></div>
+      </div>
+      <div class="goal-status"><span class="status-dot"></span>Aiko detectou melhora de 18% no foco apos meditacao</div>
+    </div>
+
+    <!-- CARREIRA -->
+    <div class="goal-card fade-in" style="animation-delay:0.2s;" onclick="location.href='area-carreira.html'">
+      <div class="goal-top">
+        <div class="goal-icon" style="background:rgba(215,0,48,0.04);">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#D70030" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v16"/></svg>
+        </div>
+        <div class="goal-info">
+          <div class="goal-area-row">
+            <span class="goal-area-name">Carreira</span>
+            <span class="goal-mentor-name">Sensei Hiro</span>
+          </div>
+          <div class="goal-meta-text">Promocao ate dezembro</div>
+        </div>
+      </div>
+      <div class="goal-progress-row">
+        <div class="goal-bar"><div class="goal-bar-fill" style="width:45%;"></div></div>
+        <span class="goal-pct">45%</span>
+      </div>
+      <div class="habit-row">
+        <span class="habit-dot" style="background:#D70030;"></span>
+        <span class="habit-name">2h deep work por dia</span>
+        <span class="habit-progress">60%</span>
+        <div class="habit-mini-bar"><div class="habit-mini-fill" style="width:60%; background:#FF9F0A;"></div></div>
+      </div>
+      <div class="habit-row">
+        <span class="habit-dot" style="background:#D70030;"></span>
+        <span class="habit-name">1 post LinkedIn por semana</span>
+        <span class="habit-progress">3/4</span>
+        <div class="habit-mini-bar"><div class="habit-mini-fill" style="width:75%; background:#BF5AF2;"></div></div>
+      </div>
+      <div class="habit-row">
+        <span class="habit-dot" style="background:#D70030;"></span>
+        <span class="habit-name">Networking 2x por mes</span>
+        <span class="habit-progress">1/2</span>
+        <div class="habit-mini-bar"><div class="habit-mini-fill" style="width:50%; background:#FF9F0A;"></div></div>
+      </div>
+      <div class="goal-status"><span class="status-dot"></span>Sensei Hiro mapeou 3 competencias-chave para a promocao</div>
+    </div>
+
+    <!-- FINANCAS -->
+    <div class="goal-card fade-in" style="animation-delay:0.25s;" onclick="location.href='area-financas.html'">
+      <div class="goal-top">
+        <div class="goal-icon" style="background:rgba(234,219,98,0.1);">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#BFA730" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>
+        </div>
+        <div class="goal-info">
+          <div class="goal-area-row">
+            <span class="goal-area-name">Financas</span>
+            <span class="goal-mentor-name">Sensei Sora</span>
+          </div>
+          <div class="goal-meta-text">Reserva de emergencia R$30k</div>
+        </div>
+      </div>
+      <div class="goal-progress-row">
+        <div class="goal-bar"><div class="goal-bar-fill" style="width:78%;"></div></div>
+        <span class="goal-pct">78%</span>
+      </div>
+      <div class="habit-row">
+        <span class="habit-dot" style="background:#BFA730;"></span>
+        <span class="habit-name">Poupar 20% do salario</span>
+        <span class="habit-progress">auto</span>
+        <div class="habit-mini-bar"><div class="habit-mini-fill" style="width:100%; background:#30D158;"></div></div>
+      </div>
+      <div class="habit-row">
+        <span class="habit-dot" style="background:#BFA730;"></span>
+        <span class="habit-name">Revisar gastos semanalmente</span>
+        <span class="habit-progress">3/4</span>
+        <div class="habit-mini-bar"><div class="habit-mini-fill" style="width:75%; background:#BF5AF2;"></div></div>
+      </div>
+      <div class="habit-row">
+        <span class="habit-dot" style="background:#BFA730;"></span>
+        <span class="habit-name">Zero compra por impulso</span>
+        <span class="habit-progress">5/7</span>
+        <div class="habit-mini-bar"><div class="habit-mini-fill" style="width:71%; background:#FF453A;"></div></div>
+      </div>
+      <div class="goal-status"><span class="status-dot"></span>Sensei Sora: R$23.400 acumulados — faltam R$6.600</div>
+    </div>
+
+    <!-- PRODUTIVIDADE -->
+    <div class="goal-card fade-in" style="animation-delay:0.3s;" onclick="location.href='area-produtividade.html'">
+      <div class="goal-top">
+        <div class="goal-icon" style="background:rgba(48,209,88,0.06);">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#30D158" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        </div>
+        <div class="goal-info">
+          <div class="goal-area-row">
+            <span class="goal-area-name">Produtividade</span>
+            <span class="goal-mentor-name">Takeshi</span>
+          </div>
+          <div class="goal-meta-text">4 blocos de deep work por semana</div>
+        </div>
+      </div>
+      <div class="goal-progress-row">
+        <div class="goal-bar"><div class="goal-bar-fill" style="width:50%;"></div></div>
+        <span class="goal-pct">50%</span>
+      </div>
+      <div class="habit-row">
+        <span class="habit-dot" style="background:#30D158;"></span>
+        <span class="habit-name">Morning routine 6:30</span>
+        <span class="habit-progress">5/7</span>
+        <div class="habit-mini-bar"><div class="habit-mini-fill" style="width:71%; background:#30D158;"></div></div>
+      </div>
+      <div class="habit-row">
+        <span class="habit-dot" style="background:#30D158;"></span>
+        <span class="habit-name">Inbox zero diario</span>
+        <span class="habit-progress">4/7</span>
+        <div class="habit-mini-bar"><div class="habit-mini-fill" style="width:57%; background:#FF9F0A;"></div></div>
+      </div>
+      <div class="habit-row">
+        <span class="habit-dot" style="background:#30D158;"></span>
+        <span class="habit-name">Weekly review domingo</span>
+        <span class="habit-progress">3/4</span>
+        <div class="habit-mini-bar"><div class="habit-mini-fill" style="width:75%; background:#BF5AF2;"></div></div>
+      </div>
+      <div class="goal-status"><span class="status-dot"></span>Takeshi bloqueou distractores no horario de deep work</div>
+    </div>
+
+    <!-- PROPOSITO -->
+    <div class="goal-card fade-in" style="animation-delay:0.35s;" onclick="location.href='area-proposito.html'">
+      <div class="goal-top">
+        <div class="goal-icon" style="background:rgba(255,159,10,0.06);">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FF9F0A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        </div>
+        <div class="goal-info">
+          <div class="goal-area-row">
+            <span class="goal-area-name">Proposito</span>
+            <span class="goal-mentor-name">Sensei Hiro</span>
+          </div>
+          <div class="goal-meta-text">Definir Ikigai ate abril</div>
+        </div>
+      </div>
+      <div class="goal-progress-row">
+        <div class="goal-bar"><div class="goal-bar-fill" style="width:85%;"></div></div>
+        <span class="goal-pct">85%</span>
+      </div>
+      <div class="habit-row">
+        <span class="habit-dot" style="background:#FF9F0A;"></span>
+        <span class="habit-name">Journaling proposito 3x por semana</span>
+        <span class="habit-progress">2/3</span>
+        <div class="habit-mini-bar"><div class="habit-mini-fill" style="width:67%; background:#FF9F0A;"></div></div>
+      </div>
+      <div class="habit-row">
+        <span class="habit-dot" style="background:#FF9F0A;"></span>
+        <span class="habit-name">Leitura filosofia 30min</span>
+        <span class="habit-progress">4/7</span>
+        <div class="habit-mini-bar"><div class="habit-mini-fill" style="width:57%; background:#FF9F0A;"></div></div>
+      </div>
+      <div class="habit-row">
+        <span class="habit-dot" style="background:#FF9F0A;"></span>
+        <span class="habit-name">1 ato voluntario por mes</span>
+        <span class="habit-progress">1/1</span>
+        <div class="habit-mini-bar"><div class="habit-mini-fill" style="width:100%; background:#30D158;"></div></div>
+      </div>
+      <div class="goal-status"><span class="status-dot"></span>Sensei Hiro: seu Ikigai esta 85% mapeado — faltam 2 reflexoes</div>
+    </div>
+
+    <!-- RELACIONAMENTOS -->
+    <div class="goal-card fade-in" style="animation-delay:0.4s;" onclick="location.href='area-relacionamentos.html'">
+      <div class="goal-top">
+        <div class="goal-icon" style="background:rgba(191,90,242,0.06);">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#BF5AF2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>
+        </div>
+        <div class="goal-info">
+          <div class="goal-area-row">
+            <span class="goal-area-name">Relacionamentos</span>
+            <span class="goal-mentor-name">Sakura</span>
+          </div>
+          <div class="goal-meta-text">Reconectar com 5 amigos distantes</div>
+        </div>
+      </div>
+      <div class="goal-progress-row">
+        <div class="goal-bar"><div class="goal-bar-fill" style="width:60%;"></div></div>
+        <span class="goal-pct">60%</span>
+      </div>
+      <div class="habit-row">
+        <span class="habit-dot" style="background:#BF5AF2;"></span>
+        <span class="habit-name">Ligar familia 2x por semana</span>
+        <span class="habit-progress">1/2</span>
+        <div class="habit-mini-bar"><div class="habit-mini-fill" style="width:50%; background:#FF9F0A;"></div></div>
+      </div>
+      <div class="habit-row">
+        <span class="habit-dot" style="background:#BF5AF2;"></span>
+        <span class="habit-name">Date night semanal</span>
+        <span class="habit-progress">0/1</span>
+        <div class="habit-mini-bar"><div class="habit-mini-fill" style="width:0%; background:#FF453A;"></div></div>
+      </div>
+      <div class="habit-row">
+        <span class="habit-dot" style="background:#BF5AF2;"></span>
+        <span class="habit-name">Msg para 3 amigos</span>
+        <span class="habit-progress">2/3</span>
+        <div class="habit-mini-bar"><div class="habit-mini-fill" style="width:67%; background:#BF5AF2;"></div></div>
+      </div>
+      <div class="goal-status"><span class="status-dot"></span>Sakura lembrou: 12 dias sem ligar para sua mae</div>
+    </div>
+
+    <!-- CASA -->
+    <div class="goal-card fade-in" style="animation-delay:0.45s;" onclick="location.href='area-casa.html'">
+      <div class="goal-top">
+        <div class="goal-icon" style="background:rgba(100,210,255,0.08);">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#64D2FF" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+        </div>
+        <div class="goal-info">
+          <div class="goal-area-row">
+            <span class="goal-area-name">Casa</span>
+            <span class="goal-mentor-name">Mika</span>
+          </div>
+          <div class="goal-meta-text">Organizar todos os comodos</div>
+        </div>
+      </div>
+      <div class="goal-progress-row">
+        <div class="goal-bar"><div class="goal-bar-fill" style="width:37%;"></div></div>
+        <span class="goal-pct">37%</span>
+      </div>
+      <div class="habit-row">
+        <span class="habit-dot" style="background:#64D2FF;"></span>
+        <span class="habit-name">15min organizacao por dia</span>
+        <span class="habit-progress">3/7</span>
+        <div class="habit-mini-bar"><div class="habit-mini-fill" style="width:43%; background:#FF9F0A;"></div></div>
+      </div>
+      <div class="habit-row">
+        <span class="habit-dot" style="background:#64D2FF;"></span>
+        <span class="habit-name">Contas em dia</span>
+        <span class="habit-progress">auto</span>
+        <div class="habit-mini-bar"><div class="habit-mini-fill" style="width:100%; background:#30D158;"></div></div>
+      </div>
+      <div class="habit-row">
+        <span class="habit-dot" style="background:#64D2FF;"></span>
+        <span class="habit-name">Lista compras semanal</span>
+        <span class="habit-progress">1/1</span>
+        <div class="habit-mini-bar"><div class="habit-mini-fill" style="width:100%; background:#30D158;"></div></div>
+      </div>
+      <div class="goal-status"><span class="status-dot"></span>Mika: cozinha e sala organizadas — proximo: escritorio</div>
+    </div>
+
+  </div></main>
+
+  <script src="../shared-nav.js?v=1774794914"></script>
+</body>
+</html>
