@@ -97,7 +97,7 @@
         </button>
         <div class="kt-org" onclick="toggleOrgSwitcher()">
           <span class="kt-logo">KTANA</span>
-          <span class="kt-client-logo" title="CSB Fintechs"><svg width="22" height="22" viewBox="0 0 40 40" fill="none"><rect width="40" height="40" rx="10" fill="#7FB1BD" fill-opacity="0.15"/><path d="M12 20a8 8 0 0116 0" stroke="#7FB1BD" stroke-width="2.5" stroke-linecap="round"/><circle cx="20" cy="14" r="3" stroke="#7FB1BD" stroke-width="2"/><path d="M16 28h8" stroke="#7FB1BD" stroke-width="2" stroke-linecap="round"/></svg></span>
+          <span class="kt-client-logo"><span style="display:inline-flex;align-items:center;justify-content:center;width:26px;height:26px;border-radius:8px;background:rgba(127,177,189,0.12);flex-shrink:0;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M7 12a5 5 0 0110 0" stroke="#7FB1BD" stroke-width="2" stroke-linecap="round"/><circle cx="12" cy="8" r="2.5" stroke="#7FB1BD" stroke-width="1.5"/><path d="M9 18h6" stroke="#7FB1BD" stroke-width="1.5" stroke-linecap="round"/></svg></span></span>
           <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" class="kt-org-chev"><path d="M6 9l6 6 6-6"/></svg>
         </div>
         <!-- Org Switcher -->
