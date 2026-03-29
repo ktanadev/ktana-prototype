@@ -21,20 +21,16 @@
 
     .main { max-width: 760px; margin: 0 auto; padding: 32px 20px 80px; }
 
-    /* Greeting */
-    .greeting { margin-bottom: 28px; }
-    .greeting h1 { font-family: 'Satoshi', sans-serif; font-size: 26px; font-weight: 700; color: #1D1D1F; margin-bottom: 4px; }
-    .greeting p { font-family: 'Satoshi', sans-serif; font-size: 14px; color: #86868B; }
-
-    /* Cost bar — visible, prominent */
-    .cost-bar { display: flex; gap: 12px; margin-bottom: 28px; }
-    .cost-card { flex: 1; background: #FFF; border-radius: 16px; border: 1px solid rgba(0,0,0,0.04); padding: 16px 18px; }
-    .cost-value { font-family: 'Zen Dots', cursive; font-size: 22px; color: #1D1D1F; }
-    .cost-label { font-family: 'Inter', sans-serif; font-size: 11px; color: #86868B; margin-top: 2px; }
-    .cost-bar-visual { width: 100%; height: 4px; background: rgba(0,0,0,0.04); border-radius: 2px; margin-top: 8px; overflow: hidden; }
-    .cost-bar-fill { height: 100%; border-radius: 2px; background: #1D1D1F; transition: width 0.5s; }
-    .cost-bar-fill.warning { background: #FF9F0A; }
-    .cost-bar-fill.danger { background: #D70030; }
+    /* Greeting — compact, elegant */
+    .greeting { margin-bottom: 32px; }
+    .greeting h1 { font-family: 'Satoshi', sans-serif; font-size: 28px; font-weight: 700; color: #1D1D1F; margin-bottom: 8px; letter-spacing: -0.01em; }
+    .greeting-stats { display: flex; align-items: center; gap: 20px; }
+    .greeting-stat { font-family: 'Inter', sans-serif; font-size: 13px; color: #86868B; display: flex; align-items: center; gap: 6px; }
+    .greeting-stat strong { font-family: 'Satoshi', sans-serif; font-weight: 600; color: #1D1D1F; }
+    .greeting-stat .dot { width: 3px; height: 3px; border-radius: 50%; background: #D2D2D7; }
+    .cost-inline { font-family: 'Inter', sans-serif; font-size: 12px; color: #AEAEB2; margin-top: 10px; display: flex; align-items: center; gap: 10px; }
+    .cost-progress { width: 80px; height: 3px; background: rgba(0,0,0,0.04); border-radius: 2px; overflow: hidden; }
+    .cost-progress-fill { height: 100%; border-radius: 2px; background: #86868B; }
 
     /* Approval cards */
     .section-label { font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: #86868B; margin-bottom: 12px; display: flex; align-items: center; justify-content: space-between; }
@@ -110,26 +106,19 @@
   </nav>
 
   <main class="main">
-    <!-- Greeting -->
+    <!-- Greeting — compact, Apple-style -->
     <div class="greeting fade-in">
       <h1>Bom dia, Julio.</h1>
-      <p>Sua equipe executou 147 acoes hoje. 2 precisam de voce.</p>
-    </div>
-
-    <!-- Cost bar — visible and prominent -->
-    <div class="cost-bar fade-in" style="animation-delay: 0.05s;">
-      <div class="cost-card">
-        <p class="cost-value">R$67</p>
-        <p class="cost-label">gastos hoje</p>
+      <div class="greeting-stats">
+        <span class="greeting-stat"><strong>147</strong> acoes hoje</span>
+        <span class="dot" style="width:3px;height:3px;border-radius:50%;background:#D2D2D7;"></span>
+        <span class="greeting-stat"><strong>4</strong> samurais online</span>
+        <span class="dot" style="width:3px;height:3px;border-radius:50%;background:#D2D2D7;"></span>
+        <span class="greeting-stat"><strong>2</strong> aprovacoes</span>
       </div>
-      <div class="cost-card">
-        <p class="cost-value">R$2.140</p>
-        <p class="cost-label">gastos este mes</p>
-        <div class="cost-bar-visual"><div class="cost-bar-fill" style="width: 71%;"></div></div>
-      </div>
-      <div class="cost-card">
-        <p class="cost-value">R$3.000</p>
-        <p class="cost-label">budget mensal</p>
+      <div class="cost-inline">
+        R$2.140 / R$3.000 este mes
+        <div class="cost-progress"><div class="cost-progress-fill" style="width: 71%;"></div></div>
       </div>
     </div>
 
