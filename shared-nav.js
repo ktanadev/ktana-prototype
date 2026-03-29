@@ -376,7 +376,7 @@
     .kt { position: fixed; top: 0; left: 0; right: 0; z-index: 200; height: 52px; background: ${isPF ? 'linear-gradient(180deg, #D70030 0%, #C0002A 100%)' : 'linear-gradient(180deg, #1D1D1F 0%, #2C2C2E 100%)'}; backdrop-filter: saturate(180%) blur(20px); -webkit-backdrop-filter: saturate(180%) blur(20px); border-bottom: 0.5px solid rgba(0,0,0,0.1); }
     body { padding-top: 52px; }
     .kt::after { content: ''; position: absolute; bottom: -1px; left: 0; right: 0; height: 1px; background: ${isPF ? 'linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.1) 50%, transparent 100%)' : 'linear-gradient(90deg, transparent 0%, rgba(215,0,48,0.08) 50%, transparent 100%)'}; }
-    .kt-inner { height: 100%; padding: 0 20px 0 400px; display: flex; align-items: center; gap: 16px; }
+    .kt-inner { height: 100%; padding: 0 20px 0 440px; display: flex; align-items: center; gap: 16px; }
     .kt-toggle { width: 36px; height: 36px; border-radius: 10px; border: none; background: transparent; cursor: pointer; display: flex; align-items: center; justify-content: center; color: #FFF; transition: background 0.15s; }
     .kt-toggle:hover { background: rgba(255,255,255,0.1); }
     .kt-logo { font-family: 'Zen Dots', cursive; font-size: 15px; color: ${isPF ? '#FFF' : '#D70030'}; text-decoration: none; }
@@ -479,8 +479,8 @@
     .ks-foot-link svg { flex-shrink: 0; }
 
     /* CHAT DO AGENTE — Panel escuro lateral direita (estilo dashboard) */
-    .kc { position: fixed; top: 52px; left: 0; width: 380px; height: calc(100vh - 52px); background: #0A0A0A; border-right: 0.5px solid rgba(255,255,255,0.06); z-index: 190; display: flex; flex-direction: column; overflow: hidden; }
-    body.kc-open { margin-left: 380px; transition: margin-left 0.3s ease; }
+    .kc { position: fixed; top: 52px; left: 0; width: 420px; height: calc(100vh - 52px); background: #0A0A0A; border-right: 0.5px solid rgba(255,255,255,0.06); z-index: 190; display: flex; flex-direction: column; overflow: hidden; }
+    body.kc-open { margin-left: 420px; transition: margin-left 0.3s ease; }
 
     /* Ambient Glow */
     .kc-glow { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; }
@@ -621,10 +621,12 @@
   const isDesktop = window.innerWidth > 768;
   let sidebarOpen = isDashboardHome && isDesktop;
   // Chat do agente: skip em telas que já têm chat próprio (builder, dashboard home)
-  const skipChat = path.includes('/builder') || (currentFile === 'home.html' && path.includes('/dashboard/'));
+  const skipChat = path.includes('/builder') || (currentFile === 'home.html' && path.includes('/dashboard/')) || (currentFile === 'chat.html' && path.includes('/agent/')) || currentFile === 'terminal.html';
   if (skipChat) {
     var chatEl = document.getElementById('ktChat');
     if (chatEl) chatEl.style.display = 'none';
+    var headerInner = document.querySelector('.kt-inner');
+    if (headerInner) headerInner.style.paddingLeft = '20px';
   } else if (isDesktop) {
     document.body.classList.add('kc-open');
   }
