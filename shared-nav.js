@@ -97,14 +97,14 @@
         </button>
         <div class="kt-org" onclick="toggleOrgSwitcher()">
           <span class="kt-logo">KTANA</span>
-          <span class="kt-org-name"><span style="display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;border-radius:50%;background:rgba(215,0,48,0.06);color:#D70030;font-family:'Inter',sans-serif;font-size:12px;font-weight:600;flex-shrink:0;">CSB</span></span>
+          <span class="kt-client-logo" title="CSB Fintechs"><svg width="22" height="22" viewBox="0 0 40 40" fill="none"><rect width="40" height="40" rx="10" fill="#7FB1BD" fill-opacity="0.15"/><path d="M12 20a8 8 0 0116 0" stroke="#7FB1BD" stroke-width="2.5" stroke-linecap="round"/><circle cx="20" cy="14" r="3" stroke="#7FB1BD" stroke-width="2"/><path d="M16 28h8" stroke="#7FB1BD" stroke-width="2" stroke-linecap="round"/></svg></span>
           <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" class="kt-org-chev"><path d="M6 9l6 6 6-6"/></svg>
         </div>
         <!-- Org Switcher -->
         <div class="kt-org-drop" id="ktOrgDrop">
           <div class="kt-org-head">Suas organizacoes</div>
           <a href="${t('organizations/index.html')}" class="kt-org-item kt-org-active">
-            <div class="kt-org-av" style="background:rgba(215,0,48,0.06);color:#D70030;">CSB</div>
+            <div class="kt-org-av" style="background:rgba(127,177,189,0.12);"><svg width="16" height="16" viewBox="0 0 40 40" fill="none"><path d="M12 20a8 8 0 0116 0" stroke="#7FB1BD" stroke-width="2.5" stroke-linecap="round"/><circle cx="20" cy="14" r="3" stroke="#7FB1BD" stroke-width="2"/></svg></div>
             <div class="kt-org-info"><div class="kt-org-n">CSB Fintechs</div><div class="kt-org-p">GUNDAN · 4 samurais</div></div>
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#30D158" stroke-width="2.5" stroke-linecap="round"><path d="M20 6L9 17l-5-5"/></svg>
           </a>
@@ -158,6 +158,7 @@
     <div class="ka" id="ktAI">
       <div class="ka-head">
         <div class="ka-head-info">
+          <div class="ka-avatar-img"><svg width="20" height="20" viewBox="0 0 40 40" fill="none"><circle cx="20" cy="20" r="19" stroke="#D70030" stroke-width="1"/><circle cx="20" cy="15" r="6" fill="#D70030" opacity="0.15"/><path d="M20 10v-4M16 12l-2-3M24 12l2-3" stroke="#D70030" stroke-width="1.5" stroke-linecap="round"/><path d="M12 32c0-5 3.5-9 8-9s8 4 8 9" stroke="#D70030" stroke-width="1.5"/><circle cx="17" cy="16" r="1" fill="#D70030"/><circle cx="23" cy="16" r="1" fill="#D70030"/></svg></div>
           <div class="ka-dot"></div>
           <span>Hana — Assistente</span>
         </div>
@@ -189,6 +190,8 @@
     .kt-ai-label { }
     .kt-avatar { width: 32px; height: 32px; border-radius: 50%; background: rgba(0,0,0,0.04); display: flex; align-items: center; justify-content: center; color: #86868B; text-decoration: none; transition: background 0.15s; }
     .kt-avatar:hover { background: rgba(0,0,0,0.08); color: #1D1D1F; }
+    .kt-client-logo { display: flex; align-items: center; margin-left: 12px; opacity: 0.7; transition: opacity 0.15s; }
+    .kt-org:hover .kt-client-logo { opacity: 1; }
 
     /* Org Switcher */
     .kt-org { display: flex; align-items: center; gap: 6px; cursor: pointer; padding: 4px 10px 4px 0; border-radius: 8px; transition: background 0.15s; position: relative; }
@@ -259,6 +262,7 @@
     @keyframes kaUp { from { opacity: 0; transform: translateY(12px) scale(0.97); } to { opacity: 1; transform: translateY(0) scale(1); } }
     .ka-head { padding: 14px 18px; display: flex; align-items: center; justify-content: space-between; border-bottom: 0.5px solid rgba(0,0,0,0.04); }
     .ka-head-info { display: flex; align-items: center; gap: 8px; font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 500; color: #1D1D1F; }
+    .ka-avatar-img { width: 28px; height: 28px; border-radius: 50%; overflow: hidden; display: flex; align-items: center; justify-content: center; background: rgba(215,0,48,0.04); flex-shrink: 0; }
     .ka-dot { width: 7px; height: 7px; border-radius: 50%; background: #30D158; box-shadow: 0 0 6px rgba(48,209,88,0.4); }
     .ka-close { width: 28px; height: 28px; border-radius: 50%; background: rgba(0,0,0,0.04); border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; color: #86868B; }
     .ka-msgs { flex: 1; overflow-y: auto; padding: 16px; min-height: 120px; max-height: 280px; }
@@ -327,7 +331,10 @@
   document.body.insertAdjacentHTML('afterbegin', buildNav());
 
   // Handlers
-  let sidebarOpen = false;
+  // Open sidebar by default on dashboard home (desktop only)
+  const isDashboardHome = currentFile === 'home.html' && path.includes('/dashboard/');
+  const isDesktop = window.innerWidth > 768;
+  let sidebarOpen = isDashboardHome && isDesktop;
   let aiOpen = false;
 
   window.toggleSidebar = function() {
@@ -382,6 +389,12 @@
       if (o) o.classList.remove('open');
     }
   });
+
+  // Apply initial sidebar state
+  if (sidebarOpen) {
+    document.getElementById('ktSidebar').classList.add('open');
+    document.getElementById('ksOverlay').classList.add('open');
+  }
 
   // Close sidebar on Escape
   document.addEventListener('keydown', e => {
