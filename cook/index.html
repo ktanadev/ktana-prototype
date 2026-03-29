@@ -78,6 +78,30 @@
     .tl-text.dim { color: #636366; }
     .tl-agent { font-size: 10px; font-weight: 600; color: #8E8E93; }
 
+    /* Agent feed */
+    .feed-container { background: #111111; border: 1px solid rgba(255,255,255,0.04); border-radius: 16px; padding: 20px; max-height: 500px; overflow-y: auto; }
+    .feed-item { display: flex; gap: 10px; padding: 14px 0; border-bottom: 0.5px solid rgba(255,255,255,0.03); }
+    .feed-item:last-of-type { border-bottom: none; }
+    .feed-content { flex: 1; min-width: 0; }
+    .feed-header-row { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; margin-bottom: 6px; }
+    .feed-agent { font-size: 12px; font-weight: 600; color: #D2D2D7; }
+    .feed-label { font-size: 9px; color: #636366; padding: 1px 5px; background: rgba(255,255,255,0.03); border-radius: 3px; }
+    .feed-arrow { font-size: 10px; color: #48484A; }
+    .feed-time { font-size: 10px; color: #48484A; margin-left: auto; font-variant-numeric: tabular-nums; }
+    .feed-msg { font-size: 13px; color: #AEAEB2; line-height: 1.5; }
+    .feed-actions { display: flex; gap: 6px; margin-top: 8px; flex-wrap: wrap; }
+    .feed-tag-action { font-size: 9px; font-weight: 600; padding: 2px 7px; border-radius: 4px; background: rgba(0,122,255,0.12); color: #0A84FF; text-transform: uppercase; letter-spacing: 0.04em; }
+    .feed-tag-priority { font-size: 9px; padding: 2px 7px; border-radius: 4px; background: rgba(255,69,58,0.12); color: #FF453A; }
+    .feed-tag-confidence { font-size: 9px; padding: 2px 7px; border-radius: 4px; background: rgba(48,209,88,0.12); color: #30D158; }
+    .feed-tag-tools { font-size: 9px; padding: 2px 7px; border-radius: 4px; background: rgba(191,90,242,0.12); color: #BF5AF2; }
+    .feed-tag-approval { font-size: 9px; padding: 2px 7px; border-radius: 4px; background: rgba(255,159,10,0.12); color: #FF9F0A; }
+    .feed-typing { display: flex; gap: 10px; padding: 14px 0 0; align-items: center; }
+    .typing-dots { display: inline-flex; gap: 3px; margin-left: 8px; }
+    .typing-dots span { width: 4px; height: 4px; border-radius: 50%; background: #636366; animation: typing 1.4s ease-in-out infinite; }
+    .typing-dots span:nth-child(2) { animation-delay: 0.2s; }
+    .typing-dots span:nth-child(3) { animation-delay: 0.4s; }
+    @keyframes typing { 0%,60%,100% { opacity: 0.3; transform: translateY(0); } 30% { opacity: 1; transform: translateY(-3px); } }
+
     /* Fade animations */
     .fade-in { animation: fadeIn 0.4s cubic-bezier(0.25,0.1,0.25,1) both; }
     @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
@@ -226,6 +250,116 @@
           <p class="tl-time">—</p>
           <p class="tl-agent dim">Proximo</p>
           <p class="tl-text dim">Aguardando instrucao do Shogun</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Agent Interactions — Live Feed -->
+    <div class="section fade-in" style="animation-delay:0.12s">
+      <p class="section-label">Interacoes entre agentes — Live feed</p>
+      <div class="feed-container">
+
+        <div class="feed-item">
+          <div class="feed-avatar avatar-ceo" style="width:28px;height:28px;border-radius:8px;font-size:10px;">A</div>
+          <div class="feed-content">
+            <div class="feed-header-row">
+              <span class="feed-agent">Akira</span>
+              <span class="feed-label">CEO</span>
+              <span class="feed-arrow">→</span>
+              <span class="feed-agent">Yuki</span>
+              <span class="feed-label">Controller</span>
+              <span class="feed-time">17:02</span>
+            </div>
+            <p class="feed-msg">Yuki, preciso do DRE consolidado de marco ate amanha 09h. Inclui breakdown por departamento e comparativo com fevereiro.</p>
+            <div class="feed-actions">
+              <span class="feed-tag-action">DELEGATE</span>
+              <span class="feed-tag-priority">alta prioridade</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="feed-item">
+          <div class="feed-avatar avatar-default" style="width:28px;height:28px;border-radius:8px;font-size:10px;">Y</div>
+          <div class="feed-content">
+            <div class="feed-header-row">
+              <span class="feed-agent">Yuki</span>
+              <span class="feed-label">Controller</span>
+              <span class="feed-arrow">→</span>
+              <span class="feed-agent">Akira</span>
+              <span class="feed-label">CEO</span>
+              <span class="feed-time">17:04</span>
+            </div>
+            <p class="feed-msg">Recebido. DRE marco ja esta 80% pronto. Faltam 3 conciliacoes do Bradesco que estou processando agora. Entrego ate 18h hoje.</p>
+            <div class="feed-actions">
+              <span class="feed-tag-action">RESPOND</span>
+              <span class="feed-tag-confidence">confianca 94%</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="feed-item">
+          <div class="feed-avatar avatar-default" style="width:28px;height:28px;border-radius:8px;font-size:10px;">H</div>
+          <div class="feed-content">
+            <div class="feed-header-row">
+              <span class="feed-agent">Hana</span>
+              <span class="feed-label">Secretaria</span>
+              <span class="feed-arrow">→</span>
+              <span class="feed-agent">Haruki</span>
+              <span class="feed-label">PM</span>
+              <span class="feed-time">16:58</span>
+            </div>
+            <p class="feed-msg">Haruki, a reuniao com o cliente Empresa X foi reagendada para quinta 14h. Atualizei o calendario e notifiquei o Julio via WhatsApp.</p>
+            <div class="feed-actions">
+              <span class="feed-tag-action">EXECUTE</span>
+              <span class="feed-tag-tools">Calendar + WhatsApp</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="feed-item">
+          <div class="feed-avatar avatar-default" style="width:28px;height:28px;border-radius:8px;font-size:10px;">H</div>
+          <div class="feed-content">
+            <div class="feed-header-row">
+              <span class="feed-agent">Haruki</span>
+              <span class="feed-label">PM</span>
+              <span class="feed-arrow">→</span>
+              <span class="feed-agent">Akira</span>
+              <span class="feed-label">CEO</span>
+              <span class="feed-time">16:55</span>
+            </div>
+            <p class="feed-msg">Sprint review: 8/10 tasks concluidas. 2 bloqueadas por dependencia externa (API Celcoin). Recomendo escalar para o Julio aprovar bypass.</p>
+            <div class="feed-actions">
+              <span class="feed-tag-action">DECIDE</span>
+              <span class="feed-tag-approval">precisa aprovacao</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="feed-item">
+          <div class="feed-avatar avatar-ceo" style="width:28px;height:28px;border-radius:8px;font-size:10px;">A</div>
+          <div class="feed-content">
+            <div class="feed-header-row">
+              <span class="feed-agent">Akira</span>
+              <span class="feed-label">CEO</span>
+              <span class="feed-arrow">→</span>
+              <span class="feed-agent">Julio</span>
+              <span class="feed-label">Shogun</span>
+              <span class="feed-time">16:56</span>
+            </div>
+            <p class="feed-msg">Julio, 2 tasks bloqueadas pela API Celcoin. Haruki recomenda bypass temporario. Aprovar ou aguardar resposta do suporte Celcoin? Prazo: sexta.</p>
+            <div class="feed-actions">
+              <span class="feed-tag-action">ESCALATE</span>
+              <span class="feed-tag-approval">aguardando Shogun</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="feed-typing">
+          <div class="feed-avatar avatar-default" style="width:28px;height:28px;border-radius:8px;font-size:10px;">Y</div>
+          <div class="feed-content">
+            <span class="feed-agent">Yuki</span>
+            <span class="typing-dots"><span></span><span></span><span></span></span>
+          </div>
         </div>
       </div>
     </div>
