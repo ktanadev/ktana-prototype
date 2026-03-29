@@ -342,7 +342,83 @@
       </div>
       <!-- TAB 1: AGENT FLOW -->
       <div class="right-tab-content active" id="rtab-agentflow">
+        <!-- VISUAL GRAPH — Nodes + connections + particles -->
+        <div id="graphCanvas" style="position:relative;background:#050505;border:1px solid rgba(255,255,255,0.04);border-radius:14px;height:320px;overflow:hidden;margin-bottom:12px;">
+          <div style="position:absolute;inset:0;opacity:0.03;background-image:radial-gradient(circle at 1px 1px,#D70030 0.5px,transparent 0);background-size:50px 50px;pointer-events:none;"></div>
+          <svg id="graphSvg" style="position:absolute;inset:0;width:100%;height:100%;z-index:1;">
+            <defs>
+              <filter id="glow"><feGaussianBlur stdDeviation="3" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+            </defs>
+            <g id="graphLines"></g>
+            <g id="graphParticles"></g>
+          </svg>
+          <!-- Agent nodes positioned absolutely -->
+          <div id="gn-julio" class="gn" style="left:50%;top:12px;" onclick="gnClick('julio')">
+            <div class="gn-av gn-shogun">J</div><div class="gn-name" style="color:#636366;">Julio</div><div class="gn-role">Shogun</div>
+            <div class="gn-status" id="gn-julio-status">Monitorando</div>
+          </div>
+          <div id="gn-akira" class="gn" style="left:50%;top:105px;" onclick="gnClick('akira')">
+            <div class="gn-ring gn-ring-active"></div>
+            <div class="gn-av gn-ceo">A</div><div class="gn-name">Akira</div><div class="gn-role">CEO</div>
+            <div class="gn-status gn-status-active" id="gn-akira-status">Memory.recall</div>
+            <div class="gn-glow"></div>
+          </div>
+          <div id="gn-yuki" class="gn" style="left:14%;top:200px;" onclick="gnClick('yuki')">
+            <div class="gn-av gn-w">Y</div><div class="gn-name">Yuki</div><div class="gn-role">Controller</div>
+            <div class="gn-status gn-status-active" id="gn-yuki-status" style="background:rgba(10,132,255,0.12);color:#0A84FF;">DRE.calcular</div>
+            <div class="gn-glow" style="box-shadow:0 0 20px rgba(10,132,255,0.25);"></div>
+          </div>
+          <div id="gn-hana" class="gn" style="left:34%;top:200px;" onclick="gnClick('hana')">
+            <div class="gn-av gn-w">H</div><div class="gn-name">Hana</div><div class="gn-role">Secretaria</div>
+            <div class="gn-status gn-status-active" id="gn-hana-status" style="background:rgba(48,209,88,0.12);color:#30D158;">Gmail.filter</div>
+            <div class="gn-glow" style="box-shadow:0 0 20px rgba(48,209,88,0.25);"></div>
+          </div>
+          <div id="gn-haruki" class="gn" style="left:66%;top:200px;" onclick="gnClick('haruki')">
+            <div class="gn-av gn-w">H</div><div class="gn-name">Haruki</div><div class="gn-role">PM</div>
+            <div class="gn-status gn-status-active" id="gn-haruki-status" style="background:rgba(255,159,10,0.12);color:#FF9F0A;">ClickUp.sprint</div>
+            <div class="gn-glow" style="box-shadow:0 0 20px rgba(255,159,10,0.25);"></div>
+          </div>
+          <div id="gn-kaito" class="gn" style="left:86%;top:200px;" onclick="gnClick('kaito')">
+            <div class="gn-av gn-w">K</div><div class="gn-name">Kaito</div><div class="gn-role">Builder</div>
+            <div class="gn-status gn-status-active" id="gn-kaito-status" style="background:rgba(191,90,242,0.12);color:#BF5AF2;">Module.publish</div>
+            <div class="gn-glow" style="box-shadow:0 0 20px rgba(191,90,242,0.25);"></div>
+          </div>
+          <div id="gn-yumi" class="gn" style="left:50%;top:275px;" onclick="gnClick('yumi')">
+            <div class="gn-av gn-w" style="border-color:rgba(48,209,88,0.3);">Y</div><div class="gn-name">Yumi</div><div class="gn-role">Mentora PF</div>
+            <div class="gn-status gn-status-active" id="gn-yumi-status" style="background:rgba(48,209,88,0.12);color:#30D158;">WhatsApp.checkin</div>
+            <div class="gn-glow" style="box-shadow:0 0 20px rgba(48,209,88,0.25);"></div>
+          </div>
+          <!-- Thought popup -->
+          <div id="gnThought" style="display:none;position:absolute;z-index:20;background:#0d1117;border:1px solid rgba(215,0,48,0.2);border-radius:10px;padding:10px 14px;max-width:240px;font-size:11px;color:#D2D2D7;line-height:1.4;pointer-events:none;box-shadow:0 4px 20px rgba(0,0,0,0.5);">
+            <div style="font-size:8px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:#D70030;margin-bottom:4px;" id="gnThoughtLabel">Pensando</div>
+            <div id="gnThoughtText" style="font-family:'SF Mono',Consolas,monospace;"></div>
+          </div>
+          <!-- Bottom bar -->
+          <div style="position:absolute;bottom:0;left:0;right:0;padding:8px 16px;display:flex;gap:16px;font-size:9px;color:#48484A;background:linear-gradient(transparent,#050505);z-index:5;">
+            <span>6 samurais</span><span id="graphActions">214 acoes</span><span id="graphCost">R$67</span><span id="graphLatency">1.2ms</span>
+            <span style="color:#D70030;font-weight:700;letter-spacing:0.08em;display:flex;align-items:center;gap:4px;margin-left:auto;"><span style="width:5px;height:5px;border-radius:50%;background:#D70030;animation:pulse 1.5s ease infinite;"></span> LIVE</span>
+          </div>
+        </div>
+        <!-- EXECUTION LOG — Cards below -->
+        <p style="font-size:9px;font-weight:600;text-transform:uppercase;letter-spacing:0.08em;color:#D70030;margin-bottom:8px;">Execucao em tempo real</p>
         <style>
+          .gn{position:absolute;transform:translateX(-50%);text-align:center;z-index:2;cursor:pointer;transition:transform 0.2s;}
+          .gn:hover{transform:translateX(-50%) scale(1.08);}
+          .gn-av{width:42px;height:42px;clip-path:polygon(50% 0%,100% 25%,100% 75%,50% 100%,0% 75%,0% 25%);display:flex;align-items:center;justify-content:center;font-family:'Zen Dots',cursive;font-size:14px;margin:0 auto 3px;transition:all 0.3s;}
+          .gn-shogun{background:rgba(255,255,255,0.06);color:#636366;width:48px;height:48px;font-size:16px;}
+          .gn-ceo{background:rgba(215,0,48,0.15);color:#D70030;}
+          .gn-w{background:rgba(255,255,255,0.06);color:#8E8E93;}
+          .gn-ring{position:absolute;top:50%;left:50%;width:56px;height:56px;margin:-28px 0 0 -28px;border-radius:50%;border:1.5px solid transparent;pointer-events:none;}
+          .gn-ring-active{border-color:rgba(215,0,48,0.3);animation:gnRingSpin 4s linear infinite;}
+          .gn-ring-active::before{content:'';position:absolute;top:-2px;left:50%;width:4px;height:4px;border-radius:50%;margin-left:-2px;background:#D70030;box-shadow:0 0 8px #D70030;}
+          @keyframes gnRingSpin{from{transform:rotate(0deg);}to{transform:rotate(360deg);}}
+          .gn-name{font-size:10px;font-weight:600;color:#D2D2D7;}
+          .gn-role{font-size:8px;color:#636366;}
+          .gn-status{font-size:7px;font-weight:600;text-transform:uppercase;letter-spacing:0.03em;margin-top:3px;padding:2px 6px;border-radius:4px;background:rgba(255,255,255,0.04);color:#48484A;display:inline-block;font-family:'SF Mono',Consolas,monospace;transition:all 0.3s;}
+          .gn-status-active{animation:gnStatusPulse 2s ease infinite;}
+          .gn-glow{position:absolute;top:-2px;left:50%;transform:translateX(-50%);width:46px;height:46px;border-radius:50%;z-index:-1;box-shadow:0 0 20px rgba(215,0,48,0.25);animation:flowGlow 3s ease-in-out infinite;}
+          @keyframes gnStatusPulse{0%,100%{opacity:1;}50%{opacity:0.6;}}
+          @keyframes flowGlow{0%,100%{opacity:0.3;}50%{opacity:1;}}
           .af-canvas{position:relative;background:#050505;border:1px solid rgba(255,255,255,0.04);border-radius:14px;min-height:580px;overflow:hidden;}
           .af-grid{position:absolute;inset:0;opacity:0.03;background-image:radial-gradient(circle at 1px 1px,#D70030 0.5px,transparent 0);background-size:50px 50px;pointer-events:none;}
           .af-card{background:#0d1117;border:1px solid rgba(255,255,255,0.08);border-radius:10px;padding:10px 14px;margin-bottom:2px;cursor:pointer;transition:all 0.3s ease;position:relative;overflow:hidden;animation:afCardIn 0.5s ease;}
@@ -529,6 +605,178 @@
   // Clock
   function updateClock(){document.getElementById('clock').textContent=new Date().toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit',second:'2-digit'});}
   setInterval(updateClock,1000);updateClock();
+
+  // ========== GRAPH VISUALIZATION ==========
+  var gnPositions = {
+    julio:{x:50,y:36}, akira:{x:50,y:130}, yuki:{x:14,y:224}, hana:{x:34,y:224},
+    haruki:{x:66,y:224}, kaito:{x:86,y:224}, yumi:{x:50,y:299}
+  };
+  var gnEdges = [
+    {from:'julio',to:'akira',color:'#D70030'},
+    {from:'akira',to:'yuki',color:'#0A84FF'},
+    {from:'akira',to:'hana',color:'#30D158'},
+    {from:'akira',to:'haruki',color:'#FF9F0A'},
+    {from:'akira',to:'kaito',color:'#BF5AF2'},
+    {from:'akira',to:'yumi',color:'#30D158'},
+    {from:'haruki',to:'kaito',color:'#FF9F0A'},
+    {from:'yuki',to:'julio',color:'#0A84FF'}
+  ];
+
+  function drawGraphEdges() {
+    var svg = document.getElementById('graphSvg');
+    var gc = document.getElementById('graphCanvas');
+    if (!svg || !gc) return;
+    var w = gc.offsetWidth, h = gc.offsetHeight;
+    svg.setAttribute('viewBox', '0 0 '+w+' '+h);
+    var g = document.getElementById('graphLines');
+    g.innerHTML = '';
+    gnEdges.forEach(function(e) {
+      var f = gnPositions[e.from], t = gnPositions[e.to];
+      var fx = f.x/100*w, fy = f.y/320*h, tx = t.x/100*w, ty = t.y/320*h;
+      var dx = tx-fx, dy = ty-fy, dist = Math.sqrt(dx*dx+dy*dy);
+      var curv = dist*0.25, perpX = -dy/dist*curv, perpY = dx/dist*curv;
+      var cp1x = fx+dx*0.35+perpX, cp1y = fy+dy*0.35+perpY;
+      var cp2x = fx+dx*0.65+perpX, cp2y = fy+dy*0.65+perpY;
+      var path = document.createElementNS('http://www.w3.org/2000/svg','path');
+      path.setAttribute('d','M'+fx+','+fy+' C'+cp1x+','+cp1y+' '+cp2x+','+cp2y+' '+tx+','+ty);
+      path.setAttribute('fill','none');
+      path.setAttribute('stroke',e.color);
+      path.setAttribute('stroke-opacity','0.15');
+      path.setAttribute('stroke-width','1.5');
+      path.id = 'edge-'+e.from+'-'+e.to;
+      g.appendChild(path);
+    });
+  }
+  drawGraphEdges();
+  window.addEventListener('resize', drawGraphEdges);
+
+  // Animated particles along bezier curves
+  function bezierPt(t,p0,p1,p2,p3){var mt=1-t;return mt*mt*mt*p0+3*mt*mt*t*p1+3*mt*t*t*p2+t*t*t*p3;}
+
+  function spawnGraphParticle(edgeIdx) {
+    var e = gnEdges[edgeIdx]; if(!e) return;
+    var gc = document.getElementById('graphCanvas');
+    var svg = document.getElementById('graphSvg');
+    var pg = document.getElementById('graphParticles');
+    if(!gc||!svg||!pg) return;
+    var w = gc.offsetWidth, h = gc.offsetHeight;
+    var f = gnPositions[e.from], t = gnPositions[e.to];
+    var fx=f.x/100*w, fy=f.y/320*h, tx=t.x/100*w, ty=t.y/320*h;
+    var dx=tx-fx, dy=ty-fy, dist=Math.sqrt(dx*dx+dy*dy);
+    var curv=dist*0.25, perpX=-dy/dist*curv, perpY=dx/dist*curv;
+    var cp1x=fx+dx*0.35+perpX, cp1y=fy+dy*0.35+perpY;
+    var cp2x=fx+dx*0.65+perpX, cp2y=fy+dy*0.65+perpY;
+    // Main particle
+    var c = document.createElementNS('http://www.w3.org/2000/svg','circle');
+    c.setAttribute('r','3.5');
+    c.setAttribute('fill',e.color);
+    c.style.filter='drop-shadow(0 0 6px '+e.color+')';
+    pg.appendChild(c);
+    // Trail particle
+    var tr = document.createElementNS('http://www.w3.org/2000/svg','circle');
+    tr.setAttribute('r','1.5');
+    tr.setAttribute('fill',e.color);
+    tr.setAttribute('opacity','0.4');
+    pg.appendChild(tr);
+    var dur=1800+Math.random()*800, st=performance.now();
+    function step(now) {
+      var elapsed=now-st, p=Math.min(elapsed/dur,1);
+      var ease = p<0.5?2*p*p:-1+(4-2*p)*p;
+      var x = bezierPt(ease,fx,cp1x,cp2x,tx);
+      var y = bezierPt(ease,fy,cp1y,cp2y,ty);
+      c.setAttribute('cx',x); c.setAttribute('cy',y);
+      // Trail follows slightly behind
+      var tp = Math.max(0, ease-0.08);
+      tr.setAttribute('cx',bezierPt(tp,fx,cp1x,cp2x,tx));
+      tr.setAttribute('cy',bezierPt(tp,fy,cp1y,cp2y,ty));
+      if(p>0.7){var a=1-((p-0.7)/0.3);c.setAttribute('opacity',a);tr.setAttribute('opacity',a*0.4);}
+      if(p<1)requestAnimationFrame(step);
+      else{if(c.parentNode)pg.removeChild(c);if(tr.parentNode)pg.removeChild(tr);}
+    }
+    requestAnimationFrame(step);
+  }
+
+  // Spawn particles continuously
+  setInterval(function(){
+    spawnGraphParticle(Math.floor(Math.random()*gnEdges.length));
+  }, 800);
+  // Extra ambient particles
+  setInterval(function(){
+    spawnGraphParticle(Math.floor(Math.random()*gnEdges.length));
+  }, 1200);
+
+  // Dynamic node status updates
+  var gnToolCycles = {
+    akira:['Memory.recall','Gmail.read','Brain.decide','Report.generate','WhatsApp.send','ClickUp.delegate'],
+    yuki:['DRE.calcular','Bradesco.conciliar','Invoice.validate','Alert.budget','Planilha.write'],
+    hana:['Gmail.filter','Calendar.schedule','WhatsApp.notify','Triage.classify','Drive.organize'],
+    haruki:['ClickUp.sprint','GitHub.review','Task.decompose','Blocker.escalate','Slack.standup'],
+    kaito:['Module.publish','GitHub.commit','API.integrate','Test.e2e','Vercel.deploy'],
+    yumi:['WhatsApp.checkin','Profile.analyze','Mentor.match','Goal.track','Insight.generate']
+  };
+  var gnToolIdx = {akira:0,yuki:0,hana:0,haruki:0,kaito:0,yumi:0};
+  setInterval(function(){
+    var ids = Object.keys(gnToolCycles);
+    var pick = ids[Math.floor(Math.random()*ids.length)];
+    var tools = gnToolCycles[pick];
+    gnToolIdx[pick] = (gnToolIdx[pick]+1) % tools.length;
+    var el = document.getElementById('gn-'+pick+'-status');
+    if(el) {
+      el.style.opacity='0';
+      setTimeout(function(){
+        el.textContent = tools[gnToolIdx[pick]];
+        el.style.opacity='1';
+      },200);
+    }
+  }, 2500);
+
+  // Thought popup on node click
+  var gnThoughts = {
+    julio:['Monitorando operacao... 6 agentes ativos, 0 alertas','Aprovei bypass Celcoin — risco controlado','Budget mensal 94% LLM, preciso otimizar Haiku'],
+    akira:['Consolidando 3 relatorios para briefing da noite...','Celcoin bloqueou 2 tasks — escalar para Julio','Confianca 91% — validei dados com Yuki e Haruki'],
+    yuki:['Faltam 3 conciliacoes Bradesco do dia 28...','DRE marco 80% completo, margem erro 2%','Alerta: custo Anthropic 20% acima do budget'],
+    hana:['47 emails filtrados, 6 urgentes identificados','Empresa X pediu remarcacao — investidor tem prioridade','Calendario limpo ate 14h, janela para deep work'],
+    haruki:['Sprint 8/10 concluido, 2 bloqueios Celcoin','Decomponho task Smart Billing em 4 sub-tasks','Code review pendente — priorizando com Kaito'],
+    kaito:['Smart Billing v2 testado, 12/12 cenarios passaram','Commit abc123 pronto, aguardando deploy staging','3 modulos novos no marketplace — SDR Auto v2 mais popular'],
+    yumi:['Joao Silva nao respondeu ontem — tom mais empatico hoje','6 dimensoes de matching analisadas para novo mentor','Check-in semanal: 3 metas atingidas, 1 atrasada']
+  };
+  function gnClick(id) {
+    var t = gnThoughts[id];
+    if(!t) return;
+    var text = t[Math.floor(Math.random()*t.length)];
+    var el = document.getElementById('gnThought');
+    var label = document.getElementById('gnThoughtLabel');
+    var txt = document.getElementById('gnThoughtText');
+    var node = document.getElementById('gn-'+id);
+    if(!el||!node) return;
+    var types = [{l:'Pensando',c:'#0A84FF'},{l:'Decisao',c:'#FF9F0A'},{l:'Metacognicao',c:'#BF5AF2'}];
+    var tp = types[Math.floor(Math.random()*types.length)];
+    label.textContent = tp.l; label.style.color = tp.c;
+    el.style.borderColor = tp.c+'33';
+    txt.textContent = '';
+    var gc = document.getElementById('graphCanvas');
+    var nr = node.getBoundingClientRect(), gr = gc.getBoundingClientRect();
+    el.style.left = (nr.left - gr.left + nr.width/2) + 'px';
+    el.style.top = (nr.top - gr.top - 10) + 'px';
+    el.style.transform = 'translate(-50%,-100%)';
+    el.style.display = '';
+    // Type out thought
+    var i=0;
+    var iv = setInterval(function(){
+      if(i<text.length){txt.textContent+=text[i];i++;}
+      else clearInterval(iv);
+    },20);
+    clearTimeout(gnClick._to);
+    gnClick._to = setTimeout(function(){el.style.display='none';},5000);
+  }
+  gnClick._to = null;
+
+  // Graph counters
+  setInterval(function(){
+    var a=document.getElementById('graphActions');if(a)a.textContent=afCount+' acoes';
+    var c=document.getElementById('graphCost');if(c)c.textContent='R$'+(67+Math.random()*2).toFixed(0);
+    var l=document.getElementById('graphLatency');if(l)l.textContent=(0.8+Math.random()*1.2).toFixed(1)+'ms';
+  },3000);
 
   // Right Tabs
   function switchRightTab(btn,tabId){document.querySelectorAll('.right-tab').forEach(function(t){t.classList.remove('active');});btn.classList.add('active');document.querySelectorAll('.right-tab-content').forEach(function(c){c.classList.remove('active');});document.getElementById('rtab-'+tabId).classList.add('active');if(tabId==='metricas')animateMetricBars();}
