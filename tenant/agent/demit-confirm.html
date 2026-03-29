@@ -1,19 +1,264 @@
-<!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>Demitir — KTANA</title><link rel="stylesheet" href="../../shared.css"><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Zen+Dots&display=swap" rel="stylesheet">
-<style>body{min-height:100vh;background:#F5F5F7;display:flex;align-items:center;justify-content:center;padding:48px 24px}.container{max-width:420px;text-align:center}.icon{width:56px;height:56px;border-radius:16px;background:rgba(215,0,48,0.06);display:flex;align-items:center;justify-content:center;margin:0 auto 20px;font-size:24px}h1{font-family:'Satoshi',sans-serif;font-size:20px;font-weight:600;color:#1D1D1F;margin-bottom:8px}.desc{font-family:'Satoshi',sans-serif;font-size:14px;color:#86868B;line-height:1.6;margin-bottom:24px}.warning{font-family:'Satoshi',sans-serif;font-size:13px;color:#D70030;line-height:1.6;padding:16px;background:rgba(215,0,48,0.04);border-radius:12px;border:0.5px solid rgba(215,0,48,0.1);margin-bottom:24px;text-align:left}.actions{display:flex;gap:10px;justify-content:center}.btn-cancel{font-family:'Inter',sans-serif;padding:14px 28px;border-radius:14px;background:#1D1D1F;color:#F5F5F7;font-size:14px;font-weight:500;border:none;cursor:pointer}.btn-confirm{font-family:'Inter',sans-serif;padding:14px 28px;border-radius:14px;background:transparent;color:#D70030;font-size:14px;font-weight:500;border:0.5px solid rgba(215,0,48,0.2);cursor:pointer}</style></head>
-<body><div class="container fade-in">
-<div class="icon">&#x26A0;</div>
-<h1>Demitir Megumi?</h1>
-<p class="desc">Esta acao e permanente. Megumi sera removida da sua equipe.</p>
-<div class="warning">
-<strong>O que acontece:</strong><br>
-• Worker para imediatamente<br>
-• Memoria e spec sao deletados<br>
-• Historico de atividade e mantido por 90 dias<br>
-• Alcada e rotinas sao removidas<br>
-• Nao e possivel desfazer
-</div>
-<div class="actions">
-<button class="btn-cancel" onclick="location.href='paused.html'">Cancelar</button>
-<button class="btn-confirm" onclick="this.textContent='Demitida'; this.style.opacity='0.5'; setTimeout(()=>location.href='../team/list.html',1500)">Confirmar demissao</button>
-</div>
-</div></body></html>
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Demitir Samurai — KTANA</title>
+  <link rel="stylesheet" href="../../shared.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Zen+Dots&display=swap" rel="stylesheet">
+  <style>
+    body { min-height: 100vh; background: #F5F5F7; display: flex; flex-direction: column; }
+
+    /* Nav */
+    .nav { position: sticky; top: 0; z-index: 50; height: 48px; display: flex; align-items: center; justify-content: center; background: rgba(245,245,247,0.72); backdrop-filter: saturate(180%) blur(20px); -webkit-backdrop-filter: saturate(180%) blur(20px); border-bottom: 0.5px solid rgba(0,0,0,0.06); }
+    .nav-inner { width: 100%; max-width: 760px; padding: 0 20px; display: flex; align-items: center; justify-content: space-between; }
+    .nav-logo { font-family: 'Zen Dots', cursive; font-size: 14px; color: #D70030; }
+    .nav-links { display: flex; align-items: center; gap: 20px; }
+    .nav-links a { font-family: 'Inter', sans-serif; font-size: 12px; color: #1D1D1F; opacity: 0.4; transition: opacity 0.15s; }
+    .nav-links a:hover, .nav-links a.active { opacity: 1; }
+
+    .main { flex: 1; display: flex; align-items: center; justify-content: center; padding: 48px 24px; }
+    .container { max-width: 480px; width: 100%; }
+
+    /* Danger header */
+    .danger-header { text-align: center; margin-bottom: 28px; }
+    .danger-icon { width: 64px; height: 64px; border-radius: 20px; background: rgba(215,0,48,0.06); display: flex; align-items: center; justify-content: center; margin: 0 auto 20px; }
+    .danger-icon svg { width: 28px; height: 28px; }
+    .danger-header h1 { font-family: 'Satoshi', sans-serif; font-size: 22px; font-weight: 700; color: #1D1D1F; margin-bottom: 8px; }
+    .danger-header p { font-family: 'Satoshi', sans-serif; font-size: 14px; color: #86868B; line-height: 1.6; }
+
+    /* Warning card */
+    .warning-card { background: rgba(215,0,48,0.03); border: 1px solid rgba(215,0,48,0.08); border-radius: 16px; padding: 20px; margin-bottom: 16px; }
+    .warning-title { font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: #D70030; margin-bottom: 12px; }
+    .warning-item { display: flex; align-items: start; gap: 10px; padding: 6px 0; }
+    .warning-bullet { width: 18px; height: 18px; border-radius: 50%; background: rgba(215,0,48,0.08); display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 1px; }
+    .warning-bullet svg { width: 10px; height: 10px; }
+    .warning-text { font-family: 'Satoshi', sans-serif; font-size: 13px; color: #6E6E73; line-height: 1.5; }
+    .warning-text strong { color: #1D1D1F; font-weight: 500; }
+
+    /* Stats card */
+    .stats-card { background: #FFF; border-radius: 20px; border: 1px solid rgba(0,0,0,0.04); padding: 20px; margin-bottom: 16px; }
+    .stats-label { font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: #86868B; margin-bottom: 14px; }
+    .stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+    .stat-item { text-align: center; }
+    .stat-value { font-family: 'Satoshi', sans-serif; font-size: 22px; font-weight: 700; color: #1D1D1F; }
+    .stat-label { font-family: 'Inter', sans-serif; font-size: 11px; color: #86868B; margin-top: 2px; }
+    .stat-value.green { color: #30D158; }
+    .stat-value.brand { color: #D70030; }
+
+    /* Pending tasks */
+    .pending-card { background: #FFF; border-radius: 20px; border: 1px solid rgba(0,0,0,0.04); padding: 20px; margin-bottom: 16px; }
+    .pending-item { display: flex; align-items: center; gap: 10px; padding: 8px 0; border-bottom: 0.5px solid rgba(0,0,0,0.03); }
+    .pending-item:last-child { border-bottom: none; }
+    .pending-dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
+    .pending-dot.orange { background: #FF9500; }
+    .pending-dot.red { background: #D70030; }
+    .pending-text { font-family: 'Satoshi', sans-serif; font-size: 13px; color: #6E6E73; flex: 1; }
+    .pending-status { font-family: 'Inter', sans-serif; font-size: 11px; color: #AEAEB2; }
+
+    /* Connections */
+    .connection-item { display: flex; align-items: center; gap: 10px; padding: 8px 0; border-bottom: 0.5px solid rgba(0,0,0,0.03); }
+    .connection-item:last-child { border-bottom: none; }
+    .connection-icon { width: 24px; height: 24px; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 14px; background: rgba(0,0,0,0.03); }
+    .connection-name { font-family: 'Satoshi', sans-serif; font-size: 13px; color: #6E6E73; flex: 1; }
+    .connection-badge { font-family: 'Inter', sans-serif; font-size: 10px; padding: 2px 8px; border-radius: 4px; background: rgba(215,0,48,0.06); color: #D70030; }
+
+    /* Confirm input */
+    .confirm-section { background: #FFF; border-radius: 20px; border: 1px solid rgba(215,0,48,0.1); padding: 20px; margin-bottom: 16px; }
+    .confirm-label { font-family: 'Satoshi', sans-serif; font-size: 13px; color: #1D1D1F; margin-bottom: 8px; line-height: 1.5; }
+    .confirm-label code { font-family: 'Inter', sans-serif; background: rgba(215,0,48,0.06); color: #D70030; padding: 2px 8px; border-radius: 4px; font-size: 13px; font-weight: 500; }
+    .confirm-input { font-family: 'Inter', sans-serif; width: 100%; padding: 12px 16px; background: #F5F5F7; border: 1px solid #E5E5EA; border-radius: 12px; font-size: 14px; color: #1D1D1F; outline: none; transition: border-color 0.15s; }
+    .confirm-input:focus { border-color: rgba(215,0,48,0.4); }
+    .confirm-input::placeholder { color: #AEAEB2; }
+
+    /* Actions */
+    .actions { display: flex; gap: 10px; }
+    .btn-cancel { font-family: 'Inter', sans-serif; flex: 1; padding: 14px 28px; border-radius: 14px; background: #1D1D1F; color: #F5F5F7; font-size: 14px; font-weight: 500; border: none; cursor: pointer; min-height: 52px; transition: all 0.15s; }
+    .btn-cancel:hover { background: #000; }
+    .btn-cancel:active { transform: scale(0.98); }
+    .btn-confirm-demit { font-family: 'Inter', sans-serif; flex: 1; padding: 14px 28px; border-radius: 14px; background: transparent; color: #D70030; font-size: 14px; font-weight: 500; border: 1px solid rgba(215,0,48,0.15); cursor: pointer; min-height: 52px; transition: all 0.15s; opacity: 0.4; pointer-events: none; }
+    .btn-confirm-demit.enabled { opacity: 1; pointer-events: auto; }
+    .btn-confirm-demit.enabled:hover { background: rgba(215,0,48,0.04); }
+
+    .irreversible-note { font-family: 'Inter', sans-serif; font-size: 11px; color: #AEAEB2; text-align: center; margin-top: 16px; line-height: 1.5; }
+
+    @media (max-width: 480px) {
+      .stats-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Nav -->
+  <nav class="nav">
+    <div class="nav-inner">
+      <a href="../dashboard/home.html" class="nav-logo">KTANA</a>
+      <div class="nav-links">
+        <a href="../dashboard/home.html">Painel</a>
+        <a href="../settings/general.html">Config</a>
+      </div>
+    </div>
+  </nav>
+
+  <main class="main">
+    <div class="container">
+
+      <!-- Danger header -->
+      <div class="danger-header fade-in">
+        <div class="danger-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#D70030" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/>
+            <line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/>
+          </svg>
+        </div>
+        <h1>Demitir Megumi?</h1>
+        <p>Esta acao e permanente e nao pode ser desfeita. Revise cuidadosamente antes de confirmar.</p>
+      </div>
+
+      <!-- What happens -->
+      <div class="warning-card fade-in" style="animation-delay:0.05s">
+        <p class="warning-title">O que acontece ao demitir</p>
+        <div class="warning-item">
+          <div class="warning-bullet"><svg viewBox="0 0 10 10" fill="#D70030"><circle cx="5" cy="5" r="2"/></svg></div>
+          <p class="warning-text"><strong>Memoria apagada</strong> — Tudo que Megumi aprendeu (insights, padroes, preferencias) sera deletado permanentemente.</p>
+        </div>
+        <div class="warning-item">
+          <div class="warning-bullet"><svg viewBox="0 0 10 10" fill="#D70030"><circle cx="5" cy="5" r="2"/></svg></div>
+          <p class="warning-text"><strong>Worker encerrado</strong> — O processo de execucao para imediatamente. Tarefas em andamento sao canceladas.</p>
+        </div>
+        <div class="warning-item">
+          <div class="warning-bullet"><svg viewBox="0 0 10 10" fill="#D70030"><circle cx="5" cy="5" r="2"/></svg></div>
+          <p class="warning-text"><strong>Rotinas removidas</strong> — Todas as 7 rotinas programadas (diarias, semanais, mensais) param de executar.</p>
+        </div>
+        <div class="warning-item">
+          <div class="warning-bullet"><svg viewBox="0 0 10 10" fill="#D70030"><circle cx="5" cy="5" r="2"/></svg></div>
+          <p class="warning-text"><strong>Integracoes desconectadas</strong> — Acesso ao Instagram, Google Ads e Mailchimp sera revogado.</p>
+        </div>
+        <div class="warning-item">
+          <div class="warning-bullet"><svg viewBox="0 0 10 10" fill="#D70030"><circle cx="5" cy="5" r="2"/></svg></div>
+          <p class="warning-text"><strong>Historico preservado 90 dias</strong> — Logs de atividade ficam disponiveis para auditoria.</p>
+        </div>
+      </div>
+
+      <!-- Agent stats -->
+      <div class="stats-card fade-in" style="animation-delay:0.1s">
+        <p class="stats-label">Historico de Megumi</p>
+        <div class="stats-grid">
+          <div class="stat-item">
+            <p class="stat-value">2.847</p>
+            <p class="stat-label">Acoes executadas</p>
+          </div>
+          <div class="stat-item">
+            <p class="stat-value green">91.3%</p>
+            <p class="stat-label">Taxa de acerto</p>
+          </div>
+          <div class="stat-item">
+            <p class="stat-value brand">R$4.200</p>
+            <p class="stat-label">Custo total (tokens)</p>
+          </div>
+          <div class="stat-item">
+            <p class="stat-value">156</p>
+            <p class="stat-label">Posts publicados</p>
+          </div>
+          <div class="stat-item">
+            <p class="stat-value green">R$12.800</p>
+            <p class="stat-label">Custo economizado</p>
+          </div>
+          <div class="stat-item">
+            <p class="stat-value">45</p>
+            <p class="stat-label">Dias ativa</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Pending tasks -->
+      <div class="pending-card fade-in" style="animation-delay:0.15s">
+        <p class="stats-label">Tarefas pendentes que serao canceladas</p>
+        <div class="pending-item">
+          <div class="pending-dot orange"></div>
+          <span class="pending-text">4 posts agendados (Instagram + LinkedIn)</span>
+          <span class="pending-status">Cancelar</span>
+        </div>
+        <div class="pending-item">
+          <div class="pending-dot orange"></div>
+          <span class="pending-text">Newsletter edicao 28/03 (rascunho)</span>
+          <span class="pending-status">Cancelar</span>
+        </div>
+        <div class="pending-item">
+          <div class="pending-dot red"></div>
+          <span class="pending-text">Campanha Google Ads ativa (R$100/dia)</span>
+          <span class="pending-status">Pausar</span>
+        </div>
+        <div class="pending-item">
+          <div class="pending-dot orange"></div>
+          <span class="pending-text">Briefing criativo de abril</span>
+          <span class="pending-status">Cancelar</span>
+        </div>
+      </div>
+
+      <!-- Active connections -->
+      <div class="pending-card fade-in" style="animation-delay:0.2s">
+        <p class="stats-label">Integracoes que serao desconectadas</p>
+        <div class="connection-item">
+          <div class="connection-icon">&#x1F4F7;</div>
+          <span class="connection-name">Instagram Business</span>
+          <span class="connection-badge">Sera revogado</span>
+        </div>
+        <div class="connection-item">
+          <div class="connection-icon">&#x1F4CA;</div>
+          <span class="connection-name">Google Ads</span>
+          <span class="connection-badge">Sera revogado</span>
+        </div>
+        <div class="connection-item">
+          <div class="connection-icon">&#x2709;</div>
+          <span class="connection-name">Mailchimp</span>
+          <span class="connection-badge">Sera revogado</span>
+        </div>
+        <div class="connection-item">
+          <div class="connection-icon">&#x1F4DD;</div>
+          <span class="connection-name">Canva</span>
+          <span class="connection-badge">Sera revogado</span>
+        </div>
+      </div>
+
+      <!-- Confirmation input -->
+      <div class="confirm-section fade-in" style="animation-delay:0.25s">
+        <p class="confirm-label">Para confirmar, digite o nome do samurai: <code>Megumi</code></p>
+        <input type="text" class="confirm-input" id="confirmInput" placeholder="Digite Megumi para confirmar" oninput="checkConfirm()">
+      </div>
+
+      <!-- Actions -->
+      <div class="actions fade-in" style="animation-delay:0.3s">
+        <button class="btn-cancel" onclick="location.href='paused.html'">Voltar — manter Megumi</button>
+        <button class="btn-confirm-demit" id="confirmBtn" onclick="executeDemit()">Confirmar demissao</button>
+      </div>
+
+      <p class="irreversible-note fade-in" style="animation-delay:0.35s">Esta acao e irreversivel. O historico de atividades sera preservado por 90 dias para auditoria.<br>Se precisar de marketing novamente, voce devera contratar um novo samurai.</p>
+
+    </div>
+  </main>
+
+  <script>
+    function checkConfirm() {
+      var input = document.getElementById('confirmInput');
+      var btn = document.getElementById('confirmBtn');
+      if (input.value.trim().toLowerCase() === 'megumi') {
+        btn.classList.add('enabled');
+      } else {
+        btn.classList.remove('enabled');
+      }
+    }
+
+    function executeDemit() {
+      var btn = document.getElementById('confirmBtn');
+      if (!btn.classList.contains('enabled')) return;
+      btn.textContent = 'Demitida';
+      btn.style.background = '#D70030';
+      btn.style.color = '#FFF';
+      btn.style.borderColor = '#D70030';
+      setTimeout(function() { location.href = '../team/list.html'; }, 1500);
+    }
+  </script>
+
+</body>
+</html>

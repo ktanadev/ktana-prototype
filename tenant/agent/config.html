@@ -1,8 +1,609 @@
-<!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>Yuki — Config — KTANA</title><link rel="stylesheet" href="../../shared.css"><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Zen+Dots&display=swap" rel="stylesheet">
-<style>body{min-height:100vh;background:#F5F5F7;display:flex;flex-direction:column}.header{position:sticky;top:0;z-index:50;background:rgba(245,245,247,0.72);backdrop-filter:saturate(180%) blur(20px);border-bottom:0.5px solid rgba(0,0,0,0.06);padding:12px 24px;display:flex;align-items:center;gap:12px}.header-back{font-family:'Inter',sans-serif;font-size:12px;color:#86868B}.header-info h2{font-family:'Satoshi',sans-serif;font-size:14px;font-weight:600;color:#1D1D1F}.main{flex:1;max-width:580px;width:100%;margin:0 auto;padding:32px 24px 80px}.card{background:#FFF;border-radius:20px;border:1px solid rgba(0,0,0,0.04);padding:24px;margin-bottom:12px}.card-label{font-family:'Inter',sans-serif;font-size:11px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:#D70030;margin-bottom:14px}.row{display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:0.5px solid rgba(0,0,0,0.03)}.row:last-child{border-bottom:none}.row-title{font-family:'Satoshi',sans-serif;font-size:14px;color:#1D1D1F}.row-value{font-family:'Inter',sans-serif;font-size:13px;color:#86868B}.btn-action{font-family:'Inter',sans-serif;padding:5px 12px;border-radius:980px;font-size:11px;font-weight:500;border:none;cursor:pointer}.btn-edit{background:#F0F0F0;color:#86868B}.btn-danger{background:transparent;color:#D70030;border:0.5px solid rgba(215,0,48,0.2)}</style></head>
-<body><div class="header"><a href="profile.html" class="header-back">← Perfil</a><div class="header-info"><h2>Yuki — Configuracoes</h2></div></div>
-<main class="main">
-<div class="card fade-in"><p class="card-label">Identidade</p><div class="row"><div><p class="row-title">Nome</p></div><span class="row-value">Yuki <button class="btn-action btn-edit">Editar</button></span></div><div class="row"><div><p class="row-title">Cargo</p></div><span class="row-value">Controller</span></div><div class="row"><div><p class="row-title">Departamento</p></div><span class="row-value">Financeiro <button class="btn-action btn-edit">Mudar</button></span></div><div class="row"><div><p class="row-title">Reporta a</p></div><span class="row-value">Akira (CEO) <button class="btn-action btn-edit">Mudar</button></span></div></div>
-<div class="card fade-in" style="animation-delay:0.1s"><p class="card-label">Funcao e atribuicoes</p><div class="row"><div><p class="row-title">Funcao</p></div><button class="btn-action btn-edit">Editar</button></div><div class="row"><div><p class="row-title">Atribuicoes</p></div><button class="btn-action btn-edit">Editar</button></div><div class="row"><div><p class="row-title">Referencias (cerebro)</p></div><button class="btn-action btn-edit">Editar</button></div><div class="row"><div><p class="row-title">Personalidade</p></div><button class="btn-action btn-edit">Editar</button></div><div class="row"><div><p class="row-title">Alcada</p></div><button class="btn-action btn-edit">Editar</button></div><div class="row"><div><p class="row-title">Rotinas</p></div><button class="btn-action btn-edit">Editar</button></div></div>
-<div class="card fade-in" style="animation-delay:0.2s"><p class="card-label">Acoes</p><div class="row"><div><p class="row-title">Promover</p><p style="font-family:'Satoshi',sans-serif;font-size:11px;color:#86868B;">Subir de nivel na hierarquia</p></div><button class="btn-action btn-edit">Promover</button></div><div class="row"><div><p class="row-title">Pausar</p><p style="font-family:'Satoshi',sans-serif;font-size:11px;color:#86868B;">Para temporariamente</p></div><button class="btn-action btn-edit">Pausar</button></div><div class="row"><div><p class="row-title">Demitir</p><p style="font-family:'Satoshi',sans-serif;font-size:11px;color:#86868B;">Remove permanentemente</p></div><button class="btn-action btn-danger">Demitir</button></div></div>
-</main></body></html>
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Yuki — Configuracao — KTANA</title>
+  <link rel="stylesheet" href="../../shared.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Zen+Dots&display=swap" rel="stylesheet">
+  <style>
+    body { min-height: 100vh; background: #F5F5F7; display: flex; flex-direction: column; }
+
+    /* Nav */
+    .nav { position: sticky; top: 0; z-index: 50; height: 48px; display: flex; align-items: center; justify-content: center; background: rgba(245,245,247,0.72); backdrop-filter: saturate(180%) blur(20px); -webkit-backdrop-filter: saturate(180%) blur(20px); border-bottom: 0.5px solid rgba(0,0,0,0.06); }
+    .nav-inner { width: 100%; max-width: 760px; padding: 0 20px; display: flex; align-items: center; justify-content: space-between; }
+    .nav-logo { font-family: 'Zen Dots', cursive; font-size: 14px; color: #D70030; }
+    .nav-links { display: flex; align-items: center; gap: 20px; }
+    .nav-links a { font-family: 'Inter', sans-serif; font-size: 12px; color: #1D1D1F; opacity: 0.4; transition: opacity 0.15s; }
+    .nav-links a:hover, .nav-links a.active { opacity: 1; }
+
+    .main { flex: 1; max-width: 680px; width: 100%; margin: 0 auto; padding: 32px 24px 80px; }
+
+    /* Page header */
+    .page-header { margin-bottom: 28px; }
+    .page-header h1 { font-family: 'Satoshi', sans-serif; font-size: 24px; font-weight: 700; color: #1D1D1F; margin-bottom: 6px; }
+    .page-header p { font-family: 'Satoshi', sans-serif; font-size: 14px; color: #86868B; }
+    .page-header-back { font-family: 'Inter', sans-serif; font-size: 12px; color: #86868B; display: inline-block; margin-bottom: 16px; }
+
+    /* Cards */
+    .card { background: #FFF; border-radius: 20px; border: 1px solid rgba(0,0,0,0.04); padding: 24px; margin-bottom: 12px; }
+    .card-label { font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: #D70030; margin-bottom: 16px; }
+    .card-desc { font-family: 'Satoshi', sans-serif; font-size: 12px; color: #AEAEB2; margin-top: -10px; margin-bottom: 16px; }
+
+    /* Form fields */
+    .field-group { margin-bottom: 16px; }
+    .field-group:last-child { margin-bottom: 0; }
+    .field-label { font-family: 'Satoshi', sans-serif; font-size: 13px; font-weight: 500; color: #1D1D1F; margin-bottom: 6px; }
+    .field-hint { font-family: 'Inter', sans-serif; font-size: 11px; color: #AEAEB2; margin-top: 4px; }
+    .field-input { font-family: 'Inter', sans-serif; width: 100%; padding: 12px 16px; background: #F5F5F7; border: 1px solid #E5E5EA; border-radius: 12px; font-size: 14px; color: #1D1D1F; outline: none; transition: border-color 0.15s; }
+    .field-input:focus { border-color: rgba(215,0,48,0.4); }
+    .field-input::placeholder { color: #AEAEB2; }
+    .field-textarea { font-family: 'Satoshi', sans-serif; width: 100%; padding: 12px 16px; background: #F5F5F7; border: 1px solid #E5E5EA; border-radius: 12px; font-size: 14px; color: #1D1D1F; outline: none; resize: vertical; min-height: 80px; line-height: 1.5; transition: border-color 0.15s; }
+    .field-textarea:focus { border-color: rgba(215,0,48,0.4); }
+
+    /* Avatar upload */
+    .avatar-upload { display: flex; align-items: center; gap: 16px; }
+    .avatar-preview { width: 64px; height: 64px; border-radius: 50%; border: 2px solid #E5E5EA; display: flex; align-items: center; justify-content: center; background: #F5F5F7; flex-shrink: 0; }
+    .avatar-preview span { font-family: 'Inter', sans-serif; font-size: 22px; font-weight: 600; color: #86868B; }
+    .avatar-actions { display: flex; flex-direction: column; gap: 4px; }
+    .avatar-actions .btn-sm { font-family: 'Inter', sans-serif; padding: 6px 14px; border-radius: 8px; font-size: 12px; border: none; cursor: pointer; background: #F0F0F0; color: #86868B; }
+    .avatar-actions .btn-sm:hover { background: #E8E8ED; }
+    .avatar-actions p { font-family: 'Inter', sans-serif; font-size: 11px; color: #AEAEB2; }
+
+    /* Tone selector */
+    .tone-options { display: flex; gap: 8px; flex-wrap: wrap; }
+    .tone-btn { font-family: 'Inter', sans-serif; padding: 8px 18px; border-radius: 980px; font-size: 13px; border: 1px solid #E5E5EA; background: #FFF; color: #86868B; cursor: pointer; transition: all 0.15s; }
+    .tone-btn.selected { background: #1D1D1F; color: #F5F5F7; border-color: #1D1D1F; }
+    .tone-btn:hover:not(.selected) { border-color: #86868B; }
+
+    /* Personality slider */
+    .slider-group { margin-bottom: 14px; }
+    .slider-group:last-child { margin-bottom: 0; }
+    .slider-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
+    .slider-label { font-family: 'Satoshi', sans-serif; font-size: 13px; color: #1D1D1F; }
+    .slider-value { font-family: 'Inter', sans-serif; font-size: 12px; color: #86868B; min-width: 32px; text-align: right; }
+    .slider-track { position: relative; width: 100%; height: 4px; background: rgba(0,0,0,0.06); border-radius: 2px; }
+    .slider-fill { position: absolute; top: 0; left: 0; height: 100%; border-radius: 2px; background: #1D1D1F; transition: width 0.2s; }
+    .slider-fill.brand { background: #D70030; }
+    input[type="range"] { width: 100%; height: 4px; -webkit-appearance: none; appearance: none; background: transparent; position: relative; z-index: 2; margin: 0; cursor: pointer; }
+    input[type="range"]::-webkit-slider-thumb { -webkit-appearance: none; width: 16px; height: 16px; border-radius: 50%; background: #FFF; border: 2px solid #1D1D1F; box-shadow: 0 1px 4px rgba(0,0,0,0.1); margin-top: -6px; }
+    input[type="range"]::-webkit-slider-runnable-track { height: 4px; background: transparent; border-radius: 2px; }
+    .slider-range { position: relative; }
+    .slider-extremes { display: flex; justify-content: space-between; margin-top: 4px; }
+    .slider-extremes span { font-family: 'Inter', sans-serif; font-size: 10px; color: #AEAEB2; }
+
+    /* Reference people */
+    .ref-item { display: flex; align-items: center; gap: 12px; padding: 12px 0; border-bottom: 0.5px solid rgba(0,0,0,0.04); }
+    .ref-item:last-child { border-bottom: none; }
+    .ref-avatar { width: 36px; height: 36px; border-radius: 50%; background: rgba(215,0,48,0.06); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .ref-avatar span { font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 600; color: #D70030; }
+    .ref-info { flex: 1; }
+    .ref-name { font-family: 'Satoshi', sans-serif; font-size: 14px; font-weight: 500; color: #1D1D1F; }
+    .ref-reason { font-family: 'Satoshi', sans-serif; font-size: 12px; color: #86868B; margin-top: 2px; }
+    .ref-remove { font-family: 'Inter', sans-serif; font-size: 11px; color: #AEAEB2; background: none; border: none; cursor: pointer; padding: 4px 8px; }
+    .ref-remove:hover { color: #D70030; }
+    .btn-add-ref { font-family: 'Inter', sans-serif; display: flex; align-items: center; gap: 6px; padding: 10px 0; font-size: 13px; color: #D70030; background: none; border: none; cursor: pointer; }
+
+    /* Knowledge tags */
+    .knowledge-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 12px; }
+    .knowledge-tag { font-family: 'Inter', sans-serif; padding: 5px 12px; border-radius: 980px; font-size: 12px; background: rgba(0,0,0,0.03); color: #6E6E73; display: flex; align-items: center; gap: 6px; }
+    .knowledge-tag .remove { font-size: 14px; cursor: pointer; color: #AEAEB2; line-height: 1; }
+    .knowledge-tag .remove:hover { color: #D70030; }
+
+    /* Alcada permissions */
+    .perm-row { display: flex; align-items: center; justify-content: space-between; padding: 12px 0; border-bottom: 0.5px solid rgba(0,0,0,0.04); }
+    .perm-row:last-child { border-bottom: none; }
+    .perm-info { flex: 1; }
+    .perm-title { font-family: 'Satoshi', sans-serif; font-size: 14px; color: #1D1D1F; }
+    .perm-desc { font-family: 'Satoshi', sans-serif; font-size: 12px; color: #AEAEB2; margin-top: 2px; }
+    .perm-select { font-family: 'Inter', sans-serif; padding: 6px 12px; border-radius: 8px; font-size: 12px; border: 1px solid #E5E5EA; background: #FFF; color: #1D1D1F; cursor: pointer; outline: none; }
+    .perm-select:focus { border-color: rgba(215,0,48,0.4); }
+    .spending-input { display: flex; align-items: center; gap: 8px; }
+    .spending-input span { font-family: 'Satoshi', sans-serif; font-size: 14px; color: #86868B; }
+    .spending-input input { font-family: 'Inter', sans-serif; width: 120px; padding: 8px 12px; border-radius: 8px; font-size: 14px; border: 1px solid #E5E5EA; background: #FFF; color: #1D1D1F; outline: none; text-align: right; }
+    .spending-input input:focus { border-color: rgba(215,0,48,0.4); }
+
+    /* Routine items */
+    .routine-item { display: flex; align-items: center; gap: 12px; padding: 10px 0; border-bottom: 0.5px solid rgba(0,0,0,0.04); }
+    .routine-item:last-child { border-bottom: none; }
+    .routine-time { font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 500; color: #1D1D1F; min-width: 56px; font-variant-numeric: tabular-nums; }
+    .routine-freq { font-family: 'Inter', sans-serif; font-size: 10px; padding: 2px 8px; border-radius: 4px; background: rgba(0,0,0,0.03); color: #AEAEB2; }
+    .routine-desc { font-family: 'Satoshi', sans-serif; font-size: 13px; color: #6E6E73; flex: 1; }
+    .routine-toggle { position: relative; width: 40px; height: 24px; flex-shrink: 0; }
+    .routine-toggle input { opacity: 0; width: 0; height: 0; }
+    .routine-toggle .slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background: #D2D2D7; border-radius: 12px; transition: 0.2s; }
+    .routine-toggle .slider::before { content: ''; position: absolute; height: 18px; width: 18px; left: 3px; bottom: 3px; background: #FFF; border-radius: 50%; transition: 0.2s; }
+    .routine-toggle input:checked + .slider { background: #30D158; }
+    .routine-toggle input:checked + .slider::before { transform: translateX(16px); }
+
+    /* Tool integrations */
+    .tool-item { display: flex; align-items: center; gap: 12px; padding: 12px 0; border-bottom: 0.5px solid rgba(0,0,0,0.04); }
+    .tool-item:last-child { border-bottom: none; }
+    .tool-icon { width: 36px; height: 36px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; }
+    .tool-info { flex: 1; }
+    .tool-name { font-family: 'Satoshi', sans-serif; font-size: 14px; font-weight: 500; color: #1D1D1F; }
+    .tool-status { font-family: 'Inter', sans-serif; font-size: 11px; color: #86868B; margin-top: 1px; }
+    .tool-status.connected { color: #30D158; }
+
+    /* Constitution rules */
+    .rule-item { display: flex; align-items: start; gap: 10px; padding: 10px 0; border-bottom: 0.5px solid rgba(0,0,0,0.04); }
+    .rule-item:last-child { border-bottom: none; }
+    .rule-number { font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 600; color: #D70030; background: rgba(215,0,48,0.06); width: 24px; height: 24px; border-radius: 8px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .rule-text { font-family: 'Satoshi', sans-serif; font-size: 13px; color: #1D1D1F; line-height: 1.5; padding-top: 2px; }
+    .rule-text .editable { cursor: pointer; border-bottom: 1px dashed rgba(0,0,0,0.1); }
+    .rule-text .editable:hover { border-bottom-color: #D70030; }
+    .btn-add-rule { font-family: 'Inter', sans-serif; display: flex; align-items: center; gap: 6px; padding: 10px 0; font-size: 13px; color: #D70030; background: none; border: none; cursor: pointer; margin-top: 4px; }
+
+    /* Save bar */
+    .save-bar { position: fixed; bottom: 0; left: 0; right: 0; background: rgba(255,255,255,0.92); backdrop-filter: saturate(180%) blur(20px); -webkit-backdrop-filter: saturate(180%) blur(20px); border-top: 0.5px solid rgba(0,0,0,0.06); padding: 12px 24px; display: flex; justify-content: center; z-index: 50; }
+    .save-bar-inner { max-width: 680px; width: 100%; display: flex; align-items: center; justify-content: space-between; }
+    .save-status { font-family: 'Inter', sans-serif; font-size: 12px; color: #AEAEB2; }
+    .save-actions { display: flex; gap: 8px; }
+    .btn-save { font-family: 'Inter', sans-serif; padding: 10px 28px; border-radius: 12px; background: #1D1D1F; color: #F5F5F7; font-size: 13px; font-weight: 500; border: none; cursor: pointer; min-height: 44px; transition: all 0.15s; }
+    .btn-save:hover { background: #000; }
+    .btn-save:active { transform: scale(0.97); }
+    .btn-discard { font-family: 'Inter', sans-serif; padding: 10px 20px; border-radius: 12px; background: transparent; color: #86868B; font-size: 13px; border: 0.5px solid rgba(0,0,0,0.08); cursor: pointer; min-height: 44px; }
+
+    @media (max-width: 640px) {
+      .tone-options { flex-direction: column; }
+      .tone-btn { text-align: center; }
+      .save-bar-inner { flex-direction: column; gap: 8px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Nav -->
+  <nav class="nav">
+    <div class="nav-inner">
+      <a href="../dashboard/home.html" class="nav-logo">KTANA</a>
+      <div class="nav-links">
+        <a href="../dashboard/home.html">Painel</a>
+        <a href="../settings/general.html" class="active">Config</a>
+      </div>
+    </div>
+  </nav>
+
+  <main class="main">
+    <div class="page-header fade-in">
+      <a href="profile.html" class="page-header-back">&larr; Voltar ao perfil</a>
+      <h1>Configurar Yuki</h1>
+      <p>Ajuste identidade, personalidade, cerebro, permissoes, rotinas, ferramentas e constituicao.</p>
+    </div>
+
+    <!-- IDENTITY -->
+    <div class="card fade-in" style="animation-delay:0.05s">
+      <p class="card-label">Identidade</p>
+      <p class="card-desc">Como este samurai se apresenta e se identifica.</p>
+      <div class="field-group">
+        <p class="field-label">Avatar</p>
+        <div class="avatar-upload">
+          <div class="avatar-preview"><span>Y</span></div>
+          <div class="avatar-actions">
+            <button class="btn-sm">Trocar avatar</button>
+            <p>PNG ou JPG, maximo 300KB</p>
+          </div>
+        </div>
+      </div>
+      <div class="field-group">
+        <p class="field-label">Nome</p>
+        <input type="text" class="field-input" value="Yuki" placeholder="Nome do agente">
+      </div>
+      <div class="field-group">
+        <p class="field-label">Cargo</p>
+        <input type="text" class="field-input" value="Controller" placeholder="Ex: Gerente de Vendas, CMO, Analista...">
+      </div>
+      <div class="field-group">
+        <p class="field-label">Departamento</p>
+        <select class="field-input" style="cursor:pointer;">
+          <option>Financeiro</option>
+          <option>Comercial</option>
+          <option>Marketing</option>
+          <option>Operacoes</option>
+          <option>RH</option>
+          <option>Tecnologia</option>
+        </select>
+      </div>
+      <div class="field-group">
+        <p class="field-label">Reporta a</p>
+        <select class="field-input" style="cursor:pointer;">
+          <option>Akira (CEO)</option>
+          <option>Kaito (CFO)</option>
+          <option>Voce (dono)</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- PERSONALITY -->
+    <div class="card fade-in" style="animation-delay:0.1s">
+      <p class="card-label">Personalidade</p>
+      <p class="card-desc">Define como Yuki se comunica e se comporta.</p>
+
+      <div class="field-group">
+        <p class="field-label">Tom de comunicacao</p>
+        <div class="tone-options">
+          <button class="tone-btn" onclick="selectTone(this)">Casual</button>
+          <button class="tone-btn selected" onclick="selectTone(this)">Profissional</button>
+          <button class="tone-btn" onclick="selectTone(this)">Tecnico</button>
+          <button class="tone-btn" onclick="selectTone(this)">Direto</button>
+          <button class="tone-btn" onclick="selectTone(this)">Empatico</button>
+        </div>
+        <p class="field-hint">Define o tom dos emails, mensagens e relatorios que Yuki gera.</p>
+      </div>
+
+      <div class="field-group" style="margin-top:20px;">
+        <p class="field-label">Tracos de personalidade</p>
+
+        <div class="slider-group">
+          <div class="slider-header">
+            <span class="slider-label">Proatividade</span>
+            <span class="slider-value" id="val-proactive">85%</span>
+          </div>
+          <div class="slider-range">
+            <input type="range" min="0" max="100" value="85" oninput="document.getElementById('val-proactive').textContent=this.value+'%'">
+            <div class="slider-extremes"><span>Reativa</span><span>Muito proativa</span></div>
+          </div>
+        </div>
+
+        <div class="slider-group">
+          <div class="slider-header">
+            <span class="slider-label">Detalhismo</span>
+            <span class="slider-value" id="val-detail">92%</span>
+          </div>
+          <div class="slider-range">
+            <input type="range" min="0" max="100" value="92" oninput="document.getElementById('val-detail').textContent=this.value+'%'">
+            <div class="slider-extremes"><span>Resumido</span><span>Muito detalhista</span></div>
+          </div>
+        </div>
+
+        <div class="slider-group">
+          <div class="slider-header">
+            <span class="slider-label">Assertividade</span>
+            <span class="slider-value" id="val-assert">78%</span>
+          </div>
+          <div class="slider-range">
+            <input type="range" min="0" max="100" value="78" oninput="document.getElementById('val-assert').textContent=this.value+'%'">
+            <div class="slider-extremes"><span>Passiva</span><span>Muito firme</span></div>
+          </div>
+        </div>
+
+        <div class="slider-group">
+          <div class="slider-header">
+            <span class="slider-label">Criatividade</span>
+            <span class="slider-value" id="val-creative">40%</span>
+          </div>
+          <div class="slider-range">
+            <input type="range" min="0" max="100" value="40" oninput="document.getElementById('val-creative').textContent=this.value+'%'">
+            <div class="slider-extremes"><span>Conservadora</span><span>Muito criativa</span></div>
+          </div>
+        </div>
+
+        <div class="slider-group">
+          <div class="slider-header">
+            <span class="slider-label">Autonomia</span>
+            <span class="slider-value" id="val-autonomy">65%</span>
+          </div>
+          <div class="slider-range">
+            <input type="range" min="0" max="100" value="65" oninput="document.getElementById('val-autonomy').textContent=this.value+'%'">
+            <div class="slider-extremes"><span>Sempre consulta</span><span>Age sozinha</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- BRAIN -->
+    <div class="card fade-in" style="animation-delay:0.15s">
+      <p class="card-label">Cerebro</p>
+      <p class="card-desc">Pessoas de referencia e areas de conhecimento que moldam o raciocinio.</p>
+
+      <div class="field-group">
+        <p class="field-label">Pessoas de referencia</p>
+        <div class="ref-item">
+          <div class="ref-avatar"><span>WB</span></div>
+          <div class="ref-info">
+            <p class="ref-name">Warren Buffett</p>
+            <p class="ref-reason">Disciplina financeira, visao de longo prazo, rigor analitico</p>
+          </div>
+          <button class="ref-remove">&times;</button>
+        </div>
+        <div class="ref-item">
+          <div class="ref-avatar"><span>AD</span></div>
+          <div class="ref-info">
+            <p class="ref-name">Aswath Damodaran</p>
+            <p class="ref-reason">Valuation, modelagem financeira, clareza em dados</p>
+          </div>
+          <button class="ref-remove">&times;</button>
+        </div>
+        <div class="ref-item">
+          <div class="ref-avatar"><span>RK</span></div>
+          <div class="ref-info">
+            <p class="ref-name">Ray Dalio</p>
+            <p class="ref-reason">Princípios de gestao, transparencia radical, sistemas</p>
+          </div>
+          <button class="ref-remove">&times;</button>
+        </div>
+        <button class="btn-add-ref" onclick="alert('Adicionar referencia — em breve')">+ Adicionar referencia</button>
+      </div>
+
+      <div class="field-group" style="margin-top:20px;">
+        <p class="field-label">Areas de conhecimento</p>
+        <div class="knowledge-tags">
+          <span class="knowledge-tag">Contabilidade <span class="remove" onclick="this.parentElement.remove()">&times;</span></span>
+          <span class="knowledge-tag">Fluxo de caixa <span class="remove" onclick="this.parentElement.remove()">&times;</span></span>
+          <span class="knowledge-tag">Contas a receber <span class="remove" onclick="this.parentElement.remove()">&times;</span></span>
+          <span class="knowledge-tag">Contas a pagar <span class="remove" onclick="this.parentElement.remove()">&times;</span></span>
+          <span class="knowledge-tag">DRE <span class="remove" onclick="this.parentElement.remove()">&times;</span></span>
+          <span class="knowledge-tag">Cobranca <span class="remove" onclick="this.parentElement.remove()">&times;</span></span>
+          <span class="knowledge-tag">Conciliacao bancaria <span class="remove" onclick="this.parentElement.remove()">&times;</span></span>
+          <span class="knowledge-tag">Legislacao fiscal BR <span class="remove" onclick="this.parentElement.remove()">&times;</span></span>
+        </div>
+        <input type="text" class="field-input" placeholder="Adicionar area de conhecimento..." style="font-size:13px;">
+      </div>
+    </div>
+
+    <!-- PERMISSIONS / ALCADA -->
+    <div class="card fade-in" style="animation-delay:0.2s">
+      <p class="card-label">Alcada e Permissoes</p>
+      <p class="card-desc">O que Yuki pode fazer sozinha e o que precisa da sua aprovacao.</p>
+
+      <div class="perm-row">
+        <div class="perm-info">
+          <p class="perm-title">Enviar cobranca por email</p>
+          <p class="perm-desc">Emails de cobranca para clientes inadimplentes</p>
+        </div>
+        <select class="perm-select">
+          <option selected>Faz sozinha</option>
+          <option>Pede aprovacao</option>
+          <option>Bloqueado</option>
+        </select>
+      </div>
+      <div class="perm-row">
+        <div class="perm-info">
+          <p class="perm-title">Enviar cobranca por WhatsApp</p>
+          <p class="perm-desc">Mensagens de cobranca diretas via WhatsApp</p>
+        </div>
+        <select class="perm-select">
+          <option selected>Faz sozinha</option>
+          <option>Pede aprovacao</option>
+          <option>Bloqueado</option>
+        </select>
+      </div>
+      <div class="perm-row">
+        <div class="perm-info">
+          <p class="perm-title">Emitir boleto</p>
+          <p class="perm-desc">Gerar boletos de cobranca automaticamente</p>
+        </div>
+        <select class="perm-select">
+          <option selected>Faz sozinha</option>
+          <option>Pede aprovacao</option>
+          <option>Bloqueado</option>
+        </select>
+      </div>
+      <div class="perm-row">
+        <div class="perm-info">
+          <p class="perm-title">Dar desconto</p>
+          <p class="perm-desc">Oferecer desconto para antecipar pagamento</p>
+        </div>
+        <select class="perm-select">
+          <option>Faz sozinha</option>
+          <option selected>Pede aprovacao</option>
+          <option>Bloqueado</option>
+        </select>
+      </div>
+      <div class="perm-row">
+        <div class="perm-info">
+          <p class="perm-title">Negativar cliente (SPC/Serasa)</p>
+          <p class="perm-desc">Incluir cliente em cadastro de inadimplentes</p>
+        </div>
+        <select class="perm-select">
+          <option>Faz sozinha</option>
+          <option selected>Pede aprovacao</option>
+          <option>Bloqueado</option>
+        </select>
+      </div>
+      <div class="perm-row">
+        <div class="perm-info">
+          <p class="perm-title">Pagar fornecedor</p>
+          <p class="perm-desc">Efetuar pagamento a fornecedor registrado</p>
+        </div>
+        <select class="perm-select">
+          <option>Faz sozinha</option>
+          <option selected>Pede aprovacao</option>
+          <option>Bloqueado</option>
+        </select>
+      </div>
+
+      <div style="margin-top:20px; padding-top:16px; border-top:0.5px solid rgba(0,0,0,0.04);">
+        <p class="field-label">Limite de gasto autonomo</p>
+        <div class="spending-input">
+          <span>R$</span>
+          <input type="text" value="5.000,00" placeholder="0,00">
+          <span style="font-family:'Inter',sans-serif;font-size:12px;color:#AEAEB2;">por transacao</span>
+        </div>
+        <p class="field-hint">Acima deste valor, Yuki pede sua aprovacao antes de executar.</p>
+      </div>
+    </div>
+
+    <!-- ROUTINES -->
+    <div class="card fade-in" style="animation-delay:0.25s">
+      <p class="card-label">Rotinas</p>
+      <p class="card-desc">Tarefas programadas que Yuki executa automaticamente.</p>
+
+      <div class="routine-item">
+        <span class="routine-time">08:00</span>
+        <span class="routine-freq">Diario</span>
+        <span class="routine-desc">Verificar faturas vencidas e gerar lista de cobrancas</span>
+        <label class="routine-toggle"><input type="checkbox" checked><span class="slider"></span></label>
+      </div>
+      <div class="routine-item">
+        <span class="routine-time">09:30</span>
+        <span class="routine-freq">Diario</span>
+        <span class="routine-desc">Enviar cobrancas por email e WhatsApp</span>
+        <label class="routine-toggle"><input type="checkbox" checked><span class="slider"></span></label>
+      </div>
+      <div class="routine-item">
+        <span class="routine-time">10:00</span>
+        <span class="routine-freq">Diario</span>
+        <span class="routine-desc">Conciliar pagamentos recebidos com extratos bancarios</span>
+        <label class="routine-toggle"><input type="checkbox" checked><span class="slider"></span></label>
+      </div>
+      <div class="routine-item">
+        <span class="routine-time">14:00</span>
+        <span class="routine-freq">Diario</span>
+        <span class="routine-desc">Verificar contas a pagar do dia seguinte</span>
+        <label class="routine-toggle"><input type="checkbox" checked><span class="slider"></span></label>
+      </div>
+      <div class="routine-item">
+        <span class="routine-time">17:00</span>
+        <span class="routine-freq">Diario</span>
+        <span class="routine-desc">Gerar relatorio de fluxo de caixa do dia</span>
+        <label class="routine-toggle"><input type="checkbox" checked><span class="slider"></span></label>
+      </div>
+      <div class="routine-item">
+        <span class="routine-time">09:00</span>
+        <span class="routine-freq">Semanal</span>
+        <span class="routine-desc">Relatorio semanal consolidado para Kaito (CFO)</span>
+        <label class="routine-toggle"><input type="checkbox" checked><span class="slider"></span></label>
+      </div>
+      <div class="routine-item">
+        <span class="routine-time">08:00</span>
+        <span class="routine-freq">Mensal</span>
+        <span class="routine-desc">Fechar DRE do mes anterior e enviar para Akira</span>
+        <label class="routine-toggle"><input type="checkbox" checked><span class="slider"></span></label>
+      </div>
+
+      <button class="btn-add-ref" onclick="alert('Adicionar rotina — em breve')" style="margin-top:8px;">+ Adicionar rotina</button>
+    </div>
+
+    <!-- TOOLS -->
+    <div class="card fade-in" style="animation-delay:0.3s">
+      <p class="card-label">Ferramentas Conectadas</p>
+      <p class="card-desc">Integracoes que Yuki pode acessar para executar suas tarefas.</p>
+
+      <div class="tool-item">
+        <div class="tool-icon" style="background:rgba(66,133,244,0.08);">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 01-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg>
+        </div>
+        <div class="tool-info">
+          <p class="tool-name">Gmail</p>
+          <p class="tool-status connected">Conectado — julio@ktana.ai</p>
+        </div>
+        <label class="routine-toggle"><input type="checkbox" checked><span class="slider"></span></label>
+      </div>
+
+      <div class="tool-item">
+        <div class="tool-icon" style="background:rgba(37,211,102,0.08); font-size:20px;">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="#25D366"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 2C6.477 2 2 6.477 2 12c0 1.89.525 3.66 1.438 5.168L2 22l4.832-1.438A9.955 9.955 0 0012 22c5.523 0 10-4.477 10-10S17.523 2 12 2zm0 18a8 8 0 01-4.243-1.213l-.304-.181-2.87.852.852-2.87-.181-.304A8 8 0 1112 20z"/></svg>
+        </div>
+        <div class="tool-info">
+          <p class="tool-name">WhatsApp Business</p>
+          <p class="tool-status connected">Conectado — +55 11 99999-0000</p>
+        </div>
+        <label class="routine-toggle"><input type="checkbox" checked><span class="slider"></span></label>
+      </div>
+
+      <div class="tool-item">
+        <div class="tool-icon" style="background:rgba(0,0,0,0.04); font-size:16px;">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="#1D1D1F"><path d="M3 3h18v18H3V3zm16 16V5H5v14h14zM7 7h4v4H7V7zm0 6h10v4H7v-4zm6-6h4v4h-4V7z"/></svg>
+        </div>
+        <div class="tool-info">
+          <p class="tool-name">Google Sheets</p>
+          <p class="tool-status connected">Conectado — 3 planilhas ativas</p>
+        </div>
+        <label class="routine-toggle"><input type="checkbox" checked><span class="slider"></span></label>
+      </div>
+
+      <div class="tool-item">
+        <div class="tool-icon" style="background:rgba(99,91,255,0.08);">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="#635BFF"><path d="M13.479 9.883c-1.626-.604-2.512-1.067-2.512-1.803 0-.612.511-1.004 1.346-1.004 1.346 0 2.703.564 3.637 1.055l.535-3.258C15.505 4.28 14.07 3.88 12.563 3.88c-3.19 0-5.402 1.672-5.402 4.066 0 2.69 3.009 3.73 4.543 4.31 1.93.727 2.412 1.215 2.412 1.863 0 .736-.65 1.163-1.706 1.163-1.397 0-3.166-.674-4.31-1.382l-.535 3.32C8.52 17.839 10.247 18.12 11.812 18.12c3.352 0 5.465-1.647 5.465-4.178 0-2.905-3.063-3.855-3.798-4.06z"/></svg>
+        </div>
+        <div class="tool-info">
+          <p class="tool-name">Stripe</p>
+          <p class="tool-status connected">Conectado — modo live</p>
+        </div>
+        <label class="routine-toggle"><input type="checkbox" checked><span class="slider"></span></label>
+      </div>
+
+      <div class="tool-item">
+        <div class="tool-icon" style="background:rgba(0,0,0,0.04);">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="#86868B"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 14H7v-2h5v2zm3-4H7v-2h8v2zm0-4H7V7h8v2z"/></svg>
+        </div>
+        <div class="tool-info">
+          <p class="tool-name">Notion</p>
+          <p class="tool-status" style="color:#AEAEB2;">Desconectado</p>
+        </div>
+        <label class="routine-toggle"><input type="checkbox"><span class="slider"></span></label>
+      </div>
+
+      <div class="tool-item">
+        <div class="tool-icon" style="background:rgba(0,0,0,0.04);">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="#86868B"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+        </div>
+        <div class="tool-info">
+          <p class="tool-name">Slack</p>
+          <p class="tool-status" style="color:#AEAEB2;">Desconectado</p>
+        </div>
+        <label class="routine-toggle"><input type="checkbox"><span class="slider"></span></label>
+      </div>
+    </div>
+
+    <!-- CONSTITUTION -->
+    <div class="card fade-in" style="animation-delay:0.35s">
+      <p class="card-label">Constituicao</p>
+      <p class="card-desc">Regras eticas e limites inviolaveis. Yuki nunca quebra estas regras.</p>
+
+      <div class="rule-item">
+        <div class="rule-number">1</div>
+        <p class="rule-text"><span class="editable">Nunca mentir ou omitir informacao financeira relevante. Transparencia absoluta.</span></p>
+      </div>
+      <div class="rule-item">
+        <div class="rule-number">2</div>
+        <p class="rule-text"><span class="editable">Nunca gastar acima do limite autorizado sem aprovacao explicita do dono.</span></p>
+      </div>
+      <div class="rule-item">
+        <div class="rule-number">3</div>
+        <p class="rule-text"><span class="editable">Nunca compartilhar dados financeiros da empresa com terceiros nao autorizados.</span></p>
+      </div>
+      <div class="rule-item">
+        <div class="rule-number">4</div>
+        <p class="rule-text"><span class="editable">Sempre escalar para o humano quando detectar fraude, erro grave ou situacao ambigua.</span></p>
+      </div>
+      <div class="rule-item">
+        <div class="rule-number">5</div>
+        <p class="rule-text"><span class="editable">Nunca apagar registros financeiros. Historico e imutavel.</span></p>
+      </div>
+      <div class="rule-item">
+        <div class="rule-number">6</div>
+        <p class="rule-text"><span class="editable">Tratar todos os clientes com respeito, mesmo inadimplentes. Cobranca firme, nunca agressiva.</span></p>
+      </div>
+      <div class="rule-item">
+        <div class="rule-number">7</div>
+        <p class="rule-text"><span class="editable">Priorizar a saude financeira da empresa acima de metas individuais.</span></p>
+      </div>
+
+      <button class="btn-add-rule" onclick="alert('Adicionar regra — em breve')">+ Adicionar regra</button>
+    </div>
+
+    <!-- Spacer for save bar -->
+    <div style="height: 80px;"></div>
+  </main>
+
+  <!-- Save bar -->
+  <div class="save-bar">
+    <div class="save-bar-inner">
+      <span class="save-status">Alteracoes nao salvas</span>
+      <div class="save-actions">
+        <button class="btn-discard" onclick="location.href='profile.html'">Descartar</button>
+        <button class="btn-save" onclick="this.textContent='Salvo'; this.style.background='#30D158'; setTimeout(()=>{this.textContent='Salvar alteracoes'; this.style.background='#1D1D1F';},2000)">Salvar alteracoes</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function selectTone(btn) {
+      document.querySelectorAll('.tone-btn').forEach(b => b.classList.remove('selected'));
+      btn.classList.add('selected');
+    }
+  </script>
+</body>
+</html>

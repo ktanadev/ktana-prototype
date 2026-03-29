@@ -1,8 +1,471 @@
-<!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>Configurar novo samurai — KTANA</title><link rel="stylesheet" href="../../shared.css"><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Zen+Dots&display=swap" rel="stylesheet">
-<style>body{min-height:100vh;background:#F5F5F7;padding:48px 24px}.container{max-width:580px;margin:0 auto;text-align:center}.back{position:fixed;top:20px;left:24px;font-family:'Inter',sans-serif;font-size:12px;color:#86868B}h1{font-family:'Zen Dots',cursive;font-size:24px;color:#1D1D1F;margin-bottom:6px}.sub{font-family:'Satoshi',sans-serif;font-size:14px;color:#86868B;margin-bottom:32px}.note{font-family:'Satoshi',sans-serif;font-size:14px;color:#86868B;line-height:1.6;text-align:left;padding:24px;background:#FFF;border-radius:20px;border:1px solid rgba(0,0,0,0.04);margin-bottom:24px}.btn-next{font-family:'Inter',sans-serif;padding:14px 40px;border-radius:14px;background:#1D1D1F;color:#F5F5F7;font-size:15px;font-weight:500;border:none;cursor:pointer}</style></head>
-<body><a href="hire-role.html" class="back">← Cargo</a><div class="container fade-in">
-<h1>Configurar.</h1>
-<p class="sub">Mesmo fluxo do onboarding. Nome, funcao, referencias, atribuicoes, personalidade, alcada.</p>
-<div class="note">Esta tela redireciona para o configurador completo do agente com todos os 9 campos: cargo, funcao, cerebro (referencias), mapa de atribuicoes, personalidade, tom, alcada, rotinas e ferramentas.</div>
-<button class="btn-next" onclick="location.href='../onboarding/agent-config.html'">Abrir configurador</button>
-</div></body></html>
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Configurar novo samurai — KTANA</title>
+  <link rel="stylesheet" href="../../shared.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Zen+Dots&display=swap" rel="stylesheet">
+  <style>
+    body { min-height: 100vh; background: #F5F5F7; }
+
+    .nav { position: sticky; top: 0; z-index: 50; height: 48px; display: flex; align-items: center; justify-content: center; background: rgba(245,245,247,0.72); backdrop-filter: saturate(180%) blur(20px); -webkit-backdrop-filter: saturate(180%) blur(20px); border-bottom: 0.5px solid rgba(0,0,0,0.06); }
+    .nav-inner { width: 100%; max-width: 720px; padding: 0 24px; display: flex; align-items: center; justify-content: space-between; }
+    .nav-logo { font-family: 'Zen Dots', cursive; font-size: 14px; color: #D70030; }
+    .nav-links { display: flex; align-items: center; gap: 24px; }
+    .nav-links a { font-family: 'Inter', sans-serif; font-size: 12px; color: #1D1D1F; opacity: 0.4; transition: opacity 0.15s; }
+    .nav-links a:hover, .nav-links a.active { opacity: 1; }
+
+    .main { max-width: 620px; margin: 0 auto; padding: 32px 24px 100px; }
+
+    /* Back link */
+    .back-link { font-family: 'Inter', sans-serif; font-size: 12px; color: #86868B; display: inline-flex; align-items: center; gap: 6px; margin-bottom: 24px; transition: color 0.15s; }
+    .back-link:hover { color: #1D1D1F; }
+
+    /* Progress */
+    .progress-bar { display: flex; gap: 4px; margin-bottom: 32px; }
+    .progress-step { flex: 1; height: 3px; border-radius: 2px; background: rgba(0,0,0,0.06); }
+    .progress-step.done { background: #D70030; }
+    .progress-step.current { background: #D70030; opacity: 0.5; }
+
+    /* Page header */
+    .page-header { margin-bottom: 32px; }
+    .page-header h1 { font-family: 'Satoshi', sans-serif; font-size: 24px; font-weight: 700; color: #1D1D1F; letter-spacing: -0.01em; margin-bottom: 6px; }
+    .page-header p { font-family: 'Satoshi', sans-serif; font-size: 14px; color: #86868B; line-height: 1.5; }
+
+    /* Sections */
+    .section { background: #FFF; border-radius: 20px; border: 1px solid rgba(0,0,0,0.04); padding: 28px; margin-bottom: 16px; }
+    .section-label { font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: #D70030; margin-bottom: 20px; }
+    .section-desc { font-family: 'Satoshi', sans-serif; font-size: 13px; color: #86868B; margin-bottom: 18px; line-height: 1.5; }
+
+    /* Fields */
+    .field { margin-bottom: 18px; }
+    .field:last-child { margin-bottom: 0; }
+    .field label { font-family: 'Inter', sans-serif; display: block; font-size: 11px; font-weight: 500; color: #86868B; margin-bottom: 6px; }
+    .input { font-family: 'Satoshi', sans-serif; background: #F5F5F7; border: 0.5px solid rgba(0,0,0,0.06); border-radius: 12px; padding: 13px 16px; font-size: 14px; width: 100%; outline: none; color: #1D1D1F; transition: border-color 0.15s; resize: none; }
+    .input:focus { border-color: rgba(215,0,48,0.3); }
+    .input::placeholder { color: #AEAEB2; }
+    textarea.input { min-height: 80px; line-height: 1.5; }
+    select.input { appearance: none; background-image: url("data:image/svg+xml,%3Csvg width='12' height='7' viewBox='0 0 12 7' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%2386868B' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 16px center; padding-right: 40px; cursor: pointer; }
+
+    .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+
+    /* References */
+    .ref-list { display: flex; flex-direction: column; gap: 8px; }
+    .ref-item { display: flex; align-items: center; gap: 12px; padding: 12px 16px; border-radius: 14px; border: 0.5px solid rgba(0,0,0,0.06); cursor: pointer; transition: all 0.15s; }
+    .ref-item:hover { border-color: rgba(0,0,0,0.12); }
+    .ref-item.active { border-color: rgba(215,0,48,0.2); background: rgba(215,0,48,0.02); }
+    .ref-check { width: 20px; height: 20px; border-radius: 50%; border: 1.5px solid #D2D2D7; display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: all 0.15s; }
+    .ref-item.active .ref-check { border-color: #D70030; background: #D70030; }
+    .ref-item.active .ref-check::after { content: ''; width: 7px; height: 7px; border-radius: 50%; background: #FFF; }
+    .ref-info { flex: 1; }
+    .ref-name { font-family: 'Satoshi', sans-serif; font-size: 14px; font-weight: 500; color: #1D1D1F; }
+    .ref-desc { font-family: 'Satoshi', sans-serif; font-size: 12px; color: #86868B; margin-top: 1px; }
+    .ref-add { font-family: 'Inter', sans-serif; font-size: 12px; color: #D70030; cursor: pointer; margin-top: 10px; display: inline-flex; align-items: center; gap: 4px; padding: 8px 0; min-height: 44px; }
+    .ref-add:hover { opacity: 0.7; }
+
+    /* Knowledge areas */
+    .knowledge-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+    .k-tag { font-family: 'Inter', sans-serif; padding: 7px 16px; border-radius: 980px; border: 0.5px solid rgba(0,0,0,0.08); font-size: 12px; color: #86868B; cursor: pointer; transition: all 0.15s; user-select: none; min-height: 44px; display: inline-flex; align-items: center; }
+    .k-tag.active { background: rgba(215,0,48,0.06); border-color: rgba(215,0,48,0.2); color: #D70030; }
+
+    /* Personality traits */
+    .traits { display: flex; flex-wrap: wrap; gap: 6px; }
+    .trait { font-family: 'Inter', sans-serif; padding: 7px 16px; border-radius: 980px; border: 0.5px solid rgba(0,0,0,0.08); font-size: 12px; color: #86868B; cursor: pointer; transition: all 0.15s; user-select: none; min-height: 44px; display: inline-flex; align-items: center; }
+    .trait.active { background: rgba(215,0,48,0.06); border-color: rgba(215,0,48,0.2); color: #D70030; }
+
+    /* Formality selector */
+    .formality { display: flex; gap: 4px; background: rgba(0,0,0,0.03); border-radius: 12px; padding: 3px; }
+    .formality-opt { font-family: 'Inter', sans-serif; flex: 1; padding: 10px 16px; border-radius: 10px; font-size: 12px; color: #86868B; cursor: pointer; border: none; background: none; transition: all 0.15s; text-align: center; min-height: 44px; }
+    .formality-opt.active { background: #FFF; color: #1D1D1F; box-shadow: 0 1px 3px rgba(0,0,0,0.06); font-weight: 500; }
+
+    /* Slider */
+    .slider-group { margin-bottom: 20px; }
+    .slider-group:last-child { margin-bottom: 0; }
+    .slider-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+    .slider-title { font-family: 'Satoshi', sans-serif; font-size: 13px; font-weight: 500; color: #1D1D1F; }
+    .slider-value { font-family: 'Inter', sans-serif; font-size: 12px; color: #D70030; font-weight: 500; }
+    .slider-track { position: relative; width: 100%; height: 4px; background: rgba(0,0,0,0.06); border-radius: 2px; }
+    .slider-fill { position: absolute; left: 0; top: 0; height: 4px; border-radius: 2px; background: #D70030; transition: width 0.2s; }
+    .slider-thumb { position: absolute; top: -8px; width: 20px; height: 20px; border-radius: 50%; background: #FFF; border: 2px solid #D70030; box-shadow: 0 2px 8px rgba(0,0,0,0.1); cursor: grab; transition: left 0.2s; }
+    input[type="range"] { width: 100%; height: 44px; appearance: none; background: transparent; cursor: pointer; position: relative; z-index: 2; margin: -20px 0 0 0; opacity: 0; }
+
+    /* Spending limit */
+    .spending-display { font-family: 'Satoshi', sans-serif; font-size: 28px; font-weight: 700; color: #1D1D1F; text-align: center; margin: 12px 0 6px; letter-spacing: -0.02em; }
+    .spending-hint { font-family: 'Inter', sans-serif; font-size: 11px; color: #AEAEB2; text-align: center; }
+
+    /* Approval rules */
+    .rule-row { display: flex; align-items: center; justify-content: space-between; padding: 12px 0; border-bottom: 0.5px solid rgba(0,0,0,0.04); }
+    .rule-row:last-child { border-bottom: none; }
+    .rule-label { font-family: 'Satoshi', sans-serif; font-size: 13px; color: #1D1D1F; }
+    .rule-toggle { position: relative; width: 44px; height: 26px; border-radius: 13px; background: rgba(0,0,0,0.08); cursor: pointer; transition: background 0.2s; flex-shrink: 0; }
+    .rule-toggle.on { background: #D70030; }
+    .rule-toggle::after { content: ''; position: absolute; top: 3px; left: 3px; width: 20px; height: 20px; border-radius: 50%; background: #FFF; box-shadow: 0 1px 3px rgba(0,0,0,0.15); transition: transform 0.2s; }
+    .rule-toggle.on::after { transform: translateX(18px); }
+
+    /* Connected tools */
+    .tool-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .tool-item { display: flex; align-items: center; gap: 10px; padding: 14px 16px; border-radius: 14px; border: 0.5px solid rgba(0,0,0,0.06); cursor: pointer; transition: all 0.15s; }
+    .tool-item:hover { border-color: rgba(0,0,0,0.12); }
+    .tool-item.active { border-color: rgba(215,0,48,0.2); background: rgba(215,0,48,0.02); }
+    .tool-icon { width: 32px; height: 32px; border-radius: 8px; background: #F5F5F7; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .tool-icon svg { width: 16px; height: 16px; }
+    .tool-name { font-family: 'Satoshi', sans-serif; font-size: 13px; font-weight: 500; color: #1D1D1F; }
+    .tool-desc { font-family: 'Inter', sans-serif; font-size: 11px; color: #AEAEB2; }
+
+    /* Bottom CTA */
+    .bottom-bar { position: sticky; bottom: 0; background: rgba(245,245,247,0.88); backdrop-filter: saturate(180%) blur(20px); -webkit-backdrop-filter: saturate(180%) blur(20px); border-top: 0.5px solid rgba(0,0,0,0.06); padding: 16px 24px; margin: 0 -24px; }
+    .bottom-inner { max-width: 620px; margin: 0 auto; display: flex; gap: 12px; }
+    .btn-review { font-family: 'Inter', sans-serif; flex: 1; padding: 14px 24px; border-radius: 14px; background: #1D1D1F; color: #F5F5F7; font-size: 14px; font-weight: 500; border: none; cursor: pointer; min-height: 52px; transition: all 0.15s; }
+    .btn-review:hover { background: #000; }
+    .btn-review:active { transform: scale(0.98); }
+    .btn-back { font-family: 'Inter', sans-serif; padding: 14px 24px; border-radius: 14px; background: #FFF; color: #86868B; font-size: 14px; border: 1px solid rgba(0,0,0,0.06); cursor: pointer; min-height: 52px; transition: all 0.15s; }
+    .btn-back:hover { border-color: rgba(0,0,0,0.12); }
+
+    @media (max-width: 480px) {
+      .field-row { grid-template-columns: 1fr; }
+      .tool-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <nav class="nav">
+    <div class="nav-inner">
+      <a href="../dashboard/home.html" class="nav-logo">KTANA</a>
+      <div class="nav-links">
+        <a href="../dashboard/home.html">Painel</a>
+        <a href="../settings/general.html">Config</a>
+      </div>
+    </div>
+  </nav>
+
+  <main class="main">
+    <a href="list.html" class="back-link fade-in">
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M9 3L5 7l4 4" stroke="#86868B" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      Voltar para equipe
+    </a>
+
+    <!-- Progress bar -->
+    <div class="progress-bar fade-in">
+      <div class="progress-step done"></div>
+      <div class="progress-step current"></div>
+      <div class="progress-step"></div>
+    </div>
+
+    <div class="page-header fade-in">
+      <h1>Configurar novo samurai</h1>
+      <p>Defina cargo, cerebro, personalidade, alcada e ferramentas. Quanto mais detalhes, melhor o samurai opera.</p>
+    </div>
+
+    <!-- SECTION 1: Role Definition -->
+    <div class="section fade-in" style="animation-delay:0.05s">
+      <p class="section-label">Definicao do cargo</p>
+
+      <div class="field-row">
+        <div class="field">
+          <label>Titulo do cargo</label>
+          <input type="text" class="input" placeholder="Ex: Analista Comercial" value="Gerente de Projetos">
+        </div>
+        <div class="field">
+          <label>Departamento</label>
+          <select class="input">
+            <option>Selecionar...</option>
+            <option>Financeiro</option>
+            <option>Comercial</option>
+            <option selected>Operacoes</option>
+            <option>Marketing</option>
+            <option>RH</option>
+            <option>Tecnologia</option>
+            <option>Juridico</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Nome do samurai</label>
+        <input type="text" class="input" placeholder="Ex: Rin, Takeshi, Akira..." value="Takeshi">
+      </div>
+
+      <div class="field">
+        <label>Descricao da funcao</label>
+        <textarea class="input" placeholder="Descreva com suas palavras o que esse samurai vai fazer no dia a dia...">Gerencia projetos ativos, acompanha cronogramas e entregas, reporta bloqueios, organiza dailies e reunioes de alinhamento, mantem o backlog atualizado e garante que o time cumpra prazos.</textarea>
+      </div>
+
+      <div class="field">
+        <label>Reporta a</label>
+        <select class="input">
+          <option>Selecionar superior...</option>
+          <option selected>Julio (CEO)</option>
+          <option>Yuki (Controller)</option>
+          <option>Kaito (Comercial)</option>
+          <option>Hana (Secretaria)</option>
+          <option>Haruki (PM)</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- SECTION 2: Brain Configuration -->
+    <div class="section fade-in" style="animation-delay:0.1s">
+      <p class="section-label">Configuracao do cerebro</p>
+      <p class="section-desc">De quem esse samurai deve aprender? Selecione referencias que vao moldar o raciocinio e a abordagem dele.</p>
+
+      <div class="ref-list">
+        <div class="ref-item active" onclick="this.classList.toggle('active')">
+          <div class="ref-check"></div>
+          <div class="ref-info">
+            <p class="ref-name">Marty Cagan</p>
+            <p class="ref-desc">Product management, discovery, empowered teams</p>
+          </div>
+        </div>
+        <div class="ref-item active" onclick="this.classList.toggle('active')">
+          <div class="ref-check"></div>
+          <div class="ref-info">
+            <p class="ref-name">Jeff Sutherland</p>
+            <p class="ref-desc">Scrum, agilidade, velocidade de entrega</p>
+          </div>
+        </div>
+        <div class="ref-item" onclick="this.classList.toggle('active')">
+          <div class="ref-check"></div>
+          <div class="ref-info">
+            <p class="ref-name">David Allen</p>
+            <p class="ref-desc">GTD, organizacao, produtividade pessoal</p>
+          </div>
+        </div>
+        <div class="ref-item" onclick="this.classList.toggle('active')">
+          <div class="ref-check"></div>
+          <div class="ref-info">
+            <p class="ref-name">Ray Dalio</p>
+            <p class="ref-desc">Principios, transparencia radical, metricas</p>
+          </div>
+        </div>
+      </div>
+      <a class="ref-add">+ Adicionar outra referencia</a>
+
+      <div style="margin-top: 20px;">
+        <label style="font-family: 'Inter', sans-serif; display: block; font-size: 11px; font-weight: 500; color: #86868B; margin-bottom: 8px;">Areas de conhecimento</label>
+        <div class="knowledge-tags">
+          <span class="k-tag active" onclick="this.classList.toggle('active')">Gestao de projetos</span>
+          <span class="k-tag active" onclick="this.classList.toggle('active')">Scrum / Agile</span>
+          <span class="k-tag active" onclick="this.classList.toggle('active')">OKRs</span>
+          <span class="k-tag" onclick="this.classList.toggle('active')">Kanban</span>
+          <span class="k-tag" onclick="this.classList.toggle('active')">Design thinking</span>
+          <span class="k-tag active" onclick="this.classList.toggle('active')">Risk management</span>
+          <span class="k-tag" onclick="this.classList.toggle('active')">Financas basicas</span>
+          <span class="k-tag" onclick="this.classList.toggle('active')">Product discovery</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- SECTION 3: Personality -->
+    <div class="section fade-in" style="animation-delay:0.15s">
+      <p class="section-label">Personalidade</p>
+      <p class="section-desc">Escolha os tracos que definem como esse samurai se comunica e interage com a equipe.</p>
+
+      <div class="field">
+        <label>Tracos de personalidade</label>
+        <div class="traits">
+          <span class="trait active" onclick="this.classList.toggle('active')">Organizado</span>
+          <span class="trait active" onclick="this.classList.toggle('active')">Proativo</span>
+          <span class="trait" onclick="this.classList.toggle('active')">Detalhista</span>
+          <span class="trait active" onclick="this.classList.toggle('active')">Cobrador</span>
+          <span class="trait" onclick="this.classList.toggle('active')">Empatico</span>
+          <span class="trait" onclick="this.classList.toggle('active')">Diplomatico</span>
+          <span class="trait active" onclick="this.classList.toggle('active')">Objetivo</span>
+          <span class="trait" onclick="this.classList.toggle('active')">Motivador</span>
+          <span class="trait" onclick="this.classList.toggle('active')">Criativo</span>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Tom de comunicacao</label>
+        <div class="traits">
+          <span class="trait" onclick="selectTone(this)">Formal</span>
+          <span class="trait active" onclick="selectTone(this)">Profissional</span>
+          <span class="trait" onclick="selectTone(this)">Casual</span>
+          <span class="trait" onclick="selectTone(this)">Direto</span>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Nivel de formalidade</label>
+        <div class="formality">
+          <button class="formality-opt" onclick="selectFormality(this)">Muito formal</button>
+          <button class="formality-opt active" onclick="selectFormality(this)">Equilibrado</button>
+          <button class="formality-opt" onclick="selectFormality(this)">Descontraido</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- SECTION 4: Permissions -->
+    <div class="section fade-in" style="animation-delay:0.2s">
+      <p class="section-label">Permissoes e alcada</p>
+      <p class="section-desc">Defina o nivel de autonomia. Acoes fora da alcada serao escaladas para aprovacao.</p>
+
+      <!-- Autonomy slider -->
+      <div class="slider-group">
+        <div class="slider-header">
+          <span class="slider-title">Nivel de autonomia</span>
+          <span class="slider-value" id="autonomy-label">Medio — Opera com supervisao</span>
+        </div>
+        <div class="slider-track">
+          <div class="slider-fill" id="autonomy-fill" style="width: 50%;"></div>
+          <div class="slider-thumb" id="autonomy-thumb" style="left: calc(50% - 10px);"></div>
+        </div>
+        <input type="range" min="0" max="100" value="50" id="autonomy-slider" oninput="updateAutonomy(this.value)">
+      </div>
+
+      <!-- Spending limit -->
+      <div class="slider-group">
+        <div class="slider-header">
+          <span class="slider-title">Limite de gastos autonomos</span>
+          <span class="slider-value" id="spend-label">R$5.000</span>
+        </div>
+        <div class="spending-display" id="spend-display">R$5.000</div>
+        <p class="spending-hint">Acima desse valor, o samurai pedira sua aprovacao</p>
+        <div class="slider-track" style="margin-top: 12px;">
+          <div class="slider-fill" id="spend-fill" style="width: 25%;"></div>
+          <div class="slider-thumb" id="spend-thumb" style="left: calc(25% - 10px);"></div>
+        </div>
+        <input type="range" min="0" max="100" value="25" id="spend-slider" oninput="updateSpend(this.value)">
+      </div>
+
+      <!-- Approval rules -->
+      <div style="margin-top: 8px;">
+        <label style="font-family: 'Inter', sans-serif; display: block; font-size: 11px; font-weight: 500; color: #86868B; margin-bottom: 12px;">Requer aprovacao para</label>
+
+        <div class="rule-row">
+          <span class="rule-label">Enviar mensagens externas</span>
+          <div class="rule-toggle on" onclick="this.classList.toggle('on')"></div>
+        </div>
+        <div class="rule-row">
+          <span class="rule-label">Criar tarefas para outros agentes</span>
+          <div class="rule-toggle" onclick="this.classList.toggle('on')"></div>
+        </div>
+        <div class="rule-row">
+          <span class="rule-label">Remarcar reunioes</span>
+          <div class="rule-toggle" onclick="this.classList.toggle('on')"></div>
+        </div>
+        <div class="rule-row">
+          <span class="rule-label">Aprovar pagamentos</span>
+          <div class="rule-toggle on" onclick="this.classList.toggle('on')"></div>
+        </div>
+        <div class="rule-row">
+          <span class="rule-label">Acessar dados financeiros</span>
+          <div class="rule-toggle on" onclick="this.classList.toggle('on')"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SECTION 5: Connected tools -->
+    <div class="section fade-in" style="animation-delay:0.25s">
+      <p class="section-label">Ferramentas conectadas</p>
+      <p class="section-desc">Selecione quais ferramentas esse samurai podera acessar e usar.</p>
+
+      <div class="tool-grid">
+        <div class="tool-item active" onclick="this.classList.toggle('active')">
+          <div class="tool-icon">
+            <svg viewBox="0 0 16 16" fill="none"><path d="M2 4l6-2 6 2v5.33a5.33 5.33 0 01-6 5.33 5.33 5.33 0 01-6-5.33V4z" stroke="#86868B" stroke-width="1.2"/></svg>
+          </div>
+          <div>
+            <p class="tool-name">Google Calendar</p>
+            <p class="tool-desc">Agenda e reunioes</p>
+          </div>
+        </div>
+        <div class="tool-item active" onclick="this.classList.toggle('active')">
+          <div class="tool-icon">
+            <svg viewBox="0 0 16 16" fill="none"><path d="M14 4.5l-6 3.75L2 4.5M2 4.5v7l6 3.75 6-3.75v-7L8 1.25 2 4.5z" stroke="#86868B" stroke-width="1.2"/></svg>
+          </div>
+          <div>
+            <p class="tool-name">Gmail</p>
+            <p class="tool-desc">Leitura e envio</p>
+          </div>
+        </div>
+        <div class="tool-item active" onclick="this.classList.toggle('active')">
+          <div class="tool-icon">
+            <svg viewBox="0 0 16 16" fill="none"><rect x="2" y="2" width="5" height="5" rx="1" stroke="#86868B" stroke-width="1.2"/><rect x="9" y="2" width="5" height="5" rx="1" stroke="#86868B" stroke-width="1.2"/><rect x="2" y="9" width="5" height="5" rx="1" stroke="#86868B" stroke-width="1.2"/><rect x="9" y="9" width="5" height="5" rx="1" stroke="#86868B" stroke-width="1.2"/></svg>
+          </div>
+          <div>
+            <p class="tool-name">ClickUp</p>
+            <p class="tool-desc">Tarefas e sprints</p>
+          </div>
+        </div>
+        <div class="tool-item" onclick="this.classList.toggle('active')">
+          <div class="tool-icon">
+            <svg viewBox="0 0 16 16" fill="none"><path d="M13.3 2.7a2.5 2.5 0 010 3.5L6 13.5l-4 1 1-4 7.3-7.3a2.5 2.5 0 013.5 0z" stroke="#86868B" stroke-width="1.2"/></svg>
+          </div>
+          <div>
+            <p class="tool-name">Notion</p>
+            <p class="tool-desc">Documentacao</p>
+          </div>
+        </div>
+        <div class="tool-item" onclick="this.classList.toggle('active')">
+          <div class="tool-icon">
+            <svg viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6" stroke="#86868B" stroke-width="1.2"/><path d="M8 5v3l2 2" stroke="#86868B" stroke-width="1.2" stroke-linecap="round"/></svg>
+          </div>
+          <div>
+            <p class="tool-name">WhatsApp</p>
+            <p class="tool-desc">Mensagens</p>
+          </div>
+        </div>
+        <div class="tool-item" onclick="this.classList.toggle('active')">
+          <div class="tool-icon">
+            <svg viewBox="0 0 16 16" fill="none"><path d="M14 10v2a2 2 0 01-2 2H4a2 2 0 01-2-2v-2M8 2v8M5 5l3-3 3 3" stroke="#86868B" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <div>
+            <p class="tool-name">Google Drive</p>
+            <p class="tool-desc">Arquivos</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Spacer for sticky bar -->
+    <div style="height: 60px;"></div>
+
+    <!-- Sticky bottom bar -->
+    <div class="bottom-bar">
+      <div class="bottom-inner">
+        <button class="btn-back" onclick="location.href='hire-role.html'">Voltar</button>
+        <button class="btn-review" onclick="location.href='hire-review.html'">Revisar configuracao</button>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    function selectTone(el) {
+      el.parentElement.querySelectorAll('.trait').forEach(t => t.classList.remove('active'));
+      el.classList.add('active');
+    }
+
+    function selectFormality(el) {
+      el.parentElement.querySelectorAll('.formality-opt').forEach(o => o.classList.remove('active'));
+      el.classList.add('active');
+    }
+
+    function updateAutonomy(val) {
+      const fill = document.getElementById('autonomy-fill');
+      const thumb = document.getElementById('autonomy-thumb');
+      const label = document.getElementById('autonomy-label');
+      fill.style.width = val + '%';
+      thumb.style.left = 'calc(' + val + '% - 10px)';
+      if (val < 25) label.textContent = 'Minimo — Pede aprovacao para tudo';
+      else if (val < 50) label.textContent = 'Baixo — Opera com muita supervisao';
+      else if (val < 75) label.textContent = 'Medio — Opera com supervisao';
+      else label.textContent = 'Alto — Opera com autonomia ampla';
+    }
+
+    function updateSpend(val) {
+      const fill = document.getElementById('spend-fill');
+      const thumb = document.getElementById('spend-thumb');
+      const label = document.getElementById('spend-label');
+      const display = document.getElementById('spend-display');
+      fill.style.width = val + '%';
+      thumb.style.left = 'calc(' + val + '% - 10px)';
+      const amounts = ['R$0', 'R$1.000', 'R$2.000', 'R$5.000', 'R$10.000', 'R$20.000', 'R$50.000', 'Ilimitado'];
+      const idx = Math.min(Math.floor(val / 14.3), 7);
+      label.textContent = amounts[idx];
+      display.textContent = amounts[idx];
+    }
+  </script>
+</body>
+</html>

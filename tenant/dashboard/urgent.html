@@ -1,9 +1,256 @@
-<!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>Dashboard — KTANA</title><link rel="stylesheet" href="../../shared.css"><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Zen+Dots&display=swap" rel="stylesheet">
-<style>body{min-height:100vh;background:#F5F5F7}.nav{position:sticky;top:0;z-index:50;height:48px;display:flex;align-items:center;justify-content:center;background:rgba(245,245,247,0.72);backdrop-filter:saturate(180%) blur(20px);border-bottom:0.5px solid rgba(0,0,0,0.06)}.nav-inner{width:100%;max-width:720px;padding:0 24px;display:flex;align-items:center;justify-content:space-between}.nav-logo{font-family:'Zen Dots',cursive;font-size:14px;color:#D70030}.nav-links a{font-family:'Inter',sans-serif;font-size:12px;color:#1D1D1F;opacity:0.4;margin-left:24px}.nav-links a.active{opacity:1}.main{max-width:720px;margin:0 auto;padding:40px 24px 80px}.urgent-banner{background:rgba(215,0,48,0.04);border:1px solid rgba(215,0,48,0.1);border-radius:16px;padding:16px 20px;margin-bottom:24px;display:flex;align-items:center;gap:12px}.urgent-dot{width:8px;height:8px;border-radius:50%;background:#D70030;flex-shrink:0;animation:pulse 1.5s ease infinite}@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.4}}.urgent-text{font-family:'Satoshi',sans-serif;font-size:14px;color:#D70030;font-weight:500}.greeting h1{font-family:'Satoshi',sans-serif;font-size:24px;font-weight:700;color:#1D1D1F;margin-bottom:4px}.greeting p{font-family:'Satoshi',sans-serif;font-size:14px;color:#86868B;margin-bottom:24px}.card{background:#FFF;border-radius:20px;border:1px solid rgba(0,0,0,0.04);padding:20px 24px;margin-bottom:10px}.card-urgent{border-left:3px solid #D70030}.card-title{font-family:'Satoshi',sans-serif;font-size:14px;font-weight:500;color:#1D1D1F}.card-sub{font-family:'Satoshi',sans-serif;font-size:12px;color:#86868B;margin-top:2px}.card-actions{display:flex;gap:8px;margin-top:12px}.btn-a{font-family:'Inter',sans-serif;padding:7px 16px;border-radius:980px;background:#D70030;color:#FFF;font-size:12px;font-weight:500;border:none;cursor:pointer}.btn-b{font-family:'Inter',sans-serif;padding:7px 16px;border-radius:980px;background:transparent;color:#86868B;font-size:12px;border:0.5px solid rgba(0,0,0,0.08);cursor:pointer}</style></head>
-<body><nav class="nav"><div class="nav-inner"><a href="../dashboard/home.html" class="nav-logo">KTANA</a><div class="nav-links"><a href="home.html" class="active">Painel</a><a href="../office/index.html">Escritorio</a><a href="../team/list.html">Equipe</a><a href="../approvals/list.html">Aprovacoes</a><a href="../profile/index.html">Perfil</a><a href="../settings/general.html">Config</a></div></div></nav>
-<main class="main">
-<div class="urgent-banner fade-in"><div class="urgent-dot"></div><span class="urgent-text">Acao urgente requer sua decisao imediata</span></div>
-<div class="greeting fade-in"><h1>Julio, atencao.</h1><p>Yuki detectou situacao critica que precisa de voce agora.</p></div>
-<div class="card card-urgent fade-in" style="animation-delay:0.1s"><p class="card-title">Cliente Z ameacou cancelar contrato — R$45.000/ano</p><p class="card-sub">Hana interceptou email furioso do CEO do Cliente Z sobre atraso na entrega do Sprint 12. Haruki confirma: 2 tasks criticas atrasadas 3 dias. Akira recomenda reuniao emergencial hoje.</p><div class="card-actions"><button class="btn-a">Agendar reuniao agora</button><button class="btn-b">Ver detalhes</button><button class="btn-b">Ligar pro cliente</button></div></div>
-<div class="card fade-in" style="animation-delay:0.2s"><p class="card-title">Yuki: cobranca de R$18k precisa de aprovacao</p><p class="card-sub">Cliente W — 20 dias de atraso. Kaito (CFO) recomenda cobranca com juros + notificacao formal.</p><div class="card-actions"><button class="btn-a" style="background:#1D1D1F;">Aprovar</button><button class="btn-b">Ver detalhes</button></div></div>
-</main></body></html>
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Modo Urgente — KTANA</title>
+  <link rel="stylesheet" href="../../shared.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Zen+Dots&display=swap" rel="stylesheet">
+  <style>
+    body { min-height: 100vh; background: #F5F5F7; }
+
+    /* Nav */
+    .nav { position: sticky; top: 0; z-index: 50; height: 48px; display: flex; align-items: center; justify-content: center; background: rgba(245,245,247,0.72); backdrop-filter: saturate(180%) blur(20px); -webkit-backdrop-filter: saturate(180%) blur(20px); border-bottom: 0.5px solid rgba(0,0,0,0.06); }
+    .nav-inner { width: 100%; max-width: 760px; padding: 0 20px; display: flex; align-items: center; justify-content: space-between; }
+    .nav-logo { font-family: 'Zen Dots', cursive; font-size: 14px; color: #D70030; }
+    .nav-links { display: flex; align-items: center; gap: 20px; }
+    .nav-links a { font-family: 'Inter', sans-serif; font-size: 12px; color: #1D1D1F; opacity: 0.4; transition: opacity 0.15s; }
+    .nav-links a:hover, .nav-links a.active { opacity: 1; }
+
+    .main { max-width: 760px; margin: 0 auto; padding: 32px 20px 80px; }
+
+    /* Urgent banner */
+    .urgent-header { text-align: center; margin-bottom: 28px; }
+    .urgent-pulse { width: 12px; height: 12px; border-radius: 50%; background: #D70030; display: inline-block; margin-right: 8px; animation: urgentPulse 1.2s ease infinite; vertical-align: middle; }
+    @keyframes urgentPulse { 0%,100% { opacity: 1; box-shadow: 0 0 0 0 rgba(215,0,48,0.4); } 50% { opacity: 0.7; box-shadow: 0 0 0 8px rgba(215,0,48,0); } }
+    .urgent-header h1 { font-family: 'Satoshi', sans-serif; font-size: 28px; font-weight: 700; color: #1D1D1F; margin-bottom: 6px; }
+    .urgent-header p { font-family: 'Satoshi', sans-serif; font-size: 14px; color: #86868B; }
+    .urgent-count { font-family: 'Inter', sans-serif; display: inline-flex; align-items: center; gap: 6px; padding: 4px 14px; border-radius: 980px; background: rgba(215,0,48,0.06); color: #D70030; font-size: 12px; font-weight: 500; margin-top: 12px; }
+
+    /* Back to normal */
+    .back-bar { display: flex; align-items: center; justify-content: space-between; margin-bottom: 24px; padding: 12px 16px; background: rgba(0,0,0,0.02); border-radius: 12px; }
+    .back-bar p { font-family: 'Inter', sans-serif; font-size: 12px; color: #86868B; }
+    .btn-back { font-family: 'Inter', sans-serif; padding: 6px 14px; border-radius: 8px; font-size: 12px; background: #FFF; color: #6E6E73; border: 0.5px solid rgba(0,0,0,0.08); cursor: pointer; }
+    .btn-back:hover { background: #F0F0F0; }
+
+    /* Section label */
+    .section-label { font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 10px; display: flex; align-items: center; justify-content: space-between; }
+    .section-label.red { color: #D70030; }
+    .section-label.orange { color: #FF9500; }
+    .section-label.neutral { color: #86868B; }
+    .section-count { font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 500; }
+
+    /* Urgent cards */
+    .urgent-card { background: #FFF; border-radius: 20px; border: 1px solid rgba(0,0,0,0.04); padding: 18px 20px; margin-bottom: 10px; transition: box-shadow 0.2s; position: relative; overflow: hidden; }
+    .urgent-card:hover { box-shadow: 0 4px 24px rgba(0,0,0,0.04); }
+    .urgent-card.critical { border-left: 3px solid #D70030; }
+    .urgent-card.critical::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px; background: linear-gradient(90deg, rgba(215,0,48,0.3), transparent); }
+    .urgent-card.warning { border-left: 3px solid #FF9500; }
+    .urgent-card.security { border-left: 3px solid #AF52DE; }
+
+    .card-top { display: flex; align-items: start; justify-content: space-between; margin-bottom: 6px; }
+    .card-agent { display: flex; align-items: center; gap: 10px; }
+    .card-avatar { width: 30px; height: 30px; border-radius: 50%; border: 1px solid rgba(0,0,0,0.04); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .card-avatar span { font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 500; color: #86868B; }
+    .card-info { }
+    .card-title { font-family: 'Satoshi', sans-serif; font-size: 14px; font-weight: 500; color: #1D1D1F; }
+    .card-sub { font-family: 'Satoshi', sans-serif; font-size: 12px; color: #86868B; margin-top: 3px; line-height: 1.5; }
+
+    .badge-priority { font-family: 'Inter', sans-serif; padding: 3px 10px; border-radius: 8px; font-size: 11px; font-weight: 500; flex-shrink: 0; }
+    .badge-critical { background: rgba(215,0,48,0.08); color: #D70030; border: 0.5px solid rgba(215,0,48,0.15); animation: badgePulse 2s ease infinite; }
+    @keyframes badgePulse { 0%,100% { opacity:1; } 50% { opacity:0.7; } }
+    .badge-warning { background: rgba(255,149,0,0.08); color: #FF9500; border: 0.5px solid rgba(255,149,0,0.15); }
+    .badge-security { background: rgba(175,82,222,0.08); color: #AF52DE; border: 0.5px solid rgba(175,82,222,0.15); }
+
+    .card-time { font-family: 'Inter', sans-serif; font-size: 11px; color: #AEAEB2; margin-top: 8px; display: flex; align-items: center; gap: 8px; }
+    .card-time .elapsed { color: #D70030; font-weight: 500; }
+
+    .card-actions { display: flex; gap: 8px; margin-top: 12px; }
+    .btn-action { font-family: 'Inter', sans-serif; padding: 8px 18px; border-radius: 12px; font-size: 13px; font-weight: 500; border: none; cursor: pointer; min-height: 40px; transition: all 0.15s; }
+    .btn-action:active { transform: scale(0.97); }
+    .btn-primary { background: #D70030; color: #FFF; }
+    .btn-primary:hover { background: #C0002B; }
+    .btn-dark { background: #1D1D1F; color: #FFF; }
+    .btn-dark:hover { background: #000; }
+    .btn-outline { background: transparent; color: #86868B; border: 0.5px solid rgba(0,0,0,0.08); }
+
+    /* Alert cards — compact */
+    .alert-compact { display: flex; align-items: center; gap: 12px; background: #FFF; border-radius: 16px; border: 1px solid rgba(0,0,0,0.04); padding: 14px 16px; margin-bottom: 8px; }
+    .alert-icon { width: 32px; height: 32px; border-radius: 10px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-size: 16px; }
+    .alert-icon.budget { background: rgba(255,149,0,0.08); }
+    .alert-icon.security { background: rgba(175,82,222,0.08); }
+    .alert-info { flex: 1; }
+    .alert-title { font-family: 'Satoshi', sans-serif; font-size: 13px; font-weight: 500; color: #1D1D1F; }
+    .alert-desc { font-family: 'Satoshi', sans-serif; font-size: 12px; color: #86868B; margin-top: 2px; }
+    .alert-action { font-family: 'Inter', sans-serif; padding: 6px 14px; border-radius: 8px; font-size: 12px; background: #F0F0F0; color: #6E6E73; border: none; cursor: pointer; flex-shrink: 0; }
+    .alert-action:hover { background: #E8E8ED; }
+
+    /* Progress bar for budget */
+    .budget-bar { margin-top: 8px; }
+    .budget-track { width: 100%; height: 4px; background: rgba(0,0,0,0.04); border-radius: 2px; overflow: hidden; }
+    .budget-fill { height: 100%; border-radius: 2px; }
+    .budget-fill.danger { background: #D70030; }
+    .budget-fill.warning { background: #FF9500; }
+    .budget-meta { display: flex; justify-content: space-between; margin-top: 4px; }
+    .budget-meta span { font-family: 'Inter', sans-serif; font-size: 11px; color: #AEAEB2; }
+
+    @media (max-width: 640px) {
+      .card-actions { flex-direction: column; }
+      .btn-action { text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Nav -->
+  <nav class="nav">
+    <div class="nav-inner">
+      <a href="../dashboard/home.html" class="nav-logo">KTANA</a>
+      <div class="nav-links">
+        <a href="../dashboard/home.html">Painel</a>
+        <a href="../settings/general.html">Config</a>
+      </div>
+    </div>
+  </nav>
+
+  <main class="main">
+
+    <!-- Header -->
+    <div class="urgent-header fade-in">
+      <h1><span class="urgent-pulse"></span>Modo Urgente</h1>
+      <p>Somente itens criticos que precisam da sua atencao imediata.</p>
+      <span class="urgent-count">5 itens criticos</span>
+    </div>
+
+    <!-- Back to normal -->
+    <div class="back-bar fade-in" style="animation-delay:0.05s">
+      <p>Voce esta no modo urgente — apenas itens criticos sao exibidos.</p>
+      <button class="btn-back" onclick="location.href='home.html'">Voltar ao painel normal</button>
+    </div>
+
+    <!-- APPROVALS — CRITICAL -->
+    <p class="section-label red fade-in" style="animation-delay:0.08s">
+      <span>Aprovacoes criticas</span>
+      <span class="section-count" style="color:#D70030;">2 pendentes</span>
+    </p>
+
+    <div class="urgent-card critical fade-in" style="animation-delay:0.1s">
+      <div class="card-top">
+        <div class="card-agent">
+          <div class="card-avatar"><span>Y</span></div>
+          <div class="card-info">
+            <p class="card-title">Cliente Z ameacou cancelar contrato — R$45.000/ano</p>
+          </div>
+        </div>
+        <span class="badge-priority badge-critical">Critico</span>
+      </div>
+      <p class="card-sub">Hana interceptou email furioso do CEO do Cliente Z sobre atraso na entrega do Sprint 12. Haruki confirma: 2 tasks criticas atrasadas 3 dias. Akira recomenda reuniao emergencial hoje.</p>
+      <div class="card-time">
+        <span>Detectado ha 47 min por Hana</span>
+        <span class="elapsed">Aguardando ha 47 min</span>
+      </div>
+      <div class="card-actions">
+        <button class="btn-action btn-primary" onclick="this.textContent='Agendado'; this.style.background='#30D158';">Agendar reuniao agora</button>
+        <button class="btn-action btn-dark">Ligar pro cliente</button>
+        <button class="btn-action btn-outline">Ver detalhes</button>
+      </div>
+    </div>
+
+    <div class="urgent-card critical fade-in" style="animation-delay:0.15s">
+      <div class="card-top">
+        <div class="card-agent">
+          <div class="card-avatar"><span>Y</span></div>
+          <div class="card-info">
+            <p class="card-title">Cobranca de R$18.000 — Cliente W com 20 dias de atraso</p>
+          </div>
+        </div>
+        <span class="badge-priority badge-critical">Critico</span>
+      </div>
+      <p class="card-sub">Yuki solicita aprovacao para cobranca formal com juros de 2%. Kaito (CFO) recomenda: aprovar e incluir notificacao de possivel negativacao apos 30 dias.</p>
+      <div class="card-time">
+        <span>Escalado por Yuki ha 2h</span>
+        <span class="elapsed">Aguardando ha 2h</span>
+      </div>
+      <div class="card-actions">
+        <button class="btn-action btn-dark" onclick="this.innerHTML='Aprovado &#x2713;'; this.style.background='#30D158';">Aprovar cobranca</button>
+        <button class="btn-action btn-outline">Editar valores</button>
+        <button class="btn-action btn-outline">Negar</button>
+      </div>
+    </div>
+
+    <!-- AGENT ERRORS -->
+    <p class="section-label red fade-in" style="animation-delay:0.18s">
+      <span>Erros de agentes</span>
+      <span class="section-count" style="color:#D70030;">1 erro</span>
+    </p>
+
+    <div class="urgent-card critical fade-in" style="animation-delay:0.2s">
+      <div class="card-top">
+        <div class="card-agent">
+          <div class="card-avatar" style="border-color:rgba(215,0,48,0.2);"><span style="color:#D70030;">H</span></div>
+          <div class="card-info">
+            <p class="card-title">Haruki falhou ao sincronizar com GitHub</p>
+          </div>
+        </div>
+        <span class="badge-priority badge-critical">Erro</span>
+      </div>
+      <p class="card-sub">API retornou erro 403 (Forbidden) ao tentar criar pull request no repositorio ktana-assistant. Token de acesso pode ter expirado. Haruki tentou 3 vezes e parou.</p>
+      <div class="card-time">
+        <span>Falhou ha 1h22min</span>
+        <span class="elapsed">3 tentativas falharam</span>
+      </div>
+      <div class="card-actions">
+        <button class="btn-action btn-dark">Renovar token</button>
+        <button class="btn-action btn-outline">Ver logs</button>
+        <button class="btn-action btn-outline">Ignorar</button>
+      </div>
+    </div>
+
+    <!-- BUDGET ALERTS -->
+    <p class="section-label orange fade-in" style="animation-delay:0.23s">
+      <span>Alertas de budget</span>
+      <span class="section-count" style="color:#FF9500;">1 alerta</span>
+    </p>
+
+    <div class="alert-compact fade-in" style="animation-delay:0.25s">
+      <div class="alert-icon budget">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#FF9500" stroke-width="2"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>
+      </div>
+      <div class="alert-info" style="flex:1;">
+        <p class="alert-title">Budget mensal atingiu 82%</p>
+        <p class="alert-desc">R$2.460 de R$3.000 consumidos. Megumi ja foi pausada. Se o ritmo continuar, budget esgota em 4 dias.</p>
+        <div class="budget-bar">
+          <div class="budget-track"><div class="budget-fill danger" style="width:82%;"></div></div>
+          <div class="budget-meta"><span>R$2.460 gastos</span><span>R$540 restantes</span></div>
+        </div>
+      </div>
+      <button class="alert-action" onclick="location.href='../settings/general.html'">Ajustar limite</button>
+    </div>
+
+    <!-- SECURITY -->
+    <p class="section-label neutral fade-in" style="animation-delay:0.28s">
+      <span>Seguranca</span>
+      <span class="section-count">1 aviso</span>
+    </p>
+
+    <div class="alert-compact fade-in" style="animation-delay:0.3s">
+      <div class="alert-icon security">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#AF52DE" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+      </div>
+      <div class="alert-info">
+        <p class="alert-title">Login suspeito detectado</p>
+        <p class="alert-desc">Tentativa de acesso de IP 187.45.23.11 (Sao Paulo, BR) as 03:42. Nao corresponde aos seus IPs habituais. Bloqueado automaticamente.</p>
+      </div>
+      <button class="alert-action">Revisar</button>
+    </div>
+
+    <!-- Summary footer -->
+    <div style="text-align:center; margin-top:32px;" class="fade-in" style="animation-delay:0.35s">
+      <p style="font-family:'Satoshi',sans-serif; font-size:14px; color:#86868B; margin-bottom:12px;">Todos os outros itens estao no painel normal.</p>
+      <button onclick="location.href='home.html'" style="font-family:'Inter',sans-serif; padding:12px 28px; border-radius:14px; background:#1D1D1F; color:#F5F5F7; font-size:14px; font-weight:500; border:none; cursor:pointer; min-height:44px;">Voltar ao painel completo</button>
+      <p style="font-family:'Inter',sans-serif; font-size:11px; color:#AEAEB2; margin-top:12px;">Modo urgente atualiza automaticamente a cada 30 segundos.</p>
+    </div>
+  </main>
+
+</body>
+</html>

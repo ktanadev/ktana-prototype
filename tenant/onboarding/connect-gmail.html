@@ -1,13 +1,249 @@
-<!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>Conectar Gmail — KTANA</title><link rel="stylesheet" href="../../shared.css"><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Zen+Dots&display=swap" rel="stylesheet">
-<style>body{min-height:100vh;background:#F5F5F7;display:flex;align-items:center;justify-content:center;padding:48px 24px}.container{max-width:420px;text-align:center;width:100%}.icon{width:64px;height:64px;border-radius:20px;background:rgba(215,0,48,0.04);display:flex;align-items:center;justify-content:center;margin:0 auto 24px;font-size:28px}h1{font-family:'Satoshi',sans-serif;font-size:20px;font-weight:600;color:#1D1D1F;margin-bottom:8px}.desc{font-family:'Satoshi',sans-serif;font-size:14px;color:#86868B;line-height:1.6;margin-bottom:32px}.google-btn{font-family:'Inter',sans-serif;width:100%;padding:14px;border-radius:14px;background:#FFF;border:1px solid rgba(0,0,0,0.06);font-size:14px;font-weight:500;color:#1D1D1F;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:10px;transition:border-color 0.15s}.google-btn:hover{border-color:#D2D2D7}.note{font-family:'Inter',sans-serif;font-size:11px;color:#AEAEB2;margin-top:16px;line-height:1.6}.back{font-family:'Inter',sans-serif;font-size:12px;color:#86868B;margin-top:24px;display:inline-block}</style></head>
-<body><div class="container fade-in">
-<div class="icon">&#x2709;</div>
-<h1>Conectar Gmail</h1>
-<p class="desc">Faca login com sua conta Google normalmente. Nos pedimos apenas as permissoes necessarias.</p>
-<button class="google-btn" onclick="this.innerHTML='Conectado &#x2713;'; this.style.borderColor='#30D158'; this.style.color='#30D158'; setTimeout(()=>location.href='connect.html',1000)">
-<svg width="16" height="16" viewBox="0 0 24 24"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 01-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg>
-Entrar com Google
-</button>
-<p class="note">Seus dados nunca sao compartilhados. Voce pode revogar acesso a qualquer momento.</p>
-<a href="connect.html" class="back">← Voltar</a>
-</div></body></html>
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Conectar Gmail — KTANA</title>
+  <link rel="stylesheet" href="../../shared.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Zen+Dots&display=swap" rel="stylesheet">
+  <style>
+    body { min-height: 100vh; background: #F5F5F7; display: flex; flex-direction: column; }
+
+    /* Nav */
+    .nav { position: sticky; top: 0; z-index: 50; height: 48px; display: flex; align-items: center; justify-content: center; background: rgba(245,245,247,0.72); backdrop-filter: saturate(180%) blur(20px); -webkit-backdrop-filter: saturate(180%) blur(20px); border-bottom: 0.5px solid rgba(0,0,0,0.06); }
+    .nav-inner { width: 100%; max-width: 760px; padding: 0 20px; display: flex; align-items: center; justify-content: space-between; }
+    .nav-logo { font-family: 'Zen Dots', cursive; font-size: 14px; color: #D70030; }
+    .nav-links { display: flex; align-items: center; gap: 20px; }
+    .nav-links a { font-family: 'Inter', sans-serif; font-size: 12px; color: #1D1D1F; opacity: 0.4; transition: opacity 0.15s; }
+    .nav-links a:hover, .nav-links a.active { opacity: 1; }
+
+    .main { flex: 1; display: flex; align-items: center; justify-content: center; padding: 48px 24px; }
+    .container { max-width: 460px; width: 100%; }
+
+    /* Steps indicator */
+    .steps-bar { display: flex; align-items: center; justify-content: center; gap: 8px; margin-bottom: 32px; }
+    .step-dot { width: 8px; height: 8px; border-radius: 50%; background: #D2D2D7; transition: all 0.3s; }
+    .step-dot.active { background: #D70030; width: 24px; border-radius: 4px; }
+    .step-dot.done { background: #30D158; }
+
+    /* Header */
+    .connect-header { text-align: center; margin-bottom: 32px; }
+    .connect-icon { width: 72px; height: 72px; border-radius: 20px; background: #FFF; border: 1px solid rgba(0,0,0,0.04); display: flex; align-items: center; justify-content: center; margin: 0 auto 20px; box-shadow: 0 2px 12px rgba(0,0,0,0.04); }
+    .connect-header h1 { font-family: 'Satoshi', sans-serif; font-size: 22px; font-weight: 700; color: #1D1D1F; margin-bottom: 8px; }
+    .connect-header p { font-family: 'Satoshi', sans-serif; font-size: 14px; color: #86868B; line-height: 1.6; max-width: 360px; margin: 0 auto; }
+
+    /* Permissions card */
+    .card { background: #FFF; border-radius: 20px; border: 1px solid rgba(0,0,0,0.04); padding: 20px; margin-bottom: 12px; }
+    .card-label { font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: #86868B; margin-bottom: 14px; }
+
+    .perm-item { display: flex; align-items: start; gap: 12px; padding: 10px 0; border-bottom: 0.5px solid rgba(0,0,0,0.03); }
+    .perm-item:last-child { border-bottom: none; }
+    .perm-icon { width: 32px; height: 32px; border-radius: 10px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .perm-icon.read { background: rgba(66,133,244,0.08); }
+    .perm-icon.send { background: rgba(52,168,83,0.08); }
+    .perm-icon.labels { background: rgba(251,188,5,0.08); }
+    .perm-icon.contacts { background: rgba(234,67,53,0.08); }
+    .perm-info { flex: 1; }
+    .perm-title { font-family: 'Satoshi', sans-serif; font-size: 14px; font-weight: 500; color: #1D1D1F; }
+    .perm-desc { font-family: 'Satoshi', sans-serif; font-size: 12px; color: #86868B; line-height: 1.5; margin-top: 2px; }
+    .perm-badge { font-family: 'Inter', sans-serif; font-size: 10px; padding: 2px 8px; border-radius: 4px; background: rgba(0,0,0,0.03); color: #AEAEB2; flex-shrink: 0; margin-top: 2px; }
+
+    /* Why we need this */
+    .why-card { background: rgba(66,133,244,0.03); border: 1px solid rgba(66,133,244,0.08); border-radius: 16px; padding: 16px; margin-bottom: 16px; }
+    .why-title { font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 600; color: #4285F4; margin-bottom: 8px; }
+    .why-text { font-family: 'Satoshi', sans-serif; font-size: 13px; color: #6E6E73; line-height: 1.6; }
+
+    /* Google OAuth button */
+    .google-btn { font-family: 'Inter', sans-serif; width: 100%; padding: 14px 24px; border-radius: 14px; background: #FFF; border: 1px solid rgba(0,0,0,0.08); font-size: 15px; font-weight: 500; color: #1D1D1F; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 12px; transition: all 0.15s; min-height: 52px; box-shadow: 0 1px 3px rgba(0,0,0,0.04); }
+    .google-btn:hover { border-color: #D2D2D7; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
+    .google-btn:active { transform: scale(0.99); }
+
+    /* Success state */
+    .success-state { display: none; text-align: center; }
+    .success-icon { width: 64px; height: 64px; border-radius: 50%; background: rgba(48,209,88,0.1); display: flex; align-items: center; justify-content: center; margin: 0 auto 20px; }
+    .success-icon svg { width: 28px; height: 28px; }
+    .success-state h2 { font-family: 'Satoshi', sans-serif; font-size: 20px; font-weight: 600; color: #1D1D1F; margin-bottom: 8px; }
+    .success-email { font-family: 'Inter', sans-serif; font-size: 14px; color: #86868B; margin-bottom: 4px; }
+    .success-perms { font-family: 'Inter', sans-serif; font-size: 12px; color: #AEAEB2; margin-bottom: 24px; }
+    .btn-continue { font-family: 'Inter', sans-serif; width: 100%; padding: 14px; border-radius: 14px; background: #1D1D1F; color: #F5F5F7; font-size: 15px; font-weight: 500; border: none; cursor: pointer; min-height: 52px; transition: all 0.15s; }
+    .btn-continue:hover { background: #000; }
+    .btn-continue:active { transform: scale(0.99); }
+
+    /* Privacy note */
+    .privacy-note { display: flex; align-items: start; gap: 10px; margin-top: 20px; padding: 14px 16px; background: rgba(0,0,0,0.02); border-radius: 12px; }
+    .privacy-icon { width: 20px; height: 20px; flex-shrink: 0; margin-top: 1px; }
+    .privacy-text { font-family: 'Inter', sans-serif; font-size: 11px; color: #86868B; line-height: 1.6; }
+    .privacy-text a { color: #D70030; text-decoration: underline; text-decoration-color: rgba(215,0,48,0.3); }
+
+    /* Back link */
+    .back-link { font-family: 'Inter', sans-serif; font-size: 12px; color: #86868B; text-align: center; display: block; margin-top: 20px; }
+  </style>
+</head>
+<body>
+
+  <!-- Nav -->
+  <nav class="nav">
+    <div class="nav-inner">
+      <a href="../dashboard/home.html" class="nav-logo">KTANA</a>
+      <div class="nav-links">
+        <a href="../dashboard/home.html">Painel</a>
+        <a href="../settings/general.html">Config</a>
+      </div>
+    </div>
+  </nav>
+
+  <main class="main">
+    <div class="container">
+
+      <!-- Steps -->
+      <div class="steps-bar fade-in">
+        <div class="step-dot done"></div>
+        <div class="step-dot active"></div>
+        <div class="step-dot"></div>
+      </div>
+
+      <!-- Connect flow -->
+      <div id="connectFlow">
+        <!-- Header -->
+        <div class="connect-header fade-in">
+          <div class="connect-icon">
+            <svg width="32" height="32" viewBox="0 0 24 24"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 01-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg>
+          </div>
+          <h1>Conectar Gmail</h1>
+          <p>Seus samurais precisam acessar o Gmail para ler, organizar e responder emails em seu nome.</p>
+        </div>
+
+        <!-- Permissions -->
+        <div class="card fade-in" style="animation-delay:0.05s">
+          <p class="card-label">Permissoes necessarias</p>
+
+          <div class="perm-item">
+            <div class="perm-icon read">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#4285F4" stroke-width="2"><path d="M22 13V6a2 2 0 00-2-2H4a2 2 0 00-2 2v12c0 1.1.9 2 2 2h9"/><polyline points="22,6 12,13 2,6"/></svg>
+            </div>
+            <div class="perm-info">
+              <p class="perm-title">Ler emails</p>
+              <p class="perm-desc">Hana (secretaria) le e classifica seus emails, separando urgentes de informativos. Yuki monitora emails de cobranca.</p>
+            </div>
+            <span class="perm-badge">Obrigatorio</span>
+          </div>
+
+          <div class="perm-item">
+            <div class="perm-icon send">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#34A853" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22,2 15,22 11,13 2,9"/></svg>
+            </div>
+            <div class="perm-info">
+              <p class="perm-title">Enviar emails</p>
+              <p class="perm-desc">Hana envia respostas aprovadas por voce. Yuki envia cobrancas e boletos automaticamente.</p>
+            </div>
+            <span class="perm-badge">Obrigatorio</span>
+          </div>
+
+          <div class="perm-item">
+            <div class="perm-icon labels">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#FBBC05" stroke-width="2"><path d="M20.59 13.41l-7.17 7.17a2 2 0 01-2.83 0L2 12V2h10l8.59 8.59a2 2 0 010 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>
+            </div>
+            <div class="perm-info">
+              <p class="perm-title">Gerenciar labels</p>
+              <p class="perm-desc">Hana organiza sua caixa de entrada com labels automaticas: Urgente, Financeiro, Projetos, Lido.</p>
+            </div>
+            <span class="perm-badge">Opcional</span>
+          </div>
+
+          <div class="perm-item">
+            <div class="perm-icon contacts">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#EA4335" stroke-width="2"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+            </div>
+            <div class="perm-info">
+              <p class="perm-title">Acessar contatos</p>
+              <p class="perm-desc">Para identificar remetentes e autocompletar destinatarios ao responder emails.</p>
+            </div>
+            <span class="perm-badge">Opcional</span>
+          </div>
+        </div>
+
+        <!-- Why we need this -->
+        <div class="why-card fade-in" style="animation-delay:0.1s">
+          <p class="why-title">Por que conectar?</p>
+          <p class="why-text">Sem o Gmail, seus samurais nao conseguem ler emails de clientes, enviar cobrancas ou organizar sua caixa de entrada. E a integracao mais importante para Hana (secretaria) e Yuki (controller).</p>
+        </div>
+
+        <!-- Google OAuth button -->
+        <button class="google-btn fade-in" style="animation-delay:0.15s" onclick="startOAuth()">
+          <svg width="20" height="20" viewBox="0 0 24 24"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 01-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg>
+          Entrar com Google
+        </button>
+
+        <!-- Privacy -->
+        <div class="privacy-note fade-in" style="animation-delay:0.2s">
+          <svg class="privacy-icon" viewBox="0 0 24 24" fill="none" stroke="#86868B" stroke-width="1.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          <p class="privacy-text">Seus dados sao criptografados e nunca compartilhados com terceiros. Usamos OAuth 2.0 — nos nunca vemos sua senha. Voce pode <a href="#">revogar acesso</a> a qualquer momento nas configuracoes da sua conta Google.</p>
+        </div>
+
+        <a href="connect.html" class="back-link fade-in" style="animation-delay:0.25s">&larr; Voltar para integracoes</a>
+      </div>
+
+      <!-- Success state (hidden by default) -->
+      <div id="successState" class="success-state">
+        <div class="steps-bar">
+          <div class="step-dot done"></div>
+          <div class="step-dot done"></div>
+          <div class="step-dot active"></div>
+        </div>
+
+        <div class="success-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#30D158" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+        </div>
+
+        <h2>Gmail conectado com sucesso</h2>
+        <p class="success-email">julio@ktana.ai</p>
+        <p class="success-perms">4 permissoes ativas — Ler, Enviar, Labels, Contatos</p>
+
+        <div class="card" style="text-align:left; margin-bottom:20px;">
+          <p class="card-label">Samurais com acesso</p>
+          <div class="perm-item">
+            <div class="perm-icon read" style="background:rgba(0,0,0,0.03);">
+              <span style="font-family:'Inter',sans-serif;font-size:13px;font-weight:500;color:#86868B;">H</span>
+            </div>
+            <div class="perm-info">
+              <p class="perm-title">Hana — Secretaria Executiva</p>
+              <p class="perm-desc">Ler, classificar, responder (com aprovacao), organizar labels</p>
+            </div>
+          </div>
+          <div class="perm-item">
+            <div class="perm-icon read" style="background:rgba(0,0,0,0.03);">
+              <span style="font-family:'Inter',sans-serif;font-size:13px;font-weight:500;color:#86868B;">Y</span>
+            </div>
+            <div class="perm-info">
+              <p class="perm-title">Yuki — Controller Financeiro</p>
+              <p class="perm-desc">Enviar cobrancas, boletos, relatorios financeiros</p>
+            </div>
+          </div>
+        </div>
+
+        <button class="btn-continue" onclick="location.href='connect-whatsapp.html'">Proximo: Conectar WhatsApp</button>
+        <a href="connect.html" class="back-link" style="margin-top:16px;">Pular e configurar depois</a>
+      </div>
+
+    </div>
+  </main>
+
+  <script>
+    function startOAuth() {
+      var btn = document.querySelector('.google-btn');
+      btn.innerHTML = '<span style="display:inline-block;width:16px;height:16px;border:2px solid #D2D2D7;border-top-color:#4285F4;border-radius:50%;animation:spin 0.6s linear infinite;"></span> Conectando...';
+      btn.style.pointerEvents = 'none';
+
+      var style = document.createElement('style');
+      style.textContent = '@keyframes spin { to { transform: rotate(360deg); } }';
+      document.head.appendChild(style);
+
+      setTimeout(function() {
+        document.getElementById('connectFlow').style.display = 'none';
+        document.getElementById('successState').style.display = 'block';
+      }, 2000);
+    }
+  </script>
+
+</body>
+</html>

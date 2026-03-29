@@ -1,7 +1,304 @@
 <!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>Configurar Colaborador — KTANA</title><link rel="stylesheet" href="../shared.css"><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Zen+Dots&display=swap" rel="stylesheet">
-<style>body{min-height:100vh;background:#F5F5F7;padding:48px 24px}.container{max-width:540px;margin:0 auto;text-align:center}.back{position:fixed;top:20px;left:24px;font-family:'Inter',sans-serif;font-size:12px;color:#86868B}h1{font-family:'Zen Dots',cursive;font-size:24px;color:#1D1D1F;margin-bottom:6px}.sub{font-family:'Satoshi',sans-serif;font-size:14px;color:#86868B;margin-bottom:32px}.note{font-family:'Satoshi',sans-serif;font-size:14px;color:#86868B;line-height:1.6;padding:24px;background:#FFF;border-radius:20px;border:1px solid rgba(0,0,0,0.04);margin-bottom:24px;text-align:left}.btn{font-family:'Inter',sans-serif;padding:14px 40px;border-radius:14px;background:#1D1D1F;color:#F5F5F7;font-size:15px;font-weight:500;border:none;cursor:pointer}</style></head>
-<body><a href="onboarding.html" class="back">← Departamentos</a><div class="container fade-in">
-<h1>Configurar Colaborador.</h1><p class="sub">Operacional, executa tarefas do cargo</p>
-<div class="note">Mesmo fluxo de configuracao: nome, funcao, cerebro (referencias), mapa de atribuicoes, personalidade, tom, alcada, rotinas e ferramentas. Tudo pre-preenchido para o nivel Colaborador.</div>
-<button class="btn" onclick="location.href='../tenant/onboarding/agent-config.html'">Abrir configurador</button>
-</div></body></html>
+<style>
+body{min-height:100vh;background:#F5F5F7;color:#1D1D1F}
+a{text-decoration:none;color:inherit}
+
+.nav{position:fixed;top:0;left:0;right:0;z-index:50;height:48px;display:flex;align-items:center;justify-content:center;background:rgba(245,245,247,0.72);backdrop-filter:saturate(180%) blur(20px);border-bottom:0.5px solid rgba(0,0,0,0.06)}
+.nav-inner{width:100%;max-width:980px;padding:0 24px;display:flex;align-items:center;justify-content:space-between}
+.nav-logo{font-family:'Zen Dots',cursive;font-size:14px;color:#D70030}
+.nav-links{display:flex;align-items:center;gap:24px}
+.nav-links a{font-family:'Inter',sans-serif;font-size:12px;color:#1D1D1F;opacity:0.5}
+.nav-links a:hover{opacity:1}
+.nav-cta{font-family:'Inter',sans-serif;font-size:11px;font-weight:500;color:#F5F5F7;background:#1D1D1F;padding:6px 14px;border-radius:980px;opacity:1 !important}
+
+.container{max-width:620px;margin:0 auto;padding:72px 24px 64px}
+h1{font-family:'Zen Dots',cursive;font-size:28px;color:#1D1D1F;text-align:center;margin-bottom:6px}
+.sub{font-family:'Satoshi',sans-serif;font-size:15px;color:#86868B;text-align:center;margin-bottom:36px;line-height:1.5}
+
+/* Quick setup badge */
+.quick-badge{display:flex;align-items:center;gap:8px;justify-content:center;margin-bottom:28px}
+.quick-badge span{font-family:'Inter',sans-serif;font-size:11px;font-weight:600;color:#34C759;background:rgba(52,199,89,0.08);padding:4px 12px;border-radius:6px}
+.quick-badge p{font-family:'Inter',sans-serif;font-size:12px;color:#86868B}
+
+/* Section cards */
+.section-card{background:#FFF;border-radius:20px;border:1px solid rgba(0,0,0,0.04);padding:24px;margin-bottom:14px;animation:fadeIn 0.4s ease both}
+.section-card:nth-child(2){animation-delay:0.05s}
+.section-card:nth-child(3){animation-delay:0.1s}
+.section-card:nth-child(4){animation-delay:0.15s}
+.section-card:nth-child(5){animation-delay:0.2s}
+.card-label{font-family:'Inter',sans-serif;font-size:11px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:#D70030;margin-bottom:14px}
+.card-desc{font-family:'Satoshi',sans-serif;font-size:13px;color:#86868B;margin-bottom:16px;line-height:1.5}
+
+.form-group{margin-bottom:16px}
+.form-group:last-child{margin-bottom:0}
+.form-group label{font-family:'Inter',sans-serif;display:block;font-size:12px;font-weight:500;color:#86868B;margin-bottom:6px}
+.form-input{font-family:'Satoshi',sans-serif;background:#F5F5F7;border:1px solid rgba(0,0,0,0.06);border-radius:12px;padding:12px 14px;font-size:14px;width:100%;outline:none;color:#1D1D1F;transition:border-color 0.2s}
+.form-input:focus{border-color:rgba(215,0,48,0.3)}
+.form-input::placeholder{color:#AEAEB2}
+select.form-input{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%2386868B' fill='none' stroke-width='1.5'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center;cursor:pointer}
+
+/* Reporting chain */
+.report-chain{display:flex;align-items:center;gap:8px;flex-wrap:wrap;padding:14px 16px;background:#F5F5F7;border-radius:12px;margin-bottom:16px}
+.chain-node{font-family:'Inter',sans-serif;font-size:12px;padding:4px 10px;border-radius:8px;background:#FFF;border:1px solid rgba(0,0,0,0.06)}
+.chain-node.active{background:rgba(215,0,48,0.04);border-color:rgba(215,0,48,0.15);color:#D70030}
+.chain-arrow{font-size:11px;color:#AEAEB2}
+
+/* Tasks list */
+.task-list{display:flex;flex-direction:column;gap:6px;margin-bottom:12px}
+.task-item{display:flex;align-items:center;gap:10px;padding:10px 14px;background:#F5F5F7;border-radius:10px;min-height:44px}
+.task-check{width:20px;height:20px;border-radius:6px;border:1.5px solid #D2D2D7;flex-shrink:0;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all 0.15s}
+.task-check.active{border-color:#D70030;background:#D70030}
+.task-check.active::after{content:'';display:block;width:10px;height:10px;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10'%3E%3Cpath d='M2 5l2.5 2.5L8 3' stroke='white' fill='none' stroke-width='1.5'/%3E%3C/svg%3E") center/contain no-repeat}
+.task-text{font-family:'Satoshi',sans-serif;font-size:13px;color:#1D1D1F;flex:1}
+.task-freq{font-family:'Inter',sans-serif;font-size:11px;color:#86868B}
+.add-task-row{display:flex;gap:8px}
+.add-task-row .form-input{flex:1}
+.btn-add{font-family:'Inter',sans-serif;min-height:44px;padding:0 16px;border-radius:12px;background:#F0F0F0;color:#1D1D1F;font-size:13px;font-weight:500;border:none;cursor:pointer;flex-shrink:0;display:flex;align-items:center}
+
+/* Tools access */
+.tools-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.tool-item{display:flex;align-items:center;gap:8px;padding:10px 12px;background:#F5F5F7;border-radius:10px;cursor:pointer;transition:all 0.15s;min-height:44px;-webkit-user-select:none;user-select:none}
+.tool-item:hover{background:#EAEAEC}
+.tool-item.active{background:rgba(215,0,48,0.04);border:1px solid rgba(215,0,48,0.15)}
+.tool-icon{font-size:16px}
+.tool-name{font-family:'Inter',sans-serif;font-size:12px;color:#1D1D1F}
+.tool-item.active .tool-name{color:#D70030}
+
+/* Quick templates */
+.template-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-bottom:24px}
+.template-card{background:#FFF;border-radius:14px;border:1.5px solid rgba(0,0,0,0.04);padding:16px;cursor:pointer;transition:all 0.2s;min-height:44px;-webkit-user-select:none;user-select:none}
+.template-card:hover{border-color:rgba(0,0,0,0.1)}
+.template-card.selected{border-color:rgba(215,0,48,0.25);background:rgba(215,0,48,0.01)}
+.template-title{font-family:'Satoshi',sans-serif;font-size:13px;font-weight:500;color:#1D1D1F;margin-bottom:2px}
+.template-desc{font-family:'Inter',sans-serif;font-size:11px;color:#86868B}
+
+/* Button */
+.btn-activate{font-family:'Inter',sans-serif;width:100%;min-height:52px;padding:16px;border-radius:14px;background:#1D1D1F;color:#FFF;font-size:16px;font-weight:600;border:none;cursor:pointer;transition:opacity 0.15s;margin-top:28px}
+.btn-activate:hover{opacity:0.9}
+.cost-note{font-family:'Inter',sans-serif;font-size:12px;color:#86868B;text-align:center;margin-top:12px}
+.cost-note span{color:#D70030;font-weight:600}
+
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+@media(max-width:520px){.tools-grid{grid-template-columns:repeat(2,1fr)}.template-grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<nav class="nav"><div class="nav-inner"><a href="landing.html" class="nav-logo">KTANA</a><div class="nav-links"><a href="landing.html">Empresa</a><a href="solutions.html">Solucoes</a><a href="onboarding.html" class="nav-cta">Comecar</a></div></div></nav>
+
+<div class="container">
+  <h1>Contratar Colaborador.</h1>
+  <p class="sub">Samurai operacional que executa tarefas especificas do dia a dia. Configuracao rapida e focada.</p>
+
+  <div class="quick-badge">
+    <span>Setup rapido</span>
+    <p>Escolha um template ou configure do zero</p>
+  </div>
+
+  <!-- Quick templates -->
+  <div class="template-grid">
+    <div class="template-card" onclick="applyTemplate(this,'sdr')">
+      <p class="template-title">SDR de Vendas</p>
+      <p class="template-desc">Prospeccao, qualificacao, agendamento</p>
+    </div>
+    <div class="template-card" onclick="applyTemplate(this,'secretaria')">
+      <p class="template-title">Secretaria Executiva</p>
+      <p class="template-desc">Agenda, emails, briefings, organizacao</p>
+    </div>
+    <div class="template-card" onclick="applyTemplate(this,'social')">
+      <p class="template-title">Social Media</p>
+      <p class="template-desc">Posts, stories, engajamento, calendario</p>
+    </div>
+    <div class="template-card" onclick="applyTemplate(this,'cobranca')">
+      <p class="template-title">Analista de Cobranca</p>
+      <p class="template-desc">Follow-up, inadimplencia, acordos</p>
+    </div>
+    <div class="template-card" onclick="applyTemplate(this,'suporte')">
+      <p class="template-title">Suporte ao Cliente</p>
+      <p class="template-desc">Tickets, FAQ, atendimento, resolucao</p>
+    </div>
+    <div class="template-card" onclick="applyTemplate(this,'custom')">
+      <p class="template-title">Personalizado</p>
+      <p class="template-desc">Configure do zero, sem template</p>
+    </div>
+  </div>
+
+  <!-- Identity -->
+  <div class="section-card">
+    <p class="card-label">Identidade</p>
+    <div class="report-chain">
+      <span class="chain-node">CEO</span>
+      <span class="chain-arrow">&#x2192;</span>
+      <span class="chain-node" id="chainClevel">C-Level</span>
+      <span class="chain-arrow">&#x2192;</span>
+      <span class="chain-node" id="chainLeader">Lider</span>
+      <span class="chain-arrow">&#x2192;</span>
+      <span class="chain-node active" id="chainWorker">Colaborador</span>
+    </div>
+    <div class="form-group">
+      <label>Nome do colaborador</label>
+      <input type="text" class="form-input" id="workerName" placeholder="Nome do samurai">
+    </div>
+    <div class="form-group">
+      <label>Cargo exato</label>
+      <input type="text" class="form-input" id="workerTitle" placeholder="Ex: SDR de Vendas, Analista de Cobranca">
+    </div>
+    <div class="form-group">
+      <label>Reporta a (lider)</label>
+      <select class="form-input" id="workerLeader">
+        <option>Akira — Gerente de Vendas</option>
+        <option>Hiro — Gerente de Cobrancas</option>
+        <option>Sakura — Gerente de Conteudo</option>
+        <option>Taro — Project Manager</option>
+        <option>Daichi — Tech Lead</option>
+        <option>Aoi — Gerente de Pessoas</option>
+      </select>
+    </div>
+  </div>
+
+  <!-- Tasks -->
+  <div class="section-card">
+    <p class="card-label">Tarefas</p>
+    <p class="card-desc">O que este colaborador faz no dia a dia? Adicione tarefas com frequencia.</p>
+    <div class="task-list" id="taskList">
+      <!-- Dynamic -->
+    </div>
+    <div class="add-task-row">
+      <input type="text" class="form-input" id="taskInput" placeholder="Nova tarefa...">
+      <button class="btn-add" onclick="addTask()">Adicionar</button>
+    </div>
+  </div>
+
+  <!-- Tools access -->
+  <div class="section-card">
+    <p class="card-label">Acesso a ferramentas</p>
+    <p class="card-desc">Quais ferramentas este colaborador pode usar?</p>
+    <div class="tools-grid" id="toolsGrid">
+      <div class="tool-item active" onclick="this.classList.toggle('active')"><span class="tool-icon">&#x1F4E7;</span><span class="tool-name">Email</span></div>
+      <div class="tool-item active" onclick="this.classList.toggle('active')"><span class="tool-icon">&#x1F4AC;</span><span class="tool-name">WhatsApp</span></div>
+      <div class="tool-item" onclick="this.classList.toggle('active')"><span class="tool-icon">&#x1F4CA;</span><span class="tool-name">CRM</span></div>
+      <div class="tool-item" onclick="this.classList.toggle('active')"><span class="tool-icon">&#x1F4C5;</span><span class="tool-name">Calendario</span></div>
+      <div class="tool-item" onclick="this.classList.toggle('active')"><span class="tool-icon">&#x1F4DD;</span><span class="tool-name">Planilhas</span></div>
+      <div class="tool-item" onclick="this.classList.toggle('active')"><span class="tool-icon">&#x1F4CB;</span><span class="tool-name">Trello/Jira</span></div>
+      <div class="tool-item" onclick="this.classList.toggle('active')"><span class="tool-icon">&#x1F4B3;</span><span class="tool-name">Financeiro</span></div>
+      <div class="tool-item" onclick="this.classList.toggle('active')"><span class="tool-icon">&#x1F310;</span><span class="tool-name">Site/Blog</span></div>
+      <div class="tool-item" onclick="this.classList.toggle('active')"><span class="tool-icon">&#x1F4F1;</span><span class="tool-name">Redes Sociais</span></div>
+    </div>
+  </div>
+
+  <!-- Activate -->
+  <button class="btn-activate" id="btnActivate" onclick="location.href='org-chart.html'">Contratar Colaborador</button>
+  <p class="cost-note">Custo estimado: <span>R$ 47/mes</span> — menos de R$ 1,60 por dia. Trabalha 24/7.</p>
+</div>
+
+<script>
+const templates = {
+  sdr: {
+    name: 'Sora', title: 'SDR de Vendas', leader: 0,
+    tasks: [
+      { text: 'Prospectar novos leads via LinkedIn e email', freq: 'Diario' },
+      { text: 'Qualificar leads com framework BANT', freq: 'Diario' },
+      { text: 'Agendar reunioes para closers', freq: 'Diario' },
+      { text: 'Atualizar CRM com status dos leads', freq: 'Diario' },
+      { text: 'Enviar follow-ups automaticos', freq: 'A cada 3 dias' },
+      { text: 'Report de pipeline para o gerente', freq: 'Semanal' }
+    ],
+    tools: [0,1,2,3]
+  },
+  secretaria: {
+    name: 'Aiko', title: 'Secretaria Executiva', leader: 0,
+    tasks: [
+      { text: 'Organizar agenda e compromissos do dia', freq: 'Diario' },
+      { text: 'Triagem e resposta de emails', freq: 'Diario' },
+      { text: 'Preparar briefings para reunioes', freq: 'Diario' },
+      { text: 'Agendar e confirmar reunioes externas', freq: 'Sob demanda' },
+      { text: 'Organizar documentos e arquivos', freq: 'Semanal' },
+      { text: 'Resumo da semana para o gestor', freq: 'Semanal' }
+    ],
+    tools: [0,3,4]
+  },
+  social: {
+    name: 'Yuki', title: 'Social Media Manager', leader: 2,
+    tasks: [
+      { text: 'Criar e publicar posts nas redes', freq: 'Diario' },
+      { text: 'Responder comentarios e DMs', freq: 'Diario' },
+      { text: 'Criar stories e reels', freq: '3x semana' },
+      { text: 'Montar calendario editorial mensal', freq: 'Mensal' },
+      { text: 'Analisar metricas de engajamento', freq: 'Semanal' },
+      { text: 'Pesquisar tendencias e concorrentes', freq: 'Semanal' }
+    ],
+    tools: [0,8,7]
+  },
+  cobranca: {
+    name: 'Yuna', title: 'Analista de Cobranca', leader: 1,
+    tasks: [
+      { text: 'Identificar faturas vencidas e acionar cliente', freq: 'Diario' },
+      { text: 'Enviar lembretes de pagamento', freq: 'Diario' },
+      { text: 'Negociar acordos de parcelamento', freq: 'Sob demanda' },
+      { text: 'Registrar acordos no sistema financeiro', freq: 'Sob demanda' },
+      { text: 'Report de inadimplencia para gerente', freq: 'Semanal' }
+    ],
+    tools: [0,1,6,4]
+  },
+  suporte: {
+    name: 'Nao', title: 'Analista de Suporte', leader: 3,
+    tasks: [
+      { text: 'Responder tickets de clientes', freq: 'Diario' },
+      { text: 'Resolver duvidas via chat e email', freq: 'Diario' },
+      { text: 'Escalar problemas complexos para tech lead', freq: 'Sob demanda' },
+      { text: 'Atualizar base de conhecimento / FAQ', freq: 'Semanal' },
+      { text: 'Report de satisfacao do cliente', freq: 'Semanal' }
+    ],
+    tools: [0,1,5]
+  },
+  custom: {
+    name: '', title: '', leader: 0,
+    tasks: [],
+    tools: []
+  }
+};
+
+function applyTemplate(el, key) {
+  document.querySelectorAll('.template-card').forEach(c => c.classList.remove('selected'));
+  el.classList.add('selected');
+
+  const t = templates[key];
+  document.getElementById('workerName').value = t.name;
+  document.getElementById('workerTitle').value = t.title;
+  document.getElementById('workerLeader').selectedIndex = t.leader;
+  document.getElementById('chainWorker').textContent = t.name || 'Colaborador';
+
+  // Build tasks
+  const taskList = document.getElementById('taskList');
+  taskList.innerHTML = '';
+  t.tasks.forEach(task => {
+    addTaskEl(task.text, task.freq);
+  });
+
+  // Set tools
+  document.querySelectorAll('.tool-item').forEach((item, i) => {
+    item.classList.toggle('active', t.tools.includes(i));
+  });
+}
+
+function addTaskEl(text, freq) {
+  const taskList = document.getElementById('taskList');
+  const div = document.createElement('div');
+  div.className = 'task-item';
+  div.innerHTML = '<div class="task-check active" onclick="this.classList.toggle(\'active\')"></div><span class="task-text">' + text + '</span><span class="task-freq">' + freq + '</span>';
+  taskList.appendChild(div);
+}
+
+function addTask() {
+  const input = document.getElementById('taskInput');
+  const val = input.value.trim();
+  if (!val) return;
+  addTaskEl(val, 'Sob demanda');
+  input.value = '';
+}
+
+document.getElementById('taskInput').addEventListener('keydown', function(e) {
+  if (e.key === 'Enter') { e.preventDefault(); addTask(); }
+});
+</script>
+</body></html>

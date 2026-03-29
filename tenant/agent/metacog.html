@@ -1,10 +1,395 @@
-<!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>Yuki — Metacognicao — KTANA</title><link rel="stylesheet" href="../../shared.css"><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Zen+Dots&display=swap" rel="stylesheet">
-<style>body{min-height:100vh;background:#F5F5F7;display:flex;flex-direction:column}.header{position:sticky;top:0;z-index:50;background:rgba(245,245,247,0.72);backdrop-filter:saturate(180%) blur(20px);border-bottom:0.5px solid rgba(0,0,0,0.06);padding:12px 24px;display:flex;align-items:center;gap:12px}.header-back{font-family:'Inter',sans-serif;font-size:12px;color:#86868B}.header-avatar{width:32px;height:32px;border-radius:50%;border:1.5px solid #D2D2D7;display:flex;align-items:center;justify-content:center}.header-avatar span{font-family:'Inter',sans-serif;font-size:11px;font-weight:500;color:#86868B}.header-info h2{font-family:'Satoshi',sans-serif;font-size:14px;font-weight:600;color:#1D1D1F}.header-info p{font-family:'Inter',sans-serif;font-size:11px;color:#86868B}.header-tabs{margin-left:auto;display:flex;gap:2px;background:rgba(0,0,0,0.03);border-radius:8px;padding:2px}.tab{font-family:'Inter',sans-serif;padding:5px 12px;border-radius:6px;font-size:11px;color:#86868B;cursor:pointer;border:none;background:none}.tab.active{background:#FFF;color:#1D1D1F;box-shadow:0 1px 3px rgba(0,0,0,0.06)}.main{flex:1;max-width:680px;width:100%;margin:0 auto;padding:32px 24px 80px}.card{background:#FFF;border-radius:20px;border:1px solid rgba(0,0,0,0.04);padding:24px;margin-bottom:12px}.card-label{font-family:'Inter',sans-serif;font-size:11px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:#D70030;margin-bottom:14px}.insight{font-family:'Satoshi',sans-serif;font-size:14px;color:#1D1D1F;line-height:1.6;padding:12px 0;border-bottom:0.5px solid rgba(0,0,0,0.03)}.insight:last-child{border-bottom:none}.insight-meta{font-family:'Inter',sans-serif;font-size:11px;color:#AEAEB2;margin-top:4px}.bar-row{display:flex;align-items:center;gap:12px;padding:6px 0}.bar-label{font-family:'Satoshi',sans-serif;font-size:12px;color:#86868B;width:100px;flex-shrink:0}.bar-track{flex:1;height:4px;background:rgba(0,0,0,0.04);border-radius:2px;overflow:hidden}.bar-fill{height:100%;border-radius:2px;background:#1D1D1F}.bar-value{font-family:'Inter',sans-serif;font-size:11px;color:#86868B;width:40px;text-align:right}</style></head>
-<body><div class="header"><a href="../dashboard/home.html" class="header-back">←</a><div class="header-avatar"><span>Y</span></div><div class="header-info"><h2>Yuki</h2><p>Controller · Metacognicao</p></div><div class="header-tabs"><button class="tab" onclick="location.href='chat.html'">Chat</button><button class="tab" onclick="location.href='activity.html'">Atividade</button><button class="tab" onclick="location.href='profile.html'">Perfil</button><button class="tab" onclick="location.href='metrics.html'">Metricas</button><button class="tab active">Meta</button></div></div>
-<main class="main">
-<div class="card fade-in"><p class="card-label">Auto-avaliacao de ontem</p><div class="insight">Das 47 acoes, 42 foram executadas com confianca acima de 80%. As 5 restantes envolviam valores acima da alcada — escalei corretamente para Kaito.<p class="insight-meta">Reflexao automatica · 28/03 23:00</p></div></div>
-<div class="card fade-in" style="animation-delay:0.1s"><p class="card-label">Gaps identificados</p><div class="insight">Nao tenho informacao suficiente sobre o historico de negociacao do Cliente Z. Preciso de acesso ao CRM ou que Julio me conte o contexto.<p class="insight-meta">Gap desde 25/03 · Impacto: medio</p></div><div class="insight">Minha taxa de acerto em previsao de caixa esta em 72%. Preciso de mais dados historicos pra melhorar.<p class="insight-meta">Gap desde 20/03 · Impacto: baixo</p></div></div>
-<div class="card fade-in" style="animation-delay:0.15s"><p class="card-label">Ajustes de estrategia</p><div class="insight">Vou mudar abordagem de cobranca do Cliente Y: em vez de email formal primeiro, vou tentar WhatsApp direto (dados mostram 3x mais resposta).<p class="insight-meta">Ajuste ativo desde 28/03</p></div><div class="insight">Vou incluir resumo visual (grafico) nos relatorios diarios. Julio editou o ultimo pra formato mais visual — aprendi.<p class="insight-meta">Ajuste ativo desde 27/03</p></div></div>
-<div class="card fade-in" style="animation-delay:0.2s"><p class="card-label">Confianca por area</p><div class="bar-row"><span class="bar-label">Cobrancas</span><div class="bar-track"><div class="bar-fill" style="width:92%"></div></div><span class="bar-value">92%</span></div><div class="bar-row"><span class="bar-label">Conciliacao</span><div class="bar-track"><div class="bar-fill" style="width:88%"></div></div><span class="bar-value">88%</span></div><div class="bar-row"><span class="bar-label">Relatorios</span><div class="bar-track"><div class="bar-fill" style="width:85%"></div></div><span class="bar-value">85%</span></div><div class="bar-row"><span class="bar-label">Previsao caixa</span><div class="bar-track"><div class="bar-fill" style="width:72%"></div></div><span class="bar-value">72%</span></div></div>
-<p style="font-family:'Inter',sans-serif;font-size:11px;color:#AEAEB2;text-align:center;margin-top:24px;">Metacognicao rodada automaticamente toda noite 23:00 via Haiku. Custo: ~R$0.01/dia.</p>
-</main></body></html>
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Yuki — Metacognicao — KTANA</title>
+  <link rel="stylesheet" href="../../shared.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Zen+Dots&display=swap" rel="stylesheet">
+  <style>
+    body { min-height: 100vh; background: #0A0A0A; color: #F5F5F7; display: flex; flex-direction: column; }
+
+    /* Nav — dark variant */
+    .nav { position: sticky; top: 0; z-index: 50; height: 48px; display: flex; align-items: center; justify-content: center; background: rgba(10,10,10,0.85); backdrop-filter: saturate(180%) blur(20px); -webkit-backdrop-filter: saturate(180%) blur(20px); border-bottom: 0.5px solid rgba(255,255,255,0.06); }
+    .nav-inner { width: 100%; max-width: 760px; padding: 0 20px; display: flex; align-items: center; justify-content: space-between; }
+    .nav-logo { font-family: 'Zen Dots', cursive; font-size: 14px; color: #D70030; }
+    .nav-links { display: flex; align-items: center; gap: 20px; }
+    .nav-links a { font-family: 'Inter', sans-serif; font-size: 12px; color: #F5F5F7; opacity: 0.4; transition: opacity 0.15s; }
+    .nav-links a:hover, .nav-links a.active { opacity: 1; }
+
+    /* Header */
+    .header { padding: 12px 24px; display: flex; align-items: center; gap: 12px; max-width: 760px; width: 100%; margin: 0 auto; }
+    .header-back { font-family: 'Inter', sans-serif; font-size: 12px; color: #636366; }
+    .header-avatar { width: 32px; height: 32px; border-radius: 50%; border: 1.5px solid #48484A; display: flex; align-items: center; justify-content: center; }
+    .header-avatar span { font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 500; color: #8E8E93; }
+    .header-info h2 { font-family: 'Satoshi', sans-serif; font-size: 14px; font-weight: 600; color: #F5F5F7; }
+    .header-info p { font-family: 'Inter', sans-serif; font-size: 11px; color: #636366; }
+    .header-tabs { margin-left: auto; display: flex; gap: 2px; background: rgba(255,255,255,0.04); border-radius: 8px; padding: 2px; }
+    .tab { font-family: 'Inter', sans-serif; padding: 5px 12px; border-radius: 6px; font-size: 11px; color: #636366; cursor: pointer; border: none; background: none; }
+    .tab.active { background: rgba(255,255,255,0.08); color: #F5F5F7; box-shadow: 0 1px 3px rgba(0,0,0,0.3); }
+
+    .main { flex: 1; max-width: 760px; width: 100%; margin: 0 auto; padding: 24px 24px 80px; }
+
+    /* Section label */
+    .section-label { font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: #D70030; margin-bottom: 12px; margin-top: 28px; }
+    .section-label:first-child { margin-top: 0; }
+
+    /* Cards — dark */
+    .card { background: #1C1C1E; border: 1px solid rgba(255,255,255,0.04); border-radius: 16px; padding: 20px; margin-bottom: 10px; }
+
+    /* Chain of thought visualization */
+    .chain { position: relative; }
+    .chain-step { display: flex; align-items: start; gap: 14px; padding: 14px 0; position: relative; }
+    .chain-step:not(:last-child)::after { content: ''; position: absolute; left: 15px; top: 44px; bottom: 0; width: 1px; background: rgba(255,255,255,0.06); }
+    .chain-node { width: 30px; height: 30px; border-radius: 10px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 600; }
+    .chain-node.input { background: rgba(66,133,244,0.15); color: #6EA8FE; }
+    .chain-node.process { background: rgba(255,255,255,0.06); color: #8E8E93; }
+    .chain-node.decision { background: rgba(215,0,48,0.12); color: #D70030; }
+    .chain-node.output { background: rgba(48,209,88,0.12); color: #30D158; }
+    .chain-content { flex: 1; }
+    .chain-title { font-family: 'Satoshi', sans-serif; font-size: 13px; font-weight: 500; color: #F5F5F7; margin-bottom: 4px; }
+    .chain-desc { font-family: 'Satoshi', sans-serif; font-size: 12px; color: #636366; line-height: 1.5; }
+    .chain-meta { font-family: 'Inter', sans-serif; font-size: 10px; color: #48484A; margin-top: 4px; display: flex; align-items: center; gap: 8px; }
+    .chain-meta .conf { color: #30D158; }
+    .chain-meta .conf.medium { color: #FFD60A; }
+    .chain-meta .conf.low { color: #FF453A; }
+    .chain-time { font-family: 'Inter', sans-serif; font-size: 10px; color: #48484A; }
+
+    /* Confidence bars */
+    .conf-row { display: flex; align-items: center; gap: 12px; padding: 8px 0; }
+    .conf-label { font-family: 'Satoshi', sans-serif; font-size: 13px; color: #8E8E93; width: 140px; flex-shrink: 0; }
+    .conf-track { flex: 1; height: 6px; background: rgba(255,255,255,0.04); border-radius: 3px; overflow: hidden; position: relative; }
+    .conf-fill { height: 100%; border-radius: 3px; transition: width 0.6s ease; }
+    .conf-fill.high { background: #30D158; }
+    .conf-fill.medium { background: #FFD60A; }
+    .conf-fill.low { background: #FF453A; }
+    .conf-value { font-family: 'Inter', sans-serif; font-size: 12px; font-weight: 500; width: 42px; text-align: right; font-variant-numeric: tabular-nums; }
+    .conf-value.high { color: #30D158; }
+    .conf-value.medium { color: #FFD60A; }
+    .conf-value.low { color: #FF453A; }
+
+    /* Learning entries */
+    .learn-item { padding: 12px 0; border-bottom: 0.5px solid rgba(255,255,255,0.04); }
+    .learn-item:last-child { border-bottom: none; }
+    .learn-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 4px; }
+    .learn-type { font-family: 'Inter', sans-serif; font-size: 10px; font-weight: 500; padding: 2px 8px; border-radius: 4px; text-transform: uppercase; letter-spacing: 0.05em; }
+    .learn-type.correction { background: rgba(255,69,58,0.12); color: #FF453A; }
+    .learn-type.insight { background: rgba(48,209,88,0.12); color: #30D158; }
+    .learn-type.pattern { background: rgba(100,210,255,0.12); color: #64D2FF; }
+    .learn-type.feedback { background: rgba(255,214,10,0.12); color: #FFD60A; }
+    .learn-date { font-family: 'Inter', sans-serif; font-size: 10px; color: #48484A; }
+    .learn-text { font-family: 'Satoshi', sans-serif; font-size: 13px; color: #AEAEB2; line-height: 1.5; }
+
+    /* Uncertainty areas */
+    .uncertainty-item { display: flex; align-items: start; gap: 12px; padding: 12px 0; border-bottom: 0.5px solid rgba(255,255,255,0.04); }
+    .uncertainty-item:last-child { border-bottom: none; }
+    .uncertainty-icon { width: 28px; height: 28px; border-radius: 8px; background: rgba(255,69,58,0.1); display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-size: 14px; }
+    .uncertainty-content { flex: 1; }
+    .uncertainty-title { font-family: 'Satoshi', sans-serif; font-size: 13px; font-weight: 500; color: #F5F5F7; margin-bottom: 2px; }
+    .uncertainty-desc { font-family: 'Satoshi', sans-serif; font-size: 12px; color: #636366; line-height: 1.5; }
+    .uncertainty-impact { font-family: 'Inter', sans-serif; font-size: 10px; padding: 2px 8px; border-radius: 4px; margin-top: 6px; display: inline-block; }
+    .uncertainty-impact.high { background: rgba(255,69,58,0.1); color: #FF453A; }
+    .uncertainty-impact.medium { background: rgba(255,214,10,0.1); color: #FFD60A; }
+    .uncertainty-impact.low { background: rgba(255,255,255,0.04); color: #636366; }
+
+    /* Self-eval metrics */
+    .eval-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+    .eval-card { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.04); border-radius: 12px; padding: 16px; text-align: center; }
+    .eval-value { font-family: 'Satoshi', sans-serif; font-size: 28px; font-weight: 700; margin-bottom: 4px; }
+    .eval-value.good { color: #30D158; }
+    .eval-value.warn { color: #FFD60A; }
+    .eval-value.brand { color: #D70030; }
+    .eval-value.neutral { color: #F5F5F7; }
+    .eval-label { font-family: 'Inter', sans-serif; font-size: 11px; color: #636366; }
+    .eval-delta { font-family: 'Inter', sans-serif; font-size: 10px; margin-top: 4px; }
+    .eval-delta.up { color: #30D158; }
+    .eval-delta.down { color: #FF453A; }
+    .eval-delta.same { color: #636366; }
+
+    /* Pulse animation for live indicator */
+    .live-dot { width: 6px; height: 6px; border-radius: 50%; background: #30D158; display: inline-block; margin-right: 6px; animation: livePulse 2s ease infinite; }
+    @keyframes livePulse { 0%,100% { opacity: 1; } 50% { opacity: 0.3; } }
+
+    /* Reasoning replay */
+    .replay-bar { display: flex; align-items: center; gap: 10px; padding: 10px 14px; background: rgba(255,255,255,0.03); border-radius: 10px; margin-top: 12px; }
+    .replay-btn { font-family: 'Inter', sans-serif; font-size: 11px; color: #8E8E93; background: rgba(255,255,255,0.06); border: none; padding: 4px 12px; border-radius: 6px; cursor: pointer; }
+    .replay-btn:hover { background: rgba(255,255,255,0.1); color: #F5F5F7; }
+    .replay-label { font-family: 'Inter', sans-serif; font-size: 11px; color: #48484A; flex: 1; }
+    .replay-time { font-family: 'Inter', sans-serif; font-size: 10px; color: #48484A; font-variant-numeric: tabular-nums; }
+
+    .footer-note { font-family: 'Inter', sans-serif; font-size: 11px; color: #48484A; text-align: center; margin-top: 32px; line-height: 1.5; }
+
+    @media (max-width: 640px) {
+      .eval-grid { grid-template-columns: repeat(2, 1fr); }
+      .header-tabs { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Nav -->
+  <nav class="nav">
+    <div class="nav-inner">
+      <a href="../dashboard/home.html" class="nav-logo">KTANA</a>
+      <div class="nav-links">
+        <a href="../dashboard/home.html">Painel</a>
+        <a href="../settings/general.html">Config</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Agent header with tabs -->
+  <div class="header fade-in">
+    <a href="../dashboard/home.html" class="header-back">&larr;</a>
+    <div class="header-avatar"><span>Y</span></div>
+    <div class="header-info">
+      <h2>Yuki</h2>
+      <p>Controller -- Metacognicao</p>
+    </div>
+    <div class="header-tabs">
+      <button class="tab" onclick="location.href='chat.html'">Chat</button>
+      <button class="tab" onclick="location.href='activity.html'">Atividade</button>
+      <button class="tab" onclick="location.href='profile.html'">Perfil</button>
+      <button class="tab" onclick="location.href='metrics.html'">Metricas</button>
+      <button class="tab" onclick="location.href='memory.html'">Memoria</button>
+      <button class="tab active">Meta</button>
+    </div>
+  </div>
+
+  <main class="main">
+
+    <!-- CURRENT REASONING CHAIN -->
+    <p class="section-label fade-in"><span class="live-dot"></span>Cadeia de raciocinio atual</p>
+    <div class="card fade-in" style="animation-delay:0.05s">
+      <div class="chain">
+        <div class="chain-step">
+          <div class="chain-node input">IN</div>
+          <div class="chain-content">
+            <p class="chain-title">Entrada: Email do Cliente Z recebido</p>
+            <p class="chain-desc">Email com assunto "Boleto vencido" do Cliente Z. Contem reclamacao sobre valor e pedido de prorrogacao.</p>
+            <div class="chain-meta"><span>08:47</span> <span class="conf high">Confianca: 98%</span></div>
+          </div>
+        </div>
+
+        <div class="chain-step">
+          <div class="chain-node process">P1</div>
+          <div class="chain-content">
+            <p class="chain-title">Analise: Verificar historico do cliente</p>
+            <p class="chain-desc">Consultei base de dados. Cliente Z tem 3 atrasos nos ultimos 6 meses, ticket medio R$8.200, contrato anual de R$45.000. Ultimo pagamento ha 47 dias.</p>
+            <div class="chain-meta"><span>08:47</span> <span>142ms</span> <span class="conf high">Confianca: 95%</span></div>
+          </div>
+        </div>
+
+        <div class="chain-step">
+          <div class="chain-node process">P2</div>
+          <div class="chain-content">
+            <p class="chain-title">Analise: Calcular impacto financeiro</p>
+            <p class="chain-desc">Se cliente cancelar: perda de R$45.000/ano. Custo de dar desconto de 5%: R$2.250. Custo de prorrogar 15 dias: R$410 (juros Selic). Melhor cenario: prorrogar com juros reduzidos.</p>
+            <div class="chain-meta"><span>08:47</span> <span>89ms</span> <span class="conf high">Confianca: 91%</span></div>
+          </div>
+        </div>
+
+        <div class="chain-step">
+          <div class="chain-node decision">D1</div>
+          <div class="chain-content">
+            <p class="chain-title">Decisao: Escalar para Julio</p>
+            <p class="chain-desc">Valor acima da minha alcada (R$5.000). Recomendo prorrogacao de 15 dias com juros de 1% ao mes, sem desconto. Risco de perda do contrato justifica flexibilidade.</p>
+            <div class="chain-meta"><span>08:47</span> <span class="conf medium">Confianca: 82%</span> <span style="color:#D70030;">Precisa aprovacao</span></div>
+          </div>
+        </div>
+
+        <div class="chain-step">
+          <div class="chain-node output">OUT</div>
+          <div class="chain-content">
+            <p class="chain-title">Saida: Notificacao enviada ao Julio</p>
+            <p class="chain-desc">Aprovacao criada no painel com dados completos, incluindo analise de risco e recomendacao. Aguardando decisao.</p>
+            <div class="chain-meta"><span>08:48</span> <span>Total: 431ms</span> <span class="conf high">Confianca: 97%</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="replay-bar">
+        <button class="replay-btn">Replay</button>
+        <span class="replay-label">Reproduzir cadeia de raciocinio passo a passo</span>
+        <span class="replay-time">0:00 / 0:04</span>
+      </div>
+    </div>
+
+    <!-- CONFIDENCE LEVELS -->
+    <p class="section-label fade-in" style="animation-delay:0.1s">Niveis de confianca por area</p>
+    <div class="card fade-in" style="animation-delay:0.12s">
+      <div class="conf-row">
+        <span class="conf-label">Cobrancas</span>
+        <div class="conf-track"><div class="conf-fill high" style="width:94%;"></div></div>
+        <span class="conf-value high">94%</span>
+      </div>
+      <div class="conf-row">
+        <span class="conf-label">Conciliacao bancaria</span>
+        <div class="conf-track"><div class="conf-fill high" style="width:89%;"></div></div>
+        <span class="conf-value high">89%</span>
+      </div>
+      <div class="conf-row">
+        <span class="conf-label">Relatorios DRE</span>
+        <div class="conf-track"><div class="conf-fill high" style="width:87%;"></div></div>
+        <span class="conf-value high">87%</span>
+      </div>
+      <div class="conf-row">
+        <span class="conf-label">Fluxo de caixa</span>
+        <div class="conf-track"><div class="conf-fill high" style="width:85%;"></div></div>
+        <span class="conf-value high">85%</span>
+      </div>
+      <div class="conf-row">
+        <span class="conf-label">Previsao de caixa</span>
+        <div class="conf-track"><div class="conf-fill medium" style="width:72%;"></div></div>
+        <span class="conf-value medium">72%</span>
+      </div>
+      <div class="conf-row">
+        <span class="conf-label">Negociacao</span>
+        <div class="conf-track"><div class="conf-fill medium" style="width:68%;"></div></div>
+        <span class="conf-value medium">68%</span>
+      </div>
+      <div class="conf-row">
+        <span class="conf-label">Legislacao fiscal</span>
+        <div class="conf-track"><div class="conf-fill low" style="width:45%;"></div></div>
+        <span class="conf-value low">45%</span>
+      </div>
+    </div>
+
+    <!-- LEARNING HISTORY -->
+    <p class="section-label fade-in" style="animation-delay:0.15s">Aprendizados desta semana</p>
+    <div class="card fade-in" style="animation-delay:0.17s">
+      <div class="learn-item">
+        <div class="learn-header">
+          <span class="learn-type feedback">Feedback</span>
+          <span class="learn-date">29/03 — hoje</span>
+        </div>
+        <p class="learn-text">Julio editou meu relatorio diario para incluir graficos visuais em vez de tabelas. Vou passar a incluir visualizacoes por padrao.</p>
+      </div>
+
+      <div class="learn-item">
+        <div class="learn-header">
+          <span class="learn-type insight">Insight</span>
+          <span class="learn-date">28/03</span>
+        </div>
+        <p class="learn-text">Clientes respondem 3.2x mais rapido quando cobrados via WhatsApp do que por email. Mudei a ordem de contato: WhatsApp primeiro, email como follow-up.</p>
+      </div>
+
+      <div class="learn-item">
+        <div class="learn-header">
+          <span class="learn-type correction">Correcao</span>
+          <span class="learn-date">27/03</span>
+        </div>
+        <p class="learn-text">Errei ao calcular juros compostos no boleto do Cliente W. Era 2% ao mes composto, nao simples. Kaito (CFO) corrigiu. Atualizado na minha regra de calculo.</p>
+      </div>
+
+      <div class="learn-item">
+        <div class="learn-header">
+          <span class="learn-type pattern">Padrao</span>
+          <span class="learn-date">26/03</span>
+        </div>
+        <p class="learn-text">Detectei padrao: toda segunda-feira as conciliacoes tem mais discrepancias (provavel acumulo do fim de semana). Vou alocar mais tempo de processamento nas segundas.</p>
+      </div>
+
+      <div class="learn-item">
+        <div class="learn-header">
+          <span class="learn-type insight">Insight</span>
+          <span class="learn-date">25/03</span>
+        </div>
+        <p class="learn-text">Descobri que o Cliente X sempre paga com 3 dias de atraso por questoes internas de fluxo. Ajustei meu alerta para so cobrar a partir do 5o dia.</p>
+      </div>
+
+      <div class="learn-item">
+        <div class="learn-header">
+          <span class="learn-type feedback">Feedback</span>
+          <span class="learn-date">24/03</span>
+        </div>
+        <p class="learn-text">Julio pediu pra eu ser mais direta nas cobrancas. Antes usava 4 paragrafos, agora uso 2 com bullet points. Taxa de resposta subiu 15%.</p>
+      </div>
+    </div>
+
+    <!-- UNCERTAINTY AREAS -->
+    <p class="section-label fade-in" style="animation-delay:0.2s">Areas de incerteza</p>
+    <div class="card fade-in" style="animation-delay:0.22s">
+      <div class="uncertainty-item">
+        <div class="uncertainty-icon">?</div>
+        <div class="uncertainty-content">
+          <p class="uncertainty-title">Historico do Cliente Z antes de 2025</p>
+          <p class="uncertainty-desc">Nao tenho dados de negociacao anteriores a janeiro de 2025. Pode afetar minhas recomendacoes sobre flexibilidade e risco.</p>
+          <span class="uncertainty-impact high">Impacto alto</span>
+        </div>
+      </div>
+
+      <div class="uncertainty-item">
+        <div class="uncertainty-icon">?</div>
+        <div class="uncertainty-content">
+          <p class="uncertainty-title">Regras de desconto por volume</p>
+          <p class="uncertainty-desc">A politica de descontos progressivos nao esta clara. Preciso de confirmacao se desconto maximo e 5% ou 8%.</p>
+          <span class="uncertainty-impact medium">Impacto medio</span>
+        </div>
+      </div>
+
+      <div class="uncertainty-item">
+        <div class="uncertainty-icon">?</div>
+        <div class="uncertainty-content">
+          <p class="uncertainty-title">Previsao de caixa para abril</p>
+          <p class="uncertainty-desc">Dois contratos novos (Cliente A e B) nao tem datas de pagamento confirmadas. Minha previsao pode variar em ate R$18.000.</p>
+          <span class="uncertainty-impact medium">Impacto medio</span>
+        </div>
+      </div>
+
+      <div class="uncertainty-item">
+        <div class="uncertainty-icon">?</div>
+        <div class="uncertainty-content">
+          <p class="uncertainty-title">Legislacao sobre negativacao de PJ</p>
+          <p class="uncertainty-desc">Nao tenho certeza sobre prazo minimo de atraso para negativar empresa (45 ou 90 dias). Preciso de orientacao juridica.</p>
+          <span class="uncertainty-impact low">Impacto baixo</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- SELF-EVALUATION METRICS -->
+    <p class="section-label fade-in" style="animation-delay:0.25s">Auto-avaliacao</p>
+    <div class="eval-grid fade-in" style="animation-delay:0.27s">
+      <div class="eval-card">
+        <p class="eval-value good">94.2%</p>
+        <p class="eval-label">Taxa de acerto</p>
+        <p class="eval-delta up">+2.1% vs semana passada</p>
+      </div>
+      <div class="eval-card">
+        <p class="eval-value neutral">312</p>
+        <p class="eval-label">Acoes esta semana</p>
+        <p class="eval-delta up">+18% vs semana passada</p>
+      </div>
+      <div class="eval-card">
+        <p class="eval-value good">97%</p>
+        <p class="eval-label">Escalacoes corretas</p>
+        <p class="eval-delta same">= semana passada</p>
+      </div>
+      <div class="eval-card">
+        <p class="eval-value warn">3</p>
+        <p class="eval-label">Correcoes recebidas</p>
+        <p class="eval-delta down">+1 vs semana passada</p>
+      </div>
+      <div class="eval-card">
+        <p class="eval-value brand">R$1.240</p>
+        <p class="eval-label">Custo (tokens)</p>
+        <p class="eval-delta down">+8% vs semana passada</p>
+      </div>
+      <div class="eval-card">
+        <p class="eval-value good">4.2s</p>
+        <p class="eval-label">Tempo medio/acao</p>
+        <p class="eval-delta up">-0.3s vs semana passada</p>
+      </div>
+    </div>
+
+    <!-- Auto-evaluation summary -->
+    <div class="card fade-in" style="animation-delay:0.3s; margin-top: 10px;">
+      <p style="font-family:'Inter',sans-serif;font-size:11px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:#D70030;margin-bottom:12px;">Reflexao automatica — 28/03 23:00</p>
+      <p style="font-family:'Satoshi',sans-serif;font-size:14px;color:#AEAEB2;line-height:1.7;">Das 312 acoes desta semana, 294 foram executadas com confianca acima de 80%. As 18 restantes envolviam valores acima da alcada ou situacoes ambiguas — escalei todas corretamente para Julio ou Kaito. Meu principal gap continua sendo previsao de caixa (72% de confianca). Preciso de mais dados historicos e confirmacao dos contratos novos para melhorar. O feedback sobre relatorios visuais ja foi incorporado — proxima avaliacao: verificar se a taxa de leitura aumentou.</p>
+    </div>
+
+    <p class="footer-note fade-in" style="animation-delay:0.35s;">Metacognicao processada automaticamente toda noite as 23:00 via Haiku.<br>Custo medio: ~R$0.02/dia. Cadeia de raciocinio atualizada em tempo real.</p>
+  </main>
+
+</body>
+</html>

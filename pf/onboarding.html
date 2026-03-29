@@ -1,15 +1,233 @@
-<!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>Suas areas — KTANA</title><link rel="stylesheet" href="../shared.css"><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Zen+Dots&display=swap" rel="stylesheet">
-<style>body{min-height:100vh;background:#F5F5F7;padding:48px 24px}.container{max-width:580px;margin:0 auto;text-align:center}h1{font-family:'Zen Dots',cursive;font-size:28px;color:#1D1D1F;margin-bottom:6px}.sub{font-family:'Satoshi',sans-serif;font-size:15px;color:#86868B;margin-bottom:40px}.areas{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;text-align:left}.area{background:#FFF;border-radius:16px;border:1px solid rgba(0,0,0,0.04);padding:20px;cursor:pointer;transition:box-shadow 0.2s,transform 0.15s}.area:hover{box-shadow:0 4px 16px rgba(0,0,0,0.04);transform:translateY(-1px)}.area.selected{border-color:rgba(215,0,48,0.2);background:rgba(215,0,48,0.02)}.area-icon{font-size:20px;margin-bottom:8px}.area h3{font-family:'Satoshi',sans-serif;font-size:14px;font-weight:500;color:#1D1D1F;margin-bottom:4px}.area p{font-family:'Satoshi',sans-serif;font-size:11px;color:#86868B;line-height:1.4}.btn-next{font-family:'Inter',sans-serif;margin-top:32px;padding:14px 40px;border-radius:14px;background:#1D1D1F;color:#F5F5F7;font-size:15px;font-weight:500;border:none;cursor:pointer}</style></head>
-<body><div class="container"><h1 class="fade-in">Suas areas da vida.</h1><p class="sub fade-in">Quais areas voce quer ajuda?</p>
-<div class="areas fade-in" style="animation-delay:0.1s">
-<div class="area selected" onclick="this.classList.toggle('selected')"><div class="area-icon">&#x2764;</div><h3>Saude e Bem-estar</h3><p>Exercicio, alimentacao, sono, prevencao</p></div>
-<div class="area selected" onclick="this.classList.toggle('selected')"><div class="area-icon">&#x1F9E0;</div><h3>Mente e Emocional</h3><p>Autoconhecimento, ansiedade, padroes, meditacao</p></div>
-<div class="area" onclick="this.classList.toggle('selected')"><div class="area-icon">&#x1F4BC;</div><h3>Carreira</h3><p>Posicionamento, networking, lideranca, personal brand</p></div>
-<div class="area selected" onclick="this.classList.toggle('selected')"><div class="area-icon">&#x1F4B0;</div><h3>Financas Pessoais</h3><p>Orcamento, investimentos, patrimonio, aposentadoria</p></div>
-<div class="area" onclick="this.classList.toggle('selected')"><div class="area-icon">&#x1F3AF;</div><h3>Proposito</h3><p>Ikigai, valores, visao de futuro, alinhamento</p></div>
-<div class="area" onclick="this.classList.toggle('selected')"><div class="area-icon">&#x23F0;</div><h3>Produtividade</h3><p>Rotina, foco, time blocking, energia, organizacao</p></div>
-<div class="area" onclick="this.classList.toggle('selected')"><div class="area-icon">&#x1F465;</div><h3>Relacionamentos</h3><p>Comunicacao, familia, networking, vinculos</p></div>
-<div class="area" onclick="this.classList.toggle('selected')"><div class="area-icon">&#x1F3E0;</div><h3>Casa e Vida Pratica</h3><p>Contas, manutencao, compras, organizacao</p></div>
+<!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>Onboarding — KTANA</title><link rel="stylesheet" href="../shared.css"><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Zen+Dots&display=swap" rel="stylesheet">
+<style>
+body{min-height:100vh;background:#F5F5F7;color:#1D1D1F}
+a{text-decoration:none;color:inherit}
+
+/* Nav */
+.nav{position:fixed;top:0;left:0;right:0;z-index:50;height:48px;display:flex;align-items:center;justify-content:center;background:rgba(245,245,247,0.72);backdrop-filter:saturate(180%) blur(20px);border-bottom:0.5px solid rgba(0,0,0,0.06)}
+.nav-inner{width:100%;max-width:980px;padding:0 24px;display:flex;align-items:center;justify-content:space-between}
+.nav-logo{font-family:'Zen Dots',cursive;font-size:14px;color:#D70030}
+.nav-link{font-family:'Inter',sans-serif;font-size:12px;color:#86868B}
+
+/* Progress */
+.progress-wrap{padding-top:72px;max-width:580px;margin:0 auto;padding-left:24px;padding-right:24px}
+.progress-bar{height:3px;background:rgba(0,0,0,0.06);border-radius:4px;overflow:hidden;margin-bottom:8px}
+.progress-fill{height:100%;background:#D70030;border-radius:4px;transition:width 0.5s cubic-bezier(0.25,0.1,0.25,1)}
+.progress-label{font-family:'Inter',sans-serif;font-size:11px;color:#86868B;margin-bottom:0}
+
+/* Container */
+.container{max-width:580px;margin:0 auto;padding:32px 24px 64px}
+
+/* Steps shared */
+.step{display:none;animation:fadeIn 0.4s cubic-bezier(0.25,0.1,0.25,1)}
+.step.active{display:block}
+h1{font-family:'Zen Dots',cursive;font-size:28px;color:#1D1D1F;margin-bottom:6px;text-align:center}
+.sub{font-family:'Satoshi',sans-serif;font-size:15px;color:#86868B;text-align:center;margin-bottom:36px}
+
+/* Step 1 — form */
+.form-group{margin-bottom:20px}
+.form-group label{font-family:'Inter',sans-serif;display:block;font-size:12px;font-weight:500;color:#86868B;margin-bottom:8px}
+.form-input{font-family:'Satoshi',sans-serif;background:#FFF;border:1px solid rgba(0,0,0,0.08);border-radius:14px;padding:14px 16px;font-size:15px;width:100%;outline:none;color:#1D1D1F;transition:border-color 0.2s}
+.form-input:focus{border-color:rgba(215,0,48,0.3)}
+.form-input::placeholder{color:#AEAEB2}
+select.form-input{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%2386868B' fill='none' stroke-width='1.5'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 16px center;cursor:pointer}
+textarea.form-input{resize:vertical;min-height:80px}
+
+/* Step 2 — area cards */
+.areas-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+.area-card{background:#FFF;border-radius:16px;border:1.5px solid rgba(0,0,0,0.04);padding:20px;cursor:pointer;transition:all 0.2s;display:flex;align-items:flex-start;gap:14px;min-height:44px;-webkit-user-select:none;user-select:none}
+.area-card:hover{box-shadow:0 4px 16px rgba(0,0,0,0.04);transform:translateY(-1px)}
+.area-card.selected{border-color:rgba(215,0,48,0.25);background:rgba(215,0,48,0.015)}
+.area-icon{width:40px;height:40px;border-radius:12px;background:rgba(0,0,0,0.02);display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0}
+.area-card.selected .area-icon{background:rgba(215,0,48,0.06)}
+.area-text h3{font-family:'Satoshi',sans-serif;font-size:14px;font-weight:500;color:#1D1D1F;margin-bottom:3px}
+.area-text p{font-family:'Satoshi',sans-serif;font-size:11px;color:#86868B;line-height:1.4}
+.area-check{width:20px;height:20px;border-radius:50%;border:1.5px solid #D2D2D7;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-left:auto;margin-top:2px;transition:all 0.15s}
+.area-card.selected .area-check{border-color:#D70030;background:#D70030}
+.area-card.selected .area-check::after{content:'';display:block;width:6px;height:6px;border-radius:50%;background:#FFF}
+.area-count{font-family:'Inter',sans-serif;font-size:12px;color:#86868B;text-align:center;margin-top:16px}
+.area-count span{color:#D70030;font-weight:600}
+
+/* Step 3 — Yumi */
+.yumi-card{background:#FFF;border-radius:20px;border:1px solid rgba(0,0,0,0.04);padding:32px;text-align:center}
+.yumi-avatar{width:80px;height:80px;border-radius:50%;background:linear-gradient(135deg,rgba(215,0,48,0.08),rgba(215,0,48,0.02));display:flex;align-items:center;justify-content:center;margin:0 auto 20px;font-size:36px}
+.yumi-name{font-family:'Zen Dots',cursive;font-size:20px;color:#1D1D1F;margin-bottom:4px}
+.yumi-role{font-family:'Inter',sans-serif;font-size:12px;color:#D70030;font-weight:500;margin-bottom:16px}
+.yumi-desc{font-family:'Satoshi',sans-serif;font-size:14px;color:#86868B;line-height:1.7;margin-bottom:24px;max-width:400px;margin-left:auto;margin-right:auto}
+.yumi-features{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;text-align:left;margin-bottom:8px}
+.yumi-feat{background:#F5F5F7;border-radius:12px;padding:14px;display:flex;align-items:flex-start;gap:10px}
+.yumi-feat-icon{font-size:16px;flex-shrink:0;margin-top:1px}
+.yumi-feat-text{font-family:'Satoshi',sans-serif;font-size:12px;color:#1D1D1F;line-height:1.4}
+.yumi-feat-text span{display:block;font-size:11px;color:#86868B;margin-top:2px}
+
+/* Buttons */
+.btn-row{display:flex;gap:10px;margin-top:32px;justify-content:center}
+.btn-continue{font-family:'Inter',sans-serif;min-height:52px;padding:14px 40px;border-radius:14px;background:#1D1D1F;color:#F5F5F7;font-size:15px;font-weight:500;border:none;cursor:pointer;transition:opacity 0.15s;min-width:44px}
+.btn-continue:hover{opacity:0.9}
+.btn-back{font-family:'Inter',sans-serif;min-height:52px;padding:14px 24px;border-radius:14px;background:#FFF;color:#1D1D1F;font-size:15px;font-weight:500;border:1px solid rgba(0,0,0,0.08);cursor:pointer;transition:opacity 0.15s;min-width:44px}
+.btn-back:hover{background:#F0F0F0}
+.btn-brand{background:#D70030}
+
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+@media(max-width:520px){.areas-grid{grid-template-columns:1fr}.yumi-features{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<!-- Nav -->
+<nav class="nav"><div class="nav-inner"><a href="landing.html" class="nav-logo">KTANA</a><a href="landing.html" class="nav-link">Voltar ao inicio</a></div></nav>
+
+<!-- Progress Bar -->
+<div class="progress-wrap">
+  <div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:33%"></div></div>
+  <p class="progress-label" id="progressLabel">Passo 1 de 3</p>
 </div>
-<button class="btn-next fade-in" style="animation-delay:0.2s" onclick="location.href='mentor-config.html'">Proximo: seus mentores</button>
-</div></body></html>
+
+<div class="container">
+
+  <!-- STEP 1: Sobre voce -->
+  <div class="step active" id="step1">
+    <h1>Sobre voce.</h1>
+    <p class="sub">Vamos personalizar tudo pra voce. Leva menos de 2 minutos.</p>
+
+    <div class="form-group">
+      <label>Como quer ser chamado(a)?</label>
+      <input type="text" class="form-input" id="inputName" placeholder="Seu nome ou apelido">
+    </div>
+
+    <div class="form-group">
+      <label>Qual sua faixa etaria?</label>
+      <select class="form-input" id="inputAge">
+        <option value="" disabled selected>Selecione</option>
+        <option value="18-24">18 a 24 anos</option>
+        <option value="25-34">25 a 34 anos</option>
+        <option value="35-44">35 a 44 anos</option>
+        <option value="45-54">45 a 54 anos</option>
+        <option value="55+">55 anos ou mais</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label>O que te trouxe ate aqui? (opcional)</label>
+      <textarea class="form-input" id="inputGoals" placeholder="Ex: quero organizar minhas financas, melhorar minha saude, ter mais foco no dia a dia..."></textarea>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn-continue" onclick="goToStep(2)">Continuar</button>
+    </div>
+  </div>
+
+  <!-- STEP 2: Suas areas -->
+  <div class="step" id="step2">
+    <h1>Suas areas da vida.</h1>
+    <p class="sub">Escolha as areas em que voce quer ajuda. Pode mudar depois.</p>
+
+    <div class="areas-grid">
+      <div class="area-card" onclick="toggleArea(this)" data-area="saude">
+        <div class="area-icon">&#x2764;&#xFE0F;</div>
+        <div class="area-text"><h3>Saude e Bem-estar</h3><p>Exercicio, alimentacao, sono, prevencao</p></div>
+        <div class="area-check"></div>
+      </div>
+      <div class="area-card" onclick="toggleArea(this)" data-area="mente">
+        <div class="area-icon">&#x1F9E0;</div>
+        <div class="area-text"><h3>Mente e Emocional</h3><p>Autoconhecimento, ansiedade, padroes, meditacao</p></div>
+        <div class="area-check"></div>
+      </div>
+      <div class="area-card" onclick="toggleArea(this)" data-area="carreira">
+        <div class="area-icon">&#x1F4BC;</div>
+        <div class="area-text"><h3>Carreira</h3><p>Posicionamento, networking, lideranca, marca pessoal</p></div>
+        <div class="area-check"></div>
+      </div>
+      <div class="area-card" onclick="toggleArea(this)" data-area="financas">
+        <div class="area-icon">&#x1F4B0;</div>
+        <div class="area-text"><h3>Financas Pessoais</h3><p>Orcamento, investimentos, patrimonio, aposentadoria</p></div>
+        <div class="area-check"></div>
+      </div>
+      <div class="area-card" onclick="toggleArea(this)" data-area="proposito">
+        <div class="area-icon">&#x1F3AF;</div>
+        <div class="area-text"><h3>Proposito</h3><p>Ikigai, valores, visao de futuro, alinhamento</p></div>
+        <div class="area-check"></div>
+      </div>
+      <div class="area-card" onclick="toggleArea(this)" data-area="produtividade">
+        <div class="area-icon">&#x23F0;</div>
+        <div class="area-text"><h3>Produtividade</h3><p>Rotina, foco, time blocking, energia, organizacao</p></div>
+        <div class="area-check"></div>
+      </div>
+      <div class="area-card" onclick="toggleArea(this)" data-area="relacionamentos">
+        <div class="area-icon">&#x1F465;</div>
+        <div class="area-text"><h3>Relacionamentos</h3><p>Comunicacao, familia, networking, vinculos</p></div>
+        <div class="area-check"></div>
+      </div>
+      <div class="area-card" onclick="toggleArea(this)" data-area="casa">
+        <div class="area-icon">&#x1F3E0;</div>
+        <div class="area-text"><h3>Casa e Vida Pratica</h3><p>Contas, manutencao, compras, organizacao domestica</p></div>
+        <div class="area-check"></div>
+      </div>
+    </div>
+
+    <p class="area-count"><span id="selectedCount">0</span> areas selecionadas</p>
+
+    <div class="btn-row">
+      <button class="btn-back" onclick="goToStep(1)">Voltar</button>
+      <button class="btn-continue" onclick="goToStep(3)">Continuar</button>
+    </div>
+  </div>
+
+  <!-- STEP 3: Seu primeiro mentor -->
+  <div class="step" id="step3">
+    <h1>Seu primeiro mentor.</h1>
+    <p class="sub">Yumi e a assistente adaptativa da KTANA. Ela guia voce no inicio e configura seus mentores.</p>
+
+    <div class="yumi-card">
+      <div class="yumi-avatar">&#x2694;&#xFE0F;</div>
+      <p class="yumi-name">Yumi</p>
+      <p class="yumi-role">Assistente Adaptativa</p>
+      <p class="yumi-desc">Yumi e sua guia pessoal no KTANA. Ela entende suas areas, conecta com os mentores certos e acompanha sua evolucao. Pense nela como a samurai que organiza todo o seu time de vida.</p>
+
+      <div class="yumi-features">
+        <div class="yumi-feat">
+          <span class="yumi-feat-icon">&#x1F9ED;</span>
+          <div class="yumi-feat-text">Mapeia suas prioridades<span>Identifica onde voce mais precisa de apoio agora</span></div>
+        </div>
+        <div class="yumi-feat">
+          <span class="yumi-feat-icon">&#x1F4CB;</span>
+          <div class="yumi-feat-text">Configura mentores<span>Escolhe o cerebro e tom ideal pra cada area</span></div>
+        </div>
+        <div class="yumi-feat">
+          <span class="yumi-feat-icon">&#x1F4C8;</span>
+          <div class="yumi-feat-text">Acompanha progresso<span>Revisa metas semanais e sugere ajustes</span></div>
+        </div>
+        <div class="yumi-feat">
+          <span class="yumi-feat-icon">&#x1F504;</span>
+          <div class="yumi-feat-text">Evolui com voce<span>Aprende seus padroes e adapta as orientacoes</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn-back" onclick="goToStep(2)">Voltar</button>
+      <button class="btn-continue btn-brand" onclick="location.href='mentor-config.html'">Ativar Yumi e configurar mentores</button>
+    </div>
+  </div>
+
+</div>
+
+<script>
+let selectedAreas = new Set();
+
+function goToStep(n) {
+  document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
+  document.getElementById('step' + n).classList.add('active');
+  document.getElementById('progressFill').style.width = (n * 33.33) + '%';
+  document.getElementById('progressLabel').textContent = 'Passo ' + n + ' de 3';
+  window.scrollTo({top: 0, behavior: 'smooth'});
+}
+
+function toggleArea(el) {
+  el.classList.toggle('selected');
+  const area = el.dataset.area;
+  if (selectedAreas.has(area)) { selectedAreas.delete(area); } else { selectedAreas.add(area); }
+  document.getElementById('selectedCount').textContent = selectedAreas.size;
+}
+</script>
+</body></html>

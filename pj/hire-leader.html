@@ -1,7 +1,321 @@
 <!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>Configurar Lider — KTANA</title><link rel="stylesheet" href="../shared.css"><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Zen+Dots&display=swap" rel="stylesheet">
-<style>body{min-height:100vh;background:#F5F5F7;padding:48px 24px}.container{max-width:540px;margin:0 auto;text-align:center}.back{position:fixed;top:20px;left:24px;font-family:'Inter',sans-serif;font-size:12px;color:#86868B}h1{font-family:'Zen Dots',cursive;font-size:24px;color:#1D1D1F;margin-bottom:6px}.sub{font-family:'Satoshi',sans-serif;font-size:14px;color:#86868B;margin-bottom:32px}.note{font-family:'Satoshi',sans-serif;font-size:14px;color:#86868B;line-height:1.6;padding:24px;background:#FFF;border-radius:20px;border:1px solid rgba(0,0,0,0.04);margin-bottom:24px;text-align:left}.btn{font-family:'Inter',sans-serif;padding:14px 40px;border-radius:14px;background:#1D1D1F;color:#F5F5F7;font-size:15px;font-weight:500;border:none;cursor:pointer}</style></head>
-<body><a href="onboarding.html" class="back">← Departamentos</a><div class="container fade-in">
-<h1>Configurar Lider.</h1><p class="sub">Tatico, gerente de equipe dentro do departamento</p>
-<div class="note">Mesmo fluxo de configuracao: nome, funcao, cerebro (referencias), mapa de atribuicoes, personalidade, tom, alcada, rotinas e ferramentas. Tudo pre-preenchido para o nivel Lider.</div>
-<button class="btn" onclick="location.href='../tenant/onboarding/agent-config.html'">Abrir configurador</button>
-</div></body></html>
+<style>
+body{min-height:100vh;background:#F5F5F7;color:#1D1D1F}
+a{text-decoration:none;color:inherit}
+
+.nav{position:fixed;top:0;left:0;right:0;z-index:50;height:48px;display:flex;align-items:center;justify-content:center;background:rgba(245,245,247,0.72);backdrop-filter:saturate(180%) blur(20px);border-bottom:0.5px solid rgba(0,0,0,0.06)}
+.nav-inner{width:100%;max-width:980px;padding:0 24px;display:flex;align-items:center;justify-content:space-between}
+.nav-logo{font-family:'Zen Dots',cursive;font-size:14px;color:#D70030}
+.nav-links{display:flex;align-items:center;gap:24px}
+.nav-links a{font-family:'Inter',sans-serif;font-size:12px;color:#1D1D1F;opacity:0.5}
+.nav-links a:hover{opacity:1}
+.nav-cta{font-family:'Inter',sans-serif;font-size:11px;font-weight:500;color:#F5F5F7;background:#1D1D1F;padding:6px 14px;border-radius:980px;opacity:1 !important}
+
+.container{max-width:680px;margin:0 auto;padding:72px 24px 64px}
+h1{font-family:'Zen Dots',cursive;font-size:28px;color:#1D1D1F;text-align:center;margin-bottom:6px}
+.sub{font-family:'Satoshi',sans-serif;font-size:15px;color:#86868B;text-align:center;margin-bottom:36px;line-height:1.5}
+
+/* Department selector */
+.dept-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:32px}
+.dept-card{background:#FFF;border-radius:16px;border:1.5px solid rgba(0,0,0,0.04);padding:20px;text-align:center;cursor:pointer;transition:all 0.2s;min-height:44px;-webkit-user-select:none;user-select:none}
+.dept-card:hover{box-shadow:0 4px 16px rgba(0,0,0,0.04);transform:translateY(-1px)}
+.dept-card.selected{border-color:rgba(215,0,48,0.25);background:rgba(215,0,48,0.01)}
+.dept-icon{width:44px;height:44px;border-radius:14px;background:rgba(0,0,0,0.02);display:flex;align-items:center;justify-content:center;font-size:20px;margin:0 auto 10px}
+.dept-card.selected .dept-icon{background:rgba(215,0,48,0.06)}
+.dept-name{font-family:'Satoshi',sans-serif;font-size:13px;font-weight:500;color:#1D1D1F;margin-bottom:2px}
+.dept-clevel{font-family:'Inter',sans-serif;font-size:11px;color:#86868B}
+
+/* Section cards */
+.config-section{display:none;animation:fadeIn 0.4s ease both}
+.config-section.visible{display:block}
+.section-card{background:#FFF;border-radius:20px;border:1px solid rgba(0,0,0,0.04);padding:24px;margin-bottom:14px}
+.card-label{font-family:'Inter',sans-serif;font-size:11px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:#D70030;margin-bottom:14px}
+.card-desc{font-family:'Satoshi',sans-serif;font-size:13px;color:#86868B;margin-bottom:16px;line-height:1.5}
+
+.form-group{margin-bottom:16px}
+.form-group:last-child{margin-bottom:0}
+.form-group label{font-family:'Inter',sans-serif;display:block;font-size:12px;font-weight:500;color:#86868B;margin-bottom:6px}
+.form-input{font-family:'Satoshi',sans-serif;background:#F5F5F7;border:1px solid rgba(0,0,0,0.06);border-radius:12px;padding:12px 14px;font-size:14px;width:100%;outline:none;color:#1D1D1F;transition:border-color 0.2s}
+.form-input:focus{border-color:rgba(215,0,48,0.3)}
+.form-input::placeholder{color:#AEAEB2}
+select.form-input{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%2386868B' fill='none' stroke-width='1.5'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center;cursor:pointer}
+
+/* Reporting */
+.report-chain{display:flex;align-items:center;gap:8px;flex-wrap:wrap;padding:14px 16px;background:#F5F5F7;border-radius:12px;margin-bottom:16px}
+.chain-node{font-family:'Inter',sans-serif;font-size:12px;padding:4px 10px;border-radius:8px;background:#FFF;border:1px solid rgba(0,0,0,0.06)}
+.chain-node.active{background:rgba(215,0,48,0.04);border-color:rgba(215,0,48,0.15);color:#D70030}
+.chain-arrow{font-size:11px;color:#AEAEB2}
+
+/* Team members */
+.team-list{display:flex;flex-direction:column;gap:8px;margin-bottom:12px}
+.team-item{display:flex;align-items:center;gap:10px;padding:12px 14px;background:#F5F5F7;border-radius:12px;min-height:44px}
+.team-avatar{width:32px;height:32px;border-radius:50%;background:rgba(0,0,0,0.04);display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0}
+.team-info{flex:1}
+.team-name{font-family:'Satoshi',sans-serif;font-size:13px;font-weight:500;color:#1D1D1F}
+.team-role{font-family:'Inter',sans-serif;font-size:11px;color:#86868B}
+.team-status{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.team-status.active{background:#34C759}
+.team-status.empty{background:#D2D2D7}
+.add-member{font-family:'Inter',sans-serif;font-size:12px;color:#D70030;cursor:pointer;display:inline-flex;align-items:center;gap:4px;min-height:44px}
+
+/* KPIs */
+.kpi-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
+.kpi-item{padding:14px;background:#F5F5F7;border-radius:12px}
+.kpi-value{font-family:'Zen Dots',cursive;font-size:18px;color:#1D1D1F;margin-bottom:2px}
+.kpi-label{font-family:'Inter',sans-serif;font-size:11px;color:#86868B}
+.kpi-target{font-family:'Inter',sans-serif;font-size:11px;color:#D70030;margin-top:4px}
+
+/* Button */
+.btn-activate{font-family:'Inter',sans-serif;width:100%;min-height:52px;padding:16px;border-radius:14px;background:#1D1D1F;color:#FFF;font-size:16px;font-weight:600;border:none;cursor:pointer;transition:opacity 0.15s;margin-top:28px}
+.btn-activate:hover{opacity:0.9}
+
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+@media(max-width:520px){.dept-grid{grid-template-columns:repeat(2,1fr)}.kpi-grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<nav class="nav"><div class="nav-inner"><a href="landing.html" class="nav-logo">KTANA</a><div class="nav-links"><a href="landing.html">Empresa</a><a href="solutions.html">Solucoes</a><a href="onboarding.html" class="nav-cta">Comecar</a></div></div></nav>
+
+<div class="container">
+  <h1>Configurar Lider.</h1>
+  <p class="sub">Samurais taticos que gerenciam equipes dentro de um departamento. Primeiro, escolha o departamento.</p>
+
+  <!-- Department selector -->
+  <div class="dept-grid">
+    <div class="dept-card" onclick="selectDept(this,'financeiro')" data-dept="financeiro">
+      <div class="dept-icon">&#x1F4B0;</div>
+      <p class="dept-name">Financeiro</p>
+      <p class="dept-clevel">Reporta ao CFO</p>
+    </div>
+    <div class="dept-card" onclick="selectDept(this,'vendas')" data-dept="vendas">
+      <div class="dept-icon">&#x1F4C8;</div>
+      <p class="dept-name">Vendas</p>
+      <p class="dept-clevel">Reporta ao COO</p>
+    </div>
+    <div class="dept-card" onclick="selectDept(this,'marketing')" data-dept="marketing">
+      <div class="dept-icon">&#x1F4E3;</div>
+      <p class="dept-name">Marketing</p>
+      <p class="dept-clevel">Reporta ao CMO</p>
+    </div>
+    <div class="dept-card" onclick="selectDept(this,'rh')" data-dept="rh">
+      <div class="dept-icon">&#x1F465;</div>
+      <p class="dept-name">RH</p>
+      <p class="dept-clevel">Reporta ao COO</p>
+    </div>
+    <div class="dept-card" onclick="selectDept(this,'projetos')" data-dept="projetos">
+      <div class="dept-icon">&#x1F4CB;</div>
+      <p class="dept-name">Projetos</p>
+      <p class="dept-clevel">Reporta ao COO</p>
+    </div>
+    <div class="dept-card" onclick="selectDept(this,'tecnologia')" data-dept="tecnologia">
+      <div class="dept-icon">&#x1F4BB;</div>
+      <p class="dept-name">Tecnologia</p>
+      <p class="dept-clevel">Reporta ao CTO</p>
+    </div>
+  </div>
+
+  <!-- Configuration -->
+  <div class="config-section" id="configSection">
+
+    <!-- Identity -->
+    <div class="section-card">
+      <p class="card-label">Identidade do Lider</p>
+      <div class="report-chain" id="reportChain">
+        <span class="chain-node">Dono</span>
+        <span class="chain-arrow">&#x2192;</span>
+        <span class="chain-node">Takeshi (CEO)</span>
+        <span class="chain-arrow">&#x2192;</span>
+        <span class="chain-node" id="chainClevel">CFO</span>
+        <span class="chain-arrow">&#x2192;</span>
+        <span class="chain-node active" id="chainLeader">Lider</span>
+      </div>
+      <div class="form-group">
+        <label>Nome do Lider</label>
+        <input type="text" class="form-input" id="leaderName" placeholder="Nome do samurai lider">
+      </div>
+      <div class="form-group">
+        <label>Cargo / funcao</label>
+        <input type="text" class="form-input" id="leaderRole" placeholder="Ex: Gerente de Cobrancas">
+      </div>
+      <div class="form-group">
+        <label>Missao da equipe</label>
+        <input type="text" class="form-input" id="leaderMission" placeholder="Objetivo principal da equipe">
+      </div>
+    </div>
+
+    <!-- Team -->
+    <div class="section-card">
+      <p class="card-label">Equipe sob lideranca</p>
+      <p class="card-desc">Colaboradores que este lider gerencia. Voce pode adicionar mais depois.</p>
+      <div class="team-list" id="teamList">
+        <!-- Dynamic -->
+      </div>
+      <a class="add-member" onclick="location.href='hire-worker.html'">+ Contratar novo colaborador para esta equipe</a>
+    </div>
+
+    <!-- KPIs -->
+    <div class="section-card">
+      <p class="card-label">KPIs e metas</p>
+      <p class="card-desc">Indicadores que este lider precisa bater.</p>
+      <div class="kpi-grid" id="kpiGrid">
+        <!-- Dynamic -->
+      </div>
+    </div>
+
+    <!-- Schedule -->
+    <div class="section-card">
+      <p class="card-label">Rotina</p>
+      <div class="form-group">
+        <label>Daily standup</label>
+        <select class="form-input">
+          <option>08:00 — Inicio do expediente</option>
+          <option selected>09:00 — Manha</option>
+          <option>14:00 — Inicio da tarde</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Report ao C-Level</label>
+        <select class="form-input">
+          <option selected>Diario — resumo automatico</option>
+          <option>Semanal — report consolidado</option>
+          <option>Sob demanda</option>
+        </select>
+      </div>
+    </div>
+
+    <button class="btn-activate" id="btnActivate" onclick="location.href='org-chart.html'">Ativar Lider</button>
+  </div>
+</div>
+
+<script>
+const deptConfigs = {
+  financeiro: {
+    name: 'Hiro', role: 'Gerente de Cobrancas', mission: 'Reduzir inadimplencia para abaixo de 3% e manter fluxo de caixa positivo',
+    clevel: 'Haruki (CFO)',
+    team: [
+      { name: 'Yuna', role: 'Analista de Contas a Receber', active: true },
+      { name: 'Kenji', role: 'Analista de Contas a Pagar', active: true },
+      { name: '', role: 'Vaga aberta — Analista Fiscal', active: false }
+    ],
+    kpis: [
+      { value: '< 3%', label: 'Inadimplencia', target: 'Meta: abaixo de 3%' },
+      { value: 'D+2', label: 'Tempo de cobranca', target: 'Meta: cobrar em ate 2 dias' },
+      { value: '100%', label: 'Notas emitidas', target: 'Meta: zero pendencias' },
+      { value: 'R$ 50k', label: 'Fluxo mensal', target: 'Meta: positivo todo mes' }
+    ]
+  },
+  vendas: {
+    name: 'Akira', role: 'Gerente de Vendas', mission: 'Bater meta de receita mensal e manter pipeline saudavel',
+    clevel: 'Kaito (COO)',
+    team: [
+      { name: 'Sora', role: 'SDR — Prospeccao', active: true },
+      { name: 'Nami', role: 'Closer — Fechamento', active: true },
+      { name: '', role: 'Vaga aberta — Account Manager', active: false }
+    ],
+    kpis: [
+      { value: 'R$ 100k', label: 'Meta mensal', target: 'Meta: R$ 100k MRR' },
+      { value: '30%', label: 'Taxa conversao', target: 'Meta: acima de 30%' },
+      { value: '< 5 dias', label: 'Ciclo de venda', target: 'Meta: fechar em 5 dias' },
+      { value: '50+', label: 'Leads qualificados', target: 'Meta: 50 SQL/mes' }
+    ]
+  },
+  marketing: {
+    name: 'Sakura', role: 'Gerente de Conteudo', mission: 'Gerar awareness e leads qualificados via conteudo e campanhas',
+    clevel: 'Mei (CMO)',
+    team: [
+      { name: 'Yuki', role: 'Social Media Manager', active: true },
+      { name: 'Ren', role: 'Designer de Conteudo', active: true },
+      { name: '', role: 'Vaga aberta — SEO Specialist', active: false }
+    ],
+    kpis: [
+      { value: '10k', label: 'Visitantes/mes', target: 'Meta: 10k visitas organicas' },
+      { value: '200+', label: 'Leads gerados', target: 'Meta: 200 MQL/mes' },
+      { value: '5%', label: 'Engajamento', target: 'Meta: taxa acima de 5%' },
+      { value: '30', label: 'Conteudos/mes', target: 'Meta: 30 publicacoes' }
+    ]
+  },
+  rh: {
+    name: 'Aoi', role: 'Gerente de Pessoas', mission: 'Atrair, reter e desenvolver os melhores talentos',
+    clevel: 'Kaito (COO)',
+    team: [
+      { name: 'Mika', role: 'Recrutadora', active: true },
+      { name: '', role: 'Vaga aberta — Analista de T&D', active: false }
+    ],
+    kpis: [
+      { value: '< 15 dias', label: 'Tempo de contratacao', target: 'Meta: preencher vaga em 15 dias' },
+      { value: '< 5%', label: 'Turnover', target: 'Meta: rotatividade abaixo de 5%' },
+      { value: '90%', label: 'Satisfacao interna', target: 'Meta: eNPS acima de 90%' },
+      { value: '100%', label: 'Onboarding completo', target: 'Meta: todos treinados em 7 dias' }
+    ]
+  },
+  projetos: {
+    name: 'Taro', role: 'Project Manager', mission: 'Entregar todos os projetos no prazo e dentro do orcamento',
+    clevel: 'Kaito (COO)',
+    team: [
+      { name: 'Shin', role: 'Scrum Master', active: true },
+      { name: 'Hana', role: 'Analista de Qualidade', active: true },
+      { name: '', role: 'Vaga aberta — Product Owner', active: false }
+    ],
+    kpis: [
+      { value: '95%', label: 'Entregas no prazo', target: 'Meta: acima de 95%' },
+      { value: '0', label: 'Projetos atrasados', target: 'Meta: zero atrasos' },
+      { value: '< 10%', label: 'Desvio de orcamento', target: 'Meta: abaixo de 10%' },
+      { value: '4.5/5', label: 'NPS interno', target: 'Meta: satisfacao do cliente interno' }
+    ]
+  },
+  tecnologia: {
+    name: 'Daichi', role: 'Tech Lead', mission: 'Manter sistemas estaveis, seguros e em evolucao constante',
+    clevel: 'Ryu (CTO)',
+    team: [
+      { name: 'Kenta', role: 'Backend Developer', active: true },
+      { name: 'Yui', role: 'Frontend Developer', active: true },
+      { name: 'Masa', role: 'DevOps Engineer', active: true },
+      { name: '', role: 'Vaga aberta — QA Engineer', active: false }
+    ],
+    kpis: [
+      { value: '99.9%', label: 'Uptime', target: 'Meta: disponibilidade 99.9%' },
+      { value: '< 30min', label: 'Tempo de deploy', target: 'Meta: CI/CD em 30 min' },
+      { value: '0', label: 'Incidentes criticos', target: 'Meta: zero P1/mes' },
+      { value: '90%', label: 'Cobertura de testes', target: 'Meta: acima de 90%' }
+    ]
+  }
+};
+
+function selectDept(el, dept) {
+  document.querySelectorAll('.dept-card').forEach(c => c.classList.remove('selected'));
+  el.classList.add('selected');
+
+  const config = deptConfigs[dept];
+  document.getElementById('leaderName').value = config.name;
+  document.getElementById('leaderRole').value = config.role;
+  document.getElementById('leaderMission').value = config.mission;
+  document.getElementById('chainClevel').textContent = config.clevel;
+  document.getElementById('chainLeader').textContent = config.name + ' (Lider)';
+
+  // Build team
+  const teamList = document.getElementById('teamList');
+  teamList.innerHTML = '';
+  config.team.forEach(t => {
+    const div = document.createElement('div');
+    div.className = 'team-item';
+    div.innerHTML = '<div class="team-avatar">' + (t.active ? '&#x2694;&#xFE0F;' : '&#x2795;') + '</div><div class="team-info"><p class="team-name">' + (t.name || 'A contratar') + '</p><p class="team-role">' + t.role + '</p></div><div class="team-status ' + (t.active ? 'active' : 'empty') + '"></div>';
+    teamList.appendChild(div);
+  });
+
+  // Build KPIs
+  const kpiGrid = document.getElementById('kpiGrid');
+  kpiGrid.innerHTML = '';
+  config.kpis.forEach(k => {
+    const div = document.createElement('div');
+    div.className = 'kpi-item';
+    div.innerHTML = '<p class="kpi-value">' + k.value + '</p><p class="kpi-label">' + k.label + '</p><p class="kpi-target">' + k.target + '</p>';
+    kpiGrid.appendChild(div);
+  });
+
+  document.getElementById('btnActivate').textContent = 'Ativar Lider — ' + config.name;
+  document.getElementById('configSection').classList.add('visible');
+  document.getElementById('configSection').scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+</script>
+</body></html>

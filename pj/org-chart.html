@@ -1,7 +1,345 @@
-<!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>Organograma PJ — KTANA</title><link rel="stylesheet" href="../shared.css"><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Zen+Dots&display=swap" rel="stylesheet">
-<style>body{min-height:100vh;background:#F5F5F7;padding:48px 24px}.container{max-width:640px;margin:0 auto;text-align:center}.back{position:fixed;top:20px;left:24px;font-family:'Inter',sans-serif;font-size:12px;color:#86868B}h1{font-family:'Zen Dots',cursive;font-size:24px;color:#1D1D1F;margin-bottom:6px}.sub{font-family:'Satoshi',sans-serif;font-size:14px;color:#86868B;margin-bottom:32px}.note{font-family:'Satoshi',sans-serif;font-size:14px;color:#86868B;line-height:1.6;padding:24px;background:#FFF;border-radius:20px;border:1px solid rgba(0,0,0,0.04)}</style></head>
-<body><a href="onboarding.html" class="back">← Voltar</a><div class="container fade-in">
-<h1>Organograma PJ.</h1><p class="sub">Hierarquia completa da empresa com todos os niveis.</p>
-<div class="note">Mesma tela do organograma do tenant (/team/org) mas especifica para o fluxo PJ com CEO > C-Levels > Lideres > Colaboradores por departamento.</div>
-<br><a href="../tenant/team/org.html" style="font-family:'Inter',sans-serif;font-size:13px;color:#D70030;">Ver organograma →</a>
-</div></body></html>
+<!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>Organograma — KTANA</title><link rel="stylesheet" href="../shared.css"><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Zen+Dots&display=swap" rel="stylesheet">
+<style>
+body{min-height:100vh;background:#F5F5F7;color:#1D1D1F}
+a{text-decoration:none;color:inherit}
+
+.nav{position:fixed;top:0;left:0;right:0;z-index:50;height:48px;display:flex;align-items:center;justify-content:center;background:rgba(245,245,247,0.72);backdrop-filter:saturate(180%) blur(20px);border-bottom:0.5px solid rgba(0,0,0,0.06)}
+.nav-inner{width:100%;max-width:980px;padding:0 24px;display:flex;align-items:center;justify-content:space-between}
+.nav-logo{font-family:'Zen Dots',cursive;font-size:14px;color:#D70030}
+.nav-links{display:flex;align-items:center;gap:24px}
+.nav-links a{font-family:'Inter',sans-serif;font-size:12px;color:#1D1D1F;opacity:0.5}
+.nav-links a:hover{opacity:1}
+.nav-cta{font-family:'Inter',sans-serif;font-size:11px;font-weight:500;color:#F5F5F7;background:#1D1D1F;padding:6px 14px;border-radius:980px;opacity:1 !important}
+
+.container{max-width:1100px;margin:0 auto;padding:72px 24px 64px}
+h1{font-family:'Zen Dots',cursive;font-size:28px;color:#1D1D1F;text-align:center;margin-bottom:6px}
+.sub{font-family:'Satoshi',sans-serif;font-size:15px;color:#86868B;text-align:center;margin-bottom:12px;line-height:1.5}
+.stats-row{display:flex;justify-content:center;gap:24px;margin-bottom:40px}
+.stat{text-align:center}
+.stat-value{font-family:'Zen Dots',cursive;font-size:20px;color:#1D1D1F}
+.stat-label{font-family:'Inter',sans-serif;font-size:11px;color:#86868B}
+
+/* Org chart tree */
+.org-tree{display:flex;flex-direction:column;align-items:center;gap:0}
+
+/* Level row */
+.level{display:flex;justify-content:center;gap:16px;position:relative;padding:16px 0}
+.level::before{content:'';position:absolute;top:0;left:50%;width:0;height:16px;border-left:1.5px solid rgba(0,0,0,0.08)}
+.level:first-child::before{display:none}
+
+/* Connector lines */
+.connector{display:flex;justify-content:center;position:relative;height:32px}
+.connector-line{position:absolute;top:0;bottom:0;left:50%;border-left:1.5px solid rgba(0,0,0,0.08)}
+.connector-h{position:relative;display:flex;align-items:flex-start;justify-content:center}
+.connector-h::before{content:'';position:absolute;top:0;height:1.5px;background:rgba(0,0,0,0.08)}
+
+/* Node card */
+.node{background:#FFF;border-radius:16px;border:1.5px solid rgba(0,0,0,0.04);padding:16px 20px;text-align:center;min-width:140px;max-width:180px;cursor:pointer;transition:all 0.2s;position:relative}
+.node:hover{box-shadow:0 6px 24px rgba(0,0,0,0.06);transform:translateY(-2px)}
+.node.highlight{border-color:rgba(215,0,48,0.2);box-shadow:0 4px 20px rgba(215,0,48,0.08)}
+.node-avatar{width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,rgba(0,0,0,0.04),rgba(0,0,0,0.01));display:flex;align-items:center;justify-content:center;margin:0 auto 8px;font-size:18px;position:relative}
+.node-status{position:absolute;bottom:0;right:0;width:12px;height:12px;border-radius:50%;border:2px solid #FFF}
+.node-status.active{background:#34C759}
+.node-status.pending{background:#FF9500}
+.node-status.inactive{background:#D2D2D7}
+.node-name{font-family:'Satoshi',sans-serif;font-size:13px;font-weight:500;color:#1D1D1F;margin-bottom:2px}
+.node-role{font-family:'Inter',sans-serif;font-size:11px;color:#86868B}
+.node-badge{font-family:'Inter',sans-serif;font-size:10px;font-weight:600;color:#D70030;background:rgba(215,0,48,0.06);padding:2px 8px;border-radius:4px;margin-top:6px;display:inline-block}
+
+/* Owner node (special) */
+.node.owner{border-color:rgba(215,0,48,0.15);background:linear-gradient(135deg,#FFF 0%,rgba(215,0,48,0.02) 100%)}
+.node.owner .node-avatar{background:linear-gradient(135deg,rgba(215,0,48,0.08),rgba(215,0,48,0.02))}
+
+/* CEO node */
+.node.ceo .node-avatar{background:linear-gradient(135deg,rgba(29,29,31,0.08),rgba(29,29,31,0.02))}
+
+/* Horizontal branch wrapper */
+.branch{display:flex;flex-direction:column;align-items:center;gap:0}
+
+/* Sub-level groups */
+.sublevel{display:flex;justify-content:center;gap:12px;flex-wrap:wrap}
+.dept-group{display:flex;flex-direction:column;align-items:center;gap:0}
+.dept-connector{width:1.5px;height:24px;background:rgba(0,0,0,0.08);margin:0 auto}
+.horiz-connector{height:1.5px;background:rgba(0,0,0,0.08);position:absolute;top:0}
+
+/* Vertical connectors */
+.vline{width:1.5px;height:24px;background:rgba(0,0,0,0.08);margin:0 auto}
+.hline-group{position:relative;display:flex;justify-content:center}
+.hline-group::before{content:'';position:absolute;top:0;left:calc(50% - var(--half-width, 100px));right:calc(50% - var(--half-width, 100px));height:1.5px;background:rgba(0,0,0,0.08)}
+
+/* Workers row */
+.workers-row{display:flex;gap:8px;justify-content:center;flex-wrap:wrap}
+.node-sm{background:#FFF;border-radius:12px;border:1px solid rgba(0,0,0,0.04);padding:10px 14px;text-align:center;min-width:100px;cursor:pointer;transition:all 0.2s}
+.node-sm:hover{box-shadow:0 4px 12px rgba(0,0,0,0.04);transform:translateY(-1px)}
+.node-sm .node-avatar{width:32px;height:32px;font-size:14px;margin-bottom:6px}
+.node-sm .node-status{width:10px;height:10px}
+.node-sm .node-name{font-size:11px}
+.node-sm .node-role{font-size:10px}
+
+/* Detail panel */
+.detail-overlay{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.3);z-index:100;align-items:center;justify-content:center;backdrop-filter:blur(4px)}
+.detail-overlay.visible{display:flex}
+.detail-panel{background:#FFF;border-radius:20px;padding:32px;max-width:400px;width:90%;max-height:80vh;overflow-y:auto;animation:fadeIn 0.3s ease}
+.detail-close{font-family:'Inter',sans-serif;font-size:12px;color:#86868B;cursor:pointer;text-align:right;margin-bottom:16px;min-height:44px;display:flex;align-items:center;justify-content:flex-end}
+.detail-avatar{width:56px;height:56px;border-radius:50%;background:linear-gradient(135deg,rgba(215,0,48,0.08),rgba(215,0,48,0.02));display:flex;align-items:center;justify-content:center;font-size:24px;margin:0 auto 12px}
+.detail-name{font-family:'Zen Dots',cursive;font-size:18px;color:#1D1D1F;text-align:center;margin-bottom:4px}
+.detail-role{font-family:'Inter',sans-serif;font-size:12px;color:#D70030;text-align:center;margin-bottom:16px}
+.detail-section{margin-bottom:16px}
+.detail-label{font-family:'Inter',sans-serif;font-size:11px;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;color:#86868B;margin-bottom:8px}
+.detail-text{font-family:'Satoshi',sans-serif;font-size:13px;color:#1D1D1F;line-height:1.5}
+.detail-btn{font-family:'Inter',sans-serif;width:100%;min-height:44px;padding:12px;border-radius:12px;background:#1D1D1F;color:#FFF;font-size:13px;font-weight:500;border:none;cursor:pointer}
+
+/* Legend */
+.legend{display:flex;justify-content:center;gap:20px;margin-top:32px;padding-top:20px;border-top:0.5px solid rgba(0,0,0,0.06)}
+.legend-item{display:flex;align-items:center;gap:6px;font-family:'Inter',sans-serif;font-size:11px;color:#86868B}
+.legend-dot{width:8px;height:8px;border-radius:50%}
+
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+@media(max-width:768px){.sublevel{gap:8px}.node{min-width:110px;padding:12px 14px}.node-sm{min-width:80px;padding:8px 10px}.stats-row{gap:16px}}
+@media(max-width:520px){.sublevel{flex-direction:column;align-items:center}.dept-group{width:100%}.workers-row{justify-content:center}}
+</style>
+</head>
+<body>
+
+<nav class="nav"><div class="nav-inner"><a href="landing.html" class="nav-logo">KTANA</a><div class="nav-links"><a href="landing.html">Empresa</a><a href="solutions.html">Solucoes</a><a href="onboarding.html" class="nav-cta">Comecar</a></div></div></nav>
+
+<div class="container">
+  <h1>Organograma.</h1>
+  <p class="sub">Hierarquia completa da sua empresa inteligente. Clique em qualquer samurai para ver detalhes.</p>
+
+  <div class="stats-row">
+    <div class="stat"><p class="stat-value">14</p><p class="stat-label">Samurais</p></div>
+    <div class="stat"><p class="stat-value">9</p><p class="stat-label">Ativos</p></div>
+    <div class="stat"><p class="stat-value">5</p><p class="stat-label">Pendentes</p></div>
+    <div class="stat"><p class="stat-value">4</p><p class="stat-label">Departamentos</p></div>
+  </div>
+
+  <div class="org-tree">
+
+    <!-- Level 0: Owner -->
+    <div class="level">
+      <div class="node owner" onclick="showDetail('owner')">
+        <div class="node-avatar">&#x1F451;<div class="node-status active"></div></div>
+        <p class="node-name">Voce</p>
+        <p class="node-role">Dono da empresa</p>
+      </div>
+    </div>
+
+    <div class="vline"></div>
+
+    <!-- Level 1: CEO -->
+    <div class="level">
+      <div class="node ceo highlight" onclick="showDetail('ceo')">
+        <div class="node-avatar">&#x2694;&#xFE0F;<div class="node-status active"></div></div>
+        <p class="node-name">Takeshi</p>
+        <p class="node-role">CEO</p>
+        <span class="node-badge">Estrategico Master</span>
+      </div>
+    </div>
+
+    <div class="vline"></div>
+
+    <!-- Level 2: C-Levels (4 columns) -->
+    <div class="sublevel" style="--half-width: 340px">
+      <!-- CFO Branch -->
+      <div class="dept-group">
+        <div class="node" onclick="showDetail('cfo')">
+          <div class="node-avatar">&#x1F4B0;<div class="node-status active"></div></div>
+          <p class="node-name">Haruki</p>
+          <p class="node-role">CFO</p>
+          <span class="node-badge">Financeiro</span>
+        </div>
+        <div class="dept-connector"></div>
+        <!-- Leader -->
+        <div class="node" onclick="showDetail('fin-leader')">
+          <div class="node-avatar">&#x1F4C8;<div class="node-status active"></div></div>
+          <p class="node-name">Hiro</p>
+          <p class="node-role">Ger. Cobrancas</p>
+        </div>
+        <div class="dept-connector"></div>
+        <!-- Workers -->
+        <div class="workers-row">
+          <div class="node-sm" onclick="showDetail('fin-w1')">
+            <div class="node-avatar">&#x2694;&#xFE0F;<div class="node-status active"></div></div>
+            <p class="node-name">Yuna</p>
+            <p class="node-role">Contas a Receber</p>
+          </div>
+          <div class="node-sm" onclick="showDetail('fin-w2')">
+            <div class="node-avatar">&#x2694;&#xFE0F;<div class="node-status active"></div></div>
+            <p class="node-name">Kenji</p>
+            <p class="node-role">Contas a Pagar</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- COO Branch -->
+      <div class="dept-group">
+        <div class="node" onclick="showDetail('coo')">
+          <div class="node-avatar">&#x2699;&#xFE0F;<div class="node-status active"></div></div>
+          <p class="node-name">Kaito</p>
+          <p class="node-role">COO</p>
+          <span class="node-badge">Operacoes</span>
+        </div>
+        <div class="dept-connector"></div>
+        <!-- Leader -->
+        <div class="node" onclick="showDetail('ops-leader')">
+          <div class="node-avatar">&#x1F4C8;<div class="node-status active"></div></div>
+          <p class="node-name">Akira</p>
+          <p class="node-role">Ger. Vendas</p>
+        </div>
+        <div class="dept-connector"></div>
+        <!-- Workers -->
+        <div class="workers-row">
+          <div class="node-sm" onclick="showDetail('ops-w1')">
+            <div class="node-avatar">&#x2694;&#xFE0F;<div class="node-status active"></div></div>
+            <p class="node-name">Sora</p>
+            <p class="node-role">SDR</p>
+          </div>
+          <div class="node-sm" onclick="showDetail('ops-w2')">
+            <div class="node-avatar">&#x2694;&#xFE0F;<div class="node-status pending"></div></div>
+            <p class="node-name">Nami</p>
+            <p class="node-role">Closer</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- CMO Branch -->
+      <div class="dept-group">
+        <div class="node" onclick="showDetail('cmo')">
+          <div class="node-avatar">&#x1F4E3;<div class="node-status pending"></div></div>
+          <p class="node-name">Mei</p>
+          <p class="node-role">CMO</p>
+          <span class="node-badge">Marketing</span>
+        </div>
+        <div class="dept-connector"></div>
+        <!-- Leader -->
+        <div class="node" onclick="showDetail('mkt-leader')">
+          <div class="node-avatar">&#x1F4C8;<div class="node-status pending"></div></div>
+          <p class="node-name">Sakura</p>
+          <p class="node-role">Ger. Conteudo</p>
+        </div>
+        <div class="dept-connector"></div>
+        <!-- Workers -->
+        <div class="workers-row">
+          <div class="node-sm" onclick="showDetail('mkt-w1')">
+            <div class="node-avatar">&#x2694;&#xFE0F;<div class="node-status pending"></div></div>
+            <p class="node-name">Yuki</p>
+            <p class="node-role">Social Media</p>
+          </div>
+          <div class="node-sm" onclick="showDetail('mkt-w2')">
+            <div class="node-avatar">&#x2694;&#xFE0F;<div class="node-status pending"></div></div>
+            <p class="node-name">Ren</p>
+            <p class="node-role">Designer</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- CTO Branch -->
+      <div class="dept-group">
+        <div class="node" onclick="showDetail('cto')">
+          <div class="node-avatar">&#x1F4BB;<div class="node-status pending"></div></div>
+          <p class="node-name">Ryu</p>
+          <p class="node-role">CTO</p>
+          <span class="node-badge">Tecnologia</span>
+        </div>
+        <div class="dept-connector"></div>
+        <!-- Leader -->
+        <div class="node" onclick="showDetail('tech-leader')">
+          <div class="node-avatar">&#x1F4C8;<div class="node-status pending"></div></div>
+          <p class="node-name">Daichi</p>
+          <p class="node-role">Tech Lead</p>
+        </div>
+        <div class="dept-connector"></div>
+        <!-- Workers -->
+        <div class="workers-row">
+          <div class="node-sm" onclick="showDetail('tech-w1')">
+            <div class="node-avatar">&#x2694;&#xFE0F;<div class="node-status pending"></div></div>
+            <p class="node-name">Kenta</p>
+            <p class="node-role">Backend</p>
+          </div>
+          <div class="node-sm" onclick="showDetail('tech-w2')">
+            <div class="node-avatar">&#x2694;&#xFE0F;<div class="node-status pending"></div></div>
+            <p class="node-name">Masa</p>
+            <p class="node-role">DevOps</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Legend -->
+  <div class="legend">
+    <div class="legend-item"><div class="legend-dot" style="background:#34C759"></div> Ativo</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#FF9500"></div> Pendente</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#D2D2D7"></div> Inativo</div>
+  </div>
+</div>
+
+<!-- Detail overlay -->
+<div class="detail-overlay" id="detailOverlay" onclick="if(event.target===this)closeDetail()">
+  <div class="detail-panel">
+    <div class="detail-close" onclick="closeDetail()">Fechar</div>
+    <div class="detail-avatar" id="detailAvatar">&#x2694;&#xFE0F;</div>
+    <p class="detail-name" id="detailName">Takeshi</p>
+    <p class="detail-role" id="detailRole">CEO</p>
+    <div class="detail-section">
+      <p class="detail-label">Missao</p>
+      <p class="detail-text" id="detailMission">Crescer receita 40% no ano mantendo margem acima de 25%.</p>
+    </div>
+    <div class="detail-section">
+      <p class="detail-label">Reporta a</p>
+      <p class="detail-text" id="detailReports">Dono da empresa</p>
+    </div>
+    <div class="detail-section">
+      <p class="detail-label">Status</p>
+      <p class="detail-text" id="detailStatus">Ativo — operando normalmente</p>
+    </div>
+    <button class="detail-btn" id="detailBtn" onclick="closeDetail()">Editar configuracao</button>
+  </div>
+</div>
+
+<script>
+const details = {
+  owner: { icon: '&#x1F451;', name: 'Voce', role: 'Dono da empresa', mission: 'Visao estrategica, aprovacoes financeiras acima de R$ 10.000, decisoes de contratacao.', reports: 'Ninguem — voce e o topo', status: 'Ativo — sempre ativo', btn: 'hire-ceo.html' },
+  ceo: { icon: '&#x2694;&#xFE0F;', name: 'Takeshi', role: 'CEO — Estrategico Master', mission: 'Crescer receita 40% no ano mantendo margem acima de 25%. Orquestrar todos os departamentos.', reports: 'Voce (Dono)', status: 'Ativo — operando normalmente', btn: 'hire-ceo.html' },
+  cfo: { icon: '&#x1F4B0;', name: 'Haruki', role: 'CFO — Financeiro', mission: 'Manter a saude financeira da empresa e maximizar o ROI de cada real investido.', reports: 'Takeshi (CEO)', status: 'Ativo — reports diarios', btn: 'hire-clevel.html' },
+  coo: { icon: '&#x2699;&#xFE0F;', name: 'Kaito', role: 'COO — Operacoes', mission: 'Garantir eficiencia operacional maxima e entregas no prazo.', reports: 'Takeshi (CEO)', status: 'Ativo — monitorando processos', btn: 'hire-clevel.html' },
+  cmo: { icon: '&#x1F4E3;', name: 'Mei', role: 'CMO — Marketing', mission: 'Posicionar a marca no mercado e gerar demanda qualificada.', reports: 'Takeshi (CEO)', status: 'Pendente — aguardando ativacao', btn: 'hire-clevel.html' },
+  cto: { icon: '&#x1F4BB;', name: 'Ryu', role: 'CTO — Tecnologia', mission: 'Garantir estabilidade tecnica, seguranca e inovacao no produto.', reports: 'Takeshi (CEO)', status: 'Pendente — aguardando ativacao', btn: 'hire-clevel.html' },
+  'fin-leader': { icon: '&#x1F4C8;', name: 'Hiro', role: 'Gerente de Cobrancas', mission: 'Reduzir inadimplencia para abaixo de 3% e manter fluxo de caixa positivo.', reports: 'Haruki (CFO)', status: 'Ativo — equipe de 2 colaboradores', btn: 'hire-leader.html' },
+  'ops-leader': { icon: '&#x1F4C8;', name: 'Akira', role: 'Gerente de Vendas', mission: 'Bater meta de receita mensal e manter pipeline saudavel.', reports: 'Kaito (COO)', status: 'Ativo — equipe de 2 colaboradores', btn: 'hire-leader.html' },
+  'mkt-leader': { icon: '&#x1F4C8;', name: 'Sakura', role: 'Gerente de Conteudo', mission: 'Gerar awareness e leads qualificados via conteudo e campanhas.', reports: 'Mei (CMO)', status: 'Pendente — aguardando CMO', btn: 'hire-leader.html' },
+  'tech-leader': { icon: '&#x1F4C8;', name: 'Daichi', role: 'Tech Lead', mission: 'Manter sistemas estaveis, seguros e em evolucao constante.', reports: 'Ryu (CTO)', status: 'Pendente — aguardando CTO', btn: 'hire-leader.html' },
+  'fin-w1': { icon: '&#x2694;&#xFE0F;', name: 'Yuna', role: 'Analista de Contas a Receber', mission: 'Identificar faturas vencidas, acionar clientes, registrar pagamentos.', reports: 'Hiro (Ger. Cobrancas)', status: 'Ativo — operacional', btn: 'hire-worker.html' },
+  'fin-w2': { icon: '&#x2694;&#xFE0F;', name: 'Kenji', role: 'Analista de Contas a Pagar', mission: 'Gerenciar pagamentos a fornecedores, notas fiscais, conciliacao bancaria.', reports: 'Hiro (Ger. Cobrancas)', status: 'Ativo — operacional', btn: 'hire-worker.html' },
+  'ops-w1': { icon: '&#x2694;&#xFE0F;', name: 'Sora', role: 'SDR — Prospeccao', mission: 'Prospectar leads, qualificar com BANT, agendar reunioes para closers.', reports: 'Akira (Ger. Vendas)', status: 'Ativo — 50+ leads/mes', btn: 'hire-worker.html' },
+  'ops-w2': { icon: '&#x2694;&#xFE0F;', name: 'Nami', role: 'Closer — Fechamento', mission: 'Fechar vendas, negociar propostas, onboarding de novos clientes.', reports: 'Akira (Ger. Vendas)', status: 'Pendente — em treinamento', btn: 'hire-worker.html' },
+  'mkt-w1': { icon: '&#x2694;&#xFE0F;', name: 'Yuki', role: 'Social Media Manager', mission: 'Criar e publicar conteudo nas redes sociais, responder comentarios.', reports: 'Sakura (Ger. Conteudo)', status: 'Pendente — aguardando CMO', btn: 'hire-worker.html' },
+  'mkt-w2': { icon: '&#x2694;&#xFE0F;', name: 'Ren', role: 'Designer de Conteudo', mission: 'Criar artes para redes sociais, landing pages e materiais de marketing.', reports: 'Sakura (Ger. Conteudo)', status: 'Pendente — aguardando CMO', btn: 'hire-worker.html' },
+  'tech-w1': { icon: '&#x2694;&#xFE0F;', name: 'Kenta', role: 'Backend Developer', mission: 'Desenvolver APIs, banco de dados, logica de negocios, integracao.', reports: 'Daichi (Tech Lead)', status: 'Pendente — aguardando CTO', btn: 'hire-worker.html' },
+  'tech-w2': { icon: '&#x2694;&#xFE0F;', name: 'Masa', role: 'DevOps Engineer', mission: 'CI/CD, monitoramento, infra, deploy, seguranca de servidores.', reports: 'Daichi (Tech Lead)', status: 'Pendente — aguardando CTO', btn: 'hire-worker.html' }
+};
+
+function showDetail(key) {
+  const d = details[key];
+  if (!d) return;
+  document.getElementById('detailAvatar').innerHTML = d.icon;
+  document.getElementById('detailName').textContent = d.name;
+  document.getElementById('detailRole').textContent = d.role;
+  document.getElementById('detailMission').textContent = d.mission;
+  document.getElementById('detailReports').textContent = d.reports;
+  document.getElementById('detailStatus').textContent = d.status;
+  document.getElementById('detailBtn').onclick = function() { location.href = d.btn; };
+  document.getElementById('detailOverlay').classList.add('visible');
+}
+
+function closeDetail() {
+  document.getElementById('detailOverlay').classList.remove('visible');
+}
+
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') closeDetail();
+});
+</script>
+</body></html>

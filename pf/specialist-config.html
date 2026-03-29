@@ -1,16 +1,210 @@
-<!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>Especialistas de Saude — KTANA</title><link rel="stylesheet" href="../shared.css"><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Zen+Dots&display=swap" rel="stylesheet">
-<style>body{min-height:100vh;background:#F5F5F7;padding:48px 24px}.container{max-width:640px;margin:0 auto;text-align:center}.back{position:fixed;top:20px;left:24px;font-family:'Inter',sans-serif;font-size:12px;color:#86868B}h1{font-family:'Zen Dots',cursive;font-size:24px;color:#1D1D1F;margin-bottom:6px}.sub{font-family:'Satoshi',sans-serif;font-size:14px;color:#86868B;margin-bottom:32px}.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;text-align:center}.spec-card{background:#FFF;border-radius:16px;border:1px solid rgba(0,0,0,0.04);padding:20px;cursor:pointer;transition:box-shadow 0.2s,transform 0.15s}.spec-card:hover{box-shadow:0 4px 16px rgba(0,0,0,0.04);transform:translateY(-1px)}.spec-card.selected{border-color:rgba(215,0,48,0.2)}.spec-icon{width:40px;height:40px;border-radius:12px;background:rgba(0,0,0,0.02);display:flex;align-items:center;justify-content:center;margin:0 auto 10px;font-size:18px}.spec-name{font-family:'Satoshi',sans-serif;font-size:13px;font-weight:500;color:#1D1D1F;margin-bottom:4px}.spec-desc{font-family:'Satoshi',sans-serif;font-size:11px;color:#86868B;line-height:1.4}.note{font-family:'Inter',sans-serif;font-size:11px;color:#AEAEB2;margin-top:12px}.btn-next{font-family:'Inter',sans-serif;margin-top:24px;padding:14px 40px;border-radius:14px;background:#1D1D1F;color:#F5F5F7;font-size:15px;font-weight:500;border:none;cursor:pointer}</style></head>
-<body><a href="mentor-config.html" class="back">← Mentor</a><div class="container">
-<h1 class="fade-in">Especialistas de Saude.</h1>
-<p class="sub fade-in">Reportam ao Dr. Kenji (Mentor). Escolha quais contratar.</p>
-<div class="grid fade-in" style="animation-delay:0.1s">
-<div class="spec-card selected" onclick="this.classList.toggle('selected')"><div class="spec-icon">&#x1F957;</div><p class="spec-name">Orientador de Alimentacao</p><p class="spec-desc">Dieta, refeicoes, suplementacao</p></div>
-<div class="spec-card selected" onclick="this.classList.toggle('selected')"><div class="spec-icon">&#x1F3CB;</div><p class="spec-name">Mentor de Atividade Fisica</p><p class="spec-desc">Treino, rotina, metas fisicas</p></div>
-<div class="spec-card" onclick="this.classList.toggle('selected')"><div class="spec-icon">&#x1F634;</div><p class="spec-name">Especialista em Sono</p><p class="spec-desc">Higiene do sono, ritmo circadiano</p></div>
-<div class="spec-card" onclick="this.classList.toggle('selected')"><div class="spec-icon">&#x2695;</div><p class="spec-name">Orientador de Prevencao</p><p class="spec-desc">Checkups, exames, acompanhamento</p></div>
-<div class="spec-card" onclick="this.classList.toggle('selected')"><div class="spec-icon">&#x1F9D8;</div><p class="spec-name">Guia de Meditacao</p><p class="spec-desc">Mindfulness, body scan, respiracao</p></div>
-<div class="spec-card" onclick="this.classList.toggle('selected')"><div class="spec-icon">+</div><p class="spec-name">Custom</p><p class="spec-desc">Criar seu especialista</p></div>
+<!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>Configurar Especialista — KTANA</title><link rel="stylesheet" href="../shared.css"><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Zen+Dots&display=swap" rel="stylesheet">
+<style>
+body{min-height:100vh;background:#F5F5F7;color:#1D1D1F}
+a{text-decoration:none;color:inherit}
+
+.nav{position:fixed;top:0;left:0;right:0;z-index:50;height:48px;display:flex;align-items:center;justify-content:center;background:rgba(245,245,247,0.72);backdrop-filter:saturate(180%) blur(20px);border-bottom:0.5px solid rgba(0,0,0,0.06)}
+.nav-inner{width:100%;max-width:980px;padding:0 24px;display:flex;align-items:center;justify-content:space-between}
+.nav-logo{font-family:'Zen Dots',cursive;font-size:14px;color:#D70030}
+.nav-link{font-family:'Inter',sans-serif;font-size:12px;color:#86868B}
+
+.container{max-width:640px;margin:0 auto;padding:72px 24px 64px}
+h1{font-family:'Zen Dots',cursive;font-size:26px;color:#1D1D1F;text-align:center;margin-bottom:6px}
+.sub{font-family:'Satoshi',sans-serif;font-size:15px;color:#86868B;text-align:center;margin-bottom:12px}
+
+/* Mentor context */
+.mentor-ctx{display:flex;align-items:center;gap:10px;justify-content:center;margin-bottom:36px}
+.mentor-avatar{width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,rgba(215,0,48,0.08),rgba(215,0,48,0.02));display:flex;align-items:center;justify-content:center;font-size:14px}
+.mentor-info{text-align:left}
+.mentor-info .m-name{font-family:'Satoshi',sans-serif;font-size:13px;font-weight:500;color:#1D1D1F}
+.mentor-info .m-area{font-family:'Inter',sans-serif;font-size:11px;color:#D70030}
+
+/* Specialist selection grid */
+.spec-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:32px}
+.spec-card{background:#FFF;border-radius:16px;border:1.5px solid rgba(0,0,0,0.04);padding:20px 14px;text-align:center;cursor:pointer;transition:all 0.2s;min-height:44px;-webkit-user-select:none;user-select:none}
+.spec-card:hover{box-shadow:0 4px 16px rgba(0,0,0,0.04);transform:translateY(-1px)}
+.spec-card.selected{border-color:rgba(215,0,48,0.25);background:rgba(215,0,48,0.015)}
+.spec-icon{width:44px;height:44px;border-radius:14px;background:rgba(0,0,0,0.02);display:flex;align-items:center;justify-content:center;margin:0 auto 10px;font-size:20px}
+.spec-card.selected .spec-icon{background:rgba(215,0,48,0.06)}
+.spec-name{font-family:'Satoshi',sans-serif;font-size:13px;font-weight:500;color:#1D1D1F;margin-bottom:3px}
+.spec-desc{font-family:'Satoshi',sans-serif;font-size:11px;color:#86868B;line-height:1.4}
+
+/* Config panel (appears after selecting) */
+.config-panel{background:#FFF;border-radius:20px;border:1px solid rgba(0,0,0,0.04);padding:24px;margin-bottom:14px;display:none;animation:fadeIn 0.3s ease}
+.config-panel.visible{display:block}
+.panel-label{font-family:'Inter',sans-serif;font-size:11px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:#D70030;margin-bottom:14px}
+.panel-desc{font-family:'Satoshi',sans-serif;font-size:13px;color:#86868B;margin-bottom:16px;line-height:1.5}
+
+.form-group{margin-bottom:16px}
+.form-group label{font-family:'Inter',sans-serif;display:block;font-size:12px;font-weight:500;color:#86868B;margin-bottom:6px}
+.form-input{font-family:'Satoshi',sans-serif;background:#F5F5F7;border:1px solid rgba(0,0,0,0.06);border-radius:12px;padding:12px 14px;font-size:14px;width:100%;outline:none;color:#1D1D1F;transition:border-color 0.2s}
+.form-input:focus{border-color:rgba(215,0,48,0.3)}
+.form-input::placeholder{color:#AEAEB2}
+select.form-input{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%2386868B' fill='none' stroke-width='1.5'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center;cursor:pointer}
+
+/* Scope tags */
+.scope-tags{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px}
+.scope-tag{font-family:'Inter',sans-serif;padding:6px 14px;border-radius:980px;border:1.5px solid rgba(0,0,0,0.08);font-size:12px;color:#86868B;cursor:pointer;transition:all 0.15s;min-height:44px;display:flex;align-items:center;-webkit-user-select:none;user-select:none}
+.scope-tag:hover{border-color:rgba(0,0,0,0.15)}
+.scope-tag.selected{border-color:rgba(215,0,48,0.25);background:rgba(215,0,48,0.02);color:#D70030}
+
+/* Reporting line */
+.report-line{display:flex;align-items:center;gap:10px;padding:12px 16px;background:#F5F5F7;border-radius:12px;margin-bottom:16px}
+.report-arrow{font-family:'Inter',sans-serif;font-size:11px;color:#AEAEB2}
+.report-name{font-family:'Satoshi',sans-serif;font-size:13px;font-weight:500;color:#1D1D1F}
+.report-role{font-family:'Inter',sans-serif;font-size:11px;color:#D70030}
+
+.btn-row{display:flex;gap:10px;margin-top:28px;justify-content:center}
+.btn-save{font-family:'Inter',sans-serif;min-height:52px;padding:14px 40px;border-radius:14px;background:#1D1D1F;color:#F5F5F7;font-size:15px;font-weight:500;border:none;cursor:pointer;transition:opacity 0.15s;width:100%}
+.btn-save:hover{opacity:0.9}
+.btn-back{font-family:'Inter',sans-serif;min-height:52px;padding:14px 24px;border-radius:14px;background:#FFF;color:#1D1D1F;font-size:15px;font-weight:500;border:1px solid rgba(0,0,0,0.08);cursor:pointer;flex-shrink:0}
+.disclaimer{font-family:'Inter',sans-serif;font-size:11px;color:#AEAEB2;text-align:center;margin-top:20px;line-height:1.6}
+
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+@media(max-width:520px){.spec-grid{grid-template-columns:repeat(2,1fr)}}
+</style>
+</head>
+<body>
+
+<nav class="nav"><div class="nav-inner"><a href="landing.html" class="nav-logo">KTANA</a><a href="mentor-config.html" class="nav-link">Voltar ao mentor</a></div></nav>
+
+<div class="container">
+  <h1>Escolha um especialista.</h1>
+  <p class="sub">Especialistas focam em topicos especificos dentro da area do mentor.</p>
+
+  <div class="mentor-ctx">
+    <div class="mentor-avatar">&#x2694;&#xFE0F;</div>
+    <div class="mentor-info">
+      <p class="m-name">Dr. Kenji</p>
+      <p class="m-area">Mentor de Saude</p>
+    </div>
+  </div>
+
+  <!-- Specialist grid -->
+  <div class="spec-grid">
+    <div class="spec-card" onclick="selectSpec(this,'nutricao')" data-spec="nutricao">
+      <div class="spec-icon">&#x1F957;</div>
+      <p class="spec-name">Nutricao</p>
+      <p class="spec-desc">Dieta, refeicoes, macro e micronutrientes, suplementacao</p>
+    </div>
+    <div class="spec-card" onclick="selectSpec(this,'exercicio')" data-spec="exercicio">
+      <div class="spec-icon">&#x1F3CB;&#xFE0F;</div>
+      <p class="spec-name">Exercicio</p>
+      <p class="spec-desc">Treino, periodizacao, metas fisicas, recuperacao</p>
+    </div>
+    <div class="spec-card" onclick="selectSpec(this,'sono')" data-spec="sono">
+      <div class="spec-icon">&#x1F634;</div>
+      <p class="spec-name">Sono</p>
+      <p class="spec-desc">Higiene do sono, ritmo circadiano, qualidade</p>
+    </div>
+    <div class="spec-card" onclick="selectSpec(this,'prevencao')" data-spec="prevencao">
+      <div class="spec-icon">&#x2695;&#xFE0F;</div>
+      <p class="spec-name">Prevencao</p>
+      <p class="spec-desc">Checkups, exames periodicos, vacinacao, acompanhamento</p>
+    </div>
+    <div class="spec-card" onclick="selectSpec(this,'meditacao')" data-spec="meditacao">
+      <div class="spec-icon">&#x1F9D8;&#x200D;&#x2640;&#xFE0F;</div>
+      <p class="spec-name">Meditacao</p>
+      <p class="spec-desc">Mindfulness, respiracao, body scan, relaxamento</p>
+    </div>
+    <div class="spec-card" onclick="selectSpec(this,'custom')" data-spec="custom">
+      <div class="spec-icon" style="font-size:24px;color:#86868B">+</div>
+      <p class="spec-name">Personalizado</p>
+      <p class="spec-desc">Crie um especialista sob medida</p>
+    </div>
+  </div>
+
+  <!-- Config panel -->
+  <div class="config-panel" id="configPanel">
+    <p class="panel-label">Configuracao do especialista</p>
+
+    <!-- Reporting line -->
+    <div class="report-line">
+      <span class="report-role">Reporta a:</span>
+      <span class="report-arrow">&#x2192;</span>
+      <span class="report-name">Dr. Kenji</span>
+      <span style="font-family:'Inter',sans-serif;font-size:11px;color:#AEAEB2;margin-left:auto">Mentor de Saude</span>
+    </div>
+
+    <div class="form-group">
+      <label>Nome do especialista</label>
+      <input type="text" class="form-input" id="specName" placeholder="Ex: Chef Yuki">
+    </div>
+
+    <div class="form-group">
+      <label>Topico especifico</label>
+      <input type="text" class="form-input" id="specTopic" placeholder="Ex: Dieta cetogenica, treino HIIT">
+    </div>
+
+    <div class="form-group">
+      <label>Escopo de atuacao</label>
+      <p class="panel-desc" style="margin-bottom:10px">O que este especialista pode fazer?</p>
+      <div class="scope-tags" id="scopeTags">
+        <!-- Dynamically populated -->
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label>Frequencia de interacao</label>
+      <select class="form-input">
+        <option>Diario — check-in todos os dias</option>
+        <option selected>Sob demanda — quando voce pedir</option>
+        <option>3x por semana — dias alternados</option>
+        <option>Semanal — uma vez por semana</option>
+      </select>
+    </div>
+
+    <div class="form-group" style="margin-bottom:0">
+      <label>Tom</label>
+      <div class="scope-tags">
+        <div class="scope-tag selected" onclick="this.classList.toggle('selected')">Pratico</div>
+        <div class="scope-tag" onclick="this.classList.toggle('selected')">Detalhista</div>
+        <div class="scope-tag selected" onclick="this.classList.toggle('selected')">Motivador</div>
+        <div class="scope-tag" onclick="this.classList.toggle('selected')">Cientifico</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="btn-row">
+    <button class="btn-back" onclick="location.href='mentor-config.html'">Voltar</button>
+    <button class="btn-save" onclick="location.href='review.html'" style="flex:1">Salvar e continuar</button>
+  </div>
+  <p class="disclaimer">Especialistas sao assistentes de IA. Nao substituem profissionais de saude habilitados.</p>
 </div>
-<p class="note fade-in" style="animation-delay:0.15s">Todos os especialistas de saude sao assistentes de IA. Nao substituem profissionais habilitados.</p>
-<button class="btn-next fade-in" style="animation-delay:0.2s" onclick="location.href='../tenant/onboarding/connect.html'">Proximo: conectar ferramentas</button>
-</div></body></html>
+
+<script>
+const specConfigs = {
+  nutricao: { name: 'Chef Yuki', topic: 'Alimentacao funcional e planejamento de refeicoes', scopes: ['Plano alimentar','Receitas','Suplementos','Macro tracking','Lista de compras','Hidratacao'] },
+  exercicio: { name: 'Sensei Riku', topic: 'Treinamento fisico e performance', scopes: ['Plano de treino','Progressao','Aquecimento','Recuperacao','VO2max','Mobilidade'] },
+  sono: { name: 'Mestre Tsuki', topic: 'Qualidade do sono e ritmo circadiano', scopes: ['Rotina noturna','Ambiente','Luz e temperatura','Cronobiologia','Tracking','Cochilos'] },
+  prevencao: { name: 'Dr. Hoshi', topic: 'Medicina preventiva e checkups', scopes: ['Calendario de exames','Vacinacao','Biomarcadores','Historico familiar','Screening','Lembretes'] },
+  meditacao: { name: 'Mestre Zen', topic: 'Praticas contemplativas e presenca', scopes: ['Mindfulness','Respiracao','Body scan','Visualizacao','Gratidao','Journaling'] },
+  custom: { name: '', topic: '', scopes: ['Definir escopo 1','Definir escopo 2','Definir escopo 3'] }
+};
+
+let selectedSpecCard = null;
+
+function selectSpec(el, spec) {
+  document.querySelectorAll('.spec-card').forEach(c => c.classList.remove('selected'));
+  el.classList.add('selected');
+  selectedSpecCard = spec;
+
+  const config = specConfigs[spec];
+  document.getElementById('specName').value = config.name;
+  document.getElementById('specTopic').value = config.topic;
+
+  const scopeContainer = document.getElementById('scopeTags');
+  scopeContainer.innerHTML = '';
+  config.scopes.forEach((s, i) => {
+    const tag = document.createElement('div');
+    tag.className = 'scope-tag' + (i < 3 ? ' selected' : '');
+    tag.textContent = s;
+    tag.onclick = function() { this.classList.toggle('selected'); };
+    scopeContainer.appendChild(tag);
+  });
+
+  document.getElementById('configPanel').classList.add('visible');
+  document.getElementById('configPanel').scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+</script>
+</body></html>

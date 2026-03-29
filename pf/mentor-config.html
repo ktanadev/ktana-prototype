@@ -1,21 +1,284 @@
-<!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>Mentor de Saude — KTANA</title><link rel="stylesheet" href="../shared.css"><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Zen+Dots&display=swap" rel="stylesheet">
-<style>body{min-height:100vh;background:#F5F5F7;padding:48px 24px}.container{max-width:580px;margin:0 auto}.back{position:fixed;top:20px;left:24px;font-family:'Inter',sans-serif;font-size:12px;color:#86868B}h1{font-family:'Zen Dots',cursive;font-size:24px;color:#1D1D1F;text-align:center;margin-bottom:6px}.sub{font-family:'Satoshi',sans-serif;font-size:14px;color:#86868B;text-align:center;margin-bottom:32px}.card{background:#FFF;border-radius:20px;border:1px solid rgba(0,0,0,0.04);padding:24px;margin-bottom:12px}.card-label{font-family:'Inter',sans-serif;font-size:11px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:#D70030;margin-bottom:14px}.field label{font-family:'Inter',sans-serif;display:block;font-size:11px;color:#86868B;margin-bottom:6px;font-weight:500}.input{font-family:'Satoshi',sans-serif;background:#F5F5F7;border:0.5px solid rgba(0,0,0,0.06);border-radius:12px;padding:12px 14px;font-size:14px;width:100%;outline:none;color:#1D1D1F}.ref-item{display:flex;align-items:center;gap:10px;padding:10px 14px;border-radius:12px;border:0.5px solid rgba(0,0,0,0.06);cursor:pointer;transition:all 0.15s;margin-bottom:6px}.ref-item:hover{border-color:rgba(0,0,0,0.12)}.ref-item.active{border-color:rgba(215,0,48,0.2);background:rgba(215,0,48,0.02)}.ref-check{width:18px;height:18px;border-radius:50%;border:1.5px solid #D2D2D7;display:flex;align-items:center;justify-content:center;flex-shrink:0}.ref-item.active .ref-check{border-color:#D70030;background:#D70030}.ref-item.active .ref-check::after{content:'';width:6px;height:6px;border-radius:50%;background:#FFF}.ref-name{font-family:'Satoshi',sans-serif;font-size:13px;font-weight:500;color:#1D1D1F}.ref-desc{font-family:'Satoshi',sans-serif;font-size:11px;color:#86868B}.btn-save{font-family:'Inter',sans-serif;width:100%;padding:14px;border-radius:14px;background:#1D1D1F;color:#F5F5F7;font-size:15px;font-weight:500;border:none;cursor:pointer;margin-top:24px}.disclaimer{font-family:'Inter',sans-serif;font-size:11px;color:#AEAEB2;text-align:center;margin-top:16px;line-height:1.6}</style></head>
-<body><a href="onboarding.html" class="back">← Areas</a><div class="container">
-<h1 class="fade-in">Mentor de Saude.</h1>
-<p class="sub fade-in">Configure o mentor que supervisiona sua area de saude.</p>
-<div class="card fade-in"><p class="card-label">Nome</p><div class="field"><label>Como quer chamar seu mentor?</label><input type="text" class="input" value="Dr. Kenji" placeholder="Ex: Dr. Kenji"></div></div>
-<div class="card fade-in" style="animation-delay:0.1s"><p class="card-label">Cerebro (de quem ele aprende)</p><p style="font-family:'Satoshi',sans-serif;font-size:13px;color:#86868B;margin-bottom:16px;">Vamos clonar a filosofia e abordagem dessas referencias.</p>
-<div class="ref-item active" onclick="this.classList.toggle('active')"><div class="ref-check"></div><div><p class="ref-name">Dr. Peter Attia</p><p class="ref-desc">Longevidade, medicina preventiva, exercicio como remedio, VO2max</p></div></div>
-<div class="ref-item active" onclick="this.classList.toggle('active')"><div class="ref-check"></div><div><p class="ref-name">Andrew Huberman</p><p class="ref-desc">Neurociencia aplicada, sono, luz solar, protocolos baseados em evidencia</p></div></div>
-<div class="ref-item" onclick="this.classList.toggle('active')"><div class="ref-check"></div><div><p class="ref-name">Dr. Barakat</p><p class="ref-desc">Medicina integrativa, jejum, estilo de vida</p></div></div>
-<div class="ref-item" onclick="this.classList.toggle('active')"><div class="ref-check"></div><div><p class="ref-name">Dr. Lair Ribeiro</p><p class="ref-desc">Ortomolecular, suplementacao, alimentacao funcional</p></div></div>
-<a style="font-family:'Inter',sans-serif;font-size:12px;color:#D70030;cursor:pointer;margin-top:8px;display:inline-block;">+ Adicionar referencia</a></div>
-<div class="card fade-in" style="animation-delay:0.15s"><p class="card-label">Tom</p><div style="display:flex;gap:6px;flex-wrap:wrap;">
-<span style="font-family:'Inter',sans-serif;padding:6px 14px;border-radius:980px;border:0.5px solid rgba(215,0,48,0.2);background:rgba(215,0,48,0.02);font-size:12px;color:#D70030;cursor:pointer;">Firme</span>
-<span style="font-family:'Inter',sans-serif;padding:6px 14px;border-radius:980px;border:0.5px solid rgba(0,0,0,0.08);font-size:12px;color:#86868B;cursor:pointer;">Empatico</span>
-<span style="font-family:'Inter',sans-serif;padding:6px 14px;border-radius:980px;border:0.5px solid rgba(215,0,48,0.2);background:rgba(215,0,48,0.02);font-size:12px;color:#D70030;cursor:pointer;">Baseado em dados</span>
-<span style="font-family:'Inter',sans-serif;padding:6px 14px;border-radius:980px;border:0.5px solid rgba(0,0,0,0.08);font-size:12px;color:#86868B;cursor:pointer;">Motivacional</span>
-</div></div>
-<button class="btn-save fade-in" style="animation-delay:0.2s" onclick="location.href='specialist-config.html'">Salvar mentor e escolher especialistas</button>
-<p class="disclaimer fade-in" style="animation-delay:0.25s">Este mentor e um assistente de IA. Nao substitui acompanhamento de profissional de saude habilitado. Em emergencias, ligue 192 (SAMU).</p>
-</div></body></html>
+<!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>Configurar Mentor — KTANA</title><link rel="stylesheet" href="../shared.css"><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Zen+Dots&display=swap" rel="stylesheet">
+<style>
+body{min-height:100vh;background:#F5F5F7;color:#1D1D1F}
+a{text-decoration:none;color:inherit}
+
+.nav{position:fixed;top:0;left:0;right:0;z-index:50;height:48px;display:flex;align-items:center;justify-content:center;background:rgba(245,245,247,0.72);backdrop-filter:saturate(180%) blur(20px);border-bottom:0.5px solid rgba(0,0,0,0.06)}
+.nav-inner{width:100%;max-width:980px;padding:0 24px;display:flex;align-items:center;justify-content:space-between}
+.nav-logo{font-family:'Zen Dots',cursive;font-size:14px;color:#D70030}
+.nav-link{font-family:'Inter',sans-serif;font-size:12px;color:#86868B}
+
+.container{max-width:620px;margin:0 auto;padding:72px 24px 64px}
+h1{font-family:'Zen Dots',cursive;font-size:26px;color:#1D1D1F;text-align:center;margin-bottom:6px}
+.sub{font-family:'Satoshi',sans-serif;font-size:15px;color:#86868B;text-align:center;margin-bottom:36px}
+
+/* Section cards */
+.section-card{background:#FFF;border-radius:20px;border:1px solid rgba(0,0,0,0.04);padding:24px;margin-bottom:14px;animation:fadeIn 0.4s cubic-bezier(0.25,0.1,0.25,1) both}
+.section-card:nth-child(2){animation-delay:0.05s}
+.section-card:nth-child(3){animation-delay:0.1s}
+.section-card:nth-child(4){animation-delay:0.15s}
+.section-card:nth-child(5){animation-delay:0.2s}
+.section-card:nth-child(6){animation-delay:0.25s}
+.card-label{font-family:'Inter',sans-serif;font-size:11px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:#D70030;margin-bottom:14px}
+.card-desc{font-family:'Satoshi',sans-serif;font-size:13px;color:#86868B;margin-bottom:16px;line-height:1.5}
+
+/* Form */
+.form-group{margin-bottom:16px}
+.form-group label{font-family:'Inter',sans-serif;display:block;font-size:12px;font-weight:500;color:#86868B;margin-bottom:6px}
+.form-input{font-family:'Satoshi',sans-serif;background:#F5F5F7;border:1px solid rgba(0,0,0,0.06);border-radius:12px;padding:12px 14px;font-size:14px;width:100%;outline:none;color:#1D1D1F;transition:border-color 0.2s}
+.form-input:focus{border-color:rgba(215,0,48,0.3)}
+.form-input::placeholder{color:#AEAEB2}
+select.form-input{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%2386868B' fill='none' stroke-width='1.5'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center;cursor:pointer}
+
+/* Area selector */
+.area-options{display:flex;flex-wrap:wrap;gap:8px}
+.area-opt{font-family:'Inter',sans-serif;padding:8px 16px;border-radius:980px;border:1.5px solid rgba(0,0,0,0.08);font-size:12px;color:#86868B;cursor:pointer;transition:all 0.15s;min-height:44px;display:flex;align-items:center;gap:6px;-webkit-user-select:none;user-select:none}
+.area-opt:hover{border-color:rgba(0,0,0,0.15)}
+.area-opt.selected{border-color:rgba(215,0,48,0.25);background:rgba(215,0,48,0.02);color:#D70030}
+.area-opt .a-icon{font-size:14px}
+
+/* Reference brains */
+.ref-list{display:flex;flex-direction:column;gap:8px}
+.ref-item{display:flex;align-items:center;gap:12px;padding:12px 14px;border-radius:14px;border:1.5px solid rgba(0,0,0,0.06);cursor:pointer;transition:all 0.15s;min-height:44px;-webkit-user-select:none;user-select:none}
+.ref-item:hover{border-color:rgba(0,0,0,0.12)}
+.ref-item.active{border-color:rgba(215,0,48,0.25);background:rgba(215,0,48,0.015)}
+.ref-check{width:20px;height:20px;border-radius:50%;border:1.5px solid #D2D2D7;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all 0.15s}
+.ref-item.active .ref-check{border-color:#D70030;background:#D70030}
+.ref-item.active .ref-check::after{content:'';width:6px;height:6px;border-radius:50%;background:#FFF}
+.ref-info{flex:1}
+.ref-name{font-family:'Satoshi',sans-serif;font-size:13px;font-weight:500;color:#1D1D1F}
+.ref-desc{font-family:'Satoshi',sans-serif;font-size:11px;color:#86868B;margin-top:2px}
+.ref-add{font-family:'Inter',sans-serif;font-size:12px;color:#D70030;cursor:pointer;margin-top:10px;display:inline-block;min-height:44px;display:inline-flex;align-items:center}
+
+/* Tone chips */
+.tone-options{display:flex;flex-wrap:wrap;gap:8px}
+.tone-chip{font-family:'Inter',sans-serif;padding:8px 16px;border-radius:980px;border:1.5px solid rgba(0,0,0,0.08);font-size:12px;color:#86868B;cursor:pointer;transition:all 0.15s;min-height:44px;display:flex;align-items:center;-webkit-user-select:none;user-select:none}
+.tone-chip:hover{border-color:rgba(0,0,0,0.15)}
+.tone-chip.selected{border-color:rgba(215,0,48,0.25);background:rgba(215,0,48,0.02);color:#D70030}
+
+/* Schedule */
+.schedule-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+
+/* Goals */
+.goal-input-row{display:flex;gap:8px;margin-bottom:10px}
+.goal-input-row .form-input{flex:1}
+.goal-tag{font-family:'Satoshi',sans-serif;display:inline-flex;align-items:center;gap:6px;background:rgba(215,0,48,0.04);color:#1D1D1F;padding:6px 12px;border-radius:10px;font-size:12px;margin-right:6px;margin-bottom:6px}
+.goal-tag .remove{cursor:pointer;color:#D70030;font-weight:700;font-size:14px}
+.btn-add{font-family:'Inter',sans-serif;min-height:44px;padding:0 16px;border-radius:12px;background:#F0F0F0;color:#1D1D1F;font-size:13px;font-weight:500;border:none;cursor:pointer;flex-shrink:0;display:flex;align-items:center;justify-content:center}
+
+/* Main button */
+.btn-row{display:flex;gap:10px;margin-top:32px;justify-content:center}
+.btn-save{font-family:'Inter',sans-serif;min-height:52px;padding:14px 40px;border-radius:14px;background:#1D1D1F;color:#F5F5F7;font-size:15px;font-weight:500;border:none;cursor:pointer;transition:opacity 0.15s;width:100%}
+.btn-save:hover{opacity:0.9}
+
+/* Disclaimer */
+.disclaimer{font-family:'Inter',sans-serif;font-size:11px;color:#AEAEB2;text-align:center;margin-top:20px;line-height:1.6}
+
+/* Dynamic references (hidden by default, shown per area) */
+.ref-group{display:none}
+.ref-group.visible{display:flex;flex-direction:column;gap:8px}
+
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+@media(max-width:520px){.schedule-row{grid-template-columns:1fr}.area-options{gap:6px}}
+</style>
+</head>
+<body>
+
+<nav class="nav"><div class="nav-inner"><a href="landing.html" class="nav-logo">KTANA</a><a href="onboarding.html" class="nav-link">Voltar ao onboarding</a></div></nav>
+
+<div class="container">
+  <h1>Configure seu mentor.</h1>
+  <p class="sub">Escolha a area, o cerebro e o estilo. Voce pode ajustar tudo depois.</p>
+
+  <!-- AREA -->
+  <div class="section-card">
+    <p class="card-label">Area da vida</p>
+    <p class="card-desc">Qual area este mentor vai supervisionar?</p>
+    <div class="area-options">
+      <div class="area-opt selected" onclick="selectArea(this,'saude')" data-area="saude"><span class="a-icon">&#x2764;&#xFE0F;</span> Saude</div>
+      <div class="area-opt" onclick="selectArea(this,'mente')" data-area="mente"><span class="a-icon">&#x1F9E0;</span> Mente</div>
+      <div class="area-opt" onclick="selectArea(this,'carreira')" data-area="carreira"><span class="a-icon">&#x1F4BC;</span> Carreira</div>
+      <div class="area-opt" onclick="selectArea(this,'financas')" data-area="financas"><span class="a-icon">&#x1F4B0;</span> Financas</div>
+      <div class="area-opt" onclick="selectArea(this,'proposito')" data-area="proposito"><span class="a-icon">&#x1F3AF;</span> Proposito</div>
+      <div class="area-opt" onclick="selectArea(this,'produtividade')" data-area="produtividade"><span class="a-icon">&#x23F0;</span> Produtividade</div>
+      <div class="area-opt" onclick="selectArea(this,'relacionamentos')" data-area="relacionamentos"><span class="a-icon">&#x1F465;</span> Relacionamentos</div>
+      <div class="area-opt" onclick="selectArea(this,'casa')" data-area="casa"><span class="a-icon">&#x1F3E0;</span> Casa</div>
+    </div>
+  </div>
+
+  <!-- NAME -->
+  <div class="section-card">
+    <p class="card-label">Nome do mentor</p>
+    <div class="form-group" style="margin-bottom:0">
+      <label>Como voce quer chamar este mentor?</label>
+      <input type="text" class="form-input" id="mentorName" value="Dr. Kenji" placeholder="Ex: Dr. Kenji, Mestre Hana">
+    </div>
+  </div>
+
+  <!-- BRAIN REFERENCES -->
+  <div class="section-card">
+    <p class="card-label">Cerebro (referencias)</p>
+    <p class="card-desc">O mentor vai absorver a filosofia e abordagem dessas referencias reais. Selecione quantas quiser.</p>
+
+    <!-- Saude refs -->
+    <div class="ref-group visible" id="refs-saude">
+      <div class="ref-item active" onclick="this.classList.toggle('active')"><div class="ref-check"></div><div class="ref-info"><p class="ref-name">Dr. Peter Attia</p><p class="ref-desc">Longevidade, medicina preventiva, VO2max, exercicio como remedio</p></div></div>
+      <div class="ref-item active" onclick="this.classList.toggle('active')"><div class="ref-check"></div><div class="ref-info"><p class="ref-name">Andrew Huberman</p><p class="ref-desc">Neurociencia aplicada, sono, protocolos baseados em evidencia</p></div></div>
+      <div class="ref-item" onclick="this.classList.toggle('active')"><div class="ref-check"></div><div class="ref-info"><p class="ref-name">Dr. Barakat</p><p class="ref-desc">Medicina integrativa, jejum, estilo de vida funcional</p></div></div>
+      <div class="ref-item" onclick="this.classList.toggle('active')"><div class="ref-check"></div><div class="ref-info"><p class="ref-name">Dr. Lair Ribeiro</p><p class="ref-desc">Ortomolecular, suplementacao, alimentacao funcional</p></div></div>
+    </div>
+
+    <!-- Mente refs -->
+    <div class="ref-group" id="refs-mente">
+      <div class="ref-item active" onclick="this.classList.toggle('active')"><div class="ref-check"></div><div class="ref-info"><p class="ref-name">Dr. Augusto Cury</p><p class="ref-desc">Inteligencia multifocal, gestao emocional, ansiedade</p></div></div>
+      <div class="ref-item" onclick="this.classList.toggle('active')"><div class="ref-check"></div><div class="ref-info"><p class="ref-name">Brene Brown</p><p class="ref-desc">Vulnerabilidade, coragem, emocoes, conexao humana</p></div></div>
+      <div class="ref-item" onclick="this.classList.toggle('active')"><div class="ref-check"></div><div class="ref-info"><p class="ref-name">Jordan Peterson</p><p class="ref-desc">Responsabilidade, sentido, psicologia junguiana</p></div></div>
+      <div class="ref-item" onclick="this.classList.toggle('active')"><div class="ref-check"></div><div class="ref-info"><p class="ref-name">Thich Nhat Hanh</p><p class="ref-desc">Mindfulness, presenca, paz interior, meditacao</p></div></div>
+    </div>
+
+    <!-- Carreira refs -->
+    <div class="ref-group" id="refs-carreira">
+      <div class="ref-item active" onclick="this.classList.toggle('active')"><div class="ref-check"></div><div class="ref-info"><p class="ref-name">Simon Sinek</p><p class="ref-desc">Proposito, lideranca, Golden Circle, jogo infinito</p></div></div>
+      <div class="ref-item" onclick="this.classList.toggle('active')"><div class="ref-check"></div><div class="ref-info"><p class="ref-name">Cal Newport</p><p class="ref-desc">Deep work, minimalismo digital, carreira artesanal</p></div></div>
+      <div class="ref-item" onclick="this.classList.toggle('active')"><div class="ref-check"></div><div class="ref-info"><p class="ref-name">Sheryl Sandberg</p><p class="ref-desc">Lideranca feminina, Lean In, crescimento na carreira</p></div></div>
+      <div class="ref-item" onclick="this.classList.toggle('active')"><div class="ref-check"></div><div class="ref-info"><p class="ref-name">Reid Hoffman</p><p class="ref-desc">Network, marca pessoal, startup de voce mesmo</p></div></div>
+    </div>
+
+    <!-- Financas refs -->
+    <div class="ref-group" id="refs-financas">
+      <div class="ref-item active" onclick="this.classList.toggle('active')"><div class="ref-check"></div><div class="ref-info"><p class="ref-name">Ray Dalio</p><p class="ref-desc">Principios, macroeconomia, diversificacao, All Weather</p></div></div>
+      <div class="ref-item" onclick="this.classList.toggle('active')"><div class="ref-check"></div><div class="ref-info"><p class="ref-name">Warren Buffett</p><p class="ref-desc">Value investing, paciencia, juros compostos, longo prazo</p></div></div>
+      <div class="ref-item" onclick="this.classList.toggle('active')"><div class="ref-check"></div><div class="ref-info"><p class="ref-name">Thiago Nigro</p><p class="ref-desc">Primo Rico, financas pessoais BR, investimentos acessiveis</p></div></div>
+      <div class="ref-item" onclick="this.classList.toggle('active')"><div class="ref-check"></div><div class="ref-info"><p class="ref-name">Nathalia Arcuri</p><p class="ref-desc">Me Poupe, educacao financeira, economia, comportamento</p></div></div>
+    </div>
+
+    <!-- Proposito refs -->
+    <div class="ref-group" id="refs-proposito">
+      <div class="ref-item active" onclick="this.classList.toggle('active')"><div class="ref-check"></div><div class="ref-info"><p class="ref-name">Viktor Frankl</p><p class="ref-desc">Logoterapia, sentido da vida, resiliencia existencial</p></div></div>
+      <div class="ref-item" onclick="this.classList.toggle('active')"><div class="ref-check"></div><div class="ref-info"><p class="ref-name">Ikigai (Ken Mogi)</p><p class="ref-desc">Razao de ser japonesa, alegria nas pequenas coisas</p></div></div>
+      <div class="ref-item" onclick="this.classList.toggle('active')"><div class="ref-check"></div><div class="ref-info"><p class="ref-name">James Hollis</p><p class="ref-desc">Psicologia profunda, segunda metade da vida, sentido</p></div></div>
+    </div>
+
+    <!-- Produtividade refs -->
+    <div class="ref-group" id="refs-produtividade">
+      <div class="ref-item active" onclick="this.classList.toggle('active')"><div class="ref-check"></div><div class="ref-info"><p class="ref-name">David Allen (GTD)</p><p class="ref-desc">Getting Things Done, captura, organizacao, revisao</p></div></div>
+      <div class="ref-item" onclick="this.classList.toggle('active')"><div class="ref-check"></div><div class="ref-info"><p class="ref-name">James Clear</p><p class="ref-desc">Habitos atomicos, sistemas, identidade, 1% melhor</p></div></div>
+      <div class="ref-item" onclick="this.classList.toggle('active')"><div class="ref-check"></div><div class="ref-info"><p class="ref-name">Ali Abdaal</p><p class="ref-desc">Feel-good productivity, energia, diversao no processo</p></div></div>
+    </div>
+
+    <!-- Relacionamentos refs -->
+    <div class="ref-group" id="refs-relacionamentos">
+      <div class="ref-item active" onclick="this.classList.toggle('active')"><div class="ref-check"></div><div class="ref-info"><p class="ref-name">Brene Brown</p><p class="ref-desc">Vulnerabilidade, empatia, conexao humana, pertencimento</p></div></div>
+      <div class="ref-item" onclick="this.classList.toggle('active')"><div class="ref-check"></div><div class="ref-info"><p class="ref-name">John Gottman</p><p class="ref-desc">Ciencia dos relacionamentos, 4 cavaleiros, comunicacao</p></div></div>
+      <div class="ref-item" onclick="this.classList.toggle('active')"><div class="ref-check"></div><div class="ref-info"><p class="ref-name">Esther Perel</p><p class="ref-desc">Relacionamentos modernos, desejo, erotismo, fidelidade</p></div></div>
+      <div class="ref-item" onclick="this.classList.toggle('active')"><div class="ref-check"></div><div class="ref-info"><p class="ref-name">Marshall Rosenberg</p><p class="ref-desc">Comunicacao nao violenta, necessidades, pedidos, empatia</p></div></div>
+    </div>
+
+    <!-- Casa refs -->
+    <div class="ref-group" id="refs-casa">
+      <div class="ref-item active" onclick="this.classList.toggle('active')"><div class="ref-check"></div><div class="ref-info"><p class="ref-name">Marie Kondo</p><p class="ref-desc">Organizacao, minimalismo, alegria, metodo KonMari</p></div></div>
+      <div class="ref-item" onclick="this.classList.toggle('active')"><div class="ref-check"></div><div class="ref-info"><p class="ref-name">The Home Edit</p><p class="ref-desc">Organizacao funcional, categorias, etiquetas, sistemas</p></div></div>
+      <div class="ref-item" onclick="this.classList.toggle('active')"><div class="ref-check"></div><div class="ref-info"><p class="ref-name">Flylady</p><p class="ref-desc">Rotinas domesticas, baby steps, zonas, limpeza diaria</p></div></div>
+    </div>
+
+    <a class="ref-add">+ Adicionar outra referencia</a>
+  </div>
+
+  <!-- TONE -->
+  <div class="section-card">
+    <p class="card-label">Tom de coaching</p>
+    <p class="card-desc">Como voce prefere que seu mentor se comunique?</p>
+    <div class="tone-options">
+      <div class="tone-chip selected" onclick="toggleChip(this)">Motivacional</div>
+      <div class="tone-chip" onclick="toggleChip(this)">Analitico</div>
+      <div class="tone-chip" onclick="toggleChip(this)">Gentil</div>
+      <div class="tone-chip selected" onclick="toggleChip(this)">Direto</div>
+      <div class="tone-chip" onclick="toggleChip(this)">Empatico</div>
+      <div class="tone-chip" onclick="toggleChip(this)">Desafiador</div>
+      <div class="tone-chip" onclick="toggleChip(this)">Baseado em dados</div>
+      <div class="tone-chip" onclick="toggleChip(this)">Holisitco</div>
+    </div>
+  </div>
+
+  <!-- SCHEDULE -->
+  <div class="section-card">
+    <p class="card-label">Agenda</p>
+    <p class="card-desc">Quando voce quer receber check-ins e revisoes?</p>
+    <div class="schedule-row">
+      <div class="form-group" style="margin-bottom:0">
+        <label>Check-in diario</label>
+        <select class="form-input">
+          <option>07:00 — Manha cedo</option>
+          <option selected>08:00 — Manha</option>
+          <option>12:00 — Almoco</option>
+          <option>18:00 — Fim do dia</option>
+          <option>21:00 — Noite</option>
+        </select>
+      </div>
+      <div class="form-group" style="margin-bottom:0">
+        <label>Revisao semanal</label>
+        <select class="form-input">
+          <option selected>Domingo</option>
+          <option>Segunda</option>
+          <option>Sexta</option>
+          <option>Sabado</option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <!-- GOALS -->
+  <div class="section-card">
+    <p class="card-label">Metas</p>
+    <p class="card-desc">Quais sao seus objetivos especificos nesta area? Adicione quantas quiser.</p>
+    <div id="goalTags">
+      <div class="goal-tag">Treinar 4x por semana <span class="remove" onclick="this.parentElement.remove()">&times;</span></div>
+      <div class="goal-tag">Dormir 7h+ por noite <span class="remove" onclick="this.parentElement.remove()">&times;</span></div>
+    </div>
+    <div class="goal-input-row">
+      <input type="text" class="form-input" id="goalInput" placeholder="Ex: Perder 5kg ate julho">
+      <button class="btn-add" onclick="addGoal()">Adicionar</button>
+    </div>
+  </div>
+
+  <!-- Save -->
+  <button class="btn-save" onclick="location.href='specialist-config.html'">Salvar mentor e escolher especialistas</button>
+  <p class="disclaimer">Este mentor e um assistente de IA. Nao substitui acompanhamento de profissional habilitado. Em emergencias, ligue 192 (SAMU).</p>
+</div>
+
+<script>
+let currentArea = 'saude';
+
+function selectArea(el, area) {
+  document.querySelectorAll('.area-opt').forEach(a => a.classList.remove('selected'));
+  el.classList.add('selected');
+  document.querySelectorAll('.ref-group').forEach(g => g.classList.remove('visible'));
+  const refGroup = document.getElementById('refs-' + area);
+  if (refGroup) refGroup.classList.add('visible');
+  currentArea = area;
+
+  // Update default mentor name
+  const names = {saude:'Dr. Kenji',mente:'Mestre Hana',carreira:'Sensei Ryu',financas:'Mestre Takeshi',proposito:'Mestre Aiko',produtividade:'Sensei Kaze',relacionamentos:'Mestre Sakura',casa:'Mestre Yui'};
+  document.getElementById('mentorName').value = names[area] || '';
+}
+
+function toggleChip(el) {
+  el.classList.toggle('selected');
+}
+
+function addGoal() {
+  const input = document.getElementById('goalInput');
+  const val = input.value.trim();
+  if (!val) return;
+  const tag = document.createElement('div');
+  tag.className = 'goal-tag';
+  tag.innerHTML = val + ' <span class="remove" onclick="this.parentElement.remove()">&times;</span>';
+  document.getElementById('goalTags').appendChild(tag);
+  input.value = '';
+}
+
+document.getElementById('goalInput').addEventListener('keydown', function(e) {
+  if (e.key === 'Enter') { e.preventDefault(); addGoal(); }
+});
+</script>
+</body></html>

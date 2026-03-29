@@ -1,9 +1,279 @@
-<!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>Aprovacao — KTANA</title><link rel="stylesheet" href="../../shared.css"><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Zen+Dots&display=swap" rel="stylesheet">
-<style>body{min-height:100vh;background:#F5F5F7;padding:48px 24px}.container{max-width:580px;margin:0 auto}.back{position:fixed;top:20px;left:24px;font-family:'Inter',sans-serif;font-size:12px;color:#86868B}h1{font-family:'Satoshi',sans-serif;font-size:20px;font-weight:600;color:#1D1D1F;margin-bottom:24px}.card{background:#FFF;border-radius:20px;border:1px solid rgba(0,0,0,0.04);padding:24px;margin-bottom:12px}.card-label{font-family:'Inter',sans-serif;font-size:11px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:#D70030;margin-bottom:14px}.row{display:flex;justify-content:space-between;padding:8px 0;border-bottom:0.5px solid rgba(0,0,0,0.03)}.row:last-child{border-bottom:none}.row-label{font-family:'Satoshi',sans-serif;font-size:13px;color:#86868B}.row-value{font-family:'Satoshi',sans-serif;font-size:13px;color:#1D1D1F}.draft{font-family:'Satoshi',sans-serif;font-size:14px;color:#1D1D1F;line-height:1.6;padding:16px;background:#F5F5F7;border-radius:12px;margin-top:12px}.actions{display:flex;gap:10px;margin-top:24px}.btn-approve{font-family:'Inter',sans-serif;flex:1;padding:14px;border-radius:14px;background:#1D1D1F;color:#F5F5F7;font-size:14px;font-weight:500;border:none;cursor:pointer}.btn-edit{font-family:'Inter',sans-serif;flex:1;padding:14px;border-radius:14px;background:transparent;color:#86868B;font-size:14px;border:0.5px solid rgba(0,0,0,0.08);cursor:pointer}.btn-reject{font-family:'Inter',sans-serif;padding:14px 20px;border-radius:14px;background:transparent;color:#D70030;font-size:14px;font-weight:500;border:none;cursor:pointer}</style></head>
-<body><a href="list.html" class="back">← Aprovacoes</a><div class="container fade-in">
-<h1>Cobrar Cliente Y — R$12.000</h1>
-<div class="card"><p class="card-label">Contexto</p><div class="row"><span class="row-label">Agente</span><span class="row-value">Yuki (Controller)</span></div><div class="row"><span class="row-label">Tipo</span><span class="row-value">Cobranca</span></div><div class="row"><span class="row-label">Valor</span><span class="row-value">R$12.000 + 2% juros = R$12.240</span></div><div class="row"><span class="row-label">Atraso</span><span class="row-value">15 dias</span></div><div class="row"><span class="row-label">Motivo escalacao</span><span class="row-value" style="color:#D70030;">Acima da alcada (R$5.000)</span></div><div class="row"><span class="row-label">Recomendacao</span><span class="row-value">Kaito (CFO): aprovar com juros</span></div></div>
-<div class="card"><p class="card-label">Historico do cliente</p><div class="row"><span class="row-label">20/03</span><span class="row-value">1a cobranca por email. Sem retorno.</span></div><div class="row"><span class="row-label">25/03</span><span class="row-value">WhatsApp. Visualizou, nao respondeu.</span></div></div>
-<div class="card"><p class="card-label">Rascunho da cobranca</p><div class="draft">"Prezado Cliente Y,<br><br>Identificamos que a fatura #892 no valor de R$12.240,00 (R$12.000 + 2% juros por atraso de 15 dias) encontra-se pendente.<br><br>Solicitamos a regularizacao em ate 5 dias uteis. Em caso de duvidas, estamos a disposicao.<br><br>Atenciosamente,<br>KTANA"</div></div>
-<div class="actions"><button class="btn-approve" onclick="this.textContent='Aprovado';this.style.opacity='0.5'">Aprovar cobranca</button><button class="btn-edit" onclick="location.href='edit.html'">Editar rascunho</button><button class="btn-reject">Rejeitar</button></div>
-</div></body></html>
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Detalhe da Aprovacao — KTANA</title>
+  <link rel="stylesheet" href="../../shared.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Zen+Dots&display=swap" rel="stylesheet">
+  <style>
+    body { min-height: 100vh; background: #F5F5F7; }
+
+    .nav { position: sticky; top: 0; z-index: 50; height: 48px; display: flex; align-items: center; justify-content: center; background: rgba(245,245,247,0.72); backdrop-filter: saturate(180%) blur(20px); -webkit-backdrop-filter: saturate(180%) blur(20px); border-bottom: 0.5px solid rgba(0,0,0,0.06); }
+    .nav-inner { width: 100%; max-width: 720px; padding: 0 24px; display: flex; align-items: center; justify-content: space-between; }
+    .nav-logo { font-family: 'Zen Dots', cursive; font-size: 14px; color: #D70030; }
+    .nav-links { display: flex; align-items: center; gap: 24px; }
+    .nav-links a { font-family: 'Inter', sans-serif; font-size: 12px; color: #1D1D1F; opacity: 0.4; transition: opacity 0.15s; }
+    .nav-links a:hover, .nav-links a.active { opacity: 1; }
+
+    .main { max-width: 720px; margin: 0 auto; padding: 32px 24px 80px; }
+
+    .back-link { font-family: 'Inter', sans-serif; font-size: 12px; color: #86868B; display: inline-flex; align-items: center; gap: 6px; margin-bottom: 24px; transition: color 0.15s; }
+    .back-link:hover { color: #1D1D1F; }
+
+    /* Header */
+    .detail-header { margin-bottom: 28px; }
+    .detail-badge-row { display: flex; align-items: center; gap: 8px; margin-bottom: 12px; }
+    .badge-urgent { font-family: 'Inter', sans-serif; padding: 3px 10px; border-radius: 6px; font-size: 11px; font-weight: 500; border: 1px solid rgba(215,0,48,0.15); color: #D70030; }
+    .badge-pending { font-family: 'Inter', sans-serif; padding: 3px 10px; border-radius: 6px; font-size: 11px; font-weight: 500; background: rgba(255,159,10,0.08); color: #C77600; border: 1px solid rgba(255,159,10,0.15); }
+    .detail-title { font-family: 'Satoshi', sans-serif; font-size: 22px; font-weight: 700; color: #1D1D1F; letter-spacing: -0.01em; margin-bottom: 4px; }
+    .detail-meta { font-family: 'Inter', sans-serif; font-size: 12px; color: #86868B; }
+
+    /* Agent card */
+    .agent-card { background: #FFF; border-radius: 20px; border: 1px solid rgba(0,0,0,0.04); padding: 20px 24px; margin-bottom: 12px; display: flex; align-items: center; gap: 14px; }
+    .agent-avatar { width: 44px; height: 44px; border-radius: 50%; border: 1.5px solid #D2D2D7; display: flex; align-items: center; justify-content: center; flex-shrink: 0; background: #F5F5F7; }
+    .agent-avatar span { font-family: 'Inter', sans-serif; font-size: 15px; font-weight: 600; color: #86868B; }
+    .agent-info { flex: 1; }
+    .agent-name { font-family: 'Satoshi', sans-serif; font-size: 15px; font-weight: 600; color: #1D1D1F; }
+    .agent-role { font-family: 'Inter', sans-serif; font-size: 12px; color: #86868B; margin-top: 1px; }
+    .agent-status { display: flex; align-items: center; gap: 6px; }
+    .status-dot { width: 7px; height: 7px; border-radius: 50%; background: #30D158; }
+    .status-text { font-family: 'Inter', sans-serif; font-size: 11px; color: #86868B; }
+
+    /* Section cards */
+    .section-card { background: #FFF; border-radius: 20px; border: 1px solid rgba(0,0,0,0.04); padding: 24px; margin-bottom: 12px; }
+    .section-label { font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: #D70030; margin-bottom: 16px; }
+    .section-text { font-family: 'Satoshi', sans-serif; font-size: 14px; color: #1D1D1F; line-height: 1.65; }
+    .section-text-secondary { font-family: 'Satoshi', sans-serif; font-size: 13px; color: #86868B; line-height: 1.6; margin-top: 10px; }
+
+    /* Impact rows */
+    .impact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .impact-item { padding: 14px 16px; border-radius: 14px; background: #F5F5F7; }
+    .impact-label { font-family: 'Inter', sans-serif; font-size: 11px; color: #86868B; margin-bottom: 4px; }
+    .impact-value { font-family: 'Satoshi', sans-serif; font-size: 15px; font-weight: 600; color: #1D1D1F; }
+    .impact-value.positive { color: #248A3D; }
+    .impact-value.negative { color: #D70030; }
+    .impact-value.neutral { color: #86868B; }
+
+    /* Attachment preview */
+    .attachment { display: flex; align-items: center; gap: 12px; padding: 14px 16px; border-radius: 14px; background: #F5F5F7; cursor: pointer; transition: background 0.15s; }
+    .attachment:hover { background: #ECECEE; }
+    .attachment-icon { width: 40px; height: 40px; border-radius: 10px; background: #FFF; border: 1px solid rgba(0,0,0,0.04); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .attachment-icon svg { width: 18px; height: 18px; }
+    .attachment-info { flex: 1; }
+    .attachment-name { font-family: 'Satoshi', sans-serif; font-size: 13px; font-weight: 500; color: #1D1D1F; }
+    .attachment-size { font-family: 'Inter', sans-serif; font-size: 11px; color: #AEAEB2; margin-top: 1px; }
+
+    /* Draft preview */
+    .draft-preview { font-family: 'Satoshi', sans-serif; font-size: 14px; color: #1D1D1F; line-height: 1.65; padding: 20px; background: #F5F5F7; border-radius: 14px; border-left: 2px solid #D70030; }
+
+    /* Timeline */
+    .timeline { position: relative; padding-left: 24px; }
+    .timeline::before { content: ''; position: absolute; left: 7px; top: 8px; bottom: 8px; width: 1px; background: rgba(0,0,0,0.06); }
+    .timeline-item { position: relative; padding-bottom: 20px; }
+    .timeline-item:last-child { padding-bottom: 0; }
+    .timeline-dot { position: absolute; left: -21px; top: 4px; width: 11px; height: 11px; border-radius: 50%; border: 2px solid #D2D2D7; background: #FFF; }
+    .timeline-dot.active { border-color: #D70030; background: #D70030; }
+    .timeline-dot.done { border-color: #30D158; background: #30D158; }
+    .timeline-label { font-family: 'Satoshi', sans-serif; font-size: 13px; font-weight: 500; color: #1D1D1F; }
+    .timeline-desc { font-family: 'Satoshi', sans-serif; font-size: 12px; color: #86868B; margin-top: 2px; }
+    .timeline-time { font-family: 'Inter', sans-serif; font-size: 11px; color: #AEAEB2; margin-top: 3px; }
+
+    /* Action buttons */
+    .actions-bar { position: sticky; bottom: 0; background: rgba(245,245,247,0.88); backdrop-filter: saturate(180%) blur(20px); -webkit-backdrop-filter: saturate(180%) blur(20px); border-top: 0.5px solid rgba(0,0,0,0.06); padding: 16px 24px; margin: 0 -24px; }
+    .actions-inner { max-width: 720px; margin: 0 auto; display: flex; gap: 10px; align-items: center; }
+    .btn-approve { font-family: 'Inter', sans-serif; flex: 1; padding: 14px 24px; border-radius: 14px; background: #1D1D1F; color: #F5F5F7; font-size: 14px; font-weight: 500; border: none; cursor: pointer; min-height: 52px; transition: all 0.15s; }
+    .btn-approve:hover { background: #000; }
+    .btn-approve:active { transform: scale(0.98); }
+    .btn-edit { font-family: 'Inter', sans-serif; flex: 1; padding: 14px 24px; border-radius: 14px; background: #FFF; color: #1D1D1F; font-size: 14px; font-weight: 500; border: 1px solid rgba(0,0,0,0.08); cursor: pointer; min-height: 52px; transition: all 0.15s; }
+    .btn-edit:hover { border-color: rgba(0,0,0,0.16); }
+    .btn-reject { font-family: 'Inter', sans-serif; padding: 14px 20px; border-radius: 14px; background: transparent; color: #D70030; font-size: 14px; font-weight: 500; border: none; cursor: pointer; min-height: 52px; transition: opacity 0.15s; }
+    .btn-reject:hover { opacity: 0.7; }
+
+    /* Recommendation callout */
+    .recommendation { display: flex; gap: 12px; padding: 16px; border-radius: 14px; background: rgba(215,0,48,0.03); border: 1px solid rgba(215,0,48,0.06); }
+    .rec-icon { width: 32px; height: 32px; border-radius: 50%; background: rgba(215,0,48,0.08); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .rec-icon svg { width: 14px; height: 14px; }
+    .rec-text { font-family: 'Satoshi', sans-serif; font-size: 13px; color: #1D1D1F; line-height: 1.5; }
+    .rec-author { font-family: 'Inter', sans-serif; font-size: 11px; color: #86868B; margin-top: 4px; }
+
+    @media (max-width: 480px) {
+      .impact-grid { grid-template-columns: 1fr; }
+      .actions-inner { flex-wrap: wrap; }
+      .btn-approve, .btn-edit { flex: 1 1 45%; }
+      .btn-reject { flex: 1 1 100%; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+  <nav class="nav">
+    <div class="nav-inner">
+      <a href="../dashboard/home.html" class="nav-logo">KTANA</a>
+      <div class="nav-links">
+        <a href="../dashboard/home.html">Painel</a>
+        <a href="../settings/general.html">Config</a>
+      </div>
+    </div>
+  </nav>
+
+  <main class="main">
+    <a href="list.html" class="back-link fade-in">
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M9 3L5 7l4 4" stroke="#86868B" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      Voltar para aprovacoes
+    </a>
+
+    <!-- Header -->
+    <div class="detail-header fade-in">
+      <div class="detail-badge-row">
+        <span class="badge-urgent">Urgente</span>
+        <span class="badge-pending">Aguardando decisao</span>
+      </div>
+      <h1 class="detail-title">Enviar proposta de R$45.000 para Cliente X</h1>
+      <p class="detail-meta">Solicitado ha 2 horas · Prazo para resposta: hoje, 18h</p>
+    </div>
+
+    <!-- Agent who requested -->
+    <div class="agent-card fade-in" style="animation-delay:0.05s">
+      <div class="agent-avatar"><span>K</span></div>
+      <div class="agent-info">
+        <p class="agent-name">Kaito</p>
+        <p class="agent-role">Diretor Comercial · Vendas</p>
+      </div>
+      <div class="agent-status">
+        <div class="status-dot"></div>
+        <span class="status-text">Online</span>
+      </div>
+    </div>
+
+    <!-- Action description & context -->
+    <div class="section-card fade-in" style="animation-delay:0.1s">
+      <p class="section-label">O que o agente quer fazer</p>
+      <p class="section-text">Enviar proposta comercial no valor de R$45.000 para o Cliente X (Empresa ABC Tecnologia), referente ao pacote Enterprise de consultoria em IA por 6 meses.</p>
+      <p class="section-text-secondary">O valor esta acima da alcada autonoma de Kaito (R$20.000). Por isso, a acao foi escalada para sua aprovacao.</p>
+    </div>
+
+    <!-- Reasoning -->
+    <div class="section-card fade-in" style="animation-delay:0.15s">
+      <p class="section-label">Raciocinio do agente</p>
+      <p class="section-text">O Cliente X demonstrou interesse apos 3 reunioes. O ticket medio historico deles e de R$38.000, mas o escopo pedido justifica o valor maior. A proposta inclui 2 samurais dedicados + dashboard exclusivo. O concorrente mais proximo cotou R$52.000, entao estamos competitivos.</p>
+
+      <div class="recommendation" style="margin-top: 16px;">
+        <div class="rec-icon">
+          <svg viewBox="0 0 14 14" fill="none"><path d="M7 1v8M4 6l3 3 3-3" stroke="#D70030" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M2 11h10" stroke="#D70030" stroke-width="1.5" stroke-linecap="round"/></svg>
+        </div>
+        <div>
+          <p class="rec-text">Recomendacao: aprovar sem alteracoes. O valor esta alinhado com o escopo e abaixo do concorrente. Cliente tem historico de pagamento em dia.</p>
+          <p class="rec-author">Yuki (Controller) analisou o risco financeiro</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Impact Analysis -->
+    <div class="section-card fade-in" style="animation-delay:0.2s">
+      <p class="section-label">Analise de impacto</p>
+      <div class="impact-grid">
+        <div class="impact-item">
+          <p class="impact-label">Receita projetada</p>
+          <p class="impact-value positive">+R$45.000</p>
+        </div>
+        <div class="impact-item">
+          <p class="impact-label">Custo operacional</p>
+          <p class="impact-value negative">-R$12.400</p>
+        </div>
+        <div class="impact-item">
+          <p class="impact-label">Margem liquida</p>
+          <p class="impact-value positive">72,4%</p>
+        </div>
+        <div class="impact-item">
+          <p class="impact-label">Risco de inadimplencia</p>
+          <p class="impact-value neutral">Baixo</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Attachments / Preview -->
+    <div class="section-card fade-in" style="animation-delay:0.25s">
+      <p class="section-label">Rascunho da proposta</p>
+      <div class="draft-preview">
+        Prezado Sr. Rodrigo Mendes,<br><br>
+        Conforme alinhado em nossas reunioes, temos o prazer de apresentar a proposta para o pacote Enterprise de consultoria em Inteligencia Artificial para a ABC Tecnologia.<br><br>
+        <strong>Escopo:</strong> 2 samurais dedicados (Analista de Dados + Especialista em Automacao), dashboard exclusivo com metricas em tempo real, reunioes semanais de alinhamento, relatorios mensais de performance.<br><br>
+        <strong>Investimento:</strong> R$45.000,00 (6 parcelas de R$7.500)<br>
+        <strong>Vigencia:</strong> 6 meses a partir da assinatura<br><br>
+        Atenciosamente,<br>
+        KTANA
+      </div>
+
+      <div style="display: flex; flex-direction: column; gap: 8px; margin-top: 16px;">
+        <div class="attachment">
+          <div class="attachment-icon">
+            <svg viewBox="0 0 18 18" fill="none"><path d="M4.5 2.25h6.75L14.25 5.25v10.5a1.5 1.5 0 01-1.5 1.5h-7.5a1.5 1.5 0 01-1.5-1.5v-12a1.5 1.5 0 011.5-1.5z" stroke="#86868B" stroke-width="1.2"/><path d="M11.25 2.25v3h3" stroke="#86868B" stroke-width="1.2"/></svg>
+          </div>
+          <div class="attachment-info">
+            <p class="attachment-name">Proposta_ABC_Tecnologia_Enterprise.pdf</p>
+            <p class="attachment-size">PDF · 2.4 MB · 8 paginas</p>
+          </div>
+        </div>
+        <div class="attachment">
+          <div class="attachment-icon">
+            <svg viewBox="0 0 18 18" fill="none"><rect x="2.25" y="3.75" width="13.5" height="10.5" rx="1.5" stroke="#86868B" stroke-width="1.2"/><path d="M6 8.25h6M6 11.25h3" stroke="#86868B" stroke-width="1.2" stroke-linecap="round"/></svg>
+          </div>
+          <div class="attachment-info">
+            <p class="attachment-name">Planilha_Custos_Detalhada.xlsx</p>
+            <p class="attachment-size">Excel · 340 KB · Breakdown de custos</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Timeline -->
+    <div class="section-card fade-in" style="animation-delay:0.3s">
+      <p class="section-label">Linha do tempo</p>
+      <div class="timeline">
+        <div class="timeline-item">
+          <div class="timeline-dot done"></div>
+          <p class="timeline-label">Cliente demonstrou interesse</p>
+          <p class="timeline-desc">Rodrigo Mendes (ABC Tecnologia) pediu proposta formal apos 3a reuniao</p>
+          <p class="timeline-time">25/03 · 14:20</p>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-dot done"></div>
+          <p class="timeline-label">Kaito elaborou proposta</p>
+          <p class="timeline-desc">Proposta montada com base no escopo discutido. Valor: R$45.000</p>
+          <p class="timeline-time">27/03 · 09:15</p>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-dot done"></div>
+          <p class="timeline-label">Yuki validou risco financeiro</p>
+          <p class="timeline-desc">Margem de 72,4% aprovada. Cliente com historico limpo. Recomendacao: aprovar</p>
+          <p class="timeline-time">27/03 · 10:30</p>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-dot active"></div>
+          <p class="timeline-label">Aguardando sua aprovacao</p>
+          <p class="timeline-desc">Valor acima da alcada autonoma de R$20.000. Escalado para voce</p>
+          <p class="timeline-time">27/03 · 10:32 · Agora</p>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <p class="timeline-label" style="color:#86868B;">Envio ao cliente</p>
+          <p class="timeline-desc">Kaito enviara por email e WhatsApp apos aprovacao</p>
+          <p class="timeline-time" style="color:#D2D2D7;">Pendente</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Spacer for sticky bar -->
+    <div style="height: 80px;"></div>
+
+    <!-- Sticky action buttons -->
+    <div class="actions-bar">
+      <div class="actions-inner">
+        <button class="btn-approve" onclick="this.textContent='Aprovado'; this.style.background='#248A3D'; this.style.pointerEvents='none'">Aprovar</button>
+        <button class="btn-edit" onclick="location.href='edit.html'">Editar e aprovar</button>
+        <button class="btn-reject" onclick="if(confirm('Tem certeza que deseja rejeitar esta acao?')){this.textContent='Rejeitado'; this.style.opacity='0.4'}">Rejeitar</button>
+      </div>
+    </div>
+  </main>
+</body>
+</html>

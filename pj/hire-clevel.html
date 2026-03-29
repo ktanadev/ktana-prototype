@@ -1,7 +1,290 @@
 <!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>Configurar C-Level — KTANA</title><link rel="stylesheet" href="../shared.css"><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Zen+Dots&display=swap" rel="stylesheet">
-<style>body{min-height:100vh;background:#F5F5F7;padding:48px 24px}.container{max-width:540px;margin:0 auto;text-align:center}.back{position:fixed;top:20px;left:24px;font-family:'Inter',sans-serif;font-size:12px;color:#86868B}h1{font-family:'Zen Dots',cursive;font-size:24px;color:#1D1D1F;margin-bottom:6px}.sub{font-family:'Satoshi',sans-serif;font-size:14px;color:#86868B;margin-bottom:32px}.note{font-family:'Satoshi',sans-serif;font-size:14px;color:#86868B;line-height:1.6;padding:24px;background:#FFF;border-radius:20px;border:1px solid rgba(0,0,0,0.04);margin-bottom:24px;text-align:left}.btn{font-family:'Inter',sans-serif;padding:14px 40px;border-radius:14px;background:#1D1D1F;color:#F5F5F7;font-size:15px;font-weight:500;border:none;cursor:pointer}</style></head>
-<body><a href="onboarding.html" class="back">← Departamentos</a><div class="container fade-in">
-<h1>Configurar C-Level.</h1><p class="sub">Estrategico por departamento (CFO, COO, CMO, CTO)</p>
-<div class="note">Mesmo fluxo de configuracao: nome, funcao, cerebro (referencias), mapa de atribuicoes, personalidade, tom, alcada, rotinas e ferramentas. Tudo pre-preenchido para o nivel C-Level.</div>
-<button class="btn" onclick="location.href='../tenant/onboarding/agent-config.html'">Abrir configurador</button>
-</div></body></html>
+<style>
+body{min-height:100vh;background:#F5F5F7;color:#1D1D1F}
+a{text-decoration:none;color:inherit}
+
+.nav{position:fixed;top:0;left:0;right:0;z-index:50;height:48px;display:flex;align-items:center;justify-content:center;background:rgba(245,245,247,0.72);backdrop-filter:saturate(180%) blur(20px);border-bottom:0.5px solid rgba(0,0,0,0.06)}
+.nav-inner{width:100%;max-width:980px;padding:0 24px;display:flex;align-items:center;justify-content:space-between}
+.nav-logo{font-family:'Zen Dots',cursive;font-size:14px;color:#D70030}
+.nav-links{display:flex;align-items:center;gap:24px}
+.nav-links a{font-family:'Inter',sans-serif;font-size:12px;color:#1D1D1F;opacity:0.5}
+.nav-links a:hover{opacity:1}
+.nav-cta{font-family:'Inter',sans-serif;font-size:11px;font-weight:500;color:#F5F5F7;background:#1D1D1F;padding:6px 14px;border-radius:980px;opacity:1 !important}
+
+.container{max-width:720px;margin:0 auto;padding:72px 24px 64px}
+h1{font-family:'Zen Dots',cursive;font-size:28px;color:#1D1D1F;text-align:center;margin-bottom:6px}
+.sub{font-family:'Satoshi',sans-serif;font-size:15px;color:#86868B;text-align:center;margin-bottom:36px;line-height:1.5}
+
+/* Role selection grid */
+.role-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-bottom:32px}
+.role-card{background:#FFF;border-radius:20px;border:1.5px solid rgba(0,0,0,0.04);padding:24px;cursor:pointer;transition:all 0.2s;min-height:44px;-webkit-user-select:none;user-select:none}
+.role-card:hover{box-shadow:0 6px 24px rgba(0,0,0,0.05);transform:translateY(-2px)}
+.role-card.selected{border-color:rgba(215,0,48,0.25);background:rgba(215,0,48,0.01)}
+.role-icon{width:48px;height:48px;border-radius:14px;background:rgba(0,0,0,0.02);display:flex;align-items:center;justify-content:center;font-size:22px;margin-bottom:14px}
+.role-card.selected .role-icon{background:rgba(215,0,48,0.06)}
+.role-title{font-family:'Zen Dots',cursive;font-size:16px;color:#1D1D1F;margin-bottom:4px}
+.role-desc{font-family:'Satoshi',sans-serif;font-size:12px;color:#86868B;line-height:1.5;margin-bottom:12px}
+.role-brain{font-family:'Inter',sans-serif;font-size:11px;color:#D70030;display:flex;align-items:center;gap:4px}
+.role-perms{font-family:'Inter',sans-serif;font-size:11px;color:#86868B;margin-top:4px}
+
+/* Config panel */
+.config-section{display:none;animation:fadeIn 0.4s ease both}
+.config-section.visible{display:block}
+.section-card{background:#FFF;border-radius:20px;border:1px solid rgba(0,0,0,0.04);padding:24px;margin-bottom:14px}
+.card-label{font-family:'Inter',sans-serif;font-size:11px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:#D70030;margin-bottom:14px}
+.card-desc{font-family:'Satoshi',sans-serif;font-size:13px;color:#86868B;margin-bottom:16px;line-height:1.5}
+
+.form-group{margin-bottom:16px}
+.form-group:last-child{margin-bottom:0}
+.form-group label{font-family:'Inter',sans-serif;display:block;font-size:12px;font-weight:500;color:#86868B;margin-bottom:6px}
+.form-input{font-family:'Satoshi',sans-serif;background:#F5F5F7;border:1px solid rgba(0,0,0,0.06);border-radius:12px;padding:12px 14px;font-size:14px;width:100%;outline:none;color:#1D1D1F;transition:border-color 0.2s}
+.form-input:focus{border-color:rgba(215,0,48,0.3)}
+.form-input::placeholder{color:#AEAEB2}
+select.form-input{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%2386868B' fill='none' stroke-width='1.5'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center;cursor:pointer}
+
+/* Brain refs */
+.ref-list{display:flex;flex-direction:column;gap:8px}
+.ref-item{display:flex;align-items:center;gap:12px;padding:12px 14px;border-radius:14px;border:1.5px solid rgba(0,0,0,0.06);cursor:pointer;transition:all 0.15s;min-height:44px;-webkit-user-select:none;user-select:none}
+.ref-item:hover{border-color:rgba(0,0,0,0.12)}
+.ref-item.active{border-color:rgba(215,0,48,0.25);background:rgba(215,0,48,0.015)}
+.ref-check{width:20px;height:20px;border-radius:50%;border:1.5px solid #D2D2D7;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all 0.15s}
+.ref-item.active .ref-check{border-color:#D70030;background:#D70030}
+.ref-item.active .ref-check::after{content:'';width:6px;height:6px;border-radius:50%;background:#FFF}
+.ref-info{flex:1}
+.ref-name{font-family:'Satoshi',sans-serif;font-size:13px;font-weight:500;color:#1D1D1F}
+.ref-desc{font-family:'Satoshi',sans-serif;font-size:11px;color:#86868B;margin-top:2px}
+
+/* Permissions */
+.perm-list{display:flex;flex-direction:column;gap:8px}
+.perm-item{display:flex;align-items:center;justify-content:space-between;padding:12px 14px;background:#F5F5F7;border-radius:12px;min-height:44px}
+.perm-left{display:flex;align-items:center;gap:10px}
+.perm-text{font-family:'Satoshi',sans-serif;font-size:13px;color:#1D1D1F}
+.toggle{width:44px;height:26px;border-radius:13px;background:#D2D2D7;position:relative;cursor:pointer;transition:background 0.2s;flex-shrink:0}
+.toggle.on{background:#D70030}
+.toggle::after{content:'';position:absolute;top:3px;left:3px;width:20px;height:20px;border-radius:50%;background:#FFF;transition:transform 0.2s}
+.toggle.on::after{transform:translateX(18px)}
+
+/* Reporting */
+.report-line{display:flex;align-items:center;gap:10px;padding:12px 16px;background:#F5F5F7;border-radius:12px;margin-bottom:16px}
+.report-arrow{font-family:'Inter',sans-serif;font-size:11px;color:#AEAEB2}
+.report-name{font-family:'Satoshi',sans-serif;font-size:13px;font-weight:500;color:#1D1D1F}
+.report-role{font-family:'Inter',sans-serif;font-size:11px;color:#D70030}
+
+/* Cost */
+.cost-row{display:flex;align-items:center;justify-content:space-between;padding:16px;background:#F5F5F7;border-radius:14px}
+.cost-label{font-family:'Satoshi',sans-serif;font-size:14px;color:#1D1D1F}
+.cost-value{font-family:'Zen Dots',cursive;font-size:20px;color:#1D1D1F}
+.cost-period{font-family:'Inter',sans-serif;font-size:11px;color:#86868B}
+
+/* Button */
+.btn-activate{font-family:'Inter',sans-serif;width:100%;min-height:52px;padding:16px;border-radius:14px;background:#1D1D1F;color:#FFF;font-size:16px;font-weight:600;border:none;cursor:pointer;transition:opacity 0.15s;margin-top:28px}
+.btn-activate:hover{opacity:0.9}
+
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+@media(max-width:520px){.role-grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<nav class="nav"><div class="nav-inner"><a href="landing.html" class="nav-logo">KTANA</a><div class="nav-links"><a href="landing.html">Empresa</a><a href="solutions.html">Solucoes</a><a href="onboarding.html" class="nav-cta">Comecar</a></div></div></nav>
+
+<div class="container">
+  <h1>Escolha um C-Level.</h1>
+  <p class="sub">Samurais estrategicos que lideram departamentos inteiros. Reportam diretamente ao CEO.</p>
+
+  <!-- Role selection -->
+  <div class="role-grid">
+    <div class="role-card" onclick="selectRole(this,'cfo')" data-role="cfo">
+      <div class="role-icon">&#x1F4B0;</div>
+      <p class="role-title">CFO</p>
+      <p class="role-desc">Chief Financial Officer. Controla fluxo de caixa, DRE, orcamento, investimentos e compliance financeiro.</p>
+      <p class="role-brain">Cerebro: Warren Buffett, Aswath Damodaran</p>
+      <p class="role-perms">Autonomia ate R$ 5.000 | Reports semanais</p>
+    </div>
+    <div class="role-card" onclick="selectRole(this,'coo')" data-role="coo">
+      <div class="role-icon">&#x2699;&#xFE0F;</div>
+      <p class="role-title">COO</p>
+      <p class="role-desc">Chief Operating Officer. Processos, eficiencia, logistica, fornecedores e entrega de projetos no prazo.</p>
+      <p class="role-brain">Cerebro: Tim Cook, Elon Musk (ops)</p>
+      <p class="role-perms">Autonomia operacional total | Prazos criticos</p>
+    </div>
+    <div class="role-card" onclick="selectRole(this,'cmo')" data-role="cmo">
+      <div class="role-icon">&#x1F4E3;</div>
+      <p class="role-title">CMO</p>
+      <p class="role-desc">Chief Marketing Officer. Marca, campanhas, conteudo, growth, analytics e posicionamento no mercado.</p>
+      <p class="role-brain">Cerebro: Seth Godin, Gary Vaynerchuk</p>
+      <p class="role-perms">Autonomia criativa | Budget de midia ate R$ 3.000</p>
+    </div>
+    <div class="role-card" onclick="selectRole(this,'cto')" data-role="cto">
+      <div class="role-icon">&#x1F4BB;</div>
+      <p class="role-title">CTO</p>
+      <p class="role-desc">Chief Technology Officer. Arquitetura, stack, seguranca, DevOps, inovacao e roadmap de produto.</p>
+      <p class="role-brain">Cerebro: Linus Torvalds, Werner Vogels</p>
+      <p class="role-perms">Autonomia tecnica total | Infra ate R$ 5.000</p>
+    </div>
+  </div>
+
+  <!-- Configuration (appears after selection) -->
+  <div class="config-section" id="configSection">
+
+    <div class="section-card">
+      <p class="card-label">Identidade</p>
+      <div class="report-line">
+        <span class="report-role">Reporta a:</span>
+        <span class="report-arrow">&#x2192;</span>
+        <span class="report-name">Takeshi (CEO)</span>
+      </div>
+      <div class="form-group">
+        <label>Nome do C-Level</label>
+        <input type="text" class="form-input" id="clevelName" placeholder="Nome do samurai">
+      </div>
+      <div class="form-group">
+        <label>Missao do departamento</label>
+        <input type="text" class="form-input" id="clevelMission" placeholder="Objetivo central">
+      </div>
+    </div>
+
+    <!-- Brain refs (dynamic per role) -->
+    <div class="section-card">
+      <p class="card-label">Cerebro (referencias)</p>
+      <p class="card-desc">Filosofia e abordagem que o C-Level vai absorver.</p>
+      <div class="ref-list" id="refList">
+        <!-- Dynamic -->
+      </div>
+    </div>
+
+    <!-- Permissions -->
+    <div class="section-card">
+      <p class="card-label">Permissoes</p>
+      <div class="perm-list" id="permList">
+        <!-- Dynamic -->
+      </div>
+    </div>
+
+    <!-- Cost -->
+    <div class="section-card">
+      <p class="card-label">Custo</p>
+      <div class="cost-row">
+        <div><p class="cost-label" id="costLabel">C-Level Samurai</p><p class="cost-period">Plano Pro / mensal</p></div>
+        <div style="text-align:right"><p class="cost-value">R$ 197</p><p class="cost-period">/mes</p></div>
+      </div>
+    </div>
+
+    <button class="btn-activate" id="btnActivate" onclick="location.href='org-chart.html'">Ativar C-Level</button>
+  </div>
+</div>
+
+<script>
+const roleConfigs = {
+  cfo: {
+    name: 'Haruki',
+    mission: 'Manter a saude financeira da empresa e maximizar o ROI de cada real investido',
+    refs: [
+      { name: 'Warren Buffett', desc: 'Value investing, paciencia, alocacao de capital, longo prazo', active: true },
+      { name: 'Aswath Damodaran', desc: 'Valuation, risco, financas corporativas, modelagem', active: true },
+      { name: 'Ray Dalio', desc: 'Principios, macroeconomia, diversificacao, ciclos', active: false },
+      { name: 'Luiz Barsi', desc: 'Dividendos, investimento em valor, B3, longo prazo BR', active: false }
+    ],
+    perms: [
+      { text: 'Aprovar pagamentos ate R$ 5.000', on: true },
+      { text: 'Gerar relatorios financeiros', on: true },
+      { text: 'Alertar sobre fluxo de caixa negativo', on: true },
+      { text: 'Renegociar contratos com fornecedores', on: false },
+      { text: 'Acessar contas bancarias', on: false }
+    ]
+  },
+  coo: {
+    name: 'Kaito',
+    mission: 'Garantir eficiencia operacional maxima e entregas no prazo',
+    refs: [
+      { name: 'Tim Cook', desc: 'Excelencia operacional, supply chain, execucao perfeita', active: true },
+      { name: 'Taiichi Ohno', desc: 'Sistema Toyota, lean manufacturing, kaizen, eliminar desperdicio', active: true },
+      { name: 'Elon Musk (Ops)', desc: 'First principles, velocidade, iteracao, escala', active: false },
+      { name: 'Jeff Bezos', desc: 'Mecanismos sobre intencoes, working backwards', active: false }
+    ],
+    perms: [
+      { text: 'Redistribuir tarefas entre equipes', on: true },
+      { text: 'Ajustar prazos de projetos', on: true },
+      { text: 'Criar processos e SOPs', on: true },
+      { text: 'Contratar fornecedores operacionais', on: false },
+      { text: 'Alterar estrutura de equipes', on: false }
+    ]
+  },
+  cmo: {
+    name: 'Mei',
+    mission: 'Posicionar a marca no mercado e gerar demanda qualificada',
+    refs: [
+      { name: 'Seth Godin', desc: 'Marketing de permissao, remarkable, tribos, storytelling', active: true },
+      { name: 'Gary Vaynerchuk', desc: 'Social media, conteudo, hustle, distribuicao', active: true },
+      { name: 'David Ogilvy', desc: 'Copy, pesquisa, brand building, publicidade classica', active: false },
+      { name: 'Eric Ries', desc: 'Lean startup, MVP, metricas que importam, growth', active: false }
+    ],
+    perms: [
+      { text: 'Publicar conteudo nas redes sociais', on: true },
+      { text: 'Gerenciar budget de midia ate R$ 3.000', on: true },
+      { text: 'Criar campanhas e landing pages', on: true },
+      { text: 'Alterar identidade visual da marca', on: false },
+      { text: 'Fechar parcerias com influenciadores', on: false }
+    ]
+  },
+  cto: {
+    name: 'Ryu',
+    mission: 'Garantir estabilidade tecnica, seguranca e inovacao no produto',
+    refs: [
+      { name: 'Linus Torvalds', desc: 'Pragmatismo tecnico, code review rigoroso, open source', active: true },
+      { name: 'Werner Vogels (AWS)', desc: 'Escalabilidade, resiliencia, arquitetura distribuida', active: true },
+      { name: 'Martin Fowler', desc: 'Clean code, refactoring, padroes de design, microservices', active: false },
+      { name: 'Satya Nadella', desc: 'Plataforma, developer experience, cloud-first', active: false }
+    ],
+    perms: [
+      { text: 'Deploy em producao', on: true },
+      { text: 'Gerenciar infra e servidores', on: true },
+      { text: 'Definir stack tecnologico', on: true },
+      { text: 'Contratar servicos de cloud ate R$ 5.000', on: false },
+      { text: 'Acesso root a todos os servidores', on: false }
+    ]
+  }
+};
+
+let selectedRole = null;
+
+function selectRole(el, role) {
+  document.querySelectorAll('.role-card').forEach(c => c.classList.remove('selected'));
+  el.classList.add('selected');
+  selectedRole = role;
+
+  const config = roleConfigs[role];
+  document.getElementById('clevelName').value = config.name;
+  document.getElementById('clevelMission').value = config.mission;
+
+  // Build refs
+  const refList = document.getElementById('refList');
+  refList.innerHTML = '';
+  config.refs.forEach(r => {
+    const div = document.createElement('div');
+    div.className = 'ref-item' + (r.active ? ' active' : '');
+    div.onclick = function() { this.classList.toggle('active'); };
+    div.innerHTML = '<div class="ref-check"></div><div class="ref-info"><p class="ref-name">' + r.name + '</p><p class="ref-desc">' + r.desc + '</p></div>';
+    refList.appendChild(div);
+  });
+
+  // Build perms
+  const permList = document.getElementById('permList');
+  permList.innerHTML = '';
+  config.perms.forEach(p => {
+    const div = document.createElement('div');
+    div.className = 'perm-item';
+    div.innerHTML = '<div class="perm-left"><p class="perm-text">' + p.text + '</p></div><div class="toggle' + (p.on ? ' on' : '') + '" onclick="this.classList.toggle(\'on\')"></div>';
+    permList.appendChild(div);
+  });
+
+  // Update cost label and button
+  const titles = { cfo: 'CFO', coo: 'COO', cmo: 'CMO', cto: 'CTO' };
+  document.getElementById('costLabel').textContent = titles[role] + ' Samurai — ' + config.name;
+  document.getElementById('btnActivate').textContent = 'Ativar ' + titles[role] + ' — ' + config.name;
+
+  document.getElementById('configSection').classList.add('visible');
+  document.getElementById('configSection').scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+</script>
+</body></html>
