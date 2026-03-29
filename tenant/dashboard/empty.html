@@ -9,26 +9,125 @@
   <style>
     body { min-height: 100vh; background: #F5F5F7; }
     .main { max-width: 720px; margin: 0 auto; padding: 40px 24px 80px; }
-    .greeting h1 { font-family: 'Satoshi', sans-serif; font-size: 24px; font-weight: 700; color: #1D1D1F; margin-bottom: 4px; }
-    .greeting p { font-family: 'Satoshi', sans-serif; font-size: 14px; color: #86868B; margin-bottom: 40px; }
 
-    .empty { text-align: center; padding: 80px 0; }
-    .empty-icon { width: 64px; height: 64px; border-radius: 20px; background: rgba(215,0,48,0.04); display: flex; align-items: center; justify-content: center; margin: 0 auto 20px; }
-    .empty-icon span { font-family: 'Zen Dots', cursive; font-size: 20px; color: #D70030; }
-    .empty h2 { font-family: 'Satoshi', sans-serif; font-size: 18px; font-weight: 600; color: #1D1D1F; margin-bottom: 8px; }
-    .empty p { font-family: 'Satoshi', sans-serif; font-size: 14px; color: #86868B; line-height: 1.6; max-width: 360px; margin: 0 auto 24px; }
-    .empty-hint { font-family: 'Inter', sans-serif; font-size: 12px; color: #AEAEB2; margin-top: 16px; }
+    /* Greeting */
+    .greeting { margin-bottom: 8px; }
+    .greeting h1 { font-family: 'Satoshi', sans-serif; font-size: 28px; font-weight: 700; color: #1D1D1F; letter-spacing: -0.01em; }
 
-    .team-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-top: 40px; }
-    .team-card { background: #FFF; border-radius: 16px; border: 1px solid rgba(0,0,0,0.04); padding: 16px; text-align: center; }
-    .team-avatar { width: 36px; height: 36px; border-radius: 50%; border: 1.5px solid #D2D2D7; display: flex; align-items: center; justify-content: center; margin: 0 auto 8px; }
-    .team-avatar span { font-family: 'Inter', sans-serif; font-size: 12px; color: #86868B; }
+    /* Empty state */
+    .empty { text-align: center; padding: 60px 0 40px; }
+    .empty-illustration { width: 200px; height: 200px; margin: 0 auto 32px; position: relative; }
+    .empty h2 { font-family: 'Satoshi', sans-serif; font-size: 20px; font-weight: 600; color: #1D1D1F; margin-bottom: 10px; }
+    .empty p { font-family: 'Satoshi', sans-serif; font-size: 14px; color: #86868B; line-height: 1.6; max-width: 360px; margin: 0 auto 28px; }
+    .btn-cta { font-family: 'Inter', sans-serif; display: inline-flex; align-items: center; gap: 10px; padding: 16px 32px; border-radius: 14px; background: #1D1D1F; color: #F5F5F7; font-size: 15px; font-weight: 500; border: none; cursor: pointer; min-height: 52px; transition: all 0.15s; text-decoration: none; }
+    .btn-cta:hover { background: #000; box-shadow: 0 4px 24px rgba(0,0,0,0.12); }
+    .btn-cta:active { transform: scale(0.97); }
+    .empty-hint { font-family: 'Inter', sans-serif; font-size: 12px; color: #AEAEB2; margin-top: 20px; max-width: 320px; margin-left: auto; margin-right: auto; line-height: 1.5; }
+
+    /* Ghost team grid */
+    .section-label { font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: #86868B; margin-bottom: 12px; margin-top: 48px; }
+    .team-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+    .team-card { background: #FFF; border-radius: 16px; border: 1px solid rgba(0,0,0,0.04); padding: 16px; text-align: center; opacity: 0.5; }
+    .team-avatar { width: 36px; height: 36px; border-radius: 50%; border: 1.5px dashed #D2D2D7; display: flex; align-items: center; justify-content: center; margin: 0 auto 8px; }
+    .team-avatar span { font-family: 'Inter', sans-serif; font-size: 12px; color: #AEAEB2; }
     .team-name { font-family: 'Satoshi', sans-serif; font-size: 13px; font-weight: 500; color: #1D1D1F; }
     .team-role { font-family: 'Inter', sans-serif; font-size: 11px; color: #86868B; }
     .team-status { font-family: 'Inter', sans-serif; font-size: 11px; color: #AEAEB2; margin-top: 6px; display: flex; align-items: center; justify-content: center; gap: 4px; }
-    .team-status::before { content: ''; width: 4px; height: 4px; border-radius: 50%; background: #FF9F0A; }
+    .team-status-dot { width: 4px; height: 4px; border-radius: 50%; background: #FF9F0A; }
+
+    .fade-in { animation: fadeIn 0.3s cubic-bezier(0.25,0.1,0.25,1) both; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+
+    @media (max-width: 640px) {
+      .team-grid { grid-template-columns: repeat(2, 1fr); }
+    }
   </style>
 </head>
 <body>
 
+  <main class="main">
+    <!-- Greeting -->
+    <div class="greeting fade-in">
+      <h1>Bom dia, Julio.</h1>
+    </div>
+
+    <!-- Empty state -->
+    <div class="empty fade-in" style="animation-delay:0.1s">
+      <div class="empty-illustration">
+        <svg width="200" height="200" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <!-- Ground shadow -->
+          <ellipse cx="100" cy="170" rx="60" ry="8" fill="rgba(0,0,0,0.03)"/>
+          <!-- Kasa (hat) -->
+          <path d="M60 72 C60 72 100 50 140 72" stroke="#D2D2D7" stroke-width="1.5" fill="rgba(0,0,0,0.02)"/>
+          <path d="M55 74 C55 74 100 45 145 74" stroke="#D2D2D7" stroke-width="1" fill="none"/>
+          <line x1="100" y1="48" x2="100" y2="40" stroke="#D2D2D7" stroke-width="1.5" stroke-linecap="round"/>
+          <!-- Body (simplified samurai silhouette) -->
+          <path d="M85 75 L80 120 L75 160 L85 160 L90 130 L100 135 L110 130 L115 160 L125 160 L120 120 L115 75 Z" fill="rgba(0,0,0,0.03)" stroke="#D2D2D7" stroke-width="1"/>
+          <!-- Katana (sheathed, at side) -->
+          <line x1="118" y1="85" x2="135" y2="155" stroke="#D70030" stroke-width="2" stroke-linecap="round" opacity="0.3"/>
+          <line x1="135" y1="155" x2="137" y2="160" stroke="#D70030" stroke-width="3" stroke-linecap="round" opacity="0.3"/>
+          <!-- Meditation circles -->
+          <circle cx="100" cy="110" r="35" stroke="#D2D2D7" stroke-width="0.5" fill="none" opacity="0.4" stroke-dasharray="4 4">
+            <animateTransform attributeName="transform" type="rotate" from="0 100 110" to="360 100 110" dur="20s" repeatCount="indefinite"/>
+          </circle>
+          <circle cx="100" cy="110" r="50" stroke="#D2D2D7" stroke-width="0.5" fill="none" opacity="0.25" stroke-dasharray="3 6">
+            <animateTransform attributeName="transform" type="rotate" from="360 100 110" to="0 100 110" dur="30s" repeatCount="indefinite"/>
+          </circle>
+          <!-- Small dots (preparation state) -->
+          <circle cx="68" cy="95" r="2" fill="#D70030" opacity="0.15">
+            <animate attributeName="opacity" values="0.15;0.4;0.15" dur="2s" repeatCount="indefinite"/>
+          </circle>
+          <circle cx="132" cy="95" r="2" fill="#D70030" opacity="0.15">
+            <animate attributeName="opacity" values="0.15;0.4;0.15" dur="2s" begin="0.7s" repeatCount="indefinite"/>
+          </circle>
+          <circle cx="100" cy="68" r="2" fill="#D70030" opacity="0.15">
+            <animate attributeName="opacity" values="0.15;0.4;0.15" dur="2s" begin="1.4s" repeatCount="indefinite"/>
+          </circle>
+        </svg>
+      </div>
+
+      <h2>Seus samurais estao se preparando</h2>
+      <p>Configure seu primeiro samurai para comecar a delegar tarefas. Em poucos minutos, sua equipe digital estara pronta.</p>
+
+      <a href="../onboarding/yumi.html" class="btn-cta">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
+        Configurar primeiro samurai
+      </a>
+
+      <p class="empty-hint">Dica: comece pelo CEO — ele orquestra todos os outros.</p>
+    </div>
+
+    <!-- Ghost team (preview) -->
+    <p class="section-label fade-in" style="animation-delay:0.2s">Equipe sugerida</p>
+    <div class="team-grid fade-in" style="animation-delay:0.25s">
+      <div class="team-card">
+        <div class="team-avatar"><span>A</span></div>
+        <p class="team-name">Akira</p>
+        <p class="team-role">CEO</p>
+        <div class="team-status"><div class="team-status-dot"></div>Aguardando</div>
+      </div>
+      <div class="team-card">
+        <div class="team-avatar"><span>H</span></div>
+        <p class="team-name">Hana</p>
+        <p class="team-role">Secretaria</p>
+        <div class="team-status"><div class="team-status-dot"></div>Aguardando</div>
+      </div>
+      <div class="team-card">
+        <div class="team-avatar"><span>Y</span></div>
+        <p class="team-name">Yuki</p>
+        <p class="team-role">Controller</p>
+        <div class="team-status"><div class="team-status-dot"></div>Aguardando</div>
+      </div>
+      <div class="team-card">
+        <div class="team-avatar"><span>H</span></div>
+        <p class="team-name">Haruki</p>
+        <p class="team-role">PM</p>
+        <div class="team-status"><div class="team-status-dot"></div>Aguardando</div>
+      </div>
+    </div>
+
+  </main>
+
 <script src="../../shared-nav.js"></script>
+</body>
+</html>
