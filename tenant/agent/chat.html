@@ -126,7 +126,7 @@
   <div class="header">
     <a href="../dashboard/home.html" class="header-back">&#x2190;</a>
     <div class="header-avatar">
-      <img src="../../assets/character/avatar-chat.jpg" alt="Yuki" onerror="this.parentElement.outerHTML='<div class=header-avatar-letter><span>Y</span></div>'">
+      <div style="width:30px;height:30px;border-radius:50%;border:1px solid rgba(215,0,48,0.15);display:flex;align-items:center;justify-content:center;background:#FFF;"><span style="font-family:Zen Dots,cursive;font-size:8px;color:#D70030;">Y</span></div><span>Y</span></div>'">
     </div>
     <div class="header-info">
       <h2>Yuki</h2>
@@ -166,7 +166,7 @@
     <!-- Agent message with rich content -->
     <div class="msg">
       <div class="msg-avatar">
-        <img src="../../assets/character/avatar-chat.jpg" alt="Y" onerror="this.parentElement.outerHTML='<div class=msg-avatar-letter><span>Y</span></div>'">
+        
       </div>
       <div>
         <div class="bubble bubble-agent">
@@ -202,7 +202,7 @@
     <!-- Agent confirms with action badge -->
     <div class="msg">
       <div class="msg-avatar">
-        <img src="../../assets/character/avatar-chat.jpg" alt="Y" onerror="this.parentElement.outerHTML='<div class=msg-avatar-letter><span>Y</span></div>'">
+        
       </div>
       <div>
         <div class="bubble bubble-agent">
@@ -218,7 +218,7 @@
     <!-- Pending action from another context -->
     <div class="msg">
       <div class="msg-avatar">
-        <img src="../../assets/character/avatar-chat.jpg" alt="Y" onerror="this.parentElement.outerHTML='<div class=msg-avatar-letter><span>Y</span></div>'">
+        
       </div>
       <div>
         <div class="bubble bubble-agent">
@@ -232,7 +232,7 @@
     <!-- Typing indicator -->
     <div class="typing" id="typing" style="display: none;">
       <div class="msg-avatar">
-        <img src="../../assets/character/avatar-chat.jpg" alt="Y" style="width:30px;height:30px;border-radius:50%;object-fit:cover;" onerror="this.outerHTML='<div style=width:30px;height:30px;border-radius:50%;border:1px solid rgba(0,0,0,0.06);display:flex;align-items:center;justify-content:center;background:#F0F0F0><span style=font-size:11px;color:#86868B>Y</span></div>'">
+        <div style="width:30px;height:30px;border-radius:50%;border:1px solid rgba(215,0,48,0.15);display:flex;align-items:center;justify-content:center;background:#FFF;"><span style="font-family:Zen Dots,cursive;font-size:8px;color:#D70030;">Y</span></div><span style=font-size:11px;color:#86868B>Y</span></div>'">
       </div>
       <div class="typing-dots">
         <div class="typing-dot"></div>
@@ -302,7 +302,7 @@
         const agentMsg = document.createElement('div');
         agentMsg.className = 'msg';
         agentMsg.style.animation = 'msgSlide 0.3s ease forwards';
-        agentMsg.innerHTML = '<div class="msg-avatar"><img src="../../assets/character/avatar-chat.jpg" alt="Y" onerror="this.parentElement.outerHTML=\'<div class=msg-avatar-letter><span>Y</span></div>\'"></div><div><div class="bubble bubble-agent"><p>Entendido. Estou processando sua solicitacao.</p><div class="bubble-action action-pending">Processando...</div></div><p class="bubble-meta">Yuki · ' + new Date().toLocaleTimeString('pt-BR', {hour:'2-digit',minute:'2-digit'}) + '</p></div>';
+        agentMsg.innerHTML = '<div class="msg-avatar-letter"><span>Y</span></div>';
         chat.insertBefore(agentMsg, typing);
         chat.scrollTop = chat.scrollHeight;
       }, 1500 + Math.random() * 1000);
