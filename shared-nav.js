@@ -256,7 +256,7 @@
               <input type="text" maxlength="1" class="kt-pf-code" data-idx="4" inputmode="numeric" autocomplete="off">
               <input type="text" maxlength="1" class="kt-pf-code" data-idx="5" inputmode="numeric" autocomplete="off">
             </div>
-            <button class="kt-pf-confirm" onclick="var d=path.split('/').filter(function(s){return s.length>0});var hi=d.findIndex(function(s){return s.endsWith('.html')});var dp=hi>0?hi:d.length-1;window.location.href='../'.repeat(dp)+'pf/dashboard.html'" style="width:100%;margin-top:10px;padding:10px;border-radius:10px;background:#D70030;color:#FFF;border:none;font-family:'Inter',sans-serif;font-size:13px;font-weight:500;cursor:pointer;min-height:40px;">Entrar no ambiente PF</button>
+            <button class="kt-pf-confirm" onclick="goToPF()" style="width:100%;margin-top:10px;padding:10px;border-radius:10px;background:#D70030;color:#FFF;border:none;font-family:'Inter',sans-serif;font-size:13px;font-weight:500;cursor:pointer;min-height:40px;">Entrar no ambiente PF</button>
           </div>
           <div class="kt-profile-sep"></div>
           <button class="kt-profile-item kt-profile-logout" onclick="alert('Saindo...')">
@@ -621,7 +621,7 @@
   const isDesktop = window.innerWidth > 768;
   let sidebarOpen = isDashboardHome && isDesktop;
   // Chat do agente: skip em telas que já têm chat próprio (builder, dashboard home)
-  const skipChat = path.includes('/builder') || (currentFile === 'home.html' && path.includes('/dashboard/')) || (currentFile === 'chat.html' && path.includes('/agent/')) || currentFile === 'terminal.html' || currentFile === 'support.html' || currentFile === 'org.html';
+  const skipChat = path.includes('/builder') || path.includes('/dashboard/') || (currentFile === 'chat.html' && path.includes('/agent/')) || currentFile === 'terminal.html' || currentFile === 'support.html' || currentFile === 'org.html' || path.includes('/approvals/');
   if (skipChat) {
     var chatEl = document.getElementById('ktChat');
     if (chatEl) chatEl.style.display = 'none';
@@ -652,6 +652,13 @@
   window.toggleAI = function() {
     document.getElementById('ksSupportOverlay').classList.toggle('open');
     document.getElementById('ksSupportModal').classList.toggle('open');
+  };
+
+  window.goToPF = function() {
+    // From any tenant page, navigate to PF dashboard
+    var loc = window.location.pathname;
+    var base = loc.substring(0, loc.indexOf('/tenant/') !== -1 ? loc.indexOf('/tenant/') : loc.indexOf('/pj/') !== -1 ? loc.indexOf('/pj/') : loc.lastIndexOf('/'));
+    window.location.href = base + '/pf/dashboard.html';
   };
 
   window.closeSupportModal = function() {
