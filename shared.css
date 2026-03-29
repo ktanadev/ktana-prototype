@@ -1,22 +1,86 @@
-/* KTANA Prototype — Shared Design Tokens */
-* { box-sizing: border-box; margin: 0; padding: 0; }
-body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, system-ui, sans-serif; -webkit-font-smoothing: antialiased; }
+/* ═══════════════════════════════════════════════════════
+   KTANA Assistant — Design System Tokens
+   Branding: KTANA oficial (Zen Dots + Satoshi + Inter)
+   Referencia: Apple (qualidade), nao copia
+   ═══════════════════════════════════════════════════════ */
 
-/* Light (tenant) */
+/* Satoshi — self-hosted (body text) */
+@font-face { font-family: 'Satoshi'; src: url('/fonts/Satoshi-Regular.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Satoshi'; src: url('/fonts/Satoshi-Medium.woff2') format('woff2'); font-weight: 500; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Satoshi'; src: url('/fonts/Satoshi-Bold.woff2') format('woff2'); font-weight: 700; font-style: normal; font-display: swap; }
+
+/* Relative paths for GitHub Pages */
+@font-face { font-family: 'Satoshi'; src: url('../fonts/Satoshi-Regular.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Satoshi'; src: url('../fonts/Satoshi-Medium.woff2') format('woff2'); font-weight: 500; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Satoshi'; src: url('../fonts/Satoshi-Bold.woff2') format('woff2'); font-weight: 700; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Satoshi'; src: url('../../fonts/Satoshi-Regular.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Satoshi'; src: url('../../fonts/Satoshi-Medium.woff2') format('woff2'); font-weight: 500; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Satoshi'; src: url('../../fonts/Satoshi-Bold.woff2') format('woff2'); font-weight: 700; font-style: normal; font-display: swap; }
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+  /* KTANA Typography Stack */
+  font-family: 'Satoshi', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ═══ FONT FAMILIES ═══ */
+/* Zen Dots: headlines, brand moments, product name */
+.font-display { font-family: 'Zen Dots', cursive; }
+/* Satoshi: body text, descriptions, content (DEFAULT on body) */
+.font-body { font-family: 'Satoshi', sans-serif; }
+/* Inter: UI elements, buttons, inputs, labels, meta */
+.font-ui { font-family: 'Inter', -apple-system, system-ui, sans-serif; }
+
+/* ═══ LIGHT MODE (Tenant) ═══ */
 .light { background: #F5F5F7; color: #1D1D1F; }
-/* Dark (admin) */
+
+/* ═══ DARK MODE (Admin) ═══ */
 .dark { background: #0A0A0A; color: #F5F5F7; }
 
-.card { background: #FFF; border: 1px solid rgba(0,0,0,0.04); border-radius: 20px; }
-.card-dark { background: #1C1C1E; border: 1px solid rgba(255,255,255,0.04); border-radius: 16px; }
-.input { background: #F0F0F0; border: 1px solid #D2D2D7; border-radius: 12px; padding: 12px 16px; font-size: 14px; width: 100%; outline: none; font-family: inherit; color: #1D1D1F; }
+/* ═══ COLORS ═══ */
+.text-brand { color: #D70030; }
+.text-1 { color: #1D1D1F; }
+.text-2 { color: #6E6E73; }
+.text-3 { color: #86868B; }
+.text-4 { color: #AEAEB2; }
+.text-w1 { color: #F5F5F7; }
+.text-w2 { color: #8E8E93; }
+.text-w3 { color: #636366; }
+.text-w4 { color: #48484A; }
+
+/* ═══ COMPONENTS ═══ */
+.card {
+  background: #FFF;
+  border: 1px solid rgba(0,0,0,0.04);
+  border-radius: 20px;
+}
+.card-dark {
+  background: #1C1C1E;
+  border: 1px solid rgba(255,255,255,0.04);
+  border-radius: 16px;
+}
+
+.input {
+  font-family: 'Inter', system-ui, sans-serif;
+  background: #F0F0F0; border: 1px solid #D2D2D7;
+  border-radius: 12px; padding: 12px 16px;
+  font-size: 14px; width: 100%; outline: none;
+  color: #1D1D1F; transition: border-color 0.15s;
+}
 .input:focus { border-color: rgba(215,0,48,0.4); }
 .input::placeholder { color: #AEAEB2; }
-.input-dark { background: #2C2C2E; border: 1px solid rgba(255,255,255,0.08); border-radius: 10px; padding: 10px 14px; font-size: 13px; width: 100%; outline: none; font-family: inherit; color: #F5F5F7; }
-.input-dark:focus { border-color: #D70030; }
-.input-dark::placeholder { color: #636366; }
 
-.btn { padding: 12px 24px; border-radius: 12px; font-size: 14px; font-weight: 500; border: none; cursor: pointer; font-family: inherit; transition: opacity 0.15s; }
+.btn {
+  font-family: 'Inter', system-ui, sans-serif;
+  padding: 12px 24px; border-radius: 12px;
+  font-size: 14px; font-weight: 500;
+  border: none; cursor: pointer;
+  transition: opacity 0.15s;
+}
 .btn:hover { opacity: 0.9; }
 .btn-primary { background: #1D1D1F; color: #FFF; }
 .btn-brand { background: #D70030; color: #FFF; }
@@ -24,20 +88,28 @@ body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, system-ui, sans-
 .btn-ghost { background: transparent; color: #6E6E73; border: 1px solid #D2D2D7; }
 .btn-sm { padding: 6px 14px; font-size: 12px; border-radius: 8px; }
 
-.badge { display: inline-flex; align-items: center; padding: 2px 8px; border-radius: 6px; font-size: 10px; font-weight: 500; }
+.badge {
+  font-family: 'Inter', system-ui, sans-serif;
+  display: inline-flex; align-items: center;
+  padding: 2px 8px; border-radius: 6px;
+  font-size: 10px; font-weight: 500;
+}
 .badge-brand { background: rgba(215,0,48,0.1); color: #D70030; }
 .badge-neutral { background: rgba(0,0,0,0.04); color: #6E6E73; }
-.badge-success { background: rgba(48,209,88,0.1); color: #248A3D; }
 
+/* ═══ ANIMATIONS ═══ */
 .fade-in { animation: fadeIn 0.3s cubic-bezier(0.25,0.1,0.25,1); }
 @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
 @keyframes pulseGlow { 0%,100% { box-shadow: 0 0 8px rgba(215,0,48,0.15); } 50% { box-shadow: 0 0 20px rgba(215,0,48,0.35); } }
 .glow { animation: pulseGlow 2s ease-in-out infinite; }
 
-/* Typography helpers */
-.font-display { font-family: 'Zen Dots', cursive; }
-.text-brand { color: #D70030; }
-.text-1 { color: #1D1D1F; } .text-2 { color: #6E6E73; } .text-3 { color: #86868B; } .text-4 { color: #AEAEB2; }
-.text-w1 { color: #F5F5F7; } .text-w2 { color: #8E8E93; } .text-w3 { color: #636366; } .text-w4 { color: #48484A; }
+.reveal { opacity: 0; transform: translateY(30px); transition: opacity 0.7s cubic-bezier(0.25,0.1,0.25,1), transform 0.7s cubic-bezier(0.25,0.1,0.25,1); }
+.reveal.visible { opacity: 1; transform: translateY(0); }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+}
 
 a { text-decoration: none; color: inherit; }
+img { display: block; max-width: 100%; }
