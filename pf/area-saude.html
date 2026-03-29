@@ -1,7 +1,228 @@
-<!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>Saude — KTANA</title><link rel="stylesheet" href="../shared.css"><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Zen+Dots&display=swap" rel="stylesheet">
-<style>body{min-height:100vh;background:#F5F5F7;padding:48px 24px}.container{max-width:540px;margin:0 auto}.back{position:fixed;top:20px;left:24px;font-family:'Inter',sans-serif;font-size:12px;color:#86868B}h1{font-family:'Zen Dots',cursive;font-size:24px;color:#1D1D1F;text-align:center;margin-bottom:6px}.sub{font-family:'Satoshi',sans-serif;font-size:14px;color:#86868B;text-align:center;margin-bottom:32px}.card{background:#FFF;border-radius:20px;border:1px solid rgba(0,0,0,0.04);padding:24px;margin-bottom:12px;text-align:center}.card p{font-family:'Satoshi',sans-serif;font-size:14px;color:#6E6E73;line-height:1.6}.btn{font-family:'Inter',sans-serif;margin-top:24px;padding:14px 32px;border-radius:14px;background:#1D1D1F;color:#F5F5F7;font-size:14px;font-weight:500;border:none;cursor:pointer;display:inline-block}</style></head>
-<body><a href="onboarding.html" class="back">← Areas</a><div class="container fade-in">
-<h1>Saude</h1><p class="sub">Exercicio, alimentacao, sono, prevencao, exames</p>
-<div class="card"><p>Configure seu mentor e especialistas para esta area. Escolha referencias reais para clonar a abordagem e defina o tom de comunicacao.</p></div>
-<a href="mentor-config.html" class="btn">Configurar mentor</a>
-</div></body></html>
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Saude e Bem-estar — KTANA</title>
+  <link rel="stylesheet" href="../shared.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Zen+Dots&display=swap" rel="stylesheet">
+  <style>
+    body { min-height: 100vh; background: #F5F5F7; }
+
+    .back { position: fixed; top: 20px; left: 24px; font-family: 'Inter', sans-serif; font-size: 12px; color: #86868B; z-index: 20; }
+
+    .container { max-width: 620px; margin: 0 auto; padding: 56px 24px 80px; }
+
+    .area-header { text-align: center; margin-bottom: 40px; }
+    .area-icon { width: 56px; height: 56px; border-radius: 16px; background: rgba(215,0,48,0.04); display: flex; align-items: center; justify-content: center; margin: 0 auto 16px; font-size: 26px; }
+    .area-header h1 { font-family: 'Zen Dots', cursive; font-size: 26px; color: #1D1D1F; margin-bottom: 6px; }
+    .area-header p { font-family: 'Satoshi', sans-serif; font-size: 14px; color: #86868B; line-height: 1.5; }
+
+    .card { background: #FFF; border-radius: 20px; border: 1px solid rgba(0,0,0,0.04); padding: 28px; margin-bottom: 16px; }
+    .card-label { font-family: 'Inter', sans-serif; font-size: 10px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: #D70030; margin-bottom: 16px; }
+
+    /* Mentor card */
+    .mentor { display: flex; align-items: flex-start; gap: 16px; }
+    .mentor-avatar { width: 52px; height: 52px; border-radius: 16px; border: 1.5px solid rgba(215,0,48,0.2); display: flex; align-items: center; justify-content: center; flex-shrink: 0; background: rgba(215,0,48,0.03); }
+    .mentor-avatar span { font-family: 'Zen Dots', cursive; font-size: 16px; color: #D70030; }
+    .mentor-info h3 { font-family: 'Satoshi', sans-serif; font-size: 16px; font-weight: 600; color: #1D1D1F; margin-bottom: 2px; }
+    .mentor-role { font-family: 'Inter', sans-serif; font-size: 11px; color: #D70030; font-weight: 500; margin-bottom: 6px; }
+    .mentor-desc { font-family: 'Satoshi', sans-serif; font-size: 13px; color: #6E6E73; line-height: 1.5; }
+    .mentor-refs { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+    .mentor-ref { font-family: 'Inter', sans-serif; padding: 4px 10px; border-radius: 980px; background: rgba(0,0,0,0.03); font-size: 11px; color: #6E6E73; }
+
+    /* Specialists */
+    .specialist-list { display: flex; flex-direction: column; gap: 12px; }
+    .specialist-item { display: flex; align-items: center; gap: 14px; padding: 16px; border-radius: 14px; background: rgba(0,0,0,0.01); border: 0.5px solid rgba(0,0,0,0.04); transition: box-shadow 0.2s; }
+    .specialist-item:hover { box-shadow: 0 2px 12px rgba(0,0,0,0.03); }
+    .specialist-icon { width: 40px; height: 40px; border-radius: 12px; background: rgba(0,0,0,0.02); display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; }
+    .specialist-info { flex: 1; }
+    .specialist-info h4 { font-family: 'Satoshi', sans-serif; font-size: 14px; font-weight: 500; color: #1D1D1F; margin-bottom: 2px; }
+    .specialist-info p { font-family: 'Satoshi', sans-serif; font-size: 12px; color: #86868B; line-height: 1.4; }
+    .specialist-status { font-family: 'Inter', sans-serif; font-size: 10px; color: #30D158; display: flex; align-items: center; gap: 4px; flex-shrink: 0; }
+    .specialist-status::before { content: ''; width: 5px; height: 5px; border-radius: 50%; background: #30D158; }
+
+    /* Goals */
+    .goal-row { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 0.5px solid rgba(0,0,0,0.04); }
+    .goal-row:last-child { border-bottom: none; }
+    .goal-label { font-family: 'Satoshi', sans-serif; font-size: 13px; color: #1D1D1F; }
+    .goal-value { font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 500; }
+    .goal-ok { color: #30D158; }
+    .goal-warn { color: #FF9500; }
+    .goal-miss { color: #D70030; }
+
+    .goal-bar { width: 80px; height: 4px; border-radius: 2px; background: rgba(0,0,0,0.04); margin-left: 12px; }
+    .goal-bar-fill { height: 100%; border-radius: 2px; transition: width 0.6s ease; }
+    .goal-progress { display: flex; align-items: center; }
+
+    /* Activity */
+    .activity-item { display: flex; align-items: center; gap: 10px; padding: 8px 0; border-bottom: 0.5px solid rgba(0,0,0,0.03); }
+    .activity-item:last-child { border-bottom: none; }
+    .activity-time { font-family: 'Inter', sans-serif; font-size: 10px; color: #AEAEB2; width: 40px; flex-shrink: 0; }
+    .activity-agent { font-family: 'Inter', sans-serif; font-size: 10px; font-weight: 600; color: #6E6E73; width: 60px; flex-shrink: 0; }
+    .activity-desc { font-family: 'Satoshi', sans-serif; font-size: 13px; color: #6E6E73; }
+
+    /* Disclaimer */
+    .disclaimer { background: rgba(215,0,48,0.02); border: 0.5px solid rgba(215,0,48,0.08); border-radius: 14px; padding: 16px 20px; margin-top: 24px; }
+    .disclaimer-icon { font-size: 14px; margin-bottom: 6px; }
+    .disclaimer p { font-family: 'Inter', sans-serif; font-size: 11px; color: #86868B; line-height: 1.6; }
+    .disclaimer strong { color: #6E6E73; }
+
+    .btn-edit { font-family: 'Inter', sans-serif; width: 100%; padding: 16px; border-radius: 16px; background: #1D1D1F; color: #F5F5F7; font-size: 15px; font-weight: 500; border: none; cursor: pointer; margin-top: 24px; min-height: 64px; transition: opacity 0.15s; }
+    .btn-edit:hover { opacity: 0.9; }
+
+    .btn-chat { font-family: 'Inter', sans-serif; width: 100%; padding: 14px; border-radius: 14px; background: transparent; color: #D70030; font-size: 14px; font-weight: 500; border: 1px solid rgba(215,0,48,0.15); cursor: pointer; margin-top: 10px; transition: background 0.15s; min-height: 52px; }
+    .btn-chat:hover { background: rgba(215,0,48,0.02); }
+
+    /* Staggered animations */
+    .stagger-1 { animation: fadeUp 0.5s cubic-bezier(0.25,0.1,0.25,1) 0.05s both; }
+    .stagger-2 { animation: fadeUp 0.5s cubic-bezier(0.25,0.1,0.25,1) 0.12s both; }
+    .stagger-3 { animation: fadeUp 0.5s cubic-bezier(0.25,0.1,0.25,1) 0.19s both; }
+    .stagger-4 { animation: fadeUp 0.5s cubic-bezier(0.25,0.1,0.25,1) 0.26s both; }
+    .stagger-5 { animation: fadeUp 0.5s cubic-bezier(0.25,0.1,0.25,1) 0.33s both; }
+    .stagger-6 { animation: fadeUp 0.5s cubic-bezier(0.25,0.1,0.25,1) 0.40s both; }
+    .stagger-7 { animation: fadeUp 0.5s cubic-bezier(0.25,0.1,0.25,1) 0.47s both; }
+  </style>
+</head>
+<body>
+  <a href="onboarding.html" class="back">← Areas</a>
+
+  <div class="container">
+
+    <!-- Header -->
+    <div class="area-header stagger-1">
+      <div class="area-icon">&#x2764;</div>
+      <h1>Saude e Bem-estar</h1>
+      <p>Exercicio, alimentacao, sono, prevencao, exames e longevidade</p>
+    </div>
+
+    <!-- Mentor Card -->
+    <div class="card stagger-2">
+      <p class="card-label">Mentor principal</p>
+      <div class="mentor">
+        <div class="mentor-avatar"><span>K</span></div>
+        <div class="mentor-info">
+          <h3>Dr. Kenji</h3>
+          <p class="mentor-role">Mentor de Saude</p>
+          <p class="mentor-desc">Supervisiona toda a area de saude. Abordagem baseada em medicina preventiva e longevidade. Tom firme e baseado em dados. Faz check-in diario 07:30.</p>
+          <div class="mentor-refs">
+            <span class="mentor-ref">Peter Attia</span>
+            <span class="mentor-ref">Andrew Huberman</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Specialists -->
+    <div class="card stagger-3">
+      <p class="card-label">Especialistas (reportam ao Dr. Kenji)</p>
+      <div class="specialist-list">
+        <div class="specialist-item">
+          <div class="specialist-icon">&#x1F957;</div>
+          <div class="specialist-info">
+            <h4>Yui — Orientadora de Alimentacao</h4>
+            <p>Cardapios semanais, macros, suplementacao. Prepara o plano alimentar e avisa horarios de refeicao.</p>
+          </div>
+          <div class="specialist-status">Ativo</div>
+        </div>
+        <div class="specialist-item">
+          <div class="specialist-icon">&#x1F3CB;</div>
+          <div class="specialist-info">
+            <h4>Ryu — Mentor de Atividade Fisica</h4>
+            <p>Treinos personalizados, metas de VO2max, ajuste de carga conforme sono e recuperacao.</p>
+          </div>
+          <div class="specialist-status">Ativo</div>
+        </div>
+        <div class="specialist-item">
+          <div class="specialist-icon">&#x1F634;</div>
+          <div class="specialist-info">
+            <h4>Aiko — Especialista em Sono</h4>
+            <p>Higiene do sono, ritmo circadiano, alertas de horario. Monitora dados do Apple Health.</p>
+          </div>
+          <div class="specialist-status">Ativo</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Weekly Goals -->
+    <div class="card stagger-4">
+      <p class="card-label">Metas desta semana</p>
+      <div class="goal-row">
+        <span class="goal-label">Treinar 4x na semana</span>
+        <div class="goal-progress">
+          <span class="goal-value goal-warn">2/4</span>
+          <div class="goal-bar"><div class="goal-bar-fill" style="width:50%;background:#FF9500;"></div></div>
+        </div>
+      </div>
+      <div class="goal-row">
+        <span class="goal-label">Dormir 7h+ por noite</span>
+        <div class="goal-progress">
+          <span class="goal-value goal-miss">3/7</span>
+          <div class="goal-bar"><div class="goal-bar-fill" style="width:43%;background:#D70030;"></div></div>
+        </div>
+      </div>
+      <div class="goal-row">
+        <span class="goal-label">Beber 2L de agua</span>
+        <div class="goal-progress">
+          <span class="goal-value goal-ok">6/7</span>
+          <div class="goal-bar"><div class="goal-bar-fill" style="width:86%;background:#30D158;"></div></div>
+        </div>
+      </div>
+      <div class="goal-row">
+        <span class="goal-label">Tomar creatina + vitamina D</span>
+        <div class="goal-progress">
+          <span class="goal-value goal-ok">7/7</span>
+          <div class="goal-bar"><div class="goal-bar-fill" style="width:100%;background:#30D158;"></div></div>
+        </div>
+      </div>
+      <div class="goal-row">
+        <span class="goal-label">Nao comer ultra-processado</span>
+        <div class="goal-progress">
+          <span class="goal-value goal-warn">5/7</span>
+          <div class="goal-bar"><div class="goal-bar-fill" style="width:71%;background:#FF9500;"></div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Recent Activity -->
+    <div class="card stagger-5">
+      <p class="card-label">Atividade recente</p>
+      <div class="activity-item">
+        <span class="activity-time">08:00</span>
+        <span class="activity-agent">Kenji</span>
+        <span class="activity-desc">Check-in matinal: ajustou treino por sono curto</span>
+      </div>
+      <div class="activity-item">
+        <span class="activity-time">07:45</span>
+        <span class="activity-agent">Aiko</span>
+        <span class="activity-desc">Alerta: 5h30 de sono detectado via Apple Health</span>
+      </div>
+      <div class="activity-item">
+        <span class="activity-time">07:30</span>
+        <span class="activity-agent">Yui</span>
+        <span class="activity-desc">Cardapio do dia enviado no WhatsApp</span>
+      </div>
+      <div class="activity-item">
+        <span class="activity-time">07:15</span>
+        <span class="activity-agent">Ryu</span>
+        <span class="activity-desc">Treino adaptado: caminhada leve 20min</span>
+      </div>
+      <div class="activity-item">
+        <span class="activity-time">06:30</span>
+        <span class="activity-agent">Aiko</span>
+        <span class="activity-desc">Lembrete de suplementacao matinal</span>
+      </div>
+    </div>
+
+    <!-- Disclaimer -->
+    <div class="disclaimer stagger-6">
+      <div class="disclaimer-icon">&#x26A0;</div>
+      <p><strong>Aviso importante:</strong> Todos os mentores e especialistas de saude sao assistentes de inteligencia artificial. Eles nao substituem acompanhamento medico profissional. Nao fazem diagnosticos, nao prescrevem medicamentos e nao substituem consultas. Em emergencias, ligue <strong>192 (SAMU)</strong> ou <strong>193 (Bombeiros)</strong>.</p>
+    </div>
+
+    <!-- Actions -->
+    <button class="btn-edit stagger-7" onclick="location.href='mentor-config.html'">Editar mentor e especialistas</button>
+    <button class="btn-chat stagger-7" onclick="location.href='../tenant/agent/chat.html'">Conversar com Dr. Kenji</button>
+  </div>
+</body>
+</html>
