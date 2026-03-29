@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Checkout — KTANA</title>
+  <link rel="stylesheet" href="../../shared.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Zen+Dots&display=swap" rel="stylesheet">
+  <style>
+    body { min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 48px 24px; background: #F5F5F7; }
+    .container { width: 100%; max-width: 480px; }
+    .back { position: fixed; top: 20px; left: 24px; font-family: 'Inter', sans-serif; font-size: 12px; color: #86868B; }
+    h1 { font-family: 'Zen Dots', cursive; font-size: 24px; color: #1D1D1F; margin-bottom: 8px; text-align: center; }
+    .sub { font-family: 'Satoshi', sans-serif; font-size: 14px; color: #86868B; text-align: center; margin-bottom: 40px; }
+
+    .summary { background: #FFF; border-radius: 20px; border: 1px solid rgba(0,0,0,0.04); padding: 28px; margin-bottom: 24px; }
+    .summary-row { display: flex; justify-content: space-between; align-items: center; padding: 8px 0; }
+    .summary-row .label { font-family: 'Satoshi', sans-serif; font-size: 14px; color: #86868B; }
+    .summary-row .value { font-family: 'Inter', sans-serif; font-size: 14px; font-weight: 500; color: #1D1D1F; }
+    .summary-total { border-top: 0.5px solid rgba(0,0,0,0.06); padding-top: 12px; margin-top: 8px; }
+    .summary-total .value { font-family: 'Zen Dots', cursive; font-size: 20px; }
+
+    .form { background: #FFF; border-radius: 20px; border: 1px solid rgba(0,0,0,0.04); padding: 28px; }
+    .form-title { font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: #86868B; margin-bottom: 16px; }
+    .form-group { margin-bottom: 12px; }
+    .form-group label { font-family: 'Inter', sans-serif; display: block; font-size: 11px; color: #86868B; margin-bottom: 6px; font-weight: 500; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .input { font-family: 'Inter', sans-serif; background: #F5F5F7; border: 1px solid rgba(0,0,0,0.06); border-radius: 12px; padding: 12px 14px; font-size: 14px; width: 100%; outline: none; color: #1D1D1F; transition: border-color 0.15s; }
+    .input:focus { border-color: rgba(215,0,48,0.4); }
+    .input::placeholder { color: #AEAEB2; }
+
+    .methods { display: flex; gap: 8px; margin-bottom: 20px; }
+    .method { flex: 1; padding: 12px; border-radius: 12px; border: 1px solid rgba(0,0,0,0.06); background: #F5F5F7; text-align: center; font-family: 'Inter', sans-serif; font-size: 12px; font-weight: 500; color: #6E6E73; cursor: pointer; transition: all 0.15s; }
+    .method.active { border-color: #D70030; background: rgba(215,0,48,0.04); color: #D70030; }
+
+    .btn-pay { font-family: 'Inter', sans-serif; width: 100%; padding: 14px; border-radius: 14px; background: #1D1D1F; color: #F5F5F7; font-size: 15px; font-weight: 500; border: none; cursor: pointer; margin-top: 20px; transition: background 0.2s; }
+    .btn-pay:hover { background: #000; }
+
+    .secure { font-family: 'Inter', sans-serif; font-size: 11px; color: #AEAEB2; text-align: center; margin-top: 16px; display: flex; align-items: center; justify-content: center; gap: 6px; }
+    .secure svg { width: 12px; height: 12px; stroke: #AEAEB2; fill: none; stroke-width: 1.5; }
+  </style>
+</head>
+<body>
+  <a href="plans.html" class="back">← Voltar</a>
+  <div class="container fade-in">
+    <h1>Checkout</h1>
+    <p class="sub">Plano GUNDAN · R$297/mes</p>
+
+    <div class="summary">
+      <div class="summary-row"><span class="label">Plano</span><span class="value">GUNDAN</span></div>
+      <div class="summary-row"><span class="label">Samurais</span><span class="value">Ate 10</span></div>
+      <div class="summary-row"><span class="label">Acoes</span><span class="value">5.000/mes</span></div>
+      <div class="summary-row"><span class="label">Cobranca</span><span class="value">Mensal</span></div>
+      <div class="summary-row summary-total"><span class="label">Total</span><span class="value">R$297</span></div>
+    </div>
+
+    <div class="form">
+      <p class="form-title">Pagamento</p>
+
+      <div class="methods">
+        <div class="method active" onclick="this.parentElement.querySelectorAll('.method').forEach(m=>m.classList.remove('active')); this.classList.add('active')">Cartao</div>
+        <div class="method" onclick="this.parentElement.querySelectorAll('.method').forEach(m=>m.classList.remove('active')); this.classList.add('active')">PIX</div>
+        <div class="method" onclick="this.parentElement.querySelectorAll('.method').forEach(m=>m.classList.remove('active')); this.classList.add('active')">Boleto</div>
+      </div>
+
+      <div class="form-group">
+        <label>Numero do cartao</label>
+        <input type="text" class="input" placeholder="0000 0000 0000 0000">
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Validade</label>
+          <input type="text" class="input" placeholder="MM/AA">
+        </div>
+        <div class="form-group">
+          <label>CVV</label>
+          <input type="text" class="input" placeholder="000">
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Nome no cartao</label>
+        <input type="text" class="input" placeholder="Como esta no cartao">
+      </div>
+
+      <button class="btn-pay" onclick="location.href='yumi.html'">Assinar R$297/mes</button>
+    </div>
+
+    <p class="secure">
+      <svg viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
+      Pagamento seguro · Cancele quando quiser
+    </p>
+  </div>
+</body>
+</html>

@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ativando — KTANA</title>
+  <link rel="stylesheet" href="../../shared.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Zen+Dots&display=swap" rel="stylesheet">
+  <style>
+    body { min-height: 100vh; background: #F5F5F7; display: flex; align-items: center; justify-content: center; }
+    .container { max-width: 480px; text-align: center; padding: 48px 24px; }
+
+    h1 { font-family: 'Zen Dots', cursive; font-size: 28px; color: #1D1D1F; margin-bottom: 12px; opacity: 0; animation: fadeUp 0.6s 0.3s forwards; }
+    .sub { font-family: 'Satoshi', sans-serif; font-size: 15px; color: #86868B; margin-bottom: 48px; line-height: 1.6; opacity: 0; animation: fadeUp 0.6s 0.5s forwards; }
+
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
+
+    /* Loading animation */
+    .loader { margin: 0 auto 48px; position: relative; width: 80px; height: 80px; }
+    .loader-ring { width: 80px; height: 80px; border-radius: 50%; border: 2px solid rgba(0,0,0,0.04); border-top-color: #D70030; animation: spin 1.2s cubic-bezier(0.5,0,0.5,1) infinite; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .loader-text { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-family: 'Zen Dots', cursive; font-size: 10px; color: #D70030; }
+
+    /* Steps */
+    .steps { margin-bottom: 48px; }
+    .step { display: flex; align-items: center; gap: 12px; padding: 10px 0; opacity: 0; }
+    .step-check { width: 20px; height: 20px; border-radius: 50%; border: 1.5px solid #D2D2D7; display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: all 0.3s; }
+    .step-check.done { border-color: #30D158; background: #30D158; }
+    .step-check.done::after { content: ''; width: 4px; height: 8px; border: solid #FFF; border-width: 0 1.5px 1.5px 0; transform: rotate(45deg) translate(-0.5px, -0.5px); }
+    .step-check.loading { border-color: #D70030; border-top-color: transparent; animation: spin 1s linear infinite; }
+    .step-text { font-family: 'Satoshi', sans-serif; font-size: 14px; color: #86868B; }
+    .step-text.active { color: #1D1D1F; }
+
+    .btn-dashboard { font-family: 'Inter', sans-serif; padding: 16px 40px; border-radius: 14px; background: #1D1D1F; color: #F5F5F7; font-size: 15px; font-weight: 500; border: none; cursor: pointer; opacity: 0; transition: background 0.15s; }
+    .btn-dashboard:hover { background: #000; }
+    .btn-dashboard.visible { opacity: 1; animation: fadeUp 0.4s ease; }
+
+    .confetti { font-family: 'Zen Dots', cursive; font-size: 11px; color: #D70030; margin-top: 16px; opacity: 0; }
+    .confetti.visible { opacity: 1; animation: fadeUp 0.4s ease; }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <div class="loader">
+      <div class="loader-ring"></div>
+      <div class="loader-text">K</div>
+    </div>
+
+    <h1>Ativando sua empresa.</h1>
+    <p class="sub">Seus samurais estao sendo treinados. Isso leva apenas alguns segundos.</p>
+
+    <div class="steps">
+      <div class="step" id="s1"><div class="step-check"></div><span class="step-text">Gerando specs de cada samurai</span></div>
+      <div class="step" id="s2"><div class="step-check"></div><span class="step-text">Calibrando personalidades</span></div>
+      <div class="step" id="s3"><div class="step-check"></div><span class="step-text">Conectando ferramentas</span></div>
+      <div class="step" id="s4"><div class="step-check"></div><span class="step-text">Configurando rotinas</span></div>
+      <div class="step" id="s5"><div class="step-check"></div><span class="step-text">Ativando samurais</span></div>
+    </div>
+
+    <button class="btn-dashboard" id="btn-go" onclick="location.href='../dashboard/home.html'">Ir para o dashboard</button>
+    <p class="confetti" id="confetti">Sua empresa inteligente esta ativa.</p>
+  </div>
+
+  <script>
+    const steps = ['s1','s2','s3','s4','s5'];
+    let current = 0;
+
+    function activateStep(i) {
+      const step = document.getElementById(steps[i]);
+      step.style.opacity = '1';
+      step.style.animation = 'fadeUp 0.3s ease forwards';
+      const check = step.querySelector('.step-check');
+      const text = step.querySelector('.step-text');
+      check.classList.add('loading');
+      text.classList.add('active');
+
+      setTimeout(() => {
+        check.classList.remove('loading');
+        check.classList.add('done');
+        text.classList.remove('active');
+
+        if (i < steps.length - 1) {
+          setTimeout(() => activateStep(i + 1), 200);
+        } else {
+          // All done
+          setTimeout(() => {
+            document.querySelector('.loader').style.display = 'none';
+            document.getElementById('btn-go').classList.add('visible');
+            document.getElementById('confetti').classList.add('visible');
+          }, 400);
+        }
+      }, 800 + Math.random() * 400);
+    }
+
+    setTimeout(() => activateStep(0), 600);
+  </script>
+</body>
+</html>

@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sua equipe — KTANA</title>
+  <link rel="stylesheet" href="../../shared.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Zen+Dots&display=swap" rel="stylesheet">
+  <style>
+    body { min-height: 100vh; background: #F5F5F7; padding: 48px 24px; }
+    .container { max-width: 640px; margin: 0 auto; }
+    .back { position: fixed; top: 20px; left: 24px; font-family: 'Inter', sans-serif; font-size: 12px; color: #86868B; }
+    .progress { display: flex; justify-content: center; gap: 6px; margin-bottom: 40px; }
+    .dot { width: 6px; height: 6px; border-radius: 50%; background: #D2D2D7; }
+    .dot.done { background: #86868B; }
+    .dot.active { background: #D70030; width: 20px; border-radius: 3px; }
+
+    h1 { font-family: 'Zen Dots', cursive; font-size: 28px; color: #1D1D1F; margin-bottom: 8px; text-align: center; }
+    .sub { font-family: 'Satoshi', sans-serif; font-size: 15px; color: #86868B; text-align: center; margin-bottom: 40px; }
+
+    /* Org chart */
+    .org { display: flex; flex-direction: column; align-items: center; gap: 8px; margin-bottom: 40px; }
+    .org-line { width: 1px; height: 24px; background: rgba(0,0,0,0.08); }
+    .org-branch { display: flex; gap: 12px; position: relative; }
+    .org-branch::before { content: ''; position: absolute; top: -12px; left: 50%; width: 70%; height: 1px; background: rgba(0,0,0,0.08); transform: translateX(-50%); }
+
+    .agent-card { background: #FFF; border: 1px solid rgba(0,0,0,0.04); border-radius: 16px; padding: 16px 20px; display: flex; align-items: center; gap: 12px; min-width: 200px; cursor: pointer; transition: box-shadow 0.2s, transform 0.15s; }
+    .agent-card:hover { box-shadow: 0 4px 20px rgba(0,0,0,0.05); transform: translateY(-1px); }
+    .agent-card-sm { padding: 12px 16px; min-width: 160px; }
+    .agent-avatar { width: 36px; height: 36px; border-radius: 50%; border: 1.5px solid #D2D2D7; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .agent-avatar span { font-family: 'Inter', sans-serif; font-size: 12px; font-weight: 500; color: #6E6E73; }
+    .agent-avatar-ceo { border-color: rgba(215,0,48,0.3); }
+    .agent-avatar-ceo span { color: #D70030; }
+    .agent-name { font-family: 'Satoshi', sans-serif; font-size: 14px; font-weight: 500; color: #1D1D1F; }
+    .agent-role { font-family: 'Inter', sans-serif; font-size: 11px; color: #86868B; }
+
+    .add-btn { background: #FFF; border: 1px dashed #D2D2D7; border-radius: 16px; padding: 12px 16px; display: flex; align-items: center; gap: 8px; font-family: 'Inter', sans-serif; font-size: 12px; color: #86868B; cursor: pointer; transition: border-color 0.15s; min-width: 160px; justify-content: center; }
+    .add-btn:hover { border-color: #D70030; color: #D70030; }
+
+    .actions { display: flex; gap: 12px; justify-content: center; margin-top: 40px; }
+    .btn-next { font-family: 'Inter', sans-serif; padding: 14px 32px; border-radius: 14px; background: #1D1D1F; color: #F5F5F7; font-size: 15px; font-weight: 500; border: none; cursor: pointer; transition: background 0.15s; }
+    .btn-next:hover { background: #000; }
+    .btn-back { font-family: 'Inter', sans-serif; padding: 14px 24px; border-radius: 14px; background: transparent; color: #86868B; font-size: 14px; border: 1px solid rgba(0,0,0,0.08); cursor: pointer; }
+  </style>
+</head>
+<body>
+  <a href="yumi.html" class="back">← Yumi</a>
+
+  <div class="container fade-in">
+    <div class="progress">
+      <div class="dot done"></div>
+      <div class="dot done"></div>
+      <div class="dot done"></div>
+      <div class="dot active"></div>
+      <div class="dot"></div>
+    </div>
+
+    <h1>Sua equipe.</h1>
+    <p class="sub">Yumi montou seu time. Clique em qualquer samurai pra configurar.</p>
+
+    <!-- Org chart -->
+    <div class="org">
+      <!-- Dono -->
+      <div class="agent-card" style="opacity: 0.5; cursor: default;">
+        <div class="agent-avatar"><span>J</span></div>
+        <div><p class="agent-name">Julio</p><p class="agent-role">Dono</p></div>
+      </div>
+
+      <div class="org-line"></div>
+
+      <!-- CEO -->
+      <div class="agent-card" onclick="location.href='agent-config.html'">
+        <div class="agent-avatar agent-avatar-ceo"><span>A</span></div>
+        <div><p class="agent-name">Akira</p><p class="agent-role">CEO</p></div>
+      </div>
+
+      <div class="org-line"></div>
+
+      <!-- Workers -->
+      <div class="org-branch">
+        <div class="agent-card agent-card-sm" onclick="location.href='agent-config.html'">
+          <div class="agent-avatar"><span>H</span></div>
+          <div><p class="agent-name">Hana</p><p class="agent-role">Secretaria</p></div>
+        </div>
+        <div class="agent-card agent-card-sm" onclick="location.href='agent-config.html'">
+          <div class="agent-avatar"><span>Y</span></div>
+          <div><p class="agent-name">Yuki</p><p class="agent-role">Controller</p></div>
+        </div>
+        <div class="agent-card agent-card-sm" onclick="location.href='agent-config.html'">
+          <div class="agent-avatar"><span>H</span></div>
+          <div><p class="agent-name">Haruki</p><p class="agent-role">PM</p></div>
+        </div>
+        <div class="add-btn" onclick="alert('Contratar novo samurai')">+ Contratar</div>
+      </div>
+    </div>
+
+    <div class="actions">
+      <button class="btn-back" onclick="location.href='yumi.html'">Voltar</button>
+      <button class="btn-next" onclick="location.href='connect.html'">Conectar ferramentas</button>
+    </div>
+  </div>
+</body>
+</html>

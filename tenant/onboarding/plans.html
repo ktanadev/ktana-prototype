@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Escolha seu plano — KTANA</title>
+  <link rel="stylesheet" href="../../shared.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Zen+Dots&display=swap" rel="stylesheet">
+  <style>
+    body { min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 48px 24px; background: #F5F5F7; }
+    .container { width: 100%; max-width: 980px; text-align: center; }
+    .back { position: fixed; top: 20px; left: 24px; font-family: 'Inter', sans-serif; font-size: 12px; color: #86868B; }
+    h1 { font-family: 'Zen Dots', cursive; font-size: 36px; font-weight: 400; color: #1D1D1F; margin-bottom: 8px; }
+    .sub { font-family: 'Satoshi', sans-serif; font-size: 16px; color: #86868B; margin-bottom: 56px; }
+    .grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+    .plan {
+      background: #FFF; border-radius: 24px; padding: 36px 24px;
+      text-align: left; position: relative;
+      border: 1px solid rgba(0,0,0,0.04);
+      transition: box-shadow 0.3s, transform 0.2s;
+      cursor: pointer;
+    }
+    .plan:hover { box-shadow: 0 8px 40px rgba(0,0,0,0.06); transform: translateY(-2px); }
+    .plan-featured { outline: 2px solid rgba(215,0,48,0.15); }
+    .plan-badge { position: absolute; top: -9px; left: 50%; transform: translateX(-50%); background: #D70030; color: #FFF; font-family: 'Inter', sans-serif; font-size: 9px; font-weight: 600; letter-spacing: 0.08em; padding: 3px 12px; border-radius: 980px; }
+    .plan-tier { font-family: 'Inter', sans-serif; font-size: 10px; font-weight: 600; letter-spacing: 0.08em; color: #86868B; margin-bottom: 12px; }
+    .plan-price { font-family: 'Zen Dots', cursive; font-size: 36px; color: #1D1D1F; line-height: 1; }
+    .plan-price span { font-family: 'Satoshi', sans-serif; font-size: 14px; color: #86868B; }
+    .plan-desc { font-family: 'Satoshi', sans-serif; font-size: 12px; color: #86868B; margin-top: 4px; margin-bottom: 28px; }
+    .plan-list { list-style: none; margin-bottom: 28px; }
+    .plan-list li { font-family: 'Satoshi', sans-serif; font-size: 13px; color: #6E6E73; padding: 5px 0 5px 14px; position: relative; }
+    .plan-list li::before { content: ''; position: absolute; left: 0; top: 12px; width: 4px; height: 4px; border-radius: 50%; background: #D2D2D7; }
+    .plan-btn { font-family: 'Inter', sans-serif; display: block; width: 100%; text-align: center; padding: 12px; border-radius: 980px; font-size: 13px; font-weight: 500; border: none; cursor: pointer; transition: all 0.2s; }
+    .btn-dark { background: #1D1D1F; color: #F5F5F7; }
+    .btn-dark:hover { background: #000; }
+    .btn-brand { background: #D70030; color: #FFF; }
+    .btn-brand:hover { background: #B30028; }
+    .btn-outline { background: transparent; color: #1D1D1F; border: 1px solid rgba(0,0,0,0.12); }
+    .btn-outline:hover { background: rgba(0,0,0,0.03); }
+    .skip { font-family: 'Inter', sans-serif; font-size: 12px; color: #86868B; margin-top: 32px; display: inline-block; }
+    .skip:hover { color: #D70030; }
+
+    @media (max-width: 768px) { .grid { grid-template-columns: 1fr 1fr; } }
+    @media (max-width: 480px) { .grid { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+  <a href="../auth/signup.html" class="back">← Voltar</a>
+  <div class="container fade-in">
+    <h1>Escolha seu plano.</h1>
+    <p class="sub">Comece gratis. Escale quando quiser.</p>
+
+    <div class="grid">
+      <div class="plan" onclick="location.href='yumi.html'">
+        <p class="plan-tier">RONIN</p>
+        <p class="plan-price">Gratis</p>
+        <p class="plan-desc">Para sempre</p>
+        <ul class="plan-list">
+          <li>1 samurai (CEO)</li>
+          <li>100 acoes/mes</li>
+          <li>WhatsApp + Email</li>
+        </ul>
+        <button class="plan-btn btn-outline">Comecar gratis</button>
+      </div>
+
+      <div class="plan" onclick="location.href='yumi.html'">
+        <p class="plan-tier">BUSHI</p>
+        <p class="plan-price">R$97<span>/mes</span></p>
+        <p class="plan-desc">3 samurais, 1k acoes</p>
+        <ul class="plan-list">
+          <li>3 samurais</li>
+          <li>1.000 acoes/mes</li>
+          <li>1 departamento</li>
+          <li>Hierarquia basica</li>
+        </ul>
+        <button class="plan-btn btn-dark">Assinar</button>
+      </div>
+
+      <div class="plan plan-featured" onclick="location.href='checkout.html'">
+        <span class="plan-badge">POPULAR</span>
+        <p class="plan-tier">GUNDAN</p>
+        <p class="plan-price">R$297<span>/mes</span></p>
+        <p class="plan-desc">10 samurais, 5k acoes</p>
+        <ul class="plan-list">
+          <li>10 samurais</li>
+          <li>5.000 acoes/mes</li>
+          <li>Departamentos ilimitados</li>
+          <li>Hierarquia completa</li>
+          <li>Escritorio virtual</li>
+        </ul>
+        <button class="plan-btn btn-brand">Assinar</button>
+      </div>
+
+      <div class="plan" onclick="location.href='checkout.html'">
+        <p class="plan-tier">BAKUFU</p>
+        <p class="plan-price">R$997<span>/mes</span></p>
+        <p class="plan-desc">Ilimitado + API</p>
+        <ul class="plan-list">
+          <li>Samurais ilimitados</li>
+          <li>Acoes ilimitadas</li>
+          <li>API + Webhooks</li>
+          <li>White label</li>
+          <li>SLA + suporte</li>
+        </ul>
+        <button class="plan-btn btn-outline">Falar com time</button>
+      </div>
+    </div>
+
+    <a href="yumi.html" class="skip">Comecar com plano gratis →</a>
+  </div>
+</body>
+</html>

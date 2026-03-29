@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Revisar e ativar — KTANA</title>
+  <link rel="stylesheet" href="../../shared.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Zen+Dots&display=swap" rel="stylesheet">
+  <style>
+    body { min-height: 100vh; background: #F5F5F7; padding: 48px 24px; }
+    .container { max-width: 580px; margin: 0 auto; }
+    .back { position: fixed; top: 20px; left: 24px; font-family: 'Inter', sans-serif; font-size: 12px; color: #86868B; }
+
+    h1 { font-family: 'Zen Dots', cursive; font-size: 28px; color: #1D1D1F; margin-bottom: 8px; text-align: center; }
+    .sub { font-family: 'Satoshi', sans-serif; font-size: 15px; color: #86868B; text-align: center; margin-bottom: 40px; }
+
+    .card { background: #FFF; border-radius: 20px; border: 1px solid rgba(0,0,0,0.04); padding: 28px; margin-bottom: 16px; }
+    .card-label { font-family: 'Inter', sans-serif; font-size: 10px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: #D70030; margin-bottom: 16px; }
+
+    .review-row { display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 0.5px solid rgba(0,0,0,0.04); }
+    .review-row:last-child { border-bottom: none; }
+    .review-label { font-family: 'Satoshi', sans-serif; font-size: 13px; color: #86868B; }
+    .review-value { font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 500; color: #1D1D1F; }
+
+    .team-list { display: flex; flex-direction: column; gap: 8px; }
+    .team-item { display: flex; align-items: center; gap: 10px; }
+    .team-avatar { width: 28px; height: 28px; border-radius: 50%; border: 1px solid #D2D2D7; display: flex; align-items: center; justify-content: center; }
+    .team-avatar span { font-family: 'Inter', sans-serif; font-size: 10px; color: #6E6E73; }
+    .team-name { font-family: 'Satoshi', sans-serif; font-size: 13px; color: #1D1D1F; }
+    .team-role { font-family: 'Inter', sans-serif; font-size: 11px; color: #86868B; }
+
+    .consent { margin-top: 20px; }
+    .consent-item { display: flex; align-items: flex-start; gap: 10px; padding: 8px 0; }
+    .checkbox { width: 18px; height: 18px; border-radius: 4px; border: 1.5px solid #D2D2D7; flex-shrink: 0; margin-top: 1px; cursor: pointer; transition: all 0.15s; display: flex; align-items: center; justify-content: center; }
+    .checkbox.checked { border-color: #D70030; background: #D70030; }
+    .checkbox.checked::after { content: ''; width: 4px; height: 8px; border: solid #FFF; border-width: 0 1.5px 1.5px 0; transform: rotate(45deg) translate(-0.5px, -0.5px); }
+    .consent-text { font-family: 'Satoshi', sans-serif; font-size: 12px; color: #6E6E73; line-height: 1.5; }
+    .consent-text a { color: #D70030; text-decoration: underline; }
+
+    .btn-activate { font-family: 'Inter', sans-serif; width: 100%; padding: 16px; border-radius: 14px; background: #D70030; color: #FFF; font-size: 15px; font-weight: 600; border: none; cursor: pointer; margin-top: 32px; transition: background 0.15s; }
+    .btn-activate:hover { background: #B30028; }
+    .btn-activate:disabled { background: #D2D2D7; cursor: not-allowed; }
+
+    .disclaimer { font-family: 'Inter', sans-serif; font-size: 10px; color: #AEAEB2; text-align: center; margin-top: 16px; line-height: 1.6; max-width: 400px; margin-left: auto; margin-right: auto; }
+  </style>
+</head>
+<body>
+  <a href="connect.html" class="back">← Voltar</a>
+
+  <div class="container fade-in">
+    <h1>Tudo pronto.</h1>
+    <p class="sub">Revise e ative sua empresa inteligente.</p>
+
+    <!-- Summary -->
+    <div class="card">
+      <p class="card-label">Resumo</p>
+      <div class="review-row"><span class="review-label">Plano</span><span class="review-value">GUNDAN · R$297/mes</span></div>
+      <div class="review-row"><span class="review-label">Departamentos</span><span class="review-value">3 (Financeiro, Admin, Projetos)</span></div>
+      <div class="review-row"><span class="review-label">Ferramentas</span><span class="review-value">Gmail, WhatsApp</span></div>
+    </div>
+
+    <!-- Team -->
+    <div class="card">
+      <p class="card-label">Sua equipe</p>
+      <div class="team-list">
+        <div class="team-item">
+          <div class="team-avatar" style="border-color: rgba(215,0,48,0.3);"><span style="color:#D70030;">A</span></div>
+          <div><span class="team-name">Akira</span> <span class="team-role">· CEO</span></div>
+        </div>
+        <div class="team-item">
+          <div class="team-avatar"><span>H</span></div>
+          <div><span class="team-name">Hana</span> <span class="team-role">· Secretaria Executiva</span></div>
+        </div>
+        <div class="team-item">
+          <div class="team-avatar"><span>Y</span></div>
+          <div><span class="team-name">Yuki</span> <span class="team-role">· Controller</span></div>
+        </div>
+        <div class="team-item">
+          <div class="team-avatar"><span>H</span></div>
+          <div><span class="team-name">Haruki</span> <span class="team-role">· Gestor de Projetos</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Consent -->
+    <div class="card">
+      <p class="card-label">Consentimento</p>
+      <div class="consent">
+        <div class="consent-item">
+          <div class="checkbox checked" onclick="this.classList.toggle('checked'); checkAll()"></div>
+          <p class="consent-text">Li e concordo com os <a href="#">Termos de Uso</a></p>
+        </div>
+        <div class="consent-item">
+          <div class="checkbox checked" onclick="this.classList.toggle('checked'); checkAll()"></div>
+          <p class="consent-text">Li e concordo com a <a href="#">Politica de Privacidade</a></p>
+        </div>
+        <div class="consent-item">
+          <div class="checkbox checked" onclick="this.classList.toggle('checked'); checkAll()"></div>
+          <p class="consent-text">Autorizo meus samurais a acessar Gmail e WhatsApp conforme configurado. Posso revogar a qualquer momento.</p>
+        </div>
+        <div class="consent-item">
+          <div class="checkbox checked" onclick="this.classList.toggle('checked'); checkAll()"></div>
+          <p class="consent-text">Entendo que samurais sao ferramentas de IA e nao substituem profissionais habilitados.</p>
+        </div>
+      </div>
+    </div>
+
+    <button class="btn-activate" id="btn-activate" onclick="location.href='activate.html'">Ativar minha empresa</button>
+
+    <p class="disclaimer">Ao ativar, seus samurais comecam a trabalhar imediatamente. Amanha 07:30 voce recebe o primeiro briefing no WhatsApp. Voce pode pausar ou cancelar a qualquer momento.</p>
+  </div>
+
+  <script>
+    function checkAll() {
+      const boxes = document.querySelectorAll('.checkbox');
+      const allChecked = [...boxes].every(b => b.classList.contains('checked'));
+      document.getElementById('btn-activate').disabled = !allChecked;
+    }
+  </script>
+</body>
+</html>

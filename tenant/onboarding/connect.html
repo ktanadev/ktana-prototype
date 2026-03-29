@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Conectar ferramentas — KTANA</title>
+  <link rel="stylesheet" href="../../shared.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Zen+Dots&display=swap" rel="stylesheet">
+  <style>
+    body { min-height: 100vh; background: #F5F5F7; padding: 48px 24px; }
+    .container { max-width: 540px; margin: 0 auto; }
+    .back { position: fixed; top: 20px; left: 24px; font-family: 'Inter', sans-serif; font-size: 12px; color: #86868B; }
+    .progress { display: flex; justify-content: center; gap: 6px; margin-bottom: 40px; }
+    .dot { width: 6px; height: 6px; border-radius: 50%; background: #D2D2D7; }
+    .dot.done { background: #86868B; }
+    .dot.active { background: #D70030; width: 20px; border-radius: 3px; }
+
+    h1 { font-family: 'Zen Dots', cursive; font-size: 28px; color: #1D1D1F; margin-bottom: 8px; text-align: center; }
+    .sub { font-family: 'Satoshi', sans-serif; font-size: 15px; color: #86868B; text-align: center; margin-bottom: 40px; }
+
+    .tools { display: flex; flex-direction: column; gap: 10px; }
+    .tool { background: #FFF; border: 1px solid rgba(0,0,0,0.04); border-radius: 16px; padding: 18px 20px; display: flex; align-items: center; gap: 14px; transition: box-shadow 0.2s; }
+    .tool:hover { box-shadow: 0 2px 12px rgba(0,0,0,0.04); }
+    .tool-icon { width: 40px; height: 40px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-family: 'Inter', sans-serif; font-size: 14px; font-weight: 700; flex-shrink: 0; }
+    .tool-gmail { background: #FEE2E2; color: #DC2626; }
+    .tool-calendar { background: #DBEAFE; color: #2563EB; }
+    .tool-whatsapp { background: #DCFCE7; color: #16A34A; }
+    .tool-clickup { background: #F3E8FF; color: #7C3AED; }
+    .tool-erp { background: #F0F0F0; color: #6E6E73; }
+    .tool-info { flex: 1; }
+    .tool-name { font-family: 'Satoshi', sans-serif; font-size: 14px; font-weight: 500; color: #1D1D1F; }
+    .tool-desc { font-family: 'Satoshi', sans-serif; font-size: 12px; color: #86868B; margin-top: 2px; }
+    .tool-action { font-family: 'Inter', sans-serif; }
+    .btn-connect { padding: 8px 16px; border-radius: 980px; background: #1D1D1F; color: #F5F5F7; font-size: 12px; font-weight: 500; border: none; cursor: pointer; transition: background 0.15s; }
+    .btn-connect:hover { background: #000; }
+    .btn-connected { padding: 8px 16px; border-radius: 980px; background: rgba(0,0,0,0.03); color: #86868B; font-size: 12px; font-weight: 500; border: none; display: flex; align-items: center; gap: 6px; }
+    .btn-connected::before { content: ''; width: 5px; height: 5px; border-radius: 50%; background: #30D158; }
+
+    .note { font-family: 'Satoshi', sans-serif; font-size: 12px; color: #AEAEB2; text-align: center; margin-top: 24px; line-height: 1.6; }
+
+    .actions { display: flex; gap: 12px; justify-content: center; margin-top: 40px; }
+    .btn-next { font-family: 'Inter', sans-serif; padding: 14px 32px; border-radius: 14px; background: #1D1D1F; color: #F5F5F7; font-size: 15px; font-weight: 500; border: none; cursor: pointer; }
+    .btn-skip { font-family: 'Inter', sans-serif; padding: 14px 24px; border-radius: 14px; background: transparent; color: #86868B; font-size: 14px; border: 1px solid rgba(0,0,0,0.08); cursor: pointer; }
+  </style>
+</head>
+<body>
+  <a href="team.html" class="back">← Equipe</a>
+
+  <div class="container fade-in">
+    <div class="progress">
+      <div class="dot done"></div>
+      <div class="dot done"></div>
+      <div class="dot done"></div>
+      <div class="dot done"></div>
+      <div class="dot active"></div>
+    </div>
+
+    <h1>Conecte suas<br>ferramentas.</h1>
+    <p class="sub">Seus samurais precisam de acesso pra trabalhar. Conecte pelo menos Gmail e WhatsApp.</p>
+
+    <div class="tools">
+      <div class="tool">
+        <div class="tool-icon tool-gmail">G</div>
+        <div class="tool-info">
+          <p class="tool-name">Gmail</p>
+          <p class="tool-desc">Ler e enviar emails em seu nome</p>
+        </div>
+        <div class="tool-action"><button class="btn-connected">Conectado</button></div>
+      </div>
+
+      <div class="tool">
+        <div class="tool-icon tool-whatsapp">W</div>
+        <div class="tool-info">
+          <p class="tool-name">WhatsApp</p>
+          <p class="tool-desc">Escanear QR code. Igual WhatsApp Web.</p>
+        </div>
+        <div class="tool-action"><button class="btn-connect" onclick="this.outerHTML='<button class=btn-connected>Conectado</button>'">Conectar</button></div>
+      </div>
+
+      <div class="tool">
+        <div class="tool-icon tool-calendar">C</div>
+        <div class="tool-info">
+          <p class="tool-name">Google Calendar</p>
+          <p class="tool-desc">Gerenciar sua agenda</p>
+        </div>
+        <div class="tool-action"><button class="btn-connect" onclick="this.outerHTML='<button class=btn-connected>Conectado</button>'">Conectar</button></div>
+      </div>
+
+      <div class="tool">
+        <div class="tool-icon tool-clickup">C</div>
+        <div class="tool-info">
+          <p class="tool-name">ClickUp</p>
+          <p class="tool-desc">Gerenciar tarefas e projetos</p>
+        </div>
+        <div class="tool-action"><button class="btn-connect" onclick="this.outerHTML='<button class=btn-connected>Conectado</button>'">Conectar</button></div>
+      </div>
+
+      <div class="tool">
+        <div class="tool-icon tool-erp">E</div>
+        <div class="tool-info">
+          <p class="tool-name">ERP</p>
+          <p class="tool-desc">Qual ERP voce usa?</p>
+        </div>
+        <div class="tool-action"><button class="btn-connect">Conectar</button></div>
+      </div>
+    </div>
+
+    <p class="note">Voce pode conectar mais ferramentas depois. Seus samurais pedem acesso quando precisam.</p>
+
+    <div class="actions">
+      <button class="btn-skip" onclick="location.href='review.html'">Pular</button>
+      <button class="btn-next" onclick="location.href='review.html'">Continuar</button>
+    </div>
+  </div>
+</body>
+</html>

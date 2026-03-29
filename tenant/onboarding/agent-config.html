@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Configurar agente — KTANA</title>
+  <link rel="stylesheet" href="../../shared.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Zen+Dots&display=swap" rel="stylesheet">
+  <style>
+    body { min-height: 100vh; background: #F5F5F7; padding: 48px 24px; }
+    .container { max-width: 580px; margin: 0 auto; }
+    .back { position: fixed; top: 20px; left: 24px; font-family: 'Inter', sans-serif; font-size: 12px; color: #86868B; }
+
+    .agent-header { text-align: center; margin-bottom: 40px; }
+    .avatar { width: 56px; height: 56px; border-radius: 50%; border: 2px solid #D2D2D7; display: flex; align-items: center; justify-content: center; margin: 0 auto 12px; }
+    .avatar span { font-family: 'Inter', sans-serif; font-size: 18px; font-weight: 500; color: #6E6E73; }
+    .agent-header h1 { font-family: 'Zen Dots', cursive; font-size: 24px; color: #1D1D1F; margin-bottom: 4px; }
+    .agent-header p { font-family: 'Inter', sans-serif; font-size: 12px; color: #86868B; }
+
+    .section { background: #FFF; border-radius: 20px; border: 1px solid rgba(0,0,0,0.04); padding: 28px; margin-bottom: 16px; }
+    .section-label { font-family: 'Inter', sans-serif; font-size: 10px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: #D70030; margin-bottom: 16px; }
+    .field { margin-bottom: 16px; }
+    .field:last-child { margin-bottom: 0; }
+    .field label { font-family: 'Inter', sans-serif; display: block; font-size: 11px; font-weight: 500; color: #86868B; margin-bottom: 6px; }
+    .input { font-family: 'Satoshi', sans-serif; background: #F5F5F7; border: 0.5px solid rgba(0,0,0,0.06); border-radius: 12px; padding: 12px 14px; font-size: 14px; width: 100%; outline: none; color: #1D1D1F; transition: border-color 0.15s; resize: none; }
+    .input:focus { border-color: rgba(215,0,48,0.3); }
+    .input::placeholder { color: #AEAEB2; }
+    textarea.input { min-height: 80px; line-height: 1.5; }
+
+    /* Traits */
+    .traits { display: flex; flex-wrap: wrap; gap: 6px; }
+    .trait { font-family: 'Inter', sans-serif; padding: 6px 14px; border-radius: 980px; border: 0.5px solid rgba(0,0,0,0.08); font-size: 12px; color: #6E6E73; cursor: pointer; transition: all 0.15s; user-select: none; }
+    .trait.active { background: rgba(215,0,48,0.06); border-color: rgba(215,0,48,0.2); color: #D70030; }
+
+    /* References */
+    .ref-list { display: flex; flex-direction: column; gap: 8px; }
+    .ref-item { display: flex; align-items: center; gap: 10px; padding: 10px 14px; border-radius: 12px; border: 0.5px solid rgba(0,0,0,0.06); cursor: pointer; transition: all 0.15s; }
+    .ref-item:hover { border-color: rgba(0,0,0,0.12); }
+    .ref-item.active { border-color: rgba(215,0,48,0.2); background: rgba(215,0,48,0.02); }
+    .ref-check { width: 18px; height: 18px; border-radius: 50%; border: 1.5px solid #D2D2D7; display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: all 0.15s; }
+    .ref-item.active .ref-check { border-color: #D70030; background: #D70030; }
+    .ref-item.active .ref-check::after { content: ''; width: 6px; height: 6px; border-radius: 50%; background: #FFF; }
+    .ref-name { font-family: 'Satoshi', sans-serif; font-size: 13px; font-weight: 500; color: #1D1D1F; }
+    .ref-desc { font-family: 'Satoshi', sans-serif; font-size: 11px; color: #86868B; }
+    .ref-add { font-family: 'Inter', sans-serif; font-size: 12px; color: #D70030; cursor: pointer; margin-top: 8px; display: inline-block; }
+
+    /* Attributions */
+    .attr-group { margin-bottom: 12px; }
+    .attr-title { font-family: 'Satoshi', sans-serif; font-size: 13px; font-weight: 500; color: #1D1D1F; display: flex; align-items: center; gap: 8px; padding: 8px 0; cursor: pointer; }
+    .attr-check { width: 16px; height: 16px; border-radius: 4px; border: 1.5px solid #D2D2D7; flex-shrink: 0; transition: all 0.15s; }
+    .attr-title.active .attr-check { border-color: #D70030; background: #D70030; }
+    .attr-tasks { padding-left: 24px; }
+    .attr-task { font-family: 'Satoshi', sans-serif; font-size: 12px; color: #86868B; padding: 4px 0; display: flex; align-items: center; gap: 8px; }
+    .attr-task .attr-check { width: 14px; height: 14px; border-radius: 3px; }
+
+    /* Slider */
+    .slider-row { display: flex; align-items: center; justify-content: space-between; padding: 8px 0; }
+    .slider-label { font-family: 'Satoshi', sans-serif; font-size: 13px; color: #1D1D1F; flex: 1; }
+    .slider-value { font-family: 'Inter', sans-serif; font-size: 11px; color: #86868B; min-width: 80px; text-align: right; }
+
+    .actions { display: flex; gap: 12px; justify-content: center; margin-top: 32px; }
+    .btn-save { font-family: 'Inter', sans-serif; padding: 14px 32px; border-radius: 14px; background: #1D1D1F; color: #F5F5F7; font-size: 15px; font-weight: 500; border: none; cursor: pointer; }
+    .btn-cancel { font-family: 'Inter', sans-serif; padding: 14px 24px; border-radius: 14px; background: transparent; color: #86868B; font-size: 14px; border: 1px solid rgba(0,0,0,0.08); cursor: pointer; }
+  </style>
+</head>
+<body>
+  <a href="team.html" class="back">← Equipe</a>
+
+  <div class="container fade-in">
+    <div class="agent-header">
+      <div class="avatar"><span>Y</span></div>
+      <h1>Yuki</h1>
+      <p>Controller · Financeiro</p>
+    </div>
+
+    <!-- Funcao -->
+    <div class="section">
+      <p class="section-label">Funcao</p>
+      <div class="field">
+        <label>Descreva com suas palavras o que ela faz</label>
+        <textarea class="input" placeholder="Ex: Cuida de cobrancas, contas a pagar e receber, gera relatorios financeiros diarios">Responsavel pela execucao financeira diaria. Cobra clientes, emite boletos, controla contas a pagar e receber, gera fluxo de caixa diario e DRE mensal.</textarea>
+      </div>
+    </div>
+
+    <!-- Referencias -->
+    <div class="section">
+      <p class="section-label">Cerebro (referencias)</p>
+      <p style="font-family: 'Satoshi', sans-serif; font-size: 13px; color: #86868B; margin-bottom: 16px;">De quem ela deve aprender? Vamos clonar a abordagem.</p>
+      <div class="ref-list">
+        <div class="ref-item active" onclick="this.classList.toggle('active')">
+          <div class="ref-check"></div>
+          <div><p class="ref-name">Warren Buffett</p><p class="ref-desc">Disciplina, visao de longo prazo, rigor</p></div>
+        </div>
+        <div class="ref-item active" onclick="this.classList.toggle('active')">
+          <div class="ref-check"></div>
+          <div><p class="ref-name">Aswath Damodaran</p><p class="ref-desc">Rigor analitico, valuation, dados</p></div>
+        </div>
+        <div class="ref-item" onclick="this.classList.toggle('active')">
+          <div class="ref-check"></div>
+          <div><p class="ref-name">Gustavo Cerbasi</p><p class="ref-desc">Organizado, metódico, pratico</p></div>
+        </div>
+        <div class="ref-item" onclick="this.classList.toggle('active')">
+          <div class="ref-check"></div>
+          <div><p class="ref-name">Thiago Nigro</p><p class="ref-desc">Pragmatico, direto, sem enrolacao</p></div>
+        </div>
+      </div>
+      <a class="ref-add">+ Adicionar outra referencia</a>
+    </div>
+
+    <!-- Atribuicoes -->
+    <div class="section">
+      <p class="section-label">Mapa de atribuicoes</p>
+      <p style="font-family: 'Satoshi', sans-serif; font-size: 13px; color: #86868B; margin-bottom: 16px;">Pre-listado para Controller. Marque o que se aplica.</p>
+
+      <div class="attr-group">
+        <div class="attr-title active" onclick="this.classList.toggle('active')"><div class="attr-check"></div> Contas a receber</div>
+        <div class="attr-tasks">
+          <div class="attr-task"><div class="attr-check" style="border-color:#D70030;background:#D70030;"></div> Emitir cobrancas</div>
+          <div class="attr-task"><div class="attr-check" style="border-color:#D70030;background:#D70030;"></div> Acompanhar pagamentos</div>
+          <div class="attr-task"><div class="attr-check" style="border-color:#D70030;background:#D70030;"></div> Cobrar inadimplentes</div>
+          <div class="attr-task"><div class="attr-check" style="border-color:#D70030;background:#D70030;"></div> Conciliar recebimentos</div>
+        </div>
+      </div>
+
+      <div class="attr-group">
+        <div class="attr-title active" onclick="this.classList.toggle('active')"><div class="attr-check"></div> Contas a pagar</div>
+        <div class="attr-tasks">
+          <div class="attr-task"><div class="attr-check" style="border-color:#D70030;background:#D70030;"></div> Verificar vencimentos</div>
+          <div class="attr-task"><div class="attr-check" style="border-color:#D70030;background:#D70030;"></div> Alertar sobre pagamentos</div>
+        </div>
+      </div>
+
+      <div class="attr-group">
+        <div class="attr-title active" onclick="this.classList.toggle('active')"><div class="attr-check"></div> Relatorios</div>
+        <div class="attr-tasks">
+          <div class="attr-task"><div class="attr-check" style="border-color:#D70030;background:#D70030;"></div> Fluxo de caixa diario</div>
+          <div class="attr-task"><div class="attr-check" style="border-color:#D70030;background:#D70030;"></div> DRE mensal</div>
+          <div class="attr-task"><div class="attr-check"></div> Previsao de caixa</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Personalidade -->
+    <div class="section">
+      <p class="section-label">Personalidade</p>
+      <div class="traits">
+        <span class="trait active" onclick="this.classList.toggle('active')">Organizada</span>
+        <span class="trait active" onclick="this.classList.toggle('active')">Detalhista</span>
+        <span class="trait active" onclick="this.classList.toggle('active')">Firme</span>
+        <span class="trait active" onclick="this.classList.toggle('active')">Proativa</span>
+        <span class="trait" onclick="this.classList.toggle('active')">Empatica</span>
+        <span class="trait" onclick="this.classList.toggle('active')">Discreta</span>
+        <span class="trait" onclick="this.classList.toggle('active')">Descontraida</span>
+      </div>
+      <div class="field" style="margin-top: 16px;">
+        <label>Tom de comunicacao</label>
+        <div class="traits">
+          <span class="trait" onclick="this.parentElement.querySelectorAll('.trait').forEach(t=>t.classList.remove('active')); this.classList.add('active')">Formal</span>
+          <span class="trait active" onclick="this.parentElement.querySelectorAll('.trait').forEach(t=>t.classList.remove('active')); this.classList.add('active')">Profissional</span>
+          <span class="trait" onclick="this.parentElement.querySelectorAll('.trait').forEach(t=>t.classList.remove('active')); this.classList.add('active')">Casual</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Alcada -->
+    <div class="section">
+      <p class="section-label">Alcada</p>
+      <div class="slider-row">
+        <span class="slider-label">Cobrar ate</span>
+        <span class="slider-value">R$ 5.000</span>
+      </div>
+      <div class="slider-row">
+        <span class="slider-label">Acima disso</span>
+        <span class="slider-value" style="color: #D70030;">Pede aprovacao</span>
+      </div>
+      <div class="slider-row">
+        <span class="slider-label">Emitir boleto</span>
+        <span class="slider-value">Faz sozinha</span>
+      </div>
+      <div class="slider-row">
+        <span class="slider-label">Dar desconto</span>
+        <span class="slider-value" style="color: #D70030;">Sempre pede</span>
+      </div>
+      <div class="slider-row">
+        <span class="slider-label">Negativar cliente</span>
+        <span class="slider-value" style="color: #D70030;">Sempre pede</span>
+      </div>
+    </div>
+
+    <div class="actions">
+      <button class="btn-cancel" onclick="location.href='team.html'">Voltar</button>
+      <button class="btn-save" onclick="location.href='team.html'">Salvar Yuki</button>
+    </div>
+  </div>
+</body>
+</html>
