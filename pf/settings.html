@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Configuracoes — KTANA</title>
+  <link rel="stylesheet" href="../shared.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Zen+Dots&display=swap" rel="stylesheet">
+  <style>
+    body { min-height: 100vh; background: #F5F5F7; }
+    .main { max-width: 720px; margin: 0 auto; padding: 40px 24px 80px; }
+    h1 { font-family: 'Satoshi', sans-serif; font-size: 28px; font-weight: 700; color: #1D1D1F; margin-bottom: 4px; }
+    .sub { font-family: 'Satoshi', sans-serif; font-size: 14px; color: #86868B; margin-bottom: 28px; line-height: 1.5; }
+
+    /* Settings tabs */
+    .settings-nav { display: flex; gap: 2px; background: rgba(0,0,0,0.03); border-radius: 10px; padding: 2px; margin-bottom: 32px; overflow-x: auto; }
+    .settings-tab { font-family: 'Inter', sans-serif; padding: 6px 14px; border-radius: 8px; font-size: 11px; color: #86868B; cursor: pointer; border: none; background: none; white-space: nowrap; transition: all 0.2s; }
+    .settings-tab.active { background: #FFF; color: #1D1D1F; box-shadow: 0 1px 3px rgba(0,0,0,0.06); font-weight: 500; }
+    .settings-tab:hover:not(.active) { color: #1D1D1F; }
+
+    /* Card */
+    .card { background: #FFF; border-radius: 20px; border: 1px solid rgba(0,0,0,0.04); padding: 24px; margin-bottom: 12px; }
+    .card-label { font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: #D70030; margin-bottom: 14px; }
+
+    /* Rows */
+    .row { display: flex; align-items: center; justify-content: space-between; padding: 10px 0; border-bottom: 0.5px solid rgba(0,0,0,0.03); }
+    .row:last-child { border-bottom: none; }
+    .row-info { flex: 1; }
+    .row-title { font-family: 'Satoshi', sans-serif; font-size: 14px; color: #1D1D1F; }
+    .row-desc { font-family: 'Satoshi', sans-serif; font-size: 11px; color: #86868B; margin-top: 2px; }
+    .row-value { font-family: 'Inter', sans-serif; font-size: 13px; color: #86868B; }
+
+    /* Editable field */
+    .field-edit { font-family: 'Inter', sans-serif; font-size: 13px; color: #1D1D1F; background: rgba(0,0,0,0.02); border: 1px solid rgba(0,0,0,0.06); border-radius: 8px; padding: 6px 12px; width: 200px; text-align: right; outline: none; transition: border-color 0.15s; }
+    .field-edit:focus { border-color: rgba(215,0,48,0.4); background: #FFF; }
+
+    /* Toggle */
+    .toggle { width: 44px; height: 26px; border-radius: 13px; background: #E8E8ED; cursor: pointer; position: relative; transition: background 0.2s; flex-shrink: 0; }
+    .toggle.on { background: #D70030; }
+    .toggle::after { content: ''; position: absolute; width: 22px; height: 22px; border-radius: 11px; background: #FFF; top: 2px; left: 2px; transition: transform 0.2s; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+    .toggle.on::after { transform: translateX(18px); }
+
+    /* Area toggle row */
+    .area-toggle { display: flex; align-items: center; gap: 12px; padding: 10px 0; border-bottom: 0.5px solid rgba(0,0,0,0.03); }
+    .area-toggle:last-child { border-bottom: none; }
+    .area-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+    .area-name { font-family: 'Satoshi', sans-serif; font-size: 14px; color: #1D1D1F; flex: 1; }
+
+    /* Time field */
+    .time-field { font-family: 'Inter', sans-serif; font-size: 13px; color: #1D1D1F; background: rgba(0,0,0,0.02); border: 1px solid rgba(0,0,0,0.06); border-radius: 8px; padding: 6px 12px; width: 80px; text-align: center; outline: none; transition: border-color 0.15s; }
+    .time-field:focus { border-color: rgba(215,0,48,0.4); background: #FFF; }
+
+    /* Channel selector */
+    .channel-options { display: flex; gap: 8px; }
+    .channel-btn { font-family: 'Inter', sans-serif; padding: 6px 16px; border-radius: 980px; font-size: 12px; color: #86868B; background: rgba(0,0,0,0.03); border: 1px solid rgba(0,0,0,0.04); cursor: pointer; transition: all 0.2s; }
+    .channel-btn.active { background: #1D1D1F; color: #F5F5F7; border-color: #1D1D1F; }
+    .channel-btn:hover:not(.active) { background: rgba(0,0,0,0.06); }
+
+    /* Footer link */
+    .footer-link { display: block; text-align: center; margin-top: 32px; font-family: 'Inter', sans-serif; font-size: 13px; color: #86868B; cursor: pointer; transition: color 0.15s; }
+    .footer-link:hover { color: #D70030; }
+    .footer-link svg { vertical-align: middle; margin-right: 6px; }
+
+    .fade-in { animation: fadeIn 0.3s cubic-bezier(0.25,0.1,0.25,1) both; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+  </style>
+</head>
+<body>
+
+  <main class="main"><div class="gradient-header">
+    <h1 class="fade-in">Configuracoes</h1>
+    <p class="sub fade-in">Suas preferencias pessoais</p>
+
+    <!-- Tabs -->
+    <div class="settings-nav fade-in">
+      <button class="settings-tab active">Geral</button>
+      <button class="settings-tab">Conexoes</button>
+      <button class="settings-tab">Notificacoes</button>
+      <button class="settings-tab">Privacidade</button>
+      <button class="settings-tab">Plano</button>
+    </div>
+
+    <!-- Perfil -->
+    <div class="card fade-in" style="animation-delay:0.05s;">
+      <p class="card-label">Perfil</p>
+      <div class="row">
+        <div class="row-info">
+          <p class="row-title">Nome</p>
+        </div>
+        <input type="text" class="field-edit" value="Julio Cesar" />
+      </div>
+      <div class="row">
+        <div class="row-info">
+          <p class="row-title">Email</p>
+        </div>
+        <input type="email" class="field-edit" value="julio@ktana.ai" />
+      </div>
+      <div class="row">
+        <div class="row-info">
+          <p class="row-title">Telefone</p>
+        </div>
+        <input type="tel" class="field-edit" value="+55 11 99999-9999" />
+      </div>
+    </div>
+
+    <!-- Areas ativas -->
+    <div class="card fade-in" style="animation-delay:0.1s;">
+      <p class="card-label">Areas ativas</p>
+
+      <div class="area-toggle">
+        <div class="area-dot" style="background:#D70030;"></div>
+        <span class="area-name">Saude e Bem-estar</span>
+        <div class="toggle on" onclick="this.classList.toggle('on')"></div>
+      </div>
+      <div class="area-toggle">
+        <div class="area-dot" style="background:#5E6AD2;"></div>
+        <span class="area-name">Mente e Emocoes</span>
+        <div class="toggle on" onclick="this.classList.toggle('on')"></div>
+      </div>
+      <div class="area-toggle">
+        <div class="area-dot" style="background:#FF9F0A;"></div>
+        <span class="area-name">Produtividade e Foco</span>
+        <div class="toggle on" onclick="this.classList.toggle('on')"></div>
+      </div>
+      <div class="area-toggle">
+        <div class="area-dot" style="background:#FF375F;"></div>
+        <span class="area-name">Relacionamentos</span>
+        <div class="toggle on" onclick="this.classList.toggle('on')"></div>
+      </div>
+      <div class="area-toggle">
+        <div class="area-dot" style="background:#30D158;"></div>
+        <span class="area-name">Financas Pessoais</span>
+        <div class="toggle on" onclick="this.classList.toggle('on')"></div>
+      </div>
+      <div class="area-toggle">
+        <div class="area-dot" style="background:#64D2FF;"></div>
+        <span class="area-name">Casa e Rotina</span>
+        <div class="toggle on" onclick="this.classList.toggle('on')"></div>
+      </div>
+      <div class="area-toggle">
+        <div class="area-dot" style="background:#BF5AF2;"></div>
+        <span class="area-name">Proposito e Espiritualidade</span>
+        <div class="toggle on" onclick="this.classList.toggle('on')"></div>
+      </div>
+      <div class="area-toggle">
+        <div class="area-dot" style="background:#8E8E93;"></div>
+        <span class="area-name">Carreira e Desenvolvimento</span>
+        <div class="toggle on" onclick="this.classList.toggle('on')"></div>
+      </div>
+    </div>
+
+    <!-- Horarios de check-in -->
+    <div class="card fade-in" style="animation-delay:0.15s;">
+      <p class="card-label">Horarios de check-in</p>
+      <div class="row">
+        <div class="row-info">
+          <p class="row-title">Check-in matinal</p>
+          <p class="row-desc">Briefing do dia com seus mentores</p>
+        </div>
+        <input type="time" class="time-field" value="07:30" />
+      </div>
+      <div class="row">
+        <div class="row-info">
+          <p class="row-title">Check-in noturno</p>
+          <p class="row-desc">Resumo do dia e preparacao para amanha</p>
+        </div>
+        <input type="time" class="time-field" value="21:00" />
+      </div>
+    </div>
+
+    <!-- Preferencia de comunicacao -->
+    <div class="card fade-in" style="animation-delay:0.2s;">
+      <p class="card-label">Preferencia de comunicacao</p>
+      <div class="row">
+        <div class="row-info">
+          <p class="row-title">Canal principal</p>
+          <p class="row-desc">Como seus mentores falam com voce</p>
+        </div>
+        <div class="channel-options">
+          <button class="channel-btn active">WhatsApp</button>
+          <button class="channel-btn">Email</button>
+          <button class="channel-btn">Push</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer link -->
+    <a href="../tenant/dashboard/home.html" class="footer-link fade-in" style="animation-delay:0.25s;">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg>
+      Voltar ao ambiente PJ
+    </a>
+
+  </div></main>
+<script src="../shared-nav.js?v=1774794914"></script>
+</body>
+</html>

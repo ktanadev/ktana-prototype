@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Meu dia — KTANA PF</title>
+  <link rel="stylesheet" href="../shared.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Zen+Dots&display=swap" rel="stylesheet">
+  <style>
+    body { min-height: 100vh; background: #F5F5F7; }
+    .main { max-width: 760px; margin: 0 auto; padding: 32px 20px 80px; }
+
+    /* Greeting */
+    .greeting { margin-bottom: 32px; }
+    .greeting h1 { font-family: 'Satoshi', sans-serif; font-size: 28px; font-weight: 700; color: #1D1D1F; margin-bottom: 8px; letter-spacing: -0.01em; }
+    .greeting-stats { display: flex; align-items: center; gap: 20px; }
+    .greeting-stat { font-family: 'Inter', sans-serif; font-size: 13px; color: #86868B; display: flex; align-items: center; gap: 6px; }
+    .greeting-stat strong { font-family: 'Satoshi', sans-serif; font-weight: 600; color: #1D1D1F; }
+    .greeting-dot { width: 3px; height: 3px; border-radius: 50%; background: #D2D2D7; flex-shrink: 0; }
+
+    /* Section labels */
+    .section-label { font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: #86868B; margin-bottom: 12px; display: flex; align-items: center; justify-content: space-between; }
+    .section-count { font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 600; color: #D70030; }
+
+    /* Central Command Chat — PF */
+    .cmd-chat { background: #FFF; border-radius: 24px; border: 1px solid rgba(0,0,0,0.04); padding: 24px; margin-bottom: 28px; box-shadow: 0 2px 20px rgba(0,0,0,0.03); }
+    .cmd-label { font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: #D70030; margin-bottom: 14px; display: flex; align-items: center; gap: 8px; }
+    .cmd-dot { width: 6px; height: 6px; border-radius: 50%; background: #30D158; animation: pulse-cmd 2s infinite; }
+    @keyframes pulse-cmd { 0%,100% { opacity:1; } 50% { opacity:0.3; } }
+    .cmd-messages { max-height: 200px; overflow-y: auto; margin-bottom: 16px; display: flex; flex-direction: column; gap: 10px; }
+    .cmd-msg { max-width: 85%; padding: 12px 16px; border-radius: 16px; font-family: 'Satoshi', sans-serif; font-size: 14px; line-height: 1.5; animation: fadeIn 0.3s ease; }
+    .cmd-msg-ai { background: #F5F5F7; color: #1D1D1F; border-bottom-left-radius: 4px; align-self: flex-start; }
+    .cmd-msg-user { background: #1D1D1F; color: #F5F5F7; border-bottom-right-radius: 4px; align-self: flex-end; }
+    .cmd-msg-ai .cmd-sender { font-family: 'Inter', sans-serif; font-size: 11px; color: #D70030; font-weight: 500; margin-bottom: 4px; }
+    .cmd-input-wrap { display: flex; gap: 10px; align-items: center; }
+    .cmd-input { flex: 1; font-family: 'Satoshi', sans-serif; background: #F5F5F7; border: 1px solid rgba(0,0,0,0.06); border-radius: 16px; padding: 14px 18px; font-size: 15px; color: #1D1D1F; outline: none; transition: border-color 0.15s; }
+    .cmd-input:focus { border-color: rgba(215,0,48,0.3); }
+    .cmd-input::placeholder { color: #AEAEB2; }
+    .cmd-send { width: 48px; height: 48px; border-radius: 50%; background: #D70030; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: transform 0.1s, opacity 0.15s; flex-shrink: 0; }
+    .cmd-send:hover { opacity: 0.9; }
+    .cmd-send:active { transform: scale(0.92); }
+    .cmd-shortcuts { display: flex; gap: 6px; margin-top: 12px; flex-wrap: wrap; }
+    .cmd-shortcut { font-family: 'Inter', sans-serif; font-size: 12px; color: #86868B; background: rgba(0,0,0,0.03); border: 1px solid rgba(0,0,0,0.04); border-radius: 980px; padding: 6px 14px; cursor: pointer; transition: all 0.15s; }
+    .cmd-shortcut:hover { background: rgba(215,0,48,0.04); border-color: rgba(215,0,48,0.12); color: #D70030; }
+
+    /* Recommendation cards */
+    .reco { background: #FFF; border-radius: 20px; border: 1px solid rgba(0,0,0,0.04); padding: 18px 20px; margin-bottom: 10px; transition: box-shadow 0.2s; }
+    .reco:hover { box-shadow: 0 4px 24px rgba(0,0,0,0.04); }
+    .reco-top { display: flex; align-items: start; gap: 12px; margin-bottom: 10px; }
+    .reco-avatar { width: 34px; height: 34px; border-radius: 50%; border: 1.5px solid rgba(0,0,0,0.06); display: flex; align-items: center; justify-content: center; flex-shrink: 0; background: #F5F5F7; }
+    .reco-avatar span { font-family: 'Inter', sans-serif; font-size: 12px; font-weight: 500; color: #86868B; }
+    .reco-mentor { font-family: 'Inter', sans-serif; font-size: 11px; color: #D70030; font-weight: 500; margin-bottom: 2px; }
+    .reco-text { font-family: 'Satoshi', sans-serif; font-size: 14px; color: #2C2C2E; line-height: 1.5; }
+    .reco-actions { display: flex; gap: 8px; margin-top: 14px; margin-left: 46px; }
+    .btn-accept { font-family: 'Inter', sans-serif; padding: 8px 20px; border-radius: 12px; background: #1D1D1F; color: #F5F5F7; font-size: 13px; font-weight: 500; border: none; cursor: pointer; min-height: 40px; transition: all 0.15s; }
+    .btn-accept:hover { background: #000; }
+    .btn-accept:active { transform: scale(0.97); }
+    .btn-soft { font-family: 'Inter', sans-serif; padding: 8px 20px; border-radius: 12px; background: transparent; color: #86868B; font-size: 13px; border: 0.5px solid rgba(0,0,0,0.08); cursor: pointer; min-height: 40px; transition: all 0.15s; }
+    .btn-soft:hover { border-color: rgba(0,0,0,0.15); color: #1D1D1F; }
+
+    /* Areas grid */
+    .areas-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 32px; }
+    .area-card { background: #FFF; border-radius: 18px; border: 1px solid rgba(0,0,0,0.04); padding: 18px 14px; display: flex; flex-direction: column; align-items: center; text-align: center; cursor: pointer; transition: box-shadow 0.2s, transform 0.15s; }
+    .area-card:hover { box-shadow: 0 4px 20px rgba(0,0,0,0.04); transform: translateY(-2px); }
+    .area-icon { width: 40px; height: 40px; border-radius: 12px; display: flex; align-items: center; justify-content: center; margin-bottom: 10px; }
+    .area-name { font-family: 'Satoshi', sans-serif; font-size: 13px; font-weight: 500; color: #1D1D1F; }
+    .area-status { font-family: 'Inter', sans-serif; font-size: 11px; color: #86868B; margin-top: 4px; display: flex; align-items: center; justify-content: center; gap: 5px; }
+    .area-dot { width: 5px; height: 5px; border-radius: 50%; flex-shrink: 0; }
+    .area-dot.green { background: #30D158; }
+    .area-dot.yellow { background: #FF9F0A; }
+    .area-dot.blue { background: #0A84FF; }
+
+    /* Activity feed */
+    .feed-card { background: #FFF; border-radius: 20px; border: 1px solid rgba(0,0,0,0.04); padding: 18px 20px; margin-bottom: 28px; }
+    .feed-item { display: flex; align-items: center; gap: 12px; padding: 10px 0; border-bottom: 0.5px solid rgba(0,0,0,0.03); }
+    .feed-item:last-child { border-bottom: none; }
+    .feed-time { font-family: 'Inter', sans-serif; font-size: 11px; color: #AEAEB2; width: 36px; flex-shrink: 0; font-variant-numeric: tabular-nums; }
+    .feed-avatar { width: 24px; height: 24px; border-radius: 50%; border: 1px solid #D2D2D7; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .feed-avatar span { font-family: 'Inter', sans-serif; font-size: 10px; font-weight: 500; color: #86868B; }
+    .feed-desc { font-family: 'Satoshi', sans-serif; font-size: 13px; color: #86868B; flex: 1; }
+    .feed-agent { font-weight: 500; color: #48484A; }
+
+    /* Goals */
+    .goals-card { background: #FFF; border-radius: 20px; border: 1px solid rgba(0,0,0,0.04); padding: 18px 20px; }
+    .goal-item { display: flex; align-items: center; gap: 12px; padding: 11px 0; border-bottom: 0.5px solid rgba(0,0,0,0.03); }
+    .goal-item:last-child { border-bottom: none; }
+    .goal-check { width: 22px; height: 22px; border-radius: 50%; border: 1.5px solid #D2D2D7; cursor: pointer; flex-shrink: 0; display: flex; align-items: center; justify-content: center; transition: all 0.2s; }
+    .goal-check:hover { border-color: #30D158; }
+    .goal-check.done { background: #30D158; border-color: #30D158; }
+    .goal-check.done svg { opacity: 1; }
+    .goal-check svg { opacity: 0; transition: opacity 0.2s; }
+    .goal-text { font-family: 'Satoshi', sans-serif; font-size: 14px; color: #1D1D1F; flex: 1; transition: all 0.2s; }
+    .goal-text.done { color: #AEAEB2; text-decoration: line-through; }
+    .goal-mentor { font-family: 'Inter', sans-serif; font-size: 11px; color: #AEAEB2; flex-shrink: 0; }
+
+    /* Animations */
+    .fade-in { animation: fadeIn 0.3s cubic-bezier(0.25,0.1,0.25,1) both; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+
+    @media (max-width: 640px) {
+      .areas-grid { grid-template-columns: repeat(2, 1fr); }
+      .greeting-stats { flex-wrap: wrap; gap: 12px; }
+      .reco-actions { margin-left: 0; }
+    }
+  </style>
+</head>
+<body>
+
+  <main class="main"><div class="gradient-header">
+
+    <!-- 1. Greeting -->
+    <div class="greeting fade-in">
+      <h1>Boa tarde, Julio.</h1>
+      <div class="greeting-stats">
+        <span class="greeting-stat"><strong>3</strong> mentores ativos</span>
+        <span class="greeting-dot"></span>
+        <span class="greeting-stat"><strong>8</strong> areas</span>
+        <span class="greeting-dot"></span>
+        <span class="greeting-stat"><strong>12</strong> acoes hoje</span>
+      </div>
+    </div>
+
+    <!-- 2. Comando Central PF -->
+    <div class="cmd-chat fade-in" style="animation-delay: 0.08s;">
+      <div class="cmd-label">
+        <div class="cmd-dot"></div>
+        Comando central
+      </div>
+      <div class="cmd-messages" id="cmdMessages">
+        <div class="cmd-msg cmd-msg-ai">
+          <div class="cmd-sender">Yumi — Mentora</div>
+          Boa tarde! Seu Dr. Kenji reportou que voce dormiu apenas 5h30. Quer que eu ajuste seu treino de hoje?
+        </div>
+      </div>
+      <div class="cmd-input-wrap">
+        <input type="text" class="cmd-input" id="cmdInput" placeholder="Fale com seus mentores..." onkeydown="if(event.key==='Enter')sendCmd()">
+        <button class="cmd-send" onclick="sendCmd()">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+        </button>
+      </div>
+      <div class="cmd-shortcuts">
+        <span class="cmd-shortcut" onclick="quickCmd('Como dormi?')">Como dormi?</span>
+        <span class="cmd-shortcut" onclick="quickCmd('Metas da semana')">Metas da semana</span>
+        <span class="cmd-shortcut" onclick="quickCmd('Falar com Dr. Kenji')">Falar com Dr. Kenji</span>
+        <span class="cmd-shortcut" onclick="quickCmd('Resumo do dia')">Resumo do dia</span>
+      </div>
+    </div>
+
+    <!-- 3. Recomendacoes dos mentores -->
+    <div class="section-label fade-in" style="animation-delay: 0.15s;">
+      <span>Recomendacoes dos mentores</span>
+      <span class="section-count">2 novas</span>
+    </div>
+
+    <div class="reco fade-in" style="animation-delay: 0.18s;">
+      <div class="reco-top">
+        <div class="reco-avatar"><span>K</span></div>
+        <div>
+          <p class="reco-mentor">Dr. Kenji recomenda</p>
+          <p class="reco-text">Trocar treino intenso por caminhada de 20min hoje. Seu sono de 5h30 nao e suficiente para recuperacao muscular adequada.</p>
+        </div>
+      </div>
+      <div class="reco-actions">
+        <button class="btn-accept" onclick="this.innerHTML='<svg width=\'16\' height=\'16\' viewBox=\'0 0 24 24\' fill=\'none\' stroke=\'currentColor\' stroke-width=\'2\' stroke-linecap=\'round\' stroke-linejoin=\'round\'><path d=\'M20 6L9 17l-5-5\'/></svg> Aceito'; this.style.background='#30D158';">Aceitar</button>
+        <button class="btn-soft">Ignorar</button>
+      </div>
+    </div>
+
+    <div class="reco fade-in" style="animation-delay: 0.22s;">
+      <div class="reco-top">
+        <div class="reco-avatar"><span>Y</span></div>
+        <div>
+          <p class="reco-mentor">Yui sugere</p>
+          <p class="reco-text">Adicionar magnesio ao jantar para melhorar a qualidade do sono. Estudos indicam melhora de 27% em 2 semanas.</p>
+        </div>
+      </div>
+      <div class="reco-actions">
+        <button class="btn-accept" onclick="this.innerHTML='<svg width=\'16\' height=\'16\' viewBox=\'0 0 24 24\' fill=\'none\' stroke=\'currentColor\' stroke-width=\'2\' stroke-linecap=\'round\' stroke-linejoin=\'round\'><path d=\'M20 6L9 17l-5-5\'/></svg> Aceito'; this.style.background='#30D158';">Aceitar</button>
+        <button class="btn-soft">Saber mais</button>
+      </div>
+    </div>
+
+    <!-- 4. Minhas areas -->
+    <div class="section-label fade-in" style="animation-delay: 0.28s; margin-top: 28px;">
+      <span>Minhas areas</span>
+    </div>
+    <div class="areas-grid fade-in" style="animation-delay: 0.32s;">
+
+      <!-- Saude -->
+      <div class="area-card" onclick="location.href='area-saude.html'">
+        <div class="area-icon" style="background:rgba(255,69,58,0.06);">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#FF453A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>
+        </div>
+        <p class="area-name">Saude</p>
+        <div class="area-status"><div class="area-dot yellow"></div>Atencao</div>
+      </div>
+
+      <!-- Mente -->
+      <div class="area-card" onclick="location.href='area-mente.html'">
+        <div class="area-icon" style="background:rgba(191,90,242,0.06);">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#BF5AF2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a7 7 0 017 7c0 3.5-2 5.5-3.5 7S12 19 12 22c0-3-2-4.5-3.5-6S5 12.5 5 9a7 7 0 017-7z"/><circle cx="12" cy="9" r="2"/></svg>
+        </div>
+        <p class="area-name">Mente</p>
+        <div class="area-status"><div class="area-dot green"></div>Em dia</div>
+      </div>
+
+      <!-- Carreira -->
+      <div class="area-card" onclick="location.href='area-carreira.html'">
+        <div class="area-icon" style="background:rgba(215,0,48,0.04);">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#D70030" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v16"/></svg>
+        </div>
+        <p class="area-name">Carreira</p>
+        <div class="area-status"><div class="area-dot green"></div>Em dia</div>
+      </div>
+
+      <!-- Financas -->
+      <div class="area-card" onclick="location.href='area-financas.html'">
+        <div class="area-icon" style="background:rgba(234,219,98,0.1);">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#BFA730" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>
+        </div>
+        <p class="area-name">Financas</p>
+        <div class="area-status"><div class="area-dot yellow"></div>Atencao</div>
+      </div>
+
+      <!-- Proposito -->
+      <div class="area-card" onclick="location.href='area-proposito.html'">
+        <div class="area-icon" style="background:rgba(255,159,10,0.06);">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#FF9F0A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        </div>
+        <p class="area-name">Proposito</p>
+        <div class="area-status"><div class="area-dot green"></div>Em dia</div>
+      </div>
+
+      <!-- Produtividade -->
+      <div class="area-card" onclick="location.href='area-produtividade.html'">
+        <div class="area-icon" style="background:rgba(48,209,88,0.06);">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#30D158" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        </div>
+        <p class="area-name">Produtividade</p>
+        <div class="area-status"><div class="area-dot blue"></div>Ativo</div>
+      </div>
+
+      <!-- Relacionamentos -->
+      <div class="area-card" onclick="location.href='area-relacionamentos.html'">
+        <div class="area-icon" style="background:rgba(191,90,242,0.06);">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#BF5AF2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>
+        </div>
+        <p class="area-name">Relacionamentos</p>
+        <div class="area-status"><div class="area-dot green"></div>Em dia</div>
+      </div>
+
+      <!-- Casa -->
+      <div class="area-card" onclick="location.href='area-casa.html'">
+        <div class="area-icon" style="background:rgba(100,210,255,0.08);">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#64D2FF" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+        </div>
+        <p class="area-name">Casa</p>
+        <div class="area-status"><div class="area-dot green"></div>Em dia</div>
+      </div>
+
+    </div>
+
+    <!-- 5. Atividade dos mentores -->
+    <div class="section-label fade-in" style="animation-delay: 0.38s;">
+      <span>Atividade dos mentores</span>
+    </div>
+    <div class="feed-card fade-in" style="animation-delay: 0.42s;">
+      <div class="feed-item">
+        <span class="feed-time">14:30</span>
+        <div class="feed-avatar"><span>K</span></div>
+        <span class="feed-desc"><span class="feed-agent">Dr. Kenji</span> analisou dados do sono via smartwatch</span>
+      </div>
+      <div class="feed-item">
+        <span class="feed-time">13:15</span>
+        <div class="feed-avatar"><span>Y</span></div>
+        <span class="feed-desc"><span class="feed-agent">Yui</span> atualizou plano nutricional do jantar</span>
+      </div>
+      <div class="feed-item">
+        <span class="feed-time">11:00</span>
+        <div class="feed-avatar"><span>A</span></div>
+        <span class="feed-desc"><span class="feed-agent">Akira</span> reorganizou prioridades da tarde com base no sono</span>
+      </div>
+      <div class="feed-item">
+        <span class="feed-time">09:20</span>
+        <div class="feed-avatar"><span>M</span></div>
+        <span class="feed-desc"><span class="feed-agent">Mei</span> lembrou: fatura do cartao vence quinta-feira</span>
+      </div>
+      <div class="feed-item">
+        <span class="feed-time">08:00</span>
+        <div class="feed-avatar"><span>Y</span></div>
+        <span class="feed-desc"><span class="feed-agent">Yumi</span> enviou briefing matinal com resumo dos mentores</span>
+      </div>
+    </div>
+
+    <!-- 6. Metas de hoje -->
+    <div class="section-label fade-in" style="animation-delay: 0.48s;">
+      <span>Metas de hoje</span>
+      <span class="section-count">0/4</span>
+    </div>
+    <div class="goals-card fade-in" style="animation-delay: 0.52s;">
+
+      <div class="goal-item">
+        <div class="goal-check" onclick="toggleGoal(this)">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#FFF" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+        </div>
+        <span class="goal-text">Caminhada de 20 minutos (substituindo treino)</span>
+        <span class="goal-mentor">Dr. Kenji</span>
+      </div>
+
+      <div class="goal-item">
+        <div class="goal-check" onclick="toggleGoal(this)">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#FFF" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+        </div>
+        <span class="goal-text">Bloco de foco: 2h de trabalho profundo antes do almoco</span>
+        <span class="goal-mentor">Akira</span>
+      </div>
+
+      <div class="goal-item">
+        <div class="goal-check" onclick="toggleGoal(this)">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#FFF" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+        </div>
+        <span class="goal-text">Revisar portfolio de investimentos (acao pendente)</span>
+        <span class="goal-mentor">Mei</span>
+      </div>
+
+      <div class="goal-item">
+        <div class="goal-check" onclick="toggleGoal(this)">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#FFF" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+        </div>
+        <span class="goal-text">Dormir ate 23h (meta de recuperacao do sono)</span>
+        <span class="goal-mentor">Dr. Kenji</span>
+      </div>
+
+    </div>
+
+  </div></main>
+
+  <script>
+    // Central Command Chat — PF context
+    const cmdResponses = {
+      'Como dormi?': 'Dr. Kenji reporta: voce dormiu 5h30 esta noite. Sono leve por 3h10, sono profundo 1h40, REM 40min. A media da semana esta em 6h12 — abaixo do ideal de 7h30. O padrao das ultimas 3 noites mostra queda. Quer ver o grafico completo?',
+      'Metas da semana': 'Esta semana voce tem 18 metas ativas. Concluiu 11 (61%). Pendentes: treino 3x (fez 2), meditacao diaria (4/7), revisao financeira (nao iniciada), e 4 metas de carreira. Akira sugere focar nas 3 mais impactantes amanha.',
+      'Falar com Dr. Kenji': 'Conectando com Dr. Kenji... Ele diz: "Julio, seus marcadores de estresse estao elevados nos ultimos 3 dias. Alem do sono curto, sua FC em repouso subiu de 62 para 68 bpm. Recomendo: sem cafeina apos 14h, caminhada leve, e magnesio antes de dormir."',
+      'Resumo do dia': '12 acoes planejadas. 3 mentores ativos monitorando. Saude precisa de atencao (sono insuficiente). Financas com alerta (fatura vence quinta). Produtividade otima no periodo da manha. Yui atualizou plano nutricional. Nenhuma reuniao hoje.'
+    };
+
+    function sendCmd() {
+      const input = document.getElementById('cmdInput');
+      const val = input.value.trim();
+      if (!val) return;
+      const msgs = document.getElementById('cmdMessages');
+      msgs.innerHTML += '<div class="cmd-msg cmd-msg-user">' + escapeHtml(val) + '</div>';
+      input.value = '';
+      msgs.scrollTop = msgs.scrollHeight;
+
+      setTimeout(function() {
+        const response = cmdResponses[val] || 'Entendido, Julio. Vou consultar seus mentores e volto com uma resposta. Um momento...';
+        msgs.innerHTML += '<div class="cmd-msg cmd-msg-ai"><div class="cmd-sender">Yumi — Mentora</div>' + response + '</div>';
+        msgs.scrollTop = msgs.scrollHeight;
+      }, 600);
+    }
+
+    function quickCmd(text) {
+      document.getElementById('cmdInput').value = text;
+      sendCmd();
+    }
+
+    function escapeHtml(text) {
+      var div = document.createElement('div');
+      div.appendChild(document.createTextNode(text));
+      return div.innerHTML;
+    }
+
+    // Goal toggle
+    var completedCount = 0;
+    var totalGoals = 4;
+
+    function toggleGoal(el) {
+      var textEl = el.nextElementSibling;
+      if (el.classList.contains('done')) {
+        el.classList.remove('done');
+        textEl.classList.remove('done');
+        completedCount--;
+      } else {
+        el.classList.add('done');
+        textEl.classList.add('done');
+        completedCount++;
+      }
+      updateGoalCount();
+    }
+
+    function updateGoalCount() {
+      var countEl = document.querySelector('.goals-card').previousElementSibling.querySelector('.section-count');
+      if (countEl) countEl.textContent = completedCount + '/' + totalGoals;
+    }
+  </script>
+  <script src="../shared-nav.js?v=1774794914"></script>
+</body>
+</html>

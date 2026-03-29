@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Insights Pessoais — KTANA</title>
+  <link rel="stylesheet" href="../shared.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Zen+Dots&display=swap" rel="stylesheet">
+  <style>
+    body { min-height: 100vh; background: #F5F5F7; }
+    .main { max-width: 720px; margin: 0 auto; padding: 40px 24px 80px; }
+    h1 { font-family: 'Satoshi', sans-serif; font-size: 28px; font-weight: 700; color: #1D1D1F; margin-bottom: 4px; }
+    .sub { font-family: 'Satoshi', sans-serif; font-size: 14px; color: #86868B; margin-bottom: 32px; line-height: 1.5; }
+
+    /* Insight cards */
+    .insight { background: #FFF; border-radius: 20px; border: 1px solid rgba(0,0,0,0.04); margin-bottom: 14px; overflow: hidden; }
+
+    .insight-header { padding: 20px 24px 0; display: flex; align-items: flex-start; gap: 14px; }
+    .insight-avatar { width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 600; flex-shrink: 0; }
+    .insight-meta { flex: 1; }
+    .insight-from { font-family: 'Satoshi', sans-serif; font-size: 14px; font-weight: 600; color: #1D1D1F; }
+    .insight-when { font-family: 'Inter', sans-serif; font-size: 11px; color: #AEAEB2; }
+
+    .area-badge { font-family: 'Inter', sans-serif; display: inline-flex; align-items: center; padding: 3px 10px; border-radius: 6px; font-size: 10px; font-weight: 500; flex-shrink: 0; }
+    .area-saude { background: rgba(215,0,48,0.06); color: #D70030; }
+    .area-mente { background: rgba(94,106,210,0.06); color: #5E6AD2; }
+    .area-produtividade { background: rgba(255,159,10,0.06); color: #FF9F0A; }
+    .area-relacionamentos { background: rgba(255,55,95,0.06); color: #FF375F; }
+
+    .insight-body { padding: 14px 24px 20px; }
+    .insight-title { font-family: 'Satoshi', sans-serif; font-size: 16px; font-weight: 600; color: #1D1D1F; margin-bottom: 10px; }
+    .insight-text { font-family: 'Satoshi', sans-serif; font-size: 14px; color: #6E6E73; line-height: 1.7; }
+    .insight-text strong { color: #1D1D1F; }
+
+    /* Data metrics */
+    .insight-data { padding: 0 24px 16px; display: flex; gap: 12px; }
+    .insight-metric { background: rgba(0,0,0,0.02); border-radius: 12px; padding: 12px 16px; flex: 1; text-align: center; }
+    .metric-val { font-family: 'Satoshi', sans-serif; font-size: 18px; font-weight: 700; color: #1D1D1F; }
+    .metric-val.green { color: #30D158; }
+    .metric-val.red { color: #FF453A; }
+    .metric-val.brand { color: #D70030; }
+    .metric-val.warn { color: #FF9F0A; }
+    .metric-label { font-family: 'Inter', sans-serif; font-size: 10px; color: #86868B; margin-top: 2px; }
+
+    /* Actions */
+    .insight-actions { padding: 14px 24px; border-top: 0.5px solid rgba(0,0,0,0.04); display: flex; align-items: center; justify-content: space-between; }
+    .insight-link { font-family: 'Inter', sans-serif; font-size: 12px; font-weight: 500; color: #D70030; cursor: pointer; display: flex; align-items: center; gap: 6px; transition: opacity 0.15s; }
+    .insight-link:hover { opacity: 0.7; }
+    .insight-mentor-tag { font-family: 'Inter', sans-serif; font-size: 11px; color: #AEAEB2; }
+
+    .fade-in { animation: fadeIn 0.3s cubic-bezier(0.25,0.1,0.25,1) both; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+  </style>
+</head>
+<body>
+
+  <main class="main"><div class="gradient-header">
+    <h1 class="fade-in">Insights</h1>
+    <p class="sub fade-in">Seus mentores analisam padroes da sua vida</p>
+
+    <!-- Insight 1: Padrao de sono — Aiko -->
+    <div class="insight fade-in" style="animation-delay:0.05s;">
+      <div class="insight-header">
+        <div class="insight-avatar" style="background:rgba(94,106,210,0.08); color:#5E6AD2;">A</div>
+        <div class="insight-meta">
+          <div class="insight-from">Aiko — Especialista em Sono</div>
+          <div class="insight-when">Hoje, 07:30 · Analise semanal</div>
+        </div>
+        <span class="area-badge area-mente">Mente</span>
+      </div>
+      <div class="insight-body">
+        <div class="insight-title">Padrao de sono</div>
+        <div class="insight-text">Suas ultimas 7 noites tiveram media de <strong>6.2h</strong>. Abaixo do ideal de 7-8h. Correlacao: noites com menos de 6h = <strong>40% menos produtividade</strong> no dia seguinte.</div>
+      </div>
+      <div class="insight-data">
+        <div class="insight-metric"><div class="metric-val warn">6.2h</div><div class="metric-label">Media semanal</div></div>
+        <div class="insight-metric"><div class="metric-val">7-8h</div><div class="metric-label">Meta ideal</div></div>
+        <div class="insight-metric"><div class="metric-val red">-40%</div><div class="metric-label">Produtividade (< 6h)</div></div>
+      </div>
+      <div class="insight-actions">
+        <a class="insight-link">
+          Ver detalhes
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+        <span class="insight-mentor-tag">Analise por Aiko</span>
+      </div>
+    </div>
+
+    <!-- Insight 2: Habito alimentar — Yui -->
+    <div class="insight fade-in" style="animation-delay:0.1s;">
+      <div class="insight-header">
+        <div class="insight-avatar" style="background:rgba(215,0,48,0.08); color:#D70030;">Y</div>
+        <div class="insight-meta">
+          <div class="insight-from">Yui — Orientadora de Alimentacao</div>
+          <div class="insight-when">Hoje, 08:00 · Analise semanal</div>
+        </div>
+        <span class="area-badge area-saude">Saude</span>
+      </div>
+      <div class="insight-body">
+        <div class="insight-title">Habito alimentar</div>
+        <div class="insight-text">Voce pulou o cafe <strong>3x esta semana</strong>. Nos dias sem cafe da manha, seu foco caiu <strong>25% ate as 11h</strong>.</div>
+      </div>
+      <div class="insight-data">
+        <div class="insight-metric"><div class="metric-val red">3x</div><div class="metric-label">Cafe pulado</div></div>
+        <div class="insight-metric"><div class="metric-val red">-25%</div><div class="metric-label">Queda no foco</div></div>
+        <div class="insight-metric"><div class="metric-val">11h</div><div class="metric-label">Recuperacao do foco</div></div>
+      </div>
+      <div class="insight-actions">
+        <a class="insight-link">
+          Ver detalhes
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+        <span class="insight-mentor-tag">Analise por Yui</span>
+      </div>
+    </div>
+
+    <!-- Insight 3: Produtividade — Takeshi -->
+    <div class="insight fade-in" style="animation-delay:0.15s;">
+      <div class="insight-header">
+        <div class="insight-avatar" style="background:rgba(255,159,10,0.08); color:#FF9F0A;">T</div>
+        <div class="insight-meta">
+          <div class="insight-from">Takeshi — Mentor de Produtividade</div>
+          <div class="insight-when">Ontem, 18:00 · Analise de padroes</div>
+        </div>
+        <span class="area-badge area-produtividade">Produtividade</span>
+      </div>
+      <div class="insight-body">
+        <div class="insight-title">Produtividade</div>
+        <div class="insight-text">Seus melhores blocos de deep work acontecem entre <strong>9h-11h</strong>. Reunioes nesse horario reduzem output em <strong>60%</strong>.</div>
+      </div>
+      <div class="insight-data">
+        <div class="insight-metric"><div class="metric-val green">9h-11h</div><div class="metric-label">Pico de foco</div></div>
+        <div class="insight-metric"><div class="metric-val red">-60%</div><div class="metric-label">Output c/ reuniao</div></div>
+        <div class="insight-metric"><div class="metric-val brand">2h</div><div class="metric-label">Janela ideal</div></div>
+      </div>
+      <div class="insight-actions">
+        <a class="insight-link">
+          Ver detalhes
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+        <span class="insight-mentor-tag">Analise por Takeshi</span>
+      </div>
+    </div>
+
+    <!-- Insight 4: Relacionamentos — Sakura -->
+    <div class="insight fade-in" style="animation-delay:0.2s;">
+      <div class="insight-header">
+        <div class="insight-avatar" style="background:rgba(255,55,95,0.08); color:#FF375F;">S</div>
+        <div class="insight-meta">
+          <div class="insight-from">Sakura — Mentora de Relacionamentos</div>
+          <div class="insight-when">Ontem, 20:00 · Analise mensal</div>
+        </div>
+        <span class="area-badge area-relacionamentos">Relacionamentos</span>
+      </div>
+      <div class="insight-body">
+        <div class="insight-title">Relacionamentos</div>
+        <div class="insight-text">Contato com familia aumentou <strong>30% este mes</strong>. Correlacao com melhora de <strong>15% no score de bem-estar emocional</strong>.</div>
+      </div>
+      <div class="insight-data">
+        <div class="insight-metric"><div class="metric-val green">+30%</div><div class="metric-label">Contato familiar</div></div>
+        <div class="insight-metric"><div class="metric-val green">+15%</div><div class="metric-label">Bem-estar emocional</div></div>
+        <div class="insight-metric"><div class="metric-val green">Alta</div><div class="metric-label">Correlacao</div></div>
+      </div>
+      <div class="insight-actions">
+        <a class="insight-link">
+          Ver detalhes
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+        <span class="insight-mentor-tag">Analise por Sakura</span>
+      </div>
+    </div>
+
+  </div></main>
+<script src="../shared-nav.js?v=1774794914"></script>
+</body>
+</html>

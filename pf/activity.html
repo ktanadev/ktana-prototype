@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Atividade — KTANA</title>
+  <link rel="stylesheet" href="../shared.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Zen+Dots&display=swap" rel="stylesheet">
+  <style>
+    body { min-height: 100vh; background: #F5F5F7; }
+    .main { max-width: 720px; margin: 0 auto; padding: 40px 24px 80px; }
+    h1 { font-family: 'Satoshi', sans-serif; font-size: 28px; font-weight: 700; color: #1D1D1F; margin-bottom: 4px; }
+    .sub { font-family: 'Satoshi', sans-serif; font-size: 14px; color: #86868B; margin-bottom: 28px; line-height: 1.5; }
+
+    /* Filter tabs */
+    .filter-tabs { display: flex; gap: 2px; background: rgba(0,0,0,0.03); border-radius: 10px; padding: 2px; margin-bottom: 32px; width: fit-content; }
+    .filter-tab { font-family: 'Inter', sans-serif; padding: 7px 16px; border-radius: 8px; font-size: 12px; color: #86868B; cursor: pointer; border: none; background: none; white-space: nowrap; transition: all 0.2s; }
+    .filter-tab.active { background: #FFF; color: #1D1D1F; box-shadow: 0 1px 3px rgba(0,0,0,0.06); font-weight: 500; }
+    .filter-tab:hover:not(.active) { color: #1D1D1F; }
+
+    /* Time group */
+    .time-group { margin-bottom: 24px; }
+    .time-label { font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: #D70030; margin-bottom: 12px; }
+
+    /* Activity card */
+    .activity-card { background: #FFF; border-radius: 20px; border: 1px solid rgba(0,0,0,0.04); overflow: hidden; }
+    .activity-item { display: flex; align-items: flex-start; gap: 14px; padding: 16px 20px; border-bottom: 0.5px solid rgba(0,0,0,0.04); transition: background 0.15s; }
+    .activity-item:last-child { border-bottom: none; }
+    .activity-item:hover { background: rgba(0,0,0,0.01); }
+
+    .activity-time { font-family: 'Inter', sans-serif; font-size: 11px; color: #AEAEB2; width: 44px; flex-shrink: 0; padding-top: 2px; }
+
+    .activity-avatar { width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 600; flex-shrink: 0; }
+
+    .activity-content { flex: 1; min-width: 0; }
+    .activity-desc { font-family: 'Satoshi', sans-serif; font-size: 14px; color: #1D1D1F; line-height: 1.5; }
+    .activity-desc strong { font-weight: 600; }
+    .activity-mentor { font-family: 'Inter', sans-serif; font-size: 11px; color: #86868B; margin-top: 2px; }
+
+    .area-badge { font-family: 'Inter', sans-serif; display: inline-flex; align-items: center; padding: 3px 10px; border-radius: 6px; font-size: 10px; font-weight: 500; flex-shrink: 0; margin-top: 2px; }
+
+    /* Area colors */
+    .area-saude { background: rgba(215,0,48,0.06); color: #D70030; }
+    .area-mente { background: rgba(94,106,210,0.06); color: #5E6AD2; }
+    .area-produtividade { background: rgba(255,159,10,0.06); color: #FF9F0A; }
+    .area-relacionamentos { background: rgba(255,55,95,0.06); color: #FF375F; }
+    .area-financas { background: rgba(48,209,88,0.06); color: #30D158; }
+    .area-casa { background: rgba(100,210,255,0.06); color: #64D2FF; }
+    .area-proposito { background: rgba(191,90,242,0.06); color: #BF5AF2; }
+    .area-carreira { background: rgba(142,142,147,0.06); color: #8E8E93; }
+
+    .fade-in { animation: fadeIn 0.3s cubic-bezier(0.25,0.1,0.25,1) both; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+  </style>
+</head>
+<body>
+
+  <main class="main"><div class="gradient-header">
+    <h1 class="fade-in">Atividade</h1>
+    <p class="sub fade-in">O que seus mentores fizeram por voce</p>
+
+    <!-- Filter tabs -->
+    <div class="filter-tabs fade-in">
+      <button class="filter-tab active">Hoje</button>
+      <button class="filter-tab">Esta semana</button>
+      <button class="filter-tab">Este mes</button>
+    </div>
+
+    <!-- Hoje -->
+    <div class="time-group fade-in" style="animation-delay:0.05s;">
+      <p class="time-label">Hoje</p>
+      <div class="activity-card">
+
+        <div class="activity-item">
+          <span class="activity-time">08:15</span>
+          <div class="activity-avatar" style="background:rgba(215,0,48,0.08); color:#D70030;">K</div>
+          <div class="activity-content">
+            <p class="activity-desc"><strong>Dr. Kenji</strong> ajustou seu treino para caminhada leve apos detectar sono curto</p>
+            <p class="activity-mentor">Mentor de Saude</p>
+          </div>
+          <span class="area-badge area-saude">Saude</span>
+        </div>
+
+        <div class="activity-item">
+          <span class="activity-time">07:45</span>
+          <div class="activity-avatar" style="background:rgba(215,0,48,0.08); color:#D70030;">Y</div>
+          <div class="activity-content">
+            <p class="activity-desc"><strong>Yui</strong> enviou cardapio do dia com foco em energia e recuperacao</p>
+            <p class="activity-mentor">Orientadora de Alimentacao</p>
+          </div>
+          <span class="area-badge area-saude">Saude</span>
+        </div>
+
+        <div class="activity-item">
+          <span class="activity-time">07:30</span>
+          <div class="activity-avatar" style="background:rgba(94,106,210,0.08); color:#5E6AD2;">A</div>
+          <div class="activity-content">
+            <p class="activity-desc"><strong>Aiko</strong> detectou sono curto (5h20) e enviou alerta com recomendacoes</p>
+            <p class="activity-mentor">Especialista em Sono</p>
+          </div>
+          <span class="area-badge area-mente">Mente</span>
+        </div>
+
+        <div class="activity-item">
+          <span class="activity-time">07:00</span>
+          <div class="activity-avatar" style="background:rgba(255,159,10,0.08); color:#FF9F0A;">T</div>
+          <div class="activity-content">
+            <p class="activity-desc"><strong>Takeshi</strong> bloqueou notificacoes de 9h-11h para seu bloco de deep work</p>
+            <p class="activity-mentor">Mentor de Produtividade</p>
+          </div>
+          <span class="area-badge area-produtividade">Produtividade</span>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Ontem -->
+    <div class="time-group fade-in" style="animation-delay:0.1s;">
+      <p class="time-label">Ontem</p>
+      <div class="activity-card">
+
+        <div class="activity-item">
+          <span class="activity-time">19:30</span>
+          <div class="activity-avatar" style="background:rgba(255,55,95,0.08); color:#FF375F;">S</div>
+          <div class="activity-content">
+            <p class="activity-desc"><strong>Sakura</strong> lembrou voce de ligar para sua mae — faz 12 dias sem contato</p>
+            <p class="activity-mentor">Mentora de Relacionamentos</p>
+          </div>
+          <span class="area-badge area-relacionamentos">Relacionamentos</span>
+        </div>
+
+        <div class="activity-item">
+          <span class="activity-time">18:00</span>
+          <div class="activity-avatar" style="background:rgba(191,90,242,0.08); color:#BF5AF2;">J</div>
+          <div class="activity-content">
+            <p class="activity-desc"><strong>Jin</strong> revisou suas metas semanais e sugeriu reordenar prioridades</p>
+            <p class="activity-mentor">Mentor de Proposito</p>
+          </div>
+          <span class="area-badge area-proposito">Proposito</span>
+        </div>
+
+        <div class="activity-item">
+          <span class="activity-time">16:45</span>
+          <div class="activity-avatar" style="background:rgba(255,159,10,0.08); color:#FF9F0A;">R</div>
+          <div class="activity-content">
+            <p class="activity-desc"><strong>Ren</strong> completou 3 blocos de foco e registrou produtividade acima da media</p>
+            <p class="activity-mentor">Especialista em Foco</p>
+          </div>
+          <span class="area-badge area-produtividade">Produtividade</span>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Anteontem -->
+    <div class="time-group fade-in" style="animation-delay:0.15s;">
+      <p class="time-label">Anteontem</p>
+      <div class="activity-card">
+
+        <div class="activity-item">
+          <span class="activity-time">14:00</span>
+          <div class="activity-avatar" style="background:rgba(48,209,88,0.08); color:#30D158;">H</div>
+          <div class="activity-content">
+            <p class="activity-desc"><strong>Haru</strong> pagou a conta de luz automaticamente via debito autorizado</p>
+            <p class="activity-mentor">Mentor de Financas</p>
+          </div>
+          <span class="area-badge area-financas">Financas</span>
+        </div>
+
+        <div class="activity-item">
+          <span class="activity-time">11:20</span>
+          <div class="activity-avatar" style="background:rgba(48,209,88,0.08); color:#30D158;">T</div>
+          <div class="activity-content">
+            <p class="activity-desc"><strong>Taro</strong> comparou precos de 3 mercados e encontrou economia de R$47</p>
+            <p class="activity-mentor">Especialista em Economia</p>
+          </div>
+          <span class="area-badge area-financas">Financas</span>
+        </div>
+
+        <div class="activity-item">
+          <span class="activity-time">09:00</span>
+          <div class="activity-avatar" style="background:rgba(100,210,255,0.08); color:#64D2FF;">K</div>
+          <div class="activity-content">
+            <p class="activity-desc"><strong>Kaze</strong> agendou voluntariado no sabado e adicionou ao seu calendario</p>
+            <p class="activity-mentor">Especialista em Comunidade</p>
+          </div>
+          <span class="area-badge area-casa">Casa</span>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Semana passada -->
+    <div class="time-group fade-in" style="animation-delay:0.2s;">
+      <p class="time-label">Semana passada</p>
+      <div class="activity-card">
+
+        <div class="activity-item">
+          <span class="activity-time">Qui 20h</span>
+          <div class="activity-avatar" style="background:rgba(191,90,242,0.08); color:#BF5AF2;">Y</div>
+          <div class="activity-content">
+            <p class="activity-desc"><strong>Yume</strong> atualizou seu dream board com 2 novas metas de longo prazo</p>
+            <p class="activity-mentor">Especialista em Visao</p>
+          </div>
+          <span class="area-badge area-proposito">Proposito</span>
+        </div>
+
+        <div class="activity-item">
+          <span class="activity-time">Dom 21h</span>
+          <div class="activity-avatar" style="background:rgba(94,106,210,0.08); color:#5E6AD2;">T</div>
+          <div class="activity-content">
+            <p class="activity-desc"><strong>Tsubame</strong> guiou sua reflexao semanal e registrou 3 aprendizados</p>
+            <p class="activity-mentor">Especialista em Reflexao</p>
+          </div>
+          <span class="area-badge area-mente">Mente</span>
+        </div>
+
+      </div>
+    </div>
+
+  </div></main>
+<script src="../shared-nav.js?v=1774794914"></script>
+</body>
+</html>

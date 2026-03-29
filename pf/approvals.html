@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Recomendacoes — KTANA</title>
+  <link rel="stylesheet" href="../shared.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Zen+Dots&display=swap" rel="stylesheet">
+  <style>
+    body { min-height: 100vh; background: #F5F5F7; }
+
+    .main { max-width: 720px; margin: 0 auto; padding: 40px 24px 80px; }
+    h1 { font-family: 'Satoshi', sans-serif; font-size: 22px; font-weight: 700; color: #1D1D1F; margin-bottom: 4px; }
+    .sub { font-family: 'Satoshi', sans-serif; font-size: 13px; color: #86868B; margin-bottom: 32px; }
+
+    .tabs { display: flex; gap: 2px; background: rgba(0,0,0,0.03); border-radius: 10px; padding: 2px; margin-bottom: 24px; width: fit-content; }
+    .tab { font-family: 'Inter', sans-serif; padding: 6px 16px; border-radius: 8px; font-size: 12px; color: #86868B; cursor: pointer; border: none; background: none; transition: all 0.15s; }
+    .tab.active { background: #FFF; color: #1D1D1F; box-shadow: 0 1px 3px rgba(0,0,0,0.06); font-weight: 500; }
+
+    .rec-card { background: #FFF; border-radius: 20px; border: 1px solid rgba(0,0,0,0.04); padding: 24px; margin-bottom: 10px; transition: box-shadow 0.2s; }
+    .rec-card:hover { box-shadow: 0 4px 20px rgba(0,0,0,0.04); }
+
+    .rec-top { display: flex; align-items: start; justify-content: space-between; margin-bottom: 10px; }
+    .rec-mentor { display: flex; align-items: center; gap: 10px; }
+    .rec-avatar { width: 36px; height: 36px; border-radius: 50%; border: 1px solid #D2D2D7; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .rec-avatar span { font-family: 'Inter', sans-serif; font-size: 12px; font-weight: 600; color: #86868B; }
+
+    .rec-mentor-info { display: flex; flex-direction: column; }
+    .rec-mentor-name { font-family: 'Satoshi', sans-serif; font-size: 14px; font-weight: 600; color: #1D1D1F; }
+    .rec-mentor-role { font-family: 'Inter', sans-serif; font-size: 11px; color: #86868B; }
+
+    .rec-badge { font-family: 'Inter', sans-serif; padding: 3px 10px; border-radius: 980px; font-size: 11px; font-weight: 500; flex-shrink: 0; }
+    .badge-saude { background: rgba(48,209,88,0.08); color: #30D158; border: 1px solid rgba(48,209,88,0.12); }
+    .badge-produtividade { background: rgba(215,0,48,0.06); color: #D70030; border: 1px solid rgba(215,0,48,0.1); }
+    .badge-relacionamentos { background: rgba(175,82,222,0.08); color: #AF52DE; border: 1px solid rgba(175,82,222,0.12); }
+
+    .rec-text { font-family: 'Satoshi', sans-serif; font-size: 14px; color: #1D1D1F; line-height: 1.5; margin-bottom: 16px; padding-left: 46px; }
+
+    .rec-reason { font-family: 'Satoshi', sans-serif; font-size: 12px; color: #86868B; line-height: 1.4; margin-bottom: 16px; padding-left: 46px; font-style: italic; display: flex; align-items: start; gap: 6px; }
+    .rec-reason svg { flex-shrink: 0; margin-top: 1px; }
+
+    .rec-actions { display: flex; gap: 8px; padding-left: 46px; }
+    .btn-accept { font-family: 'Inter', sans-serif; padding: 8px 20px; border-radius: 980px; background: #1D1D1F; color: #F5F5F7; font-size: 12px; font-weight: 500; border: none; cursor: pointer; transition: opacity 0.15s; min-height: 36px; }
+    .btn-accept:hover { opacity: 0.9; }
+    .btn-secondary { font-family: 'Inter', sans-serif; padding: 8px 20px; border-radius: 980px; background: transparent; color: #86868B; font-size: 12px; border: 0.5px solid rgba(0,0,0,0.08); cursor: pointer; transition: all 0.15s; min-height: 36px; }
+    .btn-secondary:hover { border-color: rgba(0,0,0,0.15); color: #1D1D1F; }
+    .btn-brand-outline { font-family: 'Inter', sans-serif; padding: 8px 20px; border-radius: 980px; background: rgba(215,0,48,0.04); color: #D70030; font-size: 12px; font-weight: 500; border: 1px solid rgba(215,0,48,0.12); cursor: pointer; transition: all 0.15s; min-height: 36px; }
+    .btn-brand-outline:hover { background: rgba(215,0,48,0.08); }
+
+    .rec-time { font-family: 'Inter', sans-serif; font-size: 11px; color: #AEAEB2; padding-left: 46px; margin-top: 12px; }
+
+    /* Toast feedback */
+    .toast { position: fixed; bottom: 100px; left: 50%; transform: translateX(-50%) translateY(20px); background: #1D1D1F; color: #F5F5F7; font-family: 'Inter', sans-serif; font-size: 13px; padding: 12px 24px; border-radius: 14px; opacity: 0; transition: all 0.3s cubic-bezier(0.25,0.1,0.25,1); pointer-events: none; z-index: 100; white-space: nowrap; }
+    .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+    /* Empty state for other tabs */
+    .empty-state { text-align: center; padding: 60px 24px; }
+    .empty-icon { width: 48px; height: 48px; border-radius: 14px; background: rgba(0,0,0,0.03); display: flex; align-items: center; justify-content: center; margin: 0 auto 16px; }
+    .empty-title { font-family: 'Satoshi', sans-serif; font-size: 16px; font-weight: 600; color: #1D1D1F; margin-bottom: 6px; }
+    .empty-text { font-family: 'Satoshi', sans-serif; font-size: 13px; color: #86868B; line-height: 1.5; }
+  </style>
+</head>
+<body>
+
+  <main class="main"><div class="gradient-header">
+    <h1 class="fade-in">Recomendacoes</h1>
+    <p class="sub fade-in">Seus mentores precisam da sua aprovacao.</p>
+
+    <div class="tabs fade-in">
+      <button class="tab active" onclick="showTab('pendentes')">Pendentes (4)</button>
+      <button class="tab" onclick="showTab('aceitas')">Aceitas</button>
+      <button class="tab" onclick="showTab('todas')">Todas</button>
+    </div>
+
+    <!-- Tab: Pendentes -->
+    <div id="tab-pendentes">
+
+      <!-- Card 1: Dr. Kenji -->
+      <div class="rec-card fade-in" style="animation-delay:0.1s" id="card-1">
+        <div class="rec-top">
+          <div class="rec-mentor">
+            <div class="rec-avatar" style="border-color: rgba(48,209,88,0.3);"><span style="color:#30D158;">K</span></div>
+            <div class="rec-mentor-info">
+              <span class="rec-mentor-name">Dr. Kenji</span>
+              <span class="rec-mentor-role">Mentor de Saude</span>
+            </div>
+          </div>
+          <span class="rec-badge badge-saude">Saude</span>
+        </div>
+        <p class="rec-text">Trocar treino HIIT por caminhada leve — sono insuficiente</p>
+        <p class="rec-reason">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#86868B" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
+          Seus dados mostram 5.2h de sono medio. HIIT com sono baixo aumenta cortisol.
+        </p>
+        <div class="rec-actions">
+          <button class="btn-accept" onclick="acceptRec(this, 'Treino atualizado')">Aceitar</button>
+          <button class="btn-secondary" onclick="dismissRec(this)">Ignorar</button>
+        </div>
+        <p class="rec-time">Ha 2 horas</p>
+      </div>
+
+      <!-- Card 2: Yui -->
+      <div class="rec-card fade-in" style="animation-delay:0.15s" id="card-2">
+        <div class="rec-top">
+          <div class="rec-mentor">
+            <div class="rec-avatar" style="border-color: rgba(48,209,88,0.3);"><span style="color:#30D158;">Y</span></div>
+            <div class="rec-mentor-info">
+              <span class="rec-mentor-name">Yui</span>
+              <span class="rec-mentor-role">Mentora de Alimentacao</span>
+            </div>
+          </div>
+          <span class="rec-badge badge-saude">Saude</span>
+        </div>
+        <p class="rec-text">Adicionar magnesio ao jantar — melhora qualidade do sono</p>
+        <p class="rec-reason">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#86868B" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
+          Magnesio glicinato 400mg antes de dormir. Estudos mostram melhora de 23% na qualidade do sono.
+        </p>
+        <div class="rec-actions">
+          <button class="btn-accept" onclick="acceptRec(this, 'Adicionado ao plano alimentar')">Aceitar</button>
+          <button class="btn-secondary" onclick="showDetail(this)">Saber mais</button>
+        </div>
+        <p class="rec-time">Ha 3 horas</p>
+      </div>
+
+      <!-- Card 3: Takeshi -->
+      <div class="rec-card fade-in" style="animation-delay:0.2s" id="card-3">
+        <div class="rec-top">
+          <div class="rec-mentor">
+            <div class="rec-avatar" style="border-color: rgba(215,0,48,0.25);"><span style="color:#D70030;">T</span></div>
+            <div class="rec-mentor-info">
+              <span class="rec-mentor-name">Takeshi</span>
+              <span class="rec-mentor-role">Mentor de Produtividade</span>
+            </div>
+          </div>
+          <span class="rec-badge badge-produtividade">Produtividade</span>
+        </div>
+        <p class="rec-text">Cancelar reuniao das 15h — bloco de deep work rende mais</p>
+        <p class="rec-reason">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#86868B" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
+          Sua reuniao das 15h nao tem pauta definida. Historicamente, 73% dessas reunioes poderiam ser emails.
+        </p>
+        <div class="rec-actions">
+          <button class="btn-accept" onclick="acceptRec(this, 'Reuniao cancelada')">Aceitar</button>
+          <button class="btn-secondary" onclick="dismissRec(this)">Manter</button>
+        </div>
+        <p class="rec-time">Ha 45 min</p>
+      </div>
+
+      <!-- Card 4: Sakura -->
+      <div class="rec-card fade-in" style="animation-delay:0.25s" id="card-4">
+        <div class="rec-top">
+          <div class="rec-mentor">
+            <div class="rec-avatar" style="border-color: rgba(175,82,222,0.3);"><span style="color:#AF52DE;">S</span></div>
+            <div class="rec-mentor-info">
+              <span class="rec-mentor-name">Sakura</span>
+              <span class="rec-mentor-role">Mentora de Relacionamentos</span>
+            </div>
+          </div>
+          <span class="rec-badge badge-relacionamentos">Relacionamentos</span>
+        </div>
+        <p class="rec-text">Ligar para sua mae — faz 12 dias sem contato</p>
+        <p class="rec-reason">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#86868B" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
+          Ultima ligacao: 17 de marco. Voce definiu que quer manter contato semanal.
+        </p>
+        <div class="rec-actions">
+          <button class="btn-brand-outline" onclick="acceptRec(this, 'Ligacao iniciada')">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline;vertical-align:-2px;margin-right:4px"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z"/></svg>
+            Ligar agora
+          </button>
+          <button class="btn-secondary" onclick="remindTomorrow(this)">Lembrar amanha</button>
+        </div>
+        <p class="rec-time">Ha 20 min</p>
+      </div>
+
+    </div>
+
+    <!-- Tab: Aceitas (hidden) -->
+    <div id="tab-aceitas" style="display:none">
+      <div class="empty-state">
+        <div class="empty-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#86868B" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+        </div>
+        <p class="empty-title">Nenhuma aceita ainda</p>
+        <p class="empty-text">Quando voce aceitar recomendacoes, elas aparecerao aqui.</p>
+      </div>
+    </div>
+
+    <!-- Tab: Todas (hidden) -->
+    <div id="tab-todas" style="display:none">
+      <div class="empty-state">
+        <div class="empty-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#86868B" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+        </div>
+        <p class="empty-title">Historico completo</p>
+        <p class="empty-text">Aqui voce vera todas as recomendacoes — pendentes, aceitas e ignoradas.</p>
+      </div>
+    </div>
+
+  </div></main>
+
+  <div class="toast" id="toast"></div>
+
+  <script>
+    function showTab(tab) {
+      document.querySelectorAll('[id^="tab-"]').forEach(el => el.style.display = 'none');
+      document.getElementById('tab-' + tab).style.display = 'block';
+      document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+      event.target.classList.add('active');
+    }
+
+    function showToast(msg) {
+      const toast = document.getElementById('toast');
+      toast.textContent = msg;
+      toast.classList.add('show');
+      setTimeout(() => toast.classList.remove('show'), 2200);
+    }
+
+    function acceptRec(btn, msg) {
+      const card = btn.closest('.rec-card');
+      card.style.transition = 'opacity 0.3s, transform 0.3s';
+      card.style.opacity = '0.3';
+      card.style.transform = 'scale(0.98)';
+      showToast(msg);
+      setTimeout(() => {
+        card.style.display = 'none';
+        updateCount();
+      }, 500);
+    }
+
+    function dismissRec(btn) {
+      const card = btn.closest('.rec-card');
+      card.style.transition = 'opacity 0.3s, transform 0.3s';
+      card.style.opacity = '0.3';
+      card.style.transform = 'scale(0.98)';
+      showToast('Recomendacao ignorada');
+      setTimeout(() => {
+        card.style.display = 'none';
+        updateCount();
+      }, 500);
+    }
+
+    function remindTomorrow(btn) {
+      const card = btn.closest('.rec-card');
+      card.style.transition = 'opacity 0.3s, transform 0.3s';
+      card.style.opacity = '0.3';
+      card.style.transform = 'scale(0.98)';
+      showToast('Lembrete agendado para amanha');
+      setTimeout(() => {
+        card.style.display = 'none';
+        updateCount();
+      }, 500);
+    }
+
+    function showDetail(btn) {
+      showToast('Abrindo detalhes...');
+    }
+
+    function updateCount() {
+      const visible = document.querySelectorAll('#tab-pendentes .rec-card:not([style*="display: none"])').length;
+      const activeTab = document.querySelector('.tab.active');
+      if (activeTab && visible > 0) {
+        activeTab.textContent = 'Pendentes (' + visible + ')';
+      } else if (activeTab && visible === 0) {
+        activeTab.textContent = 'Pendentes';
+      }
+    }
+  </script>
+
+<script src="../shared-nav.js?v=1774794914"></script>
+</body>
+</html>
