@@ -58,6 +58,45 @@
 
     .fade-in { animation: fadeIn 0.3s cubic-bezier(0.25,0.1,0.25,1) both; }
     @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+
+    /* Chat Section */
+    .chat-section { max-width: 860px; margin: 0 auto; padding: 0 24px 28px; }
+    .chat-divider { display: flex; align-items: center; gap: 12px; margin-bottom: 20px; }
+    .chat-divider-line { flex: 1; height: 1px; background: rgba(0,0,0,0.06); }
+    .chat-divider-label { font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 500; color: #D70030; letter-spacing: 0.04em; display: flex; align-items: center; gap: 6px; }
+    .chat-divider-dot { width: 6px; height: 6px; border-radius: 50%; background: #30D158; }
+    .chat-container { background: #FFF; border-radius: 20px; border: 1px solid rgba(0,0,0,0.04); overflow: hidden; }
+    .chat-messages { padding: 20px; display: flex; flex-direction: column; gap: 14px; max-height: 400px; overflow-y: auto; }
+    .msg { display: flex; gap: 10px; max-width: 88%; opacity: 0; animation: msgSlide 0.4s cubic-bezier(0.25,0.1,0.25,1) forwards; }
+    .msg:nth-child(1) { animation-delay: 0.2s; }
+    .msg:nth-child(2) { animation-delay: 0.6s; }
+    @keyframes msgSlide { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    .msg-user { align-self: flex-end; flex-direction: row-reverse; gap: 0; }
+    .msg-avatar { width: 28px; height: 28px; border-radius: 50%; border: 1px solid rgba(215,0,48,0.12); display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 2px; background: #FFF; }
+    .msg-avatar span { font-family: 'Zen Dots', cursive; font-size: 6px; color: #D70030; }
+    .bubble { border-radius: 18px; padding: 12px 16px; }
+    .bubble-agent { background: #FAFAFA; border: 0.5px solid rgba(0,0,0,0.04); border-top-left-radius: 6px; }
+    .bubble-user { background: #1D1D1F; color: #F5F5F7; border-bottom-right-radius: 6px; }
+    .bubble p { font-family: 'Satoshi', sans-serif; font-size: 14px; line-height: 1.5; }
+    .bubble-meta { font-family: 'Inter', sans-serif; font-size: 10px; color: #AEAEB2; margin-top: 4px; }
+    .quick-actions { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 8px; }
+    .quick-btn { font-family: 'Inter', sans-serif; padding: 6px 14px; border-radius: 10px; background: rgba(0,0,0,0.02); border: 0.5px solid rgba(0,0,0,0.08); font-size: 12px; color: #1D1D1F; cursor: pointer; transition: all 0.15s; }
+    .quick-btn:hover { background: #1D1D1F; color: #F5F5F7; border-color: #1D1D1F; }
+    .typing { display: none; align-items: center; gap: 8px; padding: 4px 0; }
+    .typing-dots { display: flex; gap: 3px; }
+    .typing-dot { width: 5px; height: 5px; border-radius: 50%; background: #D2D2D7; animation: typingBounce 1.4s ease infinite; }
+    .typing-dot:nth-child(2) { animation-delay: 0.2s; }
+    .typing-dot:nth-child(3) { animation-delay: 0.4s; }
+    @keyframes typingBounce { 0%,60%,100% { transform: translateY(0); } 30% { transform: translateY(-3px); } }
+    .typing-text { font-family: 'Inter', sans-serif; font-size: 10px; color: #AEAEB2; }
+    .chat-input-area { padding: 12px 16px; border-top: 0.5px solid rgba(0,0,0,0.04); display: flex; gap: 8px; align-items: flex-end; }
+    .chat-input { font-family: 'Satoshi', sans-serif; flex: 1; padding: 12px 18px; border-radius: 22px; border: 0.5px solid rgba(0,0,0,0.08); background: #FAFAFA; font-size: 14px; color: #1D1D1F; outline: none; min-height: 44px; max-height: 100px; resize: none; transition: border-color 0.15s; }
+    .chat-input:focus { border-color: rgba(215,0,48,0.2); background: #FFF; }
+    .chat-input::placeholder { color: #AEAEB2; }
+    .send-btn { width: 44px; height: 44px; border-radius: 50%; background: #1D1D1F; color: #F5F5F7; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.15s; flex-shrink: 0; }
+    .send-btn:hover { background: #000; }
+    .send-btn:active { transform: scale(0.93); }
+    .send-btn svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
   </style>
 </head>
 <body>
@@ -235,6 +274,68 @@
     </div>
 
   </main>
+
+  <!-- ═══ CHAT CONSELHO ═══ -->
+  <section class="chat-section">
+    <div class="chat-divider">
+      <div class="chat-divider-line"></div>
+      <div class="chat-divider-label"><div class="chat-divider-dot"></div> Conselho · Online</div>
+      <div class="chat-divider-line"></div>
+    </div>
+    <div class="chat-container">
+      <div class="chat-messages" id="chat">
+        <div class="msg">
+          <div class="msg-avatar"><span>W</span></div>
+          <div>
+            <div class="bubble bubble-agent">
+              <p>Os 5 insights desta semana tem um tema em comum: <strong>voce esta crescendo mais rapido do que sua estrutura suporta</strong>. SDR gera mais do que o Closer fecha, CMO faz trabalho do SDR, onboarding nao escala. Isso e bom — significa que o negocio puxa. Mas precisa ajustar antes que vire gargalo.</p>
+              <div class="quick-actions-chat">
+                <button class="quick-btn" onclick="sendSuggestion(this)">Qual insight e mais urgente?</button>
+                <button class="quick-btn" onclick="sendSuggestion(this)">Falar com Musk sobre escala</button>
+                <button class="quick-btn" onclick="sendSuggestion(this)">Plano de acao completo</button>
+                <button class="quick-btn" onclick="sendSuggestion(this)">Historico de insights</button>
+              </div>
+            </div>
+            <p class="bubble-meta">Buffett · Conselheiro Financeiro · agora</p>
+          </div>
+        </div>
+        <div class="typing" id="typing">
+          <div class="msg-avatar"><span>W</span></div>
+          <div class="typing-dots"><div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div></div>
+          <span class="typing-text">Conselho esta analisando...</span>
+        </div>
+      </div>
+      <div class="chat-input-area">
+        <textarea class="chat-input" id="chatInput" placeholder="Converse com o Conselho..." rows="1" onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();sendMessage()}" oninput="this.style.height='auto';this.style.height=Math.min(this.scrollHeight,100)+'px'"></textarea>
+        <button class="send-btn" onclick="sendMessage()">
+          <svg viewBox="0 0 24 24"><path d="M22 2L11 13"/><path d="M22 2L15 22L11 13L2 9L22 2Z"/></svg>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <script>
+    function addAgentMessage(text) {
+      const chat = document.getElementById('chat'), typing = document.getElementById('typing');
+      typing.style.display = 'flex'; chat.scrollTop = chat.scrollHeight;
+      setTimeout(() => {
+        typing.style.display = 'none';
+        const msg = document.createElement('div'); msg.className = 'msg'; msg.style.animation = 'msgSlide 0.4s ease forwards';
+        msg.innerHTML = '<div class="msg-avatar"><span>W</span></div><div><div class="bubble bubble-agent"><p>' + text + '</p></div><p class="bubble-meta">Conselho · ' + new Date().toLocaleTimeString('pt-BR', {hour:'2-digit', minute:'2-digit'}) + '</p></div>';
+        chat.insertBefore(msg, typing); chat.scrollTop = chat.scrollHeight;
+      }, 1200);
+    }
+    function sendMessage() {
+      const input = document.getElementById('chatInput'), text = input.value.trim(); if (!text) return;
+      const chat = document.getElementById('chat'), typing = document.getElementById('typing');
+      const userMsg = document.createElement('div'); userMsg.className = 'msg msg-user'; userMsg.style.animation = 'msgSlide 0.3s ease forwards';
+      userMsg.innerHTML = '<div><div class="bubble bubble-user"><p>' + text + '</p></div><p class="bubble-meta" style="text-align:right;">' + new Date().toLocaleTimeString('pt-BR', {hour:'2-digit', minute:'2-digit'}) + '</p></div>';
+      chat.insertBefore(userMsg, typing); input.value = ''; input.style.height = 'auto';
+      addAgentMessage('Analisando com o conselho... Um momento.');
+      chat.scrollTop = chat.scrollHeight;
+    }
+    function sendSuggestion(btn) { document.getElementById('chatInput').value = btn.textContent; sendMessage(); }
+  </script>
 <script src="../../shared-nav.js?v=1774805559"></script>
 </body>
 </html>
