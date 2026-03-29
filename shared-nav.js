@@ -162,6 +162,7 @@
               <input type="text" maxlength="1" class="kt-pf-code" data-idx="4" inputmode="numeric" autocomplete="off">
               <input type="text" maxlength="1" class="kt-pf-code" data-idx="5" inputmode="numeric" autocomplete="off">
             </div>
+            <button class="kt-pf-confirm" onclick="window.location.href=t('dashboard/home-pf.html')" style="width:100%;margin-top:10px;padding:10px;border-radius:10px;background:#D70030;color:#FFF;border:none;font-family:'Inter',sans-serif;font-size:13px;font-weight:500;cursor:pointer;min-height:40px;">Entrar no ambiente PF</button>
           </div>
           <div class="kt-profile-sep"></div>
           <button class="kt-profile-item kt-profile-logout" onclick="alert('Saindo...')">
