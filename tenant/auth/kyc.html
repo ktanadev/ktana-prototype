@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Verificacao de Identidade — KTANA</title>
+  <link rel="stylesheet" href="../../shared.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Zen+Dots&display=swap" rel="stylesheet">
+  <style>
+    body { min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 40px 24px; background: #F5F5F7; }
+    .container { width: 100%; max-width: 420px; text-align: center; }
+    h1 { font-family: 'Satoshi', sans-serif; font-size: 20px; font-weight: 600; color: #1D1D1F; margin-bottom: 8px; }
+    .desc { font-family: 'Satoshi', sans-serif; font-size: 14px; color: #86868B; line-height: 1.6; margin-bottom: 32px; }
+
+    .steps { display: flex; gap: 8px; justify-content: center; margin-bottom: 32px; }
+    .step-indicator { display: flex; align-items: center; gap: 6px; font-family: 'Inter', sans-serif; font-size: 11px; color: #AEAEB2; }
+    .step-indicator.active { color: #1D1D1F; }
+    .step-indicator.done { color: #30D158; }
+    .step-dot { width: 24px; height: 24px; border-radius: 50%; border: 1.5px solid #D2D2D7; display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 600; }
+    .step-indicator.active .step-dot { border-color: #D70030; color: #D70030; }
+    .step-indicator.done .step-dot { border-color: #30D158; background: #30D158; color: #FFF; }
+    .step-line { width: 24px; height: 1px; background: #D2D2D7; }
+
+    /* Camera area */
+    .camera { width: 280px; height: 200px; margin: 0 auto 24px; border-radius: 20px; background: #E8E8ED; display: flex; flex-direction: column; align-items: center; justify-content: center; position: relative; overflow: hidden; }
+    .camera-frame { width: 200px; height: 140px; border: 2px dashed #D2D2D7; border-radius: 12px; display: flex; align-items: center; justify-content: center; }
+    .camera-label { font-family: 'Satoshi', sans-serif; font-size: 12px; color: #86868B; margin-top: 12px; }
+    .camera-icon { font-size: 32px; color: #AEAEB2; }
+
+    /* Document type selector */
+    .doc-types { display: flex; gap: 8px; justify-content: center; margin-bottom: 24px; }
+    .doc-type { font-family: 'Inter', sans-serif; padding: 8px 18px; border-radius: 980px; font-size: 12px; color: #86868B; border: 0.5px solid rgba(0,0,0,0.08); background: none; cursor: pointer; transition: all 0.15s; }
+    .doc-type.active { background: #1D1D1F; color: #F5F5F7; border-color: #1D1D1F; }
+
+    .btn-capture { font-family: 'Inter', sans-serif; padding: 14px 40px; border-radius: 14px; background: #1D1D1F; color: #F5F5F7; font-size: 15px; font-weight: 500; border: none; cursor: pointer; }
+    .btn-skip { font-family: 'Inter', sans-serif; font-size: 12px; color: #86868B; margin-top: 16px; display: block; cursor: pointer; background: none; border: none; }
+
+    /* States */
+    .state { display: none; }
+    .state.active { display: block; }
+
+    /* Success state */
+    .success-icon { width: 64px; height: 64px; border-radius: 50%; background: rgba(48,209,88,0.1); display: flex; align-items: center; justify-content: center; margin: 0 auto 20px; }
+    .success-icon svg { width: 28px; height: 28px; stroke: #30D158; fill: none; stroke-width: 2; }
+    .checks { text-align: left; max-width: 280px; margin: 0 auto 32px; }
+    .check-item { display: flex; align-items: center; gap: 10px; padding: 8px 0; font-family: 'Satoshi', sans-serif; font-size: 13px; color: #1D1D1F; }
+    .check-dot { width: 18px; height: 18px; border-radius: 50%; background: #30D158; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .check-dot::after { content: ''; width: 4px; height: 8px; border: solid #FFF; border-width: 0 1.5px 1.5px 0; transform: rotate(45deg) translate(-0.5px,-0.5px); }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- State 1: Document -->
+    <div class="state active" id="state-doc">
+      <div class="steps fade-in">
+        <div class="step-indicator active"><div class="step-dot">1</div><span>Documento</span></div>
+        <div class="step-line"></div>
+        <div class="step-indicator"><div class="step-dot">2</div><span>Selfie</span></div>
+        <div class="step-line"></div>
+        <div class="step-indicator"><div class="step-dot">3</div><span>Pronto</span></div>
+      </div>
+
+      <h1 class="fade-in">Verificacao de identidade</h1>
+      <p class="desc fade-in">Para proteger seus dados, precisamos verificar sua identidade.</p>
+
+      <div class="doc-types fade-in">
+        <button class="doc-type active" onclick="this.parentElement.querySelectorAll('.doc-type').forEach(d=>d.classList.remove('active'));this.classList.add('active')">CNH</button>
+        <button class="doc-type" onclick="this.parentElement.querySelectorAll('.doc-type').forEach(d=>d.classList.remove('active'));this.classList.add('active')">RG</button>
+        <button class="doc-type" onclick="this.parentElement.querySelectorAll('.doc-type').forEach(d=>d.classList.remove('active'));this.classList.add('active')">Passaporte</button>
+      </div>
+
+      <div class="camera fade-in">
+        <div class="camera-frame"><span class="camera-icon">&#x1F4F7;</span></div>
+        <p class="camera-label">Posicione o documento na moldura</p>
+      </div>
+
+      <button class="btn-capture fade-in" onclick="document.getElementById('state-doc').classList.remove('active');document.getElementById('state-selfie').classList.add('active');">Capturar documento</button>
+    </div>
+
+    <!-- State 2: Selfie -->
+    <div class="state" id="state-selfie">
+      <div class="steps fade-in">
+        <div class="step-indicator done"><div class="step-dot">&#10003;</div><span>Documento</span></div>
+        <div class="step-line"></div>
+        <div class="step-indicator active"><div class="step-dot">2</div><span>Selfie</span></div>
+        <div class="step-line"></div>
+        <div class="step-indicator"><div class="step-dot">3</div><span>Pronto</span></div>
+      </div>
+
+      <h1 class="fade-in">Agora uma selfie</h1>
+      <p class="desc fade-in">Olhe para a camera e pisque quando pedirmos.</p>
+
+      <div class="camera fade-in" style="border-radius: 50%; width: 200px; height: 200px;">
+        <div class="camera-frame" style="border-radius: 50%; width: 160px; height: 160px;"><span class="camera-icon">&#x1F9D1;</span></div>
+      </div>
+
+      <button class="btn-capture fade-in" onclick="document.getElementById('state-selfie').classList.remove('active');document.getElementById('state-done').classList.add('active');">Capturar selfie</button>
+    </div>
+
+    <!-- State 3: Done -->
+    <div class="state" id="state-done">
+      <div class="steps fade-in">
+        <div class="step-indicator done"><div class="step-dot">&#10003;</div><span>Documento</span></div>
+        <div class="step-line"></div>
+        <div class="step-indicator done"><div class="step-dot">&#10003;</div><span>Selfie</span></div>
+        <div class="step-line"></div>
+        <div class="step-indicator done"><div class="step-dot">&#10003;</div><span>Pronto</span></div>
+      </div>
+
+      <div class="success-icon fade-in"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg></div>
+      <h1 class="fade-in">Identidade verificada</h1>
+      <p class="desc fade-in">Sua conta esta protegida.</p>
+
+      <div class="checks fade-in">
+        <div class="check-item"><div class="check-dot"></div> Documento verificado</div>
+        <div class="check-item"><div class="check-dot"></div> Face match confirmado</div>
+        <div class="check-item"><div class="check-dot"></div> Liveness detectado</div>
+      </div>
+
+      <button class="btn-capture fade-in" onclick="location.href='../onboarding/plans.html'">Continuar</button>
+    </div>
+  </div>
+</body>
+</html>

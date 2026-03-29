@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Escolher cargo — KTANA</title>
+  <link rel="stylesheet" href="../../shared.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Zen+Dots&display=swap" rel="stylesheet">
+  <style>
+    body { min-height: 100vh; background: #F5F5F7; padding: 48px 24px; }
+    .container { max-width: 640px; margin: 0 auto; }
+    .back { position: fixed; top: 20px; left: 24px; font-family: 'Inter', sans-serif; font-size: 12px; color: #86868B; }
+    h1 { font-family: 'Zen Dots', cursive; font-size: 24px; color: #1D1D1F; text-align: center; margin-bottom: 6px; }
+    .sub { font-family: 'Satoshi', sans-serif; font-size: 14px; color: #86868B; text-align: center; margin-bottom: 16px; }
+
+    .dept-select { display: flex; gap: 6px; justify-content: center; margin-bottom: 32px; flex-wrap: wrap; }
+    .dept-btn { font-family: 'Inter', sans-serif; padding: 6px 16px; border-radius: 980px; font-size: 12px; color: #86868B; border: 0.5px solid rgba(0,0,0,0.08); background: none; cursor: pointer; transition: all 0.15s; }
+    .dept-btn.active { background: #1D1D1F; color: #F5F5F7; border-color: #1D1D1F; }
+
+    .roles-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+    .role-card { background: #FFF; border-radius: 16px; border: 1px solid rgba(0,0,0,0.04); padding: 20px; text-align: center; cursor: pointer; transition: box-shadow 0.2s, transform 0.15s; }
+    .role-card:hover { box-shadow: 0 4px 16px rgba(0,0,0,0.04); transform: translateY(-1px); }
+    .role-icon { width: 40px; height: 40px; border-radius: 12px; background: rgba(0,0,0,0.02); display: flex; align-items: center; justify-content: center; margin: 0 auto 12px; font-family: 'Inter', sans-serif; font-size: 14px; color: #86868B; }
+    .role-name { font-family: 'Satoshi', sans-serif; font-size: 14px; font-weight: 500; color: #1D1D1F; margin-bottom: 4px; }
+    .role-desc { font-family: 'Satoshi', sans-serif; font-size: 11px; color: #86868B; line-height: 1.4; }
+
+    .custom { background: #FFF; border: 1px dashed #D2D2D7; border-radius: 16px; padding: 20px; text-align: center; cursor: pointer; margin-top: 10px; transition: border-color 0.15s; }
+    .custom:hover { border-color: #D70030; }
+    .custom p { font-family: 'Inter', sans-serif; font-size: 13px; color: #86868B; }
+    .custom span { color: #D70030; }
+
+    @media (max-width: 640px) { .roles-grid { grid-template-columns: repeat(2, 1fr); } }
+  </style>
+</head>
+<body>
+  <a href="hire-level.html" class="back">← Nivel</a>
+  <div class="container">
+    <h1 class="fade-in">Escolha o cargo.</h1>
+    <p class="sub fade-in">Colaborador · Departamento:</p>
+
+    <div class="dept-select fade-in">
+      <button class="dept-btn active" onclick="this.parentElement.querySelectorAll('.dept-btn').forEach(d=>d.classList.remove('active'));this.classList.add('active')">Financeiro</button>
+      <button class="dept-btn" onclick="this.parentElement.querySelectorAll('.dept-btn').forEach(d=>d.classList.remove('active'));this.classList.add('active')">Administrativo</button>
+      <button class="dept-btn" onclick="this.parentElement.querySelectorAll('.dept-btn').forEach(d=>d.classList.remove('active'));this.classList.add('active')">Comercial</button>
+      <button class="dept-btn" onclick="this.parentElement.querySelectorAll('.dept-btn').forEach(d=>d.classList.remove('active'));this.classList.add('active')">Projetos</button>
+      <button class="dept-btn" onclick="this.parentElement.querySelectorAll('.dept-btn').forEach(d=>d.classList.remove('active'));this.classList.add('active')">Marketing</button>
+      <button class="dept-btn" onclick="this.parentElement.querySelectorAll('.dept-btn').forEach(d=>d.classList.remove('active'));this.classList.add('active')">RH</button>
+    </div>
+
+    <div class="roles-grid fade-in" style="animation-delay:0.1s">
+      <div class="role-card" onclick="location.href='../onboarding/agent-config.html'">
+        <div class="role-icon">C</div>
+        <p class="role-name">Controller</p>
+        <p class="role-desc">Cobrancas, contas a pagar/receber, relatorios, conciliacao</p>
+      </div>
+      <div class="role-card" onclick="location.href='../onboarding/agent-config.html'">
+        <div class="role-icon">F</div>
+        <p class="role-name">Analista Fiscal</p>
+        <p class="role-desc">NF, certidoes, impostos, obrigacoes acessorias</p>
+      </div>
+      <div class="role-card" onclick="location.href='../onboarding/agent-config.html'">
+        <div class="role-icon">T</div>
+        <p class="role-name">Tesoureiro</p>
+        <p class="role-desc">Fluxo de caixa, aplicacoes, conciliacao bancaria</p>
+      </div>
+      <div class="role-card" onclick="location.href='../onboarding/agent-config.html'">
+        <div class="role-icon">A</div>
+        <p class="role-name">Analista Cobranca</p>
+        <p class="role-desc">Regua de cobranca, inadimplencia, negociacao</p>
+      </div>
+    </div>
+
+    <div class="custom fade-in" style="animation-delay:0.15s" onclick="location.href='../onboarding/agent-config.html'">
+      <p><span>+</span> Cargo personalizado</p>
+    </div>
+  </div>
+</body>
+</html>

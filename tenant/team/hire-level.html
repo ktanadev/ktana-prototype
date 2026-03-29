@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contratar — KTANA</title>
+  <link rel="stylesheet" href="../../shared.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Zen+Dots&display=swap" rel="stylesheet">
+  <style>
+    body { min-height: 100vh; background: #F5F5F7; padding: 48px 24px; }
+    .container { max-width: 540px; margin: 0 auto; }
+    .back { position: fixed; top: 20px; left: 24px; font-family: 'Inter', sans-serif; font-size: 12px; color: #86868B; }
+    h1 { font-family: 'Zen Dots', cursive; font-size: 24px; color: #1D1D1F; text-align: center; margin-bottom: 6px; }
+    .sub { font-family: 'Satoshi', sans-serif; font-size: 14px; color: #86868B; text-align: center; margin-bottom: 40px; }
+
+    .option { background: #FFF; border-radius: 20px; border: 1px solid rgba(0,0,0,0.04); padding: 24px; margin-bottom: 12px; cursor: pointer; transition: box-shadow 0.2s, transform 0.15s; }
+    .option:hover { box-shadow: 0 4px 20px rgba(0,0,0,0.04); transform: translateY(-1px); }
+    .option h3 { font-family: 'Satoshi', sans-serif; font-size: 16px; font-weight: 600; color: #1D1D1F; margin-bottom: 4px; }
+    .option p { font-family: 'Satoshi', sans-serif; font-size: 13px; color: #86868B; line-height: 1.5; }
+    .option-tag { font-family: 'Inter', sans-serif; display: inline-flex; padding: 2px 8px; border-radius: 4px; font-size: 9px; font-weight: 500; margin-top: 8px; }
+    .tag-opus { background: rgba(215,0,48,0.06); color: #D70030; }
+    .tag-sonnet { background: rgba(0,0,0,0.03); color: #86868B; }
+    .tag-haiku { background: rgba(0,0,0,0.02); color: #AEAEB2; }
+  </style>
+</head>
+<body>
+  <a href="list.html" class="back">← Equipe</a>
+  <div class="container">
+    <h1 class="fade-in">Contratar.</h1>
+    <p class="sub fade-in">Qual nivel de samurai voce precisa?</p>
+
+    <div class="option fade-in" style="animation-delay:0.1s" onclick="location.href='hire-role.html'">
+      <h3>C-Level</h3>
+      <p>Estrategico. CFO, COO, CMO, CTO. Supervisiona departamento inteiro. Toma decisoes de alto nivel.</p>
+      <span class="option-tag tag-opus">Modelo: Opus</span>
+    </div>
+
+    <div class="option fade-in" style="animation-delay:0.15s" onclick="location.href='hire-role.html'">
+      <h3>Lider</h3>
+      <p>Tatico. Gerente, coordenador, supervisor. Gerencia equipe dentro do departamento. Revisa qualidade.</p>
+      <span class="option-tag tag-sonnet">Modelo: Sonnet</span>
+    </div>
+
+    <div class="option fade-in" style="animation-delay:0.2s" onclick="location.href='hire-role.html'">
+      <h3>Colaborador</h3>
+      <p>Operacional. Controller, secretaria, SDR, analista. Executa as tarefas do dia-a-dia do cargo.</p>
+      <span class="option-tag tag-sonnet">Modelo: Sonnet/Haiku</span>
+    </div>
+  </div>
+</body>
+</html>

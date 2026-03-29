@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Verificar email — KTANA</title>
+  <link rel="stylesheet" href="../../shared.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Zen+Dots&display=swap" rel="stylesheet">
+  <style>
+    body { min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 40px 24px; background: #F5F5F7; }
+    .container { width: 100%; max-width: 380px; text-align: center; }
+    .icon { width: 56px; height: 56px; border-radius: 16px; background: rgba(215,0,48,0.06); display: flex; align-items: center; justify-content: center; margin: 0 auto 24px; }
+    .icon svg { width: 24px; height: 24px; stroke: #D70030; fill: none; stroke-width: 1.5; }
+    h1 { font-family: 'Satoshi', sans-serif; font-size: 20px; font-weight: 600; color: #1D1D1F; margin-bottom: 8px; }
+    .desc { font-family: 'Satoshi', sans-serif; font-size: 14px; color: #86868B; line-height: 1.6; margin-bottom: 32px; }
+    .email-highlight { font-family: 'Inter', sans-serif; font-weight: 500; color: #1D1D1F; }
+    .btn-resend { font-family: 'Inter', sans-serif; padding: 14px 32px; border-radius: 14px; background: #1D1D1F; color: #F5F5F7; font-size: 14px; font-weight: 500; border: none; cursor: pointer; width: 100%; }
+    .link { font-family: 'Inter', sans-serif; font-size: 12px; color: #86868B; margin-top: 16px; display: block; }
+    .link a { color: #D70030; font-weight: 500; }
+    .back { position: fixed; top: 20px; left: 24px; font-family: 'Inter', sans-serif; font-size: 12px; color: #86868B; }
+  </style>
+</head>
+<body>
+  <a href="signup.html" class="back">← Voltar</a>
+  <div class="container fade-in">
+    <div class="icon"><svg viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M22 7l-10 7L2 7"/></svg></div>
+    <h1>Verifique seu email</h1>
+    <p class="desc">Enviamos um link de verificacao para<br><span class="email-highlight">contato@ktana.ai</span></p>
+    <button class="btn-resend" onclick="this.textContent='Link reenviado'; this.style.opacity='0.5';">Reenviar link</button>
+    <p class="link">Nao recebeu? Verifique o spam ou <a href="signup.html">tente outro email</a></p>
+  </div>
+</body>
+</html>
