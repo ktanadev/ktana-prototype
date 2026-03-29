@@ -3,154 +3,499 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Conectar ferramentas — KTANA</title>
+  <title>Conexoes e Fontes — KTANA</title>
   <link rel="stylesheet" href="../shared.css">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Zen+Dots&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Zen+Dots&family=Satoshi:wght@400;500;700&display=swap" rel="stylesheet">
   <style>
-    body { min-height: 100vh; background: #F5F5F7; padding: 48px 24px; }
-    .container { max-width: 540px; margin: 0 auto; }
-    .back { position: fixed; top: 20px; left: 24px; font-family: 'Inter', sans-serif; font-size: 12px; color: #86868B; z-index: 20; }
+    body { min-height: 100vh; background: #F5F5F7; padding: 40px 24px 100px; }
+    .container { max-width: 680px; margin: 0 auto; }
 
-    .progress { display: flex; justify-content: center; gap: 6px; margin-bottom: 40px; }
-    .dot { width: 6px; height: 6px; border-radius: 50%; background: #D2D2D7; }
-    .dot.done { background: #86868B; }
-    .dot.active { background: #D70030; width: 20px; border-radius: 3px; }
+    /* Header */
+    h1 { font-family: 'Zen Dots', cursive; font-size: 32px; color: #1D1D1F; margin-bottom: 10px; text-align: center; }
+    .sub { font-family: 'Satoshi', sans-serif; font-size: 15px; color: #86868B; text-align: center; margin-bottom: 44px; line-height: 1.6; max-width: 480px; margin-left: auto; margin-right: auto; }
 
-    h1 { font-family: 'Zen Dots', cursive; font-size: 28px; color: #1D1D1F; margin-bottom: 8px; text-align: center; }
-    .sub { font-family: 'Satoshi', sans-serif; font-size: 15px; color: #86868B; text-align: center; margin-bottom: 40px; line-height: 1.5; }
+    /* Stats bar */
+    .stats-bar { display: flex; justify-content: center; gap: 32px; margin-bottom: 44px; padding: 16px 0; border-top: 0.5px solid rgba(0,0,0,0.06); border-bottom: 0.5px solid rgba(0,0,0,0.06); }
+    .stat { text-align: center; }
+    .stat-number { font-family: 'Zen Dots', cursive; font-size: 24px; color: #1D1D1F; }
+    .stat-label { font-family: 'Inter', sans-serif; font-size: 11px; color: #86868B; margin-top: 2px; }
 
-    .tools { display: flex; flex-direction: column; gap: 10px; }
-    .tool { background: #FFF; border: 1px solid rgba(0,0,0,0.04); border-radius: 16px; padding: 18px 20px; display: flex; align-items: center; gap: 14px; transition: box-shadow 0.2s; }
-    .tool:hover { box-shadow: 0 2px 12px rgba(0,0,0,0.04); }
-    .tool-icon { width: 44px; height: 44px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-family: 'Inter', sans-serif; font-size: 15px; font-weight: 700; flex-shrink: 0; }
-    .tool-calendar { background: #DBEAFE; color: #2563EB; }
-    .tool-whatsapp { background: #DCFCE7; color: #16A34A; }
-    .tool-health { background: #FCE7F3; color: #DB2777; }
-    .tool-todoist { background: #FEE2E2; color: #DC2626; }
-    .tool-bank { background: #F0F0F0; color: #86868B; }
-    .tool-info { flex: 1; }
-    .tool-name { font-family: 'Satoshi', sans-serif; font-size: 14px; font-weight: 500; color: #1D1D1F; }
-    .tool-desc { font-family: 'Satoshi', sans-serif; font-size: 12px; color: #86868B; margin-top: 2px; line-height: 1.4; }
-    .tool-action { font-family: 'Inter', sans-serif; }
+    /* Category section */
+    .category { margin-bottom: 32px; }
+    .category-label { font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: #D70030; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
+    .category-label svg { width: 14px; height: 14px; flex-shrink: 0; }
 
-    .btn-connect { padding: 10px 18px; border-radius: 980px; background: #1D1D1F; color: #F5F5F7; font-size: 12px; font-weight: 500; border: none; cursor: pointer; transition: background 0.15s; min-height: 44px; }
-    .btn-connect:hover { background: #000; }
-    .btn-connected { padding: 10px 18px; border-radius: 980px; background: rgba(0,0,0,0.03); color: #86868B; font-size: 12px; font-weight: 500; border: none; display: flex; align-items: center; gap: 6px; min-height: 44px; }
-    .btn-connected::before { content: ''; width: 5px; height: 5px; border-radius: 50%; background: #30D158; }
+    /* Connector cards */
+    .connectors { display: flex; flex-direction: column; gap: 8px; }
+    .connector { background: #FFF; border: 1px solid rgba(0,0,0,0.04); border-radius: 20px; padding: 18px 20px; display: flex; align-items: center; gap: 14px; transition: box-shadow 0.2s; }
+    .connector:hover { box-shadow: 0 2px 16px rgba(0,0,0,0.04); }
 
-    .section-label { font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: #D70030; margin-bottom: 12px; margin-top: 32px; }
+    /* Icon */
+    .c-icon { width: 44px; height: 44px; border-radius: 12px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
 
-    .note { font-family: 'Satoshi', sans-serif; font-size: 12px; color: #AEAEB2; text-align: center; margin-top: 24px; line-height: 1.6; }
+    /* Info */
+    .c-info { flex: 1; min-width: 0; }
+    .c-name { font-family: 'Satoshi', sans-serif; font-size: 14px; font-weight: 500; color: #1D1D1F; }
+    .c-desc { font-family: 'Satoshi', sans-serif; font-size: 12px; color: #86868B; margin-top: 2px; line-height: 1.4; }
 
-    .actions { display: flex; gap: 12px; justify-content: center; margin-top: 40px; }
-    .btn-next { font-family: 'Inter', sans-serif; padding: 16px 36px; border-radius: 16px; background: #1D1D1F; color: #F5F5F7; font-size: 15px; font-weight: 500; border: none; cursor: pointer; min-height: 64px; transition: opacity 0.15s; }
-    .btn-next:hover { opacity: 0.9; }
-    .btn-skip { font-family: 'Inter', sans-serif; padding: 16px 24px; border-radius: 16px; background: transparent; color: #86868B; font-size: 14px; border: 1px solid rgba(0,0,0,0.08); cursor: pointer; min-height: 64px; transition: background 0.15s; }
-    .btn-skip:hover { background: rgba(0,0,0,0.02); }
+    /* Status buttons */
+    .c-action { flex-shrink: 0; }
+    .btn-status { font-family: 'Inter', sans-serif; padding: 8px 18px; border-radius: 980px; font-size: 12px; font-weight: 500; border: none; cursor: pointer; min-height: 44px; display: inline-flex; align-items: center; gap: 6px; transition: all 0.15s; }
+    .btn-conectar { background: #1D1D1F; color: #F5F5F7; }
+    .btn-conectar:hover { background: #000; }
+    .btn-conectado { background: rgba(48,209,88,0.08); color: #248A3D; cursor: default; }
+    .btn-conectado::before { content: ''; width: 5px; height: 5px; border-radius: 50%; background: #30D158; }
+    .btn-ativo { background: rgba(215,0,48,0.06); color: #D70030; cursor: default; }
+    .btn-ativo::before { content: ''; width: 5px; height: 5px; border-radius: 50%; background: #D70030; }
+
+    /* Icon colors */
+    .ic-whatsapp { background: #DCFCE7; }
+    .ic-telegram { background: #DBEAFE; }
+    .ic-email { background: #E0E7FF; }
+    .ic-elevenlabs { background: #F3E8FF; }
+    .ic-phone { background: #FEF3C7; }
+    .ic-apple-health { background: #FCE7F3; }
+    .ic-google-fit { background: #DCFCE7; }
+    .ic-fitbit { background: #E0F2FE; }
+    .ic-garmin { background: #F0F0F0; }
+    .ic-instagram { background: linear-gradient(135deg, #FCE7F3, #FEF3C7); }
+    .ic-linkedin { background: #DBEAFE; }
+    .ic-twitter { background: #F0F0F0; }
+    .ic-youtube { background: #FEE2E2; }
+    .ic-tiktok { background: #F0F0F0; }
+    .ic-openbanking { background: #E0F2FE; }
+    .ic-nubank { background: #F3E8FF; }
+    .ic-sheets { background: #DCFCE7; }
+    .ic-calendar { background: #DBEAFE; }
+    .ic-todoist { background: #FEE2E2; }
+    .ic-spotify { background: #DCFCE7; }
+    .ic-claude { background: rgba(215,0,48,0.06); }
+    .ic-groq { background: #FEF3C7; }
+    .ic-gemini { background: #DBEAFE; }
+
+    /* Privacy note */
+    .privacy { background: #FFF; border: 1px solid rgba(0,0,0,0.04); border-radius: 20px; padding: 20px 24px; margin-top: 40px; display: flex; align-items: flex-start; gap: 14px; }
+    .privacy-icon { width: 36px; height: 36px; border-radius: 10px; background: rgba(48,209,88,0.08); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .privacy-text { font-family: 'Satoshi', sans-serif; font-size: 13px; color: #86868B; line-height: 1.6; }
 
     /* Staggered animations */
-    .stagger-1 { animation: fadeUp 0.5s cubic-bezier(0.25,0.1,0.25,1) 0.05s both; }
-    .stagger-2 { animation: fadeUp 0.5s cubic-bezier(0.25,0.1,0.25,1) 0.10s both; }
-    .stagger-3 { animation: fadeUp 0.5s cubic-bezier(0.25,0.1,0.25,1) 0.15s both; }
-    .stagger-4 { animation: fadeUp 0.5s cubic-bezier(0.25,0.1,0.25,1) 0.20s both; }
-    .stagger-5 { animation: fadeUp 0.5s cubic-bezier(0.25,0.1,0.25,1) 0.25s both; }
-    .stagger-6 { animation: fadeUp 0.5s cubic-bezier(0.25,0.1,0.25,1) 0.30s both; }
-    .stagger-7 { animation: fadeUp 0.5s cubic-bezier(0.25,0.1,0.25,1) 0.35s both; }
-    .stagger-8 { animation: fadeUp 0.5s cubic-bezier(0.25,0.1,0.25,1) 0.40s both; }
+    .stagger { opacity: 0; animation: fadeUp 0.5s cubic-bezier(0.25,0.1,0.25,1) forwards; }
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+    .d1 { animation-delay: 0.05s; } .d2 { animation-delay: 0.10s; } .d3 { animation-delay: 0.15s; }
+    .d4 { animation-delay: 0.20s; } .d5 { animation-delay: 0.25s; } .d6 { animation-delay: 0.30s; }
+    .d7 { animation-delay: 0.35s; } .d8 { animation-delay: 0.40s; } .d9 { animation-delay: 0.45s; }
+
+    @media (max-width: 480px) {
+      h1 { font-size: 26px; }
+      .stats-bar { gap: 20px; }
+      .connector { padding: 14px 16px; gap: 10px; }
+      .c-desc { display: none; }
+    }
   </style>
 </head>
 <body>
-  <a href="specialist-config.html" class="back">← Especialistas</a>
 
   <div class="container">
-    <div class="progress stagger-1">
-      <div class="dot done"></div>
-      <div class="dot done"></div>
-      <div class="dot done"></div>
-      <div class="dot active"></div>
-      <div class="dot"></div>
-    </div>
+    <h1 class="stagger d1">Conexoes e Fontes</h1>
+    <p class="sub stagger d2">Quanto mais fontes conectadas, mais seus mentores entendem voce.</p>
 
-    <h1 class="stagger-2">Conecte sua vida.</h1>
-    <p class="sub stagger-2">Seus mentores precisam de acesso para realmente ajudar. Conecte pelo menos calendario e WhatsApp.</p>
-
-    <p class="section-label stagger-3">Essenciais</p>
-    <div class="tools">
-      <div class="tool stagger-3">
-        <div class="tool-icon tool-calendar">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#2563EB" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
-        </div>
-        <div class="tool-info">
-          <p class="tool-name">Google Calendar</p>
-          <p class="tool-desc">Ver sua agenda, sugerir blocos de foco, lembrar compromissos</p>
-        </div>
-        <div class="tool-action">
-          <button class="btn-connected">Conectado</button>
-        </div>
+    <!-- Stats -->
+    <div class="stats-bar stagger d2">
+      <div class="stat">
+        <p class="stat-number">4</p>
+        <p class="stat-label">Conectados</p>
       </div>
-
-      <div class="tool stagger-4">
-        <div class="tool-icon tool-whatsapp">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="#16A34A"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-        </div>
-        <div class="tool-info">
-          <p class="tool-name">WhatsApp</p>
-          <p class="tool-desc">Check-ins, lembretes, conversas com mentores — tudo no seu WhatsApp</p>
-        </div>
-        <div class="tool-action">
-          <button class="btn-connect" onclick="this.outerHTML='<button class=btn-connected>Conectado</button>'">Conectar</button>
-        </div>
+      <div class="stat">
+        <p class="stat-number">1</p>
+        <p class="stat-label">Ativo</p>
+      </div>
+      <div class="stat">
+        <p class="stat-number">18</p>
+        <p class="stat-label">Disponiveis</p>
       </div>
     </div>
 
-    <p class="section-label stagger-5">Recomendados</p>
-    <div class="tools">
-      <div class="tool stagger-5">
-        <div class="tool-icon tool-health">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="#DB2777"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>
+    <!-- ==================== COMUNICACAO ==================== -->
+    <div class="category stagger d3">
+      <p class="category-label">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#D70030" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+        Comunicacao
+      </p>
+      <div class="connectors">
+        <!-- WhatsApp -->
+        <div class="connector">
+          <div class="c-icon ic-whatsapp">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="#16A34A"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+          </div>
+          <div class="c-info">
+            <p class="c-name">WhatsApp</p>
+            <p class="c-desc">Seus mentores observam conversas e entendem contexto</p>
+          </div>
+          <div class="c-action">
+            <button class="btn-status btn-conectado">Conectado</button>
+          </div>
         </div>
-        <div class="tool-info">
-          <p class="tool-name">Apple Health</p>
-          <p class="tool-desc">Dados de sono, passos, frequencia cardiaca. Seus mentores de saude usam pra adaptar orientacoes.</p>
+        <!-- Telegram -->
+        <div class="connector">
+          <div class="c-icon ic-telegram">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="#2563EB"><path d="M11.944 0A12 12 0 000 12a12 12 0 0012 12 12 12 0 0012-12A12 12 0 0012 0h-.056zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 01.171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.479.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>
+          </div>
+          <div class="c-info">
+            <p class="c-name">Telegram</p>
+            <p class="c-desc">Canal alternativo de comunicacao</p>
+          </div>
+          <div class="c-action">
+            <button class="btn-status btn-conectar">Conectar</button>
+          </div>
         </div>
-        <div class="tool-action">
-          <button class="btn-connect" onclick="this.outerHTML='<button class=btn-connected>Conectado</button>'">Conectar</button>
-        </div>
-      </div>
-
-      <div class="tool stagger-6">
-        <div class="tool-icon tool-todoist">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#DC2626" stroke-width="2"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg>
-        </div>
-        <div class="tool-info">
-          <p class="tool-name">Todoist</p>
-          <p class="tool-desc">Gerenciar tarefas e metas. Seus mentores criam e acompanham tarefas automaticamente.</p>
-        </div>
-        <div class="tool-action">
-          <button class="btn-connect" onclick="this.outerHTML='<button class=btn-connected>Conectado</button>'">Conectar</button>
-        </div>
-      </div>
-
-      <div class="tool stagger-7">
-        <div class="tool-icon tool-bank">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#86868B" stroke-width="2"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
-        </div>
-        <div class="tool-info">
-          <p class="tool-name">App bancario</p>
-          <p class="tool-desc">Leitura de gastos via Open Finance. Seu mentor financeiro categoriza e monitora limites.</p>
-        </div>
-        <div class="tool-action">
-          <button class="btn-connect" onclick="this.outerHTML='<button class=btn-connected>Conectado</button>'">Conectar</button>
+        <!-- Email -->
+        <div class="connector">
+          <div class="c-icon ic-email">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#4F46E5" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+          </div>
+          <div class="c-info">
+            <p class="c-name">Email (Gmail/Outlook)</p>
+            <p class="c-desc">Analisa padroes de comunicacao profissional</p>
+          </div>
+          <div class="c-action">
+            <button class="btn-status btn-conectado">Conectado</button>
+          </div>
         </div>
       </div>
     </div>
 
-    <p class="note stagger-8">Seus dados nunca sao compartilhados com terceiros. Voce pode revogar qualquer acesso a qualquer momento nas configuracoes.</p>
-
-    <div class="actions stagger-8">
-      <button class="btn-skip" onclick="location.href='review.html'">Pular por agora</button>
-      <button class="btn-next" onclick="location.href='review.html'">Continuar</button>
+    <!-- ==================== VOZ E CHAMADAS ==================== -->
+    <div class="category stagger d4">
+      <p class="category-label">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#D70030" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z"/></svg>
+        Voz e Chamadas
+      </p>
+      <div class="connectors">
+        <!-- ElevenLabs -->
+        <div class="connector">
+          <div class="c-icon ic-elevenlabs">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#7C3AED" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1a3 3 0 00-3 3v8a3 3 0 006 0V4a3 3 0 00-3-3z"/><path d="M19 10v2a7 7 0 01-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
+          </div>
+          <div class="c-info">
+            <p class="c-name">ElevenLabs</p>
+            <p class="c-desc">Permite que mentores LIGUEM para voce com voz IA realista</p>
+          </div>
+          <div class="c-action">
+            <button class="btn-status btn-conectar">Conectar</button>
+          </div>
+        </div>
+        <!-- Telefone -->
+        <div class="connector">
+          <div class="c-icon ic-phone">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#D97706" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
+          </div>
+          <div class="c-info">
+            <p class="c-name">Telefone</p>
+            <p class="c-desc">Receba coaching por chamada telefonica</p>
+          </div>
+          <div class="c-action">
+            <button class="btn-status btn-conectar">Conectar</button>
+          </div>
+        </div>
+      </div>
     </div>
+
+    <!-- ==================== SAUDE E BEM-ESTAR ==================== -->
+    <div class="category stagger d5">
+      <p class="category-label">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#D70030" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>
+        Saude e Bem-estar
+      </p>
+      <div class="connectors">
+        <!-- Apple Health -->
+        <div class="connector">
+          <div class="c-icon ic-apple-health">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="#DB2777"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>
+          </div>
+          <div class="c-info">
+            <p class="c-name">Apple Health</p>
+            <p class="c-desc">Sono, exercicio, FC, passos — dados automaticos</p>
+          </div>
+          <div class="c-action">
+            <button class="btn-status btn-conectado">Conectado</button>
+          </div>
+        </div>
+        <!-- Google Fit -->
+        <div class="connector">
+          <div class="c-icon ic-google-fit">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#16A34A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+          </div>
+          <div class="c-info">
+            <p class="c-name">Google Fit</p>
+            <p class="c-desc">Alternativa ao Apple Health para Android</p>
+          </div>
+          <div class="c-action">
+            <button class="btn-status btn-conectar">Conectar</button>
+          </div>
+        </div>
+        <!-- Fitbit -->
+        <div class="connector">
+          <div class="c-icon ic-fitbit">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0284C7" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="4" r="1.5"/><circle cx="12" cy="8" r="1.5"/><circle cx="12" cy="12" r="1.5"/><circle cx="12" cy="16" r="1.5"/><circle cx="12" cy="20" r="1.5"/><circle cx="8" cy="8" r="1"/><circle cx="8" cy="12" r="1"/><circle cx="8" cy="16" r="1"/><circle cx="16" cy="8" r="1"/><circle cx="16" cy="12" r="1"/><circle cx="16" cy="16" r="1"/></svg>
+          </div>
+          <div class="c-info">
+            <p class="c-name">Fitbit</p>
+            <p class="c-desc">Dados detalhados de sono e atividade</p>
+          </div>
+          <div class="c-action">
+            <button class="btn-status btn-conectar">Conectar</button>
+          </div>
+        </div>
+        <!-- Garmin -->
+        <div class="connector">
+          <div class="c-icon ic-garmin">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#86868B" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M8 12h8"/><path d="M12 2v4"/><path d="M12 18v4"/></svg>
+          </div>
+          <div class="c-info">
+            <p class="c-name">Garmin</p>
+            <p class="c-desc">Metricas avancadas de treino e recuperacao</p>
+          </div>
+          <div class="c-action">
+            <button class="btn-status btn-conectar">Conectar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== REDES SOCIAIS ==================== -->
+    <div class="category stagger d6">
+      <p class="category-label">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#D70030" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+        Redes Sociais
+      </p>
+      <div class="connectors">
+        <!-- Instagram -->
+        <div class="connector">
+          <div class="c-icon ic-instagram">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#E1306C" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+          </div>
+          <div class="c-info">
+            <p class="c-name">Instagram</p>
+            <p class="c-desc">Analisa consumo visual e interesses</p>
+          </div>
+          <div class="c-action">
+            <button class="btn-status btn-conectar">Conectar</button>
+          </div>
+        </div>
+        <!-- LinkedIn -->
+        <div class="connector">
+          <div class="c-icon ic-linkedin">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="#0A66C2"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+          </div>
+          <div class="c-info">
+            <p class="c-name">LinkedIn</p>
+            <p class="c-desc">Acompanha carreira, network, oportunidades</p>
+          </div>
+          <div class="c-action">
+            <button class="btn-status btn-conectar">Conectar</button>
+          </div>
+        </div>
+        <!-- Twitter/X -->
+        <div class="connector">
+          <div class="c-icon ic-twitter">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="#1D1D1F"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+          </div>
+          <div class="c-info">
+            <p class="c-name">Twitter / X</p>
+            <p class="c-desc">Detecta interesses e opinioes</p>
+          </div>
+          <div class="c-action">
+            <button class="btn-status btn-conectar">Conectar</button>
+          </div>
+        </div>
+        <!-- YouTube -->
+        <div class="connector">
+          <div class="c-icon ic-youtube">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="#FF0000"><path d="M23.498 6.186a3.016 3.016 0 00-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 00.502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 002.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 002.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+          </div>
+          <div class="c-info">
+            <p class="c-name">YouTube</p>
+            <p class="c-desc">Entende padroes de aprendizado pelo que voce assiste</p>
+          </div>
+          <div class="c-action">
+            <button class="btn-status btn-conectar">Conectar</button>
+          </div>
+        </div>
+        <!-- TikTok -->
+        <div class="connector">
+          <div class="c-icon ic-tiktok">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="#1D1D1F"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1v-3.5a6.37 6.37 0 00-.79-.05A6.34 6.34 0 003.15 15.2a6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.34-6.34V8.69a8.27 8.27 0 004.85 1.56V6.8a4.85 4.85 0 01-1.09-.11z"/></svg>
+          </div>
+          <div class="c-info">
+            <p class="c-name">TikTok</p>
+            <p class="c-desc">Analisa tendencias e consumo de conteudo</p>
+          </div>
+          <div class="c-action">
+            <button class="btn-status btn-conectar">Conectar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== FINANCEIRO ==================== -->
+    <div class="category stagger d7">
+      <p class="category-label">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#D70030" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>
+        Financeiro
+      </p>
+      <div class="connectors">
+        <!-- Open Banking -->
+        <div class="connector">
+          <div class="c-icon ic-openbanking">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0284C7" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+          </div>
+          <div class="c-info">
+            <p class="c-name">Open Banking</p>
+            <p class="c-desc">Acesso automatico a extratos e gastos</p>
+          </div>
+          <div class="c-action">
+            <button class="btn-status btn-conectar">Conectar</button>
+          </div>
+        </div>
+        <!-- Nubank/Bancos -->
+        <div class="connector">
+          <div class="c-icon ic-nubank">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#7C3AED" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
+          </div>
+          <div class="c-info">
+            <p class="c-name">Nubank / Bancos</p>
+            <p class="c-desc">Integracao direta com seu banco</p>
+          </div>
+          <div class="c-action">
+            <button class="btn-status btn-conectar">Conectar</button>
+          </div>
+        </div>
+        <!-- Planilhas -->
+        <div class="connector">
+          <div class="c-icon ic-sheets">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#16A34A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="3" y1="15" x2="21" y2="15"/><line x1="9" y1="3" x2="9" y2="21"/><line x1="15" y1="3" x2="15" y2="21"/></svg>
+          </div>
+          <div class="c-info">
+            <p class="c-name">Planilhas</p>
+            <p class="c-desc">Importa dados financeiros de Google Sheets</p>
+          </div>
+          <div class="c-action">
+            <button class="btn-status btn-conectar">Conectar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== PRODUTIVIDADE ==================== -->
+    <div class="category stagger d8">
+      <p class="category-label">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#D70030" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        Produtividade
+      </p>
+      <div class="connectors">
+        <!-- Google Calendar -->
+        <div class="connector">
+          <div class="c-icon ic-calendar">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#2563EB" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+          </div>
+          <div class="c-info">
+            <p class="c-name">Google Calendar</p>
+            <p class="c-desc">Agenda, reunioes, compromissos</p>
+          </div>
+          <div class="c-action">
+            <button class="btn-status btn-conectado">Conectado</button>
+          </div>
+        </div>
+        <!-- Todoist/Notion -->
+        <div class="connector">
+          <div class="c-icon ic-todoist">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#DC2626" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg>
+          </div>
+          <div class="c-info">
+            <p class="c-name">Todoist / Notion</p>
+            <p class="c-desc">Tarefas e projetos pessoais</p>
+          </div>
+          <div class="c-action">
+            <button class="btn-status btn-conectar">Conectar</button>
+          </div>
+        </div>
+        <!-- Spotify -->
+        <div class="connector">
+          <div class="c-icon ic-spotify">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="#1DB954"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/></svg>
+          </div>
+          <div class="c-info">
+            <p class="c-name">Spotify</p>
+            <p class="c-desc">Detecta humor pela musica que ouve</p>
+          </div>
+          <div class="c-action">
+            <button class="btn-status btn-conectar">Conectar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== IAS E MODELOS ==================== -->
+    <div class="category stagger d9">
+      <p class="category-label">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#D70030" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a6 6 0 016 6c0 3-2 5-3 6h-6c-1-1-3-3-3-6a6 6 0 016-6z"/><path d="M9 14v4a2 2 0 002 2h2a2 2 0 002-2v-4"/></svg>
+        IAs e Modelos
+      </p>
+      <div class="connectors">
+        <!-- Claude -->
+        <div class="connector">
+          <div class="c-icon ic-claude">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#D70030" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+          </div>
+          <div class="c-info">
+            <p class="c-name">Claude (Anthropic)</p>
+            <p class="c-desc">LLM principal dos mentores</p>
+          </div>
+          <div class="c-action">
+            <button class="btn-status btn-ativo">Ativo</button>
+          </div>
+        </div>
+        <!-- Groq -->
+        <div class="connector">
+          <div class="c-icon ic-groq">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#D97706" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
+          </div>
+          <div class="c-info">
+            <p class="c-name">Groq</p>
+            <p class="c-desc">Processamento rapido para respostas instantaneas</p>
+          </div>
+          <div class="c-action">
+            <button class="btn-status btn-conectar">Conectar</button>
+          </div>
+        </div>
+        <!-- Google Gemini -->
+        <div class="connector">
+          <div class="c-icon ic-gemini">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#2563EB" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><circle cx="12" cy="5" r="1.5"/><circle cx="12" cy="19" r="1.5"/><circle cx="5" cy="12" r="1.5"/><circle cx="19" cy="12" r="1.5"/><line x1="12" y1="6.5" x2="12" y2="9"/><line x1="12" y1="15" x2="12" y2="17.5"/><line x1="6.5" y1="12" x2="9" y2="12"/><line x1="15" y1="12" x2="17.5" y2="12"/></svg>
+          </div>
+          <div class="c-info">
+            <p class="c-name">Google Gemini</p>
+            <p class="c-desc">Analise visual e multimodal</p>
+          </div>
+          <div class="c-action">
+            <button class="btn-status btn-conectar">Conectar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== PRIVACY NOTE ==================== -->
+    <div class="privacy stagger d9">
+      <div class="privacy-icon">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#248A3D" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
+      </div>
+      <p class="privacy-text">
+        A KTANA nao armazena seus dados. Consulta em tempo real. Voce pode revogar qualquer conexao a qualquer momento.
+      </p>
+    </div>
+
   </div>
+
+<script src="../shared-nav.js?v=1774794914"></script>
 </body>
-</html><script src="../shared-nav.js?v=1774794914"></script>
+</html>
