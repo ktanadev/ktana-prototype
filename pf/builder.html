@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Builder Pessoal — KTANA</title>
+  <link rel="stylesheet" href="../shared.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Zen+Dots&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    body { min-height: 100vh; background: #F5F5F7; display: flex; flex-direction: column; }
+    .nav { position: sticky; top: 0; z-index: 50; height: 48px; display: flex; align-items: center; justify-content: center; background: rgba(245,245,247,0.72); backdrop-filter: saturate(180%) blur(20px); border-bottom: 0.5px solid rgba(0,0,0,0.06); flex-shrink: 0; }
+    .nav-inner { width: 100%; padding: 0 24px; display: flex; align-items: center; justify-content: space-between; }
+    .nav-logo { font-family: 'Zen Dots', cursive; font-size: 14px; color: #D70030; }
+    .back { font-family: 'Inter', sans-serif; font-size: 12px; color: #86868B; display: flex; align-items: center; gap: 4px; }
+
+    .layout { flex: 1; display: flex; overflow: hidden; }
+
+    /* Chat */
+    .chat { width: 420px; background: #FFF; border-right: 0.5px solid rgba(0,0,0,0.06); display: flex; flex-direction: column; flex-shrink: 0; }
+    .chat-header { padding: 16px 20px; border-bottom: 0.5px solid rgba(0,0,0,0.04); display: flex; align-items: center; gap: 12px; }
+    .chat-avatar { width: 36px; height: 36px; border-radius: 50%; background: rgba(191,90,242,0.1); display: flex; align-items: center; justify-content: center; font-family: 'Zen Dots', cursive; font-size: 12px; color: #BF5AF2; }
+    .chat-name { font-family: 'Satoshi', sans-serif; font-size: 14px; font-weight: 600; color: #1D1D1F; }
+    .chat-status { font-family: 'Inter', sans-serif; font-size: 11px; color: #30D158; }
+    .msgs { flex: 1; overflow-y: auto; padding: 20px; }
+    .msg { margin-bottom: 16px; max-width: 88%; }
+    .msg.ai { margin-right: auto; }
+    .msg.me { margin-left: auto; }
+    .bubble { padding: 12px 16px; border-radius: 18px; font-family: 'Satoshi', sans-serif; font-size: 14px; line-height: 1.6; }
+    .msg.ai .bubble { background: #F0F0F0; color: #1D1D1F; border-bottom-left-radius: 4px; }
+    .msg.me .bubble { background: #1D1D1F; color: #F5F5F7; border-bottom-right-radius: 4px; }
+    .time { font-family: 'Inter', sans-serif; font-size: 10px; color: #AEAEB2; margin-top: 4px; padding: 0 4px; }
+    .msg.me .time { text-align: right; }
+    .suggestions { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+    .sug { font-family: 'Inter', sans-serif; padding: 6px 14px; border-radius: 980px; font-size: 12px; color: #1D1D1F; background: #FFF; border: 1px solid rgba(0,0,0,0.08); cursor: pointer; }
+    .sug:hover { border-color: #D70030; color: #D70030; }
+
+    .input-area { padding: 16px 20px; border-top: 0.5px solid rgba(0,0,0,0.04); display: flex; gap: 8px; align-items: flex-end; }
+    .input-area textarea { flex: 1; padding: 12px 16px; background: #F5F5F7; border: 1px solid rgba(0,0,0,0.06); border-radius: 14px; font-family: 'Satoshi', sans-serif; font-size: 14px; color: #1D1D1F; outline: none; resize: none; min-height: 44px; }
+    .input-area textarea::placeholder { color: #AEAEB2; }
+    .send { width: 44px; height: 44px; border-radius: 14px; background: #D70030; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; color: #FFF; }
+
+    /* Preview */
+    .preview { flex: 1; display: flex; flex-direction: column; }
+    .tabs { height: 44px; background: #FFF; border-bottom: 0.5px solid rgba(0,0,0,0.06); display: flex; align-items: center; padding: 0 20px; gap: 4px; }
+    .tab { font-family: 'Inter', sans-serif; padding: 6px 16px; border-radius: 8px; font-size: 12px; color: #86868B; cursor: pointer; border: none; background: none; }
+    .tab.on { background: rgba(0,0,0,0.04); color: #1D1D1F; font-weight: 500; }
+    .tab-actions { margin-left: auto; }
+    .tab-btn { font-family: 'Inter', sans-serif; padding: 8px 18px; border-radius: 8px; font-size: 12px; font-weight: 500; border: none; cursor: pointer; background: #D70030; color: #FFF; }
+
+    .content { flex: 1; overflow: auto; padding: 32px; }
+    .p-card { background: #FFF; border-radius: 20px; border: 1px solid rgba(0,0,0,0.04); padding: 24px; margin-bottom: 14px; }
+    .p-label { font-family: 'Inter', sans-serif; font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; color: #D70030; margin-bottom: 12px; }
+    .p-row { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 0.5px solid rgba(0,0,0,0.03); font-size: 13px; }
+    .p-row:last-child { border-bottom: none; }
+    .p-key { font-family: 'Satoshi', sans-serif; color: #86868B; }
+    .p-val { font-family: 'Inter', sans-serif; color: #1D1D1F; font-weight: 500; }
+
+    .status { height: 36px; background: #FFF; border-top: 0.5px solid rgba(0,0,0,0.04); display: flex; align-items: center; padding: 0 20px; font-family: 'Inter', sans-serif; font-size: 11px; color: #AEAEB2; gap: 16px; flex-shrink: 0; }
+
+    @media (max-width: 768px) { .layout { flex-direction: column; } .chat { width: 100%; height: 50vh; } }
+    .fade-in { animation: fadeIn 0.3s ease both; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+  </style>
+</head>
+<body>
+  <nav class="nav"><div class="nav-inner"><a href="solutions.html" class="back"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M15 18l-6-6 6-6"/></svg> Solucoes</a><span class="nav-logo">KTANA <span style="font-family:'Inter',sans-serif;font-size:12px;color:#86868B;font-weight:400;">Builder</span></span><a href="../tenant/dashboard/home-pf.html" style="font-family:'Inter',sans-serif;font-size:12px;color:#86868B;">Painel</a></div></nav>
+
+  <div class="layout">
+    <div class="chat">
+      <div class="chat-header">
+        <div class="chat-avatar">Y</div>
+        <div><div class="chat-name">Yumi — Sua mentora</div><div class="chat-status">Online</div></div>
+      </div>
+      <div class="msgs">
+        <div class="msg ai fade-in"><div class="bubble">Oi! O que voce gostaria de automatizar ou melhorar na sua rotina? Pode ser algo simples como "lembrar de beber agua" ou complexo como "montar minha rotina matinal completa".</div><div class="time">15:10</div></div>
+        <div class="msg me fade-in"><div class="bubble">Quero criar uma rotina matinal que inclua exercicio, meditacao e planejamento do dia. Mas preciso ser pratica, tenho no maximo 1 hora de manha.</div><div class="time">15:11</div></div>
+        <div class="msg ai fade-in"><div class="bubble">Perfeito! Montei uma rotina de 55 minutos dividida em 4 blocos. Olha no preview ao lado:<br><br>&#x2022; 06:00 — Acordar + hidratacao (5min)<br>&#x2022; 06:05 — Exercicio HIIT ou yoga (25min)<br>&#x2022; 06:30 — Meditacao guiada (10min)<br>&#x2022; 06:40 — Planejamento do dia (15min)<br><br>Quer ajustar algum bloco?</div><div class="time">15:11</div>
+          <div class="suggestions">
+            <span class="sug">Trocar HIIT por corrida</span>
+            <span class="sug">Adicionar journaling</span>
+            <span class="sug">Mudar horario</span>
+            <span class="sug" style="border-color:#D70030;color:#D70030;font-weight:500;">Ativar rotina</span>
+          </div>
+        </div>
+      </div>
+      <div class="input-area">
+        <textarea placeholder="Descreva o que quer criar..." rows="1"></textarea>
+        <button class="send"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg></button>
+      </div>
+    </div>
+
+    <div class="preview">
+      <div class="tabs">
+        <button class="tab on">Rotina</button>
+        <button class="tab">Configuracao</button>
+        <button class="tab">Regras</button>
+        <div class="tab-actions"><button class="tab-btn">Ativar Rotina</button></div>
+      </div>
+      <div class="content">
+        <div class="p-card">
+          <div class="p-label">Rotina Matinal — 55 minutos</div>
+          <div style="display:flex;flex-direction:column;gap:12px;">
+            <div style="display:flex;gap:12px;align-items:flex-start;padding:14px;background:rgba(48,209,88,0.03);border-radius:14px;border:1px solid rgba(48,209,88,0.08);">
+              <div style="width:36px;height:36px;border-radius:10px;background:rgba(48,209,88,0.1);display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;">&#x1F4A7;</div>
+              <div><div style="font-family:'Satoshi',sans-serif;font-size:14px;font-weight:600;color:#1D1D1F;">06:00 — Acordar + Hidratacao</div><div style="font-family:'Satoshi',sans-serif;font-size:12px;color:#86868B;margin-top:2px;">5 min · Beber 500ml de agua com limao. Lembrete via notificacao.</div></div>
+            </div>
+            <div style="display:flex;gap:12px;align-items:flex-start;padding:14px;background:rgba(255,69,58,0.03);border-radius:14px;border:1px solid rgba(255,69,58,0.08);">
+              <div style="width:36px;height:36px;border-radius:10px;background:rgba(255,69,58,0.1);display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;">&#x1F3CB;&#xFE0F;</div>
+              <div><div style="font-family:'Satoshi',sans-serif;font-size:14px;font-weight:600;color:#1D1D1F;">06:05 — Exercicio HIIT</div><div style="font-family:'Satoshi',sans-serif;font-size:12px;color:#86868B;margin-top:2px;">25 min · Treino gerado pelo Mentor de Saude. Alterna HIIT (seg/qua/sex) e Yoga (ter/qui).</div></div>
+            </div>
+            <div style="display:flex;gap:12px;align-items:flex-start;padding:14px;background:rgba(191,90,242,0.03);border-radius:14px;border:1px solid rgba(191,90,242,0.08);">
+              <div style="width:36px;height:36px;border-radius:10px;background:rgba(191,90,242,0.1);display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;">&#x1F9D8;</div>
+              <div><div style="font-family:'Satoshi',sans-serif;font-size:14px;font-weight:600;color:#1D1D1F;">06:30 — Meditacao Guiada</div><div style="font-family:'Satoshi',sans-serif;font-size:12px;color:#86868B;margin-top:2px;">10 min · Sessao personalizada pelo Mentor de Mente. Respiracao + mindfulness.</div></div>
+            </div>
+            <div style="display:flex;gap:12px;align-items:flex-start;padding:14px;background:rgba(100,210,255,0.03);border-radius:14px;border:1px solid rgba(100,210,255,0.08);">
+              <div style="width:36px;height:36px;border-radius:10px;background:rgba(100,210,255,0.1);display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;">&#x1F4CB;</div>
+              <div><div style="font-family:'Satoshi',sans-serif;font-size:14px;font-weight:600;color:#1D1D1F;">06:40 — Planejamento do Dia</div><div style="font-family:'Satoshi',sans-serif;font-size:12px;color:#86868B;margin-top:2px;">15 min · Briefing de compromissos, prioridades top 3, e revisao de metas semanais.</div></div>
+            </div>
+          </div>
+        </div>
+        <div class="p-card">
+          <div class="p-label">Configuracao</div>
+          <div class="p-row"><span class="p-key">Horario de inicio</span><span class="p-val">06:00</span></div>
+          <div class="p-row"><span class="p-key">Duracao total</span><span class="p-val">55 minutos</span></div>
+          <div class="p-row"><span class="p-key">Dias ativos</span><span class="p-val">Seg a Sex</span></div>
+          <div class="p-row"><span class="p-key">Mentores envolvidos</span><span class="p-val">Saude + Mente + Produtividade</span></div>
+          <div class="p-row"><span class="p-key">Notificacoes</span><span class="p-val">Push + WhatsApp</span></div>
+        </div>
+      </div>
+      <div class="status"><span style="width:6px;height:6px;border-radius:50%;background:#30D158;"></span> Rotina pronta para ativar <span style="margin-left:auto;">4 blocos · 55 min · 5 dias/sem</span></div>
+    </div>
+  </div>
+</body>
+</html>

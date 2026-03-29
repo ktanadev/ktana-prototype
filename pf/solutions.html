@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Solucoes Pessoais — KTANA</title>
+  <link rel="stylesheet" href="../shared.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Zen+Dots&display=swap" rel="stylesheet">
+  <style>
+    body { min-height: 100vh; background: #F5F5F7; }
+    .nav { position: sticky; top: 0; z-index: 50; height: 48px; display: flex; align-items: center; justify-content: center; background: rgba(245,245,247,0.72); backdrop-filter: saturate(180%) blur(20px); border-bottom: 0.5px solid rgba(0,0,0,0.06); }
+    .nav-inner { width: 100%; max-width: 980px; padding: 0 24px; display: flex; align-items: center; justify-content: space-between; }
+    .nav-logo { font-family: 'Zen Dots', cursive; font-size: 14px; color: #D70030; }
+    .nav-links a { font-family: 'Inter', sans-serif; font-size: 12px; color: #1D1D1F; opacity: 0.4; margin-left: 24px; }
+    .nav-links a.active { opacity: 1; }
+    .main { max-width: 980px; margin: 0 auto; padding: 32px 24px 80px; }
+    h1 { font-family: 'Satoshi', sans-serif; font-size: 28px; font-weight: 700; color: #1D1D1F; margin-bottom: 4px; }
+    .page-sub { font-family: 'Satoshi', sans-serif; font-size: 14px; color: #86868B; margin-bottom: 28px; line-height: 1.5; }
+
+    .chips { display: flex; gap: 6px; margin-bottom: 24px; overflow-x: auto; flex-wrap: wrap; }
+    .chip { font-family: 'Inter', sans-serif; padding: 7px 16px; border-radius: 980px; font-size: 12px; font-weight: 500; color: #86868B; background: #FFF; border: 1px solid rgba(0,0,0,0.06); cursor: pointer; transition: all 0.15s; }
+    .chip:hover { border-color: rgba(0,0,0,0.12); color: #1D1D1F; }
+    .chip.active { background: #1D1D1F; color: #FFF; border-color: #1D1D1F; }
+
+    .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-bottom: 32px; }
+    @media (max-width: 768px) { .grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 480px) { .grid { grid-template-columns: 1fr; } }
+
+    .card { background: #FFF; border-radius: 20px; border: 1px solid rgba(0,0,0,0.04); padding: 22px; cursor: pointer; transition: all 0.25s; position: relative; }
+    .card:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(0,0,0,0.06); }
+    .card.on { border-color: rgba(48,209,88,0.2); }
+    .card.on::after { content: ''; position: absolute; top: 14px; right: 14px; width: 8px; height: 8px; border-radius: 50%; background: #30D158; box-shadow: 0 0 6px rgba(48,209,88,0.4); }
+    .card-icon { font-size: 28px; margin-bottom: 12px; }
+    .card-cat { font-family: 'Inter', sans-serif; font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; color: #AEAEB2; margin-bottom: 4px; }
+    .card-name { font-family: 'Satoshi', sans-serif; font-size: 16px; font-weight: 600; color: #1D1D1F; margin-bottom: 6px; }
+    .card-desc { font-family: 'Satoshi', sans-serif; font-size: 12px; color: #86868B; line-height: 1.5; margin-bottom: 14px; }
+    .card-foot { display: flex; align-items: center; justify-content: space-between; padding-top: 14px; border-top: 0.5px solid rgba(0,0,0,0.04); }
+    .card-meta { font-family: 'Inter', sans-serif; font-size: 11px; color: #AEAEB2; }
+    .card-btn { font-family: 'Inter', sans-serif; padding: 6px 16px; border-radius: 980px; font-size: 11px; font-weight: 500; border: none; cursor: pointer; }
+    .card-btn.go { background: #1D1D1F; color: #F5F5F7; }
+    .card-btn.go:hover { background: #D70030; }
+    .card-btn.on { background: rgba(48,209,88,0.1); color: #30D158; }
+
+    .section-label { font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: #D70030; margin-bottom: 14px; margin-top: 24px; }
+
+    .builder-cta { background: #1D1D1F; border-radius: 20px; padding: 24px 28px; margin-bottom: 28px; display: flex; align-items: center; justify-content: space-between; gap: 20px; cursor: pointer; }
+    .builder-cta:hover { background: #000; }
+
+    .fade-in { animation: fadeIn 0.3s cubic-bezier(0.25,0.1,0.25,1) both; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+  </style>
+</head>
+<body>
+
+  <nav class="nav">
+    <div class="nav-inner">
+      <a href="../tenant/dashboard/home-pf.html" class="nav-logo">KTANA</a>
+      <div class="nav-links">
+        <a href="../tenant/dashboard/home-pf.html">Painel</a>
+        <a href="solutions.html" class="active">Solucoes</a>
+        <a href="landing.html">Areas</a>
+      </div>
+    </div>
+  </nav>
+
+  <main class="main">
+    <h1 class="fade-in">Solucoes para sua vida</h1>
+    <p class="page-sub fade-in">Micro-solucoes que seus mentores ativam para voce. Habitos, rotinas e automacoes personalizadas.</p>
+
+    <!-- Builder CTA -->
+    <div class="builder-cta fade-in" onclick="location.href='builder.html'">
+      <div style="display:flex;align-items:center;gap:16px;">
+        <div style="width:48px;height:48px;border-radius:14px;background:rgba(215,0,48,0.15);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#D70030" stroke-width="2" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        </div>
+        <div>
+          <div style="font-family:'Satoshi',sans-serif;font-size:16px;font-weight:600;color:#F5F5F7;margin-bottom:2px;">Criar solucao personalizada</div>
+          <div style="font-family:'Satoshi',sans-serif;font-size:13px;color:#8E8E93;">Converse com seu mentor e construa qualquer rotina ou automacao via chat.</div>
+        </div>
+      </div>
+      <div style="font-family:'Inter',sans-serif;padding:10px 20px;border-radius:980px;background:#D70030;color:#FFF;font-size:13px;font-weight:500;white-space:nowrap;">Abrir Builder</div>
+    </div>
+
+    <!-- Filters -->
+    <div class="chips fade-in">
+      <button class="chip active" onclick="filter('all',this)">Todas</button>
+      <button class="chip" onclick="filter('saude',this)">Saude</button>
+      <button class="chip" onclick="filter('mente',this)">Mente</button>
+      <button class="chip" onclick="filter('carreira',this)">Carreira</button>
+      <button class="chip" onclick="filter('financas',this)">Financas</button>
+      <button class="chip" onclick="filter('produtividade',this)">Produtividade</button>
+      <button class="chip" onclick="filter('relacionamentos',this)">Relacionamentos</button>
+      <button class="chip" onclick="filter('casa',this)">Casa</button>
+    </div>
+
+    <!-- Ativas -->
+    <p class="section-label fade-in">Ativas</p>
+    <div class="grid">
+      <div class="card on fade-in" data-cat="saude"><div class="card-icon">&#x1F3CB;&#xFE0F;</div><div class="card-cat">Saude</div><div class="card-name">Plano de Treino Semanal</div><div class="card-desc">Monta treino personalizado toda segunda baseado no seu progresso e disponibilidade.</div><div class="card-foot"><span class="card-meta">4 treinos/sem</span><button class="card-btn on">Ativo</button></div></div>
+
+      <div class="card on fade-in" data-cat="produtividade"><div class="card-icon">&#x1F4CB;</div><div class="card-cat">Produtividade</div><div class="card-name">Briefing Matinal</div><div class="card-desc">Todo dia 7h receba um resumo do que fazer hoje: compromissos, prioridades e lembretes.</div><div class="card-foot"><span class="card-meta">Diario 07:00</span><button class="card-btn on">Ativo</button></div></div>
+
+      <div class="card on fade-in" data-cat="financas"><div class="card-icon">&#x1F4B0;</div><div class="card-cat">Financas</div><div class="card-name">Controle de Gastos</div><div class="card-desc">Registra e categoriza seus gastos. Alerta quando estiver perto do limite do mes.</div><div class="card-foot"><span class="card-meta">R$4.2k este mes</span><button class="card-btn on">Ativo</button></div></div>
+    </div>
+
+    <!-- Saude -->
+    <p class="section-label fade-in">Saude</p>
+    <div class="grid">
+      <div class="card fade-in" data-cat="saude"><div class="card-icon">&#x1F957;</div><div class="card-cat">Saude</div><div class="card-name">Plano Alimentar</div><div class="card-desc">Monta cardapio semanal baseado nos seus objetivos, restricoes e preferencias. Lista de compras inclusa.</div><div class="card-foot"><span class="card-meta">Ref: Peter Attia</span><button class="card-btn go">Ativar</button></div></div>
+
+      <div class="card fade-in" data-cat="saude"><div class="card-icon">&#x1F4A4;</div><div class="card-cat">Saude</div><div class="card-name">Otimizacao do Sono</div><div class="card-desc">Monitora seus padroes de sono e sugere ajustes. Lembrete de rotina noturna e analise semanal.</div><div class="card-foot"><span class="card-meta">Ref: Matt Walker</span><button class="card-btn go">Ativar</button></div></div>
+
+      <div class="card fade-in" data-cat="saude"><div class="card-icon">&#x1F489;</div><div class="card-cat">Saude</div><div class="card-name">Lembrete de Exames</div><div class="card-desc">Controla datas de exames, vacinas e check-ups. Avisa 30 dias antes e ajuda a agendar.</div><div class="card-foot"><span class="card-meta">Preventivo</span><button class="card-btn go">Ativar</button></div></div>
+
+      <div class="card fade-in" data-cat="saude"><div class="card-icon">&#x1F4CA;</div><div class="card-cat">Saude</div><div class="card-name">Tracker de Suplementos</div><div class="card-desc">Registra suplementos, horarios e dosagens. Alerta de interacoes e reposicao.</div><div class="card-foot"><span class="card-meta">Ref: Huberman</span><button class="card-btn go">Ativar</button></div></div>
+    </div>
+
+    <!-- Mente -->
+    <p class="section-label fade-in">Mente & Emocional</p>
+    <div class="grid">
+      <div class="card fade-in" data-cat="mente"><div class="card-icon">&#x1F9D8;</div><div class="card-cat">Mente</div><div class="card-name">Meditacao Guiada</div><div class="card-desc">Sessoes diarias de 5-15min baseadas no seu nivel de estresse e objetivos. Mindfulness + respiracao.</div><div class="card-foot"><span class="card-meta">5-15min/dia</span><button class="card-btn go">Ativar</button></div></div>
+
+      <div class="card fade-in" data-cat="mente"><div class="card-icon">&#x1F4D3;</div><div class="card-cat">Mente</div><div class="card-name">Diario de Gratidao</div><div class="card-desc">Toda noite, 3 perguntas rapidas sobre o dia. Analise mensal de padroes emocionais.</div><div class="card-foot"><span class="card-meta">Ref: Brene Brown</span><button class="card-btn go">Ativar</button></div></div>
+
+      <div class="card fade-in" data-cat="mente"><div class="card-icon">&#x1F4AD;</div><div class="card-cat">Mente</div><div class="card-name">Check-in Emocional</div><div class="card-desc">Pergunta como voce esta 2x ao dia. Detecta padroes de humor e sugere acoes preventivas.</div><div class="card-foot"><span class="card-meta">2x por dia</span><button class="card-btn go">Ativar</button></div></div>
+    </div>
+
+    <!-- Carreira -->
+    <p class="section-label fade-in">Carreira</p>
+    <div class="grid">
+      <div class="card fade-in" data-cat="carreira"><div class="card-icon">&#x1F4BC;</div><div class="card-cat">Carreira</div><div class="card-name">Preparacao para Entrevista</div><div class="card-desc">Simula entrevistas com perguntas reais da empresa. Feedback em tempo real sobre respostas.</div><div class="card-foot"><span class="card-meta">Mock interview IA</span><button class="card-btn go">Ativar</button></div></div>
+
+      <div class="card fade-in" data-cat="carreira"><div class="card-icon">&#x1F4DD;</div><div class="card-cat">Carreira</div><div class="card-name">Curriculo Otimizado</div><div class="card-desc">Analisa vagas que voce quer e otimiza seu curriculo para cada uma. Keywords ATS incluso.</div><div class="card-foot"><span class="card-meta">+3x callbacks</span><button class="card-btn go">Ativar</button></div></div>
+
+      <div class="card fade-in" data-cat="carreira"><div class="card-icon">&#x1F4C8;</div><div class="card-cat">Carreira</div><div class="card-name">LinkedIn Optimizer</div><div class="card-desc">Otimiza seu perfil LinkedIn, sugere posts semanais e monitora alcance. SSI tracking.</div><div class="card-foot"><span class="card-meta">+200% views</span><button class="card-btn go">Ativar</button></div></div>
+
+      <div class="card fade-in" data-cat="carreira"><div class="card-icon">&#x1F393;</div><div class="card-cat">Carreira</div><div class="card-name">Plano de Estudos</div><div class="card-desc">Monta trilha de aprendizado personalizada. Cursos, livros e exercicios organizados por semana.</div><div class="card-foot"><span class="card-meta">Personalizado</span><button class="card-btn go">Ativar</button></div></div>
+    </div>
+
+    <!-- Financas -->
+    <p class="section-label fade-in">Financas Pessoais</p>
+    <div class="grid">
+      <div class="card fade-in" data-cat="financas"><div class="card-icon">&#x1F4B8;</div><div class="card-cat">Financas</div><div class="card-name">Orcamento Mensal</div><div class="card-desc">Cria orcamento baseado na sua renda e objetivos. Categoriza gastos e alerta desvios.</div><div class="card-foot"><span class="card-meta">Ref: Nath Finanças</span><button class="card-btn go">Ativar</button></div></div>
+
+      <div class="card fade-in" data-cat="financas"><div class="card-icon">&#x1F4C9;</div><div class="card-cat">Financas</div><div class="card-name">Monitorar Investimentos</div><div class="card-desc">Acompanha sua carteira, sugere rebalanceamento e alerta sobre oportunidades ou riscos.</div><div class="card-foot"><span class="card-meta">Ref: Ray Dalio</span><button class="card-btn go">Ativar</button></div></div>
+
+      <div class="card fade-in" data-cat="financas"><div class="card-icon">&#x1F3AF;</div><div class="card-cat">Financas</div><div class="card-name">Meta de Economia</div><div class="card-desc">Define meta, acompanha progresso diario e sugere onde cortar gastos para atingir mais rapido.</div><div class="card-foot"><span class="card-meta">Gamificado</span><button class="card-btn go">Ativar</button></div></div>
+    </div>
+
+    <!-- Produtividade -->
+    <p class="section-label fade-in">Produtividade</p>
+    <div class="grid">
+      <div class="card fade-in" data-cat="produtividade"><div class="card-icon">&#x23F0;</div><div class="card-cat">Produtividade</div><div class="card-name">Pomodoro Inteligente</div><div class="card-desc">Timer adaptativo que aprende seus ciclos de foco e sugere pausas otimizadas.</div><div class="card-foot"><span class="card-meta">+40% foco</span><button class="card-btn go">Ativar</button></div></div>
+
+      <div class="card fade-in" data-cat="produtividade"><div class="card-icon">&#x1F4E7;</div><div class="card-cat">Produtividade</div><div class="card-name">Inbox Zero</div><div class="card-desc">Classifica emails por prioridade, responde os simples e arquiva os irrelevantes. Meta: inbox zero diario.</div><div class="card-foot"><span class="card-meta">-80% emails</span><button class="card-btn go">Ativar</button></div></div>
+
+      <div class="card fade-in" data-cat="produtividade"><div class="card-icon">&#x1F4C5;</div><div class="card-cat">Produtividade</div><div class="card-name">Revisao Semanal</div><div class="card-desc">Todo domingo a noite: review da semana, planejamento da proxima, ajuste de prioridades.</div><div class="card-foot"><span class="card-meta">Ref: GTD</span><button class="card-btn go">Ativar</button></div></div>
+    </div>
+
+    <!-- Relacionamentos -->
+    <p class="section-label fade-in">Relacionamentos</p>
+    <div class="grid">
+      <div class="card fade-in" data-cat="relacionamentos"><div class="card-icon">&#x1F491;</div><div class="card-cat">Relacionamentos</div><div class="card-name">Date Planner</div><div class="card-desc">Sugere programas criativos baseados nos interesses do casal. Lembrete de datas especiais.</div><div class="card-foot"><span class="card-meta">Semanal</span><button class="card-btn go">Ativar</button></div></div>
+
+      <div class="card fade-in" data-cat="relacionamentos"><div class="card-icon">&#x1F46A;</div><div class="card-cat">Relacionamentos</div><div class="card-name">Conexao com Familia</div><div class="card-desc">Lembrete de ligar pra mae, aniversarios e datas importantes. Sugestoes de presentes.</div><div class="card-foot"><span class="card-meta">Ref: Gottman</span><button class="card-btn go">Ativar</button></div></div>
+    </div>
+
+    <!-- Casa -->
+    <p class="section-label fade-in">Casa & Ambiente</p>
+    <div class="grid">
+      <div class="card fade-in" data-cat="casa"><div class="card-icon">&#x1F3E0;</div><div class="card-cat">Casa</div><div class="card-name">Manutencao Preventiva</div><div class="card-desc">Calendario de manutencao da casa: filtros, dedetizacao, pintura, revisao eletrica.</div><div class="card-foot"><span class="card-meta">Trimestral</span><button class="card-btn go">Ativar</button></div></div>
+
+      <div class="card fade-in" data-cat="casa"><div class="card-icon">&#x1F6D2;</div><div class="card-cat">Casa</div><div class="card-name">Lista de Compras</div><div class="card-desc">Gera lista de compras baseada no cardapio da semana. Detecta itens acabando pelo historico.</div><div class="card-foot"><span class="card-meta">Semanal</span><button class="card-btn go">Ativar</button></div></div>
+
+      <div class="card fade-in" data-cat="casa"><div class="card-icon">&#x1F9F9;</div><div class="card-cat">Casa</div><div class="card-name">Rotina de Limpeza</div><div class="card-desc">Distribui tarefas de limpeza pela semana. Tracking do que foi feito e lembretes.</div><div class="card-foot"><span class="card-meta">FlyLady method</span><button class="card-btn go">Ativar</button></div></div>
+    </div>
+
+  </main>
+
+  <script>
+    function filter(cat, btn) {
+      document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
+      btn.classList.add('active');
+      document.querySelectorAll('.card').forEach(c => {
+        c.style.display = (cat === 'all' || c.dataset.cat === cat) ? '' : 'none';
+      });
+      document.querySelectorAll('.section-label').forEach(l => {
+        const grid = l.nextElementSibling;
+        if (grid && grid.classList.contains('grid')) {
+          const vis = grid.querySelectorAll('.card:not([style*="display: none"])').length;
+          l.style.display = vis ? '' : 'none';
+        }
+      });
+    }
+  </script>
+
+</body>
+</html>

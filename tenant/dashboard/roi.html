@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lucro & ROI — KTANA</title>
+  <link rel="stylesheet" href="../../shared.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Zen+Dots&display=swap" rel="stylesheet">
+  <style>
+    body { min-height: 100vh; background: #F5F5F7; }
+    .nav { position: sticky; top: 0; z-index: 50; height: 48px; display: flex; align-items: center; justify-content: center; background: rgba(245,245,247,0.72); backdrop-filter: saturate(180%) blur(20px); border-bottom: 0.5px solid rgba(0,0,0,0.06); }
+    .nav-inner { width: 100%; max-width: 860px; padding: 0 24px; display: flex; align-items: center; justify-content: space-between; }
+    .nav-logo { font-family: 'Zen Dots', cursive; font-size: 14px; color: #D70030; }
+    .nav-links a { font-family: 'Inter', sans-serif; font-size: 12px; color: #1D1D1F; opacity: 0.4; margin-left: 24px; }
+    .nav-links a.active { opacity: 1; }
+    .main { max-width: 860px; margin: 0 auto; padding: 32px 24px 80px; }
+    h1 { font-family: 'Satoshi', sans-serif; font-size: 28px; font-weight: 700; color: #1D1D1F; margin-bottom: 4px; }
+    .sub { font-family: 'Satoshi', sans-serif; font-size: 14px; color: #86868B; margin-bottom: 28px; }
+
+    /* Period selector */
+    .period { display: flex; gap: 2px; background: rgba(0,0,0,0.03); border-radius: 10px; padding: 2px; margin-bottom: 24px; width: fit-content; }
+    .period-btn { font-family: 'Inter', sans-serif; padding: 6px 16px; border-radius: 8px; font-size: 12px; color: #86868B; cursor: pointer; border: none; background: none; }
+    .period-btn.on { background: #FFF; color: #1D1D1F; box-shadow: 0 1px 3px rgba(0,0,0,0.06); font-weight: 500; }
+
+    /* Hero stats */
+    .hero-stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 28px; }
+    .hero-stat { background: #FFF; border-radius: 20px; border: 1px solid rgba(0,0,0,0.04); padding: 20px; }
+    .hero-stat-label { font-family: 'Inter', sans-serif; font-size: 11px; color: #86868B; margin-bottom: 6px; }
+    .hero-stat-value { font-family: 'Satoshi', sans-serif; font-size: 28px; font-weight: 700; color: #1D1D1F; }
+    .hero-stat-value.green { color: #30D158; }
+    .hero-stat-value.brand { color: #D70030; }
+    .hero-stat-delta { font-family: 'Inter', sans-serif; font-size: 11px; margin-top: 4px; }
+    .hero-stat-delta.up { color: #30D158; }
+    .hero-stat-delta.down { color: #FF453A; }
+
+    /* Balance card (extrato) */
+    .card { background: #FFF; border-radius: 20px; border: 1px solid rgba(0,0,0,0.04); padding: 24px; margin-bottom: 14px; }
+    .card-label { font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: #D70030; margin-bottom: 14px; }
+
+    /* Extrato rows */
+    .extrato-header { display: grid; grid-template-columns: 1fr 100px 120px 100px; gap: 8px; padding: 8px 0; border-bottom: 1px solid rgba(0,0,0,0.06); font-family: 'Inter', sans-serif; font-size: 10px; font-weight: 600; color: #AEAEB2; text-transform: uppercase; letter-spacing: 0.06em; }
+    .extrato-row { display: grid; grid-template-columns: 1fr 100px 120px 100px; gap: 8px; padding: 12px 0; border-bottom: 0.5px solid rgba(0,0,0,0.03); align-items: center; transition: background 0.15s; }
+    .extrato-row:hover { background: rgba(0,0,0,0.01); }
+    .extrato-row:last-child { border-bottom: none; }
+    .ext-desc { display: flex; align-items: center; gap: 10px; }
+    .ext-icon { width: 32px; height: 32px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 14px; flex-shrink: 0; }
+    .ext-title { font-family: 'Satoshi', sans-serif; font-size: 13px; font-weight: 500; color: #1D1D1F; }
+    .ext-agent { font-family: 'Inter', sans-serif; font-size: 11px; color: #AEAEB2; }
+    .ext-hours { font-family: 'Inter', sans-serif; font-size: 12px; color: #86868B; text-align: right; }
+    .ext-type { font-family: 'Inter', sans-serif; font-size: 11px; text-align: center; }
+    .ext-type.gain { color: #30D158; background: rgba(48,209,88,0.06); padding: 3px 10px; border-radius: 6px; }
+    .ext-type.save { color: #64D2FF; background: rgba(100,210,255,0.06); padding: 3px 10px; border-radius: 6px; }
+    .ext-type.cost { color: #FF453A; background: rgba(255,69,58,0.06); padding: 3px 10px; border-radius: 6px; }
+    .ext-amount { font-family: 'Inter', sans-serif; font-size: 14px; font-weight: 600; text-align: right; }
+    .ext-amount.pos { color: #30D158; }
+    .ext-amount.neg { color: #FF453A; }
+
+    /* Section separator */
+    .date-sep { font-family: 'Inter', sans-serif; font-size: 11px; color: #AEAEB2; padding: 16px 0 8px; border-bottom: 0.5px solid rgba(0,0,0,0.04); margin-bottom: 4px; }
+
+    /* Bottom summary */
+    .summary { display: flex; gap: 12px; margin-top: 20px; padding-top: 16px; border-top: 1px solid rgba(0,0,0,0.06); }
+    .summary-item { flex: 1; text-align: center; padding: 14px; border-radius: 14px; }
+    .summary-item.gain { background: rgba(48,209,88,0.04); }
+    .summary-item.save { background: rgba(100,210,255,0.04); }
+    .summary-item.cost { background: rgba(255,69,58,0.04); }
+    .summary-item.net { background: rgba(215,0,48,0.04); }
+    .sum-val { font-family: 'Satoshi', sans-serif; font-size: 20px; font-weight: 700; }
+    .sum-val.green { color: #30D158; }
+    .sum-val.blue { color: #64D2FF; }
+    .sum-val.red { color: #FF453A; }
+    .sum-val.brand { color: #D70030; }
+    .sum-label { font-family: 'Inter', sans-serif; font-size: 11px; color: #86868B; margin-top: 2px; }
+
+    /* Agents breakdown */
+    .agent-row { display: flex; align-items: center; gap: 12px; padding: 12px 0; border-bottom: 0.5px solid rgba(0,0,0,0.03); }
+    .agent-row:last-child { border-bottom: none; }
+    .agent-avatar { width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: 'Inter', sans-serif; font-size: 12px; font-weight: 600; flex-shrink: 0; }
+    .agent-info { flex: 1; }
+    .agent-name { font-family: 'Satoshi', sans-serif; font-size: 14px; font-weight: 500; color: #1D1D1F; }
+    .agent-role { font-family: 'Inter', sans-serif; font-size: 11px; color: #86868B; }
+    .agent-hours { font-family: 'Inter', sans-serif; font-size: 12px; color: #86868B; text-align: right; width: 80px; }
+    .agent-roi { font-family: 'Inter', sans-serif; font-size: 14px; font-weight: 600; color: #30D158; text-align: right; width: 100px; }
+
+    .bar-track { width: 120px; height: 4px; background: rgba(0,0,0,0.04); border-radius: 2px; overflow: hidden; }
+    .bar-fill { height: 100%; border-radius: 2px; }
+
+    .fade-in { animation: fadeIn 0.3s cubic-bezier(0.25,0.1,0.25,1) both; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+    @media (max-width: 640px) { .hero-stats { grid-template-columns: repeat(2, 1fr); } .extrato-header, .extrato-row { grid-template-columns: 1fr 80px 80px; } }
+  </style>
+</head>
+<body>
+
+  <nav class="nav">
+    <div class="nav-inner">
+      <a href="home.html" class="nav-logo">KTANA</a>
+      <div class="nav-links">
+        <a href="home.html">Painel</a>
+        <a href="../solutions/index.html">Solucoes</a>
+        <a href="roi.html" class="active">Lucro</a>
+        <a href="../settings/general.html">Config</a>
+      </div>
+    </div>
+  </nav>
+
+  <main class="main">
+    <h1 class="fade-in">Lucro & ROI</h1>
+    <p class="sub fade-in">Quanto dinheiro real seus samurais colocaram no seu bolso. Como um extrato bancario.</p>
+
+    <!-- Period -->
+    <div class="period fade-in">
+      <button class="period-btn">7 dias</button>
+      <button class="period-btn on">30 dias</button>
+      <button class="period-btn">90 dias</button>
+      <button class="period-btn">12 meses</button>
+    </div>
+
+    <!-- Hero Stats -->
+    <div class="hero-stats fade-in">
+      <div class="hero-stat">
+        <div class="hero-stat-label">Receita gerada</div>
+        <div class="hero-stat-value green">R$127k</div>
+        <div class="hero-stat-delta up">+23% vs mes anterior</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-label">Economia gerada</div>
+        <div class="hero-stat-value" style="color:#64D2FF;">R$34k</div>
+        <div class="hero-stat-delta up">+18% vs mes anterior</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-label">Custo dos samurais</div>
+        <div class="hero-stat-value" style="color:#FF453A;">R$2.1k</div>
+        <div class="hero-stat-delta">3.1% do plano usado</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-label">ROI liquido</div>
+        <div class="hero-stat-value brand">76x</div>
+        <div class="hero-stat-delta up">Cada R$1 gasto → R$76 retorno</div>
+      </div>
+    </div>
+
+    <!-- Horas trabalhadas -->
+    <div class="card fade-in">
+      <div class="card-label">Horas trabalhadas pelos samurais</div>
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:8px;">
+        <div style="text-align:center;padding:14px;background:rgba(0,0,0,0.02);border-radius:12px;">
+          <div style="font-family:'Satoshi',sans-serif;font-size:24px;font-weight:700;color:#1D1D1F;">672h</div>
+          <div style="font-family:'Inter',sans-serif;font-size:11px;color:#86868B;">Este mes</div>
+        </div>
+        <div style="text-align:center;padding:14px;background:rgba(0,0,0,0.02);border-radius:12px;">
+          <div style="font-family:'Satoshi',sans-serif;font-size:24px;font-weight:700;color:#1D1D1F;">168h</div>
+          <div style="font-family:'Inter',sans-serif;font-size:11px;color:#86868B;">Esta semana</div>
+        </div>
+        <div style="text-align:center;padding:14px;background:rgba(0,0,0,0.02);border-radius:12px;">
+          <div style="font-family:'Satoshi',sans-serif;font-size:24px;font-weight:700;color:#1D1D1F;">24/7</div>
+          <div style="font-family:'Inter',sans-serif;font-size:11px;color:#86868B;">Disponibilidade</div>
+        </div>
+        <div style="text-align:center;padding:14px;background:rgba(48,209,88,0.04);border-radius:12px;">
+          <div style="font-family:'Satoshi',sans-serif;font-size:24px;font-weight:700;color:#30D158;">R$3,80</div>
+          <div style="font-family:'Inter',sans-serif;font-size:11px;color:#86868B;">Custo por hora</div>
+        </div>
+      </div>
+      <div style="font-family:'Inter',sans-serif;font-size:11px;color:#AEAEB2;text-align:center;margin-top:8px;">Equivalente a 4 funcionarios CLT trabalhando 168h/mes cada. Custo CLT equivalente: ~R$32.000/mes</div>
+    </div>
+
+    <!-- Extrato -->
+    <div class="card fade-in" style="animation-delay:0.1s;">
+      <div class="card-label">Extrato de ganhos e economias</div>
+
+      <div class="extrato-header">
+        <span>Descricao</span>
+        <span style="text-align:center;">Tipo</span>
+        <span style="text-align:right;">Horas</span>
+        <span style="text-align:right;">Valor</span>
+      </div>
+
+      <div class="date-sep">Hoje — 29 Mar 2026</div>
+
+      <div class="extrato-row">
+        <div class="ext-desc"><div class="ext-icon" style="background:rgba(48,209,88,0.08);">&#x1F4B0;</div><div><div class="ext-title">Proposta aceita — Cliente Apex</div><div class="ext-agent">SDR Samurai · Closer IA</div></div></div>
+        <span class="ext-type gain">Receita</span>
+        <span class="ext-hours">12h prospeccao</span>
+        <span class="ext-amount pos">+R$45.000</span>
+      </div>
+
+      <div class="extrato-row">
+        <div class="ext-desc"><div class="ext-icon" style="background:rgba(100,210,255,0.08);">&#x23F0;</div><div><div class="ext-title">34 cobracas automaticas enviadas</div><div class="ext-agent">CFO Samurai</div></div></div>
+        <span class="ext-type save">Economia</span>
+        <span class="ext-hours">6h trabalho</span>
+        <span class="ext-amount pos">+R$8.200</span>
+      </div>
+
+      <div class="extrato-row">
+        <div class="ext-desc"><div class="ext-icon" style="background:rgba(255,69,58,0.08);">&#x1F4B3;</div><div><div class="ext-title">Custo tokens Claude API</div><div class="ext-agent">Todos os samurais</div></div></div>
+        <span class="ext-type cost">Custo</span>
+        <span class="ext-hours">—</span>
+        <span class="ext-amount neg">-R$67</span>
+      </div>
+
+      <div class="date-sep">Ontem — 28 Mar 2026</div>
+
+      <div class="extrato-row">
+        <div class="ext-desc"><div class="ext-icon" style="background:rgba(48,209,88,0.08);">&#x1F4E7;</div><div><div class="ext-title">89 leads qualificados gerados</div><div class="ext-agent">SDR Samurai</div></div></div>
+        <span class="ext-type gain">Receita</span>
+        <span class="ext-hours">24h prospeccao</span>
+        <span class="ext-amount pos">+R$12.400</span>
+      </div>
+
+      <div class="extrato-row">
+        <div class="ext-desc"><div class="ext-icon" style="background:rgba(100,210,255,0.08);">&#x1F4DD;</div><div><div class="ext-title">DRE mensal gerado automaticamente</div><div class="ext-agent">CFO Samurai</div></div></div>
+        <span class="ext-type save">Economia</span>
+        <span class="ext-hours">8h contabilidade</span>
+        <span class="ext-amount pos">+R$2.400</span>
+      </div>
+
+      <div class="extrato-row">
+        <div class="ext-desc"><div class="ext-icon" style="background:rgba(48,209,88,0.08);">&#x1F4F1;</div><div><div class="ext-title">12 posts publicados (LinkedIn+IG)</div><div class="ext-agent">CMO Samurai</div></div></div>
+        <span class="ext-type save">Economia</span>
+        <span class="ext-hours">15h criacao</span>
+        <span class="ext-amount pos">+R$4.500</span>
+      </div>
+
+      <div class="extrato-row">
+        <div class="ext-desc"><div class="ext-icon" style="background:rgba(48,209,88,0.08);">&#x1F4AC;</div><div><div class="ext-title">340 atendimentos via WhatsApp</div><div class="ext-agent">SAC Samurai</div></div></div>
+        <span class="ext-type save">Economia</span>
+        <span class="ext-hours">40h atendimento</span>
+        <span class="ext-amount pos">+R$6.800</span>
+      </div>
+
+      <div class="extrato-row">
+        <div class="ext-desc"><div class="ext-icon" style="background:rgba(255,69,58,0.08);">&#x1F4B3;</div><div><div class="ext-title">Custo tokens Claude API</div><div class="ext-agent">Todos os samurais</div></div></div>
+        <span class="ext-type cost">Custo</span>
+        <span class="ext-hours">—</span>
+        <span class="ext-amount neg">-R$89</span>
+      </div>
+
+      <div class="date-sep">27 Mar 2026</div>
+
+      <div class="extrato-row">
+        <div class="ext-desc"><div class="ext-icon" style="background:rgba(48,209,88,0.08);">&#x1F4B0;</div><div><div class="ext-title">Upsell Cliente Beta — plano premium</div><div class="ext-agent">Account Manager · Closer IA</div></div></div>
+        <span class="ext-type gain">Receita</span>
+        <span class="ext-hours">4h negociacao</span>
+        <span class="ext-amount pos">+R$18.000</span>
+      </div>
+
+      <div class="extrato-row">
+        <div class="ext-desc"><div class="ext-icon" style="background:rgba(100,210,255,0.08);">&#x1F527;</div><div><div class="ext-title">Deploy automatico + code review</div><div class="ext-agent">CTO Samurai</div></div></div>
+        <span class="ext-type save">Economia</span>
+        <span class="ext-hours">12h devops</span>
+        <span class="ext-amount pos">+R$3.600</span>
+      </div>
+
+      <!-- Summary -->
+      <div class="summary">
+        <div class="summary-item gain"><div class="sum-val green">R$75.4k</div><div class="sum-label">Receita gerada</div></div>
+        <div class="summary-item save"><div class="sum-val blue">R$25.5k</div><div class="sum-label">Economia gerada</div></div>
+        <div class="summary-item cost"><div class="sum-val red">-R$2.1k</div><div class="sum-label">Custo samurais</div></div>
+        <div class="summary-item net"><div class="sum-val brand">R$98.8k</div><div class="sum-label">Lucro liquido IA</div></div>
+      </div>
+    </div>
+
+    <!-- Agent breakdown -->
+    <div class="card fade-in" style="animation-delay:0.2s;">
+      <div class="card-label">ROI por samurai</div>
+
+      <div class="agent-row">
+        <div class="agent-avatar" style="background:rgba(100,210,255,0.1);color:#64D2FF;">S</div>
+        <div class="agent-info"><div class="agent-name">SDR Samurai</div><div class="agent-role">Prospeccao e vendas</div></div>
+        <div class="agent-hours">168h/mes</div>
+        <div class="bar-track"><div class="bar-fill" style="width:85%;background:#30D158;"></div></div>
+        <div class="agent-roi">+R$57.4k</div>
+      </div>
+
+      <div class="agent-row">
+        <div class="agent-avatar" style="background:rgba(48,209,88,0.1);color:#30D158;">C</div>
+        <div class="agent-info"><div class="agent-name">CFO Samurai</div><div class="agent-role">Financeiro</div></div>
+        <div class="agent-hours">168h/mes</div>
+        <div class="bar-track"><div class="bar-fill" style="width:55%;background:#30D158;"></div></div>
+        <div class="agent-roi">+R$10.6k</div>
+      </div>
+
+      <div class="agent-row">
+        <div class="agent-avatar" style="background:rgba(255,159,10,0.1);color:#FF9F0A;">M</div>
+        <div class="agent-info"><div class="agent-name">CMO Samurai</div><div class="agent-role">Marketing</div></div>
+        <div class="agent-hours">168h/mes</div>
+        <div class="bar-track"><div class="bar-fill" style="width:40%;background:#30D158;"></div></div>
+        <div class="agent-roi">+R$4.5k</div>
+      </div>
+
+      <div class="agent-row">
+        <div class="agent-avatar" style="background:rgba(191,90,242,0.1);color:#BF5AF2;">A</div>
+        <div class="agent-info"><div class="agent-name">SAC Samurai</div><div class="agent-role">Atendimento 24/7</div></div>
+        <div class="agent-hours">720h/mes</div>
+        <div class="bar-track"><div class="bar-fill" style="width:48%;background:#30D158;"></div></div>
+        <div class="agent-roi">+R$6.8k</div>
+      </div>
+
+      <div class="agent-row">
+        <div class="agent-avatar" style="background:rgba(10,132,255,0.1);color:#0A84FF;">T</div>
+        <div class="agent-info"><div class="agent-name">CTO Samurai</div><div class="agent-role">Tecnologia</div></div>
+        <div class="agent-hours">168h/mes</div>
+        <div class="bar-track"><div class="bar-fill" style="width:30%;background:#30D158;"></div></div>
+        <div class="agent-roi">+R$3.6k</div>
+      </div>
+
+      <div style="padding:16px 0 0; border-top:1px solid rgba(0,0,0,0.06); display:flex; justify-content:space-between; font-family:'Inter',sans-serif; font-size:12px; color:#86868B; margin-top:8px;">
+        <span>Total: <strong style="color:#1D1D1F;">4 samurais ativos</strong></span>
+        <span>Horas: <strong style="color:#1D1D1F;">1.392h este mes</strong></span>
+        <span>CLT equivalente: <strong style="color:#FF453A;">R$32.000/mes</strong></span>
+        <span>Custo KTANA: <strong style="color:#30D158;">R$2.100/mes</strong></span>
+      </div>
+    </div>
+
+  </main>
+</body>
+</html>

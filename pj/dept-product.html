@@ -41,14 +41,14 @@
     .brain-ref svg { width: 12px; height: 12px; }
     .capability-list { list-style: none; padding: 0; }
     .capability-list li { font-family: 'Satoshi', sans-serif; font-size: 13px; color: #6E6E73; padding: 4px 0; padding-left: 18px; position: relative; line-height: 1.5; }
-    .capability-list li::before { content: ''; position: absolute; left: 0; top: 11px; width: 6px; height: 6px; border-radius: 50%; background: rgba(10,132,255,0.5); }
+    .capability-list li::before { content: ''; position: absolute; left: 0; top: 11px; width: 6px; height: 6px; border-radius: 50%; background: rgba(215,0,48,0.4); }
     .steps-section { margin-bottom: 56px; }
     .steps-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
     @media (max-width: 640px) { .steps-grid { grid-template-columns: 1fr; } }
     .step-card { background: #FFF; border: 1px solid rgba(0,0,0,0.04); border-radius: 20px; padding: 28px 24px; text-align: center; }
     .step-num { font-family: 'Zen Dots', cursive; font-size: 28px; color: rgba(215,0,48,0.12); margin-bottom: 12px; }
-    .step-icon { width: 48px; height: 48px; border-radius: 14px; background: rgba(10,132,255,0.08); display: flex; align-items: center; justify-content: center; margin: 0 auto 14px; }
-    .step-icon svg { width: 22px; height: 22px; stroke: #0A84FF; }
+    .step-icon { width: 48px; height: 48px; border-radius: 14px; background: rgba(215,0,48,0.06); display: flex; align-items: center; justify-content: center; margin: 0 auto 14px; }
+    .step-icon svg { width: 22px; height: 22px; stroke: #D70030; }
     .step-title { font-family: 'Satoshi', sans-serif; font-size: 16px; font-weight: 700; color: #1D1D1F; margin-bottom: 6px; }
     .step-desc { font-family: 'Satoshi', sans-serif; font-size: 13px; color: #86868B; line-height: 1.5; }
     .ba-section { margin-bottom: 56px; }
@@ -104,14 +104,14 @@
 
     <!-- Hero -->
     <div class="hero fade-in s1">
-      <div class="hero-icon" style="background:rgba(10,132,255,0.08);">
-        <svg viewBox="0 0 24 24" fill="none" stroke="#0A84FF" stroke-width="2" stroke-linecap="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/><line x1="14" y1="4" x2="10" y2="20"/></svg>
+      <div class="hero-icon" style="background:rgba(215,0,48,0.06);">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#D70030" stroke-width="2" stroke-linecap="round"><path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2zM22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/></svg>
       </div>
       <h1>Departamento de Produto</h1>
-      <p>DevOps automatizado, code review com IA, monitoramento de infra e metricas de crescimento. Seu time de tech escalado por samurais.</p>
+      <p>Product management com IA. Backlog priorizado, user stories escritas, sprints planejados e metricas de produto em tempo real.</p>
       <div class="hero-stats">
-        <div class="hero-stat"><div class="hero-stat-num">5</div><div class="hero-stat-label">Samurais incluidos</div></div>
-        <div class="hero-stat"><div class="hero-stat-num">R$950</div><div class="hero-stat-label">Custo medio/mes</div></div>
+        <div class="hero-stat"><div class="hero-stat-num">3</div><div class="hero-stat-label">Samurais incluidos</div></div>
+        <div class="hero-stat"><div class="hero-stat-num">R$680</div><div class="hero-stat-label">Custo medio/mes</div></div>
         <div class="hero-stat"><div class="hero-stat-num">5min</div><div class="hero-stat-label">Tempo de ativacao</div></div>
       </div>
     </div>
@@ -119,17 +119,17 @@
     <!-- Samurais incluidos -->
     <div class="fade-in s2">
       <h2 class="section-title">Samurais incluidos</h2>
-      <p class="section-sub">Cerebros tecnicos treinados com os maiores arquitetos e engenheiros de software do mundo.</p>
+      <p class="section-sub">Cerebros de produto treinados com os maiores product managers e UX researchers do mundo.</p>
     </div>
 
     <div class="samurai-grid">
       <!-- PO Samurai -->
       <div class="samurai-card fade-in s2">
         <div class="samurai-card-header">
-          <div class="samurai-avatar" style="background:rgba(10,132,255,0.1); color:#0A84FF;">刀</div>
+          <div class="samurai-avatar" style="background:rgba(215,0,48,0.08); color:#D70030;">刀</div>
           <div>
             <div class="samurai-card-name">PO Samurai</div>
-            <div class="samurai-card-role">Arquitetura e decisoes</div>
+            <div class="samurai-card-role">Backlog e prioridades</div>
           </div>
           <span class="popular-badge">Popular</span>
         </div>
@@ -138,93 +138,52 @@
           Brain: Marty Cagan, Jeff Patton
         </div>
         <ul class="capability-list">
-          <li>Decisoes de arquitetura com ADRs automaticos</li>
-          <li>Tech radar e avaliacao de stack tecnologico</li>
-          <li>Planejamento de capacidade e escalabilidade</li>
-          <li>Gestao de debito tecnico com priorizacao</li>
+          <li>Escrita de user stories com criterios de aceite</li>
+          <li>Priorizacao de backlog com frameworks (RICE, ICE, MoSCoW)</li>
+          <li>Roadmap estrategico com alinhamento a OKRs</li>
+          <li>Analise de metricas de produto (DAU, retention, ARPU)</li>
         </ul>
       </div>
 
       <!-- UX Researcher -->
       <div class="samurai-card fade-in s3">
         <div class="samurai-card-header">
-          <div class="samurai-avatar" style="background:rgba(10,132,255,0.1); color:#0A84FF;">刀</div>
+          <div class="samurai-avatar" style="background:rgba(215,0,48,0.08); color:#D70030;">刀</div>
           <div>
             <div class="samurai-card-name">UX Researcher</div>
-            <div class="samurai-card-role">pesquisas e testes de usabilidade</div>
+            <div class="samurai-card-role">Pesquisas e testes</div>
           </div>
-          <span class="popular-badge">Popular</span>
         </div>
         <div class="brain-ref">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 2a9 9 0 019 9c0 3.9-2.5 7.2-6 8.5M12 2a9 9 0 00-9 9c0 3.9 2.5 7.2 6 8.5M12 2v20"/></svg>
-          Brain: DevOps e Growth Hacker practices
+          Brain: UX Research e design thinking
         </div>
         <ul class="capability-list">
-          <li>Pipelines CI/CD automatizados e otimizados</li>
-          <li>Infrastructure as Code com validacao</li>
-          <li>Deploy blue-green e canary automaticos</li>
-          <li>Monitoramento de custos de cloud</li>
+          <li>Roteiros de pesquisa com usuarios automatizados</li>
+          <li>Analise de testes de usabilidade com insights acionaveis</li>
+          <li>Mapeamento de jornada do usuario com pain points</li>
+          <li>Sintese de feedbacks qualitativos em padroes</li>
         </ul>
       </div>
 
       <!-- Scrum Master -->
       <div class="samurai-card fade-in s3">
         <div class="samurai-card-header">
-          <div class="samurai-avatar" style="background:rgba(10,132,255,0.1); color:#0A84FF;">刀</div>
+          <div class="samurai-avatar" style="background:rgba(215,0,48,0.08); color:#D70030;">刀</div>
           <div>
             <div class="samurai-card-name">Scrum Master</div>
-            <div class="samurai-card-role">sprints, retros e daily</div>
+            <div class="samurai-card-role">Ritos e processos ageis</div>
           </div>
         </div>
         <div class="brain-ref">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 2a9 9 0 019 9c0 3.9-2.5 7.2-6 8.5M12 2a9 9 0 00-9 9c0 3.9 2.5 7.2 6 8.5M12 2v20"/></svg>
-          Brain: Clean Code e security best practices
+          Brain: Scrum, Kanban e agilidade
         </div>
         <ul class="capability-list">
-          <li>Code review automatico em pull requests</li>
-          <li>Deteccao de vulnerabilidades e code smells</li>
-          <li>Sugestoes de refactoring com explicacao</li>
-          <li>Enforcement de coding standards</li>
-        </ul>
-      </div>
-
-      <!-- Data Analyst -->
-      <div class="samurai-card fade-in s4">
-        <div class="samurai-card-header">
-          <div class="samurai-avatar" style="background:rgba(10,132,255,0.1); color:#0A84FF;">刀</div>
-          <div>
-            <div class="samurai-card-name">Data Analyst</div>
-            <div class="samurai-card-role">Documentacao tecnica</div>
-          </div>
-        </div>
-        <div class="brain-ref">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 2a9 9 0 019 9c0 3.9-2.5 7.2-6 8.5M12 2a9 9 0 00-9 9c0 3.9 2.5 7.2 6 8.5M12 2v20"/></svg>
-          Brain: Technical writing
-        </div>
-        <ul class="capability-list">
-          <li>Documentacao de APIs automatica (OpenAPI/Swagger)</li>
-          <li>Runbooks e playbooks de operacao</li>
-          <li>Onboarding tecnico para novos devs</li>
-        </ul>
-      </div>
-
-      <!-- Growth Hacker -->
-      <div class="samurai-card fade-in s4">
-        <div class="samurai-card-header">
-          <div class="samurai-avatar" style="background:rgba(10,132,255,0.1); color:#0A84FF;">刀</div>
-          <div>
-            <div class="samurai-card-name">Growth Hacker Samurai</div>
-            <div class="samurai-card-role">Confiabilidade e incidentes</div>
-          </div>
-        </div>
-        <div class="brain-ref">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 2a9 9 0 019 9c0 3.9-2.5 7.2-6 8.5M12 2a9 9 0 00-9 9c0 3.9 2.5 7.2 6 8.5M12 2v20"/></svg>
-          Brain: Site Reliability Engineering (Google Growth Hacker)
-        </div>
-        <ul class="capability-list">
-          <li>Monitoramento de SLIs/SLOs com alertas inteligentes</li>
-          <li>Resposta automatica a incidentes (auto-healing)</li>
-          <li>Post-mortems estruturados com acoes de follow-up</li>
+          <li>Facilitacao de ritos ageis (daily, planning, retro)</li>
+          <li>Metricas de velocidade e throughput do time</li>
+          <li>Identificacao e remocao de impedimentos</li>
+          <li>Reports de sprint com burndown automatico</li>
         </ul>
       </div>
     </div>
@@ -232,7 +191,7 @@
     <!-- Como funciona -->
     <div class="steps-section">
       <h2 class="section-title fade-in">Como funciona</h2>
-      <p class="section-sub fade-in">Tres passos para ter seu time de tech escalado com IA.</p>
+      <p class="section-sub fade-in">Tres passos para ter sua gestao de produto potencializada por IA.</p>
       <div class="steps-grid">
         <div class="step-card fade-in s3">
           <div class="step-num">01</div>
@@ -240,7 +199,7 @@
             <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg>
           </div>
           <div class="step-title">Selecionar</div>
-          <div class="step-desc">Escolha os samurais de tech (DevOps, code review, Growth Hacker, documentacao).</div>
+          <div class="step-desc">Escolha os samurais de produto (PO, UX Research, Scrum Master).</div>
         </div>
         <div class="step-card fade-in s4">
           <div class="step-num">02</div>
@@ -248,7 +207,7 @@
             <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 01-2.83 2.83l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
           </div>
           <div class="step-title">Configurar</div>
-          <div class="step-desc">Conecte repos GitHub, cloud e monitoring. O samurai aprende sua stack.</div>
+          <div class="step-desc">Conecte Jira/ClickUp, defina OKRs e importe backlog. O samurai aprende seu produto.</div>
         </div>
         <div class="step-card fade-in s5">
           <div class="step-num">03</div>
@@ -256,7 +215,7 @@
             <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
           </div>
           <div class="step-title">Ativar</div>
-          <div class="step-desc">CI/CD, code review e monitoramento rodando 24/7. Deploys sem medo.</div>
+          <div class="step-desc">Backlog priorizado, stories escritas e sprints planejados automaticamente.</div>
         </div>
       </div>
     </div>
@@ -269,21 +228,21 @@
         <div class="ba-card before fade-in s4">
           <div class="ba-label">Antes — Manual</div>
           <ul class="ba-list">
-            <li>Deploy manual com downtime e rollbacks frequentes</li>
-            <li>Code review leva 2-3 dias para cada PR</li>
-            <li>Documentacao desatualizada ou inexistente</li>
-            <li>Incidentes detectados pelo cliente antes do time</li>
-            <li>Debito tecnico crescendo sem visibilidade</li>
+            <li>Backlog com 200+ itens sem priorizacao clara</li>
+            <li>User stories vagas sem criterios de aceite</li>
+            <li>Decisoes de roadmap baseadas em opiniao</li>
+            <li>Pesquisas com usuarios feitas esporadicamente</li>
+            <li>Metricas de produto consultadas manualmente</li>
           </ul>
         </div>
         <div class="ba-card after fade-in s5">
           <div class="ba-label">Depois — Com KTANA</div>
           <ul class="ba-list">
-            <li>Deploy automatico com zero downtime e canary release</li>
-            <li>Code review instantaneo com sugestoes acionaveis</li>
-            <li>Documentacao gerada e atualizada automaticamente</li>
-            <li>Incidentes detectados e corrigidos antes do impacto</li>
-            <li>Debito tecnico mapeado com priorizacao por risco</li>
+            <li>Backlog priorizado automaticamente com RICE score</li>
+            <li>User stories completas com criterios e edge cases</li>
+            <li>Roadmap data-driven alinhado a OKRs</li>
+            <li>Insights de usuario continuos com analise automatica</li>
+            <li>Dashboard de metricas de produto em tempo real</li>
           </ul>
         </div>
       </div>
@@ -294,7 +253,7 @@
       <div class="pricing-card fade-in">
         <div class="pricing-included">Incluso no plano</div>
         <div class="pricing-title">Departamento de Produto completo</div>
-        <div class="pricing-desc">5 samurais prontos para operar. Sem custo adicional por agente ativado.</div>
+        <div class="pricing-desc">3 samurais prontos para operar. Sem custo adicional por agente ativado.</div>
       </div>
     </div>
 
