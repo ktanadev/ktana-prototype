@@ -9,426 +9,256 @@
   <style>
     body { min-height: 100vh; background: #F5F5F7; }
 
-    /* Nav */
+    /* Top bar branco com titulo */
+    .urgent-top { padding: 20px 24px; display: flex; align-items: center; justify-content: space-between; max-width: 900px; margin: 0 auto; }
+    .urgent-title { display: flex; align-items: center; gap: 10px; }
+    .urgent-pulse { width: 10px; height: 10px; border-radius: 50%; background: #D70030; animation: urgPulse 1.2s ease infinite; flex-shrink: 0; }
+    @keyframes urgPulse { 0%,100% { opacity: 1; box-shadow: 0 0 0 0 rgba(215,0,48,0.4); } 50% { opacity: 0.7; box-shadow: 0 0 0 8px rgba(215,0,48,0); } }
+    .urgent-title h1 { font-family: 'Satoshi', sans-serif; font-size: 20px; font-weight: 700; color: #1D1D1F; }
+    .urgent-count { font-family: 'Inter', sans-serif; font-size: 11px; color: #D70030; background: rgba(215,0,48,0.06); padding: 3px 12px; border-radius: 980px; }
+    .btn-back { font-family: 'Inter', sans-serif; padding: 6px 14px; border-radius: 8px; font-size: 12px; background: #FFF; color: #6E6E73; border: 0.5px solid rgba(0,0,0,0.08); cursor: pointer; text-decoration: none; }
 
-    .main { max-width: 760px; margin: 0 auto; padding: 32px 20px 80px; }
+    /* Chat zone — estilo agent/chat.html */
+    .chat-area { background: #0A0A0A; min-height: calc(100vh - 130px); position: relative; overflow: hidden; }
+    .chat-glow { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; }
+    .chat-glow-orb { position: absolute; border-radius: 50%; filter: blur(80px); }
+    .chat-glow-orb:nth-child(1) { width: 50%; height: 40%; top: 0; left: -5%; background: radial-gradient(ellipse at center, rgba(215,0,48,0.15) 0%, transparent 70%); animation: orb1 10s ease-in-out infinite; }
+    .chat-glow-orb:nth-child(2) { width: 40%; height: 35%; top: 30%; right: -5%; background: radial-gradient(ellipse at center, rgba(160,15,5,0.12) 0%, transparent 70%); animation: orb2 14s ease-in-out infinite; }
+    .chat-glow-orb:nth-child(3) { width: 35%; height: 40%; bottom: 0; left: 25%; background: radial-gradient(ellipse at center, rgba(220,80,25,0.10) 0%, transparent 70%); animation: orb3 12s ease-in-out infinite; }
+    @keyframes orb1 { 0%,100% { transform: translate(0,0); } 50% { transform: translate(5%,3%); } }
+    @keyframes orb2 { 0%,100% { transform: translate(0,0); } 50% { transform: translate(-6%,4%); } }
+    @keyframes orb3 { 0%,100% { transform: translate(0,0); } 50% { transform: translate(3%,-3%); } }
 
-    /* Urgent banner */
-    .urgent-header { text-align: center; margin-bottom: 28px; }
-    .urgent-pulse { width: 12px; height: 12px; border-radius: 50%; background: #D70030; display: inline-block; margin-right: 8px; animation: urgentPulse 1.2s ease infinite; vertical-align: middle; }
-    @keyframes urgentPulse { 0%,100% { opacity: 1; box-shadow: 0 0 0 0 rgba(215,0,48,0.4); } 50% { opacity: 0.7; box-shadow: 0 0 0 8px rgba(215,0,48,0); } }
-    .urgent-header h1 { font-family: 'Satoshi', sans-serif; font-size: 28px; font-weight: 700; color: #1D1D1F; margin-bottom: 6px; }
-    .urgent-header p { font-family: 'Satoshi', sans-serif; font-size: 14px; color: #86868B; }
-    .urgent-count { font-family: 'Inter', sans-serif; display: inline-flex; align-items: center; gap: 6px; padding: 4px 14px; border-radius: 980px; background: rgba(215,0,48,0.06); color: #D70030; font-size: 12px; font-weight: 500; margin-top: 12px; }
+    .chat-msgs { position: relative; z-index: 1; max-width: 760px; margin: 0 auto; padding: 24px 24px 140px; display: flex; flex-direction: column; gap: 16px; }
 
-    /* Back to normal */
-    .back-bar { display: flex; align-items: center; justify-content: space-between; margin-bottom: 24px; padding: 12px 16px; background: rgba(0,0,0,0.02); border-radius: 12px; }
-    .back-bar p { font-family: 'Inter', sans-serif; font-size: 12px; color: #86868B; }
-    .btn-back { font-family: 'Inter', sans-serif; padding: 6px 14px; border-radius: 8px; font-size: 12px; background: #FFF; color: #6E6E73; border: 0.5px solid rgba(0,0,0,0.08); cursor: pointer; }
-    .btn-back:hover { background: #F0F0F0; }
+    /* Messages */
+    .msg { max-width: 85%; animation: msgIn 0.4s ease forwards; }
+    @keyframes msgIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+    .msg-agent { align-self: flex-start; }
+    .msg-user { align-self: flex-end; }
+    .msg-sender { font-family: 'Inter', sans-serif; font-size: 11px; color: #D70030; font-weight: 500; margin-bottom: 4px; }
+    .msg-bubble { padding: 14px 18px; border-radius: 18px; font-family: 'Satoshi', sans-serif; font-size: 14px; line-height: 1.6; }
+    .msg-agent .msg-bubble { background: rgba(255,255,255,0.04); backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,0.06); color: #E5E5EA; border-bottom-left-radius: 4px; }
+    .msg-user .msg-bubble { background: rgba(215,0,48,0.12); border: 1px solid rgba(215,0,48,0.18); color: #F5F5F7; border-bottom-right-radius: 4px; }
+    .msg-time { font-family: 'Inter', sans-serif; font-size: 10px; color: rgba(255,255,255,0.3); margin-top: 4px; padding: 0 4px; }
+    .msg-user .msg-time { text-align: right; }
 
-    /* Section label */
-    .section-label { font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 10px; display: flex; align-items: center; justify-content: space-between; }
-    .section-label.red { color: #D70030; }
-    .section-label.orange { color: #FF9500; }
-    .section-label.neutral { color: #86868B; }
-    .section-count { font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 500; }
+    /* Action chips inside messages */
+    .msg-chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+    .msg-chip { font-family: 'Inter', sans-serif; padding: 7px 16px; border-radius: 12px; font-size: 12px; cursor: pointer; transition: all 0.15s; border: none; min-height: 36px; }
+    .msg-chip-primary { background: #D70030; color: #FFF; }
+    .msg-chip-primary:hover { background: #E5003A; }
+    .msg-chip-dark { background: rgba(255,255,255,0.08); color: #E5E5EA; border: 0.5px solid rgba(255,255,255,0.12); }
+    .msg-chip-dark:hover { background: rgba(255,255,255,0.14); }
+    .msg-chip-danger { background: transparent; color: #FF453A; border: 0.5px solid rgba(255,69,58,0.3); }
+    .msg-chip-danger:hover { background: rgba(255,69,58,0.1); }
 
-    /* Urgent cards */
-    .urgent-card { background: #FFF; border-radius: 20px; border: 1px solid rgba(0,0,0,0.04); padding: 18px 20px; margin-bottom: 10px; transition: box-shadow 0.2s; position: relative; overflow: hidden; }
-    .urgent-card:hover { box-shadow: 0 4px 24px rgba(0,0,0,0.04); }
-    .urgent-card.critical { border-left: 3px solid #D70030; }
-    .urgent-card.critical::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px; background: linear-gradient(90deg, rgba(215,0,48,0.3), transparent); }
-    .urgent-card.warning { border-left: 3px solid #FF9500; }
-    .urgent-card.security { border-left: 3px solid #AF52DE; }
+    /* Badge inline */
+    .msg-badge { display: inline-flex; align-items: center; padding: 2px 8px; border-radius: 6px; font-family: 'Inter', sans-serif; font-size: 10px; font-weight: 500; margin-left: 6px; }
+    .msg-badge-critical { background: rgba(215,0,48,0.15); color: #FF6B6B; }
+    .msg-badge-warning { background: rgba(255,149,0,0.15); color: #FFB340; }
+    .msg-badge-error { background: rgba(215,0,48,0.15); color: #FF453A; }
 
-    .card-top { display: flex; align-items: start; justify-content: space-between; margin-bottom: 6px; }
-    .card-agent { display: flex; align-items: center; gap: 10px; }
-    .card-avatar { width: 30px; height: 30px; border-radius: 50%; border: 1px solid rgba(0,0,0,0.04); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
-    .card-avatar span { font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 500; color: #86868B; }
-    .card-info { }
-    .card-title { font-family: 'Satoshi', sans-serif; font-size: 14px; font-weight: 500; color: #1D1D1F; }
-    .card-sub { font-family: 'Satoshi', sans-serif; font-size: 12px; color: #86868B; margin-top: 3px; line-height: 1.5; }
+    /* Separator */
+    .msg-separator { text-align: center; padding: 8px 0; }
+    .msg-separator span { font-family: 'Inter', sans-serif; font-size: 10px; color: rgba(255,255,255,0.25); letter-spacing: 0.06em; text-transform: uppercase; }
 
-    .badge-priority { font-family: 'Inter', sans-serif; padding: 3px 10px; border-radius: 8px; font-size: 11px; font-weight: 500; flex-shrink: 0; }
-    .badge-critical { background: rgba(215,0,48,0.08); color: #D70030; border: 0.5px solid rgba(215,0,48,0.15); animation: badgePulse 2s ease infinite; }
-    @keyframes badgePulse { 0%,100% { opacity:1; } 50% { opacity:0.7; } }
-    .badge-warning { background: rgba(255,149,0,0.08); color: #FF9500; border: 0.5px solid rgba(255,149,0,0.15); }
-    .badge-security { background: rgba(175,82,222,0.08); color: #AF52DE; border: 0.5px solid rgba(175,82,222,0.15); }
-
-    .card-time { font-family: 'Inter', sans-serif; font-size: 11px; color: #AEAEB2; margin-top: 8px; display: flex; align-items: center; gap: 8px; }
-    .card-time .elapsed { color: #D70030; font-weight: 500; }
-
-    .card-actions { display: flex; gap: 8px; margin-top: 12px; }
-    .btn-action { font-family: 'Inter', sans-serif; padding: 8px 18px; border-radius: 12px; font-size: 13px; font-weight: 500; border: none; cursor: pointer; min-height: 40px; transition: all 0.15s; }
-    .btn-action:active { transform: scale(0.97); }
-    .btn-primary { background: #D70030; color: #FFF; }
-    .btn-primary:hover { background: #C0002B; }
-    .btn-dark { background: #1D1D1F; color: #FFF; }
-    .btn-dark:hover { background: #000; }
-    .btn-outline { background: transparent; color: #86868B; border: 0.5px solid rgba(0,0,0,0.08); }
-
-    /* Alert cards — compact */
-    .alert-compact { display: flex; align-items: center; gap: 12px; background: #FFF; border-radius: 16px; border: 1px solid rgba(0,0,0,0.04); padding: 14px 16px; margin-bottom: 8px; }
-    .alert-icon { width: 32px; height: 32px; border-radius: 10px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-size: 16px; }
-    .alert-icon.budget { background: rgba(255,149,0,0.08); }
-    .alert-icon.security { background: rgba(175,82,222,0.08); }
-    .alert-info { flex: 1; }
-    .alert-title { font-family: 'Satoshi', sans-serif; font-size: 13px; font-weight: 500; color: #1D1D1F; }
-    .alert-desc { font-family: 'Satoshi', sans-serif; font-size: 12px; color: #86868B; margin-top: 2px; }
-    .alert-action { font-family: 'Inter', sans-serif; padding: 6px 14px; border-radius: 8px; font-size: 12px; background: #F0F0F0; color: #6E6E73; border: none; cursor: pointer; flex-shrink: 0; }
-    .alert-action:hover { background: #E8E8ED; }
-
-    /* Progress bar for budget */
-    .budget-bar { margin-top: 8px; }
-    .budget-track { width: 100%; height: 4px; background: rgba(0,0,0,0.04); border-radius: 2px; overflow: hidden; }
-    .budget-fill { height: 100%; border-radius: 2px; }
-    .budget-fill.danger { background: #D70030; }
-    .budget-fill.warning { background: #FF9500; }
-    .budget-meta { display: flex; justify-content: space-between; margin-top: 4px; }
-    .budget-meta span { font-family: 'Inter', sans-serif; font-size: 11px; color: #AEAEB2; }
+    /* Input fixo no rodape */
+    .chat-input-wrap { position: fixed; bottom: 0; left: 0; right: 0; z-index: 10; padding: 16px 24px 24px; background: linear-gradient(transparent, #0A0A0A 30%); }
+    .chat-input-inner { max-width: 760px; margin: 0 auto; position: relative; border-radius: 14px; }
+    .input-glow { position: absolute; top: 50%; left: 50%; width: 110%; height: 180%; transform: translate(-50%,-50%); pointer-events: none; z-index: 0; filter: blur(30px); opacity: 0.65; background: radial-gradient(ellipse 50% 50% at 30% 40%, rgba(215,0,48,0.45) 0%, transparent 70%), radial-gradient(ellipse 45% 50% at 70% 50%, rgba(160,15,5,0.35) 0%, transparent 65%); animation: glowMove 8s ease-in-out infinite; }
+    @keyframes glowMove { 0% { transform: translate(-50%,-50%) rotate(0deg); } 50% { transform: translate(-55%,-47%) rotate(-1deg); } 100% { transform: translate(-50%,-50%) rotate(0deg); } }
+    .input-border-spin { position: absolute; inset: -1px; border-radius: 15px; z-index: 1; overflow: hidden; pointer-events: none; }
+    .input-border-spin::before { content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: conic-gradient(transparent 30%, rgba(140,10,5,0.6) 38%, rgba(215,0,48,0.8) 42%, rgba(220,80,25,0.5) 48%, transparent 55%, transparent 80%, rgba(180,30,8,0.3) 87%, rgba(215,0,48,0.5) 92%, transparent 97%); animation: spin 5s linear infinite; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .input-border-spin::after { content: ''; position: absolute; inset: 1px; border-radius: 14px; background: #111; }
+    .input-card { background: #111; border-radius: 14px; position: relative; z-index: 2; display: flex; flex-direction: column; }
+    .chat-input { font-family: 'Satoshi', sans-serif; width: 100%; padding: 14px 18px 48px; border-radius: 14px; border: none; background: transparent; font-size: 15px; color: #E5E5EA; outline: none; min-height: 56px; max-height: 120px; resize: none; box-sizing: border-box; }
+    .chat-input::placeholder { color: rgba(255,255,255,0.25); }
+    .input-footer { position: absolute; bottom: 0; left: 0; right: 0; padding: 8px 14px; display: flex; align-items: center; gap: 8px; border-top: 1px solid rgba(255,255,255,0.04); }
+    .input-add { width: 30px; height: 30px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.1); background: transparent; color: rgba(255,255,255,0.4); display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 16px; }
+    .input-tag { font-family: 'Inter', sans-serif; font-size: 12px; color: rgba(255,255,255,0.5); background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; padding: 5px 10px; }
+    .input-send { margin-left: auto; width: 34px; height: 34px; border-radius: 10px; background: #D70030; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; color: #F5F5F7; flex-shrink: 0; }
+    .input-send:hover { background: #E5003A; }
+    .input-send:active { transform: scale(0.92); }
 
     @media (max-width: 640px) {
-      .card-actions { flex-direction: column; }
-      .btn-action { text-align: center; }
+      .chat-msgs { padding: 16px 16px 160px; }
+      .msg { max-width: 95%; }
     }
-
-    /* COMPACT CHAT ZONE — Dark Ambient Glow Widget */
-    .chat-zone.compact {
-      background: #0A0A0A;
-      border-radius: 16px;
-      position: relative;
-      overflow: hidden;
-      margin-bottom: 28px;
-      padding: 0;
-      box-shadow: 0 4px 32px rgba(0,0,0,0.18), 0 0 0 1px rgba(255,255,255,0.04);
-    }
-    .chat-zone.compact .ambient-glow {
-      position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none;
-    }
-    .chat-zone.compact .ambient-glow-orb {
-      position: absolute; border-radius: 50%; pointer-events: none;
-      filter: blur(60px);
-    }
-    .chat-zone.compact .ambient-glow-orb:nth-child(1) {
-      width: 55%; height: 45%;
-      top: 0%; left: -10%;
-      background: radial-gradient(ellipse at center, rgba(215,0,48,0.22) 0%, transparent 70%);
-      animation: orbDriftC1 10s ease-in-out infinite;
-    }
-    .chat-zone.compact .ambient-glow-orb:nth-child(2) {
-      width: 45%; height: 40%;
-      top: 20%; right: -10%;
-      background: radial-gradient(ellipse at center, rgba(160,15,5,0.18) 0%, transparent 70%);
-      animation: orbDriftC2 14s ease-in-out infinite;
-    }
-    .chat-zone.compact .ambient-glow-orb:nth-child(3) {
-      width: 40%; height: 45%;
-      bottom: -5%; left: 20%;
-      background: radial-gradient(ellipse at center, rgba(220,80,25,0.15) 0%, transparent 70%);
-      animation: orbDriftC3 12s ease-in-out infinite;
-    }
-    @keyframes orbDriftC1 { 0%,100% { transform: translate(0,0); } 33% { transform: translate(8%,6%); } 66% { transform: translate(-4%,-4%); } }
-    @keyframes orbDriftC2 { 0%,100% { transform: translate(0,0); } 50% { transform: translate(-10%,5%); } }
-    @keyframes orbDriftC3 { 0%,100% { transform: translate(0,0); } 33% { transform: translate(6%,-6%); } 66% { transform: translate(-5%,3%); } }
-
-    .chat-zone.compact .cmd-inner { position: relative; z-index: 1; padding: 20px 22px 18px; }
-
-    .cmd-label { font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: #D70030; margin-bottom: 14px; display: flex; align-items: center; gap: 8px; }
-    .cmd-label .cmd-dot { width: 6px; height: 6px; border-radius: 50%; background: #30D158; animation: pulse-cmd 2s infinite; }
-    @keyframes pulse-cmd { 0%,100% { opacity:1; } 50% { opacity:0.3; } }
-
-    .cmd-messages { max-height: 200px; overflow-y: auto; margin-bottom: 16px; display: flex; flex-direction: column; gap: 10px; }
-    .cmd-msg { max-width: 85%; padding: 12px 16px; border-radius: 16px; font-family: 'Satoshi', sans-serif; font-size: 14px; line-height: 1.5; animation: fadeIn 0.3s ease; }
-    .cmd-msg-ai { background: rgba(255,255,255,0.04); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,0.06); color: #E5E5EA; border-bottom-left-radius: 4px; align-self: flex-start; }
-    .cmd-msg-user { background: rgba(215,0,48,0.12); border: 1px solid rgba(215,0,48,0.18); color: #F5F5F7; border-bottom-right-radius: 4px; align-self: flex-end; }
-    .cmd-msg-ai .cmd-sender { font-family: 'Inter', sans-serif; font-size: 11px; color: #D70030; font-weight: 500; margin-bottom: 4px; }
-
-    .cmd-shortcuts { display: flex; gap: 6px; margin-top: 14px; flex-wrap: wrap; }
-    .cmd-shortcut { font-family: 'Inter', sans-serif; font-size: 12px; color: rgba(255,255,255,0.4); background: rgba(255,255,255,0.03); border: 0.5px solid rgba(255,255,255,0.1); border-radius: 980px; padding: 6px 14px; cursor: pointer; transition: all 0.15s; }
-    .cmd-shortcut:hover { background: rgba(215,0,48,0.12); color: #F5F5F7; border-color: rgba(215,0,48,0.25); }
-
-    .cmd-input-outer { position: relative; border-radius: 14px; margin-top: 16px; }
-    .cmd-input-glow {
-      position: absolute;
-      top: 50%; left: 50%;
-      width: 110%; height: 180%;
-      transform: translate(-50%, -50%);
-      pointer-events: none; z-index: 0;
-      filter: blur(30px);
-      opacity: 0.65;
-      background:
-        radial-gradient(ellipse 50% 50% at 30% 40%, rgba(215,0,48,0.45) 0%, transparent 70%),
-        radial-gradient(ellipse 45% 50% at 70% 50%, rgba(160,15,5,0.35) 0%, transparent 65%),
-        radial-gradient(ellipse 40% 45% at 50% 55%, rgba(220,80,25,0.25) 0%, transparent 60%);
-      animation: glowMoveC 8s ease-in-out infinite;
-    }
-    @keyframes glowMoveC {
-      0%   { transform: translate(-50%, -50%) rotate(0deg); }
-      25%  { transform: translate(-45%, -53%) rotate(2deg); }
-      50%  { transform: translate(-55%, -47%) rotate(-1deg); }
-      75%  { transform: translate(-48%, -52%) rotate(1.5deg); }
-      100% { transform: translate(-50%, -50%) rotate(0deg); }
-    }
-    .cmd-input-border-spin {
-      position: absolute; inset: -1px; border-radius: 15px; z-index: 1;
-      overflow: hidden; pointer-events: none;
-    }
-    .cmd-input-border-spin::before {
-      content: ''; position: absolute;
-      top: -50%; left: -50%; width: 200%; height: 200%;
-      background: conic-gradient(transparent 30%, rgba(140,10,5,0.6) 38%, rgba(215,0,48,0.8) 42%, rgba(220,80,25,0.5) 48%, transparent 55%, transparent 80%, rgba(180,30,8,0.3) 87%, rgba(215,0,48,0.5) 92%, transparent 97%);
-      animation: rotateLine 5s linear infinite;
-    }
-    @keyframes rotateLine { to { transform: rotate(360deg); } }
-    .cmd-input-border-spin::after {
-      content: ''; position: absolute;
-      inset: 1px; border-radius: 14px;
-      background: #111;
-    }
-
-    .cmd-input-card {
-      background: #111; border-radius: 14px; position: relative; z-index: 2;
-      display: flex; flex-direction: column;
-    }
-    .cmd-input {
-      font-family: 'Satoshi', sans-serif; width: 100%;
-      padding: 14px 18px 48px; border-radius: 14px;
-      border: none; background: transparent;
-      font-size: 15px; color: #E5E5EA; outline: none;
-      min-height: 56px; max-height: 120px; resize: none;
-      box-sizing: border-box;
-    }
-    .cmd-input::placeholder { color: rgba(255,255,255,0.25); }
-    .cmd-input-footer {
-      position: absolute; bottom: 0; left: 0; right: 0;
-      padding: 8px 14px; display: flex; align-items: center; gap: 8px;
-      border-top: 1px solid rgba(255,255,255,0.04);
-    }
-    .cmd-add-btn { width: 30px; height: 30px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.1); background: transparent; color: rgba(255,255,255,0.4); display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 16px; transition: all 0.15s; }
-    .cmd-add-btn:hover { background: rgba(255,255,255,0.06); color: rgba(255,255,255,0.7); }
-    .cmd-agent-select { font-family: 'Inter', sans-serif; font-size: 12px; color: rgba(255,255,255,0.5); background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; padding: 5px 10px; cursor: pointer; appearance: none; -webkit-appearance: none; }
-    .cmd-send { margin-left: auto; width: 34px; height: 34px; border-radius: 10px; background: #D70030; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: transform 0.1s, background 0.15s; flex-shrink: 0; color: #F5F5F7; }
-    .cmd-send:hover { background: #E5003A; }
-    .cmd-send:active { transform: scale(0.92); }
-
-    .cmd-typing { display: none; align-items: center; gap: 8px; padding: 6px 0; margin-bottom: 8px; }
-    .cmd-typing.active { display: flex; }
-    .cmd-typing-dots { display: flex; gap: 4px; }
-    .cmd-typing-dot { width: 5px; height: 5px; border-radius: 50%; background: rgba(215,0,48,0.4); animation: typingBounceC 1.4s ease infinite; }
-    .cmd-typing-dot:nth-child(2) { animation-delay: 0.2s; }
-    .cmd-typing-dot:nth-child(3) { animation-delay: 0.4s; }
-    @keyframes typingBounceC { 0%,60%,100% { transform: translateY(0); } 30% { transform: translateY(-3px); } }
-    .cmd-typing-text { font-family: 'Inter', sans-serif; font-size: 11px; color: rgba(255,255,255,0.35); }
   </style>
 </head>
 <body>
 
-  <!-- Nav -->
-
-  <main class="main"><div class="gradient-header">
-
-    <!-- Header -->
-    <div class="urgent-header fade-in">
-      <h1><span class="urgent-pulse"></span>Modo Urgente</h1>
-      <p>Somente itens criticos que precisam da sua atencao imediata.</p>
+  <!-- Topo branco com titulo -->
+  <div class="urgent-top">
+    <div class="urgent-title">
+      <div class="urgent-pulse"></div>
+      <h1>Modo Urgente</h1>
       <span class="urgent-count">5 itens criticos</span>
     </div>
+    <a href="home.html" class="btn-back">Voltar ao painel</a>
+  </div>
 
-    <!-- Back to normal -->
-    <div class="back-bar fade-in" style="animation-delay:0.05s">
-      <p>Voce esta no modo urgente — apenas itens criticos sao exibidos.</p>
-      <button class="btn-back" onclick="location.href='home.html'">Voltar ao painel normal</button>
+  <!-- Chat area escura — estilo agent/chat -->
+  <div class="chat-area">
+    <div class="chat-glow">
+      <div class="chat-glow-orb"></div>
+      <div class="chat-glow-orb"></div>
+      <div class="chat-glow-orb"></div>
     </div>
 
-    <!-- APPROVALS — CRITICAL -->
-    <p class="section-label red fade-in" style="animation-delay:0.08s">
-      <span>Aprovacoes criticas</span>
-      <span class="section-count" style="color:#D70030;">2 pendentes</span>
-    </p>
+    <div class="chat-msgs" id="chatMsgs">
 
-    <div class="urgent-card critical fade-in" style="animation-delay:0.1s">
-      <div class="card-top">
-        <div class="card-agent">
-          <div class="card-avatar"><span>Y</span></div>
-          <div class="card-info">
-            <p class="card-title">Cliente Z ameacou cancelar contrato — R$45.000/ano</p>
+      <!-- Akira abre com resumo -->
+      <div class="msg msg-agent" style="animation-delay:0.1s">
+        <div class="msg-sender">Akira — CEO Digital</div>
+        <div class="msg-bubble">
+          <strong>5 itens criticos precisam de voce agora.</strong><br><br>
+          Mais grave: Cliente Z ameacou cancelar contrato de R$45.000/ano. Hana interceptou o email. Tambem tem cobranca do Cliente W pronta e token do Haruki expirado.
+        </div>
+        <div class="msg-time">agora</div>
+      </div>
+
+      <!-- Separator -->
+      <div class="msg-separator"><span>Aprovacoes criticas</span></div>
+
+      <!-- Item 1 — Cliente Z -->
+      <div class="msg msg-agent" style="animation-delay:0.2s">
+        <div class="msg-sender">Hana — Secretaria Executiva</div>
+        <div class="msg-bubble">
+          <strong>Cliente Z ameacou cancelar contrato — R$45.000/ano</strong> <span class="msg-badge msg-badge-critical">Critico</span><br><br>
+          Interceptei email furioso do CEO do Cliente Z sobre atraso na entrega do Sprint 12. Haruki confirma: 2 tasks criticas atrasadas 3 dias. Akira recomenda reuniao emergencial hoje.<br>
+          <span style="font-size:11px;color:rgba(255,255,255,0.35);margin-top:6px;display:block;">Detectado ha 47 min · Aguardando ha 47 min</span>
+          <div class="msg-chips">
+            <button class="msg-chip msg-chip-primary" onclick="this.textContent='Agendado ✓';this.style.background='#30D158';">Agendar reuniao agora</button>
+            <button class="msg-chip msg-chip-dark">Ligar pro cliente</button>
+            <button class="msg-chip msg-chip-dark">Ver detalhes</button>
           </div>
         </div>
-        <span class="badge-priority badge-critical">Critico</span>
+        <div class="msg-time">Hana · 14:15</div>
       </div>
-      <p class="card-sub">Hana interceptou email furioso do CEO do Cliente Z sobre atraso na entrega do Sprint 12. Haruki confirma: 2 tasks criticas atrasadas 3 dias. Akira recomenda reuniao emergencial hoje.</p>
-      <div class="card-time">
-        <span>Detectado ha 47 min por Hana</span>
-        <span class="elapsed">Aguardando ha 47 min</span>
-      </div>
-      <div class="card-actions">
-        <button class="btn-action btn-primary" onclick="this.textContent='Agendado'; this.style.background='#30D158';">Agendar reuniao agora</button>
-        <button class="btn-action btn-dark">Ligar pro cliente</button>
-        <button class="btn-action btn-outline">Ver detalhes</button>
-      </div>
-    </div>
 
-    <div class="urgent-card critical fade-in" style="animation-delay:0.15s">
-      <div class="card-top">
-        <div class="card-agent">
-          <div class="card-avatar"><span>Y</span></div>
-          <div class="card-info">
-            <p class="card-title">Cobranca de R$18.000 — Cliente W com 20 dias de atraso</p>
+      <!-- Item 2 — Cobranca -->
+      <div class="msg msg-agent" style="animation-delay:0.3s">
+        <div class="msg-sender">Yuki — Controller</div>
+        <div class="msg-bubble">
+          <strong>Cobranca de R$18.000 — Cliente W com 20 dias de atraso</strong> <span class="msg-badge msg-badge-critical">Critico</span><br><br>
+          Solicito aprovacao para cobranca formal com juros de 2%. Kaito (CFO) recomenda: aprovar e incluir notificacao de possivel negativacao apos 30 dias.<br>
+          <span style="font-size:11px;color:rgba(255,255,255,0.35);margin-top:6px;display:block;">Escalado ha 2h · Aguardando aprovacao</span>
+          <div class="msg-chips">
+            <button class="msg-chip msg-chip-primary" onclick="this.textContent='Aprovado ✓';this.style.background='#30D158';">Aprovar cobranca</button>
+            <button class="msg-chip msg-chip-dark">Editar valores</button>
+            <button class="msg-chip msg-chip-danger">Negar</button>
           </div>
         </div>
-        <span class="badge-priority badge-critical">Critico</span>
+        <div class="msg-time">Yuki · 12:42</div>
       </div>
-      <p class="card-sub">Yuki solicita aprovacao para cobranca formal com juros de 2%. Kaito (CFO) recomenda: aprovar e incluir notificacao de possivel negativacao apos 30 dias.</p>
-      <div class="card-time">
-        <span>Escalado por Yuki ha 2h</span>
-        <span class="elapsed">Aguardando ha 2h</span>
-      </div>
-      <div class="card-actions">
-        <button class="btn-action btn-dark" onclick="this.innerHTML='Aprovado <svg width=&quot;16&quot; height=&quot;16&quot; viewBox=&quot;0 0 24 24&quot; fill=&quot;none&quot; stroke=&quot;currentColor&quot; stroke-width=&quot;2&quot; stroke-linecap=&quot;round&quot; stroke-linejoin=&quot;round&quot;><path d=&quot;M20 6L9 17l-5-5&quot;/></svg>'; this.style.background='#30D158';">Aprovar cobranca</button>
-        <button class="btn-action btn-outline">Editar valores</button>
-        <button class="btn-action btn-outline">Negar</button>
-      </div>
-    </div>
 
-    <!-- AGENT ERRORS -->
-    <p class="section-label red fade-in" style="animation-delay:0.18s">
-      <span>Erros de agentes</span>
-      <span class="section-count" style="color:#D70030;">1 erro</span>
-    </p>
+      <!-- Separator -->
+      <div class="msg-separator"><span>Erros de agentes</span></div>
 
-    <div class="urgent-card critical fade-in" style="animation-delay:0.2s">
-      <div class="card-top">
-        <div class="card-agent">
-          <div class="card-avatar" style="border-color:rgba(215,0,48,0.2);"><span style="color:#D70030;">H</span></div>
-          <div class="card-info">
-            <p class="card-title">Haruki falhou ao sincronizar com GitHub</p>
+      <!-- Item 3 — Haruki erro -->
+      <div class="msg msg-agent" style="animation-delay:0.4s">
+        <div class="msg-sender">Haruki — Gestor de Projetos</div>
+        <div class="msg-bubble">
+          <strong>Falha ao sincronizar com GitHub</strong> <span class="msg-badge msg-badge-error">Erro</span><br><br>
+          API retornou 403 (Forbidden) ao criar pull request no repositorio ktana-assistant. Token de acesso expirou. Tentei 3 vezes e parei.<br>
+          <span style="font-size:11px;color:rgba(255,255,255,0.35);margin-top:6px;display:block;">Falhou ha 1h22min · 3 tentativas</span>
+          <div class="msg-chips">
+            <button class="msg-chip msg-chip-dark">Renovar token</button>
+            <button class="msg-chip msg-chip-dark">Ver logs</button>
+            <button class="msg-chip msg-chip-dark" style="color:rgba(255,255,255,0.3);">Ignorar</button>
           </div>
         </div>
-        <span class="badge-priority badge-critical">Erro</span>
+        <div class="msg-time">Haruki · 13:20</div>
       </div>
-      <p class="card-sub">API retornou erro 403 (Forbidden) ao tentar criar pull request no repositorio ktana-assistant. Token de acesso pode ter expirado. Haruki tentou 3 vezes e parou.</p>
-      <div class="card-time">
-        <span>Falhou ha 1h22min</span>
-        <span class="elapsed">3 tentativas falharam</span>
-      </div>
-      <div class="card-actions">
-        <button class="btn-action btn-dark">Renovar token</button>
-        <button class="btn-action btn-outline">Ver logs</button>
-        <button class="btn-action btn-outline">Ignorar</button>
-      </div>
-    </div>
 
-    <!-- BUDGET ALERTS -->
-    <p class="section-label orange fade-in" style="animation-delay:0.23s">
-      <span>Alertas de budget</span>
-      <span class="section-count" style="color:#FF9500;">1 alerta</span>
-    </p>
+      <!-- Separator -->
+      <div class="msg-separator"><span>Alertas</span></div>
 
-    <div class="alert-compact fade-in" style="animation-delay:0.25s">
-      <div class="alert-icon budget">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#FF9500" stroke-width="2"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>
-      </div>
-      <div class="alert-info" style="flex:1;">
-        <p class="alert-title">Budget mensal atingiu 82%</p>
-        <p class="alert-desc">R$2.460 de R$3.000 consumidos. Megumi ja foi pausada. Se o ritmo continuar, budget esgota em 4 dias.</p>
-        <div class="budget-bar">
-          <div class="budget-track"><div class="budget-fill danger" style="width:82%;"></div></div>
-          <div class="budget-meta"><span>R$2.460 gastos</span><span>R$540 restantes</span></div>
-        </div>
-      </div>
-      <button class="alert-action" onclick="location.href='../settings/general.html'">Ajustar limite</button>
-    </div>
-
-    <!-- SECURITY -->
-    <p class="section-label neutral fade-in" style="animation-delay:0.28s">
-      <span>Seguranca</span>
-      <span class="section-count">1 aviso</span>
-    </p>
-
-    <div class="alert-compact fade-in" style="animation-delay:0.3s">
-      <div class="alert-icon security">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#AF52DE" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-      </div>
-      <div class="alert-info">
-        <p class="alert-title">Login suspeito detectado</p>
-        <p class="alert-desc">Tentativa de acesso de IP 187.45.23.11 (Sao Paulo, BR) as 03:42. Nao corresponde aos seus IPs habituais. Bloqueado automaticamente.</p>
-      </div>
-      <button class="alert-action">Revisar</button>
-    </div>
-
-  </div></main>
-
-  <section style="max-width:720px;margin:0 auto;padding:0 24px 28px;">
-    <div class="chat-zone compact">
-      <div class="ambient-glow">
-        <div class="ambient-glow-orb"></div>
-        <div class="ambient-glow-orb"></div>
-        <div class="ambient-glow-orb"></div>
-      </div>
-      <div class="cmd-inner">
-        <div class="cmd-label">
-          <div class="cmd-dot"></div>
-          Akira · Modo Urgente
-        </div>
-        <div class="cmd-messages" id="cmdMessages">
-          <div class="cmd-msg cmd-msg-ai">
-            <div class="cmd-sender">Akira — Modo Urgente</div>
-            <strong>5 itens criticos</strong>. Mais grave: Cliente Z ameacou cancelar (R$45k/ano). Cobranca Cliente W pronta. Token Haruki posso renovar automaticamente.
+      <!-- Item 4 — Budget -->
+      <div class="msg msg-agent" style="animation-delay:0.5s">
+        <div class="msg-sender">Akira — CEO Digital</div>
+        <div class="msg-bubble">
+          <strong>Budget mensal atingiu 82%</strong> <span class="msg-badge msg-badge-warning">Alerta</span><br><br>
+          R$2.460 de R$3.000 consumidos. Megumi ja foi pausada. Se o ritmo continuar, budget esgota em 4 dias.
+          <div class="msg-chips">
+            <button class="msg-chip msg-chip-dark">Ajustar limite</button>
+            <button class="msg-chip msg-chip-dark">Ver detalhes</button>
           </div>
         </div>
-        <div class="cmd-typing" id="cmdTyping">
-          <div class="cmd-typing-dots">
-            <div class="cmd-typing-dot"></div>
-            <div class="cmd-typing-dot"></div>
-            <div class="cmd-typing-dot"></div>
-          </div>
-          <span class="cmd-typing-text">Akira processando...</span>
-        </div>
-        <div class="cmd-input-outer">
-          <div class="cmd-input-glow"></div>
-          <div class="cmd-input-border-spin"></div>
-          <div class="cmd-input-card">
-            <textarea class="cmd-input" id="cmdInput" placeholder="Comandar Akira..." rows="1" onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();sendCmd()}" oninput="cmdAutoResize(this)"></textarea>
-            <div class="cmd-input-footer">
-              <button class="cmd-add-btn" title="Anexar">+</button>
-              <button class="cmd-send" onclick="sendCmd()">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
-              </button>
-            </div>
+        <div class="msg-time">Akira · 14:00</div>
+      </div>
+
+      <!-- Item 5 — Seguranca -->
+      <div class="msg msg-agent" style="animation-delay:0.6s">
+        <div class="msg-sender">Akira — CEO Digital</div>
+        <div class="msg-bubble">
+          <strong>Login suspeito bloqueado</strong><br><br>
+          Tentativa de acesso de IP 187.45.23.11 (Sao Paulo, BR) as 03:42. Nao corresponde aos seus IPs habituais. Bloqueado automaticamente.
+          <div class="msg-chips">
+            <button class="msg-chip msg-chip-dark">Revisar</button>
           </div>
         </div>
-        <div class="cmd-shortcuts">
-          <span class="cmd-shortcut" onclick="quickCmd('Reuniao Cliente Z')">Reuniao Cliente Z</span>
-          <span class="cmd-shortcut" onclick="quickCmd('Aprovar cobranca')">Aprovar cobranca</span>
-          <span class="cmd-shortcut" onclick="quickCmd('Resolver tudo')">Resolver tudo</span>
+        <div class="msg-time">Akira · 03:42</div>
+      </div>
+
+      <!-- Akira resume -->
+      <div class="msg msg-agent" style="animation-delay:0.7s">
+        <div class="msg-sender">Akira — CEO Digital</div>
+        <div class="msg-bubble">
+          Quer que eu resolva tudo de uma vez? Posso agendar reuniao com Cliente Z, aprovar cobranca do W com juros, renovar token do Haruki e ajustar budget — tudo em 30 segundos.
+          <div class="msg-chips">
+            <button class="msg-chip msg-chip-primary" onclick="this.textContent='Resolvendo... ✓';this.style.background='#30D158';">Resolver tudo agora</button>
+            <button class="msg-chip msg-chip-dark">Deixa que eu decido um por um</button>
+          </div>
+        </div>
+        <div class="msg-time">Akira · agora</div>
+      </div>
+
+    </div>
+
+    <!-- Input fixo no rodape com glow -->
+    <div class="chat-input-wrap">
+      <div class="chat-input-inner">
+        <div class="input-glow"></div>
+        <div class="input-border-spin"></div>
+        <div class="input-card">
+          <textarea class="chat-input" id="chatInput" placeholder="Comandar Akira..." rows="1" onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();sendMsg()}" oninput="this.style.height='auto';this.style.height=Math.min(this.scrollHeight,120)+'px'"></textarea>
+          <div class="input-footer">
+            <button class="input-add" title="Anexar">+</button>
+            <span class="input-tag">Akira</span>
+            <button class="input-send" onclick="sendMsg()">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
+            </button>
+          </div>
         </div>
       </div>
     </div>
-  </section>
+  </div>
+
   <script>
-    function cmdAutoResize(el) { el.style.height = 'auto'; el.style.height = Math.min(el.scrollHeight, 120) + 'px'; }
-    function sendCmd() {
-      var i = document.getElementById('cmdInput'), t = i.value.trim();
-      if (!t) return;
-      var m = document.getElementById('cmdMessages'), ty = document.getElementById('cmdTyping');
-      var u = document.createElement('div');
-      u.className = 'cmd-msg cmd-msg-user';
-      u.textContent = t;
-      m.appendChild(u);
-      i.value = ''; i.style.height = 'auto';
-      m.scrollTop = m.scrollHeight;
-      ty.style.display = 'flex';
+    function sendMsg() {
+      var input = document.getElementById('chatInput');
+      var text = input.value.trim();
+      if (!text) return;
+      var msgs = document.getElementById('chatMsgs');
+      var userMsg = document.createElement('div');
+      userMsg.className = 'msg msg-user';
+      userMsg.innerHTML = '<div class="msg-bubble">' + text + '</div><div class="msg-time" style="text-align:right;">' + new Date().toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'}) + '</div>';
+      msgs.appendChild(userMsg);
+      input.value = '';
+      input.style.height = 'auto';
+      msgs.scrollTop = msgs.scrollHeight;
       setTimeout(function() {
-        ty.style.display = 'none';
-        var r = document.createElement('div');
-        r.className = 'cmd-msg cmd-msg-ai';
-        r.innerHTML = '<div class="cmd-sender">Akira</div>Entendido. Processando...';
-        m.appendChild(r);
-        m.scrollTop = m.scrollHeight;
-      }, 1200);
+        var aiMsg = document.createElement('div');
+        aiMsg.className = 'msg msg-agent';
+        aiMsg.innerHTML = '<div class="msg-sender">Akira — CEO Digital</div><div class="msg-bubble">Entendido. Ja estou processando...</div><div class="msg-time">Akira · ' + new Date().toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'}) + '</div>';
+        msgs.appendChild(aiMsg);
+        msgs.scrollTop = msgs.scrollHeight;
+      }, 1000);
     }
-    function quickCmd(text) { document.getElementById('cmdInput').value = text; sendCmd(); }
   </script>
 <script src="../../shared-nav.js?v=1774999999"></script>
 </body>
