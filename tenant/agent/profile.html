@@ -50,7 +50,73 @@
     .alcada-value.needs { color: #D70030; }
 
     .btn-edit { font-family: 'Inter', sans-serif; display: block; width: 100%; padding: 12px; border-radius: 12px; background: transparent; color: #86868B; font-size: 13px; border: 0.5px solid rgba(0,0,0,0.06); cursor: pointer; text-align: center; margin-top: 16px; }
-  
+
+    /* ═══ REAL-TIME STATS ═══ */
+    .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .stat-item { display: flex; flex-direction: column; gap: 6px; }
+    .stat-item-wide { grid-column: 1 / -1; }
+    .stat-header { display: flex; justify-content: space-between; align-items: baseline; }
+    .stat-name { font-family: 'Satoshi', sans-serif; font-size: 12px; color: #86868B; }
+    .stat-value { font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 600; color: #1D1D1F; }
+    .stat-bar-track { width: 100%; height: 4px; border-radius: 2px; background: rgba(0,0,0,0.04); overflow: hidden; }
+    .stat-bar-fill { height: 100%; border-radius: 2px; background: #D70030; width: 0; transition: width 1.2s cubic-bezier(0.25,0.1,0.25,1); }
+    .stat-bar-fill.low { background: #30D158; }
+    .stat-bar-fill.mid { background: #FF9F0A; }
+    .stat-row { display: flex; justify-content: space-between; align-items: center; padding: 6px 0; border-bottom: 0.5px solid rgba(0,0,0,0.03); }
+    .stat-row:last-child { border-bottom: none; }
+    .stat-badge { font-family: 'Inter', sans-serif; font-size: 10px; font-weight: 500; padding: 2px 8px; border-radius: 6px; background: rgba(48,209,88,0.1); color: #30D158; }
+
+    /* ═══ SKILLS ═══ */
+    .skills-divider { height: 1px; background: rgba(0,0,0,0.04); margin: 16px 0; }
+    .skills-subtitle { font-family: 'Satoshi', sans-serif; font-size: 13px; font-weight: 600; color: #1D1D1F; margin-bottom: 10px; }
+    .skill-row { display: flex; align-items: baseline; gap: 8px; padding: 7px 0; border-bottom: 0.5px solid rgba(0,0,0,0.03); }
+    .skill-row:last-child { border-bottom: none; }
+    .skill-slash { font-family: 'SF Mono', 'Fira Code', 'Courier New', monospace; font-size: 12px; color: #D70030; font-weight: 600; flex-shrink: 0; }
+    .skill-name { font-family: 'SF Mono', 'Fira Code', 'Courier New', monospace; font-size: 12px; font-weight: 600; color: #1D1D1F; flex-shrink: 0; }
+    .skill-sep { font-family: 'Inter', sans-serif; font-size: 11px; color: #D2D2D7; flex-shrink: 0; }
+    .skill-desc { font-family: 'Satoshi', sans-serif; font-size: 12px; color: #86868B; }
+
+    /* ═══ TOOLS CONNECTED ═══ */
+    .tool-row { display: flex; align-items: center; gap: 12px; padding: 10px 0; border-bottom: 0.5px solid rgba(0,0,0,0.03); }
+    .tool-row:last-child { border-bottom: none; }
+    .tool-icon { width: 36px; height: 36px; border-radius: 10px; background: rgba(0,0,0,0.02); border: 0.5px solid rgba(0,0,0,0.06); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .tool-icon svg { width: 18px; height: 18px; stroke: #86868B; fill: none; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
+    .tool-info { flex: 1; }
+    .tool-name { font-family: 'Satoshi', sans-serif; font-size: 13px; font-weight: 500; color: #1D1D1F; }
+    .tool-desc { font-family: 'Satoshi', sans-serif; font-size: 11px; color: #86868B; margin-top: 1px; }
+    .tool-status { font-family: 'Inter', sans-serif; font-size: 10px; font-weight: 500; padding: 3px 10px; border-radius: 980px; background: rgba(48,209,88,0.08); color: #30D158; flex-shrink: 0; }
+
+    /* ═══ KANBAN ═══ */
+    .kanban-section { margin-bottom: 12px; }
+    .kanban-board { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; }
+    .kanban-col { display: flex; flex-direction: column; gap: 6px; }
+    .kanban-col-header { font-family: 'Inter', sans-serif; font-size: 10px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: #86868B; padding: 0 0 6px; display: flex; align-items: center; gap: 6px; }
+    .kanban-col-count { font-family: 'Inter', sans-serif; font-size: 9px; font-weight: 500; background: rgba(0,0,0,0.04); color: #AEAEB2; padding: 1px 6px; border-radius: 4px; }
+    .kanban-card { background: #FAFAFA; border: 0.5px solid rgba(0,0,0,0.06); border-radius: 10px; padding: 10px 12px; }
+    .kanban-card-title { font-family: 'Satoshi', sans-serif; font-size: 12px; font-weight: 500; color: #1D1D1F; line-height: 1.3; }
+    .kanban-card-time { font-family: 'Inter', sans-serif; font-size: 10px; color: #AEAEB2; margin-top: 4px; }
+    .kanban-card.executing { border-color: rgba(215,0,48,0.15); animation: kanbanPulse 2.5s ease-in-out infinite; }
+    @keyframes kanbanPulse {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(215,0,48,0); }
+      50% { box-shadow: 0 0 0 3px rgba(215,0,48,0.06); }
+    }
+    .kanban-card.done { opacity: 0.55; }
+    .kanban-card.done .kanban-card-title { text-decoration: line-through; }
+    .kanban-exec-dot { display: inline-block; width: 5px; height: 5px; border-radius: 50%; background: #D70030; margin-right: 4px; animation: execDotPulse 1.4s ease-in-out infinite; }
+    @keyframes execDotPulse { 0%,100% { opacity: 0.4; } 50% { opacity: 1; } }
+
+    /* ═══ PIPELINE STAGES ═══ */
+    .pipeline { display: flex; align-items: center; gap: 0; padding: 8px 16px; margin-bottom: 2px; }
+    .pipe-stage { display: flex; align-items: center; gap: 4px; }
+    .pipe-dot { width: 6px; height: 6px; border-radius: 50%; background: #D2D2D7; flex-shrink: 0; transition: background 0.3s; }
+    .pipe-dot.active { background: #D70030; animation: pipeDotPulse 1s ease-in-out infinite; }
+    .pipe-dot.done { background: #30D158; }
+    .pipe-label { font-family: 'Inter', sans-serif; font-size: 10px; color: #AEAEB2; transition: color 0.3s; }
+    .pipe-label.active { color: #D70030; font-weight: 600; }
+    .pipe-label.done { color: #30D158; }
+    .pipe-arrow { font-family: 'Inter', sans-serif; font-size: 10px; color: #D2D2D7; margin: 0 6px; }
+    @keyframes pipeDotPulse { 0%,100% { transform: scale(1); } 50% { transform: scale(1.4); } }
+
     /* Chat Section */
     .chat-section { max-width: 720px; margin: 0 auto; padding: 0 24px 28px; }
     .chat-divider { display: flex; align-items: center; gap: 12px; margin-bottom: 20px; }
@@ -87,6 +153,9 @@
     .c-snd:hover { background: #000; }
     .c-snd:active { transform: scale(0.93); }
     .c-snd svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+
+    /* ═══ COUNT-UP ANIMATION UTILITY ═══ */
+    .count-up { display: inline-block; }
   </style>
 </head>
 <body>
@@ -103,6 +172,7 @@
   </div>
 
   <main class="main">
+    <!-- IDENTIDADE -->
     <div class="card fade-in">
       <p class="card-label">Identidade</p>
       <div class="field"><span class="field-label">Nome</span><span class="field-value">Yuki</span></div>
@@ -113,17 +183,62 @@
       <div class="field"><span class="field-label">Alinhamento</span><span class="field-value">89%</span></div>
     </div>
 
+    <!-- PERFORMANCE EM TEMPO REAL -->
+    <div class="card fade-in" style="animation-delay:0.05s" id="statsCard">
+      <p class="card-label">Performance em tempo real</p>
+      <div class="stats-grid">
+        <div class="stat-item">
+          <div class="stat-header">
+            <span class="stat-name">CPU</span>
+            <span class="stat-value"><span class="count-up" data-target="23" data-suffix="%">0%</span></span>
+          </div>
+          <div class="stat-bar-track"><div class="stat-bar-fill low" data-width="23"></div></div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-header">
+            <span class="stat-name">Memoria</span>
+            <span class="stat-value"><span class="count-up" data-target="156" data-suffix="MB">0MB</span> <span style="color:#AEAEB2; font-weight:400; font-size:11px;">/ 512MB</span></span>
+          </div>
+          <div class="stat-bar-track"><div class="stat-bar-fill mid" data-width="30.5"></div></div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-header">
+            <span class="stat-name">Tokens hoje</span>
+            <span class="stat-value"><span class="count-up" data-target="12847" data-separator="true">0</span></span>
+          </div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-header">
+            <span class="stat-name">Custo hoje</span>
+            <span class="stat-value"><span class="count-up" data-target="2.34" data-prefix="R$" data-decimal="true">R$0</span></span>
+          </div>
+        </div>
+        <div class="stat-item stat-item-wide">
+          <div class="stat-row">
+            <span class="stat-name">Uptime</span>
+            <span style="display:flex; align-items:center; gap:8px;">
+              <span class="stat-value"><span class="count-up" data-target="99.7" data-suffix="%" data-decimal="true">0%</span></span>
+              <span class="stat-badge">Saudavel</span>
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- FUNCAO -->
     <div class="card fade-in" style="animation-delay:0.1s">
       <p class="card-label">Funcao</p>
       <p class="function-text">Responsavel pela execucao financeira diaria. Cobra clientes, emite boletos, controla contas a pagar e receber, gera fluxo de caixa diario e DRE mensal. Avisa quando tem fatura vencendo.</p>
     </div>
 
+    <!-- CEREBRO (REFERENCIAS) -->
     <div class="card fade-in" style="animation-delay:0.15s">
       <p class="card-label">Cerebro (referencias)</p>
       <div class="ref-item"><div class="ref-dot"></div><div><p class="ref-name">Warren Buffett</p><p class="ref-why">Disciplina, visao de longo prazo, rigor</p></div></div>
       <div class="ref-item"><div class="ref-dot"></div><div><p class="ref-name">Aswath Damodaran</p><p class="ref-why">Rigor analitico, valuation, dados</p></div></div>
     </div>
 
+    <!-- ATRIBUICOES + SKILLS -->
     <div class="card fade-in" style="animation-delay:0.2s">
       <p class="card-label">Atribuicoes</p>
       <div class="attr-group">
@@ -149,8 +264,81 @@
           <p class="attr-task">DRE mensal</p>
         </div>
       </div>
+
+      <div class="skills-divider"></div>
+      <p class="skills-subtitle">Skills</p>
+      <div class="skill-row">
+        <span class="skill-slash">/</span><span class="skill-name">cobrar-cliente</span>
+        <span class="skill-sep">--</span><span class="skill-desc">Envia cobranca por email e WhatsApp</span>
+      </div>
+      <div class="skill-row">
+        <span class="skill-slash">/</span><span class="skill-name">emitir-boleto</span>
+        <span class="skill-sep">--</span><span class="skill-desc">Gera boleto bancario via API</span>
+      </div>
+      <div class="skill-row">
+        <span class="skill-slash">/</span><span class="skill-name">conciliar</span>
+        <span class="skill-sep">--</span><span class="skill-desc">Faz conciliacao bancaria automatica</span>
+      </div>
+      <div class="skill-row">
+        <span class="skill-slash">/</span><span class="skill-name">relatorio-dre</span>
+        <span class="skill-sep">--</span><span class="skill-desc">Gera DRE mensal completo</span>
+      </div>
+      <div class="skill-row">
+        <span class="skill-slash">/</span><span class="skill-name">fluxo-caixa</span>
+        <span class="skill-sep">--</span><span class="skill-desc">Calcula fluxo de caixa diario</span>
+      </div>
+      <div class="skill-row">
+        <span class="skill-slash">/</span><span class="skill-name">alertar-vencimento</span>
+        <span class="skill-sep">--</span><span class="skill-desc">Notifica faturas proximas do vencimento</span>
+      </div>
     </div>
 
+    <!-- FERRAMENTAS CONECTADAS -->
+    <div class="card fade-in" style="animation-delay:0.22s">
+      <p class="card-label">Ferramentas conectadas</p>
+      <div class="tool-row">
+        <div class="tool-icon">
+          <svg viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><polyline points="2,4 12,13 22,4"/></svg>
+        </div>
+        <div class="tool-info">
+          <p class="tool-name">Email</p>
+          <p class="tool-desc">Disparo e leitura de emails</p>
+        </div>
+        <span class="tool-status">Ativo</span>
+      </div>
+      <div class="tool-row">
+        <div class="tool-icon">
+          <svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
+        </div>
+        <div class="tool-info">
+          <p class="tool-name">WhatsApp</p>
+          <p class="tool-desc">Envio de cobrancas via WA</p>
+        </div>
+        <span class="tool-status">Ativo</span>
+      </div>
+      <div class="tool-row">
+        <div class="tool-icon">
+          <svg viewBox="0 0 24 24"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg>
+        </div>
+        <div class="tool-info">
+          <p class="tool-name">Banco API</p>
+          <p class="tool-desc">Consulta saldos e extrato</p>
+        </div>
+        <span class="tool-status">Ativo</span>
+      </div>
+      <div class="tool-row">
+        <div class="tool-icon">
+          <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="3" y1="15" x2="21" y2="15"/><line x1="9" y1="3" x2="9" y2="21"/><line x1="15" y1="3" x2="15" y2="21"/></svg>
+        </div>
+        <div class="tool-info">
+          <p class="tool-name">Google Sheets</p>
+          <p class="tool-desc">Exporta relatorios</p>
+        </div>
+        <span class="tool-status">Ativo</span>
+      </div>
+    </div>
+
+    <!-- PERSONALIDADE -->
     <div class="card fade-in" style="animation-delay:0.25s">
       <p class="card-label">Personalidade</p>
       <div class="traits">
@@ -162,6 +350,7 @@
       <div class="field" style="margin-top: 12px;"><span class="field-label">Tom</span><span class="field-value">Profissional</span></div>
     </div>
 
+    <!-- ALCADA -->
     <div class="card fade-in" style="animation-delay:0.3s">
       <p class="card-label">Alcada</p>
       <div class="alcada-row"><span class="alcada-label">Cobrar ate R$5.000</span><span class="alcada-value">Faz sozinha</span></div>
@@ -171,6 +360,7 @@
       <div class="alcada-row"><span class="alcada-label">Negativar cliente</span><span class="alcada-value needs">Sempre pede</span></div>
     </div>
 
+    <!-- ROTINAS -->
     <div class="card fade-in" style="animation-delay:0.35s">
       <p class="card-label">Rotinas</p>
       <div class="field"><span class="field-label">08:00</span><span class="field-value">Verificar faturas vencidas</span></div>
@@ -180,12 +370,73 @@
       <div class="field"><span class="field-label">Sex 16:00</span><span class="field-value">Relatorio semanal</span></div>
     </div>
 
+    <!-- KANBAN DE EXECUCAO -->
+    <div class="card fade-in kanban-section" style="animation-delay:0.38s">
+      <p class="card-label">Execucao agora</p>
+      <div class="kanban-board">
+        <!-- Em fila -->
+        <div class="kanban-col">
+          <div class="kanban-col-header">Em fila <span class="kanban-col-count">3</span></div>
+          <div class="kanban-card">
+            <p class="kanban-card-title">Cobrar Cliente Yamamoto</p>
+            <p class="kanban-card-time">14:32</p>
+          </div>
+          <div class="kanban-card">
+            <p class="kanban-card-title">Alertar vencimento NF #4021</p>
+            <p class="kanban-card-time">14:35</p>
+          </div>
+          <div class="kanban-card">
+            <p class="kanban-card-title">Exportar fluxo de caixa</p>
+            <p class="kanban-card-time">14:40</p>
+          </div>
+        </div>
+        <!-- Executando -->
+        <div class="kanban-col">
+          <div class="kanban-col-header">Executando <span class="kanban-col-count">2</span></div>
+          <div class="kanban-card executing">
+            <p class="kanban-card-title"><span class="kanban-exec-dot"></span>Gerar DRE Marco</p>
+            <p class="kanban-card-time">14:28</p>
+          </div>
+          <div class="kanban-card executing">
+            <p class="kanban-card-title"><span class="kanban-exec-dot"></span>Conciliar BB</p>
+            <p class="kanban-card-time">14:30</p>
+          </div>
+        </div>
+        <!-- Concluido -->
+        <div class="kanban-col">
+          <div class="kanban-col-header">Concluido <span class="kanban-col-count">3</span></div>
+          <div class="kanban-card done">
+            <p class="kanban-card-title">Emitir boleto #8834</p>
+            <p class="kanban-card-time">14:12</p>
+          </div>
+          <div class="kanban-card done">
+            <p class="kanban-card-title">Cobrar Cliente Tanaka</p>
+            <p class="kanban-card-time">13:55</p>
+          </div>
+          <div class="kanban-card done">
+            <p class="kanban-card-title">Verificar faturas vencidas</p>
+            <p class="kanban-card-time">08:02</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <button class="btn-edit fade-in" style="animation-delay:0.4s" onclick="location.href='config.html'">Editar perfil</button>
   </main>
 
   <section class="chat-section">
     <div class="chat-divider"><div class="chat-divider-line"></div><div class="chat-divider-label"><div class="chat-divider-dot"></div> Agente · Perfil · Online</div><div class="chat-divider-line"></div></div>
     <div class="chat-container">
+      <!-- Pipeline stages -->
+      <div class="pipeline" id="pipeline" style="display:none;">
+        <div class="pipe-stage"><div class="pipe-dot" id="pipeDot0"></div><span class="pipe-label" id="pipeLabel0">Analisando</span></div>
+        <span class="pipe-arrow">&#8594;</span>
+        <div class="pipe-stage"><div class="pipe-dot" id="pipeDot1"></div><span class="pipe-label" id="pipeLabel1">Roteando</span></div>
+        <span class="pipe-arrow">&#8594;</span>
+        <div class="pipe-stage"><div class="pipe-dot" id="pipeDot2"></div><span class="pipe-label" id="pipeLabel2">Executando</span></div>
+        <span class="pipe-arrow">&#8594;</span>
+        <div class="pipe-stage"><div class="pipe-dot" id="pipeDot3"></div><span class="pipe-label" id="pipeLabel3">Pronto</span></div>
+      </div>
       <div class="chat-messages" id="cChat">
         <div class="c-msg"><div class="c-av"><span>Y</span></div><div><div class="c-bbl c-bbl-a"><p>Sou <strong>Yuki</strong>, sua Controller. Cuido de financas, cobrancas e conciliacoes. 847 acoes este mes. Como posso ajudar?</p><div class="c-qk"><button class="c-qb" onclick="cQ(this)">Ver habilidades</button><button class="c-qb" onclick="cQ(this)">Historico completo</button><button class="c-qb" onclick="cQ(this)">Editar perfil</button></div></div><p class="c-meta">Agente · agora</p></div></div>
         <div class="c-ty" id="cTy"><div class="c-av"><span>Y</span></div><div class="c-ty-dots"><div class="c-ty-d"></div><div class="c-ty-d"></div><div class="c-ty-d"></div></div><span class="c-ty-t">Agente processando...</span></div>
@@ -196,7 +447,142 @@
       </div>
     </div>
   </section>
-  <script>function cA(t){var c=document.getElementById('cChat'),y=document.getElementById('cTy');y.style.display='flex';c.scrollTop=c.scrollHeight;setTimeout(function(){y.style.display='none';var m=document.createElement('div');m.className='c-msg';m.style.animation='cSlide 0.4s ease forwards';m.innerHTML='<div class="c-av"><span>Y</span></div><div><div class="c-bbl c-bbl-a"><p>'+t+'</p></div><p class="c-meta">Agente · '+new Date().toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'})+'</p></div>';c.insertBefore(m,y);c.scrollTop=c.scrollHeight;},1200);}function cM(){var i=document.getElementById('cInp'),t=i.value.trim();if(!t)return;var c=document.getElementById('cChat'),y=document.getElementById('cTy');var u=document.createElement('div');u.className='c-msg c-msg-user';u.style.animation='cSlide 0.3s ease forwards';u.innerHTML='<div><div class="c-bbl c-bbl-u"><p>'+t+'</p></div><p class="c-meta" style="text-align:right;">'+new Date().toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'})+'</p></div>';c.insertBefore(u,y);i.value='';i.style.height='auto';cA('Entendido. Ja estou processando.');c.scrollTop=c.scrollHeight;}function cQ(b){document.getElementById('cInp').value=b.textContent;cM();}</script>
+
+  <script>
+  /* ═══ COUNT-UP ANIMATION ═══ */
+  function animateCountUp() {
+    var els = document.querySelectorAll('.count-up');
+    els.forEach(function(el) {
+      var target = parseFloat(el.dataset.target);
+      var prefix = el.dataset.prefix || '';
+      var suffix = el.dataset.suffix || '';
+      var isDecimal = el.dataset.decimal === 'true';
+      var useSep = el.dataset.separator === 'true';
+      var duration = 1200;
+      var startTime = null;
+
+      function step(timestamp) {
+        if (!startTime) startTime = timestamp;
+        var progress = Math.min((timestamp - startTime) / duration, 1);
+        var eased = 1 - Math.pow(1 - progress, 3);
+        var current = eased * target;
+
+        if (isDecimal) {
+          el.textContent = prefix + current.toFixed(2).replace('.', ',') + suffix;
+        } else if (useSep) {
+          el.textContent = prefix + Math.round(current).toLocaleString('pt-BR') + suffix;
+        } else {
+          el.textContent = prefix + Math.round(current) + suffix;
+        }
+
+        if (progress < 1) {
+          requestAnimationFrame(step);
+        }
+      }
+      requestAnimationFrame(step);
+    });
+  }
+
+  /* ═══ STAT BAR ANIMATION ═══ */
+  function animateStatBars() {
+    var bars = document.querySelectorAll('.stat-bar-fill');
+    bars.forEach(function(bar) {
+      var w = bar.dataset.width;
+      setTimeout(function() { bar.style.width = w + '%'; }, 300);
+    });
+  }
+
+  /* ═══ PIPELINE ANIMATION ═══ */
+  var pipelineTimer = null;
+  function showPipeline() {
+    var pl = document.getElementById('pipeline');
+    pl.style.display = 'flex';
+    var stages = 4;
+    var current = 0;
+
+    // Reset all
+    for (var i = 0; i < stages; i++) {
+      document.getElementById('pipeDot' + i).className = 'pipe-dot';
+      document.getElementById('pipeLabel' + i).className = 'pipe-label';
+    }
+
+    function advance() {
+      if (current > 0) {
+        document.getElementById('pipeDot' + (current - 1)).className = 'pipe-dot done';
+        document.getElementById('pipeLabel' + (current - 1)).className = 'pipe-label done';
+      }
+      if (current < stages) {
+        document.getElementById('pipeDot' + current).className = 'pipe-dot active';
+        document.getElementById('pipeLabel' + current).className = 'pipe-label active';
+        current++;
+        pipelineTimer = setTimeout(advance, 400);
+      } else {
+        setTimeout(function() { pl.style.display = 'none'; }, 600);
+      }
+    }
+    advance();
+  }
+
+  function hidePipeline() {
+    if (pipelineTimer) clearTimeout(pipelineTimer);
+    document.getElementById('pipeline').style.display = 'none';
+  }
+
+  /* ═══ CHAT ═══ */
+  function cA(t) {
+    var c = document.getElementById('cChat');
+    var y = document.getElementById('cTy');
+    y.style.display = 'flex';
+    showPipeline();
+    c.scrollTop = c.scrollHeight;
+    setTimeout(function() {
+      y.style.display = 'none';
+      hidePipeline();
+      // Mark last pipeline stage as done
+      for (var i = 0; i < 4; i++) {
+        document.getElementById('pipeDot' + i).className = 'pipe-dot done';
+        document.getElementById('pipeLabel' + i).className = 'pipe-label done';
+      }
+      document.getElementById('pipeline').style.display = 'flex';
+      setTimeout(function() { document.getElementById('pipeline').style.display = 'none'; }, 1200);
+
+      var m = document.createElement('div');
+      m.className = 'c-msg';
+      m.style.animation = 'cSlide 0.4s ease forwards';
+      m.innerHTML = '<div class="c-av"><span>Y</span></div><div><div class="c-bbl c-bbl-a"><p>' + t + '</p></div><p class="c-meta">Agente · ' + new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' }) + '</p></div>';
+      c.insertBefore(m, y);
+      c.scrollTop = c.scrollHeight;
+    }, 1800);
+  }
+
+  function cM() {
+    var i = document.getElementById('cInp');
+    var t = i.value.trim();
+    if (!t) return;
+    var c = document.getElementById('cChat');
+    var y = document.getElementById('cTy');
+    var u = document.createElement('div');
+    u.className = 'c-msg c-msg-user';
+    u.style.animation = 'cSlide 0.3s ease forwards';
+    u.innerHTML = '<div><div class="c-bbl c-bbl-u"><p>' + t + '</p></div><p class="c-meta" style="text-align:right;">' + new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' }) + '</p></div>';
+    c.insertBefore(u, y);
+    i.value = '';
+    i.style.height = 'auto';
+    cA('Entendido. Ja estou processando.');
+    c.scrollTop = c.scrollHeight;
+  }
+
+  function cQ(b) {
+    document.getElementById('cInp').value = b.textContent;
+    cM();
+  }
+
+  /* ═══ INIT ON LOAD ═══ */
+  document.addEventListener('DOMContentLoaded', function() {
+    animateCountUp();
+    animateStatBars();
+  });
+  </script>
 <script src="../../shared-nav.js?v=1774805559"></script>
 </body>
 </html>

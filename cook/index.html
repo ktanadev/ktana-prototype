@@ -316,8 +316,14 @@
       <div class="right-tab-content active" id="rtab-agentflow">
         <style>
           /* ===== AGENT FLOW UNIFIED CANVAS ===== */
-          .uaf-canvas{position:relative;background:#050505;border:1px solid rgba(255,255,255,0.04);border-radius:14px;height:calc(100vh - 260px);min-height:500px;overflow:hidden;}
-          .uaf-grid{position:absolute;inset:0;opacity:0.03;background-image:radial-gradient(circle at 1px 1px,#D70030 0.5px,transparent 0);background-size:40px 40px;pointer-events:none;}
+          .uaf-canvas{position:relative;background:#030508;border:1px solid rgba(255,255,255,0.04);border-radius:14px;height:calc(100vh - 260px);min-height:500px;overflow:hidden;}
+          .uaf-grid{position:absolute;inset:0;opacity:0.025;background-image:radial-gradient(circle at 1px 1px,#D70030 0.5px,transparent 0);background-size:40px 40px;pointer-events:none;}
+          /* Ambient nebula glow */
+          .uaf-nebula{position:absolute;inset:0;pointer-events:none;z-index:0;}
+          .uaf-nebula::before{content:'';position:absolute;width:400px;height:400px;top:10%;right:5%;background:radial-gradient(circle,rgba(215,0,48,0.06) 0%,transparent 70%);animation:uafNeb1 12s ease-in-out infinite;filter:blur(60px);}
+          .uaf-nebula::after{content:'';position:absolute;width:350px;height:350px;bottom:15%;left:8%;background:radial-gradient(circle,rgba(10,132,255,0.05) 0%,transparent 70%);animation:uafNeb2 15s ease-in-out infinite;filter:blur(50px);}
+          @keyframes uafNeb1{0%,100%{opacity:0.4;transform:translate(0,0) scale(1);}50%{opacity:1;transform:translate(-30px,20px) scale(1.2);}}
+          @keyframes uafNeb2{0%,100%{opacity:0.3;transform:translate(0,0) scale(1);}50%{opacity:0.8;transform:translate(20px,-15px) scale(1.15);}}
           .uaf-svg{position:absolute;inset:0;width:100%;height:100%;z-index:1;pointer-events:none;}
 
           /* Hexagon agent nodes */

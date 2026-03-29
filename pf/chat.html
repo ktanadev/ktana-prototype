@@ -159,7 +159,7 @@
       background: #30D158;
       transition: width 0.4s ease;
     }
-    .pipeline-stages .stage.done .stage-line::after {
+    .pipeline-stages .stage-line.done::after {
       width: 100%;
     }
     .pipeline-stages .stage.active {
@@ -543,6 +543,42 @@
     <div class="metric"><p class="metric-num">89%</p><p class="metric-label">satisfacao</p></div>
   </div>
 
+  <!-- Sidebar toggle (desktop only) -->
+  <button class="sidebar-toggle" id="sidebarToggle" onclick="toggleSidebar()" title="Painel de contexto">
+    <svg viewBox="0 0 24 24"><path d="M21 3H3v18h18V3z"/><path d="M15 3v18"/></svg>
+  </button>
+
+  <!-- Chat layout with sidebar -->
+  <div class="chat-layout">
+    <div class="chat-main">
+
+  <!-- Pipeline stages (appears during processing) -->
+  <div class="pipeline-stages" id="pipelineStages">
+    <div class="stage pending" data-stage="1">
+      <span class="stage-dot"></span>
+      <span class="stage-check"><svg viewBox="0 0 24 24" fill="none" stroke="#30D158" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span>
+      <span class="stage-label">Analisando...</span>
+    </div>
+    <div class="stage-line"></div>
+    <div class="stage pending" data-stage="2">
+      <span class="stage-dot"></span>
+      <span class="stage-check"><svg viewBox="0 0 24 24" fill="none" stroke="#30D158" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span>
+      <span class="stage-label">Consultando dados</span>
+    </div>
+    <div class="stage-line"></div>
+    <div class="stage pending" data-stage="3">
+      <span class="stage-dot"></span>
+      <span class="stage-check"><svg viewBox="0 0 24 24" fill="none" stroke="#30D158" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span>
+      <span class="stage-label">Preparando resposta</span>
+    </div>
+    <div class="stage-line"></div>
+    <div class="stage pending" data-stage="4">
+      <span class="stage-dot"></span>
+      <span class="stage-check"><svg viewBox="0 0 24 24" fill="none" stroke="#30D158" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span>
+      <span class="stage-label">Pronto</span>
+    </div>
+  </div>
+
   <!-- Chat -->
   <div class="chat" id="chat">
 
@@ -551,10 +587,18 @@
       <div class="msg-avatar-letter"><span>K</span></div>
       <div>
         <div class="bubble bubble-agent">
+          <div class="agent-badge">
+            <span class="agent-badge-dot"></span>
+            <span class="agent-badge-name">Dr. Kenji</span> &middot; Mentor Saude
+          </div>
           <p>Bom dia, Julio. Notei que seu sono foi de <strong>5h30</strong> ontem. Isso impacta recuperacao muscular e foco cognitivo. Recomendo trocar o treino HIIT por caminhada de 20min hoje.</p>
           <div class="quick-actions">
             <button class="quick-btn" onclick="approve(this)">Aceitar recomendacao</button>
             <button class="quick-btn" onclick="this.textContent='Abrindo...'; ">Ver dados de sono</button>
+          </div>
+          <div class="tool-indicator">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 8v4l3 3"/><circle cx="12" cy="12" r="10"/></svg>
+            via Apple Watch
           </div>
         </div>
         <p class="bubble-meta">Dr. Kenji &middot; 07:15</p>
@@ -576,7 +620,15 @@
       <div class="msg-avatar-letter"><span>K</span></div>
       <div>
         <div class="bubble bubble-agent">
-          <p>Yui preparou cardapio adaptado: cafe reforcado com ovos e abacate, almoce proteina + legumes, e no jantar adicione magnesio (castanhas do para). Evite cafeina apos 14h.</p>
+          <div class="agent-badge">
+            <span class="agent-badge-dot"></span>
+            <span class="agent-badge-name">Dr. Kenji</span> &middot; Mentor Saude
+          </div>
+          <p><span class="mentor-mention">Yui</span> preparou cardapio adaptado: cafe reforcado com ovos e abacate, almoce proteina + legumes, e no jantar adicione magnesio (castanhas do para). Evite cafeina apos 14h.</p>
+          <div class="tool-indicator">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3h18v18H3z"/><path d="M3 9h18"/><path d="M9 21V9"/></svg>
+            via Nutricao DB
+          </div>
         </div>
         <p class="bubble-meta">Dr. Kenji &middot; 07:16</p>
       </div>
@@ -597,7 +649,11 @@
       <div class="msg-avatar-letter"><span>K</span></div>
       <div>
         <div class="bubble bubble-agent">
-          <p>Perfeito. Ajustei seu plano e notifiquei <strong>Ryu</strong> (treino) e <strong>Aiko</strong> (sono). Check-in amanha 07:30.</p>
+          <div class="agent-badge">
+            <span class="agent-badge-dot"></span>
+            <span class="agent-badge-name">Dr. Kenji</span> &middot; Mentor Saude
+          </div>
+          <p>Perfeito. Ajustei seu plano e notifiquei <span class="mentor-mention">Ryu</span> (treino) e <span class="mentor-mention">Aiko</span> (sono). Check-in amanha 07:30.</p>
           <div class="bubble-action action-done">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
             Plano ajustado
@@ -606,12 +662,50 @@
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 1l4 4-4 4"/><path d="M3 11V9a4 4 0 014-4h14"/><path d="M7 23l-4-4 4-4"/><path d="M21 13v2a4 4 0 01-4 4H3"/></svg>
             Ryu e Aiko notificados
           </div>
+          <div class="tool-indicator">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 8v4l3 3"/><circle cx="12" cy="12" r="10"/></svg>
+            via Health Data
+          </div>
         </div>
         <p class="bubble-meta">Dr. Kenji &middot; 07:17</p>
       </div>
     </div>
 
-    <!-- Typing indicator -->
+    <!-- Enhanced typing indicator -->
+    <div class="typing-enhanced" id="typingEnhanced">
+      <div class="typing-header">
+        <div class="msg-avatar-letter"><span>K</span></div>
+        <div class="typing-dots">
+          <div class="typing-dot"></div>
+          <div class="typing-dot"></div>
+          <div class="typing-dot"></div>
+        </div>
+        <span class="typing-text-enhanced">Dr. Kenji esta analisando seus dados...</span>
+      </div>
+      <div class="typing-pipeline">
+        <div class="tp-stage pending" data-tp="1">
+          <span class="tp-dot"></span>
+          <span>Analisando</span>
+        </div>
+        <div class="tp-line"></div>
+        <div class="tp-stage pending" data-tp="2">
+          <span class="tp-dot"></span>
+          <span>Dados</span>
+        </div>
+        <div class="tp-line"></div>
+        <div class="tp-stage pending" data-tp="3">
+          <span class="tp-dot"></span>
+          <span>Resposta</span>
+        </div>
+        <div class="tp-line"></div>
+        <div class="tp-stage pending" data-tp="4">
+          <span class="tp-dot"></span>
+          <span>Pronto</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Legacy typing indicator (hidden, kept for compat) -->
     <div class="typing" id="typing" style="display: none;">
       <div class="msg-avatar-letter"><span>K</span></div>
       <div class="typing-dots">
@@ -622,6 +716,76 @@
       <span class="typing-text">Dr. Kenji esta digitando...</span>
     </div>
   </div>
+
+    </div><!-- /chat-main -->
+
+    <!-- Contextual Sidebar (desktop only) -->
+    <div class="context-sidebar" id="contextSidebar">
+      <div class="sidebar-section">
+        <div class="sidebar-section-title">Metricas atuais</div>
+        <div class="sidebar-metric">
+          <span class="sidebar-metric-label">Sono</span>
+          <span class="sidebar-metric-value warning">5h30</span>
+        </div>
+        <div class="sidebar-metric">
+          <span class="sidebar-metric-label">Freq. Cardiaca</span>
+          <span class="sidebar-metric-value ok">68 bpm</span>
+        </div>
+        <div class="sidebar-metric">
+          <span class="sidebar-metric-label">Hidratacao</span>
+          <span class="sidebar-metric-value danger">1.2L</span>
+        </div>
+        <div class="sidebar-metric">
+          <span class="sidebar-metric-label">Estresse</span>
+          <span class="sidebar-metric-value warning">Elevado</span>
+        </div>
+        <div class="sidebar-metric">
+          <span class="sidebar-metric-label">Passos hoje</span>
+          <span class="sidebar-metric-value">2.340</span>
+        </div>
+      </div>
+
+      <div class="sidebar-section">
+        <div class="sidebar-section-title">Recomendacoes ativas (2)</div>
+        <div class="sidebar-rec">
+          <span class="sidebar-rec-dot"></span>
+          <span class="sidebar-rec-text">Trocar HIIT por caminhada 20min devido ao sono insuficiente</span>
+        </div>
+        <div class="sidebar-rec">
+          <span class="sidebar-rec-dot"></span>
+          <span class="sidebar-rec-text">Aumentar hidratacao para 2.5L e evitar cafeina apos 14h</span>
+        </div>
+      </div>
+
+      <div class="sidebar-section">
+        <div class="sidebar-section-title">Mentores conectados</div>
+        <div class="sidebar-mentor">
+          <div class="sidebar-mentor-avatar"><span>R</span></div>
+          <div class="sidebar-mentor-info">
+            <div class="sidebar-mentor-name">Ryu</div>
+            <div class="sidebar-mentor-role">Treino e Performance</div>
+          </div>
+          <div class="sidebar-mentor-status"></div>
+        </div>
+        <div class="sidebar-mentor">
+          <div class="sidebar-mentor-avatar"><span>A</span></div>
+          <div class="sidebar-mentor-info">
+            <div class="sidebar-mentor-name">Aiko</div>
+            <div class="sidebar-mentor-role">Sono e Recuperacao</div>
+          </div>
+          <div class="sidebar-mentor-status"></div>
+        </div>
+        <div class="sidebar-mentor">
+          <div class="sidebar-mentor-avatar"><span>Y</span></div>
+          <div class="sidebar-mentor-info">
+            <div class="sidebar-mentor-name">Yui</div>
+            <div class="sidebar-mentor-role">Nutricao e Dieta</div>
+          </div>
+          <div class="sidebar-mentor-status"></div>
+        </div>
+      </div>
+    </div>
+  </div><!-- /chat-layout -->
 
   <!-- Input area -->
   <div class="input-area">
@@ -647,34 +811,112 @@
   <script>
     /* Simulated responses from Dr. Kenji */
     const kenjiResponses = [
-      'Analisando seus dados biometricos. Sua frequencia cardiaca em repouso esta em 68bpm — dentro do ideal. Continue assim.',
-      'Baseado no seu padrao de sono dos ultimos 7 dias, recomendo manter o horario de dormir entre 22h30 e 23h. Consistencia e mais importante que duracao.',
-      'Seu nivel de hidratacao precisa de atencao. Recomendo pelo menos 2.5L de agua hoje, considerando o treino de ontem.',
-      'Vou sincronizar com Yui para ajustar seu cardapio da semana. Notifiquei Aiko para monitorar seu proximo ciclo de sono.',
-      'Seus indicadores de estresse estao elevados. Sugiro 10 minutos de respiracao guiada antes de dormir. Posso programar um lembrete?',
-      'Entendido. Vou atualizar seu plano e compartilhar com o squad. Qualquer mudanca, te aviso em tempo real.'
+      { text: 'Analisando seus dados biometricos. Sua frequencia cardiaca em repouso esta em 68bpm — dentro do ideal. Continue assim.', tool: 'via Apple Watch', mentions: [] },
+      { text: 'Baseado no seu padrao de sono dos ultimos 7 dias, recomendo manter o horario de dormir entre 22h30 e 23h. Consistencia e mais importante que duracao.', tool: 'via Health Data', mentions: ['Aiko'] },
+      { text: 'Seu nivel de hidratacao precisa de atencao. Recomendo pelo menos 2.5L de agua hoje, considerando o treino de ontem.', tool: 'via Apple Watch', mentions: [] },
+      { text: 'Vou sincronizar com <span class="mentor-mention">Yui</span> para ajustar seu cardapio da semana. Notifiquei <span class="mentor-mention">Aiko</span> para monitorar seu proximo ciclo de sono.', tool: 'via Health Data', mentions: ['Yui', 'Aiko'] },
+      { text: 'Seus indicadores de estresse estao elevados. Sugiro 10 minutos de respiracao guiada antes de dormir. Posso programar um lembrete?', tool: 'via Health Data', mentions: [] },
+      { text: 'Entendido. Vou atualizar seu plano e compartilhar com o squad. <span class="mentor-mention">Ryu</span> ja foi notificado. Qualquer mudanca, te aviso em tempo real.', tool: 'via Health Data', mentions: ['Ryu'] }
     ];
     let responseIndex = 0;
+
+    /* ═══ PIPELINE STAGES ANIMATION ═══ */
+    function showPipelineStages() {
+      var pipeline = document.getElementById('pipelineStages');
+      var stages = pipeline.querySelectorAll('.stage');
+      var lines = pipeline.querySelectorAll('.stage-line');
+
+      /* Reset all */
+      stages.forEach(function(s) { s.className = 'stage pending'; });
+      lines.forEach(function(l) { l.classList.remove('done'); });
+      pipeline.classList.add('visible');
+    }
+
+    function animatePipelineStage(stageNum) {
+      var pipeline = document.getElementById('pipelineStages');
+      var stages = pipeline.querySelectorAll('.stage');
+      var lines = pipeline.querySelectorAll('.stage-line');
+
+      stages.forEach(function(s) {
+        var num = parseInt(s.getAttribute('data-stage'));
+        if (num < stageNum) {
+          s.className = 'stage done';
+        } else if (num === stageNum) {
+          s.className = 'stage active';
+        } else {
+          s.className = 'stage pending';
+        }
+      });
+
+      /* Mark connector lines as done for completed stages */
+      lines.forEach(function(l, i) {
+        if (i < stageNum - 1) {
+          l.classList.add('done');
+        } else {
+          l.classList.remove('done');
+        }
+      });
+    }
+
+    function hidePipelineStages() {
+      var pipeline = document.getElementById('pipelineStages');
+      pipeline.classList.remove('visible');
+    }
+
+    /* ═══ ENHANCED TYPING with mini-pipeline ═══ */
+    function showEnhancedTyping() {
+      var el = document.getElementById('typingEnhanced');
+      var tpStages = el.querySelectorAll('.tp-stage');
+      tpStages.forEach(function(s) { s.className = 'tp-stage pending'; });
+      el.classList.add('show');
+    }
+
+    function animateTypingStage(stageNum) {
+      var el = document.getElementById('typingEnhanced');
+      var tpStages = el.querySelectorAll('.tp-stage');
+      tpStages.forEach(function(s) {
+        var num = parseInt(s.getAttribute('data-tp'));
+        if (num < stageNum) {
+          s.className = 'tp-stage done';
+        } else if (num === stageNum) {
+          s.className = 'tp-stage active';
+        } else {
+          s.className = 'tp-stage pending';
+        }
+      });
+    }
+
+    function hideEnhancedTyping() {
+      var el = document.getElementById('typingEnhanced');
+      el.classList.remove('show');
+    }
+
+    /* ═══ SIDEBAR TOGGLE ═══ */
+    function toggleSidebar() {
+      var sidebar = document.getElementById('contextSidebar');
+      sidebar.classList.toggle('collapsed');
+    }
 
     function autoResize(el) {
       el.style.height = 'auto';
       el.style.height = Math.min(el.scrollHeight, 120) + 'px';
     }
 
+    /* ═══ SEND MESSAGE (updated with pipeline animation) ═══ */
     function sendMessage() {
       const input = document.getElementById('chatInput');
       const text = input.value.trim();
       if (!text) return;
 
       const chat = document.getElementById('chat');
-      const typing = document.getElementById('typing');
+      const typingEnhanced = document.getElementById('typingEnhanced');
 
       /* Add user message */
       const userMsg = document.createElement('div');
       userMsg.className = 'msg msg-user';
       userMsg.style.animation = 'msgSlide 0.3s ease forwards';
       userMsg.innerHTML = '<div><div class="bubble bubble-user"><p>' + escapeHtml(text) + '</p></div><p class="bubble-meta" style="text-align:right;">' + now() + '</p></div>';
-      chat.insertBefore(userMsg, typing);
+      chat.insertBefore(userMsg, typingEnhanced);
 
       input.value = '';
       input.style.height = 'auto';
@@ -682,30 +924,75 @@
       /* Hide suggestions after first send */
       document.getElementById('suggestions').style.display = 'none';
 
-      /* Show typing */
-      typing.style.display = 'flex';
+      /* Show pipeline + enhanced typing */
+      showPipelineStages();
+      showEnhancedTyping();
       chat.scrollTop = chat.scrollHeight;
 
-      /* Simulate Dr. Kenji response */
-      var delay = 1200 + Math.random() * 1200;
-      setTimeout(function () {
-        typing.style.display = 'none';
+      /* Stage 1: Analisando (400ms) */
+      animatePipelineStage(1);
+      animateTypingStage(1);
 
-        var reply = kenjiResponses[responseIndex % kenjiResponses.length];
-        responseIndex++;
+      setTimeout(function() {
+        /* Stage 2: Consultando dados (800ms) */
+        animatePipelineStage(2);
+        animateTypingStage(2);
+      }, 600);
 
-        var agentMsg = document.createElement('div');
-        agentMsg.className = 'msg';
-        agentMsg.style.animation = 'msgSlide 0.3s ease forwards';
-        agentMsg.innerHTML =
-          '<div class="msg-avatar-letter"><span>K</span></div>' +
-          '<div>' +
-            '<div class="bubble bubble-agent"><p>' + reply + '</p></div>' +
-            '<p class="bubble-meta">Dr. Kenji &middot; ' + now() + '</p>' +
-          '</div>';
-        chat.insertBefore(agentMsg, typing);
-        chat.scrollTop = chat.scrollHeight;
-      }, delay);
+      setTimeout(function() {
+        /* Stage 3: Preparando resposta (1200ms) */
+        animatePipelineStage(3);
+        animateTypingStage(3);
+      }, 1200);
+
+      setTimeout(function() {
+        /* Stage 4: Pronto (1800ms) */
+        animatePipelineStage(4);
+        animateTypingStage(4);
+      }, 1800);
+
+      /* Deliver response after pipeline completes */
+      setTimeout(function() {
+        /* Mark all done */
+        var pipeline = document.getElementById('pipelineStages');
+        pipeline.querySelectorAll('.stage').forEach(function(s) { s.className = 'stage done'; });
+        pipeline.querySelectorAll('.stage-line').forEach(function(l) { l.classList.add('done'); });
+
+        setTimeout(function() {
+          hidePipelineStages();
+          hideEnhancedTyping();
+
+          var responseData = kenjiResponses[responseIndex % kenjiResponses.length];
+          responseIndex++;
+
+          var toolHtml = '';
+          if (responseData.tool) {
+            toolHtml = '<div class="tool-indicator">' +
+              '<svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 8v4l3 3"/><circle cx="12" cy="12" r="10"/></svg>' +
+              responseData.tool +
+            '</div>';
+          }
+
+          var agentMsg = document.createElement('div');
+          agentMsg.className = 'msg';
+          agentMsg.style.animation = 'msgSlide 0.3s ease forwards';
+          agentMsg.innerHTML =
+            '<div class="msg-avatar-letter"><span>K</span></div>' +
+            '<div>' +
+              '<div class="bubble bubble-agent">' +
+                '<div class="agent-badge">' +
+                  '<span class="agent-badge-dot"></span>' +
+                  '<span class="agent-badge-name">Dr. Kenji</span> &middot; Mentor Saude' +
+                '</div>' +
+                '<p>' + responseData.text + '</p>' +
+                toolHtml +
+              '</div>' +
+              '<p class="bubble-meta">Dr. Kenji &middot; ' + now() + '</p>' +
+            '</div>';
+          chat.insertBefore(agentMsg, typingEnhanced);
+          chat.scrollTop = chat.scrollHeight;
+        }, 300);
+      }, 2200);
     }
 
     function sendSuggestion(btn) {

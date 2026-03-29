@@ -427,13 +427,123 @@
       </div>
     </div>
 
-    <!-- SECTION 5: Connected tools -->
+    <!-- SECTION 5: Skills Configuration -->
     <div class="section fade-in" style="animation-delay:0.25s">
+      <p class="section-label">Skills do samurai</p>
+      <p class="section-desc">Defina as habilidades como slash-commands. Cada skill determina uma acao especifica que o samurai pode executar.</p>
+
+      <div class="skill-list" id="skillList">
+        <div class="skill-item">
+          <span class="skill-cmd">/daily</span>
+          <div class="skill-info">
+            <p class="skill-info-desc">Organiza e conduz reunioes diarias de alinhamento com o time</p>
+          </div>
+          <span class="skill-autonomy-badge auto">Faz sozinho</span>
+          <button class="skill-remove" onclick="this.closest('.skill-item').remove();updateMatrix()" title="Remover skill">
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M9 3L3 9M3 3l6 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+          </button>
+        </div>
+        <div class="skill-item">
+          <span class="skill-cmd">/status</span>
+          <div class="skill-info">
+            <p class="skill-info-desc">Gera relatorio de status atualizado de todos os projetos ativos</p>
+          </div>
+          <span class="skill-autonomy-badge auto">Faz sozinho</span>
+          <button class="skill-remove" onclick="this.closest('.skill-item').remove();updateMatrix()" title="Remover skill">
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M9 3L3 9M3 3l6 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+          </button>
+        </div>
+        <div class="skill-item">
+          <span class="skill-cmd">/bloqueio</span>
+          <div class="skill-info">
+            <p class="skill-info-desc">Identifica e escala bloqueios criticos que impedem entregas</p>
+          </div>
+          <span class="skill-autonomy-badge approval">Pede aprovacao</span>
+          <button class="skill-remove" onclick="this.closest('.skill-item').remove();updateMatrix()" title="Remover skill">
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M9 3L3 9M3 3l6 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+          </button>
+        </div>
+        <div class="skill-item">
+          <span class="skill-cmd">/sprint</span>
+          <div class="skill-info">
+            <p class="skill-info-desc">Planeja e distribui tarefas para a proxima sprint</p>
+          </div>
+          <span class="skill-autonomy-badge approval">Pede aprovacao</span>
+          <button class="skill-remove" onclick="this.closest('.skill-item').remove();updateMatrix()" title="Remover skill">
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M9 3L3 9M3 3l6 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+          </button>
+        </div>
+        <div class="skill-item">
+          <span class="skill-cmd">/reuniao</span>
+          <div class="skill-info">
+            <p class="skill-info-desc">Agenda e prepara pauta para reunioes de alinhamento</p>
+          </div>
+          <span class="skill-autonomy-badge auto">Faz sozinho</span>
+          <button class="skill-remove" onclick="this.closest('.skill-item').remove();updateMatrix()" title="Remover skill">
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M9 3L3 9M3 3l6 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- Add new skill -->
+      <div class="skill-add-row">
+        <input type="text" class="skill-add-cmd" id="newSkillCmd" placeholder="/comando" maxlength="20">
+        <input type="text" class="skill-add-desc" id="newSkillDesc" placeholder="Descricao da skill...">
+        <button class="skill-add-btn" onclick="addSkill()" title="Adicionar skill">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 3v10M3 8h10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        </button>
+      </div>
+
+      <!-- Suggested skills -->
+      <div class="suggested-skills">
+        <span class="suggested-label">Sugeridas para Gerente de Projetos:</span>
+        <div class="suggested-tags">
+          <span class="suggested-tag" onclick="suggestSkill('/retro','Conduz retrospectiva da sprint e documenta melhorias')">
+            /retro
+          </span>
+          <span class="suggested-tag" onclick="suggestSkill('/risco','Analisa e classifica riscos do projeto por impacto')">
+            /risco
+          </span>
+          <span class="suggested-tag" onclick="suggestSkill('/okr','Atualiza progresso dos OKRs do trimestre')">
+            /okr
+          </span>
+          <span class="suggested-tag" onclick="suggestSkill('/ata','Gera ata automatica apos reunioes gravadas')">
+            /ata
+          </span>
+          <span class="suggested-tag" onclick="suggestSkill('/burndown','Gera grafico de burndown da sprint atual')">
+            /burndown
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <!-- SECTION 6: Connected tools — enhanced -->
+    <div class="section fade-in" style="animation-delay:0.3s">
       <p class="section-label">Ferramentas conectadas</p>
-      <p class="section-desc">Selecione quais ferramentas esse samurai podera acessar e usar.</p>
+      <p class="section-desc">Ative as ferramentas que esse samurai podera acessar. Cada ferramenta expande as capacidades do agente.</p>
 
       <div class="tool-grid">
-        <div class="tool-item active" onclick="this.classList.toggle('active')">
+        <div class="tool-item active" onclick="toggleTool(this)">
+          <div class="tool-icon">
+            <svg viewBox="0 0 16 16" fill="none"><path d="M14 4.5l-6 3.75L2 4.5M2 4.5v7l6 3.75 6-3.75v-7L8 1.25 2 4.5z" stroke="#86868B" stroke-width="1.2"/></svg>
+          </div>
+          <div>
+            <p class="tool-name">Email</p>
+            <p class="tool-desc">Gmail · Leitura e envio</p>
+          </div>
+          <div class="tool-toggle-mini"></div>
+        </div>
+        <div class="tool-item" onclick="toggleTool(this)">
+          <div class="tool-icon">
+            <svg viewBox="0 0 16 16" fill="none"><path d="M13.3 3.3C11.5 1.5 8.7 1 6.3 2L3 5.3c-.4.4-.4 1 0 1.4l2.3 2.3-2 2L2 12.3c-.2.2-.3.5-.3.7v1c0 .6.4 1 1 1h1c.3 0 .5-.1.7-.3l1.3-1.3 2-2 2.3 2.3c.4.4 1 .4 1.4 0L14 10.3c1-2.4.5-5.2-1.3-7z" stroke="#86868B" stroke-width="1.2" stroke-linecap="round"/></svg>
+          </div>
+          <div>
+            <p class="tool-name">WhatsApp</p>
+            <p class="tool-desc">Mensagens diretas</p>
+          </div>
+          <div class="tool-toggle-mini"></div>
+        </div>
+        <div class="tool-item active" onclick="toggleTool(this)">
           <div class="tool-icon">
             <svg viewBox="0 0 16 16" fill="none"><path d="M2 4l6-2 6 2v5.33a5.33 5.33 0 01-6 5.33 5.33 5.33 0 01-6-5.33V4z" stroke="#86868B" stroke-width="1.2"/></svg>
           </div>
@@ -441,17 +551,39 @@
             <p class="tool-name">Google Calendar</p>
             <p class="tool-desc">Agenda e reunioes</p>
           </div>
+          <div class="tool-toggle-mini"></div>
         </div>
-        <div class="tool-item active" onclick="this.classList.toggle('active')">
+        <div class="tool-item" onclick="toggleTool(this)">
           <div class="tool-icon">
-            <svg viewBox="0 0 16 16" fill="none"><path d="M14 4.5l-6 3.75L2 4.5M2 4.5v7l6 3.75 6-3.75v-7L8 1.25 2 4.5z" stroke="#86868B" stroke-width="1.2"/></svg>
+            <svg viewBox="0 0 16 16" fill="none"><path d="M14 10v2a2 2 0 01-2 2H4a2 2 0 01-2-2v-2M8 2v8M5 5l3-3 3 3" stroke="#86868B" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
           </div>
           <div>
-            <p class="tool-name">Gmail</p>
-            <p class="tool-desc">Leitura e envio</p>
+            <p class="tool-name">Google Drive</p>
+            <p class="tool-desc">Arquivos e documentos</p>
           </div>
+          <div class="tool-toggle-mini"></div>
         </div>
-        <div class="tool-item active" onclick="this.classList.toggle('active')">
+        <div class="tool-item" onclick="toggleTool(this)">
+          <div class="tool-icon">
+            <svg viewBox="0 0 16 16" fill="none"><path d="M2 3h12v10H2zM2 6h12M6 6v7" stroke="#86868B" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <div>
+            <p class="tool-name">Banco API</p>
+            <p class="tool-desc">Transacoes e saldos</p>
+          </div>
+          <div class="tool-toggle-mini"></div>
+        </div>
+        <div class="tool-item" onclick="toggleTool(this)">
+          <div class="tool-icon">
+            <svg viewBox="0 0 16 16" fill="none"><circle cx="8" cy="5" r="3" stroke="#86868B" stroke-width="1.2"/><path d="M2 14c0-3.3 2.7-6 6-6s6 2.7 6 6" stroke="#86868B" stroke-width="1.2" stroke-linecap="round"/></svg>
+          </div>
+          <div>
+            <p class="tool-name">CRM</p>
+            <p class="tool-desc">Leads e pipeline</p>
+          </div>
+          <div class="tool-toggle-mini"></div>
+        </div>
+        <div class="tool-item active" onclick="toggleTool(this)">
           <div class="tool-icon">
             <svg viewBox="0 0 16 16" fill="none"><rect x="2" y="2" width="5" height="5" rx="1" stroke="#86868B" stroke-width="1.2"/><rect x="9" y="2" width="5" height="5" rx="1" stroke="#86868B" stroke-width="1.2"/><rect x="2" y="9" width="5" height="5" rx="1" stroke="#86868B" stroke-width="1.2"/><rect x="9" y="9" width="5" height="5" rx="1" stroke="#86868B" stroke-width="1.2"/></svg>
           </div>
@@ -459,32 +591,95 @@
             <p class="tool-name">ClickUp</p>
             <p class="tool-desc">Tarefas e sprints</p>
           </div>
+          <div class="tool-toggle-mini"></div>
         </div>
-        <div class="tool-item" onclick="this.classList.toggle('active')">
+        <div class="tool-item" onclick="toggleTool(this)">
           <div class="tool-icon">
-            <svg viewBox="0 0 16 16" fill="none"><path d="M13.3 2.7a2.5 2.5 0 010 3.5L6 13.5l-4 1 1-4 7.3-7.3a2.5 2.5 0 013.5 0z" stroke="#86868B" stroke-width="1.2"/></svg>
+            <svg viewBox="0 0 16 16" fill="none"><path d="M4 2v12l4-3 4 3V2H4z" stroke="#86868B" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
           </div>
           <div>
-            <p class="tool-name">Notion</p>
-            <p class="tool-desc">Documentacao</p>
+            <p class="tool-name">ERP</p>
+            <p class="tool-desc">Processos internos</p>
+          </div>
+          <div class="tool-toggle-mini"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SECTION 7: Autonomy Matrix per skill -->
+    <div class="section fade-in" style="animation-delay:0.35s">
+      <p class="section-label">Matriz de autonomia por skill</p>
+      <p class="section-desc">Ajuste o nivel de autonomia de cada skill individualmente. Vermelho = sempre pede aprovacao. Verde = executa sozinho.</p>
+
+      <div class="autonomy-matrix" id="autonomyMatrix">
+        <div class="matrix-item" data-skill="/daily">
+          <span class="matrix-cmd">/daily</span>
+          <div class="matrix-slider-wrap">
+            <span class="matrix-label-left">Pede</span>
+            <div class="matrix-track-wrap">
+              <div class="matrix-track">
+                <div class="matrix-fill" style="width:85%;background:rgba(48,209,88,0.3);"></div>
+                <div class="matrix-thumb" style="left:calc(85% - 9px);border-color:#248A3D;"></div>
+              </div>
+              <input type="range" class="matrix-range" min="0" max="100" value="85" oninput="updateMatrixSlider(this)">
+            </div>
+            <span class="matrix-label-right">Sozinho</span>
           </div>
         </div>
-        <div class="tool-item" onclick="this.classList.toggle('active')">
-          <div class="tool-icon">
-            <svg viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6" stroke="#86868B" stroke-width="1.2"/><path d="M8 5v3l2 2" stroke="#86868B" stroke-width="1.2" stroke-linecap="round"/></svg>
-          </div>
-          <div>
-            <p class="tool-name">WhatsApp</p>
-            <p class="tool-desc">Mensagens</p>
+        <div class="matrix-item" data-skill="/status">
+          <span class="matrix-cmd">/status</span>
+          <div class="matrix-slider-wrap">
+            <span class="matrix-label-left">Pede</span>
+            <div class="matrix-track-wrap">
+              <div class="matrix-track">
+                <div class="matrix-fill" style="width:90%;background:rgba(48,209,88,0.3);"></div>
+                <div class="matrix-thumb" style="left:calc(90% - 9px);border-color:#248A3D;"></div>
+              </div>
+              <input type="range" class="matrix-range" min="0" max="100" value="90" oninput="updateMatrixSlider(this)">
+            </div>
+            <span class="matrix-label-right">Sozinho</span>
           </div>
         </div>
-        <div class="tool-item" onclick="this.classList.toggle('active')">
-          <div class="tool-icon">
-            <svg viewBox="0 0 16 16" fill="none"><path d="M14 10v2a2 2 0 01-2 2H4a2 2 0 01-2-2v-2M8 2v8M5 5l3-3 3 3" stroke="#86868B" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <div class="matrix-item" data-skill="/bloqueio">
+          <span class="matrix-cmd">/bloqueio</span>
+          <div class="matrix-slider-wrap">
+            <span class="matrix-label-left">Pede</span>
+            <div class="matrix-track-wrap">
+              <div class="matrix-track">
+                <div class="matrix-fill" style="width:25%;background:rgba(215,0,48,0.2);"></div>
+                <div class="matrix-thumb" style="left:calc(25% - 9px);border-color:#D70030;"></div>
+              </div>
+              <input type="range" class="matrix-range" min="0" max="100" value="25" oninput="updateMatrixSlider(this)">
+            </div>
+            <span class="matrix-label-right">Sozinho</span>
           </div>
-          <div>
-            <p class="tool-name">Google Drive</p>
-            <p class="tool-desc">Arquivos</p>
+        </div>
+        <div class="matrix-item" data-skill="/sprint">
+          <span class="matrix-cmd">/sprint</span>
+          <div class="matrix-slider-wrap">
+            <span class="matrix-label-left">Pede</span>
+            <div class="matrix-track-wrap">
+              <div class="matrix-track">
+                <div class="matrix-fill" style="width:30%;background:rgba(215,0,48,0.2);"></div>
+                <div class="matrix-thumb" style="left:calc(30% - 9px);border-color:#D70030;"></div>
+              </div>
+              <input type="range" class="matrix-range" min="0" max="100" value="30" oninput="updateMatrixSlider(this)">
+            </div>
+            <span class="matrix-label-right">Sozinho</span>
+          </div>
+        </div>
+        <div class="matrix-item" data-skill="/reuniao">
+          <span class="matrix-cmd">/reuniao</span>
+          <div class="matrix-slider-wrap">
+            <span class="matrix-label-left">Pede</span>
+            <div class="matrix-track-wrap">
+              <div class="matrix-track">
+                <div class="matrix-fill" style="width:75%;background:rgba(48,209,88,0.25);"></div>
+                <div class="matrix-thumb" style="left:calc(75% - 9px);border-color:#248A3D;"></div>
+              </div>
+              <input type="range" class="matrix-range" min="0" max="100" value="75" oninput="updateMatrixSlider(this)">
+            </div>
+            <span class="matrix-label-right">Sozinho</span>
           </div>
         </div>
       </div>
@@ -536,6 +731,114 @@
       const idx = Math.min(Math.floor(val / 14.3), 7);
       label.textContent = amounts[idx];
       display.textContent = amounts[idx];
+    }
+
+    /* Toggle tool with glow animation */
+    function toggleTool(el) {
+      el.classList.toggle('active');
+      if (el.classList.contains('active')) {
+        el.classList.add('just-activated');
+        setTimeout(function() { el.classList.remove('just-activated'); }, 600);
+      }
+    }
+
+    /* Add skill */
+    function addSkill() {
+      var cmdInput = document.getElementById('newSkillCmd');
+      var descInput = document.getElementById('newSkillDesc');
+      var cmd = cmdInput.value.trim();
+      var desc = descInput.value.trim();
+      if (!cmd || !desc) return;
+      if (!cmd.startsWith('/')) cmd = '/' + cmd;
+
+      var list = document.getElementById('skillList');
+      var item = document.createElement('div');
+      item.className = 'skill-item';
+      item.style.animation = 'cSlide 0.3s ease forwards';
+      item.innerHTML = '<span class="skill-cmd">' + cmd + '</span>' +
+        '<div class="skill-info"><p class="skill-info-desc">' + desc + '</p></div>' +
+        '<span class="skill-autonomy-badge approval">Pede aprovacao</span>' +
+        '<button class="skill-remove" onclick="this.closest(\'.skill-item\').remove();updateMatrix()" title="Remover skill">' +
+        '<svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M9 3L3 9M3 3l6 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></button>';
+      list.appendChild(item);
+      cmdInput.value = '';
+      descInput.value = '';
+      addMatrixItem(cmd, 50);
+    }
+
+    /* Suggest skill from tag */
+    function suggestSkill(cmd, desc) {
+      document.getElementById('newSkillCmd').value = cmd;
+      document.getElementById('newSkillDesc').value = desc;
+      addSkill();
+      event.target.remove();
+    }
+
+    /* Matrix slider update */
+    function updateMatrixSlider(input) {
+      var val = parseInt(input.value);
+      var wrap = input.closest('.matrix-track-wrap');
+      var fill = wrap.querySelector('.matrix-fill');
+      var thumb = wrap.querySelector('.matrix-thumb');
+
+      fill.style.width = val + '%';
+      thumb.style.left = 'calc(' + val + '% - 9px)';
+
+      if (val < 50) {
+        fill.style.background = 'rgba(215,0,48,0.2)';
+        thumb.style.borderColor = '#D70030';
+      } else {
+        fill.style.background = 'rgba(48,209,88,0.25)';
+        thumb.style.borderColor = '#248A3D';
+      }
+
+      /* Update badge in skill list */
+      var skillName = input.closest('.matrix-item').getAttribute('data-skill');
+      var skillItems = document.querySelectorAll('.skill-item');
+      skillItems.forEach(function(si) {
+        if (si.querySelector('.skill-cmd').textContent === skillName) {
+          var badge = si.querySelector('.skill-autonomy-badge');
+          if (val >= 50) {
+            badge.className = 'skill-autonomy-badge auto';
+            badge.textContent = 'Faz sozinho';
+          } else {
+            badge.className = 'skill-autonomy-badge approval';
+            badge.textContent = 'Pede aprovacao';
+          }
+        }
+      });
+    }
+
+    /* Add matrix item for new skill */
+    function addMatrixItem(cmd, val) {
+      var matrix = document.getElementById('autonomyMatrix');
+      var item = document.createElement('div');
+      item.className = 'matrix-item';
+      item.setAttribute('data-skill', cmd);
+      item.style.animation = 'cSlide 0.3s ease forwards';
+      var color = val < 50 ? 'rgba(215,0,48,0.2)' : 'rgba(48,209,88,0.25)';
+      var borderC = val < 50 ? '#D70030' : '#248A3D';
+      item.innerHTML = '<span class="matrix-cmd">' + cmd + '</span>' +
+        '<div class="matrix-slider-wrap"><span class="matrix-label-left">Pede</span>' +
+        '<div class="matrix-track-wrap"><div class="matrix-track">' +
+        '<div class="matrix-fill" style="width:' + val + '%;background:' + color + ';"></div>' +
+        '<div class="matrix-thumb" style="left:calc(' + val + '% - 9px);border-color:' + borderC + ';"></div></div>' +
+        '<input type="range" class="matrix-range" min="0" max="100" value="' + val + '" oninput="updateMatrixSlider(this)"></div>' +
+        '<span class="matrix-label-right">Sozinho</span></div>';
+      matrix.appendChild(item);
+    }
+
+    /* Sync matrix with skill list on remove */
+    function updateMatrix() {
+      var skills = [];
+      document.querySelectorAll('.skill-item .skill-cmd').forEach(function(el) {
+        skills.push(el.textContent);
+      });
+      document.querySelectorAll('.matrix-item').forEach(function(mi) {
+        if (skills.indexOf(mi.getAttribute('data-skill')) === -1) {
+          mi.remove();
+        }
+      });
     }
   </script>
 
