@@ -7,156 +7,541 @@
   <link rel="stylesheet" href="../../shared.css">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Zen+Dots&display=swap" rel="stylesheet">
   <style>
-    body { min-height: 100vh; background: #000; color: #F5F5F7; display: flex; flex-direction: column; }
-    .nav { position: sticky; top: 0; z-index: 50; height: 48px; display: flex; align-items: center; justify-content: center; background: rgba(0,0,0,0.6); backdrop-filter: blur(20px); border-bottom: 0.5px solid rgba(255,255,255,0.06); }
-    .nav-inner { width: 100%; max-width: 720px; padding: 0 24px; display: flex; align-items: center; justify-content: space-between; }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { min-height: 100vh; background: #0A0A0A; color: #F5F5F7; display: flex; flex-direction: column; overflow: hidden; }
+
+    /* Nav */
+    .nav { position: sticky; top: 0; z-index: 50; height: 48px; display: flex; align-items: center; justify-content: center; background: rgba(10,10,10,0.7); backdrop-filter: blur(20px); border-bottom: 0.5px solid rgba(255,255,255,0.06); flex-shrink: 0; }
+    .nav-inner { width: 100%; max-width: 100%; padding: 0 24px; display: flex; align-items: center; justify-content: space-between; }
     .nav-logo { font-family: 'Zen Dots', cursive; font-size: 14px; color: #D70030; }
     .nav-links a { font-family: 'Inter', sans-serif; font-size: 12px; color: #F5F5F7; opacity: 0.4; margin-left: 24px; }
     .nav-links a.active { opacity: 1; }
 
-    .top-bar { padding: 20px 24px; max-width: 720px; margin: 0 auto; width: 100%; }
-    h1 { font-family: 'Zen Dots', cursive; font-size: 20px; color: #F5F5F7; margin-bottom: 6px; }
-    .sub { font-family: 'Satoshi', sans-serif; font-size: 13px; color: #AEAEB2; margin-bottom: 16px; }
-    .tabs-sub { display: flex; gap: 8px; }
-    .tab-sub { font-family: 'Inter', sans-serif; padding: 6px 16px; border-radius: 980px; font-size: 12px; color: #AEAEB2; border: 0.5px solid rgba(255,255,255,0.08); background: none; cursor: pointer; }
-    .tab-sub.active { background: #F5F5F7; color: #1D1D1F; border-color: #F5F5F7; }
+    /* Top Controls */
+    .controls { position: absolute; top: 60px; left: 24px; z-index: 10; display: flex; flex-direction: column; gap: 12px; }
 
-    /* Graph canvas */
-    .graph { flex: 1; position: relative; overflow: hidden; }
-    .graph::before { content: ''; position: absolute; inset: 0; opacity: 0.02; background-image: radial-gradient(circle at 1px 1px, #D70030 0.5px, transparent 0); background-size: 48px 48px; }
+    .ctrl-card { background: rgba(28,28,30,0.9); backdrop-filter: blur(12px); border: 0.5px solid rgba(255,255,255,0.06); border-radius: 14px; padding: 14px 16px; }
+    .ctrl-title { font-family: 'Zen Dots', cursive; font-size: 14px; color: #F5F5F7; margin-bottom: 4px; }
+    .ctrl-sub { font-family: 'Satoshi', sans-serif; font-size: 11px; color: #636366; margin-bottom: 12px; }
 
-    /* Nodes */
-    .g-node { position: absolute; display: flex; flex-direction: column; align-items: center; cursor: pointer; transition: transform 0.2s; }
-    .g-node:hover { transform: scale(1.15); }
-    .g-node:hover .g-tooltip { opacity: 1; }
-    .g-circle { border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: 'Inter', sans-serif; font-weight: 500; transition: box-shadow 0.3s; }
-    .g-label { font-family: 'Satoshi', sans-serif; font-size: 11px; color: #AEAEB2; margin-top: 4px; text-align: center; max-width: 80px; line-height: 1.3; }
+    .ctrl-tabs { display: flex; gap: 4px; margin-bottom: 12px; }
+    .ctrl-tab { font-family: 'Inter', sans-serif; padding: 5px 12px; border-radius: 980px; font-size: 11px; color: #8E8E93; border: 0.5px solid rgba(255,255,255,0.06); background: none; cursor: pointer; transition: all 0.15s; min-height: 28px; }
+    .ctrl-tab:hover { border-color: rgba(255,255,255,0.12); }
+    .ctrl-tab.active { background: #F5F5F7; color: #1D1D1F; border-color: #F5F5F7; }
 
-    .g-entity { width: 40px; height: 40px; border: 1px solid rgba(215,0,48,0.3); background: rgba(215,0,48,0.06); font-size: 11px; color: #D70030; }
-    .g-fact { width: 28px; height: 28px; border: 1px solid rgba(255,255,255,0.1); background: rgba(255,255,255,0.03); font-size: 11px; color: #8E8E93; }
-    .g-pattern { width: 34px; height: 34px; border: 1px solid rgba(255,255,255,0.06); background: rgba(255,255,255,0.02); font-size: 11px; color: #AEAEB2; }
+    .search-box { position: relative; }
+    .search-box input { width: 220px; padding: 8px 12px 8px 32px; background: rgba(255,255,255,0.04); border: 0.5px solid rgba(255,255,255,0.06); border-radius: 8px; font-family: 'Inter', sans-serif; font-size: 12px; color: #F5F5F7; outline: none; transition: border-color 0.2s; }
+    .search-box input:focus { border-color: rgba(215,0,48,0.3); }
+    .search-box input::placeholder { color: #48484A; }
+    .search-box svg { position: absolute; left: 10px; top: 50%; transform: translateY(-50%); color: #48484A; }
 
-    .g-node:hover .g-entity { box-shadow: 0 0 24px rgba(215,0,48,0.2); }
-    .g-node:hover .g-fact { box-shadow: 0 0 16px rgba(255,255,255,0.08); }
+    /* Filter chips */
+    .filter-row { display: flex; gap: 4px; flex-wrap: wrap; max-width: 240px; }
+    .f-chip { font-family: 'Inter', sans-serif; padding: 3px 10px; border-radius: 6px; font-size: 10px; font-weight: 500; cursor: pointer; border: none; transition: all 0.15s; }
+    .f-chip.entity { background: rgba(215,0,48,0.1); color: #D70030; }
+    .f-chip.entity.dim { background: rgba(215,0,48,0.04); color: rgba(215,0,48,0.4); }
+    .f-chip.fact { background: rgba(100,210,255,0.1); color: #64D2FF; }
+    .f-chip.fact.dim { background: rgba(100,210,255,0.04); color: rgba(100,210,255,0.4); }
+    .f-chip.pattern { background: rgba(191,90,242,0.1); color: #BF5AF2; }
+    .f-chip.pattern.dim { background: rgba(191,90,242,0.04); color: rgba(191,90,242,0.4); }
+    .f-chip.preference { background: rgba(255,214,10,0.1); color: #FFD60A; }
+    .f-chip.preference.dim { background: rgba(255,214,10,0.04); color: rgba(255,214,10,0.4); }
+    .f-chip.decision { background: rgba(48,209,88,0.1); color: #30D158; }
+    .f-chip.decision.dim { background: rgba(48,209,88,0.04); color: rgba(48,209,88,0.4); }
 
-    .g-tooltip { position: absolute; bottom: calc(100% + 8px); left: 50%; transform: translateX(-50%); background: #1C1C1E; border: 0.5px solid rgba(255,255,255,0.08); border-radius: 10px; padding: 8px 12px; min-width: 160px; opacity: 0; transition: opacity 0.2s; pointer-events: none; z-index: 5; }
-    .g-tooltip p { font-family: 'Satoshi', sans-serif; font-size: 11px; color: #D2D2D7; line-height: 1.4; }
-    .g-tooltip .meta { font-family: 'Inter', sans-serif; font-size: 11px; color: #AEAEB2; margin-top: 4px; }
+    /* Canvas */
+    #graphCanvas { flex: 1; cursor: grab; display: block; }
+    #graphCanvas:active { cursor: grabbing; }
 
-    /* Edges (SVG) */
-    .edges { position: absolute; inset: 0; pointer-events: none; }
-    .edges line { stroke: rgba(255,255,255,0.04); stroke-width: 0.5; }
-    .edges line.strong { stroke: rgba(215,0,48,0.08); stroke-width: 1; }
+    /* Right Panel */
+    .detail-panel { position: absolute; top: 60px; right: 24px; z-index: 10; width: 280px; background: rgba(28,28,30,0.92); backdrop-filter: blur(16px); border: 0.5px solid rgba(255,255,255,0.06); border-radius: 16px; overflow: hidden; transition: opacity 0.25s, transform 0.25s; }
+    .detail-panel.hidden { opacity: 0; transform: translateX(20px); pointer-events: none; }
+    .detail-header { padding: 16px; border-bottom: 0.5px solid rgba(255,255,255,0.04); display: flex; align-items: center; gap: 12px; }
+    .detail-dot { width: 12px; height: 12px; border-radius: 50%; flex-shrink: 0; }
+    .detail-name { font-family: 'Satoshi', sans-serif; font-size: 15px; font-weight: 600; color: #F5F5F7; }
+    .detail-type { font-family: 'Inter', sans-serif; font-size: 10px; font-weight: 500; padding: 2px 8px; border-radius: 4px; margin-left: auto; }
+    .detail-close { background: none; border: none; color: #636366; cursor: pointer; margin-left: 8px; padding: 4px; }
+    .detail-body { padding: 16px; }
+    .detail-label { font-family: 'Inter', sans-serif; font-size: 10px; font-weight: 600; color: #48484A; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 6px; margin-top: 12px; }
+    .detail-label:first-child { margin-top: 0; }
+    .detail-value { font-family: 'Satoshi', sans-serif; font-size: 13px; color: #D2D2D7; line-height: 1.5; }
+    .detail-connections { list-style: none; }
+    .detail-connections li { font-family: 'Satoshi', sans-serif; font-size: 12px; color: #8E8E93; padding: 5px 0; border-bottom: 0.5px solid rgba(255,255,255,0.03); display: flex; align-items: center; gap: 6px; cursor: pointer; }
+    .detail-connections li:hover { color: #F5F5F7; }
+    .detail-connections li:last-child { border-bottom: none; }
+    .conn-dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
 
-    .stats-bar { position: absolute; bottom: 0; left: 0; right: 0; padding: 16px 32px; display: flex; justify-content: space-between; background: linear-gradient(to top, #000, transparent); font-family: 'Inter', sans-serif; font-size: 11px; color: #48484A; }
+    /* Bottom Stats */
+    .bottom-bar { position: absolute; bottom: 0; left: 0; right: 0; padding: 12px 24px; display: flex; justify-content: space-between; align-items: center; background: linear-gradient(to top, rgba(10,10,10,0.95), transparent); z-index: 5; }
+    .bottom-stats { display: flex; gap: 20px; font-family: 'Inter', sans-serif; font-size: 11px; color: #48484A; }
+    .bottom-stats strong { color: #8E8E93; font-weight: 500; }
+    .zoom-controls { display: flex; gap: 4px; }
+    .zoom-btn { width: 32px; height: 32px; border-radius: 8px; background: rgba(28,28,30,0.8); border: 0.5px solid rgba(255,255,255,0.06); color: #8E8E93; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.15s; }
+    .zoom-btn:hover { background: rgba(255,255,255,0.06); color: #F5F5F7; }
+
+    @media (max-width: 768px) {
+      .controls { left: 12px; }
+      .detail-panel { right: 12px; width: 240px; }
+      .search-box input { width: 180px; }
+    }
   </style>
 </head>
 <body>
+
   <nav class="nav">
     <div class="nav-inner">
       <a href="../dashboard/home.html" class="nav-logo">KTANA</a>
-      <div class="nav-links"><a href="../dashboard/home.html">Painel</a><a href="../office/index.html">Escritorio</a><a href="../team/list.html">Equipe</a><a href="../approvals/list.html">Aprovacoes</a><a href="index.html" class="active">Perfil</a><a href="../settings/general.html">Config</a></div>
+      <div class="nav-links">
+        <a href="../dashboard/home.html">Painel</a>
+        <a href="../office/index.html">Escritorio</a>
+        <a href="../team/list.html">Equipe</a>
+        <a href="index.html" class="active">Perfil</a>
+        <a href="../settings/general.html">Config</a>
+      </div>
     </div>
   </nav>
 
-  <div class="top-bar">
-    <h1 class="fade-in">Knowledge Graph</h1>
-    <p class="sub fade-in">Seu cerebro digital. Cada ponto e algo que seus samurais sabem.</p>
-    <div class="tabs-sub fade-in">
-      <button class="tab-sub" onclick="location.href='index.html'">Perfil</button>
-      <button class="tab-sub" onclick="location.href='patterns.html'">Padroes</button>
-      <button class="tab-sub active">Knowledge Graph</button>
+  <!-- Left Controls -->
+  <div class="controls">
+    <div class="ctrl-card">
+      <div class="ctrl-title">Knowledge Graph</div>
+      <div class="ctrl-sub">Cerebro digital dos seus samurais</div>
+      <div class="ctrl-tabs">
+        <button class="ctrl-tab" onclick="location.href='index.html'">Perfil</button>
+        <button class="ctrl-tab" onclick="location.href='patterns.html'">Padroes</button>
+        <button class="ctrl-tab active">Grafo</button>
+      </div>
+      <div class="search-box">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+        <input type="text" placeholder="Buscar no grafo..." id="searchInput" oninput="searchNodes(this.value)">
+      </div>
+    </div>
+    <div class="ctrl-card">
+      <div class="detail-label" style="margin-top:0;">Filtrar por tipo</div>
+      <div class="filter-row">
+        <button class="f-chip entity" onclick="toggleFilter('entity',this)">Entidades</button>
+        <button class="f-chip fact" onclick="toggleFilter('fact',this)">Fatos</button>
+        <button class="f-chip pattern" onclick="toggleFilter('pattern',this)">Padroes</button>
+        <button class="f-chip preference" onclick="toggleFilter('preference',this)">Preferencias</button>
+        <button class="f-chip decision" onclick="toggleFilter('decision',this)">Decisoes</button>
+      </div>
     </div>
   </div>
 
-  <div class="graph">
-    <svg class="edges" viewBox="0 0 100 100" preserveAspectRatio="none" style="width:100%;height:100%;">
-      <line x1="50" y1="20" x2="25" y2="40" class="strong"/>
-      <line x1="50" y1="20" x2="70" y2="35"/>
-      <line x1="50" y1="20" x2="55" y2="50"/>
-      <line x1="25" y1="40" x2="15" y2="60"/>
-      <line x1="25" y1="40" x2="35" y2="65"/>
-      <line x1="70" y1="35" x2="80" y2="55"/>
-      <line x1="70" y1="35" x2="60" y2="60" class="strong"/>
-      <line x1="55" y1="50" x2="40" y2="70"/>
-      <line x1="55" y1="50" x2="70" y2="75"/>
-      <line x1="15" y1="60" x2="25" y2="80"/>
-      <line x1="80" y1="55" x2="85" y2="75"/>
-    </svg>
+  <!-- Canvas -->
+  <canvas id="graphCanvas"></canvas>
 
-    <!-- Central: Julio -->
-    <div class="g-node" style="left:50%;top:18%;transform:translateX(-50%);">
-      <div class="g-tooltip"><p>Julio — Dono</p><p class="meta">Centro do grafo · 234 conexoes</p></div>
-      <div class="g-circle g-entity">J</div>
-      <span class="g-label">Julio</span>
+  <!-- Detail Panel -->
+  <div class="detail-panel hidden" id="detailPanel">
+    <div class="detail-header">
+      <div class="detail-dot" id="detailDot"></div>
+      <div class="detail-name" id="detailName">—</div>
+      <span class="detail-type" id="detailType">—</span>
+      <button class="detail-close" onclick="hideDetail()">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
+      </button>
     </div>
-
-    <!-- Entities -->
-    <div class="g-node" style="left:22%;top:36%;">
-      <div class="g-tooltip"><p>Cliente X</p><p class="meta">Paga com 3d atraso · 8 faturas · R$42k total</p></div>
-      <div class="g-circle g-entity">X</div>
-      <span class="g-label">Cliente X</span>
+    <div class="detail-body">
+      <div class="detail-label">Descricao</div>
+      <div class="detail-value" id="detailDesc">—</div>
+      <div class="detail-label">Conexoes</div>
+      <ul class="detail-connections" id="detailConns"></ul>
+      <div class="detail-label">Metadados</div>
+      <div class="detail-value" id="detailMeta" style="font-size:11px;color:#636366;">—</div>
     </div>
+  </div>
 
-    <div class="g-node" style="left:68%;top:30%;">
-      <div class="g-tooltip"><p>Cliente Y</p><p class="meta">Inadimplente · R$12k pendente · 15d atraso</p></div>
-      <div class="g-circle g-entity">Y</div>
-      <span class="g-label">Cliente Y</span>
-    </div>
-
-    <div class="g-node" style="left:52%;top:46%;">
-      <div class="g-tooltip"><p>Sprint 12</p><p class="meta">Deadline 05/04 · 78% done · 2 tasks atrasadas</p></div>
-      <div class="g-circle g-entity">S</div>
-      <span class="g-label">Sprint 12</span>
-    </div>
-
-    <!-- Facts -->
-    <div class="g-node" style="left:12%;top:56%;">
-      <div class="g-circle g-fact">$</div>
-      <span class="g-label">paga 3d atraso</span>
-    </div>
-
-    <div class="g-node" style="left:32%;top:62%;">
-      <div class="g-circle g-fact">W</div>
-      <span class="g-label">so responde WA</span>
-    </div>
-
-    <div class="g-node" style="left:78%;top:50%;">
-      <div class="g-circle g-fact">!</div>
-      <span class="g-label">R$12k pendente</span>
-    </div>
-
-    <div class="g-node" style="left:58%;top:58%;">
-      <div class="g-circle g-fact">T</div>
-      <span class="g-label">2 tasks atrasadas</span>
-    </div>
-
-    <!-- Patterns -->
-    <div class="g-node" style="left:38%;top:76%;">
-      <div class="g-circle g-pattern">P</div>
-      <span class="g-label">WA 3x mais resp</span>
-    </div>
-
-    <div class="g-node" style="left:68%;top:72%;">
-      <div class="g-circle g-pattern">P</div>
-      <span class="g-label">lembrete 3d antes</span>
-    </div>
-
-    <div class="g-node" style="left:22%;top:78%;">
-      <div class="g-circle g-pattern">P</div>
-      <span class="g-label">desconto max 10%</span>
-    </div>
-
-    <div class="g-node" style="left:83%;top:73%;">
-      <div class="g-circle g-fact">5</div>
-      <span class="g-label">Fornec Z 5% desc</span>
-    </div>
-
-    <div class="stats-bar">
-      <span>234 nodes · 412 edges · 12 clusters</span>
-      <span>Zoom: scroll · Pan: drag · Click: inspecionar</span>
+  <!-- Bottom -->
+  <div class="bottom-bar">
+    <div class="bottom-stats">
+      <span>Nodes: <strong id="nodeCount">0</strong></span>
+      <span>Edges: <strong id="edgeCount">0</strong></span>
+      <span>Clusters: <strong>8</strong></span>
       <span>Atualizado em tempo real</span>
     </div>
+    <div class="zoom-controls">
+      <button class="zoom-btn" onclick="zoomIn()" title="Zoom in">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+      </button>
+      <button class="zoom-btn" onclick="zoomOut()" title="Zoom out">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="5" y1="12" x2="19" y2="12"/></svg>
+      </button>
+      <button class="zoom-btn" onclick="resetView()" title="Reset">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 12a9 9 0 109-9"/><polyline points="3 3 3 9 9 9"/></svg>
+      </button>
+    </div>
   </div>
+
+  <script>
+    const canvas = document.getElementById('graphCanvas');
+    const ctx = canvas.getContext('2d');
+    let W, H, dpr;
+
+    // Colors per type
+    const TYPE_COLORS = {
+      entity: { fill: 'rgba(215,0,48,0.12)', stroke: 'rgba(215,0,48,0.5)', text: '#D70030', glow: 'rgba(215,0,48,0.15)' },
+      fact: { fill: 'rgba(100,210,255,0.08)', stroke: 'rgba(100,210,255,0.3)', text: '#64D2FF', glow: 'rgba(100,210,255,0.1)' },
+      pattern: { fill: 'rgba(191,90,242,0.08)', stroke: 'rgba(191,90,242,0.3)', text: '#BF5AF2', glow: 'rgba(191,90,242,0.1)' },
+      preference: { fill: 'rgba(255,214,10,0.08)', stroke: 'rgba(255,214,10,0.3)', text: '#FFD60A', glow: 'rgba(255,214,10,0.1)' },
+      decision: { fill: 'rgba(48,209,88,0.08)', stroke: 'rgba(48,209,88,0.3)', text: '#30D158', glow: 'rgba(48,209,88,0.1)' },
+    };
+
+    // Nodes
+    const nodes = [
+      // Entities (main)
+      { id: 0, label: 'Julio', type: 'entity', desc: 'Dono da conta — centro do grafo', r: 22, conns: [] },
+      { id: 1, label: 'CFO Samurai', type: 'entity', desc: 'Diretor financeiro IA — 147 acoes/semana', r: 18, conns: [] },
+      { id: 2, label: 'SDR Samurai', type: 'entity', desc: 'Prospeccao automatica — 89 leads/dia', r: 16, conns: [] },
+      { id: 3, label: 'CMO Samurai', type: 'entity', desc: 'Marketing IA — conteudo + SEO + ads', r: 16, conns: [] },
+      { id: 4, label: 'CTO Samurai', type: 'entity', desc: 'Arquitetura e code review automatico', r: 16, conns: [] },
+      { id: 5, label: 'Cliente X', type: 'entity', desc: 'ACME Corp — R$42k faturado, 3d atraso medio', r: 14, conns: [] },
+      { id: 6, label: 'Cliente Y', type: 'entity', desc: 'Beta Inc — R$12k pendente, 15d atraso', r: 14, conns: [] },
+      { id: 7, label: 'Sprint 14', type: 'entity', desc: 'Deadline 05/04 — 78% done', r: 12, conns: [] },
+      { id: 8, label: 'KTANA LP', type: 'entity', desc: 'Landing page corporate v2', r: 12, conns: [] },
+      { id: 9, label: 'Omie ERP', type: 'entity', desc: 'Integracao financeira ativa', r: 12, conns: [] },
+      // Facts
+      { id: 10, label: 'paga 3d atraso', type: 'fact', desc: 'Cliente X sempre paga com 3 dias de atraso', r: 8, conns: [] },
+      { id: 11, label: 'so responde WA', type: 'fact', desc: 'Cliente X ignora email, responde WhatsApp', r: 8, conns: [] },
+      { id: 12, label: 'R$12k pendente', type: 'fact', desc: 'Fatura vencida ha 15 dias', r: 8, conns: [] },
+      { id: 13, label: '99.1% precisao', type: 'fact', desc: 'CFO classifica despesas com 99.1% acerto', r: 8, conns: [] },
+      { id: 14, label: 'DRE auto', type: 'fact', desc: 'DRE mensal gerado automaticamente dia 5', r: 7, conns: [] },
+      { id: 15, label: '89 leads/dia', type: 'fact', desc: 'SDR gera media de 89 leads qualificados', r: 8, conns: [] },
+      { id: 16, label: 'SEO +340%', type: 'fact', desc: 'Trafego organico subiu 340% em 3 meses', r: 8, conns: [] },
+      { id: 17, label: '2 tasks atrasadas', type: 'fact', desc: 'Sprint 14 tem 2 tasks com atraso', r: 7, conns: [] },
+      { id: 18, label: 'NF via Omie', type: 'fact', desc: 'Emissao de NFs pelo ERP', r: 7, conns: [] },
+      { id: 19, label: 'deploy vercel', type: 'fact', desc: 'LP deploya via Vercel CI/CD', r: 7, conns: [] },
+      // Patterns
+      { id: 20, label: 'WA 3x mais resp', type: 'pattern', desc: 'WhatsApp tem 3x mais taxa de resposta que email', r: 9, conns: [] },
+      { id: 21, label: 'lembrete 3d antes', type: 'pattern', desc: 'Enviar lembrete 3d antes do vencimento reduz atraso em 80%', r: 9, conns: [] },
+      { id: 22, label: 'posts seg+qui', type: 'pattern', desc: 'Melhor engagement em posts segunda e quinta', r: 9, conns: [] },
+      { id: 23, label: 'review antes merge', type: 'pattern', desc: 'PRs com review tem 40% menos bugs', r: 9, conns: [] },
+      // Preferences
+      { id: 24, label: 'tom formal B2B', type: 'preference', desc: 'Comunicacao com clientes: tom formal B2B', r: 8, conns: [] },
+      { id: 25, label: 'max 10% desc', type: 'preference', desc: 'Desconto maximo autorizado: 10%', r: 8, conns: [] },
+      { id: 26, label: 'Opus p/ arquitetura', type: 'preference', desc: 'Usar Opus para planejamento, Sonnet para execucao', r: 8, conns: [] },
+      // Decisions
+      { id: 27, label: 'migrar Make→n8n', type: 'decision', desc: 'Decisao: migrar workflows Make para n8n', r: 9, conns: [] },
+      { id: 28, label: 'cortar Cliente Y', type: 'decision', desc: 'Encerrar contrato apos 30d sem pagamento', r: 9, conns: [] },
+      { id: 29, label: 'LP dark theme', type: 'decision', desc: 'Landing page usa dark theme como padrao', r: 9, conns: [] },
+    ];
+
+    // Edges
+    const edges = [
+      [0,1],[0,2],[0,3],[0,4],[0,5],[0,6],[0,7],[0,8],[0,9],
+      [1,5],[1,6],[1,9],[1,13],[1,14],[1,18],[1,25],
+      [2,5],[2,6],[2,15],[2,20],[2,24],
+      [3,8],[3,16],[3,22],[3,29],
+      [4,7],[4,8],[4,17],[4,19],[4,23],[4,26],
+      [5,10],[5,11],[5,20],[5,21],[5,25],
+      [6,12],[6,28],
+      [7,17],[7,23],
+      [8,19],[8,29],
+      [9,14],[9,18],[9,27],
+      [10,21],[11,20],[15,24],[16,22],
+    ];
+
+    // Build connection lists
+    edges.forEach(([a,b]) => { nodes[a].conns.push(b); nodes[b].conns.push(a); });
+
+    // Physics
+    let zoom = 1, panX = 0, panY = 0;
+    let dragging = false, dragStartX, dragStartY, panStartX, panStartY;
+    let hoveredNode = null, selectedNode = null;
+    let activeFilters = new Set(['entity','fact','pattern','preference','decision']);
+    let searchQuery = '';
+
+    function initPositions() {
+      nodes.forEach((n, i) => {
+        const angle = (i / nodes.length) * Math.PI * 2;
+        const dist = n.type === 'entity' ? 120 + Math.random()*80 : 200 + Math.random()*120;
+        n.x = Math.cos(angle) * dist;
+        n.y = Math.sin(angle) * dist;
+        n.vx = 0; n.vy = 0;
+      });
+      nodes[0].x = 0; nodes[0].y = 0; // Center Julio
+    }
+
+    function simulate() {
+      const alpha = 0.3;
+      // Repulsion
+      for (let i = 0; i < nodes.length; i++) {
+        for (let j = i+1; j < nodes.length; j++) {
+          let dx = nodes[j].x - nodes[i].x;
+          let dy = nodes[j].y - nodes[i].y;
+          let dist = Math.sqrt(dx*dx + dy*dy) || 1;
+          let force = 800 / (dist * dist);
+          let fx = dx/dist * force;
+          let fy = dy/dist * force;
+          nodes[i].vx -= fx; nodes[i].vy -= fy;
+          nodes[j].vx += fx; nodes[j].vy += fy;
+        }
+      }
+      // Attraction (edges)
+      edges.forEach(([a,b]) => {
+        let dx = nodes[b].x - nodes[a].x;
+        let dy = nodes[b].y - nodes[a].y;
+        let dist = Math.sqrt(dx*dx + dy*dy) || 1;
+        let force = (dist - 100) * 0.005;
+        let fx = dx/dist * force;
+        let fy = dy/dist * force;
+        nodes[a].vx += fx; nodes[a].vy += fy;
+        nodes[b].vx -= fx; nodes[b].vy -= fy;
+      });
+      // Center gravity
+      nodes.forEach(n => {
+        n.vx -= n.x * 0.001;
+        n.vy -= n.y * 0.001;
+        n.x += n.vx * alpha;
+        n.y += n.vy * alpha;
+        n.vx *= 0.85;
+        n.vy *= 0.85;
+      });
+    }
+
+    function resize() {
+      dpr = window.devicePixelRatio || 1;
+      W = window.innerWidth;
+      H = window.innerHeight - 48;
+      canvas.width = W * dpr;
+      canvas.height = H * dpr;
+      canvas.style.width = W + 'px';
+      canvas.style.height = H + 'px';
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    }
+
+    function toScreen(x, y) {
+      return [(x * zoom + panX + W/2), (y * zoom + panY + H/2)];
+    }
+    function toWorld(sx, sy) {
+      return [((sx - panX - W/2) / zoom), ((sy - panY - H/2) / zoom)];
+    }
+
+    function isVisible(node) {
+      if (!activeFilters.has(node.type)) return false;
+      if (searchQuery && !node.label.toLowerCase().includes(searchQuery)) return false;
+      return true;
+    }
+
+    const time = { now: 0 };
+
+    function draw() {
+      time.now = Date.now() * 0.001;
+      simulate();
+      ctx.clearRect(0, 0, W, H);
+
+      // Grid dots
+      ctx.fillStyle = 'rgba(215,0,48,0.015)';
+      const gs = 48 * zoom;
+      const ox = (panX + W/2) % gs;
+      const oy = (panY + H/2) % gs;
+      for (let x = ox; x < W; x += gs) {
+        for (let y = oy; y < H; y += gs) {
+          ctx.beginPath();
+          ctx.arc(x, y, 0.5, 0, Math.PI*2);
+          ctx.fill();
+        }
+      }
+
+      // Edges
+      edges.forEach(([a,b]) => {
+        const na = nodes[a], nb = nodes[b];
+        if (!isVisible(na) || !isVisible(nb)) return;
+        const [x1,y1] = toScreen(na.x, na.y);
+        const [x2,y2] = toScreen(nb.x, nb.y);
+        const isHighlight = hoveredNode !== null && (a === hoveredNode || b === hoveredNode);
+        const isSelected = selectedNode !== null && (a === selectedNode || b === selectedNode);
+
+        ctx.beginPath();
+        ctx.moveTo(x1, y1);
+        ctx.lineTo(x2, y2);
+
+        if (isHighlight || isSelected) {
+          ctx.strokeStyle = 'rgba(215,0,48,0.25)';
+          ctx.lineWidth = 1.5;
+        } else {
+          ctx.strokeStyle = 'rgba(255,255,255,0.03)';
+          ctx.lineWidth = 0.5;
+        }
+        ctx.stroke();
+
+        // Animated pulse on highlighted edges
+        if (isHighlight || isSelected) {
+          const progress = (Math.sin(time.now * 3 + a + b) + 1) * 0.5;
+          const px = x1 + (x2 - x1) * progress;
+          const py = y1 + (y2 - y1) * progress;
+          ctx.beginPath();
+          ctx.arc(px, py, 2, 0, Math.PI*2);
+          ctx.fillStyle = 'rgba(215,0,48,0.5)';
+          ctx.fill();
+        }
+      });
+
+      // Nodes
+      nodes.forEach((n, i) => {
+        if (!isVisible(n)) return;
+        const [sx, sy] = toScreen(n.x, n.y);
+        const r = n.r * zoom;
+        const colors = TYPE_COLORS[n.type];
+        const isHover = hoveredNode === i;
+        const isSel = selectedNode === i;
+        const isConnected = hoveredNode !== null && nodes[hoveredNode] && nodes[hoveredNode].conns.includes(i);
+
+        // Glow
+        if (isHover || isSel) {
+          ctx.beginPath();
+          ctx.arc(sx, sy, r + 8, 0, Math.PI*2);
+          ctx.fillStyle = colors.glow;
+          ctx.fill();
+        }
+
+        // Circle
+        ctx.beginPath();
+        ctx.arc(sx, sy, r, 0, Math.PI*2);
+        ctx.fillStyle = (isHover || isSel || isConnected) ? colors.fill.replace(/[\d.]+\)$/, '0.25)') : colors.fill;
+        ctx.fill();
+        ctx.strokeStyle = (isHover || isSel) ? colors.text : colors.stroke;
+        ctx.lineWidth = (isHover || isSel) ? 1.5 : 0.5;
+        ctx.stroke();
+
+        // Label
+        const dimmed = hoveredNode !== null && !isHover && !isConnected && hoveredNode !== i;
+        ctx.fillStyle = dimmed ? 'rgba(174,174,178,0.2)' : (isHover || isSel ? '#F5F5F7' : '#8E8E93');
+        ctx.font = `${Math.max(9, 11 * zoom)}px Inter, system-ui, sans-serif`;
+        ctx.textAlign = 'center';
+        ctx.fillText(n.label, sx, sy + r + 14 * zoom);
+      });
+
+      requestAnimationFrame(draw);
+    }
+
+    function getNodeAt(mx, my) {
+      const [wx, wy] = toWorld(mx, my);
+      for (let i = nodes.length - 1; i >= 0; i--) {
+        if (!isVisible(nodes[i])) continue;
+        const dx = nodes[i].x - wx;
+        const dy = nodes[i].y - wy;
+        if (Math.sqrt(dx*dx + dy*dy) < nodes[i].r + 5) return i;
+      }
+      return null;
+    }
+
+    // Events
+    canvas.addEventListener('mousedown', e => {
+      dragging = true;
+      dragStartX = e.clientX; dragStartY = e.clientY;
+      panStartX = panX; panStartY = panY;
+    });
+    canvas.addEventListener('mousemove', e => {
+      const rect = canvas.getBoundingClientRect();
+      const mx = e.clientX - rect.left;
+      const my = e.clientY - rect.top;
+      if (dragging) {
+        panX = panStartX + (e.clientX - dragStartX);
+        panY = panStartY + (e.clientY - dragStartY);
+      } else {
+        hoveredNode = getNodeAt(mx, my);
+        canvas.style.cursor = hoveredNode !== null ? 'pointer' : 'grab';
+      }
+    });
+    canvas.addEventListener('mouseup', e => {
+      if (dragging && Math.abs(e.clientX - dragStartX) < 3 && Math.abs(e.clientY - dragStartY) < 3) {
+        const rect = canvas.getBoundingClientRect();
+        const clicked = getNodeAt(e.clientX - rect.left, e.clientY - rect.top);
+        if (clicked !== null) {
+          selectedNode = clicked;
+          showDetail(clicked);
+        } else {
+          selectedNode = null;
+          hideDetail();
+        }
+      }
+      dragging = false;
+    });
+    canvas.addEventListener('wheel', e => {
+      e.preventDefault();
+      const factor = e.deltaY > 0 ? 0.92 : 1.08;
+      zoom = Math.max(0.3, Math.min(3, zoom * factor));
+    }, { passive: false });
+
+    // Touch
+    let lastTouchDist = 0;
+    canvas.addEventListener('touchstart', e => {
+      if (e.touches.length === 1) {
+        dragging = true;
+        dragStartX = e.touches[0].clientX; dragStartY = e.touches[0].clientY;
+        panStartX = panX; panStartY = panY;
+      }
+      if (e.touches.length === 2) {
+        lastTouchDist = Math.hypot(e.touches[0].clientX - e.touches[1].clientX, e.touches[0].clientY - e.touches[1].clientY);
+      }
+    });
+    canvas.addEventListener('touchmove', e => {
+      e.preventDefault();
+      if (e.touches.length === 1 && dragging) {
+        panX = panStartX + (e.touches[0].clientX - dragStartX);
+        panY = panStartY + (e.touches[0].clientY - dragStartY);
+      }
+      if (e.touches.length === 2) {
+        const dist = Math.hypot(e.touches[0].clientX - e.touches[1].clientX, e.touches[0].clientY - e.touches[1].clientY);
+        zoom = Math.max(0.3, Math.min(3, zoom * (dist / lastTouchDist)));
+        lastTouchDist = dist;
+      }
+    }, { passive: false });
+    canvas.addEventListener('touchend', () => { dragging = false; });
+
+    function showDetail(idx) {
+      const n = nodes[idx];
+      const colors = TYPE_COLORS[n.type];
+      const panel = document.getElementById('detailPanel');
+      document.getElementById('detailDot').style.background = colors.text;
+      document.getElementById('detailName').textContent = n.label;
+      const typeEl = document.getElementById('detailType');
+      typeEl.textContent = n.type;
+      typeEl.style.background = colors.fill;
+      typeEl.style.color = colors.text;
+      document.getElementById('detailDesc').textContent = n.desc;
+      document.getElementById('detailMeta').textContent = `ID: ${n.id} · Tipo: ${n.type} · Conexoes: ${n.conns.length} · Raio: ${n.r}`;
+      const connList = document.getElementById('detailConns');
+      connList.innerHTML = n.conns.slice(0, 8).map(c => {
+        const cn = nodes[c];
+        const cc = TYPE_COLORS[cn.type];
+        return `<li onclick="selectedNode=${c};showDetail(${c})"><span class="conn-dot" style="background:${cc.text}"></span>${cn.label}</li>`;
+      }).join('');
+      if (n.conns.length > 8) connList.innerHTML += `<li style="color:#48484A;">+${n.conns.length-8} mais</li>`;
+      panel.classList.remove('hidden');
+    }
+
+    function hideDetail() {
+      document.getElementById('detailPanel').classList.add('hidden');
+      selectedNode = null;
+    }
+
+    function toggleFilter(type, btn) {
+      if (activeFilters.has(type)) {
+        activeFilters.delete(type);
+        btn.classList.add('dim');
+      } else {
+        activeFilters.add(type);
+        btn.classList.remove('dim');
+      }
+    }
+
+    function searchNodes(q) {
+      searchQuery = q.toLowerCase();
+    }
+
+    function zoomIn() { zoom = Math.min(3, zoom * 1.3); }
+    function zoomOut() { zoom = Math.max(0.3, zoom * 0.7); }
+    function resetView() { zoom = 1; panX = 0; panY = 0; }
+
+    // Init
+    initPositions();
+    resize();
+    window.addEventListener('resize', resize);
+    document.getElementById('nodeCount').textContent = nodes.length;
+    document.getElementById('edgeCount').textContent = edges.length;
+    draw();
+  </script>
+
 </body>
 </html>
