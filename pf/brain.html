@@ -484,18 +484,7 @@
       .linkOpacity(0.12)
       .nodeVal(function(node) { return node.size * node.size; })
       .nodeColor(function(node) { return node.color; })
-      .nodeLabel(function(node) { return node.label + (node.score ? ' — ' + node.score.toFixed(1) : ''); })
-      .nodeCanvasObjectMode(function() { return 'after'; })
-      .nodeCanvasObject(function(node, ctx, globalScale) {
-        // Label below node
-        var r = Math.sqrt(node.size * node.size) * 2;
-        var fontSize = Math.max(8, 12 / globalScale);
-        ctx.font = '500 ' + fontSize + 'px Inter, sans-serif';
-        ctx.textAlign = 'center';
-        ctx.textBaseline = 'middle';
-        ctx.fillStyle = 'rgba(255,255,255,0.4)';
-        ctx.fillText(node.label, node.x, node.y + r + fontSize);
-      })
+      .nodeLabel(function(node) { return node.label + (node.score ? ' \u2014 ' + node.score.toFixed(1) : ''); })
       .onNodeHover(function(node) {
         container.style.cursor = node ? 'grab' : 'default';
         highlightNodes.clear();
