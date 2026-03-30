@@ -615,7 +615,12 @@
     // Nav scroll spy
     var secs = document.querySelectorAll('.ds-section[id]');
     var navs = document.querySelectorAll('.ds-nav-item[data-section]');
+    // Set first nav item active on load
+    if (navs.length > 0) navs[0].classList.add('active');
+    var userScrolled = false;
+    window.addEventListener('scroll', function() { userScrolled = true; }, { once: true });
     var navObs = new IntersectionObserver(function(e) {
+      if (!userScrolled) return;
       e.forEach(function(x) {
         if (x.isIntersecting) {
           navs.forEach(function(n) { n.classList.remove('active'); });
@@ -625,6 +630,14 @@
       });
     }, { threshold: 0.2, rootMargin: '-15% 0px -65% 0px' });
     secs.forEach(function(s) { navObs.observe(s); });
+    // Also handle nav clicks to activate immediately
+    navs.forEach(function(n) {
+      n.addEventListener('click', function() {
+        userScrolled = true;
+        navs.forEach(function(x) { x.classList.remove('active'); });
+        n.classList.add('active');
+      });
+    });
 
     // Animated counters
     var countObs = new IntersectionObserver(function(entries) {
