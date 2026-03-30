@@ -464,32 +464,24 @@
     var hoverNode = null;
 
     var graph = ForceGraph()(container)
-      .graphData({ nodes: nodes, links: links })
       .backgroundColor('#0B0B0F')
       .width(container.offsetWidth)
       .height(480)
-      // Links
       .linkColor(function(link) {
         var src = typeof link.source === 'object' ? link.source : nodeMap[link.source];
         return src ? src.color : 'rgba(255,255,255,0.08)';
       })
       .linkWidth(function(link) {
-        return highlightLinks.has(link) ? 1.5 : 0.4;
+        return highlightLinks.has(link) ? 1.5 : 0.3;
       })
-      .linkDirectionalParticles(function(link) {
-        return highlightLinks.has(link) ? 3 : 1;
-      })
+      .linkDirectionalParticles(1)
       .linkDirectionalParticleWidth(1.5)
-      .linkDirectionalParticleSpeed(0.004)
+      .linkDirectionalParticleSpeed(0.003)
       .linkDirectionalParticleColor(function(link) {
         var src = typeof link.source === 'object' ? link.source : nodeMap[link.source];
         return src ? src.color : '#fff';
       })
-      .linkLineDash(function(link) {
-        return link.strength < 0.5 ? [2, 3] : null;
-      })
-      .linkOpacity(0.15)
-      // Nodes
+      .linkOpacity(0.12)
       .nodeCanvasObject(function(node, ctx, globalScale) {
         var r = node.size || 5;
         var isHighlight = highlightNodes.has(node);
@@ -497,10 +489,12 @@
 
         // Glow
         var glowSize = r + (isHover ? 16 : (isHighlight ? 10 : 4));
+        var glowAlpha = isHover ? 0.4 : (isHighlight ? 0.2 : 0.08);
+        var hex = Math.round(glowAlpha * 255).toString(16);
+        if (hex.length < 2) hex = '0' + hex;
         var grad = ctx.createRadialGradient(node.x, node.y, r * 0.5, node.x, node.y, glowSize);
-        var alpha = isHover ? 0.4 : (isHighlight ? 0.2 : 0.08);
-        grad.addColorStop(0, node.color + Math.round(alpha * 255).toString(16).padStart(2, '0'));
-        grad.addColorStop(1, 'transparent');
+        grad.addColorStop(0, node.color + hex);
+        grad.addColorStop(1, node.color + '00');
         ctx.beginPath();
         ctx.arc(node.x, node.y, glowSize, 0, 2 * Math.PI);
         ctx.fillStyle = grad;
@@ -523,16 +517,15 @@
         }
 
         // Label
-        var fontSize = node.isCenter ? 10 : (r > 5 ? 9 : 7);
-        var labelY = node.y + r + fontSize + 2;
-        ctx.font = (node.isCenter ? '500 ' : '400 ') + fontSize + 'px Inter, sans-serif';
+        var fontSize = node.isCenter ? 10 : (r > 7 ? 9 : 7);
+        ctx.font = '500 ' + fontSize + 'px Inter, sans-serif';
         ctx.textAlign = 'center';
         ctx.textBaseline = 'middle';
         ctx.fillStyle = isHover ? 'rgba(255,255,255,0.9)' : (isHighlight ? 'rgba(255,255,255,0.6)' : 'rgba(255,255,255,0.25)');
-        ctx.fillText(node.label, node.x, labelY);
+        ctx.fillText(node.label, node.x, node.y + r + fontSize + 2);
 
-        // Score inside node (areas only)
-        if (node.score && r >= 6) {
+        // Score inside node
+        if (node.score && r >= 8) {
           ctx.font = '600 ' + Math.max(7, r - 2) + 'px Inter, sans-serif';
           ctx.fillStyle = node.color;
           ctx.globalAlpha = isHover ? 1 : 0.7;
@@ -541,9 +534,8 @@
         }
       })
       .nodePointerAreaPaint(function(node, color, ctx) {
-        var r = (node.size || 5) + 4;
         ctx.beginPath();
-        ctx.arc(node.x, node.y, r, 0, 2 * Math.PI);
+        ctx.arc(node.x, node.y, (node.size || 5) + 4, 0, 2 * Math.PI);
         ctx.fillStyle = color;
         ctx.fill();
       })
@@ -559,8 +551,8 @@
             var t = typeof link.target === 'object' ? link.target : nodeMap[link.target];
             if (s === node || t === node) {
               highlightLinks.add(link);
-              highlightNodes.add(s);
-              highlightNodes.add(t);
+              if (s) highlightNodes.add(s);
+              if (t) highlightNodes.add(t);
             }
           });
         }
@@ -571,23 +563,28 @@
       })
       .d3AlphaDecay(0.02)
       .d3VelocityDecay(0.3)
-      .warmupTicks(80)
-      .cooldownTicks(0)
-      .enableZoomInteraction(true)
-      .enablePanInteraction(true);
+      .warmupTicks(100)
+      .cooldownTicks(0);
 
-    // Configure d3-force physics after init
-    graph.d3Force('charge').strength(-250);
-    graph.d3Force('link').distance(70);
+    // Set graph data after config
+    graph.graphData({ nodes: nodes, links: links });
+
+    // Configure forces after data is loaded
+    try {
+      var charge = graph.d3Force('charge');
+      if (charge) charge.strength(-250);
+      var link = graph.d3Force('link');
+      if (link) link.distance(70);
+    } catch(e) {}
 
     // Responsive
     window.addEventListener('resize', function() {
       graph.width(container.offsetWidth);
     });
 
-    // Zoom to fit after layout stabilizes
-    setTimeout(function() { graph.zoomToFit(600, 60); }, 1500);
-    setTimeout(function() { graph.zoomToFit(400, 60); }, 3500);
+    // Zoom to fit
+    setTimeout(function() { graph.zoomToFit(600, 60); }, 2000);
+    setTimeout(function() { graph.zoomToFit(400, 50); }, 4000);
   })();
   </script>
 
