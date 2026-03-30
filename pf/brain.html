@@ -572,9 +572,11 @@
     // Configure forces after data is loaded
     try {
       var charge = graph.d3Force('charge');
-      if (charge) charge.strength(-250);
+      if (charge) charge.strength(-300);
       var link = graph.d3Force('link');
-      if (link) link.distance(70);
+      if (link) link.distance(80);
+      var center = graph.d3Force('center');
+      if (center) center.x(container.offsetWidth / 2).y(240);
     } catch(e) {}
 
     // Responsive
@@ -582,9 +584,14 @@
       graph.width(container.offsetWidth);
     });
 
-    // Zoom to fit
-    setTimeout(function() { graph.zoomToFit(600, 60); }, 2000);
-    setTimeout(function() { graph.zoomToFit(400, 50); }, 4000);
+    // Center and zoom to fit
+    setTimeout(function() {
+      graph.centerAt(0, 0, 500);
+      graph.zoomToFit(600, 50);
+    }, 1500);
+    setTimeout(function() {
+      graph.zoomToFit(400, 40);
+    }, 3500);
   })();
   </script>
 
