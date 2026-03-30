@@ -395,7 +395,7 @@
   <script src="https://cdn.jsdelivr.net/npm/force-graph@1/dist/force-graph.min.js"></script>
   <script>
   (function() {
-    'use strict';
+    try {
 
     var container = document.getElementById('graphContainer');
 
@@ -486,6 +486,14 @@
     setTimeout(function() { graph.zoomToFit(400, 30); }, 2000);
 
     window.addEventListener('resize', function() { graph.width(container.offsetWidth); });
+
+    } catch(e) {
+      window.__graphError = e.message + ' | ' + e.stack;
+      var errDiv = document.createElement('div');
+      errDiv.style.cssText = 'color:#FF453A;font-size:11px;padding:20px;font-family:monospace;';
+      errDiv.textContent = 'Graph error: ' + e.message;
+      container.appendChild(errDiv);
+    }
   })();
   </script>
 
