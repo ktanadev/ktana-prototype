@@ -8,23 +8,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Zen+Dots&display=swap" rel="stylesheet">
   <style>
     body{min-height:100vh;background:#F5F5F7}
-    .main{max-width:760px;margin:0 auto;padding:0 20px 100px}
-    .chat-hero{background:#0A0A0A;position:relative;overflow:hidden;margin:0 -20px 28px}
-    .ambient{position:absolute;top:0;left:0;width:100%;height:100%;z-index:0;pointer-events:none}
-    .orb{position:absolute;border-radius:50%;filter:blur(80px);pointer-events:none}
-    .orb:nth-child(1){width:55%;height:55%;top:-10%;left:-8%;background:radial-gradient(ellipse at center,rgba(215,0,48,0.16) 0%,transparent 70%);animation:o1 10s ease-in-out infinite}
-    .orb:nth-child(2){width:45%;height:50%;top:15%;right:-8%;background:radial-gradient(ellipse at center,rgba(160,15,5,0.13) 0%,transparent 70%);animation:o2 14s ease-in-out infinite}
-    .orb:nth-child(3){width:40%;height:45%;bottom:-8%;left:25%;background:radial-gradient(ellipse at center,rgba(220,80,25,0.11) 0%,transparent 70%);animation:o3 12s ease-in-out infinite}
-    @keyframes o1{0%,100%{transform:translate(0,0)}33%{transform:translate(6%,4%)}66%{transform:translate(-3%,-2%)}}
-    @keyframes o2{0%,100%{transform:translate(0,0)}50%{transform:translate(-7%,3%)}}
-    @keyframes o3{0%,100%{transform:translate(0,0)}33%{transform:translate(4%,-4%)}66%{transform:translate(-3%,2%)}}
-    .ci{position:relative;z-index:1;padding:24px 24px 20px;max-width:760px;margin:0 auto}
-    .ct{display:flex;align-items:center;gap:12px;margin-bottom:14px}
-    .av{width:36px;height:36px;border-radius:50%;background:rgba(215,0,48,0.12);border:1.5px solid rgba(215,0,48,0.25);display:flex;align-items:center;justify-content:center;flex-shrink:0}
-    .nm{font-family:'Inter',sans-serif;font-size:13px;font-weight:600;color:#F5F5F7}.rl{font-family:'Inter',sans-serif;font-size:11px;color:rgba(255,255,255,0.35)}
-    .ld{width:6px;height:6px;border-radius:50%;background:#30D158;margin-left:auto;animation:p 2s infinite}@keyframes p{0%,100%{opacity:1}50%{opacity:.3}}
-    .m-compact{background:rgba(255,255,255,0.04);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,0.06);border-radius:16px;border-bottom-left-radius:6px;padding:12px 16px;font-family:'Satoshi',sans-serif;font-size:14px;color:#E5E5EA;line-height:1.5}
-    .m-compact strong{color:#D70030}
+    .main{max-width:760px;margin:0 auto;padding:32px 20px 100px}
     @keyframes fu{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
     .sec{font-family:'Inter',sans-serif;font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:#D70030;margin-bottom:14px;margin-top:4px}
     .stats{display:flex;gap:8px;margin-bottom:24px}
@@ -54,18 +38,11 @@
   </style>
 </head>
 <body class="light">
-  <div class="chat-hero">
-    <div class="ambient"><div class="orb"></div><div class="orb"></div><div class="orb"></div></div>
-    <div class="ci">
-      <div class="ct">
-        <div class="av"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#D70030" stroke-width="1.5"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg></div>
-        <div><div class="nm">Yumi</div><div class="rl">Historico de sessoes</div></div>
-        <div class="ld"></div>
-      </div>
-      <div class="m-compact">Voce tem <strong>12 sessoes</strong> analisadas. Engagement medio subiu de <strong>6.2 para 7.8</strong> nos ultimos 30 dias. Quer explorar alguma?</div>
-    </div>
-  </div>
   <div class="main">
+    <div class="page-header" style="margin-bottom:24px;animation:fu .5s ease both">
+      <h1 style="font-family:'Zen Dots',cursive;font-size:24px;color:#1D1D1F;margin-bottom:6px;display:flex;align-items:center;gap:10px">Suas Sessoes <span style="font-size:11px;font-family:'Inter',sans-serif;font-weight:600;background:rgba(215,0,48,0.08);color:#D70030;padding:4px 10px;border-radius:980px">SenseiIA</span></h1>
+      <p style="font-family:'Satoshi',sans-serif;font-size:15px;color:#86868B;line-height:1.5">Historico de analises comportamentais.</p>
+    </div>
     <div class="stats">
       <div class="stat"><div class="stat-n brand">12</div><div class="stat-l">Sessoes</div></div>
       <div class="stat"><div class="stat-n">7.8</div><div class="stat-l">Engaj. medio</div></div>

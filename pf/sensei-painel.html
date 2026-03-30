@@ -97,52 +97,6 @@
     .bar-label { font-family: 'Inter', sans-serif; font-size: 9px; color: #AEAEB2; }
     .bar-val { font-family: 'Zen Dots', cursive; font-size: 10px; color: #1D1D1F; }
 
-    /* Chat zone compact */
-    .chat-compact { background: #0A0A0A; border-radius: 20px; position: relative; overflow: hidden; box-shadow: 0 4px 24px rgba(0,0,0,0.1); }
-    .chat-compact .ambient-glow { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; }
-    /* Ambient Glow Compact — 3 orbs, blur 50px, cores quentes KTANA */
-    .chat-compact .glow-orb { position: absolute; border-radius: 50%; pointer-events: none; filter: blur(50px); }
-    .chat-compact .glow-orb:nth-child(1) { width: 40%; height: 50%; top: -10%; left: -5%; background: radial-gradient(ellipse at center, rgba(215,0,48,0.16) 0%, transparent 70%); animation: orbC1 10s ease-in-out infinite; }
-    .chat-compact .glow-orb:nth-child(2) { width: 35%; height: 45%; top: 15%; right: -8%; background: radial-gradient(ellipse at center, rgba(160,15,5,0.13) 0%, transparent 70%); animation: orbC2 14s ease-in-out infinite; }
-    .chat-compact .glow-orb:nth-child(3) { width: 30%; height: 40%; bottom: -8%; left: 25%; background: radial-gradient(ellipse at center, rgba(220,80,25,0.11) 0%, transparent 70%); animation: orbC3 12s ease-in-out infinite; }
-    @keyframes orbC1{0%,100%{transform:translate(0,0)}33%{transform:translate(5%,3%)}66%{transform:translate(-2%,-2%)}}
-    @keyframes orbC2{0%,100%{transform:translate(0,0)}50%{transform:translate(-5%,2%)}}
-    @keyframes orbC3{0%,100%{transform:translate(0,0)}33%{transform:translate(3%,-3%)}66%{transform:translate(-2%,1%)}}
-
-    .chat-compact .inner { position: relative; z-index: 1; padding: 20px; }
-    .chat-compact .ch-header { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; }
-    .chat-compact .ch-avatar { width: 32px; height: 32px; border-radius: 50%; background: rgba(215,0,48,0.15); border: 1px solid rgba(215,0,48,0.3); display: flex; align-items: center; justify-content: center; }
-    .chat-compact .ch-name { font-family: 'Inter', sans-serif; font-size: 12px; font-weight: 600; color: #F5F5F7; }
-    .chat-compact .ch-role { font-family: 'Inter', sans-serif; font-size: 10px; color: rgba(255,255,255,0.35); }
-    .chat-compact .ch-dot { width: 5px; height: 5px; border-radius: 50%; background: #30D158; margin-left: auto; animation: pulse 2s infinite; }
-    @keyframes pulse { 0%,100%{opacity:1}50%{opacity:0.3} }
-
-    .chat-compact .ch-msg { background: rgba(255,255,255,0.04); backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,0.06); border-radius: 16px; border-bottom-left-radius: 6px; padding: 14px 16px; font-family: 'Satoshi', sans-serif; font-size: 14px; color: #E5E5EA; line-height: 1.5; margin-bottom: 12px; }
-    .chat-compact .ch-msg strong { color: #D70030; }
-
-    .chat-compact .ch-actions { display: flex; gap: 8px; flex-wrap: wrap; }
-    .ch-action { font-family: 'Inter', sans-serif; font-size: 12px; color: rgba(255,255,255,0.6); background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.08); border-radius: 980px; padding: 8px 16px; cursor: pointer; transition: all 0.2s; }
-    .ch-action:hover { background: rgba(215,0,48,0.12); border-color: rgba(215,0,48,0.3); color: #F5F5F7; }
-
-    /* Input com glow + borda circulante (compact) */
-    .chat-compact .ch-input-area { position: relative; margin-top: 12px; }
-    .chat-compact .ch-input-wrap { position: relative; border-radius: 14px; overflow: hidden; }
-    .chat-compact .ch-input-glow { position: absolute; bottom: -25%; left: -10%; width: 120%; height: 150%; pointer-events: none; z-index: 0; opacity: 0.5; filter: blur(25px);
-      background: radial-gradient(ellipse at 30% 80%, rgba(215,0,48,0.2) 0%, transparent 50%), radial-gradient(ellipse at 70% 60%, rgba(160,15,5,0.15) 0%, transparent 50%);
-      animation: glowMoveC 8s ease-in-out infinite; }
-    @keyframes glowMoveC{0%,100%{transform:translate(0,0)}33%{transform:translate(4%,-2%)}66%{transform:translate(-3%,1%)}}
-    .chat-compact .ch-border-spin { position: absolute; inset: 0; border-radius: 14px; z-index: 1; pointer-events: none; }
-    .chat-compact .ch-border-spin::before { content:''; position: absolute; inset: 0; border-radius: 14px; padding: 1px;
-      background: conic-gradient(from var(--spin-angle, 0deg), transparent 0%, transparent 30%, rgba(155,10,42,0.4) 35%, rgba(215,0,48,0.5) 40%, rgba(220,80,25,0.3) 45%, transparent 50%, transparent 100%);
-      -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0); mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0); -webkit-mask-composite: xor; mask-composite: exclude;
-      animation: rotateLine 5s linear infinite; }
-    @keyframes rotateLine{to{--spin-angle:360deg}}
-    @property --spin-angle{syntax:"<angle>";inherits:false;initial-value:0deg}
-    .chat-compact .ch-input-card { position: relative; z-index: 2; background: #111; border-radius: 13px; display: flex; align-items: center; gap: 8px; padding: 5px 6px 5px 16px; }
-    .chat-compact .ch-input { flex: 1; font-family: 'Satoshi', sans-serif; font-size: 14px; padding: 10px 0; border: none; background: transparent; color: #E5E5EA; outline: none; }
-    .chat-compact .ch-input::placeholder { color: rgba(255,255,255,0.2); }
-    .chat-compact .ch-send { width: 36px; height: 36px; border-radius: 50%; background: #D70030; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
-
     @media (max-width: 600px) {
       .scores-grid { grid-template-columns: repeat(2, 1fr); }
       .chart-legend { flex-wrap: wrap; gap: 10px; }
@@ -276,47 +230,6 @@
           <div class="corr-meta">Instagram + Mente · 7 ocorrencias</div>
         </div>
         <div class="corr-conf">72%</div>
-      </div>
-    </div>
-
-    <!-- CHAT COMPACT -->
-    <div class="chat-compact">
-      <div class="ambient-glow">
-        <div class="glow-orb"></div>
-        <div class="glow-orb"></div>
-        <div class="glow-orb"></div>
-      </div>
-      <div class="inner">
-        <div class="ch-header">
-          <div class="ch-avatar">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#D70030" stroke-width="1.5"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>
-          </div>
-          <div>
-            <div class="ch-name">Dr. Kenji</div>
-            <div class="ch-role">Mentor de Saude</div>
-          </div>
-          <div class="ch-dot"></div>
-        </div>
-        <div class="ch-msg">
-          Seu <strong>HRV caiu 20%</strong> em relacao a media da semana. Combinado com sono de 5h42 ontem, recomendo <strong>pular o treino intenso</strong> hoje e fazer uma caminhada leve. Quer que eu ajuste sua agenda?
-        </div>
-        <div class="ch-actions">
-          <div class="ch-action">Sim, ajusta</div>
-          <div class="ch-action">Mantenho o treino</div>
-          <div class="ch-action">Me explica melhor</div>
-        </div>
-        <div class="ch-input-area">
-          <div class="ch-input-wrap">
-            <div class="ch-input-glow"></div>
-            <div class="ch-border-spin"></div>
-            <div class="ch-input-card">
-              <input class="ch-input" placeholder="Pergunte sobre seus dados...">
-              <button class="ch-send">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#FFF" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
-              </button>
-            </div>
-          </div>
-        </div>
       </div>
     </div>
 
