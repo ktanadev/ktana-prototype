@@ -13,11 +13,14 @@
     /* ═══ CHAT HERO — Dark, full-width, top ═══ */
     .chat-hero { background: #0A0A0A; position: relative; overflow: hidden; margin: 0 -20px 28px; padding: 0; }
     .chat-hero .ambient { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; }
-    .chat-hero .orb { position: absolute; border-radius: 50%; filter: blur(70px); pointer-events: none; }
-    .chat-hero .orb:nth-child(1) { width: 45%; height: 60%; top: -15%; left: -5%; background: radial-gradient(ellipse at center, rgba(215,0,48,0.14) 0%, transparent 70%); animation: od1 12s ease-in-out infinite; }
-    .chat-hero .orb:nth-child(2) { width: 35%; height: 50%; bottom: -10%; right: -5%; background: radial-gradient(ellipse at center, rgba(155,10,42,0.1) 0%, transparent 70%); animation: od2 16s ease-in-out infinite; }
-    @keyframes od1{0%,100%{transform:translate(0,0)}50%{transform:translate(4%,3%)}}
-    @keyframes od2{0%,100%{transform:translate(0,0)}50%{transform:translate(-3%,-2%)}}
+    /* Ambient Glow — 3 orbs obrigatorios, blur 80px, drift 10-14s, cores quentes KTANA */
+    .chat-hero .orb { position: absolute; border-radius: 50%; filter: blur(80px); pointer-events: none; }
+    .chat-hero .orb:nth-child(1) { width: 55%; height: 55%; top: -10%; left: -8%; background: radial-gradient(ellipse at center, rgba(215,0,48,0.16) 0%, transparent 70%); animation: od1 10s ease-in-out infinite; }
+    .chat-hero .orb:nth-child(2) { width: 45%; height: 50%; top: 15%; right: -8%; background: radial-gradient(ellipse at center, rgba(160,15,5,0.13) 0%, transparent 70%); animation: od2 14s ease-in-out infinite; }
+    .chat-hero .orb:nth-child(3) { width: 40%; height: 45%; bottom: -8%; left: 25%; background: radial-gradient(ellipse at center, rgba(220,80,25,0.11) 0%, transparent 70%); animation: od3 12s ease-in-out infinite; }
+    @keyframes od1{0%,100%{transform:translate(0,0)}33%{transform:translate(6%,4%)}66%{transform:translate(-3%,-2%)}}
+    @keyframes od2{0%,100%{transform:translate(0,0)}50%{transform:translate(-7%,3%)}}
+    @keyframes od3{0%,100%{transform:translate(0,0)}33%{transform:translate(4%,-4%)}66%{transform:translate(-3%,2%)}}
 
     .chat-inner { position: relative; z-index: 1; padding: 28px 24px 24px; max-width: 760px; margin: 0 auto; }
     .chat-top { display: flex; align-items: center; gap: 12px; margin-bottom: 20px; }
@@ -29,9 +32,10 @@
 
     .chat-msgs { display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px; max-height: 280px; overflow-y: auto; }
     .msg { max-width: 85%; padding: 14px 18px; border-radius: 18px; font-family: 'Satoshi', sans-serif; font-size: 14px; line-height: 1.55; animation: mi .35s ease both; }
-    .msg-ai { background: rgba(255,255,255,0.06); backdrop-filter: blur(12px); color: #F5F5F7; border-bottom-left-radius: 6px; align-self: flex-start; }
+    /* Bubble colors — framework approved */
+    .msg-ai { background: rgba(255,255,255,0.04); backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,0.06); color: #E5E5EA; border-bottom-left-radius: 6px; align-self: flex-start; }
     .msg-ai strong { color: #D70030; }
-    .msg-user { background: #D70030; color: #FFF; border-bottom-right-radius: 6px; align-self: flex-end; }
+    .msg-user { background: rgba(215,0,48,0.12); border: 1px solid rgba(215,0,48,0.18); color: #E5E5EA; border-bottom-right-radius: 6px; align-self: flex-end; }
     @keyframes mi{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
 
     /* Source chips inside chat — monotonal */
@@ -44,11 +48,30 @@
     .chip .c-status { font-family: 'Inter', sans-serif; font-size: 10px; color: rgba(255,255,255,0.3); }
     .chip.on .c-status { color: rgba(215,0,48,0.6); }
 
-    .chat-input-row { display: flex; gap: 10px; }
-    .chat-input { flex: 1; font-family: 'Satoshi', sans-serif; font-size: 15px; padding: 14px 18px; border-radius: 18px; border: 1.5px solid rgba(255,255,255,0.06); background: rgba(255,255,255,0.03); color: #F5F5F7; outline: none; transition: border-color .2s; }
-    .chat-input:focus { border-color: rgba(215,0,48,0.35); }
+    /* Input com glow + borda circulante (Ambient Glow Framework) */
+    .input-area { position: relative; }
+    .input-wrapper { position: relative; border-radius: 16px; overflow: hidden; }
+
+    /* Glow sob o input — 3 radiais quentes, glowMove 8s */
+    .input-glow { position: absolute; bottom: -30%; left: -15%; width: 130%; height: 160%; pointer-events: none; z-index: 0; opacity: 0.7; filter: blur(35px);
+      background: radial-gradient(ellipse at 30% 80%, rgba(215,0,48,0.25) 0%, transparent 50%), radial-gradient(ellipse at 70% 60%, rgba(160,15,5,0.2) 0%, transparent 50%), radial-gradient(ellipse at 50% 90%, rgba(220,80,25,0.15) 0%, transparent 50%);
+      animation: glowMove 8s ease-in-out infinite; }
+    @keyframes glowMove { 0%,100%{transform:translate(0,0) rotate(0deg)}33%{transform:translate(5%,-3%) rotate(2deg)}66%{transform:translate(-4%,2%) rotate(-1deg)} }
+
+    /* Borda circulante — conic-gradient 5s */
+    .input-border-spin { position: absolute; inset: 0; border-radius: 16px; z-index: 1; pointer-events: none; }
+    .input-border-spin::before { content: ''; position: absolute; inset: 0; border-radius: 16px; padding: 1px;
+      background: conic-gradient(from var(--spin-angle, 0deg), transparent 0%, transparent 30%, rgba(155,10,42,0.5) 35%, rgba(215,0,48,0.6) 40%, rgba(220,80,25,0.4) 45%, transparent 50%, transparent 100%);
+      -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0); mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0); -webkit-mask-composite: xor; mask-composite: exclude;
+      animation: rotateLine 5s linear infinite; }
+    @keyframes rotateLine { to { --spin-angle: 360deg; } }
+    @property --spin-angle { syntax: "<angle>"; inherits: false; initial-value: 0deg; }
+
+    /* Input card */
+    .input-card { position: relative; z-index: 2; background: #111; border-radius: 15px; display: flex; align-items: center; gap: 10px; padding: 6px 8px 6px 18px; }
+    .chat-input { flex: 1; font-family: 'Satoshi', sans-serif; font-size: 15px; padding: 12px 0; border: none; background: transparent; color: #F5F5F7; outline: none; }
     .chat-input::placeholder { color: rgba(255,255,255,0.2); }
-    .chat-send { width: 46px; height: 46px; border-radius: 50%; background: #D70030; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: transform .1s; }
+    .chat-send { width: 42px; height: 42px; border-radius: 50%; background: #D70030; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: transform .1s; }
     .chat-send:active { transform: scale(.92); }
 
     /* ═══ STATS BAR — clean Apple ═══ */
@@ -109,7 +132,7 @@
 
   <!-- CHAT HERO (Dark, full-width, top) -->
   <div class="chat-hero">
-    <div class="ambient"><div class="orb"></div><div class="orb"></div></div>
+    <div class="ambient"><div class="orb"></div><div class="orb"></div><div class="orb"></div></div>
     <div class="chat-inner">
       <div class="chat-top">
         <div class="chat-avatar">
@@ -154,11 +177,17 @@
         </div>
       </div>
 
-      <div class="chat-input-row">
-        <input class="chat-input" id="chatInput" placeholder="Diga o que quer conectar..." onkeydown="if(event.key==='Enter')sendMsg()">
-        <button class="chat-send" onclick="sendMsg()">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#FFF" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
-        </button>
+      <div class="input-area">
+        <div class="input-wrapper">
+          <div class="input-glow"></div>
+          <div class="input-border-spin"></div>
+          <div class="input-card">
+            <input class="chat-input" id="chatInput" placeholder="Diga o que quer conectar..." onkeydown="if(event.key==='Enter')sendMsg()">
+            <button class="chat-send" onclick="sendMsg()">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#FFF" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+            </button>
+          </div>
+        </div>
       </div>
     </div>
   </div>
