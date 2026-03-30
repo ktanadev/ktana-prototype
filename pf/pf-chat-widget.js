@@ -5,7 +5,7 @@
   var page = path.split('/').pop().replace('.html','');
 
   // Skip pages that already have their own chat or don't need it
-  var skip = ['chat','dashboard','builder','onboarding','yumi','review','landing','wearables'];
+  var skip = ['chat','dashboard','builder','onboarding','yumi','review','landing','wearables','sensei-fontes','sensei-painel','sensei-pessoas','sensei-insights','sensei-sessoes','sensei-correlacoes'];
   if (skip.some(function(s) { return page === s; })) return;
   if (path.includes('/auth/')) return;
 

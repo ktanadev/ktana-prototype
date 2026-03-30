@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SenseiIA · Perfil do Cliente — KTANA</title>
+  <link rel="stylesheet" href="../shared.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Zen+Dots&display=swap" rel="stylesheet">
+  <style>
+    body{min-height:100vh;background:#0D0D0D;color:#F5F5F7}.main{max-width:760px;margin:0 auto;padding:0 20px 100px}
+    .chat-hero{background:#0A0A0A;position:relative;overflow:hidden;margin:0 -20px 28px;border-bottom:1px solid rgba(255,255,255,0.03)}
+    .ambient{position:absolute;top:0;left:0;width:100%;height:100%;z-index:0;pointer-events:none}.orb{position:absolute;border-radius:50%;filter:blur(80px);pointer-events:none}
+    .orb:nth-child(1){width:55%;height:55%;top:-10%;left:-8%;background:radial-gradient(ellipse at center,rgba(215,0,48,0.16) 0%,transparent 70%);animation:o1 10s ease-in-out infinite}
+    .orb:nth-child(2){width:45%;height:50%;top:15%;right:-8%;background:radial-gradient(ellipse at center,rgba(160,15,5,0.13) 0%,transparent 70%);animation:o2 14s ease-in-out infinite}
+    .orb:nth-child(3){width:40%;height:45%;bottom:-8%;left:25%;background:radial-gradient(ellipse at center,rgba(220,80,25,0.11) 0%,transparent 70%);animation:o3 12s ease-in-out infinite}
+    @keyframes o1{0%,100%{transform:translate(0,0)}33%{transform:translate(6%,4%)}66%{transform:translate(-3%,-2%)}}@keyframes o2{0%,100%{transform:translate(0,0)}50%{transform:translate(-7%,3%)}}@keyframes o3{0%,100%{transform:translate(0,0)}33%{transform:translate(4%,-4%)}66%{transform:translate(-3%,2%)}}
+    .ci{position:relative;z-index:1;padding:24px 24px 20px;max-width:760px;margin:0 auto}
+    .ch-top{display:flex;align-items:center;gap:12px;margin-bottom:14px}
+    .ch-av{width:36px;height:36px;border-radius:50%;background:rgba(215,0,48,0.12);border:1.5px solid rgba(215,0,48,0.25);display:flex;align-items:center;justify-content:center}
+    .ch-nm{font-family:'Inter',sans-serif;font-size:13px;font-weight:600;color:#F5F5F7}.ch-rl{font-family:'Inter',sans-serif;font-size:11px;color:rgba(255,255,255,0.35)}
+    .ch-ld{width:6px;height:6px;border-radius:50%;background:#30D158;margin-left:auto;animation:p 2s infinite}@keyframes p{0%,100%{opacity:1}50%{opacity:.3}}
+    .mc{background:rgba(255,255,255,0.04);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,0.06);border-radius:16px;border-bottom-left-radius:6px;padding:14px 16px;font-family:'Satoshi',sans-serif;font-size:14px;color:#E5E5EA;line-height:1.5}.mc strong{color:#D70030}
+    @keyframes fu{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+    .sec{font-family:'Inter',sans-serif;font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:#D70030;margin-bottom:14px;margin-top:4px}
+    /* Client detail */
+    .client-hero{display:flex;align-items:center;gap:18px;margin-bottom:24px;animation:fu .5s ease both}
+    .cl-avatar{width:64px;height:64px;border-radius:50%;background:rgba(215,0,48,0.06);border:2px solid rgba(215,0,48,0.15);display:flex;align-items:center;justify-content:center;font-family:'Zen Dots',cursive;font-size:22px;color:#D70030;flex-shrink:0}
+    .cl-name{font-family:'Satoshi',sans-serif;font-size:20px;font-weight:600;color:#F5F5F7}
+    .cl-company{font-family:'Inter',sans-serif;font-size:12px;color:rgba(255,255,255,0.4);margin-top:2px}
+    .cl-deal{font-family:'Inter',sans-serif;font-size:11px;color:#D70030;background:rgba(215,0,48,0.08);padding:3px 10px;border-radius:980px;margin-top:6px;display:inline-block}
+    .scores{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:24px}
+    .sc{background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06);border-radius:14px;padding:16px 12px;text-align:center;animation:fu .5s ease both}
+    .sc:nth-child(1){animation-delay:.1s}.sc:nth-child(2){animation-delay:.15s}.sc:nth-child(3){animation-delay:.2s}.sc:nth-child(4){animation-delay:.25s}
+    .sc-v{font-family:'Zen Dots',cursive;font-size:22px;color:#F5F5F7;line-height:1}.sc-l{font-family:'Inter',sans-serif;font-size:10px;color:rgba(255,255,255,0.4);margin-top:4px;text-transform:uppercase;letter-spacing:.04em}
+    /* Patterns */
+    .pats{display:flex;flex-direction:column;gap:8px;margin-bottom:24px}
+    .pat{background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06);border-radius:14px;padding:16px 18px;animation:fu .5s ease both}
+    .pat:nth-child(1){animation-delay:.3s}.pat:nth-child(2){animation-delay:.38s}.pat:nth-child(3){animation-delay:.46s}
+    .pat-t{font-family:'Inter',sans-serif;font-size:11px;font-weight:600;color:#D70030;text-transform:uppercase;letter-spacing:.04em;margin-bottom:4px}
+    .pat-b{font-family:'Satoshi',sans-serif;font-size:14px;color:#E5E5EA;line-height:1.5}.pat-b strong{color:#D70030}
+    /* Timeline */
+    .timeline{display:flex;flex-direction:column;gap:8px}
+    .tl{background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06);border-radius:14px;padding:16px 18px;display:flex;align-items:center;gap:14px;animation:fu .5s ease both}
+    .tl:nth-child(1){animation-delay:.5s}.tl:nth-child(2){animation-delay:.55s}.tl:nth-child(3){animation-delay:.6s}.tl:nth-child(4){animation-delay:.65s}
+    .tl-date{font-family:'Inter',sans-serif;font-size:11px;color:rgba(255,255,255,0.3);width:50px;flex-shrink:0}
+    .tl-body{flex:1}
+    .tl-title{font-family:'Satoshi',sans-serif;font-size:14px;color:#F5F5F7}
+    .tl-meta{font-family:'Inter',sans-serif;font-size:11px;color:rgba(255,255,255,0.3);margin-top:2px}
+    .tl-score{font-family:'Zen Dots',cursive;font-size:14px;color:#D70030;flex-shrink:0}
+    /* Evolution bars */
+    .evo{background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06);border-radius:16px;padding:20px;margin-bottom:24px;animation:fu .6s ease both;animation-delay:.35s}
+    .evo-title{font-family:'Inter',sans-serif;font-size:11px;font-weight:600;color:rgba(255,255,255,0.4);margin-bottom:10px}
+    .evo-bars{display:flex;align-items:flex-end;gap:6px;height:80px}
+    .evo-bar{flex:1;border-radius:4px 4px 1px 1px;background:linear-gradient(180deg,#D70030 0%,rgba(215,0,48,0.15) 100%);transition:height .8s cubic-bezier(.4,0,.2,1)}
+    .evo-labels{display:flex;justify-content:space-between;margin-top:6px}
+    .evo-labels span{font-family:'Inter',sans-serif;font-size:9px;color:rgba(255,255,255,0.2)}
+    @media(max-width:600px){.scores{grid-template-columns:repeat(2,1fr)}}
+  </style>
+</head>
+<body>
+  <div class="chat-hero">
+    <div class="ambient"><div class="orb"></div><div class="orb"></div><div class="orb"></div></div>
+    <div class="ci">
+      <div class="ch-top"><div class="ch-av"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#D70030" stroke-width="1.5"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg></div><div><div class="ch-nm">Musashi</div><div class="ch-rl">Analista de clientes</div></div><div class="ch-ld"></div></div>
+      <div class="mc"><strong>Roberto Alves</strong> — CEO da ABC Corp. Perfil de decisao lento, prefere dados a emocoes. Hesitou <strong>3x no pricing</strong>. Nao responde ha 5 dias. Recomendo: ligar com proposta revisada + case study do setor dele.</div>
+    </div>
+  </div>
+  <div class="main">
+    <div class="client-hero">
+      <div class="cl-avatar">R</div>
+      <div><div class="cl-name">Roberto Alves</div><div class="cl-company">CEO · ABC Corp</div><div class="cl-deal">Deal: R$180k · Negociacao</div></div>
+    </div>
+    <div class="scores">
+      <div class="sc"><div class="sc-v">65%</div><div class="sc-l">Rapport</div></div>
+      <div class="sc"><div class="sc-v">58%</div><div class="sc-l">Abertura</div></div>
+      <div class="sc"><div class="sc-v">42%</div><div class="sc-l">Tensao</div></div>
+      <div class="sc"><div class="sc-v">61%</div><div class="sc-l">Engajamento</div></div>
+    </div>
+    <div class="sec">Padroes detectados</div>
+    <div class="pats">
+      <div class="pat"><div class="pat-t">Estilo de negociacao</div><div class="pat-b"><strong>Analitico e cauteloso.</strong> Prefere dados concretos a argumentos emocionais. Demora para decidir mas raramente volta atras.</div></div>
+      <div class="pat"><div class="pat-t">Gatilhos de resistencia</div><div class="pat-b">Fica tenso quando <strong>pressionado no pricing</strong>. Tom de voz sobe e respostas encurtam. Melhor: apresentar opcoes sem urgencia.</div></div>
+      <div class="pat"><div class="pat-t">Melhor abordagem</div><div class="pat-b">"Trouxe <strong>dados do seu setor</strong> que mostram o retorno em 6 meses" funciona melhor que desconto. Validar antes de propor.</div></div>
+    </div>
+    <div class="sec">Evolucao de rapport</div>
+    <div class="evo">
+      <div class="evo-title">Ultimas 5 interacoes</div>
+      <div class="evo-bars">
+        <div class="evo-bar" style="height:35%"></div><div class="evo-bar" style="height:48%"></div><div class="evo-bar" style="height:42%"></div><div class="evo-bar" style="height:55%"></div><div class="evo-bar" style="height:65%"></div>
+      </div>
+      <div class="evo-labels"><span>12/Mar</span><span>18/Mar</span><span>22/Mar</span><span>26/Mar</span><span>29/Mar</span></div>
+    </div>
+    <div class="sec">Historico de interacoes</div>
+    <div class="timeline">
+      <div class="tl"><div class="tl-date">29/Mar</div><div class="tl-body"><div class="tl-title">Call de follow-up</div><div class="tl-meta">38 min · Modo Executivo</div></div><div class="tl-score">6.1</div></div>
+      <div class="tl"><div class="tl-date">26/Mar</div><div class="tl-body"><div class="tl-title">Apresentacao proposta</div><div class="tl-meta">52 min · 4 participantes</div></div><div class="tl-score">5.8</div></div>
+      <div class="tl"><div class="tl-date">22/Mar</div><div class="tl-body"><div class="tl-title">Discovery call</div><div class="tl-meta">28 min · 2 participantes</div></div><div class="tl-score">5.2</div></div>
+      <div class="tl"><div class="tl-date">18/Mar</div><div class="tl-body"><div class="tl-title">Primeiro contato</div><div class="tl-meta">15 min · WhatsApp</div></div><div class="tl-score">4.8</div></div>
+    </div>
+  </div>
+  <script src="../shared-nav.js"></script>
+</body>
+</html>

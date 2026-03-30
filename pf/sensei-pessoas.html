@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SenseiIA · Pessoas — KTANA</title>
+  <link rel="stylesheet" href="../shared.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Zen+Dots&display=swap" rel="stylesheet">
+  <style>
+    body{min-height:100vh;background:#F5F5F7}
+    .main{max-width:760px;margin:0 auto;padding:0 20px 100px}
+    /* Chat hero dark */
+    .chat-hero{background:#0A0A0A;position:relative;overflow:hidden;margin:0 -20px 28px}
+    .ambient{position:absolute;top:0;left:0;width:100%;height:100%;z-index:0;pointer-events:none}
+    .orb{position:absolute;border-radius:50%;filter:blur(80px);pointer-events:none}
+    .orb:nth-child(1){width:55%;height:55%;top:-10%;left:-8%;background:radial-gradient(ellipse at center,rgba(215,0,48,0.16) 0%,transparent 70%);animation:o1 10s ease-in-out infinite}
+    .orb:nth-child(2){width:45%;height:50%;top:15%;right:-8%;background:radial-gradient(ellipse at center,rgba(160,15,5,0.13) 0%,transparent 70%);animation:o2 14s ease-in-out infinite}
+    .orb:nth-child(3){width:40%;height:45%;bottom:-8%;left:25%;background:radial-gradient(ellipse at center,rgba(220,80,25,0.11) 0%,transparent 70%);animation:o3 12s ease-in-out infinite}
+    @keyframes o1{0%,100%{transform:translate(0,0)}33%{transform:translate(6%,4%)}66%{transform:translate(-3%,-2%)}}
+    @keyframes o2{0%,100%{transform:translate(0,0)}50%{transform:translate(-7%,3%)}}
+    @keyframes o3{0%,100%{transform:translate(0,0)}33%{transform:translate(4%,-4%)}66%{transform:translate(-3%,2%)}}
+    .ci{position:relative;z-index:1;padding:28px 24px 24px;max-width:760px;margin:0 auto}
+    .ct{display:flex;align-items:center;gap:12px;margin-bottom:18px}
+    .av{width:40px;height:40px;border-radius:50%;background:rgba(215,0,48,0.12);border:1.5px solid rgba(215,0,48,0.25);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+    .nm{font-family:'Inter',sans-serif;font-size:14px;font-weight:600;color:#F5F5F7}
+    .rl{font-family:'Inter',sans-serif;font-size:11px;color:rgba(255,255,255,0.35)}
+    .ld{width:6px;height:6px;border-radius:50%;background:#30D158;margin-left:auto;animation:p 2s infinite}
+    @keyframes p{0%,100%{opacity:1}50%{opacity:.3}}
+    .msgs{display:flex;flex-direction:column;gap:10px;margin-bottom:18px;max-height:200px;overflow-y:auto}
+    .m{max-width:85%;padding:14px 18px;border-radius:18px;font-family:'Satoshi',sans-serif;font-size:14px;line-height:1.55;animation:mi .35s ease both}
+    .ma{background:rgba(255,255,255,0.04);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,0.06);color:#E5E5EA;border-bottom-left-radius:6px;align-self:flex-start}
+    .ma strong{color:#D70030}
+    .mu{background:rgba(215,0,48,0.12);border:1px solid rgba(215,0,48,0.18);color:#E5E5EA;border-bottom-right-radius:6px;align-self:flex-end}
+    @keyframes mi{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+    /* Input glow + spin */
+    .ia{position:relative}.iw{position:relative;border-radius:16px;overflow:hidden}
+    .ig{position:absolute;bottom:-30%;left:-15%;width:130%;height:160%;pointer-events:none;z-index:0;opacity:.7;filter:blur(35px);background:radial-gradient(ellipse at 30% 80%,rgba(215,0,48,0.25) 0%,transparent 50%),radial-gradient(ellipse at 70% 60%,rgba(160,15,5,0.2) 0%,transparent 50%),radial-gradient(ellipse at 50% 90%,rgba(220,80,25,0.15) 0%,transparent 50%);animation:gm 8s ease-in-out infinite}
+    @keyframes gm{0%,100%{transform:translate(0,0) rotate(0)}33%{transform:translate(5%,-3%) rotate(2deg)}66%{transform:translate(-4%,2%) rotate(-1deg)}}
+    .ib{position:absolute;inset:0;border-radius:16px;z-index:1;pointer-events:none}
+    .ib::before{content:'';position:absolute;inset:0;border-radius:16px;padding:1px;background:conic-gradient(from var(--sa,0deg),transparent 0%,transparent 30%,rgba(155,10,42,0.5) 35%,rgba(215,0,48,0.6) 40%,rgba(220,80,25,0.4) 45%,transparent 50%,transparent 100%);-webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);-webkit-mask-composite:xor;mask-composite:exclude;animation:rl 5s linear infinite}
+    @keyframes rl{to{--sa:360deg}}@property --sa{syntax:"<angle>";inherits:false;initial-value:0deg}
+    .ic{position:relative;z-index:2;background:#111;border-radius:15px;display:flex;align-items:center;gap:10px;padding:6px 8px 6px 18px}
+    .ic input{flex:1;font-family:'Satoshi',sans-serif;font-size:15px;padding:12px 0;border:none;background:transparent;color:#F5F5F7;outline:none}
+    .ic input::placeholder{color:rgba(255,255,255,0.2)}
+    .sb{width:42px;height:42px;border-radius:50%;background:#D70030;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:transform .1s}
+    .sb:active{transform:scale(.92)}
+    @keyframes fu{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+    /* Section */
+    .sec{font-family:'Inter',sans-serif;font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:#D70030;margin-bottom:14px;margin-top:4px}
+    /* People cards */
+    .people{display:flex;flex-direction:column;gap:10px}
+    .person{background:#FFF;border:1px solid rgba(0,0,0,0.04);border-radius:20px;padding:20px;display:flex;align-items:center;gap:16px;cursor:pointer;transition:transform .25s,box-shadow .25s;animation:fu .5s ease both}
+    .person:nth-child(1){animation-delay:.1s}.person:nth-child(2){animation-delay:.18s}.person:nth-child(3){animation-delay:.26s}.person:nth-child(4){animation-delay:.34s}.person:nth-child(5){animation-delay:.42s}
+    .person:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(0,0,0,0.05)}
+    .p-avatar{width:48px;height:48px;border-radius:50%;background:rgba(215,0,48,0.06);border:1.5px solid rgba(215,0,48,0.12);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-family:'Zen Dots',cursive;font-size:16px;color:#D70030}
+    .p-info{flex:1}
+    .p-name{font-family:'Satoshi',sans-serif;font-size:15px;font-weight:600;color:#1D1D1F}
+    .p-rel{font-family:'Inter',sans-serif;font-size:11px;color:#86868B;margin-top:1px}
+    .p-scores{display:flex;gap:12px;margin-top:8px}
+    .p-sc{text-align:center}
+    .p-sc-v{font-family:'Zen Dots',cursive;font-size:14px;color:#1D1D1F}
+    .p-sc-l{font-family:'Inter',sans-serif;font-size:9px;color:#AEAEB2;margin-top:1px}
+    .p-sessions{font-family:'Inter',sans-serif;font-size:11px;color:#AEAEB2;flex-shrink:0}
+    /* Detail panel */
+    .detail{background:#FFF;border:1px solid rgba(0,0,0,0.04);border-radius:20px;padding:28px;margin-bottom:16px;animation:fu .5s ease both}
+    .d-header{display:flex;align-items:center;gap:16px;margin-bottom:20px}
+    .d-avatar{width:64px;height:64px;border-radius:50%;background:rgba(215,0,48,0.06);border:2px solid rgba(215,0,48,0.15);display:flex;align-items:center;justify-content:center;font-family:'Zen Dots',cursive;font-size:22px;color:#D70030}
+    .d-name{font-family:'Satoshi',sans-serif;font-size:20px;font-weight:600;color:#1D1D1F}
+    .d-rel{font-family:'Inter',sans-serif;font-size:12px;color:#86868B;margin-top:2px}
+    .d-scores{display:flex;gap:10px;margin-bottom:20px}
+    .ds{background:rgba(0,0,0,0.02);border-radius:14px;padding:14px;text-align:center;flex:1}
+    .ds-v{font-family:'Zen Dots',cursive;font-size:22px;color:#1D1D1F;line-height:1}
+    .ds-l{font-family:'Inter',sans-serif;font-size:10px;color:#86868B;margin-top:4px;text-transform:uppercase;letter-spacing:.04em}
+    .ds-t{font-family:'Inter',sans-serif;font-size:11px;font-weight:600;margin-top:4px}
+    .tu{color:#1D1D1F}.td{color:#D70030}.tf{color:#AEAEB2}
+    .patterns{display:flex;flex-direction:column;gap:8px;margin-bottom:20px}
+    .pat{background:rgba(0,0,0,0.02);border-radius:12px;padding:14px 16px}
+    .pat-title{font-family:'Inter',sans-serif;font-size:11px;font-weight:600;color:#D70030;text-transform:uppercase;letter-spacing:.04em;margin-bottom:4px}
+    .pat-text{font-family:'Satoshi',sans-serif;font-size:14px;color:#1D1D1F;line-height:1.5}
+    /* Evolution mini chart */
+    .evo{margin-bottom:20px}
+    .evo-title{font-family:'Inter',sans-serif;font-size:11px;font-weight:600;color:#86868B;margin-bottom:8px}
+    .evo-chart{height:60px;display:flex;align-items:flex-end;gap:4px}
+    .evo-bar{flex:1;border-radius:4px 4px 1px 1px;background:linear-gradient(180deg,#D70030 0%,rgba(215,0,48,0.2) 100%);transition:height .8s cubic-bezier(.4,0,.2,1)}
+    .evo-labels{display:flex;justify-content:space-between;margin-top:4px}
+    .evo-labels span{font-family:'Inter',sans-serif;font-size:9px;color:#AEAEB2}
+    @media(max-width:600px){.d-scores{flex-wrap:wrap}.ds{min-width:calc(50% - 6px)}.p-scores{gap:8px}}
+  </style>
+</head>
+<body class="light">
+  <div class="chat-hero">
+    <div class="ambient"><div class="orb"></div><div class="orb"></div><div class="orb"></div></div>
+    <div class="ci">
+      <div class="ct">
+        <div class="av"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#D70030" stroke-width="1.5"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg></div>
+        <div><div class="nm">Yumi</div><div class="rl">Sua mentora</div></div>
+        <div class="ld"></div>
+      </div>
+      <div class="msgs" id="chatMsgs">
+        <div class="m ma">Voce tem <strong>5 pessoas</strong> no seu registro. Posso analisar padroes de comunicacao de qualquer uma. Quem quer explorar?</div>
+      </div>
+      <div class="ia"><div class="iw"><div class="ig"></div><div class="ib"></div><div class="ic"><input id="chatInput" placeholder="Fale sobre alguem..." onkeydown="if(event.key==='Enter')sendMsg()"><button class="sb" onclick="sendMsg()"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#FFF" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg></button></div></div></div>
+    </div>
+  </div>
+  <div class="main">
+    <!-- DETAIL (shown by default for Maria) -->
+    <div class="detail" id="detailPanel">
+      <div class="d-header">
+        <div class="d-avatar">M</div>
+        <div><div class="d-name">Maria Silva</div><div class="d-rel">Esposa · 12 interacoes analisadas</div></div>
+      </div>
+      <div class="d-scores">
+        <div class="ds"><div class="ds-v">78%</div><div class="ds-l">Rapport</div><div class="ds-t tu">+5%</div></div>
+        <div class="ds"><div class="ds-v">85%</div><div class="ds-l">Abertura</div><div class="ds-t tf">=</div></div>
+        <div class="ds"><div class="ds-v">23%</div><div class="ds-l">Tensao</div><div class="ds-t tu">-8%</div></div>
+        <div class="ds"><div class="ds-v">82%</div><div class="ds-l">Engajamento</div><div class="ds-t tu">+3%</div></div>
+      </div>
+      <div class="patterns">
+        <div class="pat"><div class="pat-title">Comunicacao</div><div class="pat-text">Direta, prefere validacao antes de argumentos. Responde melhor pela manha. Evita tema financas.</div></div>
+        <div class="pat"><div class="pat-title">Gatilho</div><div class="pat-text">Tom de cobranca faz ela fechar. Abordar com curiosidade em vez de diretividade.</div></div>
+        <div class="pat"><div class="pat-title">Melhor abordagem</div><div class="pat-text">"Entendo que isso e importante pra voce" antes de propor qualquer mudanca.</div></div>
+      </div>
+      <div class="evo">
+        <div class="evo-title">Rapport — ultimos 6 meses</div>
+        <div class="evo-chart">
+          <div class="evo-bar" style="height:35%"></div><div class="evo-bar" style="height:42%"></div><div class="evo-bar" style="height:48%"></div>
+          <div class="evo-bar" style="height:55%"></div><div class="evo-bar" style="height:62%"></div><div class="evo-bar" style="height:78%"></div>
+        </div>
+        <div class="evo-labels"><span>Out</span><span>Nov</span><span>Dez</span><span>Jan</span><span>Fev</span><span>Mar</span></div>
+      </div>
+    </div>
+
+    <!-- PEOPLE LIST -->
+    <div class="sec">Todas as pessoas</div>
+    <div class="people">
+      <div class="person" onclick="showDetail('Maria Silva','Esposa','M',78,85,23,82,12)">
+        <div class="p-avatar">M</div>
+        <div class="p-info"><div class="p-name">Maria Silva</div><div class="p-rel">Esposa</div>
+          <div class="p-scores"><div class="p-sc"><div class="p-sc-v">78%</div><div class="p-sc-l">Rapport</div></div><div class="p-sc"><div class="p-sc-v">23%</div><div class="p-sc-l">Tensao</div></div><div class="p-sc"><div class="p-sc-v">82%</div><div class="p-sc-l">Engaj.</div></div></div>
+        </div>
+        <div class="p-sessions">12 sessoes</div>
+      </div>
+      <div class="person" onclick="showDetail('Carlos Mendes','Socio','C',72,68,35,74,8)">
+        <div class="p-avatar">C</div>
+        <div class="p-info"><div class="p-name">Carlos Mendes</div><div class="p-rel">Socio</div>
+          <div class="p-scores"><div class="p-sc"><div class="p-sc-v">72%</div><div class="p-sc-l">Rapport</div></div><div class="p-sc"><div class="p-sc-v">35%</div><div class="p-sc-l">Tensao</div></div><div class="p-sc"><div class="p-sc-v">74%</div><div class="p-sc-l">Engaj.</div></div></div>
+        </div>
+        <div class="p-sessions">8 sessoes</div>
+      </div>
+      <div class="person" onclick="showDetail('Dra. Nakamura','Psiquiatra','N',91,88,12,95,15)">
+        <div class="p-avatar">N</div>
+        <div class="p-info"><div class="p-name">Dra. Nakamura</div><div class="p-rel">Psiquiatra</div>
+          <div class="p-scores"><div class="p-sc"><div class="p-sc-v">91%</div><div class="p-sc-l">Rapport</div></div><div class="p-sc"><div class="p-sc-v">12%</div><div class="p-sc-l">Tensao</div></div><div class="p-sc"><div class="p-sc-v">95%</div><div class="p-sc-l">Engaj.</div></div></div>
+        </div>
+        <div class="p-sessions">15 sessoes</div>
+      </div>
+      <div class="person" onclick="showDetail('Roberto Alves','Cliente','R',65,58,42,61,5)">
+        <div class="p-avatar">R</div>
+        <div class="p-info"><div class="p-name">Roberto Alves</div><div class="p-rel">Cliente</div>
+          <div class="p-scores"><div class="p-sc"><div class="p-sc-v">65%</div><div class="p-sc-l">Rapport</div></div><div class="p-sc"><div class="p-sc-v">42%</div><div class="p-sc-l">Tensao</div></div><div class="p-sc"><div class="p-sc-v">61%</div><div class="p-sc-l">Engaj.</div></div></div>
+        </div>
+        <div class="p-sessions">5 sessoes</div>
+      </div>
+      <div class="person" onclick="showDetail('Ana Costa','Mae','A',84,76,28,79,9)">
+        <div class="p-avatar">A</div>
+        <div class="p-info"><div class="p-name">Ana Costa</div><div class="p-rel">Mae</div>
+          <div class="p-scores"><div class="p-sc"><div class="p-sc-v">84%</div><div class="p-sc-l">Rapport</div></div><div class="p-sc"><div class="p-sc-v">28%</div><div class="p-sc-l">Tensao</div></div><div class="p-sc"><div class="p-sc-v">79%</div><div class="p-sc-l">Engaj.</div></div></div>
+        </div>
+        <div class="p-sessions">9 sessoes</div>
+      </div>
+    </div>
+  </div>
+  <script src="../shared-nav.js"></script>
+  <script>
+    function showDetail(name,rel,init,rap,ab,ten,eng,sess){
+      var d=document.getElementById('detailPanel');
+      d.querySelector('.d-avatar').textContent=init;
+      d.querySelector('.d-name').textContent=name;
+      d.querySelector('.d-rel').textContent=rel+' · '+sess+' interacoes analisadas';
+      var vs=d.querySelectorAll('.ds-v');vs[0].textContent=rap+'%';vs[1].textContent=ab+'%';vs[2].textContent=ten+'%';vs[3].textContent=eng+'%';
+      d.style.animation='none';d.offsetHeight;d.style.animation='fu .5s ease both';
+      d.scrollIntoView({behavior:'smooth',block:'start'});
+    }
+    var chatMsgs=document.getElementById('chatMsgs'),chatInput=document.getElementById('chatInput');
+    function esc(t){var d=document.createElement('div');d.textContent=t;return d.innerHTML}
+    function add(t,u){var e=document.createElement('div');e.className='m '+(u?'mu':'ma');e.innerHTML=u?esc(t):t;chatMsgs.appendChild(e);chatMsgs.scrollTop=chatMsgs.scrollHeight}
+    function sendMsg(){var v=chatInput.value.trim();if(!v)return;add(v,true);chatInput.value='';setTimeout(function(){add('Vou analisar os padroes dessa pessoa. Me da um momento...',false)},500)}
+  </script>
+</body>
+</html>

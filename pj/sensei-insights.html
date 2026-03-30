@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SenseiIA · Insights Estrategicos — KTANA</title>
+  <link rel="stylesheet" href="../shared.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Zen+Dots&display=swap" rel="stylesheet">
+  <style>
+    body{min-height:100vh;background:#0D0D0D;color:#F5F5F7}.main{max-width:760px;margin:0 auto;padding:0 20px 100px}
+    .chat-hero{background:#0A0A0A;position:relative;overflow:hidden;margin:0 -20px 28px;border-bottom:1px solid rgba(255,255,255,0.03)}
+    .ambient{position:absolute;top:0;left:0;width:100%;height:100%;z-index:0;pointer-events:none}.orb{position:absolute;border-radius:50%;filter:blur(80px);pointer-events:none}
+    .orb:nth-child(1){width:55%;height:55%;top:-10%;left:-8%;background:radial-gradient(ellipse at center,rgba(215,0,48,0.16) 0%,transparent 70%);animation:o1 10s ease-in-out infinite}
+    .orb:nth-child(2){width:45%;height:50%;top:15%;right:-8%;background:radial-gradient(ellipse at center,rgba(160,15,5,0.13) 0%,transparent 70%);animation:o2 14s ease-in-out infinite}
+    .orb:nth-child(3){width:40%;height:45%;bottom:-8%;left:25%;background:radial-gradient(ellipse at center,rgba(220,80,25,0.11) 0%,transparent 70%);animation:o3 12s ease-in-out infinite}
+    @keyframes o1{0%,100%{transform:translate(0,0)}33%{transform:translate(6%,4%)}66%{transform:translate(-3%,-2%)}}@keyframes o2{0%,100%{transform:translate(0,0)}50%{transform:translate(-7%,3%)}}@keyframes o3{0%,100%{transform:translate(0,0)}33%{transform:translate(4%,-4%)}66%{transform:translate(-3%,2%)}}
+    .ci{position:relative;z-index:1;padding:28px 24px 24px;max-width:760px;margin:0 auto}
+    .ch-top{display:flex;align-items:center;gap:12px;margin-bottom:18px}.ch-av{width:40px;height:40px;border-radius:50%;background:rgba(215,0,48,0.12);border:1.5px solid rgba(215,0,48,0.25);display:flex;align-items:center;justify-content:center}.ch-nm{font-family:'Inter',sans-serif;font-size:14px;font-weight:600;color:#F5F5F7}.ch-rl{font-family:'Inter',sans-serif;font-size:11px;color:rgba(255,255,255,0.35)}.ch-ld{width:6px;height:6px;border-radius:50%;background:#30D158;margin-left:auto;animation:p 2s infinite}@keyframes p{0%,100%{opacity:1}50%{opacity:.3}}
+    .msgs{display:flex;flex-direction:column;gap:10px;margin-bottom:18px;max-height:500px;overflow-y:auto}
+    .m{max-width:88%;padding:14px 18px;border-radius:18px;font-family:'Satoshi',sans-serif;font-size:14px;line-height:1.55;animation:mi .35s ease both}
+    .ma{background:rgba(255,255,255,0.04);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,0.06);color:#E5E5EA;border-bottom-left-radius:6px;align-self:flex-start}.ma strong{color:#D70030}
+    .mu{background:rgba(215,0,48,0.12);border:1px solid rgba(215,0,48,0.18);color:#E5E5EA;border-bottom-right-radius:6px;align-self:flex-end}
+    @keyframes mi{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+    .ins{display:flex;gap:12px;align-items:flex-start;margin-top:10px;padding:14px 16px;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06);border-radius:14px;cursor:pointer;transition:background .2s,border-color .2s}
+    .ins:hover{background:rgba(215,0,48,0.06);border-color:rgba(215,0,48,0.15)}
+    .ins-dot{width:8px;height:8px;border-radius:50%;margin-top:5px;flex-shrink:0}
+    .ins-dot.crit{background:#D70030;box-shadow:0 0 8px rgba(215,0,48,0.4)}.ins-dot.warn{background:rgba(215,0,48,0.5)}.ins-dot.ok{background:rgba(255,255,255,0.15)}
+    .ins-text{flex:1;font-family:'Satoshi',sans-serif;font-size:13px;color:#E5E5EA;line-height:1.5}.ins-text strong{color:#D70030}
+    .ins-act{font-family:'Inter',sans-serif;font-size:11px;color:rgba(215,0,48,0.7);background:rgba(215,0,48,0.08);border:1px solid rgba(215,0,48,0.12);border-radius:980px;padding:5px 12px;flex-shrink:0;cursor:pointer;transition:all .2s;white-space:nowrap}.ins-act:hover{background:rgba(215,0,48,0.15);color:#D70030}
+    /* Input */
+    .ia{position:relative}.iw{position:relative;border-radius:16px;overflow:hidden}
+    .ig{position:absolute;bottom:-30%;left:-15%;width:130%;height:160%;pointer-events:none;z-index:0;opacity:.7;filter:blur(35px);background:radial-gradient(ellipse at 30% 80%,rgba(215,0,48,0.25) 0%,transparent 50%),radial-gradient(ellipse at 70% 60%,rgba(160,15,5,0.2) 0%,transparent 50%),radial-gradient(ellipse at 50% 90%,rgba(220,80,25,0.15) 0%,transparent 50%);animation:gm 8s ease-in-out infinite}
+    @keyframes gm{0%,100%{transform:translate(0,0) rotate(0)}33%{transform:translate(5%,-3%) rotate(2deg)}66%{transform:translate(-4%,2%) rotate(-1deg)}}
+    .ib{position:absolute;inset:0;border-radius:16px;z-index:1;pointer-events:none}
+    .ib::before{content:'';position:absolute;inset:0;border-radius:16px;padding:1px;background:conic-gradient(from var(--sa,0deg),transparent 0%,transparent 30%,rgba(155,10,42,0.5) 35%,rgba(215,0,48,0.6) 40%,rgba(220,80,25,0.4) 45%,transparent 50%,transparent 100%);-webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);-webkit-mask-composite:xor;mask-composite:exclude;animation:rl 5s linear infinite}
+    @keyframes rl{to{--sa:360deg}}@property --sa{syntax:"<angle>";inherits:false;initial-value:0deg}
+    .icc{position:relative;z-index:2;background:#111;border-radius:15px;display:flex;align-items:center;gap:10px;padding:6px 8px 6px 18px}
+    .icc input{flex:1;font-family:'Satoshi',sans-serif;font-size:15px;padding:12px 0;border:none;background:transparent;color:#F5F5F7;outline:none}.icc input::placeholder{color:rgba(255,255,255,0.2)}
+    .sb{width:42px;height:42px;border-radius:50%;background:#D70030;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:transform .1s}.sb:active{transform:scale(.92)}
+    @keyframes fu{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+    .sec{font-family:'Inter',sans-serif;font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:#D70030;margin-bottom:14px}
+    .trends{display:flex;gap:10px;margin-bottom:20px}
+    .trend{background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06);border-radius:14px;padding:16px;text-align:center;flex:1;animation:fu .5s ease both}
+    .trend:nth-child(1){animation-delay:.1s}.trend:nth-child(2){animation-delay:.15s}.trend:nth-child(3){animation-delay:.2s}
+    .tr-v{font-family:'Zen Dots',cursive;font-size:24px;color:#F5F5F7;line-height:1}.tr-v.brand{color:#D70030}
+    .tr-l{font-family:'Inter',sans-serif;font-size:10px;color:rgba(255,255,255,0.4);margin-top:4px;text-transform:uppercase;letter-spacing:.04em}
+  </style>
+</head>
+<body>
+  <div class="chat-hero">
+    <div class="ambient"><div class="orb"></div><div class="orb"></div><div class="orb"></div></div>
+    <div class="ci">
+      <div class="ch-top"><div class="ch-av"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#D70030" stroke-width="1.5"><path d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/></svg></div><div><div class="ch-nm">Musashi</div><div class="ch-rl">Insights estrategicos de hoje</div></div><div class="ch-ld"></div></div>
+      <div class="msgs" id="chatMsgs">
+        <div class="m ma">Analisei os dados das ultimas 24h da sua empresa. Encontrei <strong>5 sinais</strong> que precisam da sua atencao:
+          <div class="ins"><div class="ins-dot crit"></div><div class="ins-text"><strong>Roberto Alves</strong> nao responde ha 5 dias. Score de rapport caiu 15%. Deal de R$180k em risco.</div><div class="ins-act">Ligar agora</div></div>
+          <div class="ins"><div class="ins-dot crit"></div><div class="ins-text"><strong>Joao (dev lead)</strong> mostrando sinais de burnout. HRV baixo + cancelou 3 meetings + energia em queda.</div><div class="ins-act">1:1 urgente</div></div>
+          <div class="ins"><div class="ins-dot warn"></div><div class="ins-text"><strong>Prospect Y</strong> abriu a proposta 4x em 2 dias. Engajamento subindo. Momento de fechar.</div><div class="ins-act">Agendar call</div></div>
+          <div class="ins"><div class="ins-dot warn"></div><div class="ins-text">Reuniao amanha com <strong>ABC Corp</strong> — tensao alta na ultima call. Preparar briefing com case study.</div><div class="ins-act">Ver briefing</div></div>
+          <div class="ins"><div class="ins-dot ok"></div><div class="ins-text">Time fechou <strong>3 deals</strong> essa semana — melhor semana do mes. Performance +22%.</div><div class="ins-act">Celebrar</div></div>
+        </div>
+      </div>
+      <div class="ia"><div class="iw"><div class="ig"></div><div class="ib"></div><div class="icc"><input id="chatInput" placeholder="Pergunte sobre qualquer sinal..." onkeydown="if(event.key==='Enter')sm()"><button class="sb" onclick="sm()"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#FFF" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg></button></div></div></div>
+    </div>
+  </div>
+  <div class="main">
+    <div class="sec">Tendencias</div>
+    <div class="trends">
+      <div class="trend"><div class="tr-v brand">3</div><div class="tr-l">Deals em risco</div></div>
+      <div class="trend"><div class="tr-v">1</div><div class="tr-l">Burnout risk</div></div>
+      <div class="trend"><div class="tr-v">3</div><div class="tr-l">Fechados semana</div></div>
+    </div>
+  </div>
+  <script src="../shared-nav.js"></script>
+  <script>
+    var cm=document.getElementById('chatMsgs'),ci=document.getElementById('chatInput');
+    function esc(t){var d=document.createElement('div');d.textContent=t;return d.innerHTML}
+    function add(t,u){var e=document.createElement('div');e.className='m '+(u?'mu':'ma');e.innerHTML=u?esc(t):t;cm.appendChild(e);cm.scrollTop=cm.scrollHeight}
+    function sm(){var v=ci.value.trim();if(!v)return;add(v,true);ci.value='';setTimeout(function(){add('Analisando os dados... Vou cruzar com o historico e te responder.',false)},500)}
+    document.querySelectorAll('.ins-act').forEach(function(b){b.addEventListener('click',function(){add(this.textContent,true);setTimeout(function(){add('Entendi. Vou preparar o que precisa e te aviso quando estiver pronto.',false)},500)})});
+  </script>
+</body>
+</html>

@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SenseiIA · Painel de Inteligencia — KTANA</title>
+  <link rel="stylesheet" href="../shared.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Zen+Dots&display=swap" rel="stylesheet">
+  <style>
+    body{min-height:100vh;background:#0D0D0D;color:#F5F5F7}
+    .main{max-width:760px;margin:0 auto;padding:0 20px 100px}
+    .chat-hero{background:#0A0A0A;position:relative;overflow:hidden;margin:0 -20px 28px;border-bottom:1px solid rgba(255,255,255,0.03)}
+    .ambient{position:absolute;top:0;left:0;width:100%;height:100%;z-index:0;pointer-events:none}
+    .orb{position:absolute;border-radius:50%;filter:blur(80px);pointer-events:none}
+    .orb:nth-child(1){width:55%;height:55%;top:-10%;left:-8%;background:radial-gradient(ellipse at center,rgba(215,0,48,0.16) 0%,transparent 70%);animation:o1 10s ease-in-out infinite}
+    .orb:nth-child(2){width:45%;height:50%;top:15%;right:-8%;background:radial-gradient(ellipse at center,rgba(160,15,5,0.13) 0%,transparent 70%);animation:o2 14s ease-in-out infinite}
+    .orb:nth-child(3){width:40%;height:45%;bottom:-8%;left:25%;background:radial-gradient(ellipse at center,rgba(220,80,25,0.11) 0%,transparent 70%);animation:o3 12s ease-in-out infinite}
+    @keyframes o1{0%,100%{transform:translate(0,0)}33%{transform:translate(6%,4%)}66%{transform:translate(-3%,-2%)}}@keyframes o2{0%,100%{transform:translate(0,0)}50%{transform:translate(-7%,3%)}}@keyframes o3{0%,100%{transform:translate(0,0)}33%{transform:translate(4%,-4%)}66%{transform:translate(-3%,2%)}}
+    .ci{position:relative;z-index:1;padding:24px 24px 20px;max-width:760px;margin:0 auto}
+    .ch-top{display:flex;align-items:center;gap:12px;margin-bottom:14px}
+    .ch-av{width:36px;height:36px;border-radius:50%;background:rgba(215,0,48,0.12);border:1.5px solid rgba(215,0,48,0.25);display:flex;align-items:center;justify-content:center}
+    .ch-nm{font-family:'Inter',sans-serif;font-size:13px;font-weight:600;color:#F5F5F7}.ch-rl{font-family:'Inter',sans-serif;font-size:11px;color:rgba(255,255,255,0.35)}
+    .ch-ld{width:6px;height:6px;border-radius:50%;background:#30D158;margin-left:auto;animation:p 2s infinite}@keyframes p{0%,100%{opacity:1}50%{opacity:.3}}
+    .mc{background:rgba(255,255,255,0.04);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,0.06);border-radius:16px;border-bottom-left-radius:6px;padding:14px 16px;font-family:'Satoshi',sans-serif;font-size:14px;color:#E5E5EA;line-height:1.5}
+    .mc strong{color:#D70030}
+    @keyframes fu{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+    .sec{font-family:'Inter',sans-serif;font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:#D70030;margin-bottom:14px;margin-top:4px}
+    /* Hero scores */
+    .scores{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:28px}
+    .sc{background:rgba(255,255,255,0.03);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,0.06);border-radius:16px;padding:18px 14px;text-align:center;animation:fu .5s ease both}
+    .sc:nth-child(1){animation-delay:.1s}.sc:nth-child(2){animation-delay:.15s}.sc:nth-child(3){animation-delay:.2s}.sc:nth-child(4){animation-delay:.25s}
+    .sc-v{font-family:'Zen Dots',cursive;font-size:26px;color:#F5F5F7;line-height:1}.sc-v.brand{color:#D70030}
+    .sc-l{font-family:'Inter',sans-serif;font-size:10px;color:rgba(255,255,255,0.4);margin-top:4px;text-transform:uppercase;letter-spacing:.04em}
+    .sc-t{font-family:'Inter',sans-serif;font-size:11px;font-weight:600;margin-top:4px}.tu{color:#F5F5F7}.td{color:#D70030}.tf{color:rgba(255,255,255,0.3)}
+    /* Chart */
+    .chart{background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06);border-radius:18px;padding:24px;margin-bottom:20px;animation:fu .6s ease both;animation-delay:.3s}
+    .chart-title{font-family:'Satoshi',sans-serif;font-size:15px;font-weight:600;color:#F5F5F7;margin-bottom:4px}
+    .chart-sub{font-family:'Inter',sans-serif;font-size:11px;color:rgba(255,255,255,0.3);margin-bottom:18px}
+    .chart svg{width:100%;height:160px}
+    .chart-days{display:flex;justify-content:space-between;padding:0 4px;margin-top:8px}
+    .chart-days span{font-family:'Inter',sans-serif;font-size:10px;color:rgba(255,255,255,0.25)}
+    /* Pipeline card */
+    .pipeline{background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06);border-radius:18px;padding:24px;margin-bottom:20px;animation:fu .6s ease both;animation-delay:.35s}
+    .pipe-row{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid rgba(255,255,255,0.03)}
+    .pipe-row:last-child{border-bottom:none}
+    .pipe-stage{font-family:'Inter',sans-serif;font-size:12px;color:rgba(255,255,255,0.5);width:90px;flex-shrink:0}
+    .pipe-bar-wrap{flex:1;height:6px;background:rgba(255,255,255,0.04);border-radius:3px;overflow:hidden}
+    .pipe-bar{height:100%;background:#D70030;border-radius:3px;transition:width 1s cubic-bezier(.4,0,.2,1)}
+    .pipe-val{font-family:'Zen Dots',cursive;font-size:12px;color:#F5F5F7;width:50px;text-align:right;flex-shrink:0}
+    /* Alerts */
+    .alerts{display:flex;flex-direction:column;gap:8px;margin-bottom:28px}
+    .alert{background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06);border-radius:14px;padding:16px 18px;display:flex;align-items:flex-start;gap:12px;animation:fu .5s ease both}
+    .alert:nth-child(1){animation-delay:.4s}.alert:nth-child(2){animation-delay:.48s}.alert:nth-child(3){animation-delay:.56s}
+    .a-dot{width:8px;height:8px;border-radius:50%;margin-top:5px;flex-shrink:0}
+    .a-dot.crit{background:#D70030;box-shadow:0 0 8px rgba(215,0,48,0.4)}
+    .a-dot.warn{background:rgba(215,0,48,0.5)}
+    .a-dot.ok{background:rgba(255,255,255,0.15)}
+    .a-text{font-family:'Satoshi',sans-serif;font-size:13px;color:#E5E5EA;line-height:1.5;flex:1}.a-text strong{color:#D70030}
+    .a-time{font-family:'Inter',sans-serif;font-size:10px;color:rgba(255,255,255,0.25);flex-shrink:0}
+    @media(max-width:600px){.scores{grid-template-columns:repeat(2,1fr)}}
+  </style>
+</head>
+<body>
+  <div class="chat-hero">
+    <div class="ambient"><div class="orb"></div><div class="orb"></div><div class="orb"></div></div>
+    <div class="ci">
+      <div class="ch-top"><div class="ch-av"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#D70030" stroke-width="1.5"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg></div><div><div class="ch-nm">Akira</div><div class="ch-rl">Estrategista</div></div><div class="ch-ld"></div></div>
+      <div class="mc">Sua semana foi <strong>12% melhor</strong> que a anterior. Engagement medio subiu e tensao caiu. <strong>3 deals em risco</strong> precisam de atencao — um nao responde ha 5 dias.</div>
+    </div>
+  </div>
+  <div class="main">
+    <div class="scores">
+      <div class="sc"><div class="sc-v brand">47</div><div class="sc-l">Reunioes</div><div class="sc-t tu">+8</div></div>
+      <div class="sc"><div class="sc-v">7.4</div><div class="sc-l">Engaj. medio</div><div class="sc-t tu">+0.6</div></div>
+      <div class="sc"><div class="sc-v">82%</div><div class="sc-l">Rapport</div><div class="sc-t tu">+5%</div></div>
+      <div class="sc"><div class="sc-v">3.1</div><div class="sc-l">Tensao media</div><div class="sc-t td">-0.4</div></div>
+    </div>
+    <div class="chart">
+      <div class="chart-title">Engagement semanal</div>
+      <div class="chart-sub">Media de engagement por dia</div>
+      <svg viewBox="0 0 700 160" preserveAspectRatio="none">
+        <line x1="0" y1="40" x2="700" y2="40" stroke="rgba(255,255,255,0.03)" stroke-width="1"/>
+        <line x1="0" y1="80" x2="700" y2="80" stroke="rgba(255,255,255,0.03)" stroke-width="1"/>
+        <line x1="0" y1="120" x2="700" y2="120" stroke="rgba(255,255,255,0.03)" stroke-width="1"/>
+        <path d="M0,96 L117,72 L233,88 L350,56 L467,48 L583,40 L700,32 L700,160 L0,160 Z" fill="#D70030" opacity="0.06"/>
+        <polyline points="0,96 117,72 233,88 350,56 467,48 583,40 700,32" fill="none" stroke="#D70030" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M0,112 L117,104 L233,96 L350,88 L467,80 L583,72 L700,64 L700,160 L0,160 Z" fill="#9B0A2A" opacity="0.04"/>
+        <polyline points="0,112 117,104 233,96 350,88 467,80 583,72 700,64" fill="none" stroke="rgba(155,10,42,0.5)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="6,4"/>
+      </svg>
+      <div class="chart-days"><span>Seg</span><span>Ter</span><span>Qua</span><span>Qui</span><span>Sex</span><span>Sab</span><span>Dom</span></div>
+    </div>
+    <div class="sec">Pipeline por estagio</div>
+    <div class="pipeline">
+      <div class="pipe-row"><div class="pipe-stage">Prospecao</div><div class="pipe-bar-wrap"><div class="pipe-bar" style="width:85%"></div></div><div class="pipe-val">12</div></div>
+      <div class="pipe-row"><div class="pipe-stage">Qualificacao</div><div class="pipe-bar-wrap"><div class="pipe-bar" style="width:60%"></div></div><div class="pipe-val">8</div></div>
+      <div class="pipe-row"><div class="pipe-stage">Proposta</div><div class="pipe-bar-wrap"><div class="pipe-bar" style="width:35%"></div></div><div class="pipe-val">5</div></div>
+      <div class="pipe-row"><div class="pipe-stage">Negociacao</div><div class="pipe-bar-wrap"><div class="pipe-bar" style="width:20%"></div></div><div class="pipe-val">3</div></div>
+      <div class="pipe-row"><div class="pipe-stage">Fechamento</div><div class="pipe-bar-wrap"><div class="pipe-bar" style="width:12%"></div></div><div class="pipe-val">2</div></div>
+    </div>
+    <div class="sec">Alertas</div>
+    <div class="alerts">
+      <div class="alert"><div class="a-dot crit"></div><div class="a-text"><strong>Roberto Alves</strong> nao responde ha 5 dias. Risco de churn. Score de rapport caiu 15%.</div><div class="a-time">ha 2h</div></div>
+      <div class="alert"><div class="a-dot warn"></div><div class="a-text"><strong>Deal ABC Corp</strong> em negociacao ha 3 semanas sem avancar. Sugestao: enviar case study.</div><div class="a-time">ha 6h</div></div>
+      <div class="alert"><div class="a-dot ok"></div><div class="a-text"><strong>3 deals fechados</strong> essa semana. Melhor resultado do mes. Time de vendas performando +22%.</div><div class="a-time">ha 1d</div></div>
+    </div>
+  </div>
+  <script src="../shared-nav.js"></script>
+</body>
+</html>

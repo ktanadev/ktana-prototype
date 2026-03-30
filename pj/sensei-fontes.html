@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SenseiIA · Fontes de Inteligencia — KTANA</title>
+  <link rel="stylesheet" href="../shared.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Zen+Dots&display=swap" rel="stylesheet">
+  <style>
+    body{min-height:100vh;background:#0D0D0D;color:#F5F5F7}
+    .main{max-width:760px;margin:0 auto;padding:0 20px 100px}
+    /* Chat hero */
+    .chat-hero{background:#0A0A0A;position:relative;overflow:hidden;margin:0 -20px 28px;border-bottom:1px solid rgba(255,255,255,0.03)}
+    .ambient{position:absolute;top:0;left:0;width:100%;height:100%;z-index:0;pointer-events:none}
+    .orb{position:absolute;border-radius:50%;filter:blur(80px);pointer-events:none}
+    .orb:nth-child(1){width:55%;height:55%;top:-10%;left:-8%;background:radial-gradient(ellipse at center,rgba(215,0,48,0.16) 0%,transparent 70%);animation:o1 10s ease-in-out infinite}
+    .orb:nth-child(2){width:45%;height:50%;top:15%;right:-8%;background:radial-gradient(ellipse at center,rgba(160,15,5,0.13) 0%,transparent 70%);animation:o2 14s ease-in-out infinite}
+    .orb:nth-child(3){width:40%;height:45%;bottom:-8%;left:25%;background:radial-gradient(ellipse at center,rgba(220,80,25,0.11) 0%,transparent 70%);animation:o3 12s ease-in-out infinite}
+    @keyframes o1{0%,100%{transform:translate(0,0)}33%{transform:translate(6%,4%)}66%{transform:translate(-3%,-2%)}}
+    @keyframes o2{0%,100%{transform:translate(0,0)}50%{transform:translate(-7%,3%)}}
+    @keyframes o3{0%,100%{transform:translate(0,0)}33%{transform:translate(4%,-4%)}66%{transform:translate(-3%,2%)}}
+    .ci{position:relative;z-index:1;padding:28px 24px 24px;max-width:760px;margin:0 auto}
+    .ch-top{display:flex;align-items:center;gap:12px;margin-bottom:18px}
+    .ch-av{width:40px;height:40px;border-radius:50%;background:rgba(215,0,48,0.12);border:1.5px solid rgba(215,0,48,0.25);display:flex;align-items:center;justify-content:center}
+    .ch-nm{font-family:'Inter',sans-serif;font-size:14px;font-weight:600;color:#F5F5F7}
+    .ch-rl{font-family:'Inter',sans-serif;font-size:11px;color:rgba(255,255,255,0.35)}
+    .ch-ld{width:6px;height:6px;border-radius:50%;background:#30D158;margin-left:auto;animation:p 2s infinite}
+    @keyframes p{0%,100%{opacity:1}50%{opacity:.3}}
+    .msgs{display:flex;flex-direction:column;gap:10px;margin-bottom:18px;max-height:280px;overflow-y:auto}
+    .m{max-width:85%;padding:14px 18px;border-radius:18px;font-family:'Satoshi',sans-serif;font-size:14px;line-height:1.55;animation:mi .35s ease both}
+    .ma{background:rgba(255,255,255,0.04);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,0.06);color:#E5E5EA;border-bottom-left-radius:6px;align-self:flex-start}
+    .ma strong{color:#D70030}
+    .mu{background:rgba(215,0,48,0.12);border:1px solid rgba(215,0,48,0.18);color:#E5E5EA;border-bottom-right-radius:6px;align-self:flex-end}
+    @keyframes mi{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+    .chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+    .chip{display:flex;align-items:center;gap:8px;padding:10px 16px;border-radius:14px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.06);cursor:pointer;transition:all .25s}
+    .chip:hover{background:rgba(215,0,48,0.1);border-color:rgba(215,0,48,0.25);transform:translateY(-2px)}
+    .chip svg{width:16px;height:16px;stroke:rgba(255,255,255,0.5);fill:none;stroke-width:1.5;flex-shrink:0}
+    .chip.on svg{stroke:#D70030}
+    .chip .c-n{font-family:'Inter',sans-serif;font-size:12px;font-weight:500;color:rgba(255,255,255,0.7)}
+    .chip .c-s{font-family:'Inter',sans-serif;font-size:10px;color:rgba(255,255,255,0.3)}
+    .chip.on .c-s{color:rgba(215,0,48,0.6)}
+    /* Input */
+    .ia{position:relative}.iw{position:relative;border-radius:16px;overflow:hidden}
+    .ig{position:absolute;bottom:-30%;left:-15%;width:130%;height:160%;pointer-events:none;z-index:0;opacity:.7;filter:blur(35px);background:radial-gradient(ellipse at 30% 80%,rgba(215,0,48,0.25) 0%,transparent 50%),radial-gradient(ellipse at 70% 60%,rgba(160,15,5,0.2) 0%,transparent 50%),radial-gradient(ellipse at 50% 90%,rgba(220,80,25,0.15) 0%,transparent 50%);animation:gm 8s ease-in-out infinite}
+    @keyframes gm{0%,100%{transform:translate(0,0) rotate(0)}33%{transform:translate(5%,-3%) rotate(2deg)}66%{transform:translate(-4%,2%) rotate(-1deg)}}
+    .ib{position:absolute;inset:0;border-radius:16px;z-index:1;pointer-events:none}
+    .ib::before{content:'';position:absolute;inset:0;border-radius:16px;padding:1px;background:conic-gradient(from var(--sa,0deg),transparent 0%,transparent 30%,rgba(155,10,42,0.5) 35%,rgba(215,0,48,0.6) 40%,rgba(220,80,25,0.4) 45%,transparent 50%,transparent 100%);-webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);-webkit-mask-composite:xor;mask-composite:exclude;animation:rl 5s linear infinite}
+    @keyframes rl{to{--sa:360deg}}@property --sa{syntax:"<angle>";inherits:false;initial-value:0deg}
+    .icc{position:relative;z-index:2;background:#111;border-radius:15px;display:flex;align-items:center;gap:10px;padding:6px 8px 6px 18px}
+    .icc input{flex:1;font-family:'Satoshi',sans-serif;font-size:15px;padding:12px 0;border:none;background:transparent;color:#F5F5F7;outline:none}
+    .icc input::placeholder{color:rgba(255,255,255,0.2)}
+    .sb{width:42px;height:42px;border-radius:50%;background:#D70030;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:transform .1s}.sb:active{transform:scale(.92)}
+    /* Glass cards PJ */
+    @keyframes fu{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+    .sec{font-family:'Inter',sans-serif;font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:#D70030;margin-bottom:14px;margin-top:4px}
+    .stats{display:flex;gap:8px;margin-bottom:24px}
+    .stat{background:rgba(255,255,255,0.03);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,0.06);border-radius:16px;padding:14px 16px;text-align:center;flex:1;animation:fu .5s ease both}
+    .stat:nth-child(1){animation-delay:.1s}.stat:nth-child(2){animation-delay:.15s}.stat:nth-child(3){animation-delay:.2s}
+    .stat-n{font-family:'Zen Dots',cursive;font-size:22px;color:#F5F5F7;line-height:1}.stat-n.brand{color:#D70030}
+    .stat-l{font-family:'Inter',sans-serif;font-size:10px;color:rgba(255,255,255,0.4);margin-top:4px;text-transform:uppercase;letter-spacing:.04em}
+    .grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:28px}
+    .src{background:rgba(255,255,255,0.03);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,0.06);border-radius:18px;padding:20px;position:relative;overflow:hidden;transition:transform .3s,border-color .3s;animation:fu .5s ease both}
+    .src:nth-child(1){animation-delay:.1s}.src:nth-child(2){animation-delay:.18s}.src:nth-child(3){animation-delay:.26s}.src:nth-child(4){animation-delay:.34s}
+    .src:hover{transform:translateY(-3px);border-color:rgba(215,0,48,0.15)}
+    .src::after{content:'';position:absolute;bottom:0;left:20%;right:20%;height:1.5px;background:linear-gradient(90deg,transparent,rgba(215,0,48,0.2),transparent);opacity:0;transition:opacity .3s}.src:hover::after{opacity:1}
+    .src-icon{width:40px;height:40px;border-radius:11px;background:rgba(215,0,48,0.06);display:flex;align-items:center;justify-content:center;margin-bottom:12px}
+    .src-icon svg{width:20px;height:20px;stroke:#D70030;fill:none;stroke-width:1.5}
+    .src-name{font-family:'Satoshi',sans-serif;font-size:14px;font-weight:600;color:#F5F5F7;margin-bottom:2px}
+    .src-type{font-family:'Inter',sans-serif;font-size:11px;color:rgba(255,255,255,0.4);margin-bottom:10px}
+    .src-status{display:flex;align-items:center;gap:6px;margin-bottom:10px}
+    .dot-on{width:5px;height:5px;border-radius:50%;background:#D70030;animation:p 2s infinite}
+    .src-status span{font-family:'Inter',sans-serif;font-size:11px;color:rgba(255,255,255,0.4)}
+    .mini{display:flex;gap:6px;flex-wrap:wrap}
+    .mm{background:rgba(255,255,255,0.03);border-radius:8px;padding:5px 8px;text-align:center}
+    .mm-v{font-family:'Zen Dots',cursive;font-size:12px;color:#F5F5F7}
+    .mm-l{font-family:'Inter',sans-serif;font-size:9px;color:rgba(255,255,255,0.3);margin-top:1px}
+    .avail{display:flex;align-items:center;gap:14px;padding:14px 16px;border-radius:14px;cursor:pointer;transition:background .2s}
+    .avail:hover{background:rgba(215,0,48,0.04)}
+    .avail-icon{width:36px;height:36px;border-radius:10px;background:rgba(255,255,255,0.03);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+    .avail-icon svg{width:16px;height:16px;stroke:rgba(255,255,255,0.3);fill:none;stroke-width:1.5}
+    .avail-text{flex:1}
+    .avail-name{font-family:'Satoshi',sans-serif;font-size:14px;color:#F5F5F7}
+    .avail-desc{font-family:'Inter',sans-serif;font-size:11px;color:rgba(255,255,255,0.3)}
+    .avail-act{font-family:'Inter',sans-serif;font-size:12px;color:#D70030;font-weight:500;flex-shrink:0}
+    .foot{text-align:center;padding:20px 0;font-family:'Inter',sans-serif;font-size:11px;color:rgba(255,255,255,0.2);line-height:1.6}
+    @media(max-width:600px){.grid{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+  <div class="chat-hero">
+    <div class="ambient"><div class="orb"></div><div class="orb"></div><div class="orb"></div></div>
+    <div class="ci">
+      <div class="ch-top">
+        <div class="ch-av"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#D70030" stroke-width="1.5"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg></div>
+        <div><div class="ch-nm">Akira</div><div class="ch-rl">Estrategista de negocios</div></div>
+        <div class="ch-ld"></div>
+      </div>
+      <div class="msgs" id="chatMsgs">
+        <div class="m ma">Sua empresa tem <strong>3 fontes ativas</strong>. O plugin de videoconferencia desbloquearia analise de reunioes em tempo real. Quer instalar?
+          <div class="chips">
+            <div class="chip on" onclick="qm('Status do Zoom')"><svg viewBox="0 0 24 24"><rect x="2" y="5" width="14" height="14" rx="2"/><path d="M16 10l4-2v8l-4-2"/></svg><div><div class="c-n">Zoom</div><div class="c-s">Ativo</div></div></div>
+            <div class="chip on" onclick="qm('Status WhatsApp Business')"><svg viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z"/></svg><div><div class="c-n">WhatsApp Biz</div><div class="c-s">Ativo</div></div></div>
+            <div class="chip on" onclick="qm('Status do CRM')"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg><div><div class="c-n">Pipedrive</div><div class="c-s">Ativo</div></div></div>
+            <div class="chip" onclick="qm('Quero conectar LinkedIn Sales')"><svg viewBox="0 0 24 24"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-4 0v7h-4v-7a6 6 0 016-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg><div><div class="c-n">LinkedIn Sales</div><div class="c-s">Conectar</div></div></div>
+            <div class="chip" onclick="qm('Quero conectar Google Meet')"><svg viewBox="0 0 24 24"><rect x="2" y="5" width="14" height="14" rx="2"/><path d="M16 10l4-2v8l-4-2"/></svg><div><div class="c-n">Google Meet</div><div class="c-s">Instalar</div></div></div>
+          </div>
+        </div>
+      </div>
+      <div class="ia"><div class="iw"><div class="ig"></div><div class="ib"></div><div class="icc"><input id="chatInput" placeholder="O que quer conectar?" onkeydown="if(event.key==='Enter')sm()"><button class="sb" onclick="sm()"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#FFF" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg></button></div></div></div>
+    </div>
+  </div>
+  <div class="main">
+    <div class="stats">
+      <div class="stat"><div class="stat-n brand">3</div><div class="stat-l">Conectadas</div></div>
+      <div class="stat"><div class="stat-n">47</div><div class="stat-l">Reunioes</div></div>
+      <div class="stat"><div class="stat-n">128</div><div class="stat-l">Contatos</div></div>
+    </div>
+    <div class="sec">Fontes ativas</div>
+    <div class="grid">
+      <div class="src"><div class="src-icon"><svg viewBox="0 0 24 24"><rect x="2" y="5" width="14" height="14" rx="2"/><path d="M16 10l4-2v8l-4-2"/></svg></div><div class="src-name">Zoom Plugin</div><div class="src-type">Videoconferencia</div><div class="src-status"><div class="dot-on"></div><span>47 calls analisadas</span></div><div class="mini"><div class="mm"><div class="mm-v">7.4</div><div class="mm-l">Engaj.</div></div><div class="mm"><div class="mm-v">6.8</div><div class="mm-l">Rapport</div></div><div class="mm"><div class="mm-v">3.2</div><div class="mm-l">Tensao</div></div></div></div>
+      <div class="src"><div class="src-icon"><svg viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z"/></svg></div><div class="src-name">WhatsApp Business</div><div class="src-type">Conversas com clientes</div><div class="src-status"><div class="dot-on"></div><span>128 contatos mapeados</span></div><div class="mini"><div class="mm"><div class="mm-v">128</div><div class="mm-l">Contatos</div></div><div class="mm"><div class="mm-v">82%</div><div class="mm-l">Positivo</div></div></div></div>
+      <div class="src"><div class="src-icon"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/></svg></div><div class="src-name">Pipedrive</div><div class="src-type">CRM</div><div class="src-status"><div class="dot-on"></div><span>23 deals ativos</span></div><div class="mini"><div class="mm"><div class="mm-v">23</div><div class="mm-l">Deals</div></div><div class="mm"><div class="mm-v">R$1.2M</div><div class="mm-l">Pipeline</div></div></div></div>
+    </div>
+    <div class="sec">Disponiveis</div>
+    <div class="avail" onclick="qm('Conectar LinkedIn Sales Navigator')"><div class="avail-icon"><svg viewBox="0 0 24 24"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-4 0v7h-4v-7a6 6 0 016-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg></div><div class="avail-text"><div class="avail-name">LinkedIn Sales Navigator</div><div class="avail-desc">Monitorar prospects, sinais de compra</div></div><div class="avail-act">Conectar</div></div>
+    <div class="avail" onclick="qm('Conectar Google Meet')"><div class="avail-icon"><svg viewBox="0 0 24 24"><rect x="2" y="5" width="14" height="14" rx="2"/><path d="M16 10l4-2v8l-4-2"/></svg></div><div class="avail-text"><div class="avail-name">Google Meet / Teams</div><div class="avail-desc">Analise em tempo real de videoconferencias</div></div><div class="avail-act">Instalar</div></div>
+    <div class="avail" onclick="qm('Conectar email corporativo')"><div class="avail-icon"><svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></div><div class="avail-text"><div class="avail-name">Email Corporativo</div><div class="avail-desc">Padroes de resposta, follow-ups</div></div><div class="avail-act">Conectar</div></div>
+    <div class="avail" onclick="qm('Enviar relatorios ou atas')"><div class="avail-icon"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></div><div class="avail-text"><div class="avail-name">Documentos / Atas</div><div class="avail-desc">OCR + analise de relatorios</div></div><div class="avail-act">Enviar</div></div>
+    <div class="foot">Dados criptografados. A KTANA nao armazena — orquestra o entendimento.</div>
+  </div>
+  <script src="../shared-nav.js"></script>
+  <script>
+    var cm=document.getElementById('chatMsgs'),ci=document.getElementById('chatInput');
+    var R={'zoom':'Zoom Plugin ativo. 47 calls analisadas. Engagement medio: 7.4. Ultimo: Call CSB 29/Mar.','whatsapp':'WhatsApp Business ativo. 128 contatos mapeados. Sentimento: 82% positivo.','crm':'Pipedrive sincronizado. 23 deals ativos. Pipeline: R$1.2M.','pipedrive':'Pipedrive sincronizado. 23 deals ativos. Pipeline: R$1.2M.','linkedin':'Vou conectar o LinkedIn Sales Navigator. Voce autoriza via OAuth e eu comeco a monitorar sinais de compra dos seus prospects.','meet':'O plugin do Google Meet analisa expressoes e tom em tempo real. Vou enviar o link de instalacao.','teams':'O plugin do Teams funciona igual ao Zoom. Vou configurar.','email':'Vou conectar seu email corporativo para analisar padroes de resposta e follow-ups pendentes.','relatorio':'Pode enviar a ata ou relatorio. Processo via OCR e extraio os pontos relevantes.','ata':'Pode enviar a ata ou relatorio. Processo via OCR e extraio os pontos relevantes.'};
+    function esc(t){var d=document.createElement('div');d.textContent=t;return d.innerHTML}
+    function add(t,u){var e=document.createElement('div');e.className='m '+(u?'mu':'ma');e.innerHTML=u?esc(t):t;cm.appendChild(e);cm.scrollTop=cm.scrollHeight}
+    function resp(i){var l=i.toLowerCase();for(var k in R)if(l.includes(k))return R[k];return'Entendi. Me conta mais e eu configuro.'}
+    function sm(){var v=ci.value.trim();if(!v)return;add(v,true);ci.value='';setTimeout(function(){add(resp(v),false)},500)}
+    function qm(t){add(t,true);setTimeout(function(){add(resp(t),false)},500)}
+  </script>
+</body>
+</html>

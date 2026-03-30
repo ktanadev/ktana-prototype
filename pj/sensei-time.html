@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SenseiIA · Time — KTANA</title>
+  <link rel="stylesheet" href="../shared.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Zen+Dots&display=swap" rel="stylesheet">
+  <style>
+    body{min-height:100vh;background:#0D0D0D;color:#F5F5F7}.main{max-width:760px;margin:0 auto;padding:0 20px 100px}
+    .chat-hero{background:#0A0A0A;position:relative;overflow:hidden;margin:0 -20px 28px;border-bottom:1px solid rgba(255,255,255,0.03)}
+    .ambient{position:absolute;top:0;left:0;width:100%;height:100%;z-index:0;pointer-events:none}.orb{position:absolute;border-radius:50%;filter:blur(80px);pointer-events:none}
+    .orb:nth-child(1){width:55%;height:55%;top:-10%;left:-8%;background:radial-gradient(ellipse at center,rgba(215,0,48,0.16) 0%,transparent 70%);animation:o1 10s ease-in-out infinite}
+    .orb:nth-child(2){width:45%;height:50%;top:15%;right:-8%;background:radial-gradient(ellipse at center,rgba(160,15,5,0.13) 0%,transparent 70%);animation:o2 14s ease-in-out infinite}
+    .orb:nth-child(3){width:40%;height:45%;bottom:-8%;left:25%;background:radial-gradient(ellipse at center,rgba(220,80,25,0.11) 0%,transparent 70%);animation:o3 12s ease-in-out infinite}
+    @keyframes o1{0%,100%{transform:translate(0,0)}33%{transform:translate(6%,4%)}66%{transform:translate(-3%,-2%)}}@keyframes o2{0%,100%{transform:translate(0,0)}50%{transform:translate(-7%,3%)}}@keyframes o3{0%,100%{transform:translate(0,0)}33%{transform:translate(4%,-4%)}66%{transform:translate(-3%,2%)}}
+    .ci{position:relative;z-index:1;padding:24px 24px 20px;max-width:760px;margin:0 auto}
+    .ch-top{display:flex;align-items:center;gap:12px;margin-bottom:14px}.ch-av{width:36px;height:36px;border-radius:50%;background:rgba(215,0,48,0.12);border:1.5px solid rgba(215,0,48,0.25);display:flex;align-items:center;justify-content:center}.ch-nm{font-family:'Inter',sans-serif;font-size:13px;font-weight:600;color:#F5F5F7}.ch-rl{font-family:'Inter',sans-serif;font-size:11px;color:rgba(255,255,255,0.35)}.ch-ld{width:6px;height:6px;border-radius:50%;background:#30D158;margin-left:auto;animation:p 2s infinite}@keyframes p{0%,100%{opacity:1}50%{opacity:.3}}
+    .mc{background:rgba(255,255,255,0.04);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,0.06);border-radius:16px;border-bottom-left-radius:6px;padding:14px 16px;font-family:'Satoshi',sans-serif;font-size:14px;color:#E5E5EA;line-height:1.5}.mc strong{color:#D70030}
+    @keyframes fu{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+    .sec{font-family:'Inter',sans-serif;font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:#D70030;margin-bottom:14px;margin-top:4px}
+    .scores{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:24px}
+    .sc{background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06);border-radius:16px;padding:18px 14px;text-align:center;animation:fu .5s ease both}
+    .sc:nth-child(1){animation-delay:.1s}.sc:nth-child(2){animation-delay:.15s}.sc:nth-child(3){animation-delay:.2s}
+    .sc-v{font-family:'Zen Dots',cursive;font-size:26px;color:#F5F5F7;line-height:1}.sc-v.brand{color:#D70030}.sc-l{font-family:'Inter',sans-serif;font-size:10px;color:rgba(255,255,255,0.4);margin-top:4px;text-transform:uppercase;letter-spacing:.04em}
+    /* Team members */
+    .team{display:flex;flex-direction:column;gap:10px}
+    .member{background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06);border-radius:16px;padding:20px;display:flex;align-items:center;gap:16px;transition:border-color .2s;animation:fu .5s ease both;cursor:pointer}
+    .member:nth-child(1){animation-delay:.15s}.member:nth-child(2){animation-delay:.22s}.member:nth-child(3){animation-delay:.29s}.member:nth-child(4){animation-delay:.36s}.member:nth-child(5){animation-delay:.43s}
+    .member:hover{border-color:rgba(215,0,48,0.15)}
+    .member.alert{border-color:rgba(215,0,48,0.2)}
+    .m-avatar{width:44px;height:44px;border-radius:50%;background:rgba(215,0,48,0.06);border:1.5px solid rgba(215,0,48,0.12);display:flex;align-items:center;justify-content:center;font-family:'Zen Dots',cursive;font-size:16px;color:#D70030;flex-shrink:0}
+    .m-info{flex:1}
+    .m-name{font-family:'Satoshi',sans-serif;font-size:15px;font-weight:600;color:#F5F5F7}
+    .m-role{font-family:'Inter',sans-serif;font-size:11px;color:rgba(255,255,255,0.35);margin-top:1px}
+    .m-scores{display:flex;gap:12px;margin-top:8px}
+    .ms{text-align:center}
+    .ms-v{font-family:'Zen Dots',cursive;font-size:13px;color:#F5F5F7}
+    .ms-l{font-family:'Inter',sans-serif;font-size:9px;color:rgba(255,255,255,0.25);margin-top:1px}
+    .m-badge{font-family:'Inter',sans-serif;font-size:10px;padding:3px 10px;border-radius:980px;flex-shrink:0}
+    .m-badge.ok{background:rgba(255,255,255,0.04);color:rgba(255,255,255,0.4)}
+    .m-badge.warn{background:rgba(215,0,48,0.08);color:#D70030}
+    /* Alert detail */
+    .alert-detail{background:rgba(215,0,48,0.04);border:1px solid rgba(215,0,48,0.1);border-radius:14px;padding:16px 18px;margin-top:8px;margin-bottom:20px;font-family:'Satoshi',sans-serif;font-size:13px;color:#E5E5EA;line-height:1.5;animation:fu .4s ease both}
+    .alert-detail strong{color:#D70030}
+  </style>
+</head>
+<body>
+  <div class="chat-hero">
+    <div class="ambient"><div class="orb"></div><div class="orb"></div><div class="orb"></div></div>
+    <div class="ci">
+      <div class="ch-top"><div class="ch-av"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#D70030" stroke-width="1.5"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/></svg></div><div><div class="ch-nm">Akira</div><div class="ch-rl">Saude do time</div></div><div class="ch-ld"></div></div>
+      <div class="mc">Seu time de <strong>5 pessoas</strong> esta com engagement medio de <strong>7.6</strong>. Alerta: <strong>Joao</strong> mostra sinais de burnout nas ultimas 2 semanas. Recomendo 1:1 urgente.</div>
+    </div>
+  </div>
+  <div class="main">
+    <div class="scores">
+      <div class="sc"><div class="sc-v brand">5</div><div class="sc-l">Membros</div></div>
+      <div class="sc"><div class="sc-v">7.6</div><div class="sc-l">Engaj. medio</div></div>
+      <div class="sc"><div class="sc-v">1</div><div class="sc-l">Alerta</div></div>
+    </div>
+    <div class="sec">Membros do time</div>
+    <div class="team">
+      <div class="member alert">
+        <div class="m-avatar">J</div>
+        <div class="m-info"><div class="m-name">Joao Silva</div><div class="m-role">Dev Lead</div>
+          <div class="m-scores"><div class="ms"><div class="ms-v">5.2</div><div class="ms-l">Engaj.</div></div><div class="ms"><div class="ms-v">38%</div><div class="ms-l">Energia</div></div><div class="ms"><div class="ms-v">62%</div><div class="ms-l">Tensao</div></div></div>
+        </div>
+        <div class="m-badge warn">Burnout risk</div>
+      </div>
+      <div class="alert-detail"><strong>Sinais detectados:</strong> HRV baixo ha 2 semanas, cancelou 3 meetings, energia em queda, tempo de resposta no WhatsApp +40%. Padrao consistente com burnout inicial. Sugestao: conversa 1:1 focada em ouvir, nao cobrar.</div>
+      <div class="member">
+        <div class="m-avatar">A</div>
+        <div class="m-info"><div class="m-name">Ana Rodrigues</div><div class="m-role">Designer</div>
+          <div class="m-scores"><div class="ms"><div class="ms-v">8.4</div><div class="ms-l">Engaj.</div></div><div class="ms"><div class="ms-v">85%</div><div class="ms-l">Energia</div></div><div class="ms"><div class="ms-v">15%</div><div class="ms-l">Tensao</div></div></div>
+        </div>
+        <div class="m-badge ok">Estavel</div>
+      </div>
+      <div class="member">
+        <div class="m-avatar">P</div>
+        <div class="m-info"><div class="m-name">Pedro Santos</div><div class="m-role">Sales</div>
+          <div class="m-scores"><div class="ms"><div class="ms-v">8.9</div><div class="ms-l">Engaj.</div></div><div class="ms"><div class="ms-v">92%</div><div class="ms-l">Energia</div></div><div class="ms"><div class="ms-v">22%</div><div class="ms-l">Tensao</div></div></div>
+        </div>
+        <div class="m-badge ok">Top performer</div>
+      </div>
+      <div class="member">
+        <div class="m-avatar">M</div>
+        <div class="m-info"><div class="m-name">Marina Costa</div><div class="m-role">Product</div>
+          <div class="m-scores"><div class="ms"><div class="ms-v">7.6</div><div class="ms-l">Engaj.</div></div><div class="ms"><div class="ms-v">72%</div><div class="ms-l">Energia</div></div><div class="ms"><div class="ms-v">28%</div><div class="ms-l">Tensao</div></div></div>
+        </div>
+        <div class="m-badge ok">Estavel</div>
+      </div>
+      <div class="member">
+        <div class="m-avatar">L</div>
+        <div class="m-info"><div class="m-name">Lucas Ferreira</div><div class="m-role">Backend</div>
+          <div class="m-scores"><div class="ms"><div class="ms-v">7.8</div><div class="ms-l">Engaj.</div></div><div class="ms"><div class="ms-v">78%</div><div class="ms-l">Energia</div></div><div class="ms"><div class="ms-v">25%</div><div class="ms-l">Tensao</div></div></div>
+        </div>
+        <div class="m-badge ok">Estavel</div>
+      </div>
+    </div>
+  </div>
+  <script src="../shared-nav.js"></script>
+</body>
+</html>

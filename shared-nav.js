@@ -54,6 +54,14 @@
       { label: 'Meu mapa interior', href: pf('psychology.html'), icon: 'M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z' },
       { label: 'Minha evolucao', href: pf('evolution.html'), icon: 'M22 12h-4l-3 9L9 3l-3 9H2' },
     ]},
+    { id: 'sensei-pf', label: 'SenseiIA', icon: 'M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z', items: [
+      { label: 'Suas fontes', href: pf('sensei-fontes.html'), icon: 'M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101' },
+      { label: 'Painel', href: pf('sensei-painel.html'), icon: 'M22 12h-4l-3 9L9 3l-3 9H2' },
+      { label: 'Pessoas', href: pf('sensei-pessoas.html'), icon: 'M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2' },
+      { label: 'Insights', href: pf('sensei-insights.html'), icon: 'M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3' },
+      { label: 'Sessoes', href: pf('sensei-sessoes.html'), icon: 'M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z' },
+      { label: 'Correlacoes', href: pf('sensei-correlacoes.html'), icon: 'M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6z' },
+    ]},
     { id: 'cerebro', label: 'Cerebro', icon: 'M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707', items: [
       { label: 'Meu cerebro', href: pf('brain.html'), icon: 'M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3' },
       { label: 'Frameworks', href: pf('frameworks.html'), icon: 'M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6z' },
@@ -81,6 +89,15 @@
     { id: 'aprovacoes', label: 'Aprovacoes', icon: 'M9 11l3 3L22 4', badge: '3', items: [
       { label: 'Pendentes', href: t('approvals/list.html'), icon: 'M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z' },
       { label: 'Resolvidas', href: t('approvals/resolved.html'), icon: 'M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z' },
+    ]},
+    { id: 'sensei-pj', label: 'SenseiIA', icon: 'M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z', items: [
+      { label: 'Fontes', href: '../pj/sensei-fontes.html', icon: 'M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101' },
+      { label: 'Painel', href: '../pj/sensei-painel.html', icon: 'M22 12h-4l-3 9L9 3l-3 9H2' },
+      { label: 'Clientes', href: '../pj/sensei-clientes.html', icon: 'M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2' },
+      { label: 'Reunioes', href: '../pj/sensei-meetings.html', icon: 'M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14' },
+      { label: 'Insights', href: '../pj/sensei-insights.html', icon: 'M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3' },
+      { label: 'Time', href: '../pj/sensei-time.html', icon: 'M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197' },
+      { label: 'Sessoes', href: '../pj/sensei-sessoes.html', icon: 'M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z' },
     ]},
     { id: 'equipe', label: 'Equipe', icon: 'M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2', items: [
       { label: 'Meus samurais', href: t('team/list.html'), icon: 'M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197' },

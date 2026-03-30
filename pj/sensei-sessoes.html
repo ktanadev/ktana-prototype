@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SenseiIA · Sessoes — KTANA</title>
+  <link rel="stylesheet" href="../shared.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Zen+Dots&display=swap" rel="stylesheet">
+  <style>
+    body{min-height:100vh;background:#0D0D0D;color:#F5F5F7}.main{max-width:760px;margin:0 auto;padding:0 20px 100px}
+    .chat-hero{background:#0A0A0A;position:relative;overflow:hidden;margin:0 -20px 28px;border-bottom:1px solid rgba(255,255,255,0.03)}
+    .ambient{position:absolute;top:0;left:0;width:100%;height:100%;z-index:0;pointer-events:none}.orb{position:absolute;border-radius:50%;filter:blur(80px);pointer-events:none}
+    .orb:nth-child(1){width:55%;height:55%;top:-10%;left:-8%;background:radial-gradient(ellipse at center,rgba(215,0,48,0.16) 0%,transparent 70%);animation:o1 10s ease-in-out infinite}
+    .orb:nth-child(2){width:45%;height:50%;top:15%;right:-8%;background:radial-gradient(ellipse at center,rgba(160,15,5,0.13) 0%,transparent 70%);animation:o2 14s ease-in-out infinite}
+    .orb:nth-child(3){width:40%;height:45%;bottom:-8%;left:25%;background:radial-gradient(ellipse at center,rgba(220,80,25,0.11) 0%,transparent 70%);animation:o3 12s ease-in-out infinite}
+    @keyframes o1{0%,100%{transform:translate(0,0)}33%{transform:translate(6%,4%)}66%{transform:translate(-3%,-2%)}}@keyframes o2{0%,100%{transform:translate(0,0)}50%{transform:translate(-7%,3%)}}@keyframes o3{0%,100%{transform:translate(0,0)}33%{transform:translate(4%,-4%)}66%{transform:translate(-3%,2%)}}
+    .ci{position:relative;z-index:1;padding:24px 24px 20px;max-width:760px;margin:0 auto}
+    .ch-top{display:flex;align-items:center;gap:12px;margin-bottom:14px}.ch-av{width:36px;height:36px;border-radius:50%;background:rgba(215,0,48,0.12);border:1.5px solid rgba(215,0,48,0.25);display:flex;align-items:center;justify-content:center}.ch-nm{font-family:'Inter',sans-serif;font-size:13px;font-weight:600;color:#F5F5F7}.ch-rl{font-family:'Inter',sans-serif;font-size:11px;color:rgba(255,255,255,0.35)}.ch-ld{width:6px;height:6px;border-radius:50%;background:#30D158;margin-left:auto;animation:p 2s infinite}@keyframes p{0%,100%{opacity:1}50%{opacity:.3}}
+    .mc{background:rgba(255,255,255,0.04);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,0.06);border-radius:16px;border-bottom-left-radius:6px;padding:14px 16px;font-family:'Satoshi',sans-serif;font-size:14px;color:#E5E5EA;line-height:1.5}.mc strong{color:#D70030}
+    @keyframes fu{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+    .sec{font-family:'Inter',sans-serif;font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:#D70030;margin-bottom:14px;margin-top:4px}
+    .stats{display:flex;gap:8px;margin-bottom:24px}
+    .stat{background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06);border-radius:16px;padding:14px;text-align:center;flex:1;animation:fu .5s ease both}
+    .stat:nth-child(1){animation-delay:.1s}.stat:nth-child(2){animation-delay:.15s}.stat:nth-child(3){animation-delay:.2s}.stat:nth-child(4){animation-delay:.25s}
+    .stat-n{font-family:'Zen Dots',cursive;font-size:22px;color:#F5F5F7;line-height:1}.stat-n.brand{color:#D70030}
+    .stat-l{font-family:'Inter',sans-serif;font-size:10px;color:rgba(255,255,255,0.4);margin-top:4px;text-transform:uppercase;letter-spacing:.04em}
+    .sessions{display:flex;flex-direction:column;gap:10px}
+    .sess{background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06);border-radius:16px;padding:20px;transition:border-color .2s;animation:fu .5s ease both;cursor:pointer}
+    .sess:nth-child(1){animation-delay:.1s}.sess:nth-child(2){animation-delay:.18s}.sess:nth-child(3){animation-delay:.26s}.sess:nth-child(4){animation-delay:.34s}.sess:nth-child(5){animation-delay:.42s}
+    .sess:hover{border-color:rgba(215,0,48,0.15)}
+    .sess-top{display:flex;align-items:center;gap:12px;margin-bottom:10px}
+    .sess-mode{font-family:'Inter',sans-serif;font-size:10px;font-weight:600;color:#D70030;background:rgba(215,0,48,0.08);padding:3px 10px;border-radius:980px;text-transform:uppercase;letter-spacing:.04em}
+    .sess-title{font-family:'Satoshi',sans-serif;font-size:15px;font-weight:600;color:#F5F5F7;flex:1}
+    .sess-date{font-family:'Inter',sans-serif;font-size:11px;color:rgba(255,255,255,0.3)}
+    .sess-meta{font-family:'Inter',sans-serif;font-size:12px;color:rgba(255,255,255,0.35);margin-bottom:12px}
+    .sess-bars{display:flex;gap:8px;margin-bottom:10px}
+    .sb2{flex:1}.sb2-bar{height:4px;border-radius:2px;background:rgba(255,255,255,0.04);overflow:hidden;margin-bottom:4px}
+    .sb2-fill{height:100%;border-radius:2px;background:#D70030;transition:width 1s cubic-bezier(.4,0,.2,1)}
+    .sb2-row{display:flex;justify-content:space-between}.sb2-l{font-family:'Inter',sans-serif;font-size:10px;color:rgba(255,255,255,0.3)}.sb2-v{font-family:'Zen Dots',cursive;font-size:11px;color:#F5F5F7}
+    .sess-insight{font-family:'Satoshi',sans-serif;font-size:13px;color:rgba(255,255,255,0.5);line-height:1.5;padding-top:10px;border-top:1px solid rgba(255,255,255,0.04)}.sess-insight strong{color:#D70030}
+  </style>
+</head>
+<body>
+  <div class="chat-hero">
+    <div class="ambient"><div class="orb"></div><div class="orb"></div><div class="orb"></div></div>
+    <div class="ci">
+      <div class="ch-top"><div class="ch-av"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#D70030" stroke-width="1.5"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg></div><div><div class="ch-nm">Akira</div><div class="ch-rl">Sessoes analisadas</div></div><div class="ch-ld"></div></div>
+      <div class="mc"><strong>47 sessoes</strong> de reuniao analisadas. Engagement medio: <strong>7.4</strong> (subiu 12% no mes). Quer ver alguma especifica?</div>
+    </div>
+  </div>
+  <div class="main">
+    <div class="stats">
+      <div class="stat"><div class="stat-n brand">47</div><div class="stat-l">Total</div></div>
+      <div class="stat"><div class="stat-n">7.4</div><div class="stat-l">Engaj.</div></div>
+      <div class="stat"><div class="stat-n">34m</div><div class="stat-l">Media</div></div>
+      <div class="stat"><div class="stat-n">8</div><div class="stat-l">Esta semana</div></div>
+    </div>
+    <div class="sec">Sessoes recentes</div>
+    <div class="sessions">
+      <div class="sess">
+        <div class="sess-top"><div class="sess-mode">Executivo</div><div class="sess-title">Call CSB Fintechs</div><div class="sess-date">29/Mar</div></div>
+        <div class="sess-meta">45 min · 3 participantes</div>
+        <div class="sess-bars">
+          <div class="sb2"><div class="sb2-bar"><div class="sb2-fill" style="width:78%"></div></div><div class="sb2-row"><div class="sb2-l">Engaj.</div><div class="sb2-v">7.8</div></div></div>
+          <div class="sb2"><div class="sb2-bar"><div class="sb2-fill" style="width:85%"></div></div><div class="sb2-row"><div class="sb2-l">Rapport</div><div class="sb2-v">8.5</div></div></div>
+          <div class="sb2"><div class="sb2-bar"><div class="sb2-fill" style="width:28%"></div></div><div class="sb2-row"><div class="sb2-l">Tensao</div><div class="sb2-v">2.8</div></div></div>
+        </div>
+        <div class="sess-insight"><strong>CEO hesitou 2x no pricing.</strong> Pressionar com ROI na proxima.</div>
+      </div>
+      <div class="sess">
+        <div class="sess-top"><div class="sess-mode">Board</div><div class="sess-title">Board Meeting Mensal</div><div class="sess-date">28/Mar</div></div>
+        <div class="sess-meta">62 min · 6 participantes</div>
+        <div class="sess-bars">
+          <div class="sb2"><div class="sb2-bar"><div class="sb2-fill" style="width:89%"></div></div><div class="sb2-row"><div class="sb2-l">Engaj.</div><div class="sb2-v">8.9</div></div></div>
+          <div class="sb2"><div class="sb2-bar"><div class="sb2-fill" style="width:82%"></div></div><div class="sb2-row"><div class="sb2-l">Rapport</div><div class="sb2-v">8.2</div></div></div>
+          <div class="sb2"><div class="sb2-bar"><div class="sb2-fill" style="width:15%"></div></div><div class="sb2-row"><div class="sb2-l">Tensao</div><div class="sb2-v">1.5</div></div></div>
+        </div>
+        <div class="sess-insight"><strong>Melhor board do trimestre.</strong> Todos alinhados na estrategia Q2.</div>
+      </div>
+      <div class="sess">
+        <div class="sess-top"><div class="sess-mode">1:1</div><div class="sess-title">1:1 com Joao</div><div class="sess-date">27/Mar</div></div>
+        <div class="sess-meta">25 min · 2 participantes</div>
+        <div class="sess-bars">
+          <div class="sb2"><div class="sb2-bar"><div class="sb2-fill" style="width:52%"></div></div><div class="sb2-row"><div class="sb2-l">Engaj.</div><div class="sb2-v">5.2</div></div></div>
+          <div class="sb2"><div class="sb2-bar"><div class="sb2-fill" style="width:48%"></div></div><div class="sb2-row"><div class="sb2-l">Rapport</div><div class="sb2-v">4.8</div></div></div>
+          <div class="sb2"><div class="sb2-bar"><div class="sb2-fill" style="width:58%"></div></div><div class="sb2-row"><div class="sb2-l">Tensao</div><div class="sb2-v">5.8</div></div></div>
+        </div>
+        <div class="sess-insight">Joao mostrando <strong>desengajamento</strong>. Tensao acima da media dele. Sinais de burnout confirmados.</div>
+      </div>
+      <div class="sess">
+        <div class="sess-top"><div class="sess-mode">Executivo</div><div class="sess-title">Prospect ABC Corp</div><div class="sess-date">26/Mar</div></div>
+        <div class="sess-meta">38 min · 4 participantes</div>
+        <div class="sess-bars">
+          <div class="sb2"><div class="sb2-bar"><div class="sb2-fill" style="width:61%"></div></div><div class="sb2-row"><div class="sb2-l">Engaj.</div><div class="sb2-v">6.1</div></div></div>
+          <div class="sb2"><div class="sb2-bar"><div class="sb2-fill" style="width:58%"></div></div><div class="sb2-row"><div class="sb2-l">Rapport</div><div class="sb2-v">5.8</div></div></div>
+          <div class="sb2"><div class="sb2-bar"><div class="sb2-fill" style="width:45%"></div></div><div class="sb2-row"><div class="sb2-l">Tensao</div><div class="sb2-v">4.5</div></div></div>
+        </div>
+        <div class="sess-insight">Roberto mostrou <strong>resistencia no escopo tecnico</strong>. Enviar case study antes da proxima.</div>
+      </div>
+    </div>
+  </div>
+  <script src="../shared-nav.js"></script>
+</body>
+</html>
