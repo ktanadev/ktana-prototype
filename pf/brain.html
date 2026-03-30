@@ -392,7 +392,6 @@
   </div></main>
 
   <!-- Force-Graph Library (d3-force engine — same as Obsidian) -->
-  <script src="https://cdn.jsdelivr.net/npm/d3-force@3/dist/d3-force.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/force-graph@1/dist/force-graph.min.js"></script>
   <script>
   (function() {
@@ -469,9 +468,6 @@
       .backgroundColor('#0B0B0F')
       .width(container.offsetWidth)
       .height(480)
-      .d3Force('charge', d3.forceManyBody().strength(-200))
-      .d3Force('link', d3.forceLink().id(function(d) { return d.id; }).distance(60))
-      .d3Force('center', d3.forceCenter())
       // Links
       .linkColor(function(link) {
         var src = typeof link.source === 'object' ? link.source : nodeMap[link.source];
@@ -580,14 +576,18 @@
       .enableZoomInteraction(true)
       .enablePanInteraction(true);
 
+    // Configure d3-force physics after init
+    graph.d3Force('charge').strength(-250);
+    graph.d3Force('link').distance(70);
+
     // Responsive
     window.addEventListener('resize', function() {
       graph.width(container.offsetWidth);
     });
 
     // Zoom to fit after layout stabilizes
-    setTimeout(function() { graph.zoomToFit(600, 60); }, 1200);
-    setTimeout(function() { graph.zoomToFit(400, 60); }, 3000);
+    setTimeout(function() { graph.zoomToFit(600, 60); }, 1500);
+    setTimeout(function() { graph.zoomToFit(400, 60); }, 3500);
   })();
   </script>
 
