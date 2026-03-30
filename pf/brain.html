@@ -563,11 +563,9 @@
       })
       .d3AlphaDecay(0.02)
       .d3VelocityDecay(0.3)
-      .warmupTicks(100)
-      .cooldownTicks(0);
-
-    // Set graph data after config
-    graph.graphData({ nodes: nodes, links: links });
+      .warmupTicks(50)
+      .cooldownTicks(200)
+      .graphData({ nodes: nodes, links: links });
 
     // Configure forces
     try {
@@ -580,10 +578,14 @@
       graph.width(container.offsetWidth);
     });
 
-    // Zoom to fit after stabilization
+    // Zoom to fit
+    var fitted = false;
     graph.onEngineStop(function() {
-      graph.zoomToFit(400, 30);
+      if (!fitted) { fitted = true; graph.zoomToFit(400, 30); }
     });
+    setTimeout(function() {
+      if (!fitted) { fitted = true; graph.zoomToFit(400, 30); }
+    }, 3000);
   })();
   </script>
 
