@@ -14,24 +14,36 @@
     .page-header h1 { font-family: 'Zen Dots', cursive; font-size: 24px; color: #1D1D1F; margin-bottom: 6px; }
     .page-header p { font-family: 'Satoshi', sans-serif; font-size: 14px; color: #86868B; line-height: 1.5; }
 
-    .card { background: #FFF; border-radius: 20px; border: 0.5px solid rgba(0,0,0,0.025); padding: 24px; margin-bottom: 12px; }
+    .card { background: #FFF; border-radius: 20px; border: 1px solid rgba(0,0,0,0.04); padding: 24px; margin-bottom: 12px; }
     .card-label { font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: #D70030; margin-bottom: 14px; }
 
-    /* Canvas network — Obsidian graph view style */
-    .network-card { padding: 0; position: relative; background: #0B0B0F !important; border: 0.5px solid rgba(255,255,255,0.04) !important; overflow: hidden; }
-    .network-card .card-label { padding: 20px 24px 0; color: rgba(215,0,48,0.6); position: relative; z-index: 2; }
-    .graph-wrap { position: relative; width: 100%; height: 480px; overflow: hidden; }
-    .graph-wrap canvas { display: block; }
-    .canvas-legend { display: flex; flex-wrap: wrap; gap: 12px; padding: 14px 24px 18px; justify-content: center; background: rgba(255,255,255,0.02); position: relative; z-index: 2; }
-    .legend-item { display: flex; align-items: center; gap: 6px; font-family: 'Inter', sans-serif; font-size: 11px; color: rgba(255,255,255,0.35); }
-    .legend-dot { width: 8px; height: 8px; border-radius: 50%; }
-    .graph-hint { position: absolute; bottom: 12px; right: 16px; font-family: 'Inter', sans-serif; font-size: 10px; color: rgba(255,255,255,0.2); z-index: 2; pointer-events: none; }
+    /* Canvas network */
+    .network-card { padding: 20px; position: relative; }
+    .canvas-wrap { position: relative; width: 100%; aspect-ratio: 5/4; border-radius: 16px; overflow: hidden; background: #FAFAFA; }
+    .canvas-wrap canvas { width: 100%; height: 100%; display: block; cursor: grab; }
+    .canvas-wrap canvas:active { cursor: grabbing; }
+    .canvas-tooltip {
+      position: absolute; pointer-events: none; opacity: 0;
+      background: #1D1D1F; color: #F5F5F7; padding: 8px 14px;
+      border-radius: 10px; font-family: 'Satoshi', sans-serif;
+      font-size: 12px; font-weight: 500; white-space: nowrap;
+      transform: translate(-50%, -100%); margin-top: -12px;
+      transition: opacity 0.15s ease;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+    }
+    .canvas-tooltip.visible { opacity: 1; }
+    .canvas-legend { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 16px; justify-content: center; }
+    .legend-item { display: flex; align-items: center; gap: 6px; font-family: 'Inter', sans-serif; font-size: 11px; color: #86868B; }
+    .legend-line { width: 24px; height: 2px; border-radius: 1px; }
+    .legend-line.strong { height: 3px; }
+    .legend-line.moderate { height: 2px; }
+    .legend-line.light { height: 1px; }
 
     /* Correlation cards */
     .section-title { font-family: 'Zen Dots', cursive; font-size: 16px; color: #1D1D1F; margin: 32px 0 16px; }
 
     .corr-card {
-      background: #FFF; border-radius: 20px; border: 0.5px solid rgba(0,0,0,0.025);
+      background: #FFF; border-radius: 20px; border: 1px solid rgba(0,0,0,0.04);
       padding: 22px 24px; margin-bottom: 10px;
       transition: box-shadow 0.2s ease, transform 0.2s ease;
     }
@@ -62,12 +74,12 @@
     .corr-text { font-family: 'Satoshi', sans-serif; font-size: 13px; color: #86868B; line-height: 1.7; }
     .corr-text strong { color: #1D1D1F; font-weight: 500; }
 
-    .corr-footer { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: 14px; padding-top: 14px; border-top: 0.5px solid rgba(0,0,0,0.015); }
+    .corr-footer { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: 14px; padding-top: 14px; border-top: 0.5px solid rgba(0,0,0,0.04); }
 
     .corr-strength { display: flex; align-items: center; gap: 8px; flex: 1; }
     .corr-strength-label { font-family: 'Inter', sans-serif; font-size: 11px; color: #AEAEB2; white-space: nowrap; }
-    .corr-bar { flex: 1; height: 3px; border-radius: 2px; background: rgba(0,0,0,0.02); overflow: hidden; min-width: 60px; }
-    .corr-bar-fill { height: 100%; border-radius: 2px; transition: width 1s cubic-bezier(0.25,0.1,0.25,1); opacity: 0.35; }
+    .corr-bar { flex: 1; height: 4px; border-radius: 2px; background: rgba(0,0,0,0.04); overflow: hidden; min-width: 60px; }
+    .corr-bar-fill { height: 100%; border-radius: 2px; transition: width 1s cubic-bezier(0.25,0.1,0.25,1); }
 
     .corr-mentor {
       display: flex; align-items: center; gap: 6px;
@@ -234,18 +246,26 @@
       <p>Como suas areas de vida se conectam — padroes que seus mentores descobriram</p>
     </div>
 
-    <!-- Neural Network — Obsidian Force Graph -->
+    <!-- Neural Network Canvas -->
     <div class="card network-card fade-in" style="animation-delay:0.05s;">
       <div class="card-label">Rede neural da sua vida</div>
-      <div class="graph-wrap" id="graphContainer">
-        <div class="graph-hint">Arraste os nos — scroll para zoom</div>
+      <div class="canvas-wrap">
+        <canvas id="neuralCanvas"></canvas>
+        <div class="canvas-tooltip" id="tooltip"></div>
       </div>
       <div class="canvas-legend">
-        <div class="legend-item"><div class="legend-dot" style="background:#D70030;"></div>Voce</div>
-        <div class="legend-item"><div class="legend-dot" style="background:#FF453A;"></div>Saude</div>
-        <div class="legend-item"><div class="legend-dot" style="background:#BF5AF2;"></div>Mente</div>
-        <div class="legend-item"><div class="legend-dot" style="background:#30D158;"></div>Produtividade</div>
-        <div class="legend-item"><div class="legend-dot" style="background:#FF9F0A;"></div>Proposito</div>
+        <div class="legend-item">
+          <div class="legend-line strong" style="background:#D70030;"></div>
+          Forte
+        </div>
+        <div class="legend-item">
+          <div class="legend-line moderate" style="background:rgba(29,29,31,0.25);"></div>
+          Moderada
+        </div>
+        <div class="legend-item">
+          <div class="legend-line light" style="background:rgba(29,29,31,0.12);"></div>
+          Fraca
+        </div>
       </div>
     </div>
 
@@ -391,101 +411,336 @@
 
   </div></main>
 
-  <!-- Force-Graph Library (d3-force engine — same as Obsidian) -->
-  <script src="https://cdn.jsdelivr.net/npm/force-graph@1/dist/force-graph.min.js"></script>
+  <!-- Neural Network Canvas Engine -->
   <script>
   (function() {
-    var container = document.getElementById('graphContainer');
+    'use strict';
 
-    // Node data — Obsidian style
-    var nodes = [
-      { id: 'voce',            label: 'Voce',            score: null, color: '#D70030', size: 18, isCenter: true },
-      { id: 'saude',           label: 'Saude',           score: 7.2, color: '#FF453A', size: 12 },
-      { id: 'mente',           label: 'Mente',           score: 7.8, color: '#BF5AF2', size: 13 },
-      { id: 'carreira',        label: 'Carreira',        score: 6.5, color: '#D70030', size: 11 },
-      { id: 'financas',        label: 'Financas',        score: 7.0, color: '#BFA730', size: 11 },
-      { id: 'proposito',       label: 'Proposito',       score: 8.2, color: '#FF9F0A', size: 14 },
-      { id: 'produtividade',   label: 'Produtividade',   score: 6.8, color: '#30D158', size: 12 },
-      { id: 'relacionamentos', label: 'Relacionamentos', score: 6.2, color: '#FF375F', size: 10 },
-      { id: 'casa',            label: 'Casa',            score: 5.4, color: '#64D2FF', size: 9 },
-      // Sub-nodes (habits/metrics)
-      { id: 'sono',            label: 'Sono',            score: 5.8, color: '#FF453A', size: 6 },
-      { id: 'exercicio',       label: 'Exercicio',       score: 6.0, color: '#FF453A', size: 6 },
-      { id: 'meditacao',       label: 'Meditacao',       score: 7.3, color: '#BF5AF2', size: 6 },
-      { id: 'journaling',      label: 'Journaling',      score: 6.0, color: '#BF5AF2', size: 5 },
-      { id: 'deep-work',       label: 'Deep Work',       score: 6.0, color: '#D70030', size: 6 },
-      { id: 'linkedin',        label: 'LinkedIn',        score: 7.5, color: '#D70030', size: 5 },
-      { id: 'investimentos',   label: 'Investimentos',   score: 7.8, color: '#BFA730', size: 6 },
-      { id: 'hidratacao',      label: 'Hidratacao',      score: 5.6, color: '#64D2FF', size: 5 },
-      { id: 'foco',            label: 'Foco',            score: 6.5, color: '#30D158', size: 6 },
-      { id: 'humor',           label: 'Humor',           score: 7.0, color: '#FF375F', size: 5 },
-      { id: 'familia',         label: 'Familia',         score: 6.2, color: '#FF375F', size: 6 }
+    var canvas = document.getElementById('neuralCanvas');
+    var ctx = canvas.getContext('2d');
+    var tooltip = document.getElementById('tooltip');
+    var dpr = window.devicePixelRatio || 1;
+    var W, H;
+    var hoveredNode = null;
+    var time = 0;
+    var particles = [];
+
+    // Node data
+    var centerNode = { id: 'voce', label: 'Voce', score: null, color: '#D70030', radius: 28, x: 0, y: 0, vx: 0, vy: 0 };
+
+    var areaNodes = [
+      { id: 'saude',           label: 'Saude',           score: 7.2, color: '#FF453A', radius: 22 },
+      { id: 'mente',           label: 'Mente',           score: 7.8, color: '#BF5AF2', radius: 23 },
+      { id: 'carreira',        label: 'Carreira',        score: 6.5, color: '#D70030', radius: 20 },
+      { id: 'financas',        label: 'Financas',        score: 7.0, color: '#BFA730', radius: 21 },
+      { id: 'proposito',       label: 'Proposito',       score: 8.2, color: '#FF9F0A', radius: 24 },
+      { id: 'produtividade',   label: 'Produtividade',   score: 6.8, color: '#30D158', radius: 21 },
+      { id: 'relacionamentos', label: 'Relacionamentos', score: 6.2, color: '#FF375F', radius: 19 },
+      { id: 'casa',            label: 'Casa',            score: 5.4, color: '#64D2FF', radius: 18 }
     ];
 
-    var links = [
-      // Center to areas
-      { source: 'voce', target: 'saude', strength: 0.72 },
-      { source: 'voce', target: 'mente', strength: 0.78 },
-      { source: 'voce', target: 'carreira', strength: 0.50 },
-      { source: 'voce', target: 'financas', strength: 0.55 },
-      { source: 'voce', target: 'proposito', strength: 0.82 },
-      { source: 'voce', target: 'produtividade', strength: 0.68 },
-      { source: 'voce', target: 'relacionamentos', strength: 0.40 },
-      { source: 'voce', target: 'casa', strength: 0.35 },
-      // Area to sub-nodes
-      { source: 'saude', target: 'sono', strength: 0.8 },
-      { source: 'saude', target: 'exercicio', strength: 0.7 },
-      { source: 'saude', target: 'hidratacao', strength: 0.5 },
-      { source: 'mente', target: 'meditacao', strength: 0.85 },
-      { source: 'mente', target: 'journaling', strength: 0.6 },
-      { source: 'carreira', target: 'deep-work', strength: 0.7 },
-      { source: 'carreira', target: 'linkedin', strength: 0.5 },
-      { source: 'financas', target: 'investimentos', strength: 0.75 },
-      { source: 'produtividade', target: 'foco', strength: 0.8 },
-      { source: 'relacionamentos', target: 'familia', strength: 0.7 },
-      { source: 'relacionamentos', target: 'humor', strength: 0.5 },
+    var allNodes = [centerNode].concat(areaNodes);
+
+    // Connections: [fromId, toId, strength 0-1, color]
+    var connections = [
+      // Center to all areas
+      ['voce', 'saude',           0.72, '#FF453A'],
+      ['voce', 'mente',           0.78, '#BF5AF2'],
+      ['voce', 'carreira',        0.50, '#D70030'],
+      ['voce', 'financas',        0.55, '#BFA730'],
+      ['voce', 'proposito',       0.82, '#FF9F0A'],
+      ['voce', 'produtividade',   0.68, '#30D158'],
+      ['voce', 'relacionamentos', 0.40, '#FF375F'],
+      ['voce', 'casa',            0.35, '#64D2FF'],
       // Cross-area correlations
-      { source: 'sono', target: 'produtividade', strength: 0.82 },
-      { source: 'meditacao', target: 'foco', strength: 0.76 },
-      { source: 'exercicio', target: 'sono', strength: 0.64 },
-      { source: 'hidratacao', target: 'foco', strength: 0.58 },
-      { source: 'familia', target: 'humor', strength: 0.71 },
-      { source: 'sono', target: 'humor', strength: 0.45 },
-      { source: 'meditacao', target: 'humor', strength: 0.55 }
+      ['saude', 'produtividade',   0.82, '#D70030'],
+      ['mente', 'produtividade',   0.76, '#BF5AF2'],
+      ['saude', 'mente',           0.64, '#FF453A'],
+      ['financas', 'mente',        0.58, '#BFA730'],
+      ['relacionamentos', 'proposito', 0.42, '#FF375F']
     ];
 
-    var nodeMap = {};
-    nodes.forEach(function(n) { nodeMap[n.id] = n; });
+    function findNode(id) {
+      for (var i = 0; i < allNodes.length; i++) {
+        if (allNodes[i].id === id) return allNodes[i];
+      }
+      return null;
+    }
 
-    var highlightNodes = new Set();
-    var highlightLinks = new Set();
-    var hoverNode = null;
+    function resize() {
+      var rect = canvas.parentElement.getBoundingClientRect();
+      W = rect.width;
+      H = rect.height;
+      canvas.width = W * dpr;
+      canvas.height = H * dpr;
+      canvas.style.width = W + 'px';
+      canvas.style.height = H + 'px';
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      layoutNodes();
+    }
 
-    var graph = ForceGraph()(container)
-      .backgroundColor('#0B0B0F')
-      .width(container.offsetWidth)
-      .height(480)
-      .nodeRelSize(3)
-      .nodeVal(function(node) { return node.size; })
-      .nodeColor(function(node) { return node.color; })
-      .nodeLabel(function(node) { return node.label + (node.score ? ' — ' + node.score.toFixed(1) : ''); })
-      .linkColor(function(link) {
-        var src = typeof link.source === 'object' ? link.source : nodeMap[link.source];
-        return src ? src.color : 'rgba(255,255,255,0.1)';
-      })
-      .linkWidth(0.5)
-      .linkDirectionalParticles(1)
-      .linkDirectionalParticleWidth(1.2)
-      .linkDirectionalParticleSpeed(0.003)
-      .onNodeDragEnd(function(node) { node.fx = node.x; node.fy = node.y; })
-      .d3VelocityDecay(0.3)
-      .graphData({ nodes: nodes, links: links });
+    function layoutNodes() {
+      var cx = W / 2;
+      var cy = H / 2;
+      centerNode.x = cx;
+      centerNode.y = cy;
+      centerNode.vx = 0;
+      centerNode.vy = 0;
 
-    // Zoom to fit after layout
-    setTimeout(function() { graph.zoomToFit(400, 30); }, 2000);
+      var orbitRx = Math.min(W, H) * 0.34;
+      var orbitRy = Math.min(W, H) * 0.32;
+      for (var i = 0; i < areaNodes.length; i++) {
+        var angle = (Math.PI * 2 * i / areaNodes.length) - Math.PI / 2;
+        areaNodes[i].x = cx + Math.cos(angle) * orbitRx;
+        areaNodes[i].y = cy + Math.sin(angle) * orbitRy;
+        areaNodes[i].baseX = areaNodes[i].x;
+        areaNodes[i].baseY = areaNodes[i].y;
+        areaNodes[i].vx = 0;
+        areaNodes[i].vy = 0;
+      }
+    }
 
-    window.addEventListener('resize', function() { graph.width(container.offsetWidth); });
+    // Particles flowing along connections
+    function spawnParticles() {
+      for (var i = 0; i < connections.length; i++) {
+        var conn = connections[i];
+        var count = Math.ceil(conn[2] * 3);
+        for (var j = 0; j < count; j++) {
+          particles.push({
+            connIdx: i,
+            t: Math.random(),
+            speed: 0.002 + Math.random() * 0.003,
+            alpha: 0.15 + conn[2] * 0.35
+          });
+        }
+      }
+    }
 
+    function drawConnection(fromNode, toNode, strength, color, alpha) {
+      var lineWidth = 1 + strength * 3;
+      ctx.beginPath();
+      ctx.moveTo(fromNode.x, fromNode.y);
+      ctx.lineTo(toNode.x, toNode.y);
+      ctx.strokeStyle = color;
+      ctx.globalAlpha = alpha;
+      ctx.lineWidth = lineWidth;
+      ctx.stroke();
+      ctx.globalAlpha = 1;
+    }
+
+    function drawNode(node, isHovered) {
+      var r = node.radius;
+      var breathe = Math.sin(time * 0.8 + (node.id === 'voce' ? 0 : allNodes.indexOf(node) * 0.7)) * 2;
+      var drawR = r + breathe;
+
+      // Outer glow
+      if (isHovered || node.id === 'voce') {
+        var glowR = drawR + (isHovered ? 18 : 10);
+        var gradient = ctx.createRadialGradient(node.x, node.y, drawR * 0.5, node.x, node.y, glowR);
+        gradient.addColorStop(0, node.color + (isHovered ? '40' : '20'));
+        gradient.addColorStop(1, node.color + '00');
+        ctx.beginPath();
+        ctx.arc(node.x, node.y, glowR, 0, Math.PI * 2);
+        ctx.fillStyle = gradient;
+        ctx.fill();
+      }
+
+      // Node body
+      if (node.id === 'voce') {
+        // Solid red center
+        ctx.beginPath();
+        ctx.arc(node.x, node.y, drawR, 0, Math.PI * 2);
+        ctx.fillStyle = node.color;
+        ctx.fill();
+
+        // Label
+        ctx.font = '500 11px "Zen Dots", cursive';
+        ctx.fillStyle = '#FFFFFF';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillText('Voce', node.x, node.y);
+      } else {
+        // White fill
+        ctx.beginPath();
+        ctx.arc(node.x, node.y, drawR, 0, Math.PI * 2);
+        ctx.fillStyle = '#FFFFFF';
+        ctx.fill();
+
+        // Colored border
+        ctx.beginPath();
+        ctx.arc(node.x, node.y, drawR, 0, Math.PI * 2);
+        ctx.strokeStyle = node.color;
+        ctx.lineWidth = isHovered ? 2.5 : 1.5;
+        ctx.stroke();
+
+        // Score arc (progress ring)
+        if (node.score !== null) {
+          var scoreAngle = (node.score / 10) * Math.PI * 2;
+          ctx.beginPath();
+          ctx.arc(node.x, node.y, drawR + 3, -Math.PI / 2, -Math.PI / 2 + scoreAngle);
+          ctx.strokeStyle = node.color;
+          ctx.globalAlpha = 0.3;
+          ctx.lineWidth = 2;
+          ctx.stroke();
+          ctx.globalAlpha = 1;
+        }
+
+        // Score text
+        ctx.font = '600 11px "Inter", sans-serif';
+        ctx.fillStyle = node.color;
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillText(node.score.toFixed(1), node.x, node.y - 1);
+
+        // Label below
+        ctx.font = '500 10px "Satoshi", sans-serif';
+        ctx.fillStyle = '#86868B';
+        ctx.fillText(node.label, node.x, node.y + drawR + 16);
+      }
+    }
+
+    function drawParticles() {
+      for (var i = 0; i < particles.length; i++) {
+        var p = particles[i];
+        var conn = connections[p.connIdx];
+        var fromNode = findNode(conn[0]);
+        var toNode = findNode(conn[1]);
+        if (!fromNode || !toNode) continue;
+
+        p.t += p.speed;
+        if (p.t > 1) p.t -= 1;
+
+        var px = fromNode.x + (toNode.x - fromNode.x) * p.t;
+        var py = fromNode.y + (toNode.y - fromNode.y) * p.t;
+
+        ctx.beginPath();
+        ctx.arc(px, py, 1.5, 0, Math.PI * 2);
+        ctx.fillStyle = conn[3];
+        ctx.globalAlpha = p.alpha * (0.5 + 0.5 * Math.sin(time * 2 + p.t * 6));
+        ctx.fill();
+        ctx.globalAlpha = 1;
+      }
+    }
+
+    function draw() {
+      time += 0.016;
+      ctx.clearRect(0, 0, W, H);
+
+      // Subtle background grid (Obsidian-like)
+      ctx.globalAlpha = 0.03;
+      ctx.strokeStyle = '#1D1D1F';
+      ctx.lineWidth = 0.5;
+      var gridSize = 40;
+      for (var gx = 0; gx < W; gx += gridSize) {
+        ctx.beginPath(); ctx.moveTo(gx, 0); ctx.lineTo(gx, H); ctx.stroke();
+      }
+      for (var gy = 0; gy < H; gy += gridSize) {
+        ctx.beginPath(); ctx.moveTo(0, gy); ctx.lineTo(W, gy); ctx.stroke();
+      }
+      ctx.globalAlpha = 1;
+
+      // Gentle ambient pulse from center
+      var pulseR = 60 + Math.sin(time * 0.5) * 20;
+      var ambientGrad = ctx.createRadialGradient(centerNode.x, centerNode.y, 0, centerNode.x, centerNode.y, Math.min(W,H) * 0.5);
+      ambientGrad.addColorStop(0, 'rgba(215,0,48,0.03)');
+      ambientGrad.addColorStop(0.5, 'rgba(215,0,48,0.01)');
+      ambientGrad.addColorStop(1, 'rgba(215,0,48,0)');
+      ctx.fillStyle = ambientGrad;
+      ctx.fillRect(0, 0, W, H);
+
+      // Draw connections
+      for (var i = 0; i < connections.length; i++) {
+        var conn = connections[i];
+        var fromNode = findNode(conn[0]);
+        var toNode = findNode(conn[1]);
+        if (!fromNode || !toNode) continue;
+
+        var isHighlighted = hoveredNode && (hoveredNode.id === conn[0] || hoveredNode.id === conn[1]);
+        var baseAlpha = conn[2] * 0.3;
+        var pulseAlpha = Math.sin(time * 1.2 + i * 0.5) * 0.08;
+        var alpha = isHighlighted ? Math.min(conn[2] * 0.8, 0.7) : baseAlpha + pulseAlpha;
+
+        drawConnection(fromNode, toNode, conn[2], conn[3], alpha);
+      }
+
+      // Draw particles
+      drawParticles();
+
+      // Gentle float animation for area nodes
+      for (var j = 0; j < areaNodes.length; j++) {
+        var n = areaNodes[j];
+        if (n.baseX !== undefined) {
+          n.x = n.baseX + Math.sin(time * 0.4 + j * 1.1) * 3;
+          n.y = n.baseY + Math.cos(time * 0.3 + j * 0.9) * 3;
+        }
+      }
+
+      // Draw nodes (area nodes first, center on top)
+      for (var k = 0; k < areaNodes.length; k++) {
+        drawNode(areaNodes[k], hoveredNode === areaNodes[k]);
+      }
+      drawNode(centerNode, hoveredNode === centerNode);
+
+      requestAnimationFrame(draw);
+    }
+
+    function getNodeAt(mx, my) {
+      // Check center first (on top)
+      var dx = mx - centerNode.x;
+      var dy = my - centerNode.y;
+      if (dx * dx + dy * dy < (centerNode.radius + 8) * (centerNode.radius + 8)) {
+        return centerNode;
+      }
+      for (var i = areaNodes.length - 1; i >= 0; i--) {
+        dx = mx - areaNodes[i].x;
+        dy = my - areaNodes[i].y;
+        var hitR = areaNodes[i].radius + 8;
+        if (dx * dx + dy * dy < hitR * hitR) {
+          return areaNodes[i];
+        }
+      }
+      return null;
+    }
+
+    function handlePointerMove(e) {
+      var rect = canvas.getBoundingClientRect();
+      var mx = e.clientX - rect.left;
+      var my = e.clientY - rect.top;
+      var node = getNodeAt(mx, my);
+      hoveredNode = node;
+
+      if (node && node.id !== 'voce') {
+        tooltip.textContent = node.label + '  ' + node.score.toFixed(1) + '/10';
+        tooltip.style.left = (node.x) + 'px';
+        tooltip.style.top = (node.y - node.radius - 8) + 'px';
+        tooltip.classList.add('visible');
+        canvas.style.cursor = 'pointer';
+      } else {
+        tooltip.classList.remove('visible');
+        canvas.style.cursor = hoveredNode ? 'pointer' : 'grab';
+      }
+    }
+
+    function handlePointerLeave() {
+      hoveredNode = null;
+      tooltip.classList.remove('visible');
+    }
+
+    // Touch support
+    canvas.addEventListener('touchmove', function(e) {
+      e.preventDefault();
+      var touch = e.touches[0];
+      handlePointerMove(touch);
+    }, { passive: false });
+    canvas.addEventListener('touchend', handlePointerLeave);
+
+    canvas.addEventListener('mousemove', handlePointerMove);
+    canvas.addEventListener('mouseleave', handlePointerLeave);
+
+    window.addEventListener('resize', resize);
+    resize();
+    spawnParticles();
+    draw();
   })();
   </script>
 
