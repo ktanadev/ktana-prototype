@@ -392,6 +392,7 @@
   </div></main>
 
   <!-- Force-Graph Library (d3-force engine — same as Obsidian) -->
+  <script src="https://cdn.jsdelivr.net/npm/d3-force@3/dist/d3-force.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/force-graph@1/dist/force-graph.min.js"></script>
   <script>
   (function() {
@@ -401,27 +402,27 @@
 
     // Node data — Obsidian style
     var nodes = [
-      { id: 'voce',            label: 'Voce',            score: null, color: '#D70030', size: 14, isCenter: true },
-      { id: 'saude',           label: 'Saude',           score: 7.2, color: '#FF453A', size: 8 },
-      { id: 'mente',           label: 'Mente',           score: 7.8, color: '#BF5AF2', size: 9 },
-      { id: 'carreira',        label: 'Carreira',        score: 6.5, color: '#D70030', size: 7 },
-      { id: 'financas',        label: 'Financas',        score: 7.0, color: '#BFA730', size: 7 },
-      { id: 'proposito',       label: 'Proposito',       score: 8.2, color: '#FF9F0A', size: 10 },
-      { id: 'produtividade',   label: 'Produtividade',   score: 6.8, color: '#30D158', size: 8 },
-      { id: 'relacionamentos', label: 'Relacionamentos', score: 6.2, color: '#FF375F', size: 6 },
-      { id: 'casa',            label: 'Casa',            score: 5.4, color: '#64D2FF', size: 5 },
+      { id: 'voce',            label: 'Voce',            score: null, color: '#D70030', size: 18, isCenter: true },
+      { id: 'saude',           label: 'Saude',           score: 7.2, color: '#FF453A', size: 12 },
+      { id: 'mente',           label: 'Mente',           score: 7.8, color: '#BF5AF2', size: 13 },
+      { id: 'carreira',        label: 'Carreira',        score: 6.5, color: '#D70030', size: 11 },
+      { id: 'financas',        label: 'Financas',        score: 7.0, color: '#BFA730', size: 11 },
+      { id: 'proposito',       label: 'Proposito',       score: 8.2, color: '#FF9F0A', size: 14 },
+      { id: 'produtividade',   label: 'Produtividade',   score: 6.8, color: '#30D158', size: 12 },
+      { id: 'relacionamentos', label: 'Relacionamentos', score: 6.2, color: '#FF375F', size: 10 },
+      { id: 'casa',            label: 'Casa',            score: 5.4, color: '#64D2FF', size: 9 },
       // Sub-nodes (habits/metrics)
-      { id: 'sono',            label: 'Sono',            score: 5.8, color: '#FF453A', size: 4 },
-      { id: 'exercicio',       label: 'Exercicio',       score: 6.0, color: '#FF453A', size: 4 },
-      { id: 'meditacao',       label: 'Meditacao',       score: 7.3, color: '#BF5AF2', size: 4 },
-      { id: 'journaling',      label: 'Journaling',      score: 6.0, color: '#BF5AF2', size: 3 },
-      { id: 'deep-work',       label: 'Deep Work',       score: 6.0, color: '#D70030', size: 4 },
-      { id: 'linkedin',        label: 'LinkedIn',        score: 7.5, color: '#D70030', size: 3 },
-      { id: 'investimentos',   label: 'Investimentos',   score: 7.8, color: '#BFA730', size: 4 },
-      { id: 'hidratacao',      label: 'Hidratacao',      score: 5.6, color: '#64D2FF', size: 3 },
-      { id: 'foco',            label: 'Foco',            score: 6.5, color: '#30D158', size: 4 },
-      { id: 'humor',           label: 'Humor',           score: 7.0, color: '#FF375F', size: 3 },
-      { id: 'familia',         label: 'Familia',         score: 6.2, color: '#FF375F', size: 4 }
+      { id: 'sono',            label: 'Sono',            score: 5.8, color: '#FF453A', size: 6 },
+      { id: 'exercicio',       label: 'Exercicio',       score: 6.0, color: '#FF453A', size: 6 },
+      { id: 'meditacao',       label: 'Meditacao',       score: 7.3, color: '#BF5AF2', size: 6 },
+      { id: 'journaling',      label: 'Journaling',      score: 6.0, color: '#BF5AF2', size: 5 },
+      { id: 'deep-work',       label: 'Deep Work',       score: 6.0, color: '#D70030', size: 6 },
+      { id: 'linkedin',        label: 'LinkedIn',        score: 7.5, color: '#D70030', size: 5 },
+      { id: 'investimentos',   label: 'Investimentos',   score: 7.8, color: '#BFA730', size: 6 },
+      { id: 'hidratacao',      label: 'Hidratacao',      score: 5.6, color: '#64D2FF', size: 5 },
+      { id: 'foco',            label: 'Foco',            score: 6.5, color: '#30D158', size: 6 },
+      { id: 'humor',           label: 'Humor',           score: 7.0, color: '#FF375F', size: 5 },
+      { id: 'familia',         label: 'Familia',         score: 6.2, color: '#FF375F', size: 6 }
     ];
 
     var links = [
@@ -468,6 +469,9 @@
       .backgroundColor('#0B0B0F')
       .width(container.offsetWidth)
       .height(480)
+      .d3Force('charge', d3.forceManyBody().strength(-200))
+      .d3Force('link', d3.forceLink().id(function(d) { return d.id; }).distance(60))
+      .d3Force('center', d3.forceCenter())
       // Links
       .linkColor(function(link) {
         var src = typeof link.source === 'object' ? link.source : nodeMap[link.source];
@@ -581,8 +585,9 @@
       graph.width(container.offsetWidth);
     });
 
-    // Zoom to fit after initial layout
-    setTimeout(function() { graph.zoomToFit(400, 40); }, 500);
+    // Zoom to fit after layout stabilizes
+    setTimeout(function() { graph.zoomToFit(600, 60); }, 1200);
+    setTimeout(function() { graph.zoomToFit(400, 60); }, 3000);
   })();
   </script>
 
