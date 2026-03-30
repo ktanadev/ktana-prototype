@@ -395,8 +395,6 @@
   <script src="https://cdn.jsdelivr.net/npm/force-graph@1/dist/force-graph.min.js"></script>
   <script>
   (function() {
-    try {
-
     var container = document.getElementById('graphContainer');
 
     // Node data — Obsidian style
@@ -467,6 +465,7 @@
       .backgroundColor('#0B0B0F')
       .width(container.offsetWidth)
       .height(480)
+      .nodeRelSize(3)
       .nodeVal(function(node) { return node.size; })
       .nodeColor(function(node) { return node.color; })
       .nodeLabel(function(node) { return node.label + (node.score ? ' — ' + node.score.toFixed(1) : ''); })
@@ -487,13 +486,6 @@
 
     window.addEventListener('resize', function() { graph.width(container.offsetWidth); });
 
-    } catch(e) {
-      window.__graphError = e.message + ' | ' + e.stack;
-      var errDiv = document.createElement('div');
-      errDiv.style.cssText = 'color:#FF453A;font-size:11px;padding:20px;font-family:monospace;';
-      errDiv.textContent = 'Graph error: ' + e.message;
-      container.appendChild(errDiv);
-    }
   })();
   </script>
 
