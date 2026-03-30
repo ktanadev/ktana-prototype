@@ -15,12 +15,12 @@
     .page-header p { font-family: 'Satoshi', sans-serif; font-size: 14px; color: #86868B; line-height: 1.5; }
 
     /* Overall progress card */
-    .overall-card { background: #FFF; border-radius: 20px; border: 1px solid rgba(0,0,0,0.04); padding: 28px; margin-bottom: 24px; text-align: center; }
+    .overall-card { background: #FFF; border-radius: 20px; border: 0.5px solid rgba(0,0,0,0.03); padding: 28px; margin-bottom: 24px; text-align: center; }
     .overall-label { font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: #D70030; margin-bottom: 20px; }
 
     /* Mentor summary */
-    .mentor-summary { display: flex; align-items: flex-start; gap: 12px; padding: 18px 20px; background: rgba(215,0,48,0.02); border: 0.5px solid rgba(215,0,48,0.08); border-radius: 16px; margin-bottom: 18px; }
-    .mentor-summary-avatar { width: 34px; height: 34px; border-radius: 10px; background: rgba(215,0,48,0.06); border: 1px solid rgba(215,0,48,0.1); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .mentor-summary { display: flex; align-items: flex-start; gap: 12px; padding: 18px 20px; background: rgba(215,0,48,0.015); border: 0.5px solid rgba(215,0,48,0.04); border-radius: 16px; margin-bottom: 18px; }
+    .mentor-summary-avatar { width: 34px; height: 34px; border-radius: 10px; background: rgba(215,0,48,0.04); border: 0.5px solid rgba(215,0,48,0.06); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
     .mentor-summary-avatar span { font-family: 'Zen Dots', cursive; font-size: 12px; color: #D70030; }
     .mentor-summary-text { font-family: 'Satoshi', sans-serif; font-size: 14px; color: #1D1D1F; line-height: 1.6; }
     .mentor-summary-text strong { color: #D70030; font-weight: 600; }
@@ -34,40 +34,41 @@
     .chat-cta-arrow { color: #86868B; flex-shrink: 0; }
     .progress-ring-wrap { position: relative; width: 140px; height: 140px; margin: 0 auto 20px; }
     .progress-ring-wrap svg { transform: rotate(-90deg); }
-    .progress-ring-bg { fill: none; stroke: rgba(0,0,0,0.04); stroke-width: 8; }
-    .progress-ring-fill { fill: none; stroke: #D70030; stroke-width: 8; stroke-linecap: round; transition: stroke-dashoffset 1s cubic-bezier(0.25,0.1,0.25,1); }
+    .progress-ring-bg { fill: none; stroke: rgba(0,0,0,0.02); stroke-width: 5; }
+    .progress-ring-fill { fill: none; stroke: rgba(215,0,48,0.5); stroke-width: 5; stroke-linecap: round; transition: stroke-dashoffset 1s cubic-bezier(0.25,0.1,0.25,1); }
     .progress-ring-text { position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); }
     .progress-ring-pct { font-family: 'Zen Dots', cursive; font-size: 28px; color: #1D1D1F; }
     .progress-ring-label { font-family: 'Inter', sans-serif; font-size: 11px; color: #86868B; }
-    .areas-breakdown { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-top: 16px; padding-top: 16px; border-top: 1px solid rgba(0,0,0,0.04); }
+    .areas-breakdown { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-top: 16px; padding-top: 16px; border-top: 0.5px solid rgba(0,0,0,0.02); }
     .area-mini { text-align: center; }
     .area-mini-name { font-family: 'Inter', sans-serif; font-size: 10px; color: #86868B; margin-bottom: 4px; }
-    .area-mini-bar { height: 4px; border-radius: 2px; background: rgba(0,0,0,0.04); overflow: hidden; }
-    .area-mini-fill { height: 100%; border-radius: 2px; transition: width 0.8s ease; }
+    .area-mini-bar { height: 3px; border-radius: 2px; background: rgba(0,0,0,0.02); overflow: hidden; }
+    .area-mini-fill { height: 100%; border-radius: 2px; transition: width 0.8s ease; opacity: 0.35; }
     .area-mini-pct { font-family: 'Inter', sans-serif; font-size: 10px; color: #AEAEB2; margin-top: 3px; }
 
     /* Goal cards */
-    .goal-card { background: #FFF; border-radius: 20px; border: 1px solid rgba(0,0,0,0.04); padding: 22px 24px; margin-bottom: 12px; cursor: pointer; transition: box-shadow 0.2s, transform 0.15s; }
+    .goal-card { background: #FFF; border-radius: 20px; border: 0.5px solid rgba(0,0,0,0.025); padding: 22px 24px; margin-bottom: 12px; cursor: pointer; transition: box-shadow 0.2s, transform 0.15s; }
     .goal-card:hover { box-shadow: 0 4px 24px rgba(0,0,0,0.04); transform: translateY(-1px); }
     .goal-top { display: flex; align-items: center; gap: 14px; margin-bottom: 14px; }
-    .goal-icon { width: 42px; height: 42px; border-radius: 13px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .goal-icon { width: 42px; height: 42px; border-radius: 13px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; background: rgba(215,0,48,0.03) !important; }
+    .goal-icon svg { stroke: rgba(215,0,48,0.45) !important; }
     .goal-info { flex: 1; min-width: 0; }
     .goal-area-row { display: flex; align-items: center; gap: 8px; margin-bottom: 3px; }
     .goal-area-name { font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 600; color: #D70030; }
     .goal-mentor-name { font-family: 'Inter', sans-serif; font-size: 11px; color: #AEAEB2; }
     .goal-meta-text { font-family: 'Satoshi', sans-serif; font-size: 15px; font-weight: 500; color: #3A3A3C; line-height: 1.4; }
     .goal-progress-row { display: flex; align-items: center; gap: 10px; margin-bottom: 16px; }
-    .goal-bar { flex: 1; height: 6px; border-radius: 3px; background: rgba(0,0,0,0.04); overflow: hidden; }
-    .goal-bar-fill { height: 100%; border-radius: 3px; background: linear-gradient(90deg, #D70030, #FF453A); transition: width 0.8s cubic-bezier(0.25,0.1,0.25,1); }
+    .goal-bar { flex: 1; height: 4px; border-radius: 2px; background: rgba(0,0,0,0.025); overflow: hidden; }
+    .goal-bar-fill { height: 100%; border-radius: 2px; background: linear-gradient(90deg, rgba(215,0,48,0.6), rgba(215,0,48,0.15)); transition: width 0.8s cubic-bezier(0.25,0.1,0.25,1); }
     .goal-pct { font-family: 'Zen Dots', cursive; font-size: 14px; color: #D70030; flex-shrink: 0; min-width: 36px; text-align: right; }
 
     /* Habit rows */
     .habit-row { display: flex; align-items: center; gap: 10px; padding: 7px 0; border-top: 0.5px solid rgba(0,0,0,0.015); }
-    .habit-dot { width: 5px; height: 5px; border-radius: 50%; flex-shrink: 0; }
+    .habit-dot { width: 4px; height: 4px; border-radius: 50%; flex-shrink: 0; opacity: 0.5; }
     .habit-name { font-family: 'Satoshi', sans-serif; font-size: 13px; color: #6E6E73; flex: 1; }
     .habit-progress { font-family: 'Inter', sans-serif; font-size: 12px; color: #86868B; flex-shrink: 0; }
-    .habit-mini-bar { width: 48px; height: 3px; border-radius: 2px; background: rgba(0,0,0,0.04); overflow: hidden; flex-shrink: 0; }
-    .habit-mini-fill { height: 100%; border-radius: 2px; }
+    .habit-mini-bar { width: 48px; height: 2px; border-radius: 1px; background: rgba(0,0,0,0.02); overflow: hidden; flex-shrink: 0; }
+    .habit-mini-fill { height: 100%; border-radius: 1px; opacity: 0.3; }
 
     /* Mentor status */
     .goal-status { font-family: 'Satoshi', sans-serif; font-size: 12px; color: #86868B; margin-top: 12px; padding-top: 10px; border-top: 0.5px solid rgba(0,0,0,0.015); display: flex; align-items: center; gap: 6px; }
