@@ -14,26 +14,29 @@
     .page-header h1 { font-family: 'Zen Dots', cursive; font-size: 24px; color: #1D1D1F; margin-bottom: 6px; }
     .page-header p { font-family: 'Satoshi', sans-serif; font-size: 14px; color: #86868B; line-height: 1.5; }
 
-    .card { background: #FFF; border-radius: 20px; border: 1px solid rgba(0,0,0,0.04); padding: 24px; margin-bottom: 12px; }
+    .card { background: #FFF; border-radius: 20px; border: 0.5px solid rgba(0,0,0,0.025); padding: 24px; margin-bottom: 12px; }
     .card-label { font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: #D70030; margin-bottom: 14px; }
 
-    /* Canvas network */
-    .network-card { padding: 20px; position: relative; }
-    .canvas-wrap { position: relative; width: 100%; aspect-ratio: 5/4; border-radius: 16px; overflow: hidden; background: #FAFAFA; }
+    /* Canvas network — Obsidian dark graph style */
+    .network-card { padding: 0; position: relative; background: #0A0A0C !important; border: 0.5px solid rgba(255,255,255,0.04) !important; overflow: hidden; }
+    .network-card .card-label { padding: 20px 24px 0; color: rgba(215,0,48,0.6); }
+    .canvas-wrap { position: relative; width: 100%; aspect-ratio: 5/4; border-radius: 0 0 16px 16px; overflow: hidden; background: #0A0A0C; }
     .canvas-wrap canvas { width: 100%; height: 100%; display: block; cursor: grab; }
     .canvas-wrap canvas:active { cursor: grabbing; }
     .canvas-tooltip {
       position: absolute; pointer-events: none; opacity: 0;
-      background: #1D1D1F; color: #F5F5F7; padding: 8px 14px;
-      border-radius: 10px; font-family: 'Satoshi', sans-serif;
+      background: rgba(215,0,48,0.12); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+      color: #E5E5EA; padding: 8px 14px;
+      border-radius: 10px; border: 0.5px solid rgba(215,0,48,0.2);
+      font-family: 'Satoshi', sans-serif;
       font-size: 12px; font-weight: 500; white-space: nowrap;
       transform: translate(-50%, -100%); margin-top: -12px;
       transition: opacity 0.15s ease;
-      box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+      box-shadow: 0 4px 24px rgba(0,0,0,0.4);
     }
     .canvas-tooltip.visible { opacity: 1; }
-    .canvas-legend { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 16px; justify-content: center; }
-    .legend-item { display: flex; align-items: center; gap: 6px; font-family: 'Inter', sans-serif; font-size: 11px; color: #86868B; }
+    .canvas-legend { display: flex; flex-wrap: wrap; gap: 12px; padding: 14px 24px 18px; justify-content: center; background: rgba(255,255,255,0.02); }
+    .legend-item { display: flex; align-items: center; gap: 6px; font-family: 'Inter', sans-serif; font-size: 11px; color: rgba(255,255,255,0.35); }
     .legend-line { width: 24px; height: 2px; border-radius: 1px; }
     .legend-line.strong { height: 3px; }
     .legend-line.moderate { height: 2px; }
@@ -43,7 +46,7 @@
     .section-title { font-family: 'Zen Dots', cursive; font-size: 16px; color: #1D1D1F; margin: 32px 0 16px; }
 
     .corr-card {
-      background: #FFF; border-radius: 20px; border: 1px solid rgba(0,0,0,0.04);
+      background: #FFF; border-radius: 20px; border: 0.5px solid rgba(0,0,0,0.025);
       padding: 22px 24px; margin-bottom: 10px;
       transition: box-shadow 0.2s ease, transform 0.2s ease;
     }
@@ -74,12 +77,12 @@
     .corr-text { font-family: 'Satoshi', sans-serif; font-size: 13px; color: #86868B; line-height: 1.7; }
     .corr-text strong { color: #1D1D1F; font-weight: 500; }
 
-    .corr-footer { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: 14px; padding-top: 14px; border-top: 0.5px solid rgba(0,0,0,0.04); }
+    .corr-footer { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: 14px; padding-top: 14px; border-top: 0.5px solid rgba(0,0,0,0.015); }
 
     .corr-strength { display: flex; align-items: center; gap: 8px; flex: 1; }
     .corr-strength-label { font-family: 'Inter', sans-serif; font-size: 11px; color: #AEAEB2; white-space: nowrap; }
-    .corr-bar { flex: 1; height: 4px; border-radius: 2px; background: rgba(0,0,0,0.04); overflow: hidden; min-width: 60px; }
-    .corr-bar-fill { height: 100%; border-radius: 2px; transition: width 1s cubic-bezier(0.25,0.1,0.25,1); }
+    .corr-bar { flex: 1; height: 3px; border-radius: 2px; background: rgba(0,0,0,0.02); overflow: hidden; min-width: 60px; }
+    .corr-bar-fill { height: 100%; border-radius: 2px; transition: width 1s cubic-bezier(0.25,0.1,0.25,1); opacity: 0.35; }
 
     .corr-mentor {
       display: flex; align-items: center; gap: 6px;
@@ -517,12 +520,12 @@
     }
 
     function drawConnection(fromNode, toNode, strength, color, alpha) {
-      var lineWidth = 1 + strength * 3;
+      var lineWidth = 0.5 + strength * 1.5;
       ctx.beginPath();
       ctx.moveTo(fromNode.x, fromNode.y);
       ctx.lineTo(toNode.x, toNode.y);
       ctx.strokeStyle = color;
-      ctx.globalAlpha = alpha;
+      ctx.globalAlpha = alpha * 0.7;
       ctx.lineWidth = lineWidth;
       ctx.stroke();
       ctx.globalAlpha = 1;
@@ -533,54 +536,55 @@
       var breathe = Math.sin(time * 0.8 + (node.id === 'voce' ? 0 : allNodes.indexOf(node) * 0.7)) * 2;
       var drawR = r + breathe;
 
-      // Outer glow
-      if (isHovered || node.id === 'voce') {
-        var glowR = drawR + (isHovered ? 18 : 10);
-        var gradient = ctx.createRadialGradient(node.x, node.y, drawR * 0.5, node.x, node.y, glowR);
-        gradient.addColorStop(0, node.color + (isHovered ? '40' : '20'));
-        gradient.addColorStop(1, node.color + '00');
-        ctx.beginPath();
-        ctx.arc(node.x, node.y, glowR, 0, Math.PI * 2);
-        ctx.fillStyle = gradient;
-        ctx.fill();
-      }
+      // Outer glow — always visible in dark mode (Obsidian style)
+      var glowR = drawR + (isHovered ? 24 : (node.id === 'voce' ? 16 : 10));
+      var glowAlpha = isHovered ? 0.35 : (node.id === 'voce' ? 0.2 : 0.1);
+      var gradient = ctx.createRadialGradient(node.x, node.y, drawR * 0.3, node.x, node.y, glowR);
+      gradient.addColorStop(0, node.color + Math.round(glowAlpha * 255).toString(16).padStart(2,'0'));
+      gradient.addColorStop(1, node.color + '00');
+      ctx.beginPath();
+      ctx.arc(node.x, node.y, glowR, 0, Math.PI * 2);
+      ctx.fillStyle = gradient;
+      ctx.fill();
 
-      // Node body
+      // Node body — dark fill with luminous border
       if (node.id === 'voce') {
-        // Solid red center
         ctx.beginPath();
         ctx.arc(node.x, node.y, drawR, 0, Math.PI * 2);
         ctx.fillStyle = node.color;
+        ctx.globalAlpha = 0.9;
         ctx.fill();
+        ctx.globalAlpha = 1;
 
-        // Label
         ctx.font = '500 11px "Zen Dots", cursive';
         ctx.fillStyle = '#FFFFFF';
         ctx.textAlign = 'center';
         ctx.textBaseline = 'middle';
         ctx.fillText('Voce', node.x, node.y);
       } else {
-        // White fill
+        // Dark body
         ctx.beginPath();
         ctx.arc(node.x, node.y, drawR, 0, Math.PI * 2);
-        ctx.fillStyle = '#FFFFFF';
+        ctx.fillStyle = '#141416';
         ctx.fill();
 
-        // Colored border
+        // Luminous border
         ctx.beginPath();
         ctx.arc(node.x, node.y, drawR, 0, Math.PI * 2);
         ctx.strokeStyle = node.color;
-        ctx.lineWidth = isHovered ? 2.5 : 1.5;
+        ctx.globalAlpha = isHovered ? 0.8 : 0.4;
+        ctx.lineWidth = isHovered ? 2 : 1;
         ctx.stroke();
+        ctx.globalAlpha = 1;
 
-        // Score arc (progress ring)
+        // Score arc
         if (node.score !== null) {
           var scoreAngle = (node.score / 10) * Math.PI * 2;
           ctx.beginPath();
           ctx.arc(node.x, node.y, drawR + 3, -Math.PI / 2, -Math.PI / 2 + scoreAngle);
           ctx.strokeStyle = node.color;
-          ctx.globalAlpha = 0.3;
-          ctx.lineWidth = 2;
+          ctx.globalAlpha = 0.25;
+          ctx.lineWidth = 1.5;
           ctx.stroke();
           ctx.globalAlpha = 1;
         }
@@ -588,13 +592,15 @@
         // Score text
         ctx.font = '600 11px "Inter", sans-serif';
         ctx.fillStyle = node.color;
+        ctx.globalAlpha = 0.8;
         ctx.textAlign = 'center';
         ctx.textBaseline = 'middle';
         ctx.fillText(node.score.toFixed(1), node.x, node.y - 1);
+        ctx.globalAlpha = 1;
 
         // Label below
         ctx.font = '500 10px "Satoshi", sans-serif';
-        ctx.fillStyle = '#86868B';
+        ctx.fillStyle = 'rgba(255,255,255,0.4)';
         ctx.fillText(node.label, node.x, node.y + drawR + 16);
       }
     }
@@ -614,9 +620,9 @@
         var py = fromNode.y + (toNode.y - fromNode.y) * p.t;
 
         ctx.beginPath();
-        ctx.arc(px, py, 1.5, 0, Math.PI * 2);
-        ctx.fillStyle = conn[3];
-        ctx.globalAlpha = p.alpha * (0.5 + 0.5 * Math.sin(time * 2 + p.t * 6));
+        ctx.arc(px, py, 1.2, 0, Math.PI * 2);
+        ctx.fillStyle = '#FFFFFF';
+        ctx.globalAlpha = p.alpha * 0.6 * (0.5 + 0.5 * Math.sin(time * 2 + p.t * 6));
         ctx.fill();
         ctx.globalAlpha = 1;
       }
@@ -626,24 +632,25 @@
       time += 0.016;
       ctx.clearRect(0, 0, W, H);
 
-      // Subtle background grid (Obsidian-like)
-      ctx.globalAlpha = 0.03;
-      ctx.strokeStyle = '#1D1D1F';
-      ctx.lineWidth = 0.5;
-      var gridSize = 40;
-      for (var gx = 0; gx < W; gx += gridSize) {
-        ctx.beginPath(); ctx.moveTo(gx, 0); ctx.lineTo(gx, H); ctx.stroke();
-      }
-      for (var gy = 0; gy < H; gy += gridSize) {
-        ctx.beginPath(); ctx.moveTo(0, gy); ctx.lineTo(W, gy); ctx.stroke();
+      // Dark background
+      ctx.fillStyle = '#0A0A0C';
+      ctx.fillRect(0, 0, W, H);
+
+      // Obsidian-style dot grid
+      ctx.globalAlpha = 0.08;
+      ctx.fillStyle = '#FFFFFF';
+      var gridSize = 32;
+      for (var gx = gridSize; gx < W; gx += gridSize) {
+        for (var gy = gridSize; gy < H; gy += gridSize) {
+          ctx.beginPath(); ctx.arc(gx, gy, 0.5, 0, Math.PI * 2); ctx.fill();
+        }
       }
       ctx.globalAlpha = 1;
 
-      // Gentle ambient pulse from center
-      var pulseR = 60 + Math.sin(time * 0.5) * 20;
+      // Ambient glow from center — dark red subtle
       var ambientGrad = ctx.createRadialGradient(centerNode.x, centerNode.y, 0, centerNode.x, centerNode.y, Math.min(W,H) * 0.5);
-      ambientGrad.addColorStop(0, 'rgba(215,0,48,0.03)');
-      ambientGrad.addColorStop(0.5, 'rgba(215,0,48,0.01)');
+      ambientGrad.addColorStop(0, 'rgba(215,0,48,0.06)');
+      ambientGrad.addColorStop(0.4, 'rgba(215,0,48,0.02)');
       ambientGrad.addColorStop(1, 'rgba(215,0,48,0)');
       ctx.fillStyle = ambientGrad;
       ctx.fillRect(0, 0, W, H);
