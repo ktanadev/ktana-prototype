@@ -467,71 +467,25 @@
       .backgroundColor('#0B0B0F')
       .width(container.offsetWidth)
       .height(480)
+      .nodeVal(function(node) { return node.size; })
+      .nodeColor(function(node) { return node.color; })
+      .nodeLabel(function(node) { return node.label + (node.score ? ' — ' + node.score.toFixed(1) : ''); })
       .linkColor(function(link) {
         var src = typeof link.source === 'object' ? link.source : nodeMap[link.source];
-        return src ? src.color : 'rgba(255,255,255,0.08)';
+        return src ? src.color : 'rgba(255,255,255,0.1)';
       })
-      .linkWidth(function(link) {
-        return highlightLinks.has(link) ? 1.5 : 0.3;
-      })
+      .linkWidth(0.5)
       .linkDirectionalParticles(1)
-      .linkDirectionalParticleWidth(1.5)
+      .linkDirectionalParticleWidth(1.2)
       .linkDirectionalParticleSpeed(0.003)
-      .linkDirectionalParticleColor(function(link) {
-        var src = typeof link.source === 'object' ? link.source : nodeMap[link.source];
-        return src ? src.color : '#fff';
-      })
-      .linkOpacity(0.12)
-      .nodeVal(function(node) { return node.size * node.size; })
-      .nodeColor(function(node) { return node.color; })
-      .nodeLabel(function(node) { return node.label + (node.score ? ' \u2014 ' + node.score.toFixed(1) : ''); })
-      .onNodeHover(function(node) {
-        container.style.cursor = node ? 'grab' : 'default';
-        highlightNodes.clear();
-        highlightLinks.clear();
-        hoverNode = node || null;
-        if (node) {
-          highlightNodes.add(node);
-          links.forEach(function(link) {
-            var s = typeof link.source === 'object' ? link.source : nodeMap[link.source];
-            var t = typeof link.target === 'object' ? link.target : nodeMap[link.target];
-            if (s === node || t === node) {
-              highlightLinks.add(link);
-              if (s) highlightNodes.add(s);
-              if (t) highlightNodes.add(t);
-            }
-          });
-        }
-      })
-      .onNodeDragEnd(function(node) {
-        node.fx = node.x;
-        node.fy = node.y;
-      })
-      .d3AlphaDecay(0.02)
+      .onNodeDragEnd(function(node) { node.fx = node.x; node.fy = node.y; })
       .d3VelocityDecay(0.3)
-      .warmupTicks(50)
-      .cooldownTicks(200)
       .graphData({ nodes: nodes, links: links });
 
-    // Configure forces
-    try {
-      graph.d3Force('charge').strength(-300);
-      graph.d3Force('link').distance(80);
-    } catch(e) {}
+    // Zoom to fit after layout
+    setTimeout(function() { graph.zoomToFit(400, 30); }, 2000);
 
-    // Responsive
-    window.addEventListener('resize', function() {
-      graph.width(container.offsetWidth);
-    });
-
-    // Zoom to fit
-    var fitted = false;
-    graph.onEngineStop(function() {
-      if (!fitted) { fitted = true; graph.zoomToFit(400, 30); }
-    });
-    setTimeout(function() {
-      if (!fitted) { fitted = true; graph.zoomToFit(400, 30); }
-    }, 3000);
+    window.addEventListener('resize', function() { graph.width(container.offsetWidth); });
   })();
   </script>
 
