@@ -17,27 +17,23 @@
     .card { background: #FFF; border-radius: 20px; border: 1px solid rgba(0,0,0,0.04); padding: 24px; margin-bottom: 12px; }
     .card-label { font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: #D70030; margin-bottom: 14px; }
 
-    /* Canvas network */
-    .network-card { padding: 20px; position: relative; }
-    .canvas-wrap { position: relative; width: 100%; aspect-ratio: 5/4; border-radius: 16px; overflow: hidden; background: #FAFAFA; }
-    .canvas-wrap canvas { width: 100%; height: 100%; display: block; cursor: grab; }
-    .canvas-wrap canvas:active { cursor: grabbing; }
+    /* Canvas network — Obsidian graph style */
+    .network-card { padding: 0; position: relative; background: #1A1B1E !important; border: 0.5px solid rgba(255,255,255,0.06) !important; overflow: hidden; }
+    .network-card .card-label { padding: 20px 24px 0; position: relative; z-index: 2; }
+    .canvas-wrap { position: relative; width: 100%; aspect-ratio: 5/4; overflow: hidden; background: #1A1B1E; cursor: grab; }
+    .canvas-wrap:active { cursor: grabbing; }
+    .canvas-wrap canvas { width: 100%; height: 100%; display: block; }
     .canvas-tooltip {
       position: absolute; pointer-events: none; opacity: 0;
-      background: #1D1D1F; color: #F5F5F7; padding: 8px 14px;
-      border-radius: 10px; font-family: 'Satoshi', sans-serif;
-      font-size: 12px; font-weight: 500; white-space: nowrap;
-      transform: translate(-50%, -100%); margin-top: -12px;
-      transition: opacity 0.15s ease;
-      box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+      background: rgba(30,31,34,0.95); color: #C8C8CC; padding: 6px 12px;
+      border-radius: 6px; border: 0.5px solid rgba(255,255,255,0.08);
+      font-family: 'Inter', sans-serif;
+      font-size: 11px; font-weight: 500; white-space: nowrap;
+      transform: translate(-50%, -100%); margin-top: -10px;
+      transition: opacity 0.12s ease;
     }
     .canvas-tooltip.visible { opacity: 1; }
-    .canvas-legend { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 16px; justify-content: center; }
-    .legend-item { display: flex; align-items: center; gap: 6px; font-family: 'Inter', sans-serif; font-size: 11px; color: #86868B; }
-    .legend-line { width: 24px; height: 2px; border-radius: 1px; }
-    .legend-line.strong { height: 3px; }
-    .legend-line.moderate { height: 2px; }
-    .legend-line.light { height: 1px; }
+    .canvas-hint { position: absolute; bottom: 10px; right: 14px; font-family: 'Inter', sans-serif; font-size: 9px; color: rgba(255,255,255,0.15); pointer-events: none; z-index: 2; }
 
     /* Correlation cards */
     .section-title { font-family: 'Zen Dots', cursive; font-size: 16px; color: #1D1D1F; margin: 32px 0 16px; }
@@ -246,26 +242,13 @@
       <p>Como suas areas de vida se conectam — padroes que seus mentores descobriram</p>
     </div>
 
-    <!-- Neural Network Canvas -->
+    <!-- Neural Network — Obsidian Graph View -->
     <div class="card network-card fade-in" style="animation-delay:0.05s;">
       <div class="card-label">Rede neural da sua vida</div>
       <div class="canvas-wrap">
         <canvas id="neuralCanvas"></canvas>
         <div class="canvas-tooltip" id="tooltip"></div>
-      </div>
-      <div class="canvas-legend">
-        <div class="legend-item">
-          <div class="legend-line strong" style="background:#D70030;"></div>
-          Forte
-        </div>
-        <div class="legend-item">
-          <div class="legend-line moderate" style="background:rgba(29,29,31,0.25);"></div>
-          Moderada
-        </div>
-        <div class="legend-item">
-          <div class="legend-line light" style="background:rgba(29,29,31,0.12);"></div>
-          Fraca
-        </div>
+        <div class="canvas-hint">Arraste nos — scroll para zoom</div>
       </div>
     </div>
 
@@ -411,335 +394,287 @@
 
   </div></main>
 
-  <!-- Neural Network Canvas Engine -->
+  <!-- Obsidian-style Graph Engine (canvas + force physics) -->
   <script>
   (function() {
-    'use strict';
-
     var canvas = document.getElementById('neuralCanvas');
     var ctx = canvas.getContext('2d');
     var tooltip = document.getElementById('tooltip');
+    var wrap = canvas.parentElement;
     var dpr = window.devicePixelRatio || 1;
     var W, H;
-    var hoveredNode = null;
+    var hovered = null;
+    var dragging = null;
+    var dragOff = {x:0,y:0};
     var time = 0;
-    var particles = [];
 
-    // Node data
-    var centerNode = { id: 'voce', label: 'Voce', score: null, color: '#D70030', radius: 28, x: 0, y: 0, vx: 0, vy: 0 };
+    // — Obsidian palette — muted, not carnival
+    var C = {bg:'#1A1B1E',line:'rgba(255,255,255,0.06)',lineHi:'rgba(255,255,255,0.2)',
+      dot:'rgba(200,200,204,0.7)',dotDim:'rgba(200,200,204,0.35)',
+      label:'rgba(200,200,204,0.5)',labelHi:'rgba(200,200,204,0.9)',
+      glow:'rgba(168,130,255,0.12)',center:'#C4A7FF',
+      accent:'#C4A7FF'};
 
-    var areaNodes = [
-      { id: 'saude',           label: 'Saude',           score: 7.2, color: '#FF453A', radius: 22 },
-      { id: 'mente',           label: 'Mente',           score: 7.8, color: '#BF5AF2', radius: 23 },
-      { id: 'carreira',        label: 'Carreira',        score: 6.5, color: '#D70030', radius: 20 },
-      { id: 'financas',        label: 'Financas',        score: 7.0, color: '#BFA730', radius: 21 },
-      { id: 'proposito',       label: 'Proposito',       score: 8.2, color: '#FF9F0A', radius: 24 },
-      { id: 'produtividade',   label: 'Produtividade',   score: 6.8, color: '#30D158', radius: 21 },
-      { id: 'relacionamentos', label: 'Relacionamentos', score: 6.2, color: '#FF375F', radius: 19 },
-      { id: 'casa',            label: 'Casa',            score: 5.4, color: '#64D2FF', radius: 18 }
+    // — Nodes: small dots (Obsidian = 4-6px radius)
+    var nodes = [
+      {id:'voce',l:'Voce',r:7,c:'#C4A7FF',x:0,y:0,vx:0,vy:0,fx:null,fy:null},
+      {id:'saude',l:'Saude',r:5,c:'#C4A7FF'},{id:'mente',l:'Mente',r:5,c:'#C4A7FF'},
+      {id:'carreira',l:'Carreira',r:4.5,c:'#C4A7FF'},{id:'financas',l:'Financas',r:4.5,c:'#C4A7FF'},
+      {id:'proposito',l:'Proposito',r:5,c:'#C4A7FF'},{id:'produtividade',l:'Produtividade',r:5,c:'#C4A7FF'},
+      {id:'relacionamentos',l:'Relacionamentos',r:4,c:'#C4A7FF'},{id:'casa',l:'Casa',r:4,c:'#C4A7FF'},
+      // sub-nodes
+      {id:'sono',l:'Sono',r:3,c:'#C4A7FF'},{id:'exercicio',l:'Exercicio',r:3,c:'#C4A7FF'},
+      {id:'meditacao',l:'Meditacao',r:3,c:'#C4A7FF'},{id:'journaling',l:'Journaling',r:2.5,c:'#C4A7FF'},
+      {id:'deep-work',l:'Deep Work',r:3,c:'#C4A7FF'},{id:'linkedin',l:'LinkedIn',r:2.5,c:'#C4A7FF'},
+      {id:'investimentos',l:'Investimentos',r:3,c:'#C4A7FF'},{id:'hidratacao',l:'Hidratacao',r:2.5,c:'#C4A7FF'},
+      {id:'foco',l:'Foco',r:3,c:'#C4A7FF'},{id:'humor',l:'Humor',r:2.5,c:'#C4A7FF'},
+      {id:'familia',l:'Familia',r:3,c:'#C4A7FF'}
     ];
 
-    var allNodes = [centerNode].concat(areaNodes);
-
-    // Connections: [fromId, toId, strength 0-1, color]
-    var connections = [
-      // Center to all areas
-      ['voce', 'saude',           0.72, '#FF453A'],
-      ['voce', 'mente',           0.78, '#BF5AF2'],
-      ['voce', 'carreira',        0.50, '#D70030'],
-      ['voce', 'financas',        0.55, '#BFA730'],
-      ['voce', 'proposito',       0.82, '#FF9F0A'],
-      ['voce', 'produtividade',   0.68, '#30D158'],
-      ['voce', 'relacionamentos', 0.40, '#FF375F'],
-      ['voce', 'casa',            0.35, '#64D2FF'],
-      // Cross-area correlations
-      ['saude', 'produtividade',   0.82, '#D70030'],
-      ['mente', 'produtividade',   0.76, '#BF5AF2'],
-      ['saude', 'mente',           0.64, '#FF453A'],
-      ['financas', 'mente',        0.58, '#BFA730'],
-      ['relacionamentos', 'proposito', 0.42, '#FF375F']
+    // — Links
+    var links = [
+      ['voce','saude'],['voce','mente'],['voce','carreira'],['voce','financas'],
+      ['voce','proposito'],['voce','produtividade'],['voce','relacionamentos'],['voce','casa'],
+      ['saude','sono'],['saude','exercicio'],['saude','hidratacao'],
+      ['mente','meditacao'],['mente','journaling'],
+      ['carreira','deep-work'],['carreira','linkedin'],
+      ['financas','investimentos'],['produtividade','foco'],
+      ['relacionamentos','familia'],['relacionamentos','humor'],
+      // cross
+      ['sono','produtividade'],['meditacao','foco'],['exercicio','sono'],
+      ['hidratacao','foco'],['familia','humor'],['sono','humor'],['meditacao','humor']
     ];
 
-    function findNode(id) {
-      for (var i = 0; i < allNodes.length; i++) {
-        if (allNodes[i].id === id) return allNodes[i];
-      }
-      return null;
-    }
+    var nodeMap = {};
+    nodes.forEach(function(n) {
+      n.vx = 0; n.vy = 0; n.fx = null; n.fy = null;
+      nodeMap[n.id] = n;
+    });
 
-    function resize() {
-      var rect = canvas.parentElement.getBoundingClientRect();
-      W = rect.width;
-      H = rect.height;
-      canvas.width = W * dpr;
-      canvas.height = H * dpr;
-      canvas.style.width = W + 'px';
-      canvas.style.height = H + 'px';
-      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-      layoutNodes();
-    }
+    // Resolve links to node refs
+    var edgeRefs = links.map(function(e) { return [nodeMap[e[0]], nodeMap[e[1]]]; });
 
-    function layoutNodes() {
-      var cx = W / 2;
-      var cy = H / 2;
-      centerNode.x = cx;
-      centerNode.y = cy;
-      centerNode.vx = 0;
-      centerNode.vy = 0;
-
-      var orbitRx = Math.min(W, H) * 0.34;
-      var orbitRy = Math.min(W, H) * 0.32;
-      for (var i = 0; i < areaNodes.length; i++) {
-        var angle = (Math.PI * 2 * i / areaNodes.length) - Math.PI / 2;
-        areaNodes[i].x = cx + Math.cos(angle) * orbitRx;
-        areaNodes[i].y = cy + Math.sin(angle) * orbitRy;
-        areaNodes[i].baseX = areaNodes[i].x;
-        areaNodes[i].baseY = areaNodes[i].y;
-        areaNodes[i].vx = 0;
-        areaNodes[i].vy = 0;
+    // — Init positions: random scatter
+    function initPositions() {
+      var cx = W/2, cy = H/2;
+      nodes[0].x = cx; nodes[0].y = cy;
+      for (var i = 1; i < nodes.length; i++) {
+        nodes[i].x = cx + (Math.random()-0.5) * W * 0.6;
+        nodes[i].y = cy + (Math.random()-0.5) * H * 0.6;
       }
     }
 
-    // Particles flowing along connections
-    function spawnParticles() {
-      for (var i = 0; i < connections.length; i++) {
-        var conn = connections[i];
-        var count = Math.ceil(conn[2] * 3);
-        for (var j = 0; j < count; j++) {
-          particles.push({
-            connIdx: i,
-            t: Math.random(),
-            speed: 0.002 + Math.random() * 0.003,
-            alpha: 0.15 + conn[2] * 0.35
-          });
+    // — Force simulation (simple spring + repulsion)
+    var REPULSION = 2800;
+    var SPRING = 0.008;
+    var REST_LEN = 70;
+    var DAMPING = 0.85;
+    var CENTERING = 0.002;
+    var settled = false;
+    var settleCount = 0;
+
+    function simulate() {
+      // Repulsion between all pairs
+      for (var i = 0; i < nodes.length; i++) {
+        for (var j = i+1; j < nodes.length; j++) {
+          var a = nodes[i], b = nodes[j];
+          var dx = b.x - a.x, dy = b.y - a.y;
+          var dist = Math.sqrt(dx*dx + dy*dy) || 1;
+          var f = REPULSION / (dist * dist);
+          var fx = (dx/dist)*f, fy = (dy/dist)*f;
+          if (!a.fx) { a.vx -= fx; a.vy -= fy; }
+          if (!b.fx) { b.vx += fx; b.vy += fy; }
         }
       }
+      // Spring along edges
+      for (var k = 0; k < edgeRefs.length; k++) {
+        var a2 = edgeRefs[k][0], b2 = edgeRefs[k][1];
+        var dx2 = b2.x - a2.x, dy2 = b2.y - a2.y;
+        var dist2 = Math.sqrt(dx2*dx2 + dy2*dy2) || 1;
+        var disp = dist2 - REST_LEN;
+        var fx2 = (dx2/dist2)*disp*SPRING, fy2 = (dy2/dist2)*disp*SPRING;
+        if (!a2.fx) { a2.vx += fx2; a2.vy += fy2; }
+        if (!b2.fx) { b2.vx -= fx2; b2.vy -= fy2; }
+      }
+      // Centering
+      var cx = W/2, cy = H/2;
+      for (var m = 0; m < nodes.length; m++) {
+        if (!nodes[m].fx) {
+          nodes[m].vx += (cx - nodes[m].x) * CENTERING;
+          nodes[m].vy += (cy - nodes[m].y) * CENTERING;
+        }
+      }
+      // Apply velocity
+      var totalV = 0;
+      for (var n = 0; n < nodes.length; n++) {
+        var nd = nodes[n];
+        if (nd.fx !== null) { nd.x = nd.fx; nd.y = nd.fy; nd.vx = 0; nd.vy = 0; continue; }
+        nd.vx *= DAMPING; nd.vy *= DAMPING;
+        nd.x += nd.vx; nd.y += nd.vy;
+        totalV += Math.abs(nd.vx) + Math.abs(nd.vy);
+      }
+      if (totalV < 0.5) settleCount++; else settleCount = 0;
+      settled = settleCount > 60;
     }
 
-    function drawConnection(fromNode, toNode, strength, color, alpha) {
-      var lineWidth = 1 + strength * 3;
-      ctx.beginPath();
-      ctx.moveTo(fromNode.x, fromNode.y);
-      ctx.lineTo(toNode.x, toNode.y);
-      ctx.strokeStyle = color;
-      ctx.globalAlpha = alpha;
-      ctx.lineWidth = lineWidth;
-      ctx.stroke();
-      ctx.globalAlpha = 1;
+    // — Get neighbor set for hover highlight
+    function getNeighbors(node) {
+      var set = {};
+      set[node.id] = true;
+      for (var i = 0; i < links.length; i++) {
+        if (links[i][0] === node.id) set[links[i][1]] = true;
+        if (links[i][1] === node.id) set[links[i][0]] = true;
+      }
+      return set;
     }
 
-    function drawNode(node, isHovered) {
-      var r = node.radius;
-      var breathe = Math.sin(time * 0.8 + (node.id === 'voce' ? 0 : allNodes.indexOf(node) * 0.7)) * 2;
-      var drawR = r + breathe;
+    // — Draw
+    function draw() {
+      time += 0.016;
+      if (!settled || dragging) simulate();
+      ctx.clearRect(0, 0, W, H);
 
-      // Outer glow
-      if (isHovered || node.id === 'voce') {
-        var glowR = drawR + (isHovered ? 18 : 10);
-        var gradient = ctx.createRadialGradient(node.x, node.y, drawR * 0.5, node.x, node.y, glowR);
-        gradient.addColorStop(0, node.color + (isHovered ? '40' : '20'));
-        gradient.addColorStop(1, node.color + '00');
+      // Background
+      ctx.fillStyle = C.bg;
+      ctx.fillRect(0, 0, W, H);
+
+      var neighbors = hovered ? getNeighbors(hovered) : null;
+
+      // Links
+      for (var i = 0; i < edgeRefs.length; i++) {
+        var a = edgeRefs[i][0], b = edgeRefs[i][1];
+        var isHi = neighbors && neighbors[a.id] && neighbors[b.id];
         ctx.beginPath();
-        ctx.arc(node.x, node.y, glowR, 0, Math.PI * 2);
-        ctx.fillStyle = gradient;
-        ctx.fill();
+        ctx.moveTo(a.x, a.y);
+        ctx.lineTo(b.x, b.y);
+        ctx.strokeStyle = isHi ? C.lineHi : C.line;
+        ctx.lineWidth = isHi ? 1 : 0.5;
+        ctx.stroke();
       }
 
-      // Node body
-      if (node.id === 'voce') {
-        // Solid red center
+      // Nodes
+      for (var j = 0; j < nodes.length; j++) {
+        var n = nodes[j];
+        var isHov = hovered === n;
+        var isNeigh = neighbors && neighbors[n.id];
+        var dimmed = neighbors && !isNeigh;
+
+        // Glow on hover
+        if (isHov) {
+          var g = ctx.createRadialGradient(n.x,n.y,n.r,n.x,n.y,n.r+14);
+          g.addColorStop(0,'rgba(196,167,255,0.2)');
+          g.addColorStop(1,'rgba(196,167,255,0)');
+          ctx.beginPath(); ctx.arc(n.x,n.y,n.r+14,0,Math.PI*2);
+          ctx.fillStyle = g; ctx.fill();
+        }
+
+        // Dot
         ctx.beginPath();
-        ctx.arc(node.x, node.y, drawR, 0, Math.PI * 2);
-        ctx.fillStyle = node.color;
+        ctx.arc(n.x, n.y, n.r, 0, Math.PI*2);
+        ctx.fillStyle = dimmed ? 'rgba(200,200,204,0.1)' : (isHov ? '#C4A7FF' : C.dotDim);
         ctx.fill();
 
         // Label
-        ctx.font = '500 11px "Zen Dots", cursive';
-        ctx.fillStyle = '#FFFFFF';
-        ctx.textAlign = 'center';
-        ctx.textBaseline = 'middle';
-        ctx.fillText('Voce', node.x, node.y);
-      } else {
-        // White fill
-        ctx.beginPath();
-        ctx.arc(node.x, node.y, drawR, 0, Math.PI * 2);
-        ctx.fillStyle = '#FFFFFF';
-        ctx.fill();
-
-        // Colored border
-        ctx.beginPath();
-        ctx.arc(node.x, node.y, drawR, 0, Math.PI * 2);
-        ctx.strokeStyle = node.color;
-        ctx.lineWidth = isHovered ? 2.5 : 1.5;
-        ctx.stroke();
-
-        // Score arc (progress ring)
-        if (node.score !== null) {
-          var scoreAngle = (node.score / 10) * Math.PI * 2;
-          ctx.beginPath();
-          ctx.arc(node.x, node.y, drawR + 3, -Math.PI / 2, -Math.PI / 2 + scoreAngle);
-          ctx.strokeStyle = node.color;
-          ctx.globalAlpha = 0.3;
-          ctx.lineWidth = 2;
-          ctx.stroke();
-          ctx.globalAlpha = 1;
-        }
-
-        // Score text
-        ctx.font = '600 11px "Inter", sans-serif';
-        ctx.fillStyle = node.color;
-        ctx.textAlign = 'center';
-        ctx.textBaseline = 'middle';
-        ctx.fillText(node.score.toFixed(1), node.x, node.y - 1);
-
-        // Label below
-        ctx.font = '500 10px "Satoshi", sans-serif';
-        ctx.fillStyle = '#86868B';
-        ctx.fillText(node.label, node.x, node.y + drawR + 16);
-      }
-    }
-
-    function drawParticles() {
-      for (var i = 0; i < particles.length; i++) {
-        var p = particles[i];
-        var conn = connections[p.connIdx];
-        var fromNode = findNode(conn[0]);
-        var toNode = findNode(conn[1]);
-        if (!fromNode || !toNode) continue;
-
-        p.t += p.speed;
-        if (p.t > 1) p.t -= 1;
-
-        var px = fromNode.x + (toNode.x - fromNode.x) * p.t;
-        var py = fromNode.y + (toNode.y - fromNode.y) * p.t;
-
-        ctx.beginPath();
-        ctx.arc(px, py, 1.5, 0, Math.PI * 2);
-        ctx.fillStyle = conn[3];
-        ctx.globalAlpha = p.alpha * (0.5 + 0.5 * Math.sin(time * 2 + p.t * 6));
-        ctx.fill();
-        ctx.globalAlpha = 1;
-      }
-    }
-
-    function draw() {
-      time += 0.016;
-      ctx.clearRect(0, 0, W, H);
-
-      // Subtle background grid (Obsidian-like)
-      ctx.globalAlpha = 0.03;
-      ctx.strokeStyle = '#1D1D1F';
-      ctx.lineWidth = 0.5;
-      var gridSize = 40;
-      for (var gx = 0; gx < W; gx += gridSize) {
-        ctx.beginPath(); ctx.moveTo(gx, 0); ctx.lineTo(gx, H); ctx.stroke();
-      }
-      for (var gy = 0; gy < H; gy += gridSize) {
-        ctx.beginPath(); ctx.moveTo(0, gy); ctx.lineTo(W, gy); ctx.stroke();
-      }
-      ctx.globalAlpha = 1;
-
-      // Gentle ambient pulse from center
-      var pulseR = 60 + Math.sin(time * 0.5) * 20;
-      var ambientGrad = ctx.createRadialGradient(centerNode.x, centerNode.y, 0, centerNode.x, centerNode.y, Math.min(W,H) * 0.5);
-      ambientGrad.addColorStop(0, 'rgba(215,0,48,0.03)');
-      ambientGrad.addColorStop(0.5, 'rgba(215,0,48,0.01)');
-      ambientGrad.addColorStop(1, 'rgba(215,0,48,0)');
-      ctx.fillStyle = ambientGrad;
-      ctx.fillRect(0, 0, W, H);
-
-      // Draw connections
-      for (var i = 0; i < connections.length; i++) {
-        var conn = connections[i];
-        var fromNode = findNode(conn[0]);
-        var toNode = findNode(conn[1]);
-        if (!fromNode || !toNode) continue;
-
-        var isHighlighted = hoveredNode && (hoveredNode.id === conn[0] || hoveredNode.id === conn[1]);
-        var baseAlpha = conn[2] * 0.3;
-        var pulseAlpha = Math.sin(time * 1.2 + i * 0.5) * 0.08;
-        var alpha = isHighlighted ? Math.min(conn[2] * 0.8, 0.7) : baseAlpha + pulseAlpha;
-
-        drawConnection(fromNode, toNode, conn[2], conn[3], alpha);
-      }
-
-      // Draw particles
-      drawParticles();
-
-      // Gentle float animation for area nodes
-      for (var j = 0; j < areaNodes.length; j++) {
-        var n = areaNodes[j];
-        if (n.baseX !== undefined) {
-          n.x = n.baseX + Math.sin(time * 0.4 + j * 1.1) * 3;
-          n.y = n.baseY + Math.cos(time * 0.3 + j * 0.9) * 3;
+        var showLabel = isHov || isNeigh || n.id === 'voce' || !neighbors;
+        if (showLabel) {
+          ctx.font = (n.id==='voce'?'600 ':'400 ') + (n.r > 4 ? 10 : 9) + 'px Inter, sans-serif';
+          ctx.textAlign = 'center';
+          ctx.fillStyle = isHov ? C.labelHi : (dimmed ? 'rgba(200,200,204,0.08)' : C.label);
+          ctx.fillText(n.l, n.x, n.y + n.r + 13);
         }
       }
-
-      // Draw nodes (area nodes first, center on top)
-      for (var k = 0; k < areaNodes.length; k++) {
-        drawNode(areaNodes[k], hoveredNode === areaNodes[k]);
-      }
-      drawNode(centerNode, hoveredNode === centerNode);
 
       requestAnimationFrame(draw);
     }
 
-    function getNodeAt(mx, my) {
-      // Check center first (on top)
-      var dx = mx - centerNode.x;
-      var dy = my - centerNode.y;
-      if (dx * dx + dy * dy < (centerNode.radius + 8) * (centerNode.radius + 8)) {
-        return centerNode;
-      }
-      for (var i = areaNodes.length - 1; i >= 0; i--) {
-        dx = mx - areaNodes[i].x;
-        dy = my - areaNodes[i].y;
-        var hitR = areaNodes[i].radius + 8;
-        if (dx * dx + dy * dy < hitR * hitR) {
-          return areaNodes[i];
-        }
+    // — Hit test
+    function nodeAt(mx, my) {
+      for (var i = nodes.length-1; i >= 0; i--) {
+        var dx = mx - nodes[i].x, dy = my - nodes[i].y;
+        if (dx*dx + dy*dy < Math.pow(nodes[i].r + 8, 2)) return nodes[i];
       }
       return null;
     }
 
-    function handlePointerMove(e) {
-      var rect = canvas.getBoundingClientRect();
-      var mx = e.clientX - rect.left;
-      var my = e.clientY - rect.top;
-      var node = getNodeAt(mx, my);
-      hoveredNode = node;
-
-      if (node && node.id !== 'voce') {
-        tooltip.textContent = node.label + '  ' + node.score.toFixed(1) + '/10';
-        tooltip.style.left = (node.x) + 'px';
-        tooltip.style.top = (node.y - node.radius - 8) + 'px';
+    // — Mouse events
+    canvas.addEventListener('mousemove', function(e) {
+      var r = canvas.getBoundingClientRect();
+      var mx = (e.clientX - r.left) * (W / r.width);
+      var my = (e.clientY - r.top) * (H / r.height);
+      if (dragging) {
+        dragging.fx = mx - dragOff.x;
+        dragging.fy = my - dragOff.y;
+        settled = false; settleCount = 0;
+        return;
+      }
+      var n = nodeAt(mx, my);
+      hovered = n;
+      canvas.style.cursor = n ? 'grab' : 'default';
+      if (n && n.l) {
+        tooltip.textContent = n.l;
+        tooltip.style.left = (n.x * r.width / W) + 'px';
+        tooltip.style.top = (n.y * r.height / H - n.r - 6) + 'px';
         tooltip.classList.add('visible');
-        canvas.style.cursor = 'pointer';
       } else {
         tooltip.classList.remove('visible');
-        canvas.style.cursor = hoveredNode ? 'pointer' : 'grab';
       }
-    }
+    });
 
-    function handlePointerLeave() {
-      hoveredNode = null;
-      tooltip.classList.remove('visible');
-    }
+    canvas.addEventListener('mousedown', function(e) {
+      var r = canvas.getBoundingClientRect();
+      var mx = (e.clientX - r.left) * (W / r.width);
+      var my = (e.clientY - r.top) * (H / r.height);
+      var n = nodeAt(mx, my);
+      if (n) {
+        dragging = n;
+        dragOff.x = mx - n.x; dragOff.y = my - n.y;
+        n.fx = n.x; n.fy = n.y;
+        canvas.style.cursor = 'grabbing';
+      }
+    });
 
-    // Touch support
+    canvas.addEventListener('mouseup', function() {
+      if (dragging) { dragging.fx = null; dragging.fy = null; dragging = null; settled = false; settleCount = 0; }
+    });
+
+    canvas.addEventListener('mouseleave', function() {
+      hovered = null; tooltip.classList.remove('visible');
+      if (dragging) { dragging.fx = null; dragging.fy = null; dragging = null; }
+    });
+
+    // Touch
+    canvas.addEventListener('touchstart', function(e) {
+      e.preventDefault();
+      var t = e.touches[0], r = canvas.getBoundingClientRect();
+      var mx = (t.clientX - r.left) * (W / r.width);
+      var my = (t.clientY - r.top) * (H / r.height);
+      var n = nodeAt(mx, my);
+      if (n) { dragging = n; dragOff.x = mx - n.x; dragOff.y = my - n.y; n.fx = n.x; n.fy = n.y; }
+    }, {passive:false});
     canvas.addEventListener('touchmove', function(e) {
       e.preventDefault();
-      var touch = e.touches[0];
-      handlePointerMove(touch);
-    }, { passive: false });
-    canvas.addEventListener('touchend', handlePointerLeave);
+      if (!dragging) return;
+      var t = e.touches[0], r = canvas.getBoundingClientRect();
+      dragging.fx = (t.clientX - r.left) * (W / r.width) - dragOff.x;
+      dragging.fy = (t.clientY - r.top) * (H / r.height) - dragOff.y;
+      settled = false; settleCount = 0;
+    }, {passive:false});
+    canvas.addEventListener('touchend', function() {
+      if (dragging) { dragging.fx = null; dragging.fy = null; dragging = null; settled = false; }
+    });
 
-    canvas.addEventListener('mousemove', handlePointerMove);
-    canvas.addEventListener('mouseleave', handlePointerLeave);
+    // — Resize
+    function resize() {
+      var r = wrap.getBoundingClientRect();
+      W = r.width; H = r.height;
+      canvas.width = W * dpr; canvas.height = H * dpr;
+      canvas.style.width = W + 'px'; canvas.style.height = H + 'px';
+      ctx.setTransform(dpr,0,0,dpr,0,0);
+    }
 
     window.addEventListener('resize', resize);
     resize();
-    spawnParticles();
+    initPositions();
     draw();
   })();
   </script>
