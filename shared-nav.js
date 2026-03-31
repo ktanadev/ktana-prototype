@@ -24,7 +24,28 @@
       const segs = path.split('/pf/')[1].split('/');
       return '../'.repeat(segs.length - 1) + p;
     }
+    if (path.includes('/tenant/')) {
+      const segs = path.split('/tenant/')[1].split('/');
+      return '../'.repeat(segs.length) + 'pf/' + p;
+    }
     return 'pf/' + p;
+  }
+
+  // PJ path resolver
+  function pj(p) {
+    if (path.includes('/pj/')) {
+      const segs = path.split('/pj/')[1].split('/');
+      return '../'.repeat(segs.length - 1) + p;
+    }
+    if (path.includes('/tenant/')) {
+      const segs = path.split('/tenant/')[1].split('/');
+      return '../'.repeat(segs.length) + 'pj/' + p;
+    }
+    if (path.includes('/pf/')) {
+      const segs = path.split('/pf/')[1].split('/');
+      return '../'.repeat(segs.length) + 'pj/' + p;
+    }
+    return 'pj/' + p;
   }
 
   // PF-specific sections
@@ -91,13 +112,13 @@
       { label: 'Resolvidas', href: t('approvals/resolved.html'), icon: 'M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z' },
     ]},
     { id: 'sensei-pj', label: 'SenseiIA', icon: 'M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z', items: [
-      { label: 'Fontes', href: '../pj/sensei-fontes.html', icon: 'M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101' },
-      { label: 'Painel', href: '../pj/sensei-painel.html', icon: 'M22 12h-4l-3 9L9 3l-3 9H2' },
-      { label: 'Clientes', href: '../pj/sensei-clientes.html', icon: 'M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2' },
-      { label: 'Reunioes', href: '../pj/sensei-meetings.html', icon: 'M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14' },
-      { label: 'Insights', href: '../pj/sensei-insights.html', icon: 'M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3' },
-      { label: 'Time', href: '../pj/sensei-time.html', icon: 'M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197' },
-      { label: 'Sessoes', href: '../pj/sensei-sessoes.html', icon: 'M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z' },
+      { label: 'Fontes', href: pj('sensei-fontes.html'), icon: 'M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101' },
+      { label: 'Painel', href: pj('sensei-painel.html'), icon: 'M22 12h-4l-3 9L9 3l-3 9H2' },
+      { label: 'Clientes', href: pj('sensei-clientes.html'), icon: 'M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2' },
+      { label: 'Reunioes', href: pj('sensei-meetings.html'), icon: 'M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14' },
+      { label: 'Insights', href: pj('sensei-insights.html'), icon: 'M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3' },
+      { label: 'Time', href: pj('sensei-time.html'), icon: 'M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197' },
+      { label: 'Sessoes', href: pj('sensei-sessoes.html'), icon: 'M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z' },
     ]},
     { id: 'equipe', label: 'Equipe', icon: 'M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2', items: [
       { label: 'Meus samurais', href: t('team/list.html'), icon: 'M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197' },
