@@ -701,7 +701,41 @@
 
       <div class="ds-neon-line"></div>
 
-      <!-- 13. MICRO INTERACOES -->
+      <!-- MOTION / ANIMACOES -->
+      <section id="animacoes" class="ds-section ds-reveal">
+        <div class="ds-section-label">13</div>
+        <h2 class="ds-section-title">Motion</h2>
+        <p class="ds-section-desc">4 animacoes base: Fade In, Spring, Glow e Stagger. Cada uma com easing e timing especificos.</p>
+        <div class="ds-divider"></div>
+        <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;">
+          <div style="background:#FFF;border:1px solid rgba(0,0,0,0.04);border-radius:16px;padding:24px;text-align:center;">
+            <div style="font-family:'Inter',sans-serif;font-size:11px;font-weight:600;color:#1D1D1F;margin-bottom:4px;">Fade In</div>
+            <div style="font-family:'JetBrains Mono',monospace;font-size:9px;color:#AEAEB2;margin-bottom:16px;">0.6s ease</div>
+            <div class="ds-anim-fade ds-reveal" style="width:44px;height:44px;border-radius:12px;background:#D70030;margin:0 auto;"></div>
+          </div>
+          <div style="background:#FFF;border:1px solid rgba(0,0,0,0.04);border-radius:16px;padding:24px;text-align:center;">
+            <div style="font-family:'Inter',sans-serif;font-size:11px;font-weight:600;color:#1D1D1F;margin-bottom:4px;">Spring</div>
+            <div style="font-family:'JetBrains Mono',monospace;font-size:9px;color:#AEAEB2;margin-bottom:16px;">0.6s .32,.72,0,1</div>
+            <div class="ds-anim-spring ds-reveal" style="width:44px;height:44px;border-radius:12px;background:#D70030;margin:0 auto;"></div>
+          </div>
+          <div style="background:#FFF;border:1px solid rgba(0,0,0,0.04);border-radius:16px;padding:24px;text-align:center;">
+            <div style="font-family:'Inter',sans-serif;font-size:11px;font-weight:600;color:#1D1D1F;margin-bottom:4px;">Glow</div>
+            <div style="font-family:'JetBrains Mono',monospace;font-size:9px;color:#AEAEB2;margin-bottom:16px;">2s infinite</div>
+            <div class="ds-anim-glow ds-reveal" style="width:44px;height:44px;border-radius:12px;background:#D70030;margin:0 auto;"></div>
+          </div>
+          <div style="background:#FFF;border:1px solid rgba(0,0,0,0.04);border-radius:16px;padding:24px;text-align:center;">
+            <div style="font-family:'Inter',sans-serif;font-size:11px;font-weight:600;color:#1D1D1F;margin-bottom:4px;">Stagger</div>
+            <div style="font-family:'JetBrains Mono',monospace;font-size:9px;color:#AEAEB2;margin-bottom:16px;">0.08s delay each</div>
+            <div class="ds-anim-stagger ds-reveal" style="margin:0 auto;text-align:center;">
+              <span class="ds-stagger-dot"></span><span class="ds-stagger-dot"></span><span class="ds-stagger-dot"></span><span class="ds-stagger-dot"></span><span class="ds-stagger-dot"></span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <div class="ds-neon-line"></div>
+
+      <!-- 14. MICRO INTERACOES -->
       <section id="micro" class="ds-section ds-reveal">
         <div class="ds-section-label">13</div>
         <h2 class="ds-section-title">Micro Interacoes</h2>
@@ -942,14 +976,34 @@
       });
     }, { threshold: 0.2, rootMargin: '-15% 0px -65% 0px' });
     secs.forEach(function(s) { navObs.observe(s); });
-    // Also handle nav clicks to activate immediately
+    // Handle nav clicks: activate + force show target section
+    function forceReveal(el) {
+      if (el) { el.classList.remove('ds-reveal'); el.classList.add('visible'); }
+    }
+    function revealNearby(target) {
+      forceReveal(target);
+      var allS = Array.from(document.querySelectorAll('.ds-section'));
+      var i = allS.indexOf(target);
+      for (var k = Math.max(0, i - 1); k <= Math.min(allS.length - 1, i + 2); k++) {
+        forceReveal(allS[k]);
+      }
+      // Also reveal child ds-reveal elements
+      target.querySelectorAll('.ds-reveal').forEach(function(c) { forceReveal(c); });
+    }
     navs.forEach(function(n) {
       n.addEventListener('click', function() {
         userScrolled = true;
         navs.forEach(function(x) { x.classList.remove('active'); });
         n.classList.add('active');
+        var t = document.getElementById(n.getAttribute('data-section'));
+        if (t) revealNearby(t);
       });
     });
+    // Also force reveal on hash navigation (direct URL)
+    if (window.location.hash) {
+      var ht = document.querySelector(window.location.hash);
+      if (ht) revealNearby(ht);
+    }
 
     // Animated counters
     var countObs = new IntersectionObserver(function(entries) {
