@@ -705,7 +705,7 @@
   const isDesktop = window.innerWidth > 768;
   let sidebarOpen = isDashboardHome && isDesktop;
   // Chat do agente: skip em telas que já têm chat próprio (builder, dashboard home)
-  const skipChat = path.includes('/builder') || (currentFile === 'home.html' && path.includes('/dashboard/')) || currentFile === 'chat.html' || currentFile === 'terminal.html' || currentFile === 'support.html' || currentFile === 'org.html' || (currentFile === 'list.html' && path.includes('/approvals/')) || currentFile === 'expert-chat.html' || (currentFile === 'list.html' && path.includes('/team/')) || currentFile === 'whatsapp.html';
+  const skipChat = path.includes('/builder') || (currentFile === 'home.html' && path.includes('/dashboard/')) || currentFile === 'chat.html' || currentFile === 'terminal.html' || currentFile === 'support.html' || currentFile === 'org.html' || (currentFile === 'list.html' && path.includes('/approvals/')) || currentFile === 'expert-chat.html' || (currentFile === 'list.html' && path.includes('/team/')) || currentFile === 'whatsapp.html' || currentFile === 'habits.html' || currentFile.startsWith('sensei-');
   if (skipChat) {
     var chatEl = document.getElementById('ktChat');
     if (chatEl) chatEl.style.display = 'none';
