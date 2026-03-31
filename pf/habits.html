@@ -8,9 +8,59 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Zen+Dots&display=swap" rel="stylesheet">
   <style>
     body { min-height: 100vh; background: #F5F5F7; }
-    .main { max-width: 720px; margin: 0 auto; padding: 40px 24px 80px; }
+    .main { max-width: 720px; margin: 0 auto; padding: 0 24px 80px; }
 
-    .page-header { text-align: center; margin-bottom: 32px; }
+    /* ═══ CHAT HERO — Dark, full-width, top (Ambient Glow Framework) ═══ */
+    .chat-hero { background: #0A0A0A; position: relative; overflow: hidden; margin-bottom: 28px; }
+    .chat-hero .ambient { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; }
+    .chat-hero .orb { position: absolute; border-radius: 50%; filter: blur(80px); pointer-events: none; }
+    .chat-hero .orb:nth-child(1) { width: 55%; height: 55%; top: -10%; left: -8%; background: radial-gradient(ellipse at center, rgba(215,0,48,0.16) 0%, transparent 70%); animation: od1 10s ease-in-out infinite; }
+    .chat-hero .orb:nth-child(2) { width: 45%; height: 50%; top: 15%; right: -8%; background: radial-gradient(ellipse at center, rgba(160,15,5,0.13) 0%, transparent 70%); animation: od2 14s ease-in-out infinite; }
+    .chat-hero .orb:nth-child(3) { width: 40%; height: 45%; bottom: -8%; left: 25%; background: radial-gradient(ellipse at center, rgba(220,80,25,0.11) 0%, transparent 70%); animation: od3 12s ease-in-out infinite; }
+    @keyframes od1{0%,100%{transform:translate(0,0)}33%{transform:translate(6%,4%)}66%{transform:translate(-3%,-2%)}}
+    @keyframes od2{0%,100%{transform:translate(0,0)}50%{transform:translate(-7%,3%)}}
+    @keyframes od3{0%,100%{transform:translate(0,0)}33%{transform:translate(4%,-4%)}66%{transform:translate(-3%,2%)}}
+
+    .chat-inner { position: relative; z-index: 1; padding: 28px 24px 24px; max-width: 720px; margin: 0 auto; }
+    .chat-top { display: flex; align-items: center; gap: 12px; margin-bottom: 20px; }
+    .chat-avatar { width: 40px; height: 40px; border-radius: 50%; background: rgba(215,0,48,0.12); border: 1.5px solid rgba(215,0,48,0.25); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .chat-meta .name { font-family: 'Inter', sans-serif; font-size: 14px; font-weight: 600; color: #F5F5F7; }
+    .chat-meta .role { font-family: 'Inter', sans-serif; font-size: 11px; color: rgba(255,255,255,0.35); }
+    .chat-live { width: 6px; height: 6px; border-radius: 50%; background: #30D158; margin-left: auto; animation: pulse 2s infinite; }
+    @keyframes pulse{0%,100%{opacity:1}50%{opacity:0.3}}
+
+    .chat-msgs { display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px; max-height: 280px; overflow-y: auto; }
+    .msg { max-width: 85%; padding: 14px 18px; border-radius: 18px; font-family: 'Satoshi', sans-serif; font-size: 14px; line-height: 1.55; animation: mi .35s ease both; }
+    .msg-ai { background: rgba(255,255,255,0.04); backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,0.06); color: #E5E5EA; border-bottom-left-radius: 6px; align-self: flex-start; }
+    .msg-ai strong { color: #D70030; }
+    .msg-user { background: rgba(215,0,48,0.12); border: 1px solid rgba(215,0,48,0.18); color: #E5E5EA; border-bottom-right-radius: 6px; align-self: flex-end; }
+    @keyframes mi{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+
+    .ch-actions { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 12px; }
+    .ch-action { font-family: 'Inter', sans-serif; font-size: 12px; color: rgba(255,255,255,0.6); background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); border-radius: 980px; padding: 8px 16px; cursor: pointer; transition: all .2s; }
+    .ch-action:hover { background: rgba(215,0,48,0.12); border-color: rgba(215,0,48,0.25); color: #F5F5F7; }
+
+    /* Input glow + borda circulante */
+    .input-area { position: relative; margin-top: 16px; }
+    .input-wrapper { position: relative; border-radius: 14px; overflow: hidden; }
+    .input-glow { position: absolute; bottom: -25%; left: -10%; width: 120%; height: 150%; pointer-events: none; z-index: 0; opacity: 0.5; filter: blur(25px);
+      background: radial-gradient(ellipse at 30% 80%, rgba(215,0,48,0.2) 0%, transparent 50%), radial-gradient(ellipse at 70% 60%, rgba(160,15,5,0.15) 0%, transparent 50%);
+      animation: glowM 8s ease-in-out infinite; }
+    @keyframes glowM{0%,100%{transform:translate(0,0)}33%{transform:translate(4%,-2%)}66%{transform:translate(-3%,1%)}}
+    .input-border-spin { position: absolute; inset: 0; border-radius: 14px; z-index: 1; pointer-events: none; }
+    .input-border-spin::before { content:''; position: absolute; inset: 0; border-radius: 14px; padding: 1px;
+      background: conic-gradient(from var(--spin-angle, 0deg), transparent 0%, transparent 30%, rgba(155,10,42,0.4) 35%, rgba(215,0,48,0.5) 40%, rgba(220,80,25,0.3) 45%, transparent 50%, transparent 100%);
+      -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0); mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0); -webkit-mask-composite: xor; mask-composite: exclude;
+      animation: rotateLine 5s linear infinite; }
+    @keyframes rotateLine{to{--spin-angle:360deg}}
+    @property --spin-angle{syntax:"<angle>";inherits:false;initial-value:0deg}
+    .input-card { position: relative; z-index: 2; background: #111; border-radius: 13px; display: flex; align-items: center; gap: 8px; padding: 5px 6px 5px 16px; }
+    .chat-input { flex: 1; font-family: 'Satoshi', sans-serif; font-size: 14px; padding: 10px 0; border: none; background: transparent; color: #E5E5EA; outline: none; }
+    .chat-input::placeholder { color: rgba(255,255,255,0.2); }
+    .chat-send { width: 36px; height: 36px; border-radius: 50%; background: #D70030; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: transform .1s; }
+    .chat-send:active { transform: scale(.92); }
+
+    .page-header { text-align: center; margin-bottom: 32px; display: none; }
     .page-header h1 { font-family: 'Zen Dots', cursive; font-size: 24px; color: #1D1D1F; margin-bottom: 6px; }
     .page-header p { font-family: 'Satoshi', sans-serif; font-size: 14px; color: #86868B; line-height: 1.5; }
 
@@ -45,12 +95,12 @@
     .habit-item { display: flex; align-items: center; gap: 12px; padding: 11px 0; border-bottom: 0.5px solid rgba(0,0,0,0.03); }
     .habit-item:last-child { border-bottom: none; }
     .habit-status { width: 28px; height: 28px; border-radius: 50%; flex-shrink: 0; display: flex; align-items: center; justify-content: center; min-height: 44px; min-width: 44px; position: relative; }
-    .habit-status.confirmed { background: #30D158; }
+    .habit-status.confirmed { background: #D70030; }
     .habit-status.confirmed svg { color: #FFF; }
     .habit-status.pending { background: rgba(0,0,0,0.04); border: 1.5px solid #D2D2D7; }
     .habit-status.pending svg { color: #AEAEB2; }
-    .habit-status.missed { background: rgba(255,69,58,0.08); border: 1.5px solid rgba(255,69,58,0.2); }
-    .habit-status.missed svg { color: #FF453A; }
+    .habit-status.missed { background: rgba(215,0,48,0.08); border: 1.5px solid rgba(215,0,48,0.2); }
+    .habit-status.missed svg { color: #D70030; }
     .habit-content { flex: 1; min-width: 0; }
     .habit-name { font-family: 'Satoshi', sans-serif; font-size: 14px; color: #1D1D1F; }
     .habit-name.confirmed { color: #86868B; }
@@ -92,153 +142,52 @@
       .streak-calendar { grid-template-columns: repeat(6, 1fr); }
     }
   
-    /* === COMPACT CHAT ZONE -- Dark Ambient Glow Widget === */
-    .chat-zone.compact {
-      background: #0A0A0A;
-      border-radius: 16px;
-      position: relative;
-      overflow: hidden;
-      margin-bottom: 28px;
-      padding: 0;
-      box-shadow: 0 4px 32px rgba(0,0,0,0.18), 0 0 0 1px rgba(255,255,255,0.04);
-    }
-    .chat-zone.compact .ambient-glow {
-      position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none;
-    }
-    .chat-zone.compact .ambient-glow-orb {
-      position: absolute; border-radius: 50%; pointer-events: none;
-      filter: blur(60px);
-    }
-    .chat-zone.compact .ambient-glow-orb:nth-child(1) {
-      width: 55%; height: 45%;
-      top: 0%; left: -10%;
-      background: radial-gradient(ellipse at center, rgba(215,0,48,0.22) 0%, transparent 70%);
-      animation: orbDriftC1 10s ease-in-out infinite;
-    }
-    .chat-zone.compact .ambient-glow-orb:nth-child(2) {
-      width: 45%; height: 40%;
-      top: 20%; right: -10%;
-      background: radial-gradient(ellipse at center, rgba(160,15,5,0.18) 0%, transparent 70%);
-      animation: orbDriftC2 14s ease-in-out infinite;
-    }
-    .chat-zone.compact .ambient-glow-orb:nth-child(3) {
-      width: 40%; height: 45%;
-      bottom: -5%; left: 20%;
-      background: radial-gradient(ellipse at center, rgba(220,80,25,0.15) 0%, transparent 70%);
-      animation: orbDriftC3 12s ease-in-out infinite;
-    }
-    @keyframes orbDriftC1 { 0%,100% { transform: translate(0,0); } 33% { transform: translate(8%,6%); } 66% { transform: translate(-4%,-4%); } }
-    @keyframes orbDriftC2 { 0%,100% { transform: translate(0,0); } 50% { transform: translate(-10%,5%); } }
-    @keyframes orbDriftC3 { 0%,100% { transform: translate(0,0); } 33% { transform: translate(6%,-6%); } 66% { transform: translate(-5%,3%); } }
-
-    .chat-zone.compact .cmd-inner { position: relative; z-index: 1; padding: 20px 22px 18px; }
-    .cmd-label { font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: #D70030; margin-bottom: 14px; display: flex; align-items: center; gap: 8px; }
-    .cmd-label .cmd-dot { width: 6px; height: 6px; border-radius: 50%; background: #30D158; animation: pulse-cmd 2s infinite; }
-    @keyframes pulse-cmd { 0%,100% { opacity:1; } 50% { opacity:0.3; } }
-
-    .cmd-messages { max-height: 200px; overflow-y: auto; margin-bottom: 16px; display: flex; flex-direction: column; gap: 10px; }
-    .cmd-msg { max-width: 85%; padding: 12px 16px; border-radius: 16px; font-family: 'Satoshi', sans-serif; font-size: 14px; line-height: 1.5; animation: fadeIn 0.3s ease; }
-    .cmd-msg-ai { background: rgba(255,255,255,0.04); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,0.06); color: #E5E5EA; border-bottom-left-radius: 4px; align-self: flex-start; }
-    .cmd-msg-user { background: rgba(215,0,48,0.12); border: 1px solid rgba(215,0,48,0.18); color: #F5F5F7; border-bottom-right-radius: 4px; align-self: flex-end; }
-    .cmd-msg-ai .cmd-sender { font-family: 'Inter', sans-serif; font-size: 11px; color: #D70030; font-weight: 500; margin-bottom: 4px; }
-
-    .cmd-shortcuts { display: flex; gap: 6px; margin-top: 14px; flex-wrap: wrap; }
-    .cmd-shortcut { font-family: 'Inter', sans-serif; font-size: 12px; color: rgba(255,255,255,0.4); background: rgba(255,255,255,0.03); border: 0.5px solid rgba(255,255,255,0.1); border-radius: 980px; padding: 6px 14px; cursor: pointer; transition: all 0.15s; }
-    .cmd-shortcut:hover { background: rgba(215,0,48,0.12); color: #F5F5F7; border-color: rgba(215,0,48,0.25); }
-
-    .cmd-input-outer { position: relative; border-radius: 14px; margin-top: 16px; }
-    .cmd-input-glow {
-      position: absolute;
-      top: 50%; left: 50%;
-      width: 110%; height: 180%;
-      transform: translate(-50%, -50%);
-      pointer-events: none; z-index: 0;
-      filter: blur(30px);
-      opacity: 0.65;
-      background:
-        radial-gradient(ellipse 50% 50% at 30% 40%, rgba(215,0,48,0.45) 0%, transparent 70%),
-        radial-gradient(ellipse 45% 50% at 70% 50%, rgba(160,15,5,0.35) 0%, transparent 65%),
-        radial-gradient(ellipse 40% 45% at 50% 55%, rgba(220,80,25,0.25) 0%, transparent 60%);
-      animation: glowMoveC 8s ease-in-out infinite;
-    }
-    @keyframes glowMoveC {
-      0%   { transform: translate(-50%, -50%) rotate(0deg); }
-      25%  { transform: translate(-45%, -53%) rotate(2deg); }
-      50%  { transform: translate(-55%, -47%) rotate(-1deg); }
-      75%  { transform: translate(-48%, -52%) rotate(1.5deg); }
-      100% { transform: translate(-50%, -50%) rotate(0deg); }
-    }
-    .cmd-input-border-spin {
-      position: absolute; inset: -1px; border-radius: 15px; z-index: 1;
-      overflow: hidden; pointer-events: none;
-    }
-    .cmd-input-border-spin::before {
-      content: ''; position: absolute;
-      top: -50%; left: -50%; width: 200%; height: 200%;
-      background: conic-gradient(transparent 30%, rgba(140,10,5,0.6) 38%, rgba(215,0,48,0.8) 42%, rgba(220,80,25,0.5) 48%, transparent 55%, transparent 80%, rgba(180,30,8,0.3) 87%, rgba(215,0,48,0.5) 92%, transparent 97%);
-      animation: rotateLine 5s linear infinite;
-    }
-    @keyframes rotateLine { to { transform: rotate(360deg); } }
-    .cmd-input-border-spin::after {
-      content: ''; position: absolute;
-      inset: 1px; border-radius: 14px;
-      background: #111;
-    }
-    .cmd-input-card {
-      background: #111; border-radius: 14px; position: relative; z-index: 2;
-      display: flex; flex-direction: column;
-    }
-    .cmd-input {
-      font-family: 'Satoshi', sans-serif; width: 100%;
-      padding: 14px 18px 48px; border-radius: 14px;
-      border: none; background: transparent;
-      font-size: 15px; color: #E5E5EA; outline: none;
-      min-height: 56px; max-height: 120px; resize: none;
-      box-sizing: border-box;
-    }
-    .cmd-input::placeholder { color: rgba(255,255,255,0.25); }
-    .cmd-input-footer {
-      position: absolute; bottom: 0; left: 0; right: 0;
-      padding: 8px 14px; display: flex; align-items: center; gap: 8px;
-      border-top: 1px solid rgba(255,255,255,0.04);
-    }
-    .cmd-add-btn { width: 30px; height: 30px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.1); background: transparent; color: rgba(255,255,255,0.4); display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 16px; transition: all 0.15s; }
-    .cmd-add-btn:hover { background: rgba(255,255,255,0.06); color: rgba(255,255,255,0.7); }
-    .cmd-agent-select { font-family: 'Inter', sans-serif; font-size: 12px; color: rgba(255,255,255,0.5); background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; padding: 5px 10px; cursor: pointer; appearance: none; -webkit-appearance: none; }
-    .cmd-send { margin-left: auto; width: 34px; height: 34px; border-radius: 10px; background: #D70030; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: transform 0.1s, background 0.15s; flex-shrink: 0; color: #F5F5F7; }
-    .cmd-send:hover { background: #E5003A; }
-    .cmd-send:active { transform: scale(0.92); }
-    .cmd-typing { display: none; align-items: center; gap: 8px; padding: 6px 0; margin-bottom: 8px; }
-    .cmd-typing.active { display: flex; }
-    .cmd-typing-dots { display: flex; gap: 4px; }
-    .cmd-typing-dot { width: 5px; height: 5px; border-radius: 50%; background: rgba(215,0,48,0.4); animation: typingBounceC 1.4s ease infinite; }
-    .cmd-typing-dot:nth-child(2) { animation-delay: 0.2s; }
-    .cmd-typing-dot:nth-child(3) { animation-delay: 0.4s; }
-    @keyframes typingBounceC { 0%,60%,100% { transform: translateY(0); } 30% { transform: translateY(-3px); } }
-    .cmd-typing-text { font-family: 'Inter', sans-serif; font-size: 11px; color: rgba(255,255,255,0.35); }
-
   </style>
 </head>
 <body>
 
-  <main class="main"><div class="gradient-header">
-
-    <!-- Header -->
-    <div class="page-header fade-in">
-      <h1>Habitos</h1>
-      <p>Seus mentores monitoram e confirmam — voce so vive</p>
-    </div>
-
-    <!-- Mentor status message -->
-    <div class="mentor-status fade-in" style="animation-delay:0.03s;">
-      <div class="mentor-status-avatar"><span>Y</span></div>
-      <div>
-        <div class="mentor-status-text">
-          Bom dia! Seus mentores ja confirmaram <strong>5 de 12 habitos</strong> hoje. Takeshi detectou que voce acordou 6:28 pelo Apple Watch e Kenji confirmou o treino de 45min na academia. Faltam 7 habitos — vou acompanhando ao longo do dia.
+  <!-- CHAT HERO (Dark, full-width, top) -->
+  <div class="chat-hero">
+    <div class="ambient"><div class="orb"></div><div class="orb"></div><div class="orb"></div></div>
+    <div class="chat-inner">
+      <div class="chat-top">
+        <div class="chat-avatar">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#D70030" stroke-width="1.5"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
         </div>
-        <div class="mentor-status-time">Yumi — agora</div>
+        <div class="chat-meta">
+          <div class="name">Yumi</div>
+          <div class="role">Seus habitos</div>
+        </div>
+        <div class="chat-live"></div>
+      </div>
+
+      <div class="chat-msgs" id="chatMsgs">
+        <div class="msg msg-ai">
+          Bom dia! Seus mentores ja confirmaram <strong>5 de 12 habitos</strong> hoje. Takeshi detectou que voce acordou 6:28 pelo Apple Watch e Kenji confirmou o treino de 45min na academia.
+          <div class="ch-actions">
+            <div class="ch-action" onclick="quickMsg('Quais faltam?')">Quais faltam?</div>
+            <div class="ch-action" onclick="quickMsg('Ver streak')">Ver streak</div>
+            <div class="ch-action" onclick="quickMsg('Ajustar habitos')">Ajustar habitos</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="input-area">
+        <div class="input-wrapper">
+          <div class="input-glow"></div>
+          <div class="input-border-spin"></div>
+          <div class="input-card">
+            <input class="chat-input" id="chatInput" placeholder="Pergunte sobre seus habitos..." onkeydown="if(event.key==='Enter')sendMsg()">
+            <button class="chat-send" onclick="sendMsg()">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#FFF" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+            </button>
+          </div>
+        </div>
       </div>
     </div>
+  </div>
+
+  <main class="main"><div class="gradient-header">
 
     <!-- Streak card -->
     <div class="card streak-card fade-in" style="animation-delay:0.05s;">
@@ -297,7 +246,7 @@
         <div class="habit-content">
           <div class="habit-name confirmed">Acordar 6:30</div>
           <div class="habit-source">
-            <span class="habit-area-dot" style="background:#30D158;"></span>
+            <span class="habit-area-dot" style="background:#D70030"></span>
             <span class="habit-mentor">Takeshi confirmou via Apple Watch</span>
             <span class="habit-source-tag">6:28</span>
           </div>
@@ -315,7 +264,7 @@
         <div class="habit-content">
           <div class="habit-name confirmed">Meditacao 15min</div>
           <div class="habit-source">
-            <span class="habit-area-dot" style="background:#BF5AF2;"></span>
+            <span class="habit-area-dot" style="background:#9B0A2A;"></span>
             <span class="habit-mentor">Aiko confirmou via Headspace</span>
             <span class="habit-source-tag">17min</span>
           </div>
@@ -333,7 +282,7 @@
         <div class="habit-content">
           <div class="habit-name confirmed">Exercicio</div>
           <div class="habit-source">
-            <span class="habit-area-dot" style="background:#FF453A;"></span>
+            <span class="habit-area-dot" style="background:rgba(215,0,48,0.4);"></span>
             <span class="habit-mentor">Dr. Kenji confirmou via Apple Health</span>
             <span class="habit-source-tag">45min musculacao</span>
           </div>
@@ -357,7 +306,7 @@
         <div class="habit-content">
           <div class="habit-name confirmed">Deep work 2h</div>
           <div class="habit-source">
-            <span class="habit-area-dot" style="background:#30D158;"></span>
+            <span class="habit-area-dot" style="background:#D70030"></span>
             <span class="habit-mentor">Takeshi confirmou via Calendar</span>
             <span class="habit-source-tag">2h15 bloco foco</span>
           </div>
@@ -375,7 +324,7 @@
         <div class="habit-content">
           <div class="habit-name confirmed">Almocar sem tela</div>
           <div class="habit-source">
-            <span class="habit-area-dot" style="background:#FF453A;"></span>
+            <span class="habit-area-dot" style="background:rgba(215,0,48,0.4);"></span>
             <span class="habit-mentor">Yui confirmou via check-in WhatsApp</span>
             <span class="habit-source-tag">12:40</span>
           </div>
@@ -393,7 +342,7 @@
         <div class="habit-content">
           <div class="habit-name">Beber 2L agua</div>
           <div class="habit-source">
-            <span class="habit-area-dot" style="background:#FF453A;"></span>
+            <span class="habit-area-dot" style="background:rgba(215,0,48,0.4);"></span>
             <span class="habit-mentor">Dr. Kenji monitorando</span>
             <span class="habit-source-tag">1.2L ate agora</span>
           </div>
@@ -417,7 +366,7 @@
         <div class="habit-content">
           <div class="habit-name">Jantar com familia</div>
           <div class="habit-source">
-            <span class="habit-area-dot" style="background:#BF5AF2;"></span>
+            <span class="habit-area-dot" style="background:#9B0A2A;"></span>
             <span class="habit-mentor">Sakura vai confirmar as 20h</span>
           </div>
         </div>
@@ -434,7 +383,7 @@
         <div class="habit-content">
           <div class="habit-name">Leitura 30min</div>
           <div class="habit-source">
-            <span class="habit-area-dot" style="background:#FF9F0A;"></span>
+            <span class="habit-area-dot" style="background:rgba(0,0,0,0.15);"></span>
             <span class="habit-mentor">Sensei Hiro vai confirmar via Kindle</span>
           </div>
         </div>
@@ -451,7 +400,7 @@
         <div class="habit-content">
           <div class="habit-name">Sem tela 22h</div>
           <div class="habit-source">
-            <span class="habit-area-dot" style="background:#BF5AF2;"></span>
+            <span class="habit-area-dot" style="background:#9B0A2A;"></span>
             <span class="habit-mentor">Aiko monitora Screen Time</span>
           </div>
         </div>
@@ -468,7 +417,7 @@
         <div class="habit-content">
           <div class="habit-name">Journaling</div>
           <div class="habit-source">
-            <span class="habit-area-dot" style="background:#BF5AF2;"></span>
+            <span class="habit-area-dot" style="background:#9B0A2A;"></span>
             <span class="habit-mentor">Aiko vai perguntar no WhatsApp</span>
           </div>
         </div>
@@ -485,7 +434,7 @@
         <div class="habit-content">
           <div class="habit-name">Magnesio</div>
           <div class="habit-source">
-            <span class="habit-area-dot" style="background:#FF453A;"></span>
+            <span class="habit-area-dot" style="background:rgba(215,0,48,0.4);"></span>
             <span class="habit-mentor">Yui vai lembrar as 21h</span>
           </div>
         </div>
@@ -502,7 +451,7 @@
         <div class="habit-content">
           <div class="habit-name">Dormir 23h</div>
           <div class="habit-source">
-            <span class="habit-area-dot" style="background:#FF453A;"></span>
+            <span class="habit-area-dot" style="background:rgba(215,0,48,0.4);"></span>
             <span class="habit-mentor">Dr. Kenji monitora via Apple Watch</span>
           </div>
         </div>
@@ -512,12 +461,7 @@
         </div>
       </div>
 
-      <!-- Chat CTA -->
-      <div class="chat-cta" onclick="location.href='chat.html'" style="margin-top:16px;">
-        <div class="chat-cta-avatar"><span>Y</span></div>
-        <div class="chat-cta-text">Falar com Yumi sobre meus habitos</div>
-        <svg class="chat-cta-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
-      </div>
+      <!-- (Chat movido para hero no topo) -->
     </div>
 
     <!-- Weekly summary -->
@@ -526,37 +470,37 @@
       <div class="weekly-grid">
         <div class="weekly-day">
           <div class="weekly-day-label">Seg</div>
-          <div class="weekly-day-bar-wrap"><div class="weekly-day-bar" style="height:92%; background:#30D158;"></div></div>
+          <div class="weekly-day-bar-wrap"><div class="weekly-day-bar" style="height:92%; background:#D70030"></div></div>
           <div class="weekly-day-pct">92%</div>
         </div>
         <div class="weekly-day">
           <div class="weekly-day-label">Ter</div>
-          <div class="weekly-day-bar-wrap"><div class="weekly-day-bar" style="height:83%; background:#30D158;"></div></div>
+          <div class="weekly-day-bar-wrap"><div class="weekly-day-bar" style="height:83%; background:#D70030"></div></div>
           <div class="weekly-day-pct">83%</div>
         </div>
         <div class="weekly-day">
           <div class="weekly-day-label">Qua</div>
-          <div class="weekly-day-bar-wrap"><div class="weekly-day-bar" style="height:75%; background:#FF9F0A;"></div></div>
+          <div class="weekly-day-bar-wrap"><div class="weekly-day-bar" style="height:75%; background:rgba(215,0,48,0.5)"></div></div>
           <div class="weekly-day-pct">75%</div>
         </div>
         <div class="weekly-day">
           <div class="weekly-day-label">Qui</div>
-          <div class="weekly-day-bar-wrap"><div class="weekly-day-bar" style="height:58%; background:#FF9F0A;"></div></div>
+          <div class="weekly-day-bar-wrap"><div class="weekly-day-bar" style="height:58%; background:rgba(215,0,48,0.5)"></div></div>
           <div class="weekly-day-pct">58%</div>
         </div>
         <div class="weekly-day">
           <div class="weekly-day-label">Sex</div>
-          <div class="weekly-day-bar-wrap"><div class="weekly-day-bar" style="height:67%; background:#FF9F0A;"></div></div>
+          <div class="weekly-day-bar-wrap"><div class="weekly-day-bar" style="height:67%; background:rgba(215,0,48,0.5)"></div></div>
           <div class="weekly-day-pct">67%</div>
         </div>
         <div class="weekly-day">
           <div class="weekly-day-label">Sab</div>
-          <div class="weekly-day-bar-wrap"><div class="weekly-day-bar" style="height:50%; background:#FF453A;"></div></div>
+          <div class="weekly-day-bar-wrap"><div class="weekly-day-bar" style="height:50%; background:rgba(215,0,48,0.3)"></div></div>
           <div class="weekly-day-pct">50%</div>
         </div>
         <div class="weekly-day">
           <div class="weekly-day-label">Dom</div>
-          <div class="weekly-day-bar-wrap"><div class="weekly-day-bar" style="height:42%; background:#FF453A;"></div></div>
+          <div class="weekly-day-bar-wrap"><div class="weekly-day-bar" style="height:42%; background:rgba(215,0,48,0.3)"></div></div>
           <div class="weekly-day-pct">42%</div>
         </div>
       </div>
@@ -578,7 +522,15 @@
   </div></main>
 
   <script src="pf-chat-widget.js?v=1774900000"></script>
-
-<script src="../shared-nav.js?v=1774999999"></script>
+  <script src="../shared-nav.js?v=1774999999"></script>
+  <script>
+    var chatMsgs=document.getElementById('chatMsgs'),chatInput=document.getElementById('chatInput');
+    var R={'faltam':'Faltam 7 habitos: beber 2L agua, jantar com familia, leitura 30min, sem tela 22h, journaling, magnesio e dormir 23h. Seus mentores vao confirmando ao longo do dia.','streak':'Voce esta numa sequencia de <strong>23 dias</strong>. Sua maior foi 31. Nos dias que voce quebra, o padrao e sempre fim de semana.','ajustar':'Posso reorganizar seus habitos por prioridade, adicionar novos ou remover os que nao fazem mais sentido. O que quer mudar?','treino':'Kenji confirmou 45min de musculacao hoje. FC media 132bpm, pico 168bpm. Recuperacao normal.','meditacao':'Aiko confirmou 17min de meditacao via Headspace. Sua media e 15min. HRV subiu 8% apos a sessao.'};
+    function esc(t){var d=document.createElement('div');d.textContent=t;return d.innerHTML}
+    function add(t,u){var e=document.createElement('div');e.className='msg '+(u?'msg-user':'msg-ai');e.innerHTML=u?esc(t):t;chatMsgs.appendChild(e);chatMsgs.scrollTop=chatMsgs.scrollHeight}
+    function resp(i){var l=i.toLowerCase();for(var k in R)if(l.includes(k))return R[k];return'Entendi! Posso detalhar qualquer habito, ajustar rotinas ou mostrar correlacoes. O que quer saber?'}
+    function sendMsg(){var v=chatInput.value.trim();if(!v)return;add(v,true);chatInput.value='';setTimeout(function(){add(resp(v),false)},500)}
+    function quickMsg(t){add(t,true);setTimeout(function(){add(resp(t),false)},500)}
+  </script>
 </body>
 </html>
