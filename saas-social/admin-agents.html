@@ -1,6 +1,6 @@
-<!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>KTANA Admin — Agentes</title><link rel="stylesheet" href="../shared.css"><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Zen+Dots&display=swap" rel="stylesheet">
+<!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>Agentes — KTANA Admin</title><link rel="stylesheet" href="../shared.css"><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Zen+Dots&display=swap" rel="stylesheet">
 <style>
-body{min-height:100vh;background:#0A0A0A;color:#F5F5F7}
+body{min-height:100vh;background:#0A0A0A;color:#F5F5F7;display:flex}
 a{text-decoration:none;color:inherit}
 .sidebar{width:220px;position:fixed;left:0;top:0;bottom:0;background:#111;border-right:0.5px solid rgba(255,255,255,0.04);padding:16px 0;overflow-y:auto;z-index:10;display:flex;flex-direction:column}
 .sidebar-logo{padding:0 16px;margin-bottom:16px;font-family:'Zen Dots',cursive;font-size:14px;color:#D70030;display:flex;align-items:center;gap:6px;border-bottom:0.5px solid rgba(255,255,255,0.04);padding-bottom:16px}
@@ -9,78 +9,156 @@ a{text-decoration:none;color:inherit}
 .nav-item:hover,.nav-item.active{color:#F5F5F7;background:rgba(255,255,255,0.04)}
 .nav-item svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:1.5;flex-shrink:0}
 .nav-label{font-family:'Inter',sans-serif;font-size:9px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:#48484A;padding:14px 16px 6px}
-.main{margin-left:220px;padding:24px;max-width:1000px}
+
+.main{margin-left:220px;flex:1;padding:24px;max-width:1100px}
 h1{font-family:'Zen Dots',cursive;font-size:20px;color:#F5F5F7;margin-bottom:6px}
 .sub{font-family:'Satoshi',sans-serif;font-size:13px;color:#8E8E93;margin-bottom:24px}
-.sec{font-family:'Inter',sans-serif;font-size:10px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:#D70030;margin-bottom:10px;margin-top:24px}
+.sec{font-family:'Inter',sans-serif;font-size:10px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:#D70030;margin-bottom:12px;margin-top:28px}
 
-/* AGENT GRID */
-.agents{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:12px}
-.ag{background:#1C1C1E;border:1px solid rgba(255,255,255,0.04);border-radius:16px;padding:20px;transition:all 0.2s}
-.ag:hover{border-color:rgba(255,255,255,0.08)}
-.ag-top{display:flex;align-items:center;gap:12px;margin-bottom:14px}
-.ag-av{width:40px;height:40px;border-radius:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
-.ag-av svg{width:18px;height:18px;stroke:#FFF;fill:none;stroke-width:1.5}
-.ag-name{font-family:'Zen Dots',cursive;font-size:13px;color:#F5F5F7}
-.ag-role{font-family:'Inter',sans-serif;font-size:10px;color:#D70030}
-.ag-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:12px}
-.ags{text-align:center}
-.ags-v{font-family:'JetBrains Mono',monospace;font-size:14px;font-weight:600;color:#F5F5F7}
-.ags-l{font-family:'Inter',sans-serif;font-size:8px;color:#48484A;text-transform:uppercase}
-.ag-bar{height:4px;background:rgba(255,255,255,0.06);border-radius:2px;overflow:hidden;margin-bottom:8px}
-.ag-fill{height:100%;border-radius:2px}
-.ag-status{display:flex;align-items:center;gap:5px;font-family:'Inter',sans-serif;font-size:10px}
-.ag-status .dot{width:5px;height:5px;border-radius:50%}
-.st-active .dot{background:#34C759}
-.st-active{color:#34C759}
-.st-idle .dot{background:#FF9500}
-.st-idle{color:#FF9500}
+.stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:24px}
+.stat-card{background:#1C1C1E;border:1px solid rgba(255,255,255,0.04);border-radius:14px;padding:18px;text-align:center}
+.stat-val{font-family:'Zen Dots',cursive;font-size:22px;color:#F5F5F7}
+.stat-val.brand{color:#D70030}
+.stat-lab{font-family:'Inter',sans-serif;font-size:9px;color:#8E8E93;text-transform:uppercase;letter-spacing:.05em;margin-top:4px}
 
-/* GLOBAL STATS */
-.gstats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:24px}
-.gs{background:#1C1C1E;border:1px solid rgba(255,255,255,0.04);border-radius:14px;padding:16px;text-align:center}
-.gs-v{font-family:'Zen Dots',cursive;font-size:22px;color:#F5F5F7}
-.gs-v.brand{color:#D70030}
-.gs-l{font-family:'Inter',sans-serif;font-size:9px;color:#8E8E93;text-transform:uppercase;margin-top:2px}
+.agent-table{width:100%;border-collapse:collapse;margin-bottom:24px}
+.agent-table th{font-family:'Inter',sans-serif;font-size:10px;font-weight:600;color:#48484A;text-transform:uppercase;letter-spacing:.05em;text-align:left;padding:8px 12px;border-bottom:1px solid rgba(255,255,255,0.04)}
+.agent-table td{font-family:'Inter',sans-serif;font-size:12px;color:#D2D2D7;padding:12px;border-bottom:0.5px solid rgba(255,255,255,0.03);vertical-align:middle}
+.agent-table tr:hover{background:rgba(255,255,255,0.02)}
+.a-name{display:flex;align-items:center;gap:10px}
+.a-av{width:28px;height:28px;border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.a-av svg{width:14px;height:14px;fill:none;stroke-width:1.5}
+.a-nm{font-family:'Zen Dots',cursive;font-size:11px;color:#F5F5F7}
+.a-role{font-family:'Inter',sans-serif;font-size:10px;color:#8E8E93}
+.badge{font-family:'Inter',sans-serif;font-size:10px;font-weight:600;padding:3px 8px;border-radius:6px}
+.b-active{background:rgba(52,199,89,0.12);color:#34C759}
+.b-idle{background:rgba(142,142,147,0.12);color:#8E8E93}
+.b-error{background:rgba(215,0,48,0.12);color:#D70030}
+.bar-wrap{width:80px;height:4px;border-radius:2px;background:rgba(255,255,255,0.06);overflow:hidden}
+.bar-fill{height:100%;border-radius:2px}
+.t-btn{font-family:'Inter',sans-serif;font-size:10px;padding:4px 10px;border-radius:6px;border:1px solid rgba(255,255,255,0.06);color:#8E8E93;background:transparent;cursor:pointer;transition:all 0.15s}
+.t-btn:hover{border-color:rgba(215,0,48,0.2);color:#D70030}
 
-@media(max-width:768px){.sidebar{display:none}.main{margin-left:0}.gstats{grid-template-columns:repeat(2,1fr)}}
+.model-card{background:#1C1C1E;border:1px solid rgba(255,255,255,0.04);border-radius:14px;padding:18px;margin-bottom:10px}
+.model-card h3{font-family:'Satoshi',sans-serif;font-size:14px;font-weight:600;color:#F5F5F7;margin-bottom:10px}
+.model-row{display:flex;align-items:center;justify-content:space-between;padding:6px 0;font-family:'Inter',sans-serif;font-size:11px;border-bottom:0.5px solid rgba(255,255,255,0.03)}
+.model-row:last-child{border-bottom:none}
+.model-row .lbl{color:#8E8E93}
+.model-row .val{color:#D2D2D7}
+
+@media(max-width:768px){.sidebar{display:none}.main{margin-left:0}.stats-grid{grid-template-columns:repeat(2,1fr)}}
 </style>
 </head>
 <body>
-<aside class="sidebar">
-  <a href="admin.html" class="sidebar-logo">KTANA <span>Admin</span></a>
-  <div class="nav-label">Gestao</div>
-  <a class="nav-item" href="admin.html"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4" stroke-linecap="round" stroke-linejoin="round"/></svg> Tenants</a>
-  <a class="nav-item active" href="admin-agents.html"><svg viewBox="0 0 24 24"><path d="M14.5 17.5L3 6V3h3l11.5 11.5M13 19l6-6" stroke-linecap="round" stroke-linejoin="round"/></svg> Agentes</a>
-  <a class="nav-item" href="admin-billing.html"><svg viewBox="0 0 24 24"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10" stroke-linecap="round" stroke-linejoin="round"/></svg> Cobranca</a>
-</aside>
-<div class="main">
-<h1>Agentes IA.</h1>
-<p class="sub">Visao global de todos os 7 agentes. Consumo, performance, status.</p>
+<nav class="sidebar">
+  <a href="admin.html" class="sidebar-logo">KTANA <span>ADMIN</span></a>
+  <div class="nav-label">Plataforma</div>
+  <a href="admin.html" class="nav-item"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg> Visao Geral</a>
+  <a href="admin-tenant-detail.html" class="nav-item"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg> Tenants</a>
+  <a class="nav-item active"><svg viewBox="0 0 24 24"><path d="M14.5 17.5L3 6V3h3l11.5 11.5M13 19l6-6"/></svg> Agentes</a>
+  <a class="nav-item"><svg viewBox="0 0 24 24"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg> Saude</a>
+  <div class="nav-label">Financeiro</div>
+  <a href="admin-billing.html" class="nav-item"><svg viewBox="0 0 24 24"><path d="M12 1v22M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg> Billing</a>
+  <a class="nav-item"><svg viewBox="0 0 24 24"><path d="M12 20V10M18 20V4M6 20v-4"/></svg> Revenue</a>
+</nav>
 
-<div class="gstats">
-  <div class="gs"><div class="gs-v">7</div><div class="gs-l">Agentes ativos</div></div>
-  <div class="gs"><div class="gs-v">342</div><div class="gs-l">Acoes hoje</div></div>
-  <div class="gs"><div class="gs-v brand">108K</div><div class="gs-l">Tokens totais/mes</div></div>
-  <div class="gs"><div class="gs-v">92%</div><div class="gs-l">Score medio</div></div>
-</div>
+<main class="main">
+  <h1>Agentes IA.</h1>
+  <p class="sub">Gestao global dos 7 agentes. 47 instancias rodando em 8 tenants.</p>
 
-<div class="sec">Todos os agentes</div>
-<div class="agents">
-  <div class="ag"><div class="ag-top"><div class="ag-av" style="background:linear-gradient(135deg,#D70030,#8B0000)"><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div><div class="ag-name">Sensei</div><div class="ag-role">Orquestrador</div></div></div><div class="ag-stats"><div class="ags"><div class="ags-v">89</div><div class="ags-l">Acoes</div></div><div class="ags"><div class="ags-v">28K</div><div class="ags-l">Tokens</div></div><div class="ags"><div class="ags-v">96%</div><div class="ags-l">Score</div></div></div><div class="ag-bar"><div class="ag-fill" style="width:28%;background:#D70030"></div></div><div class="ag-status st-active"><span class="dot"></span> Ativo — coordenando 6 agentes</div></div>
+  <div class="stats-grid">
+    <div class="stat-card"><div class="stat-val brand">7</div><div class="stat-lab">Modelos de agente</div></div>
+    <div class="stat-card"><div class="stat-val">47</div><div class="stat-lab">Instancias ativas</div></div>
+    <div class="stat-card"><div class="stat-val">342K</div><div class="stat-lab">Tokens/dia total</div></div>
+    <div class="stat-card"><div class="stat-val">99.2%</div><div class="stat-lab">Uptime 30d</div></div>
+  </div>
 
-  <div class="ag"><div class="ag-top"><div class="ag-av" style="background:linear-gradient(135deg,#007AFF,#0055CC)"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div><div class="ag-name">Scout</div><div class="ag-role">Pesquisador</div></div></div><div class="ag-stats"><div class="ags"><div class="ags-v">23</div><div class="ags-l">Pesquisas</div></div><div class="ags"><div class="ags-v">15K</div><div class="ags-l">Tokens</div></div><div class="ags"><div class="ags-v">94%</div><div class="ags-l">Relevancia</div></div></div><div class="ag-bar"><div class="ag-fill" style="width:15%;background:#007AFF"></div></div><div class="ag-status st-active"><span class="dot"></span> Ativo — monitorando 12 concorrentes</div></div>
+  <div class="sec">Agentes por tipo</div>
+  <table class="agent-table">
+    <thead><tr><th>Agente</th><th>Instancias</th><th>Tokens/dia</th><th>Uso</th><th>Modelo LLM</th><th>Status</th><th></th></tr></thead>
+    <tbody>
+      <tr>
+        <td><div class="a-name"><div class="a-av" style="background:rgba(215,0,48,0.12)"><svg viewBox="0 0 24 24" style="stroke:#D70030"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div><div class="a-nm">Sensei</div><div class="a-role">Orquestrador</div></div></div></td>
+        <td>8</td><td>68K</td>
+        <td><div class="bar-wrap"><div class="bar-fill" style="width:72%;background:#D70030"></div></div></td>
+        <td>Claude Sonnet</td>
+        <td><span class="badge b-active">Ativo</span></td>
+        <td><button class="t-btn">Config</button></td>
+      </tr>
+      <tr>
+        <td><div class="a-name"><div class="a-av" style="background:rgba(0,122,255,0.12)"><svg viewBox="0 0 24 24" style="stroke:#007AFF"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div><div class="a-nm">Scout</div><div class="a-role">Pesquisador</div></div></div></td>
+        <td>7</td><td>52K</td>
+        <td><div class="bar-wrap"><div class="bar-fill" style="width:55%;background:#007AFF"></div></div></td>
+        <td>Claude Sonnet</td>
+        <td><span class="badge b-active">Ativo</span></td>
+        <td><button class="t-btn">Config</button></td>
+      </tr>
+      <tr>
+        <td><div class="a-name"><div class="a-av" style="background:rgba(88,86,214,0.12)"><svg viewBox="0 0 24 24" style="stroke:#5856D6"><path d="M12 19l7-7 3 3-7 7-3-3zM18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5zM2 2l7.586 7.586" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div><div class="a-nm">Quill</div><div class="a-role">Copywriter</div></div></div></td>
+        <td>8</td><td>95K</td>
+        <td><div class="bar-wrap"><div class="bar-fill" style="width:88%;background:#5856D6"></div></div></td>
+        <td>Claude Opus</td>
+        <td><span class="badge b-active">Ativo</span></td>
+        <td><button class="t-btn">Config</button></td>
+      </tr>
+      <tr>
+        <td><div class="a-name"><div class="a-av" style="background:rgba(255,45,85,0.12)"><svg viewBox="0 0 24 24" style="stroke:#FF2D55"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div><div class="a-nm">Canvas</div><div class="a-role">Designer</div></div></div></td>
+        <td>6</td><td>42K</td>
+        <td><div class="bar-wrap"><div class="bar-fill" style="width:45%;background:#FF2D55"></div></div></td>
+        <td>Claude Sonnet</td>
+        <td><span class="badge b-active">Ativo</span></td>
+        <td><button class="t-btn">Config</button></td>
+      </tr>
+      <tr>
+        <td><div class="a-name"><div class="a-av" style="background:rgba(52,199,89,0.12)"><svg viewBox="0 0 24 24" style="stroke:#34C759"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div><div class="a-nm">Pulse</div><div class="a-role">WhatsApp</div></div></div></td>
+        <td>8</td><td>28K</td>
+        <td><div class="bar-wrap"><div class="bar-fill" style="width:32%;background:#34C759"></div></div></td>
+        <td>Claude Haiku</td>
+        <td><span class="badge b-active">Ativo</span></td>
+        <td><button class="t-btn">Config</button></td>
+      </tr>
+      <tr>
+        <td><div class="a-name"><div class="a-av" style="background:rgba(255,149,0,0.12)"><svg viewBox="0 0 24 24" style="stroke:#FF9500"><path d="M12 20V10M18 20V4M6 20v-4" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div><div class="a-nm">Metrics</div><div class="a-role">Analista</div></div></div></td>
+        <td>6</td><td>35K</td>
+        <td><div class="bar-wrap"><div class="bar-fill" style="width:38%;background:#FF9500"></div></div></td>
+        <td>Claude Sonnet</td>
+        <td><span class="badge b-active">Ativo</span></td>
+        <td><button class="t-btn">Config</button></td>
+      </tr>
+      <tr>
+        <td><div class="a-name"><div class="a-av" style="background:rgba(90,200,250,0.12)"><svg viewBox="0 0 24 24" style="stroke:#5AC8FA"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div><div class="a-nm">Director</div><div class="a-role">Video</div></div></div></td>
+        <td>4</td><td>22K</td>
+        <td><div class="bar-wrap"><div class="bar-fill" style="width:24%;background:#5AC8FA"></div></div></td>
+        <td>Claude Sonnet</td>
+        <td><span class="badge b-idle">2 idle</span></td>
+        <td><button class="t-btn">Config</button></td>
+      </tr>
+    </tbody>
+  </table>
 
-  <div class="ag"><div class="ag-top"><div class="ag-av" style="background:linear-gradient(135deg,#5856D6,#3A38A0)"><svg viewBox="0 0 24 24"><path d="M12 20h9M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div><div class="ag-name">Quill</div><div class="ag-role">Copywriter</div></div></div><div class="ag-stats"><div class="ags"><div class="ags-v">34</div><div class="ags-l">Roteiros</div></div><div class="ags"><div class="ags-v">13K</div><div class="ags-l">Tokens</div></div><div class="ags"><div class="ags-v">91%</div><div class="ags-l">Humanidade</div></div></div><div class="ag-bar"><div class="ag-fill" style="width:13%;background:#5856D6"></div></div><div class="ag-status st-active"><span class="dot"></span> Ativo — escrevendo 3 roteiros</div></div>
-
-  <div class="ag"><div class="ag-top"><div class="ag-av" style="background:linear-gradient(135deg,#FF2D55,#CC0033)"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div><div class="ag-name">Canvas</div><div class="ag-role">Designer</div></div></div><div class="ag-stats"><div class="ags"><div class="ags-v">12</div><div class="ags-l">Designs</div></div><div class="ags"><div class="ags-v">9K</div><div class="ags-l">Tokens</div></div><div class="ags"><div class="ags-v">89%</div><div class="ags-l">Aprovacao</div></div></div><div class="ag-bar"><div class="ag-fill" style="width:9%;background:#FF2D55"></div></div><div class="ag-status st-active"><span class="dot"></span> Ativo — renderizando template</div></div>
-
-  <div class="ag"><div class="ag-top"><div class="ag-av" style="background:linear-gradient(135deg,#34C759,#248A3D)"><svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div><div class="ag-name">Pulse</div><div class="ag-role">WhatsApp</div></div></div><div class="ag-stats"><div class="ags"><div class="ags-v">47</div><div class="ags-l">Msgs</div></div><div class="ags"><div class="ags-v">5K</div><div class="ags-l">Tokens</div></div><div class="ags"><div class="ags-v">92%</div><div class="ags-l">Resposta</div></div></div><div class="ag-bar"><div class="ag-fill" style="width:5%;background:#34C759"></div></div><div class="ag-status st-idle"><span class="dot"></span> Aguardando — fora do horario</div></div>
-
-  <div class="ag"><div class="ag-top"><div class="ag-av" style="background:linear-gradient(135deg,#FF9500,#CC7700)"><svg viewBox="0 0 24 24"><path d="M12 20V10M18 20V4M6 20v-4" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div><div class="ag-name">Metrics</div><div class="ag-role">Analista</div></div></div><div class="ag-stats"><div class="ags"><div class="ags-v">18</div><div class="ags-l">Relatorios</div></div><div class="ags"><div class="ags-v">9K</div><div class="ags-l">Tokens</div></div><div class="ags"><div class="ags-v">95%</div><div class="ags-l">Precisao</div></div></div><div class="ag-bar"><div class="ag-fill" style="width:9%;background:#FF9500"></div></div><div class="ag-status st-active"><span class="dot"></span> Ativo — coletando metricas 24h</div></div>
-
-  <div class="ag"><div class="ag-top"><div class="ag-av" style="background:linear-gradient(135deg,#5AC8FA,#32ADE6)"><svg viewBox="0 0 24 24"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div><div class="ag-name">Director</div><div class="ag-role">Video</div></div></div><div class="ag-stats"><div class="ags"><div class="ags-v">8</div><div class="ags-l">Videos</div></div><div class="ags"><div class="ags-v">22K</div><div class="ags-l">Tokens</div></div><div class="ags"><div class="ags-v">88%</div><div class="ags-l">Qualidade</div></div></div><div class="ag-bar"><div class="ag-fill" style="width:22%;background:#5AC8FA"></div></div><div class="ag-status st-active"><span class="dot"></span> Ativo — gerando avatar</div></div>
-</div>
-
-</div>
+  <div class="sec">Modelos LLM configurados</div>
+  <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:10px">
+    <div class="model-card">
+      <h3>Claude Sonnet 4.6</h3>
+      <div class="model-row"><span class="lbl">Instancias</span><span class="val">35</span></div>
+      <div class="model-row"><span class="lbl">Tokens/dia</span><span class="val">245K</span></div>
+      <div class="model-row"><span class="lbl">Custo estimado</span><span class="val">$12.50/dia</span></div>
+      <div class="model-row"><span class="lbl">Latencia media</span><span class="val">1.2s</span></div>
+    </div>
+    <div class="model-card">
+      <h3>Claude Opus 4.6</h3>
+      <div class="model-row"><span class="lbl">Instancias</span><span class="val">8</span></div>
+      <div class="model-row"><span class="lbl">Tokens/dia</span><span class="val">95K</span></div>
+      <div class="model-row"><span class="lbl">Custo estimado</span><span class="val">$28.50/dia</span></div>
+      <div class="model-row"><span class="lbl">Latencia media</span><span class="val">3.8s</span></div>
+    </div>
+    <div class="model-card">
+      <h3>Claude Haiku 4.5</h3>
+      <div class="model-row"><span class="lbl">Instancias</span><span class="val">4</span></div>
+      <div class="model-row"><span class="lbl">Tokens/dia</span><span class="val">2K</span></div>
+      <div class="model-row"><span class="lbl">Custo estimado</span><span class="val">$0.10/dia</span></div>
+      <div class="model-row"><span class="lbl">Latencia media</span><span class="val">0.4s</span></div>
+    </div>
+  </div>
+</main>
 </body></html>

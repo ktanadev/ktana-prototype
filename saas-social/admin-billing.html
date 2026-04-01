@@ -1,6 +1,6 @@
-<!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>KTANA Admin — Cobranca</title><link rel="stylesheet" href="../shared.css"><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Zen+Dots&display=swap" rel="stylesheet">
+<!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>Billing — KTANA Admin</title><link rel="stylesheet" href="../shared.css"><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Zen+Dots&display=swap" rel="stylesheet">
 <style>
-body{min-height:100vh;background:#0A0A0A;color:#F5F5F7}
+body{min-height:100vh;background:#0A0A0A;color:#F5F5F7;display:flex}
 a{text-decoration:none;color:inherit}
 .sidebar{width:220px;position:fixed;left:0;top:0;bottom:0;background:#111;border-right:0.5px solid rgba(255,255,255,0.04);padding:16px 0;overflow-y:auto;z-index:10;display:flex;flex-direction:column}
 .sidebar-logo{padding:0 16px;margin-bottom:16px;font-family:'Zen Dots',cursive;font-size:14px;color:#D70030;display:flex;align-items:center;gap:6px;border-bottom:0.5px solid rgba(255,255,255,0.04);padding-bottom:16px}
@@ -9,118 +9,144 @@ a{text-decoration:none;color:inherit}
 .nav-item:hover,.nav-item.active{color:#F5F5F7;background:rgba(255,255,255,0.04)}
 .nav-item svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:1.5;flex-shrink:0}
 .nav-label{font-family:'Inter',sans-serif;font-size:9px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:#48484A;padding:14px 16px 6px}
-.main{margin-left:220px;padding:24px;max-width:1000px}
+
+.main{margin-left:220px;flex:1;padding:24px;max-width:1100px}
 h1{font-family:'Zen Dots',cursive;font-size:20px;color:#F5F5F7;margin-bottom:6px}
 .sub{font-family:'Satoshi',sans-serif;font-size:13px;color:#8E8E93;margin-bottom:24px}
-.sec{font-family:'Inter',sans-serif;font-size:10px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:#D70030;margin-bottom:10px;margin-top:24px}
+.sec{font-family:'Inter',sans-serif;font-size:10px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:#D70030;margin-bottom:12px;margin-top:28px}
 
-/* STATS */
-.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:24px}
-.stat{background:#1C1C1E;border:1px solid rgba(255,255,255,0.04);border-radius:14px;padding:18px;text-align:center}
-.stat-v{font-family:'Zen Dots',cursive;font-size:22px;color:#F5F5F7}
-.stat-v.brand{color:#D70030}
-.stat-v.green{color:#34C759}
-.stat-l{font-family:'Inter',sans-serif;font-size:9px;color:#8E8E93;text-transform:uppercase;margin-top:2px}
+.stats-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-bottom:24px}
+.stat-card{background:#1C1C1E;border:1px solid rgba(255,255,255,0.04);border-radius:14px;padding:18px;text-align:center}
+.stat-val{font-family:'Zen Dots',cursive;font-size:22px;color:#F5F5F7}
+.stat-val.brand{color:#D70030}
+.stat-val.green{color:#34C759}
+.stat-lab{font-family:'Inter',sans-serif;font-size:9px;color:#8E8E93;text-transform:uppercase;letter-spacing:.05em;margin-top:4px}
+.stat-delta{font-family:'Inter',sans-serif;font-size:10px;color:#34C759;margin-top:2px}
 
 /* PLANS */
-.plans{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:24px}
-.plan{background:#1C1C1E;border:1px solid rgba(255,255,255,0.04);border-radius:16px;padding:24px;transition:all 0.2s}
-.plan:hover{border-color:rgba(255,255,255,0.08)}
-.plan.popular{border-color:rgba(215,0,48,0.3)}
-.plan-tag{font-family:'Inter',sans-serif;font-size:8px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#D70030;margin-bottom:8px}
-.plan h3{font-family:'Zen Dots',cursive;font-size:16px;color:#F5F5F7;margin-bottom:4px}
-.plan-price{font-family:'Zen Dots',cursive;font-size:24px;color:#D70030;margin-bottom:4px}
-.plan-price span{font-family:'Inter',sans-serif;font-size:10px;color:#8E8E93}
-.plan-desc{font-family:'Inter',sans-serif;font-size:11px;color:#8E8E93;line-height:1.5;margin-bottom:12px}
-.plan-features{display:flex;flex-direction:column;gap:4px}
-.pf{display:flex;align-items:center;gap:6px;font-family:'Inter',sans-serif;font-size:11px;color:#D2D2D7}
-.pf svg{width:12px;height:12px;stroke:#34C759;fill:none;stroke-width:2;flex-shrink:0}
-.plan-count{font-family:'JetBrains Mono',monospace;font-size:11px;color:#48484A;margin-top:10px;padding-top:10px;border-top:0.5px solid rgba(255,255,255,0.04)}
+.plan-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:24px}
+.plan-card{background:#1C1C1E;border:1px solid rgba(255,255,255,0.04);border-radius:14px;padding:20px;position:relative;overflow:hidden}
+.plan-card.popular::before{content:'MAIS POPULAR';position:absolute;top:12px;right:-28px;transform:rotate(45deg);background:#D70030;color:#FFF;font-family:'Inter',sans-serif;font-size:8px;font-weight:700;padding:2px 32px;letter-spacing:.05em}
+.plan-name{font-family:'Zen Dots',cursive;font-size:14px;color:#F5F5F7;margin-bottom:4px}
+.plan-price{font-family:'Zen Dots',cursive;font-size:24px;color:#D70030;margin-bottom:2px}
+.plan-period{font-family:'Inter',sans-serif;font-size:10px;color:#8E8E93}
+.plan-features{margin-top:12px;display:flex;flex-direction:column;gap:6px}
+.plan-feat{display:flex;align-items:center;gap:6px;font-family:'Inter',sans-serif;font-size:11px;color:#D2D2D7}
+.plan-feat svg{width:12px;height:12px;stroke:#34C759;fill:none;stroke-width:2;flex-shrink:0}
+.plan-tenants{font-family:'Inter',sans-serif;font-size:10px;color:#8E8E93;margin-top:10px;padding-top:10px;border-top:0.5px solid rgba(255,255,255,0.04)}
 
-/* TABLE */
-.table{width:100%;border-collapse:collapse}
-.table th{font-family:'Inter',sans-serif;font-size:10px;font-weight:600;color:#48484A;text-transform:uppercase;text-align:left;padding:8px 12px;border-bottom:1px solid rgba(255,255,255,0.04)}
-.table td{font-family:'Inter',sans-serif;font-size:12px;color:#D2D2D7;padding:12px;border-bottom:0.5px solid rgba(255,255,255,0.03)}
-.table tr:hover{background:rgba(255,255,255,0.02)}
-.t-badge{font-family:'Inter',sans-serif;font-size:10px;font-weight:600;padding:3px 8px;border-radius:6px}
-.tb-paid{background:rgba(52,199,89,0.12);color:#34C759}
-.tb-pending{background:rgba(255,149,0,0.12);color:#FF9F0A}
-.tb-overdue{background:rgba(215,0,48,0.12);color:#D70030}
+/* INVOICES TABLE */
+.inv-table{width:100%;border-collapse:collapse}
+.inv-table th{font-family:'Inter',sans-serif;font-size:10px;font-weight:600;color:#48484A;text-transform:uppercase;letter-spacing:.05em;text-align:left;padding:8px 12px;border-bottom:1px solid rgba(255,255,255,0.04)}
+.inv-table td{font-family:'Inter',sans-serif;font-size:12px;color:#D2D2D7;padding:10px 12px;border-bottom:0.5px solid rgba(255,255,255,0.03);vertical-align:middle}
+.inv-table tr:hover{background:rgba(255,255,255,0.02)}
+.badge{font-family:'Inter',sans-serif;font-size:10px;font-weight:600;padding:3px 8px;border-radius:6px}
+.b-paid{background:rgba(52,199,89,0.12);color:#34C759}
+.b-pending{background:rgba(255,149,0,0.12);color:#FF9500}
+.b-overdue{background:rgba(215,0,48,0.12);color:#D70030}
 
-@media(max-width:768px){.sidebar{display:none}.main{margin-left:0}.stats,.plans{grid-template-columns:1fr}}
+/* TOKEN USAGE */
+.token-card{background:#1C1C1E;border:1px solid rgba(255,255,255,0.04);border-radius:14px;padding:18px;margin-bottom:10px}
+.token-card h3{font-family:'Satoshi',sans-serif;font-size:14px;font-weight:600;color:#F5F5F7;margin-bottom:12px}
+.tk-row{display:flex;align-items:center;gap:12px;padding:6px 0;border-bottom:0.5px solid rgba(255,255,255,0.03)}
+.tk-row:last-child{border-bottom:none}
+.tk-name{font-family:'Inter',sans-serif;font-size:12px;color:#D2D2D7;flex:1}
+.tk-bar{width:120px;height:4px;border-radius:2px;background:rgba(255,255,255,0.06);overflow:hidden}
+.tk-fill{height:100%;border-radius:2px}
+.tk-pct{font-family:'Inter',sans-serif;font-size:10px;color:#8E8E93;width:40px;text-align:right}
+
+@media(max-width:768px){.sidebar{display:none}.main{margin-left:0}.stats-grid{grid-template-columns:repeat(2,1fr)}.plan-grid{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
-<aside class="sidebar">
-  <a href="admin.html" class="sidebar-logo">KTANA <span>Admin</span></a>
-  <div class="nav-label">Gestao</div>
-  <a class="nav-item" href="admin.html"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4" stroke-linecap="round" stroke-linejoin="round"/></svg> Tenants</a>
-  <a class="nav-item" href="admin-agents.html"><svg viewBox="0 0 24 24"><path d="M14.5 17.5L3 6V3h3l11.5 11.5M13 19l6-6" stroke-linecap="round" stroke-linejoin="round"/></svg> Agentes</a>
-  <a class="nav-item active" href="admin-billing.html"><svg viewBox="0 0 24 24"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10" stroke-linecap="round" stroke-linejoin="round"/></svg> Cobranca</a>
-</aside>
-<div class="main">
-<h1>Cobranca.</h1>
-<p class="sub">MRR, planos, faturas de todos os tenants.</p>
+<nav class="sidebar">
+  <a href="admin.html" class="sidebar-logo">KTANA <span>ADMIN</span></a>
+  <div class="nav-label">Plataforma</div>
+  <a href="admin.html" class="nav-item"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg> Visao Geral</a>
+  <a href="admin-tenant-detail.html" class="nav-item"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg> Tenants</a>
+  <a href="admin-agents.html" class="nav-item"><svg viewBox="0 0 24 24"><path d="M14.5 17.5L3 6V3h3l11.5 11.5M13 19l6-6"/></svg> Agentes</a>
+  <a class="nav-item"><svg viewBox="0 0 24 24"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg> Saude</a>
+  <div class="nav-label">Financeiro</div>
+  <a class="nav-item active"><svg viewBox="0 0 24 24"><path d="M12 1v22M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg> Billing</a>
+  <a class="nav-item"><svg viewBox="0 0 24 24"><path d="M12 20V10M18 20V4M6 20v-4"/></svg> Revenue</a>
+</nav>
 
-<div class="stats">
-  <div class="stat"><div class="stat-v brand">R$32.4K</div><div class="stat-l">MRR total</div></div>
-  <div class="stat"><div class="stat-v">8</div><div class="stat-l">Tenants ativos</div></div>
-  <div class="stat"><div class="stat-v green">96%</div><div class="stat-l">Adimplencia</div></div>
-  <div class="stat"><div class="stat-v">R$2.1K</div><div class="stat-l">Extras este mes</div></div>
-</div>
+<main class="main">
+  <h1>Billing.</h1>
+  <p class="sub">Receita, planos e consumo de tokens da plataforma.</p>
 
-<div class="sec">Planos disponiveis</div>
-<div class="plans">
-  <div class="plan">
-    <h3>Starter</h3>
-    <div class="plan-price">R$990<span>/mes</span></div>
-    <p class="plan-desc">Ate 50 clientes. 3 agentes. 20K tokens.</p>
-    <div class="plan-features">
-      <div class="pf"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12" stroke-linecap="round" stroke-linejoin="round"/></svg> 50 clientes</div>
-      <div class="pf"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12" stroke-linecap="round" stroke-linejoin="round"/></svg> 3 agentes (Sensei, Scout, Quill)</div>
-      <div class="pf"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12" stroke-linecap="round" stroke-linejoin="round"/></svg> 20K tokens/mes</div>
-    </div>
-    <div class="plan-count">2 tenants neste plano</div>
+  <div class="stats-grid">
+    <div class="stat-card"><div class="stat-val brand">R$48K</div><div class="stat-lab">MRR</div><div class="stat-delta">+12% vs mes anterior</div></div>
+    <div class="stat-card"><div class="stat-val green">R$576K</div><div class="stat-lab">ARR projetado</div></div>
+    <div class="stat-card"><div class="stat-val">8</div><div class="stat-lab">Tenants pagando</div></div>
+    <div class="stat-card"><div class="stat-val">$41</div><div class="stat-lab">Custo LLM/dia</div></div>
+    <div class="stat-card"><div class="stat-val green">94%</div><div class="stat-lab">Margem bruta</div></div>
   </div>
-  <div class="plan popular">
-    <div class="plan-tag">Mais popular</div>
-    <h3>Scale</h3>
-    <div class="plan-price">R$4.990<span>/mes</span></div>
-    <p class="plan-desc">Ate 500 clientes. 7 agentes. 100K tokens. Anti-bot.</p>
-    <div class="plan-features">
-      <div class="pf"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12" stroke-linecap="round" stroke-linejoin="round"/></svg> 500 clientes</div>
-      <div class="pf"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12" stroke-linecap="round" stroke-linejoin="round"/></svg> 7 agentes completos</div>
-      <div class="pf"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12" stroke-linecap="round" stroke-linejoin="round"/></svg> 100K tokens + GoLogin + HeyGen</div>
-    </div>
-    <div class="plan-count">5 tenants neste plano</div>
-  </div>
-  <div class="plan">
-    <h3>Enterprise</h3>
-    <div class="plan-price">Custom</div>
-    <p class="plan-desc">Ilimitado. Agentes custom. White-label. Dedicated infra.</p>
-    <div class="plan-features">
-      <div class="pf"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12" stroke-linecap="round" stroke-linejoin="round"/></svg> Clientes ilimitados</div>
-      <div class="pf"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12" stroke-linecap="round" stroke-linejoin="round"/></svg> Agentes customizados</div>
-      <div class="pf"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12" stroke-linecap="round" stroke-linejoin="round"/></svg> Infra dedicada + SLA</div>
-    </div>
-    <div class="plan-count">1 tenant neste plano</div>
-  </div>
-</div>
 
-<div class="sec">Faturas recentes</div>
-<table class="table">
-  <thead><tr><th>Tenant</th><th>Plano</th><th>Valor</th><th>Vencimento</th><th>Status</th></tr></thead>
-  <tbody>
-    <tr><td>Grupo Silva</td><td>Scale</td><td>R$4.990</td><td>01/Abr</td><td><span class="t-badge tb-pending">Pendente</span></td></tr>
-    <tr><td>Empire Business</td><td>Scale</td><td>R$4.990</td><td>01/Abr</td><td><span class="t-badge tb-paid">Pago</span></td></tr>
-    <tr><td>Blank School</td><td>Scale</td><td>R$4.990</td><td>01/Abr</td><td><span class="t-badge tb-paid">Pago</span></td></tr>
-    <tr><td>Agencia Norte</td><td>Starter</td><td>R$990</td><td>05/Abr</td><td><span class="t-badge tb-pending">Pendente</span></td></tr>
-    <tr><td>Vucko Brand</td><td>Scale</td><td>R$4.990</td><td>01/Abr</td><td><span class="t-badge tb-paid">Pago</span></td></tr>
-    <tr><td>Studio Digital</td><td>Starter</td><td>R$990</td><td>01/Abr</td><td><span class="t-badge tb-overdue">Atrasado</span></td></tr>
-    <tr><td>MKT Solutions</td><td>Scale</td><td>R$4.990</td><td>01/Abr</td><td><span class="t-badge tb-paid">Pago</span></td></tr>
-    <tr><td>Rebranding Co.</td><td>Enterprise</td><td>R$12.000</td><td>15/Abr</td><td><span class="t-badge tb-paid">Pago</span></td></tr>
-  </tbody>
-</table>
+  <div class="sec">Planos</div>
+  <div class="plan-grid">
+    <div class="plan-card">
+      <div class="plan-name">Starter</div>
+      <div class="plan-price">R$2.500</div>
+      <div class="plan-period">/mes por tenant</div>
+      <div class="plan-features">
+        <div class="plan-feat"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> Ate 50 clientes</div>
+        <div class="plan-feat"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> 5 agentes</div>
+        <div class="plan-feat"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> 50K tokens/dia</div>
+        <div class="plan-feat"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> 3 redes sociais</div>
+      </div>
+      <div class="plan-tenants">3 tenants neste plano</div>
+    </div>
+    <div class="plan-card popular">
+      <div class="plan-name">Scale</div>
+      <div class="plan-price">R$6.000</div>
+      <div class="plan-period">/mes por tenant</div>
+      <div class="plan-features">
+        <div class="plan-feat"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> Ate 300 clientes</div>
+        <div class="plan-feat"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> 7 agentes</div>
+        <div class="plan-feat"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> 200K tokens/dia</div>
+        <div class="plan-feat"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> Todas as redes</div>
+        <div class="plan-feat"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> Avatar Clone</div>
+      </div>
+      <div class="plan-tenants">3 tenants neste plano</div>
+    </div>
+    <div class="plan-card">
+      <div class="plan-name">Enterprise</div>
+      <div class="plan-price">R$12.000</div>
+      <div class="plan-period">/mes por tenant</div>
+      <div class="plan-features">
+        <div class="plan-feat"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> Clientes ilimitados</div>
+        <div class="plan-feat"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> 7 agentes + custom</div>
+        <div class="plan-feat"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> Tokens ilimitados</div>
+        <div class="plan-feat"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> White-label</div>
+        <div class="plan-feat"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> API dedicada</div>
+      </div>
+      <div class="plan-tenants">2 tenants neste plano</div>
+    </div>
+  </div>
 
-</div>
+  <div class="sec">Consumo de tokens por tenant</div>
+  <div class="token-card">
+    <h3>Ultimos 30 dias</h3>
+    <div class="tk-row"><span class="tk-name">Grupo Silva</span><div class="tk-bar"><div class="tk-fill" style="width:68%;background:#D70030"></div></div><span class="tk-pct">68%</span></div>
+    <div class="tk-row"><span class="tk-name">Empire Business</span><div class="tk-bar"><div class="tk-fill" style="width:45%;background:#007AFF"></div></div><span class="tk-pct">45%</span></div>
+    <div class="tk-row"><span class="tk-name">Blank School</span><div class="tk-bar"><div class="tk-fill" style="width:82%;background:#FF9500"></div></div><span class="tk-pct">82%</span></div>
+    <div class="tk-row"><span class="tk-name">Aceleradora Alpha</span><div class="tk-bar"><div class="tk-fill" style="width:25%;background:#34C759"></div></div><span class="tk-pct">25%</span></div>
+    <div class="tk-row"><span class="tk-name">MK Social</span><div class="tk-bar"><div class="tk-fill" style="width:12%;background:#5856D6"></div></div><span class="tk-pct">12%</span></div>
+  </div>
+
+  <div class="sec">Ultimas faturas</div>
+  <table class="inv-table">
+    <thead><tr><th>Tenant</th><th>Periodo</th><th>Valor</th><th>Tokens</th><th>Status</th></tr></thead>
+    <tbody>
+      <tr><td>Grupo Silva</td><td>Mar/2026</td><td>R$12.000</td><td>5.2M</td><td><span class="badge b-paid">Pago</span></td></tr>
+      <tr><td>Empire Business</td><td>Mar/2026</td><td>R$6.000</td><td>3.8M</td><td><span class="badge b-paid">Pago</span></td></tr>
+      <tr><td>Blank School</td><td>Mar/2026</td><td>R$6.000</td><td>4.1M</td><td><span class="badge b-paid">Pago</span></td></tr>
+      <tr><td>Aceleradora Alpha</td><td>Mar/2026</td><td>R$2.500</td><td>780K</td><td><span class="badge b-pending">Pendente</span></td></tr>
+      <tr><td>MK Social</td><td>Mar/2026</td><td>R$2.500</td><td>420K</td><td><span class="badge b-paid">Pago</span></td></tr>
+      <tr><td>Grupo Silva</td><td>Fev/2026</td><td>R$12.000</td><td>4.9M</td><td><span class="badge b-paid">Pago</span></td></tr>
+      <tr><td>Empire Business</td><td>Fev/2026</td><td>R$6.000</td><td>3.2M</td><td><span class="badge b-paid">Pago</span></td></tr>
+    </tbody>
+  </table>
+</main>
 </body></html>
