@@ -20,7 +20,6 @@
     .ch-auto{font-family:'Inter',sans-serif;font-size:10px;color:#34C759;display:flex;align-items:center;gap:4px;margin-left:12px}
     .ch-auto::before{content:'';width:5px;height:5px;border-radius:50%;background:#34C759}
 
-    /* Chat zone injected by shared-chat.js */
 
     /* QUICK NAV */
     .qa{display:flex;gap:6px;margin-bottom:20px;flex-wrap:wrap}
@@ -69,7 +68,7 @@
 </head>
 <body data-client="true" data-active="workspace">
 
-<div class="main">
+<main class="main">
 
   <!-- CLIENT HEADER -->
   <div class="client-header">
@@ -81,11 +80,9 @@
     <div class="ch-phase">Fase 4</div>
     <div class="ch-auto">Autopilot</div>
   </div>
-
-  <!-- CHAT ZONE — Dark Ambient Glow -->
   <div id="chat-zone"></div>
-  <script src="shared-chat.js"
-    data-agent="Sensei"
+  <!-- chat from shared-nav-social -->
+<!--     data-agent="Sensei"
     data-context="Joao Mendes — CEO TechFlow"
     data-msg="Contexto do Joao carregado. Ele tem <strong>3 posts pendentes de aprovacao</strong> e <strong>3 slots vazios</strong> na sexta. O @concurrent1 postou sobre delegacao ontem com ER 5.2% — oportunidade. Quer que eu crie pautas?"></script>
 
@@ -140,6 +137,6 @@
 
 </div>
 
-<script src="shared-sidebar.js?v=2"></script>
+<script src="shared-nav-social.js"></script>
 </body>
 </html>
