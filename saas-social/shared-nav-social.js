@@ -223,28 +223,36 @@
             <span>Adicionar familiar</span>
           </a>
           ` : `
-          <div class="kt-org-head">Suas organizacoes</div>
-          <div class="kt-org-item kt-org-active" onclick="switchOrg('Grupo Silva', event)">
-            <div class="kt-org-av" style="background:rgba(127,177,189,0.12);font-family:'Inter',sans-serif;font-size:10px;font-weight:600;color:#7FB1BD;">CSB</div>
-            <div class="kt-org-info"><div class="kt-org-n">Grupo Silva</div><div class="kt-org-p">400 clientes · 4 samurais</div></div>
+          <div class="kt-org-head">Clientes ativos</div>
+          <a href="client-workspace.html" class="kt-org-item kt-org-active" style="text-decoration:none">
+            <div class="kt-org-av" style="background:linear-gradient(135deg,#D70030,#A60028);font-family:'Inter',sans-serif;font-size:10px;font-weight:600;color:#FFF;">JM</div>
+            <div class="kt-org-info"><div class="kt-org-n">Joao Mendes</div><div class="kt-org-p">CEO TechFlow · Fase 4 · Autopilot</div></div>
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#30D158" stroke-width="2.5" stroke-linecap="round"><path d="M20 6L9 17l-5-5"/></svg>
-          </div>
-          <div class="kt-org-item" onclick="switchOrg('KTANA', event)">
-            <div class="kt-org-av" style="background:rgba(215,0,48,0.06);font-family:'Zen Dots',cursive;font-size:8px;color:#D70030;">KT</div>
-            <div class="kt-org-info"><div class="kt-org-n">KTANA</div><div class="kt-org-p">BAKUFU · 8 samurais</div></div>
-          </div>
-          <div class="kt-org-item" onclick="switchOrg('Vende Direito', event)">
-            <div class="kt-org-av" style="background:rgba(48,209,88,0.08);font-family:'Inter',sans-serif;font-size:10px;font-weight:600;color:#30D158;">VD</div>
-            <div class="kt-org-info"><div class="kt-org-n">Vende Direito</div><div class="kt-org-p">RONIN · 1 samurai</div></div>
-          </div>
-          <div class="kt-org-sep"></div>
-          <a href="${isPF ? pf('settings.html') : t('organizations/index.html')}" class="kt-org-item kt-org-manage">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-            <span>Nova organizacao</span>
           </a>
-          <a href="${isPF ? pf('settings.html') : t('organizations/index.html')}" class="kt-org-item kt-org-manage">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M12.22 2h-.44a2 2 0 00-2 2v.18a2 2 0 01-1 1.73l-.43.25a2 2 0 01-2 0l-.15-.08a2 2 0 00-2.73.73l-.22.38a2 2 0 00.73 2.73l.15.1a2 2 0 011 1.72v.51a2 2 0 01-1 1.74l-.15.09a2 2 0 00-.73 2.73l.22.38a2 2 0 002.73.73l.15-.08a2 2 0 012 0l.43.25a2 2 0 011 1.73V20a2 2 0 002 2h.44"/></svg>
-            <span>Gerenciar organizacoes</span>
+          <a href="client-workspace.html" class="kt-org-item" style="text-decoration:none">
+            <div class="kt-org-av" style="background:linear-gradient(135deg,#5856D6,#3A38A0);font-family:'Inter',sans-serif;font-size:10px;font-weight:600;color:#FFF;">AC</div>
+            <div class="kt-org-info"><div class="kt-org-n">Ana Costa</div><div class="kt-org-p">Advogada tributarista · Fase 2</div></div>
+          </a>
+          <a href="client-workspace.html" class="kt-org-item" style="text-decoration:none">
+            <div class="kt-org-av" style="background:linear-gradient(135deg,#007AFF,#0055CC);font-family:'Inter',sans-serif;font-size:10px;font-weight:600;color:#FFF;">PS</div>
+            <div class="kt-org-info"><div class="kt-org-n">Pedro Souza</div><div class="kt-org-p">Cirurgiao plastico · Fase 1</div></div>
+          </a>
+          <a href="client-workspace.html" class="kt-org-item" style="text-decoration:none">
+            <div class="kt-org-av" style="background:linear-gradient(135deg,#FF9500,#CC7700);font-family:'Inter',sans-serif;font-size:10px;font-weight:600;color:#FFF;">MF</div>
+            <div class="kt-org-info"><div class="kt-org-n">Maria Fernandes</div><div class="kt-org-p">CEO Consulting · Fase 5 · Autopilot</div></div>
+          </a>
+          <a href="client-workspace.html" class="kt-org-item" style="text-decoration:none">
+            <div class="kt-org-av" style="background:linear-gradient(135deg,#34C759,#248A3D);font-family:'Inter',sans-serif;font-size:10px;font-weight:600;color:#FFF;">RC</div>
+            <div class="kt-org-info"><div class="kt-org-n">Roberto Campos</div><div class="kt-org-p">Investidor anjo · Fase 4</div></div>
+          </a>
+          <div class="kt-org-sep"></div>
+          <a href="client-list.html" class="kt-org-item kt-org-manage" style="text-decoration:none">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
+            <span>Ver todos (400 clientes)</span>
+          </a>
+          <a href="client-onboarding-wizard.html" class="kt-org-item kt-org-manage" style="text-decoration:none">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            <span>Cadastrar novo cliente</span>
           </a>
           `}
           </div>
@@ -257,50 +265,30 @@
         <button class="kt-avatar" title="Perfil" onclick="toggleProfileDrop()">
           ${svg('M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2M12 3a4 4 0 100 8 4 4 0 000-8z', 16)}
         </button>
-        <!-- Profile Dropdown -->
+        <!-- Profile Dropdown — Config da empresa -->
         <div class="kt-profile-drop" id="ktProfileDrop">
-          <a href="${t('profile/index.html')}" class="kt-profile-item">
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-            <span>Perfil</span>
+          <div style="padding:14px 16px;border-bottom:0.5px solid rgba(0,0,0,0.04);display:flex;align-items:center;gap:10px">
+            <div style="width:32px;height:32px;border-radius:10px;background:linear-gradient(135deg,#D70030,#A60028);display:flex;align-items:center;justify-content:center;font-family:'Inter',sans-serif;font-size:10px;font-weight:700;color:#FFF">GS</div>
+            <div><div style="font-family:'Satoshi',sans-serif;font-size:14px;font-weight:600;color:#1D1D1F">Grupo Silva</div><div style="font-family:'Inter',sans-serif;font-size:11px;color:#86868B">400 clientes · R$400K MRR</div></div>
+          </div>
+          <a href="settings.html" class="kt-profile-item" style="text-decoration:none">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33"/></svg>
+            <span>Configuracoes da empresa</span>
+          </a>
+          <a href="team-management.html" class="kt-profile-item" style="text-decoration:none">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
+            <span>Equipe e permissoes</span>
+          </a>
+          <a href="billing.html" class="kt-profile-item" style="text-decoration:none">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
+            <span>Cobranca</span>
+          </a>
+          <a href="connections.html" class="kt-profile-item" style="text-decoration:none">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101"/></svg>
+            <span>Conexoes e APIs</span>
           </a>
           <div class="kt-profile-sep"></div>
-          <div class="kt-profile-env-label">Ambiente</div>
-          ${isPF ? `
-          <div class="kt-profile-item kt-profile-env-active">
-            <span class="kt-env-dot kt-env-dot-active"></span>
-            <span>Ambiente PF</span>
-            <span class="kt-env-current">Atual</span>
-          </div>
-          <a href="${t('dashboard/home.html')}" class="kt-profile-item kt-profile-env-switch" style="text-decoration:none;color:inherit;">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v2"/></svg>
-            <span>Ambiente PJ</span>
-          </a>
-          ` : `
-          <div class="kt-profile-item kt-profile-env-active">
-            <span class="kt-env-dot kt-env-dot-active"></span>
-            <span>Ambiente PJ</span>
-            <span class="kt-env-current">Atual</span>
-          </div>
-          <button class="kt-profile-item kt-profile-env-switch" id="ktEnvSwitchBtn" onclick="showPfAuth(event)">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-            <span>Ambiente PF</span>
-          </button>
-          `}
-          <!-- WhatsApp auth inline (hidden by default) -->
-          <div class="kt-pf-auth" id="ktPfAuth" style="display:none;">
-            <p class="kt-pf-auth-msg">Codigo enviado ao WhatsApp. Digite para acessar:</p>
-            <div class="kt-pf-auth-inputs">
-              <input type="text" maxlength="1" class="kt-pf-code" data-idx="0" inputmode="numeric" autocomplete="off">
-              <input type="text" maxlength="1" class="kt-pf-code" data-idx="1" inputmode="numeric" autocomplete="off">
-              <input type="text" maxlength="1" class="kt-pf-code" data-idx="2" inputmode="numeric" autocomplete="off">
-              <input type="text" maxlength="1" class="kt-pf-code" data-idx="3" inputmode="numeric" autocomplete="off">
-              <input type="text" maxlength="1" class="kt-pf-code" data-idx="4" inputmode="numeric" autocomplete="off">
-              <input type="text" maxlength="1" class="kt-pf-code" data-idx="5" inputmode="numeric" autocomplete="off">
-            </div>
-            <button class="kt-pf-confirm" onclick="goToPF()" style="width:100%;margin-top:10px;padding:10px;border-radius:10px;background:#D70030;color:#FFF;border:none;font-family:'Inter',sans-serif;font-size:13px;font-weight:500;cursor:pointer;min-height:40px;">Entrar no ambiente PF</button>
-          </div>
-          <div class="kt-profile-sep"></div>
-          <button class="kt-profile-item kt-profile-logout" onclick="alert('Saindo...')">
+          <button class="kt-profile-item kt-profile-logout" onclick="location.href='login.html'">
             <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
             <span>Sair</span>
           </button>
@@ -321,9 +309,9 @@
         ${sidebarItems}
       </nav>
       <div class="ks-foot">
-        <a href="${isPF ? pf('wearables.html') : t('dashboard.html')}" class="ks-foot-link">${svg(isPF ? 'M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z' : 'M4 17l6-6-6-6M12 19h8', 14)} ${isPF ? 'Dispositivos' : 'Terminal'}</a>
-        <a href="${isPF ? pf('chat.html') : t('connections.html')}" class="ks-foot-link">${svg('M3 21l1.65-3.8a9 9 0 113.15 2.85L3 21z', 14)} WhatsApp</a>
-        <a href="${isPF ? pf('chat.html') : t('settings.html')}" class="ks-foot-link">${svg('M18.364 5.636a9 9 0 010 12.728m0 0l-2.829-2.829m2.829 2.829L21 21M15.536 8.464a5 5 0 010 7.072m0 0l-2.829-2.829', 14)} Suporte</a>
+        <a href="pipeline.html" class="ks-foot-link">${svg('M22 12h-4l-3 9L9 3l-3 9H2', 14)} Pipeline</a>
+        <a href="connection-whatsapp.html" class="ks-foot-link">${svg('M3 21l1.65-3.8a9 9 0 113.15 2.85L3 21z', 14)} WhatsApp</a>
+        <a href="settings.html" class="ks-foot-link">${svg('M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37', 14)} Suporte</a>
       </div>
     </aside>
     <div class="ks-overlay" id="ksOverlay" onclick="toggleSidebar()"></div>
