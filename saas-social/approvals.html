@@ -102,14 +102,14 @@
 <div class="main">
 
   <!-- CHAT: Agente contextualiza a fila de aprovações -->
-  <div class="chat-hero">
-    <div class="ch-top">
-      <div class="ch-av"><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-      <div>
-        <div class="ch-nm">Sensei</div>
-        <div class="ch-ctx">Fila de aprovacoes — 7 pendentes</div>
-      </div>
-    </div>
+  <!-- CHAT ZONE — Dark Ambient Glow -->
+  <div id="chat-zone"></div>
+  <script src="shared-chat.js"
+    data-agent="Sensei"
+    data-context="Aprovacoes — 7 pendentes"
+    data-msg="<strong>7 aprovacoes pendentes</strong>. 3 atrasadas (SLA excedido). Joao Mendes tem carrossel IG aguardando 6h. Quer que eu envie lembrete?"></script>
+
+  
     <div class="ch-body">
       <div class="msg msg-ai">
         Voce tem <strong>7 conteudos</strong> aguardando aprovacao. <strong>3 estao acima do SLA de 4h</strong> — ja enviei lembrete no WhatsApp pros social medias responsaveis.<br><br>
