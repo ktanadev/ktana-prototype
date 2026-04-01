@@ -1,0 +1,317 @@
+<!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>SaaS Social — Product Deep Dive</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#FAFAFA;color:#1D1D1F;font-family:-apple-system,'Inter',sans-serif;padding:40px;min-height:100vh;max-width:900px;margin:0 auto;line-height:1.7}
+h1{font-size:32px;font-weight:800;color:#D70030;margin-bottom:4px}
+h2{font-size:22px;font-weight:700;color:#1D1D1F;margin:40px 0 16px;padding-top:20px;border-top:1px solid rgba(0,0,0,0.06)}
+h3{font-size:16px;font-weight:700;color:#1D1D1F;margin:24px 0 8px}
+h4{font-size:13px;font-weight:700;color:#D70030;text-transform:uppercase;letter-spacing:.06em;margin:20px 0 8px}
+.sub{font-size:14px;color:#86868B;margin-bottom:40px}
+p{font-size:14px;color:#3A3A3C;margin-bottom:12px}
+.highlight{background:rgba(215,0,48,0.03);border-left:3px solid #D70030;padding:16px 20px;border-radius:0 10px 10px 0;margin:16px 0;font-size:14px;color:#1D1D1F}
+.highlight strong{color:#D70030}
+.card{background:#FFF;border:1px solid rgba(0,0,0,0.06);border-radius:14px;padding:20px;margin:16px 0}
+.card-title{font-size:14px;font-weight:700;color:#1D1D1F;margin-bottom:8px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px}
+.metric{background:#FFF;border:1px solid rgba(0,0,0,0.06);border-radius:10px;padding:14px;text-align:center}
+.metric-val{font-size:24px;font-weight:800;color:#D70030}
+.metric-label{font-size:10px;color:#86868B;text-transform:uppercase;letter-spacing:.04em;margin-top:2px}
+ul{padding-left:20px;margin:8px 0 16px}
+li{font-size:13px;color:#3A3A3C;margin-bottom:6px}
+li strong{color:#1D1D1F}
+.scenario{background:#FFF;border:1px solid rgba(0,0,0,0.06);border-radius:14px;padding:20px;margin:12px 0}
+.scenario-header{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.scenario-icon{width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0}
+.scenario-title{font-size:14px;font-weight:700;color:#1D1D1F}
+.scenario-trigger{font-size:11px;color:#86868B}
+.scenario p{font-size:13px;color:#6E6E73;margin-bottom:6px}
+.journey{background:#FFF;border:1px solid rgba(0,0,0,0.06);border-radius:14px;padding:24px;margin:16px 0}
+.journey-header{font-size:16px;font-weight:700;color:#1D1D1F;margin-bottom:4px}
+.journey-who{font-size:12px;color:#86868B;margin-bottom:16px}
+.moment{display:flex;gap:16px;margin-bottom:20px;position:relative;padding-left:24px}
+.moment::before{content:'';position:absolute;left:7px;top:24px;bottom:-20px;width:1px;background:rgba(0,0,0,0.06)}
+.moment:last-child::before{display:none}
+.moment-dot{position:absolute;left:0;top:6px;width:15px;height:15px;border-radius:50%;border:2px solid #FFF;box-shadow:0 0 0 1px rgba(0,0,0,0.1)}
+.moment-time{font-size:11px;font-weight:600;color:#86868B;margin-bottom:2px}
+.moment-action{font-size:14px;font-weight:600;color:#1D1D1F;margin-bottom:4px}
+.moment-detail{font-size:13px;color:#6E6E73;line-height:1.6}
+.moment-emotion{font-size:11px;color:#FF9500;font-style:italic;margin-top:4px}
+.moment-screen{font-family:monospace;font-size:10px;color:#D70030;background:rgba(215,0,48,0.04);padding:2px 6px;border-radius:3px;margin-top:4px;display:inline-block}
+.edge{background:rgba(255,149,0,0.03);border:1px solid rgba(255,149,0,0.12);border-radius:14px;padding:20px;margin:12px 0}
+.edge-title{font-size:14px;font-weight:700;color:#CC7700;margin-bottom:8px}
+.edge p{font-size:13px;color:#6E6E73}
+.divider{height:1px;background:rgba(0,0,0,0.06);margin:40px 0}
+.tag{display:inline-block;font-size:9px;font-weight:700;padding:2px 6px;border-radius:3px;margin-left:4px}
+.tag-risk{background:rgba(215,0,48,0.1);color:#D70030}
+.tag-opp{background:rgba(52,199,89,0.1);color:#248A3D}
+.tag-pain{background:rgba(255,149,0,0.1);color:#CC7700}
+</style>
+</head>
+<body>
+
+<h1>Product Deep Dive</h1>
+<p class="sub">O que o produto e, pra quem, por que existe, como funciona na vida real, e o que acontece quando tudo da errado.</p>
+
+<!-- ═══════════════════════════════════ -->
+<h2>1. O Problema Real</h2>
+
+<p>Existe um mercado crescente de <strong>agencias de posicionamento founder-led growth</strong>. Empresas como Grupo Silva, Blank, Empire pegam founders invisíveis — CEOs de SaaS, medicos, advogados, consultores — e transformam eles em autoridades reconhecidas nas redes sociais.</p>
+
+<p>O problema: <strong>tudo e manual</strong>.</p>
+
+<div class="grid2">
+  <div class="metric"><div class="metric-val">80%</div><div class="metric-label">do tempo do SM e gasto em tarefas repetitivas</div></div>
+  <div class="metric"><div class="metric-val">3-5</div><div class="metric-label">posts/dia por cliente necessarios pra crescer</div></div>
+  <div class="metric"><div class="metric-val">60%</div><div class="metric-label">dos founders param de colaborar apos 30 dias</div></div>
+  <div class="metric"><div class="metric-val">50</div><div class="metric-label">clientes maximo por SM antes de perder qualidade</div></div>
+</div>
+
+<h4>Dores do Dono da Agencia</h4>
+<div class="highlight">
+  <strong>Antonio tem 400 clientes e 6 SMs.</strong> Cada SM cuida de ~70 clientes. A qualidade cai porque: pesquisa de concorrentes e superficial, roteiros sao genericos, design e template basico, e o founder some depois do primeiro mes. Antonio nao consegue escalar pra 800 clientes sem dobrar o time — e dobrar o time come toda a margem.
+</div>
+
+<ul>
+  <li><strong>Pesquisa manual:</strong> SM gasta 2h/dia pesquisando trending, concorrentes, noticias. Faz mal. Perde brechas.</li>
+  <li><strong>Roteiro generico:</strong> Sem tempo pra personalizar, o tom de voz do CEO de SaaS fica igual ao do cirurgiao plastico.</li>
+  <li><strong>Founder some:</strong> Joao Mendes contratou empolgado. Depois de 3 semanas parou de responder WhatsApp. Posts pararam. Resultado zerou. Joao cancelou.</li>
+  <li><strong>Sem controle:</strong> Antonio nao sabe se a Maria postou os 3 conteudos do Joao hoje. Descobre quando o Joao reclama.</li>
+  <li><strong>Risco de conta:</strong> Usam o mesmo IP pra 5 perfis do Instagram. Contas caem. Perdem meses de trabalho.</li>
+  <li><strong>Crise sem plano:</strong> Post do Pedro Souza teve comentario negativo viral. Ninguem sabia o que fazer. Perderam 200 seguidores em 1 dia.</li>
+</ul>
+
+<h4>Dores do Founder (cliente da agencia)</h4>
+<div class="highlight">
+  <strong>Joao Mendes paga R$1.000/mes</strong> pro Grupo Silva posicionar ele como autoridade. Mas: nao entende o que ta sendo publicado, recebe aprovacoes em grupo de WhatsApp bagunçado, esquece de gravar video, e quando ve o relatorio mensal nao sabe se ta funcionando. Ele quer <strong>resultado sem trabalho</strong> — contratou pra alguem cuidar, nao pra ter mais tarefa.
+</div>
+
+<h4>Dores do SM (funcionario)</h4>
+<div class="highlight">
+  <strong>Maria Silva cuida de 120 clientes.</strong> Deveria ser 50 max. Pesquisa concorrente raso, copia formato do que viralizou, adapta pra 3 clientes diferentes com o mesmo roteiro. Sabe que ta ruim mas nao tem tempo. De manha abre 14 abas de Instagram, LinkedIn, TikTok. Posta manual. Esquece de um. Cliente reclama. Maria pensa em sair.
+</div>
+
+<!-- ═══════════════════════════════════ -->
+<h2>2. O Que o Produto Resolve</h2>
+
+<p>Um <strong>sistema operacional de posicionamento digital</strong> que substitui o trabalho manual repetitivo por <strong>7 agentes de IA</strong> que trabalham 24/7 como funcionarios digitais. O humano faz a curadoria e estrategia. A maquina faz o volume e consistencia.</p>
+
+<div class="highlight">
+  <strong>Modelo hibrido:</strong> A IA nao substitui o SM. Ela faz o trabalho bruto (pesquisar, escrever, desenhar, agendar) e o SM faz a curadoria (revisar, ajustar tom, aprovar). O founder so precisa dizer "1" no WhatsApp pra aprovar. Se o founder sumir, a IA continua com conteudo sintetico usando clone visual + avatar.
+</div>
+
+<h3>Os 7 Colaboradores Digitais</h3>
+
+<div class="card">
+  <div class="card-title">Producao (trabalham de madrugada)</div>
+  <ul>
+    <li><strong>Scout</strong> — Pesquisador. Varre concorrentes a cada 6h. Monitora trending. Identifica brechas. Gera inteligencia de mercado POR CLIENTE. O Scout do Joao sabe que @concorrente.saas nao fala de unit economics — isso e brecha.</li>
+    <li><strong>Quill</strong> — Copywriter. Pega a inteligencia do Scout + Brand Book do cliente e escreve roteiros por rede (IG carrossel 9 slides, LI artigo 1800 palavras, TT reel 28s, X thread 5 tweets, Blog 2500 palavras). Score de humanidade: se ta abaixo de 85%, reescreve. Se o tom ta errado, ajusta. <strong>Copiloto do SM</strong> — Maria abre a fila e os roteiros ja estao la.</li>
+    <li><strong>Canvas</strong> — Designer. Pega o roteiro aprovado e gera design usando template Figma do cliente. Adapta por rede (1080x1080 IG, 1080x1920 stories/reels, 1200x628 LI). <strong>Copiloto da Designer</strong> — Rafaela abre e as opcoes ja estao prontas.</li>
+  </ul>
+</div>
+
+<div class="card">
+  <div class="card-title">Distribuicao (trabalham o dia todo)</div>
+  <ul>
+    <li><strong>Pulse</strong> — WhatsApp. Manda resumo matinal pro founder, envia posts pra aprovar (1/2/3), cobra tarefas da semana, manda relatorio noturno. Se founder nao responde em 4h: lembrete. 8h: escala pro SM. 24h: escala pro gestor. <strong>O canal principal do founder</strong> — ele nao precisa abrir nenhum sistema.</li>
+    <li><strong>Director</strong> — Video. Treina avatar HeyGen com fotos do founder. Gera ensaios fotograficos. Cria micro-cortes de webinars. Lip-sync pra reels. <strong>Quando o founder some</strong>, o Director gera conteudo visual sintetico — posts com foto do avatar, nao do real.</li>
+  </ul>
+</div>
+
+<div class="card">
+  <div class="card-title">Inteligencia (trabalham sempre)</div>
+  <ul>
+    <li><strong>Sensei</strong> — Orquestrador. Coordena todos os outros 6. Prioriza: "O carrossel do Joao ta atrasado 6h, escalar pra Maria." Redistribui carga entre SMs. Detecta inconsistencias. <strong>Copiloto do Gestor</strong> — Felipe pergunta "quem ta atrasado?" e o Sensei ja sabe.</li>
+    <li><strong>Metrics</strong> — Analista. Monitora engajamento 1h/6h/24h/7d apos publicacao. Compara com historico. Identifica o que performou e o que flopou. Alimenta o feedback loop: <strong>o que performou → Quill prioriza pautas similares. O que flopou → evita.</strong></li>
+  </ul>
+</div>
+
+<!-- ═══════════════════════════════════ -->
+<h2>3. Jornada Completa: O Dia de Cada Ator</h2>
+
+<!-- DONO -->
+<div class="journey">
+  <div class="journey-header">Antonio — Dono do Grupo Silva</div>
+  <div class="journey-who">Contratou o sistema ha 3 meses. 400 clientes, 6 SMs, 1 designer. R$400K MRR.</div>
+
+  <div class="moment">
+    <div class="moment-dot" style="background:#D70030"></div>
+    <div>
+      <div class="moment-time">08:30 — Abre o sistema no notebook</div>
+      <div class="moment-action">Ve o dashboard: a orquestra funcionando</div>
+      <div class="moment-detail">142 posts publicados essa semana (+18% vs anterior). 7 agentes online. R$400K MRR. 34% dos tokens usados. O Sensei diz: "Motor publicou 18 posts esta noite. 3 aprovacoes atrasadas. Maria com carga alta — redistribuir 20 pro Carlos?"</div>
+      <div class="moment-emotion">Sensacao: controle. Ve tudo num lugar so. Antes abria 6 planilhas.</div>
+      <div class="moment-screen">dashboard.html</div>
+    </div>
+  </div>
+
+  <div class="moment">
+    <div class="moment-dot" style="background:#FF9500"></div>
+    <div>
+      <div class="moment-time">08:35 — Ve que Pedro Souza ta inativo ha 5 dias</div>
+      <div class="moment-action">Clica no Pedro, ve o checklist: 0/5 tarefas feitas</div>
+      <div class="moment-detail">O Pulse mandou 3 lembretes no WA. Pedro leu mas nao respondeu. Antonio vê o log: "Pedro: 'to viajando, semana que vem'" — isso foi ha 8 dias. Antonio decide: "Ativar modo sintetico pro Pedro — Director gera conteudo com avatar, SM aprova sem founder."</div>
+      <div class="moment-emotion">Frustracao controlada. Antes: panic. Agora: tem plano B automatico.</div>
+      <div class="moment-screen">client-checklist.html → client-activity.html</div>
+    </div>
+  </div>
+
+  <div class="moment">
+    <div class="moment-dot" style="background:#34C759"></div>
+    <div>
+      <div class="moment-time">08:40 — Abre Empresa Inteligente</div>
+      <div class="moment-action">Ve a producao dos 7 agentes como um CEO ve um dashboard de empresa</div>
+      <div class="moment-detail">Scout: 12 pesquisas, 8 brechas encontradas. Quill: 34 roteiros, score medio 89%. Canvas: 18 designs. Pulse: 47 mensagens, 12 aprovacoes. Metrics: ER medio 4.2%. Tudo funcionando. Antonio nao precisa fazer nada — so acompanhar.</div>
+      <div class="moment-emotion">Orgulho. "Minha empresa funciona sozinha enquanto tomo cafe."</div>
+      <div class="moment-screen">agents-overview.html</div>
+    </div>
+  </div>
+</div>
+
+<!-- SM -->
+<div class="journey">
+  <div class="journey-header">Maria Silva — Social Media Senior</div>
+  <div class="journey-who">120 clientes. Copiloto: Quill. Acorda 6:50, abre notebook 7:15.</div>
+
+  <div class="moment">
+    <div class="moment-dot" style="background:#34C759"></div>
+    <div>
+      <div class="moment-time">07:15 — Abre Minha Fila com cafe</div>
+      <div class="moment-action">14 itens esperando. Quill trabalhou a noite toda pra ela.</div>
+      <div class="moment-detail">3 urgentes (SLA vencendo): carrossel do Joao 6h atrasado, design da Ana 4h, Pedro inativo 3 dias. 8 roteiros novos do Quill com score 87-94%. 3 designs do Canvas. Maria comeca pelos urgentes. Le o carrossel do Joao — "5 erros de CEO" — score 94%, tom alinhado. <strong>Clica "Aprovar → WhatsApp".</strong> Pronto. Levou 30 segundos. Antes levava 45 minutos pra pesquisar, escrever, revisar.</div>
+      <div class="moment-emotion">Alivio. "O Quill ja fez o trabalho pesado. Eu so reviso."</div>
+      <div class="moment-screen">sm-inbox.html</div>
+    </div>
+  </div>
+
+  <div class="moment">
+    <div class="moment-dot" style="background:#FF9500"></div>
+    <div>
+      <div class="moment-time">07:25 — Reel do Joao com score 78%</div>
+      <div class="moment-action">Score abaixo de 85%. Maria edita.</div>
+      <div class="moment-detail">Abre o editor. Le: "Se voce e CEO e ainda faz isso..." — generico demais. Clica "Mais provocador". Quill reescreve: "Eu perdi R$2M por fazer isso. Todo CEO faz." Score sobe pra 91%. Maria aprova.</div>
+      <div class="moment-emotion">Parceria. "O Quill e meu braço direito. Ele erra as vezes, mas eu conserto rapido."</div>
+      <div class="moment-screen">post-editor.html</div>
+    </div>
+  </div>
+
+  <div class="moment">
+    <div class="moment-dot" style="background:#5856D6"></div>
+    <div>
+      <div class="moment-time">09:45 — Joao pediu ajuste via WhatsApp</div>
+      <div class="moment-action">"Artigo do LinkedIn ta muito formal. Quero mais provocador."</div>
+      <div class="moment-detail">Aparece na fila de Maria como "Feedback founder". Mas o Quill ja reescreveu automaticamente com o feedback — score 91%. Maria le a versao nova. Ta melhor. Aprova. Nao precisou escrever nada.</div>
+      <div class="moment-emotion">Velocidade. "Antes eu demorava 1h pra reescrever. Agora o Quill faz em 6 segundos."</div>
+      <div class="moment-screen">sm-inbox.html (feedback section)</div>
+    </div>
+  </div>
+</div>
+
+<!-- FOUNDER -->
+<div class="journey">
+  <div class="journey-header">Joao Mendes — Founder (cliente da agencia)</div>
+  <div class="journey-who">CEO TechFlow. SaaS B2B. Paga R$1.000/mes. Quer ser autoridade sem trabalho.</div>
+
+  <div class="moment">
+    <div class="moment-dot" style="background:#FF9500"></div>
+    <div>
+      <div class="moment-time">08:02 — WhatsApp vibra enquanto faz cafe</div>
+      <div class="moment-action">Pulse: "Bom dia Joao! 18 posts publicados, ER 4.8%. 3 pra aprovar."</div>
+      <div class="moment-detail">Joao nem abre o sistema. Le no WhatsApp: "1. Carrossel IG '5 erros de CEO' — score 94%. 2. Artigo LI 'Futuro do B2B'. 3. Reel TT 'Rotina de CEO'. Responda 1 pra aprovar." Joao responde "1". 5 segundos. Pronto. Os 3 posts vao pro agendamento.</div>
+      <div class="moment-emotion">Zero esforco. "Eu pago pra nao pensar nisso. E funciona."</div>
+      <div class="moment-screen">WhatsApp (Pulse agent)</div>
+    </div>
+  </div>
+
+  <div class="moment">
+    <div class="moment-dot" style="background:#D70030"></div>
+    <div>
+      <div class="moment-time">08:07 — Le o artigo do LinkedIn e nao gosta</div>
+      <div class="moment-action">"Ajustar 2, muito formal. Quero mais provocador, tipo aquele post que viralizou."</div>
+      <div class="moment-detail">Joao manda audio no WA: "Esse texto ta muito seco. Quero tipo aquele post que fiz semana passada sobre unit economics. Provocador, com dados." O Pulse transcreve e manda pro Quill. Quill reescreve. Maria revisa. 20 minutos depois, Joao recebe a versao nova. "1". Aprovado.</div>
+      <div class="moment-emotion">Poder. "Eu falo e a maquina obedece. Sem reuniao, sem email."</div>
+    </div>
+  </div>
+
+  <div class="moment">
+    <div class="moment-dot" style="background:#007AFF"></div>
+    <div>
+      <div class="moment-time">14:00 — Pulse cobra tarefa</div>
+      <div class="moment-action">"Joao, falta gravar os 3 stories de bastidores. Consegue hoje?"</div>
+      <div class="moment-detail">Joao: "Gravo depois da reuniao." Pulse: "Perfeito, te lembro as 17h." As 17h: "Joao, hora de gravar!" Joao grava 3 videos de 15s no escritorio, manda no WA. Pulse recebe, salva, atualiza checklist. Maria ve "entregue".</div>
+      <div class="moment-emotion">Accountability suave. "Nao e chato, e um lembrete inteligente."</div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════ -->
+<h2>4. Cenarios Criticos (Edge Cases)</h2>
+
+<div class="scenario">
+  <div class="scenario-header">
+    <div class="scenario-icon" style="background:rgba(215,0,48,0.1);color:#D70030">!</div>
+    <div><div class="scenario-title">Founder some por 2+ semanas</div><div class="scenario-trigger">Trigger: Pulse nao recebe resposta apos 3 tentativas em 5 dias</div></div>
+  </div>
+  <p><strong>O que acontece:</strong> Pulse escala pro SM → SM escala pro Gestor → Gestor decide: ativar modo sintetico. A IA continua publicando com avatar do Director (fotos geradas), roteiros do Quill (sem input novo do founder), conteudo baseado no Brand Book existente. <strong>O posicionamento nao para.</strong></p>
+  <p><strong>O que o founder ve quando volta:</strong> "Enquanto voce estava fora, publicamos 14 posts. Engagement se manteve. Seus seguidores cresceram 3%. Aqui o resumo do que foi publicado — quer revisar?"</p>
+  <p><strong>Risco:</strong> Conteudo sintetico pode nao soar 100% como o founder. <strong>Mitigacao:</strong> Score de humanidade mais alto (90%+), so posta o que esta no Brand Book, nao inventa posicoes novas.</p>
+</div>
+
+<div class="scenario">
+  <div class="scenario-header">
+    <div class="scenario-icon" style="background:rgba(215,0,48,0.1);color:#D70030">!</div>
+    <div><div class="scenario-title">Post viraliza negativamente / Crise</div><div class="scenario-trigger">Trigger: Metrics detecta ER negativo > 5% ou volume de comentarios negativos > 20%</div></div>
+  </div>
+  <p><strong>O que acontece:</strong> Metrics detecta em 1h. Alerta imediato pro SM + Gestor + Sensei. Framework de crise ativa: (1) Pausar agendamentos desse cliente. (2) Sensei analisa: o que causou? Opiniao polemica? Fato errado? Concorrente atacou? (3) Opções pre-definidas: apagar post, publicar retratacao, ignorar e monitorar, ou escalar pra assessoria juridica.</p>
+  <p><strong>Framework juridico:</strong> Se envolve difamacao, informacao falsa, ou risco legal → sistema sugere texto de retratacao juridicamente seguro + alerta pra consultar advogado. Template pre-aprovado de resposta a crise.</p>
+  <p><strong>Quem decide:</strong> Gestor (se SM nao tem permissao). Founder e notificado DEPOIS da acao, nao antes (pra nao entrar em panico).</p>
+</div>
+
+<div class="scenario">
+  <div class="scenario-header">
+    <div class="scenario-icon" style="background:rgba(255,149,0,0.1);color:#CC7700">⚡</div>
+    <div><div class="scenario-title">Token expira / Conta cai no Instagram</div><div class="scenario-trigger">Trigger: Health detecta erro 401/403 na API ou GoLogin reporta sessao expirada</div></div>
+  </div>
+  <p><strong>O que acontece:</strong> Health detecta imediatamente. Publica via perfil sintetico de backup (GoLogin com IP diferente). Notifica SM: "Token do Instagram do Joao expirou. Publicando via backup. Renovar token." SM renova. Perfil principal volta. <strong>Nenhum post perdido.</strong></p>
+  <p><strong>Estrategia anti-ban:</strong> Cada cliente tem perfil GoLogin dedicado com IP residencial. Random offset +-15min nos horarios de publicacao. Nunca 2 clientes do mesmo IP. Rate limit respeitado por rede. Se conta cai: backup publica, nao o principal.</p>
+</div>
+
+<div class="scenario">
+  <div class="scenario-header">
+    <div class="scenario-icon" style="background:rgba(255,149,0,0.1);color:#CC7700">⚡</div>
+    <div><div class="scenario-title">SM sai da empresa</div><div class="scenario-trigger">Trigger: Admin remove membro ou membro nao acessa ha 7 dias</div></div>
+  </div>
+  <p><strong>O que acontece:</strong> Sensei redistribui automaticamente os 120 clientes da Maria entre Carlos, Julia e Amanda. Cada SM recebe notificacao: "Voce recebeu 40 clientes novos da Maria. O Quill ja conhece esses clientes — Brand Book, tom, historico. Sua fila foi atualizada." Os clientes nao sentem nada. Os agentes ja tem toda a informacao.</p>
+  <p><strong>O que o dono ve:</strong> "Maria saiu. 120 clientes redistribuidos. Nenhum impacto na producao. Contratar substituta em ate 30 dias."</p>
+</div>
+
+<div class="scenario">
+  <div class="scenario-header">
+    <div class="scenario-icon" style="background:rgba(52,199,89,0.1);color:#248A3D">↑</div>
+    <div><div class="scenario-title">Agencia cresce de 400 pra 800 clientes</div><div class="scenario-trigger">Trigger: Dono cadastra 50+ clientes em 30 dias</div></div>
+  </div>
+  <p><strong>O que acontece:</strong> Os agentes IA escalam automaticamente — nao tem custo de contratacao. A unica limitacao e tokens (custo de LLM). O dono pode contratar mais 2-3 SMs pra curadoria (a IA faz 80% do trabalho, SM faz 20%). <strong>De 6 SMs pra 400 clientes → 9 SMs pra 800 clientes</strong> (nao 12). A margem AUMENTA porque o custo por cliente CAI.</p>
+  <p><strong>Diferencial competitivo:</strong> Blank e Empire precisam de 1 SM pra cada 30 clientes. KTANA Social: 1 SM pra cada 90 clientes. 3x mais eficiente.</p>
+</div>
+
+<!-- ═══════════════════════════════════ -->
+<h2>5. Modelo de Negocio</h2>
+
+<div class="grid3">
+  <div class="metric"><div class="metric-val">R$1K</div><div class="metric-label">por cliente/mes (agencia cobra)</div></div>
+  <div class="metric"><div class="metric-val">R$X</div><div class="metric-label">por cliente/mes (plataforma cobra da agencia)</div></div>
+  <div class="metric"><div class="metric-val">400</div><div class="metric-label">clientes = R$400K MRR da agencia</div></div>
+</div>
+
+<p>A agencia cobra <strong>R$1.000/cliente/mes</strong> do founder. A plataforma KTANA cobra da agencia por uso (tokens + infra). A margem da agencia e o spread. Com IA, a margem por cliente AUMENTA porque o custo operacional por cliente CAI.</p>
+
+<h4>Multi-tenant</h4>
+<p>O sistema atende <strong>varias agencias ao mesmo tempo</strong>. O admin KTANA ve: Grupo Silva (400 clientes), Blank (200 clientes), Empire (150 clientes). Cada agencia e um tenant isolado. Nao veem dados uma da outra. Agentes IA sao compartilhados mas configurados per-tenant.</p>
+
+<div style="text-align:center;padding:40px 0;font-size:11px;color:#AEAEB2">
+  Product Deep Dive V3 — SaaS Social Media<br>
+  <a href="user-stories.html" style="color:#D70030">Historias de Usuario →</a> · <a href="user-flow.html" style="color:#D70030">Fluxo Visual →</a>
+</div>
+
+</body></html>
