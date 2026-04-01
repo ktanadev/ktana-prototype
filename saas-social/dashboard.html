@@ -1,328 +1,223 @@
-<!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>KTANA Social — Dashboard</title><link rel="stylesheet" href="../shared.css"><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Zen+Dots&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>KTANA Social — Dashboard</title><link rel="stylesheet" href="../shared.css"><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Zen+Dots&display=swap" rel="stylesheet">
 <style>
-body{min-height:100vh;background:#F5F5F7;color:#1D1D1F;display:flex}
+body{min-height:100vh;background:#F5F5F7;color:#1D1D1F}
+a{text-decoration:none;color:inherit}
 
-/* SIDEBAR */
-.sidebar{width:220px;position:fixed;top:0;left:0;bottom:0;background:#FFF;border-right:1px solid rgba(0,0,0,0.06);padding:16px 0;overflow-y:auto;z-index:10;display:flex;flex-direction:column}
-.sidebar-logo{padding:0 16px;margin-bottom:20px;display:flex;align-items:center;gap:8px;text-decoration:none}
-.sidebar-logo .brand{font-family:'Zen Dots',cursive;font-size:13px;color:#D70030}
-.sidebar-logo .product{font-family:'Inter',sans-serif;font-size:9px;color:#86868B;background:rgba(0,0,0,0.04);padding:2px 6px;border-radius:4px}
-.nav-section{margin-bottom:4px}
-.nav-label{font-family:'Inter',sans-serif;font-size:9px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:#AEAEB2;padding:14px 16px 6px}
-.nav-item{display:flex;align-items:center;gap:10px;padding:8px 16px;font-family:'Inter',sans-serif;font-size:12px;color:#6E6E73;text-decoration:none;transition:all 0.15s;border-left:2px solid transparent;cursor:pointer}
-.nav-item:hover{color:#D70030;background:rgba(215,0,48,0.03)}
-.nav-item.active{color:#D70030;border-left-color:#D70030;background:rgba(215,0,48,0.04);font-weight:500}
-.nav-item .icon{width:18px;text-align:center;font-size:14px}
-.nav-item .badge-count{margin-left:auto;font-family:'Inter',sans-serif;font-size:10px;font-weight:600;color:#FFF;background:#D70030;padding:1px 6px;border-radius:980px;min-width:18px;text-align:center}
-.sidebar-footer{margin-top:auto;padding:12px 16px;border-top:1px solid rgba(0,0,0,0.04)}
-.sidebar-user{display:flex;align-items:center;gap:8px}
-.sidebar-avatar{width:28px;height:28px;border-radius:50%;background:#D70030;display:flex;align-items:center;justify-content:center;font-family:'Inter',sans-serif;font-size:10px;font-weight:600;color:#FFF}
-.sidebar-user-info{display:flex;flex-direction:column}
-.sidebar-user-name{font-family:'Satoshi',sans-serif;font-size:12px;font-weight:500;color:#1D1D1F}
-.sidebar-user-role{font-family:'Inter',sans-serif;font-size:10px;color:#86868B}
+/* NAV */
+.nav{position:fixed;top:0;left:0;right:0;z-index:50;height:48px;display:flex;align-items:center;justify-content:center;background:rgba(245,245,247,0.72);backdrop-filter:saturate(180%) blur(20px);border-bottom:0.5px solid rgba(0,0,0,0.06)}
+.nav-inner{width:100%;max-width:980px;padding:0 24px;display:flex;align-items:center;justify-content:space-between}
+.nav-logo{font-family:'Zen Dots',cursive;font-size:14px;color:#D70030;display:flex;align-items:center;gap:6px}
+.nav-logo span{font-family:'Inter',sans-serif;font-size:9px;color:#86868B;background:rgba(0,0,0,0.04);padding:2px 6px;border-radius:4px}
+.nav-links{display:flex;align-items:center;gap:20px}
+.nav-links a{font-family:'Inter',sans-serif;font-size:12px;color:#86868B;transition:color 0.15s}
+.nav-links a:hover{color:#D70030}
+.nav-user{width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,#D70030,#8B0000);display:flex;align-items:center;justify-content:center;font-family:'Inter',sans-serif;font-size:10px;font-weight:600;color:#FFF;cursor:pointer}
 
-/* MAIN */
-.main{margin-left:220px;flex:1;display:flex;flex-direction:column;min-height:100vh}
-.topbar{height:48px;display:flex;align-items:center;justify-content:space-between;padding:0 24px;background:#FFF;border-bottom:1px solid rgba(0,0,0,0.04)}
-.topbar-title{font-family:'Satoshi',sans-serif;font-size:15px;font-weight:500;color:#1D1D1F}
-.topbar-right{display:flex;align-items:center;gap:16px}
-.topbar-search{font-family:'Inter',sans-serif;font-size:12px;background:#F0F0F2;border:1px solid rgba(0,0,0,0.04);border-radius:8px;padding:6px 12px;width:200px;outline:none;color:#1D1D1F}
-.topbar-search::placeholder{color:#AEAEB2}
-.topbar-search:focus{border-color:rgba(215,0,48,0.3)}
-.topbar-notif{width:28px;height:28px;border-radius:50%;background:rgba(0,0,0,0.04);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:14px;position:relative}
-.topbar-notif .dot{position:absolute;top:4px;right:4px;width:6px;height:6px;border-radius:50%;background:#D70030}
+/* LAYOUT: Chat-centric */
+.layout{max-width:980px;margin:0 auto;padding:64px 24px 40px;display:grid;grid-template-columns:1fr 320px;gap:20px;min-height:100vh}
 
-.content{flex:1;padding:24px;overflow-y:auto}
+/* LEFT: Chat + Context */
+.chat-area{display:flex;flex-direction:column}
 
-/* METRIC CARDS */
-.metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:24px}
-.metric-card{background:#FFF;border-radius:16px;padding:20px;border:1px solid rgba(0,0,0,0.04);transition:all 0.3s;position:relative;overflow:hidden}
-.metric-card::before{content:'';position:absolute;inset:0;border-radius:16px;padding:1px;background:linear-gradient(135deg,transparent 60%,rgba(215,0,48,0.1) 100%);-webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);-webkit-mask-composite:xor;mask-composite:exclude;opacity:0;transition:opacity 0.3s}
-.metric-card:hover::before{opacity:1}
-.metric-card:hover{transform:translateY(-1px);box-shadow:0 4px 20px rgba(0,0,0,0.04)}
-.metric-label{font-family:'Inter',sans-serif;font-size:10px;font-weight:600;letter-spacing:0.05em;text-transform:uppercase;color:#86868B;margin-bottom:8px}
-.metric-value{font-family:'Zen Dots',cursive;font-size:28px;color:#1D1D1F}
-.metric-sub{font-family:'Inter',sans-serif;font-size:11px;color:#86868B;margin-top:4px}
-.metric-value.brand{color:#D70030}
+.greeting{margin-bottom:24px}
+.greeting h1{font-family:'Zen Dots',cursive;font-size:22px;color:#1D1D1F;margin-bottom:6px}
+.greeting p{font-family:'Satoshi',sans-serif;font-size:14px;color:#86868B}
 
-/* SECTIONS */
-.section-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
-.section-title{font-family:'Satoshi',sans-serif;font-size:16px;font-weight:600;color:#1D1D1F}
-.section-action{font-family:'Inter',sans-serif;font-size:11px;font-weight:500;color:#D70030;cursor:pointer;transition:opacity 0.2s}
-.section-action:hover{opacity:0.7}
+/* CHAT */
+.chat-container{flex:1;background:#FFF;border-radius:20px;border:1px solid rgba(0,0,0,0.04);display:flex;flex-direction:column;min-height:480px;position:relative;overflow:hidden}
+.chat-container::before{content:'';position:absolute;inset:0;border-radius:20px;padding:1.5px;background:linear-gradient(135deg,rgba(255,231,231,0.2) 0%,transparent 24%,rgba(215,0,48,0.2) 81%,rgba(215,0,48,0.08) 100%);-webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);-webkit-mask-composite:xor;mask-composite:exclude;pointer-events:none;opacity:0.5}
+.chat-header{display:flex;align-items:center;gap:10px;padding:14px 20px;border-bottom:1px solid rgba(0,0,0,0.04)}
+.chat-avatar{width:32px;height:32px;border-radius:10px;background:linear-gradient(135deg,#D70030,#8B0000);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.chat-avatar svg{width:16px;height:16px;stroke:#FFF;fill:none;stroke-width:1.5}
+.chat-info{display:flex;flex-direction:column}
+.chat-name{font-family:'Zen Dots',cursive;font-size:12px;color:#1D1D1F}
+.chat-status{font-family:'Inter',sans-serif;font-size:10px;color:#34C759;display:flex;align-items:center;gap:4px}
+.chat-status::before{content:'';width:5px;height:5px;border-radius:50%;background:#34C759}
+.chat-body{flex:1;padding:20px;overflow-y:auto;display:flex;flex-direction:column;gap:12px}
+.msg{max-width:85%;padding:12px 16px;border-radius:16px;font-family:'Satoshi',sans-serif;font-size:14px;line-height:1.6}
+.msg-ai{background:#F0F0F2;color:#1D1D1F;border-bottom-left-radius:4px;align-self:flex-start}
+.msg-user{background:#D70030;color:#FFF;border-bottom-right-radius:4px;align-self:flex-end}
+.msg-ai strong{color:#D70030}
+.msg-ai .inline-card{display:inline-flex;align-items:center;gap:6px;background:#FFF;border:1px solid rgba(0,0,0,0.06);border-radius:8px;padding:4px 10px;margin:4px 2px;font-family:'Inter',sans-serif;font-size:11px;font-weight:500;color:#1D1D1F;cursor:pointer;transition:border-color 0.2s}
+.msg-ai .inline-card:hover{border-color:rgba(215,0,48,0.2)}
+.msg-ai .inline-card svg{width:12px;height:12px;stroke:currentColor;fill:none;stroke-width:1.5}
 
-/* ALERTS */
-.alerts{display:flex;flex-direction:column;gap:8px;margin-bottom:24px}
-.alert{display:flex;align-items:center;gap:12px;padding:12px 16px;border-radius:12px;font-family:'Inter',sans-serif;font-size:12px}
-.alert-warn{background:rgba(255,149,0,0.06);border:1px solid rgba(255,149,0,0.1);color:#1D1D1F}
-.alert-error{background:rgba(215,0,48,0.04);border:1px solid rgba(215,0,48,0.08);color:#1D1D1F}
-.alert .icon{font-size:16px}
-.alert .time{margin-left:auto;font-size:10px;color:#86868B}
-
-/* CLIENT LIST */
-.clients-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:12px;margin-bottom:24px}
-.client-card{background:#FFF;border-radius:16px;padding:18px;border:1px solid rgba(0,0,0,0.04);transition:all 0.3s;cursor:pointer;position:relative;overflow:hidden}
-.client-card::before{content:'';position:absolute;inset:0;border-radius:16px;padding:1.5px;background:linear-gradient(135deg,rgba(255,231,231,0.2) 0%,transparent 24%,rgba(215,0,48,0.3) 81%,rgba(215,0,48,0.1) 100%);-webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);-webkit-mask-composite:xor;mask-composite:exclude;opacity:0;transition:opacity 0.3s}
-.client-card:hover::before{opacity:1}
-.client-card:hover{transform:translateY(-2px);box-shadow:0 8px 32px rgba(215,0,48,0.06)}
-.client-header{display:flex;align-items:center;gap:10px;margin-bottom:12px}
-.client-avatar{width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#D70030,#A60028);display:flex;align-items:center;justify-content:center;font-family:'Inter',sans-serif;font-size:12px;font-weight:600;color:#FFF;flex-shrink:0}
-.client-info h3{font-family:'Satoshi',sans-serif;font-size:13px;font-weight:600;color:#1D1D1F}
-.client-info p{font-family:'Inter',sans-serif;font-size:10px;color:#86868B}
-.client-phase{margin-left:auto;font-family:'Inter',sans-serif;font-size:9px;font-weight:600;letter-spacing:0.05em;text-transform:uppercase;padding:3px 8px;border-radius:6px}
-.phase-1{background:rgba(0,122,255,0.08);color:#007AFF}
-.phase-2{background:rgba(88,86,214,0.08);color:#5856D6}
-.phase-3{background:rgba(255,149,0,0.08);color:#FF9500}
-.phase-4{background:rgba(52,199,89,0.08);color:#34C759}
-.phase-5{background:rgba(215,0,48,0.08);color:#D70030}
-.client-networks{display:flex;gap:6px;margin-bottom:10px}
-.net-badge{font-family:'Inter',sans-serif;font-size:9px;font-weight:500;padding:2px 6px;border-radius:4px;display:flex;align-items:center;gap:3px}
-.net-ok{background:rgba(52,199,89,0.08);color:#34C759}
-.net-warn{background:rgba(255,149,0,0.08);color:#FF9500}
-.net-off{background:rgba(0,0,0,0.04);color:#AEAEB2}
-.client-bar{height:3px;border-radius:2px;background:#F0F0F2;overflow:hidden;margin-bottom:8px}
-.client-bar-fill{height:100%;border-radius:2px;background:linear-gradient(90deg,#D70030,#FF3B60)}
-.client-stats{display:flex;justify-content:space-between;font-family:'Inter',sans-serif;font-size:10px;color:#86868B}
-
-/* AUTOPILOT FEED */
-.feed{display:flex;flex-direction:column;gap:6px}
-.feed-item{display:flex;align-items:center;gap:10px;padding:10px 14px;background:#FFF;border-radius:10px;border:1px solid rgba(0,0,0,0.04);font-family:'Inter',sans-serif;font-size:12px;color:#6E6E73}
-.feed-icon{width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;flex-shrink:0}
-.feed-icon.research{background:rgba(0,122,255,0.08)}
-.feed-icon.create{background:rgba(52,199,89,0.08)}
-.feed-icon.approve{background:rgba(255,149,0,0.08)}
-.feed-icon.publish{background:rgba(215,0,48,0.08)}
-.feed-time{margin-left:auto;font-size:10px;color:#AEAEB2}
-
-/* CHAT PANEL */
-.chat-panel{position:fixed;right:0;top:0;bottom:0;width:320px;background:#FFF;border-left:1px solid rgba(0,0,0,0.06);display:flex;flex-direction:column;z-index:5}
-.chat-header{padding:12px 16px;border-bottom:1px solid rgba(0,0,0,0.04);display:flex;align-items:center;gap:10px}
-.chat-header-avatar{width:28px;height:28px;border-radius:50%;background:#D70030;display:flex;align-items:center;justify-content:center}
-.chat-header-avatar svg{width:14px;height:14px;fill:#FFF}
-.chat-header-info{display:flex;flex-direction:column}
-.chat-header-name{font-family:'Zen Dots',cursive;font-size:11px;color:#1D1D1F}
-.chat-header-status{font-family:'Inter',sans-serif;font-size:10px;color:#34C759;display:flex;align-items:center;gap:4px}
-.chat-header-status::before{content:'';width:5px;height:5px;border-radius:50%;background:#34C759}
-.chat-body{flex:1;padding:16px;overflow-y:auto;display:flex;flex-direction:column;gap:10px}
-.chat-msg{max-width:85%;padding:10px 14px;border-radius:16px;font-family:'Satoshi',sans-serif;font-size:13px;line-height:1.5}
-.chat-msg-ai{background:#F0F0F2;color:#1D1D1F;border-bottom-left-radius:4px;align-self:flex-start}
-.chat-msg-user{background:#D70030;color:#FFF;border-bottom-right-radius:4px;align-self:flex-end}
-.chat-input-area{padding:12px 16px;border-top:1px solid rgba(0,0,0,0.04);display:flex;align-items:center;gap:8px}
-.chat-input{flex:1;font-family:'Inter',sans-serif;font-size:13px;background:#F0F0F2;border:1px solid rgba(0,0,0,0.04);border-radius:20px;padding:8px 14px;outline:none;color:#1D1D1F}
+.chat-input-area{padding:14px 20px;border-top:1px solid rgba(0,0,0,0.04);display:flex;align-items:center;gap:10px}
+.chat-input{flex:1;font-family:'Satoshi',sans-serif;font-size:14px;background:#F5F5F7;border:1px solid rgba(0,0,0,0.06);border-radius:14px;padding:12px 16px;outline:none;color:#1D1D1F;transition:border-color 0.2s}
 .chat-input::placeholder{color:#AEAEB2}
 .chat-input:focus{border-color:rgba(215,0,48,0.3)}
-.chat-send{width:28px;height:28px;border-radius:50%;background:#D70030;display:flex;align-items:center;justify-content:center;cursor:pointer;border:none;flex-shrink:0}
-.chat-send svg{width:12px;height:12px;fill:#FFF}
+.chat-send{width:36px;height:36px;border-radius:50%;background:#D70030;display:flex;align-items:center;justify-content:center;cursor:pointer;border:none;flex-shrink:0;transition:all 0.2s}
+.chat-send:hover{box-shadow:0 4px 16px rgba(215,0,48,0.25);transform:scale(1.05)}
+.chat-send svg{width:14px;height:14px;stroke:#FFF;fill:none;stroke-width:2}
 
-/* ADJUST FOR CHAT PANEL */
-.main{margin-right:320px}
+/* RIGHT: Context Panel */
+.context-panel{display:flex;flex-direction:column;gap:14px}
 
-@media(max-width:1200px){.chat-panel{display:none}.main{margin-right:0}}
-@media(max-width:768px){.sidebar{display:none}.main{margin-left:0}.metrics{grid-template-columns:repeat(2,1fr)}}
+.ctx-card{background:#FFF;border-radius:16px;border:1px solid rgba(0,0,0,0.04);padding:16px;position:relative;overflow:hidden}
+.ctx-card::before{content:'';position:absolute;inset:0;border-radius:16px;padding:1px;background:linear-gradient(135deg,transparent 60%,rgba(215,0,48,0.08) 100%);-webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);-webkit-mask-composite:xor;mask-composite:exclude;opacity:0;transition:opacity 0.3s}
+.ctx-card:hover::before{opacity:1}
+.ctx-label{font-family:'Inter',sans-serif;font-size:9px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:#D70030;margin-bottom:10px}
+
+/* Clients mini */
+.client-mini{display:flex;align-items:center;gap:10px;padding:8px 0;cursor:pointer;transition:all 0.15s;border-radius:8px}
+.client-mini:hover{background:rgba(215,0,48,0.02);margin:0 -8px;padding:8px}
+.cm-avatar{width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,#D70030,#A60028);display:flex;align-items:center;justify-content:center;font-family:'Inter',sans-serif;font-size:9px;font-weight:600;color:#FFF;flex-shrink:0}
+.cm-info{flex:1}
+.cm-name{font-family:'Satoshi',sans-serif;font-size:12px;font-weight:500;color:#1D1D1F}
+.cm-sub{font-family:'Inter',sans-serif;font-size:10px;color:#86868B}
+.cm-phase{font-family:'Inter',sans-serif;font-size:9px;font-weight:600;padding:2px 6px;border-radius:4px}
+.phase-1{background:rgba(0,122,255,0.08);color:#007AFF}
+.phase-2{background:rgba(88,86,214,0.08);color:#5856D6}
+.phase-4{background:rgba(52,199,89,0.08);color:#34C759}
+.phase-5{background:rgba(215,0,48,0.08);color:#D70030}
+
+/* Agents mini */
+.agent-mini{display:flex;align-items:center;gap:10px;padding:7px 0}
+.am-avatar{width:24px;height:24px;border-radius:8px;background:linear-gradient(135deg,#D70030,#8B0000);display:flex;align-items:center;justify-content:center;font-family:'Inter',sans-serif;font-size:8px;font-weight:700;color:#FFF;flex-shrink:0}
+.am-name{font-family:'Inter',sans-serif;font-size:11px;color:#1D1D1F}
+.am-status{margin-left:auto;width:6px;height:6px;border-radius:50%}
+.am-active{background:#34C759}
+.am-idle{background:#FF9500}
+
+/* Feed */
+.feed-item{display:flex;align-items:flex-start;gap:8px;padding:6px 0;font-family:'Inter',sans-serif;font-size:11px;color:#86868B;line-height:1.4}
+.feed-dot{width:5px;height:5px;border-radius:50%;margin-top:5px;flex-shrink:0}
+.feed-dot.green{background:#34C759}
+.feed-dot.orange{background:#FF9500}
+.feed-dot.red{background:#D70030}
+.feed-dot.blue{background:#007AFF}
+.feed-time{font-family:'JetBrains Mono',monospace;font-size:9px;color:#AEAEB2;margin-left:auto;flex-shrink:0}
+
+/* Quick access */
+.qa-list{display:flex;flex-direction:column;gap:6px}
+.qa-item{display:flex;align-items:center;gap:8px;padding:8px 10px;border-radius:10px;font-family:'Inter',sans-serif;font-size:11px;color:#6E6E73;cursor:pointer;transition:all 0.15s;border:1px solid transparent}
+.qa-item:hover{background:rgba(215,0,48,0.02);border-color:rgba(215,0,48,0.08);color:#D70030}
+.qa-item svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:1.5;flex-shrink:0}
+
+@media(max-width:768px){.layout{grid-template-columns:1fr}.context-panel{order:-1}}
 </style>
 </head>
 <body>
 
-<!-- SIDEBAR -->
-<aside class="sidebar">
-  <a href="landing.html" class="sidebar-logo">
-    <span class="brand">KTANA</span>
-    <span class="product">Social</span>
-  </a>
+<nav class="nav"><div class="nav-inner">
+  <a href="landing.html" class="nav-logo">KTANA <span>Social</span></a>
+  <div class="nav-links">
+    <a href="client-workspace.html">Clientes</a>
+    <a href="#">Agentes</a>
+    <a href="connections.html">Conexoes</a>
+    <div class="nav-user">AS</div>
+  </div>
+</div></nav>
 
-  <div class="nav-section">
-    <div class="nav-label">Principal</div>
-    <a class="nav-item active"><span class="icon">&#9679;</span> Dashboard</a>
-    <a class="nav-item" href="clients.html"><span class="icon">&#128101;</span> Clientes <span class="badge-count">400</span></a>
-    <a class="nav-item"><span class="icon">&#128203;</span> Pipeline <span class="badge-count">23</span></a>
-    <a class="nav-item"><span class="icon">&#128197;</span> Calendario</a>
-    <a class="nav-item"><span class="icon">&#128269;</span> Insights</a>
+<div class="layout">
+
+<!-- LEFT: Chat -->
+<div class="chat-area">
+  <div class="greeting">
+    <h1>Bom dia, Antonio.</h1>
+    <p>7 aprovacoes pendentes, 23 conteudos em producao, motor autopilot ativo em 342 clientes.</p>
   </div>
 
-  <div class="nav-section">
-    <div class="nav-label">Producao</div>
-    <a class="nav-item"><span class="icon">&#127916;</span> Webinars</a>
-    <a class="nav-item"><span class="icon">&#9989;</span> Aprovacoes <span class="badge-count">7</span></a>
-    <a class="nav-item"><span class="icon">&#128202;</span> Metricas</a>
-  </div>
-
-  <div class="nav-section">
-    <div class="nav-label">Sistema</div>
-    <a class="nav-item"><span class="icon">&#129302;</span> Agentes</a>
-    <a class="nav-item"><span class="icon">&#128274;</span> Saude Contas</a>
-    <a class="nav-item" href="connections.html"><span class="icon">&#9881;</span> Conexoes</a>
-    <a class="nav-item"><span class="icon">&#128100;</span> Equipe</a>
-    <a class="nav-item"><span class="icon">&#9881;</span> Config</a>
-  </div>
-
-  <div class="sidebar-footer">
-    <div class="sidebar-user">
-      <div class="sidebar-avatar">AS</div>
-      <div class="sidebar-user-info">
-        <div class="sidebar-user-name">Antonio Silva</div>
-        <div class="sidebar-user-role">Master Admin</div>
-      </div>
-    </div>
-  </div>
-</aside>
-
-<!-- MAIN -->
-<div class="main">
-  <div class="topbar">
-    <div class="topbar-title">Dashboard</div>
-    <div class="topbar-right">
-      <input type="text" class="topbar-search" placeholder="Buscar cliente, post, pauta...">
-      <div class="topbar-notif">&#128276;<div class="dot"></div></div>
-    </div>
-  </div>
-
-  <div class="content">
-    <!-- METRICS -->
-    <div class="metrics">
-      <div class="metric-card">
-        <div class="metric-label">Aprovacoes pendentes</div>
-        <div class="metric-value brand">7</div>
-        <div class="metric-sub">3 acima do SLA de 4h</div>
-      </div>
-      <div class="metric-card">
-        <div class="metric-label">Em producao</div>
-        <div class="metric-value">23</div>
-        <div class="metric-sub">Roteiros, designs, videos</div>
-      </div>
-      <div class="metric-card">
-        <div class="metric-label">Publicados esta semana</div>
-        <div class="metric-value">142</div>
-        <div class="metric-sub">+18% vs semana anterior</div>
-      </div>
-      <div class="metric-card">
-        <div class="metric-label">Tokens usados</div>
-        <div class="metric-value">34.2K</div>
-        <div class="metric-sub">de 100K do plano (34%)</div>
+  <div class="chat-container">
+    <div class="chat-header">
+      <div class="chat-avatar"><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      <div class="chat-info">
+        <div class="chat-name">KTANA Social</div>
+        <div class="chat-status">Online — 7 agentes ativos</div>
       </div>
     </div>
 
-    <!-- ALERTS -->
-    <div class="section-header">
-      <div class="section-title">Alertas</div>
-      <div class="section-action">Ver todos</div>
-    </div>
-    <div class="alerts">
-      <div class="alert alert-error"><span class="icon">&#9888;</span> <strong>Joao Mendes</strong> — Carrossel IG "5 erros de CEO" aguardando aprovacao ha 6h <span class="time">6h atras</span></div>
-      <div class="alert alert-warn"><span class="icon">&#9888;</span> <strong>Ana Costa</strong> — Alcance IG caiu 28%, possivel shadow ban. Frequencia reduzida automaticamente. <span class="time">2h atras</span></div>
-      <div class="alert alert-warn"><span class="icon">&#128274;</span> <strong>Pedro Souza</strong> — Token LinkedIn expira em 3 dias. Renovar. <span class="time">1d atras</span></div>
-    </div>
-
-    <!-- CLIENTS -->
-    <div class="section-header">
-      <div class="section-title">Clientes</div>
-      <div class="section-action">+ Novo Cliente</div>
-    </div>
-    <div class="clients-grid">
-
-      <div class="client-card" onclick="location.href='client-workspace.html'">
-        <div class="client-header">
-          <div class="client-avatar">JM</div>
-          <div class="client-info"><h3>Joao Mendes</h3><p>CEO TechFlow — SaaS B2B</p></div>
-          <span class="client-phase phase-4">Fase 4</span>
-        </div>
-        <div class="client-networks">
-          <span class="net-badge net-ok">IG &#10003;</span>
-          <span class="net-badge net-ok">LI &#10003;</span>
-          <span class="net-badge net-warn">TT !</span>
-          <span class="net-badge net-ok">X &#10003;</span>
-          <span class="net-badge net-ok">Blog &#10003;</span>
-        </div>
-        <div class="client-bar"><div class="client-bar-fill" style="width:86%"></div></div>
-        <div class="client-stats"><span>18/21 posts semana (86%)</span><span>Autopilot &#9679; Ativo</span></div>
+    <div class="chat-body">
+      <div class="msg msg-ai">
+        Bom dia! Resumo do que aconteceu enquanto voce dormia:<br><br>
+        <strong>3 aprovacoes atrasadas (SLA > 4h):</strong><br>
+        <span class="inline-card"><svg viewBox="0 0 24 24"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> Joao Mendes — Carrossel IG (6h)</span>
+        <span class="inline-card"><svg viewBox="0 0 24 24"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> Ana Costa — Reel TikTok (5h)</span>
+        <span class="inline-card"><svg viewBox="0 0 24 24"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> Pedro Souza — Thread X (4h)</span><br><br>
+        <strong>Motor autopilot esta noite:</strong> publicou 18 posts, gerou 12 pautas novas, coletou metricas de 48 posts.<br><br>
+        Quer que eu envie lembrete no WhatsApp pros social medias responsaveis?
       </div>
-
-      <div class="client-card">
-        <div class="client-header">
-          <div class="client-avatar">AC</div>
-          <div class="client-info"><h3>Ana Costa</h3><p>Advogada tributarista</p></div>
-          <span class="client-phase phase-2">Fase 2</span>
-        </div>
-        <div class="client-networks">
-          <span class="net-badge net-warn">IG !</span>
-          <span class="net-badge net-ok">LI &#10003;</span>
-          <span class="net-badge net-off">TT</span>
-          <span class="net-badge net-off">X</span>
-          <span class="net-badge net-off">Blog</span>
-        </div>
-        <div class="client-bar"><div class="client-bar-fill" style="width:42%"></div></div>
-        <div class="client-stats"><span>Brand Book 60% completo</span><span>Autopilot &#9675; Inativo</span></div>
+      <div class="msg msg-user">Sim, envia lembrete. E me mostra as 3 melhores pautas geradas.</div>
+      <div class="msg msg-ai">
+        Lembretes enviados via WhatsApp para Maria (Joao), Carlos (Ana) e Julia (Pedro).<br><br>
+        <strong>Top 3 pautas geradas esta noite:</strong><br><br>
+        1. <strong>Joao Mendes</strong> — "Delegacao pra CEOs control freaks" (IG Carrossel) — Score <strong style="color:#34C759">94%</strong><br>
+        Inspiracao: @concurrent1 postou sobre delegacao ontem, ER 5.2%<br><br>
+        2. <strong>Maria Fernandes</strong> — "Lideranca feminina em tech: por que os dados provam" (LI Artigo) — Score <strong style="color:#34C759">91%</strong><br>
+        Trending no nicho: +340% em buscas essa semana<br><br>
+        3. <strong>Pedro Souza</strong> — "O mito do botox preventivo" (IG Reel) — Score <strong style="color:#34C759">89%</strong><br>
+        Brecha: nenhum concorrente abordou com tom cientifico<br><br>
+        <span class="inline-card"><svg viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg> Aprovar todas e enviar pro pipeline</span>
+        <span class="inline-card"><svg viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg> Ver detalhes</span>
       </div>
-
-      <div class="client-card">
-        <div class="client-header">
-          <div class="client-avatar">PS</div>
-          <div class="client-info"><h3>Pedro Souza</h3><p>Cirurgiao plastico</p></div>
-          <span class="client-phase phase-1">Fase 1</span>
-        </div>
-        <div class="client-networks">
-          <span class="net-badge net-ok">IG &#10003;</span>
-          <span class="net-badge net-off">LI</span>
-          <span class="net-badge net-off">TT</span>
-          <span class="net-badge net-off">X</span>
-          <span class="net-badge net-off">Blog</span>
-        </div>
-        <div class="client-bar"><div class="client-bar-fill" style="width:15%"></div></div>
-        <div class="client-stats"><span>Onboarding 20%</span><span>Aguardando briefing</span></div>
-      </div>
-
-      <div class="client-card">
-        <div class="client-header">
-          <div class="client-avatar">MF</div>
-          <div class="client-info"><h3>Maria Fernandes</h3><p>CEO Consulting Group</p></div>
-          <span class="client-phase phase-5">Fase 5</span>
-        </div>
-        <div class="client-networks">
-          <span class="net-badge net-ok">IG &#10003;</span>
-          <span class="net-badge net-ok">LI &#10003;</span>
-          <span class="net-badge net-ok">TT &#10003;</span>
-          <span class="net-badge net-ok">X &#10003;</span>
-          <span class="net-badge net-ok">Blog &#10003;</span>
-        </div>
-        <div class="client-bar"><div class="client-bar-fill" style="width:95%"></div></div>
-        <div class="client-stats"><span>20/21 posts semana (95%)</span><span>Autopilot &#9679; Ativo</span></div>
-      </div>
-
     </div>
 
-    <!-- AUTOPILOT FEED -->
-    <div class="section-header">
-      <div class="section-title">Motor Autopilot — Tempo real</div>
-      <div class="section-action">Ver historico</div>
-    </div>
-    <div class="feed">
-      <div class="feed-item"><div class="feed-icon research">&#128269;</div> Pesquisando concorrentes de <strong style="margin:0 4px">@joaomendes</strong> — 12 perfis analisados <span class="feed-time">agora</span></div>
-      <div class="feed-item"><div class="feed-icon create">&#9989;</div> Carrossel publicado <strong style="margin:0 4px">@anacosta</strong> Instagram — "Reforma tributaria 2026" <span class="feed-time">5min</span></div>
-      <div class="feed-item"><div class="feed-icon approve">&#9203;</div> Aguardando aprovacao <strong style="margin:0 4px">@pedrosouza</strong> — Reel TikTok enviado via WhatsApp <span class="feed-time">12min</span></div>
-      <div class="feed-item"><div class="feed-icon create">&#129302;</div> Gerando roteiro para <strong style="margin:0 4px">@mariafernandes</strong> — Pauta: "Lideranca feminina em 2026" <span class="feed-time">18min</span></div>
-      <div class="feed-item"><div class="feed-icon publish">&#128203;</div> Design aplicado <strong style="margin:0 4px">@joaomendes</strong> — Template carrossel 7 slides, score 92% <span class="feed-time">25min</span></div>
-      <div class="feed-item"><div class="feed-icon research">&#128200;</div> Metricas coletadas — 48 posts monitados, 3 acima da media <span class="feed-time">1h</span></div>
+    <div class="chat-input-area">
+      <input type="text" class="chat-input" placeholder="Pergunte algo ao seu agente...">
+      <button class="chat-send"><svg viewBox="0 0 24 24"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
     </div>
   </div>
 </div>
 
-<!-- CHAT PANEL -->
-<div class="chat-panel">
-  <div class="chat-header">
-    <div class="chat-header-avatar"><svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg></div>
-    <div class="chat-header-info">
-      <div class="chat-header-name">KTANA Social</div>
-      <div class="chat-header-status">Online</div>
+<!-- RIGHT: Context -->
+<div class="context-panel">
+
+  <!-- Quick Actions -->
+  <div class="ctx-card">
+    <div class="ctx-label">Acoes rapidas</div>
+    <div class="qa-list">
+      <div class="qa-item"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg> Novo cliente</div>
+      <div class="qa-item"><svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg> Enviar aprovacao em massa</div>
+      <div class="qa-item"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg> Gerar relatorio semanal</div>
+      <div class="qa-item"><svg viewBox="0 0 24 24"><path d="M12 20V10M18 20V4M6 20v-4"/></svg> Ver metricas consolidadas</div>
     </div>
   </div>
-  <div class="chat-body">
-    <div class="chat-msg chat-msg-ai">Ola, Antonio! Voce tem 7 aprovacoes pendentes e 3 acima do SLA de 4h. Quer que eu envie um lembrete no WhatsApp para os social medias responsaveis?</div>
-    <div class="chat-msg chat-msg-user">Sim, envia lembrete pra Maria sobre o post do Joao Mendes</div>
-    <div class="chat-msg chat-msg-ai">Pronto! Lembrete enviado para Maria Silva via WhatsApp: "Oi Maria, o carrossel do Joao Mendes '5 erros de CEO' esta aguardando sua aprovacao ha 6h. Pode revisar?" Quer que eu escale para outro SM se nao responder em 1h?</div>
+
+  <!-- Clients -->
+  <div class="ctx-card">
+    <div class="ctx-label">Clientes com pendencia</div>
+    <div class="client-mini" onclick="location.href='client-workspace.html'">
+      <div class="cm-avatar">JM</div>
+      <div class="cm-info"><div class="cm-name">Joao Mendes</div><div class="cm-sub">Aprovacao IG atrasada 6h</div></div>
+      <span class="cm-phase phase-4">F4</span>
+    </div>
+    <div class="client-mini">
+      <div class="cm-avatar">AC</div>
+      <div class="cm-info"><div class="cm-name">Ana Costa</div><div class="cm-sub">Brand Book 60% — aguardando</div></div>
+      <span class="cm-phase phase-2">F2</span>
+    </div>
+    <div class="client-mini">
+      <div class="cm-avatar">PS</div>
+      <div class="cm-info"><div class="cm-name">Pedro Souza</div><div class="cm-sub">Onboarding 20%</div></div>
+      <span class="cm-phase phase-1">F1</span>
+    </div>
+    <div style="font-family:'Inter',sans-serif;font-size:11px;color:#D70030;margin-top:8px;cursor:pointer">Ver todos os 400 clientes →</div>
   </div>
-  <div class="chat-input-area">
-    <input type="text" class="chat-input" placeholder="Pergunte algo...">
-    <button class="chat-send"><svg viewBox="0 0 24 24"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg></button>
+
+  <!-- Agents -->
+  <div class="ctx-card">
+    <div class="ctx-label">Agentes ativos</div>
+    <div class="agent-mini"><div class="am-avatar">O</div><div class="am-name">Orquestrador</div><div class="am-status am-active"></div></div>
+    <div class="agent-mini"><div class="am-avatar">P</div><div class="am-name">Pesquisador</div><div class="am-status am-active"></div></div>
+    <div class="agent-mini"><div class="am-avatar">C</div><div class="am-name">Copywriter</div><div class="am-status am-active"></div></div>
+    <div class="agent-mini"><div class="am-avatar">D</div><div class="am-name">Designer</div><div class="am-status am-active"></div></div>
+    <div class="agent-mini"><div class="am-avatar">S</div><div class="am-name">Social Media</div><div class="am-status am-active"></div></div>
+    <div class="agent-mini"><div class="am-avatar">W</div><div class="am-name">WhatsApp</div><div class="am-status am-idle"></div></div>
+    <div class="agent-mini"><div class="am-avatar">A</div><div class="am-name">Publicitario</div><div class="am-status am-active"></div></div>
+    <div style="font-family:'Inter',sans-serif;font-size:11px;color:#D70030;margin-top:8px;cursor:pointer">Configurar agentes →</div>
   </div>
+
+  <!-- Feed -->
+  <div class="ctx-card">
+    <div class="ctx-label">Motor — tempo real</div>
+    <div class="feed-item"><div class="feed-dot blue"></div>Pesquisando concorrentes @joaomendes<span class="feed-time">agora</span></div>
+    <div class="feed-item"><div class="feed-dot green"></div>Carrossel publicado @anacosta IG<span class="feed-time">5min</span></div>
+    <div class="feed-item"><div class="feed-dot orange"></div>Aguardando aprovacao @pedrosouza<span class="feed-time">12min</span></div>
+    <div class="feed-item"><div class="feed-dot green"></div>Roteiro gerado @mariafernandes<span class="feed-time">18min</span></div>
+    <div class="feed-item"><div class="feed-dot red"></div>Token LinkedIn @pedrosouza expira 3d<span class="feed-time">1h</span></div>
+  </div>
+
+</div>
 </div>
 
 </body></html>
