@@ -1,0 +1,168 @@
+<!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>KTANA Social — Novo Cliente</title><link rel="stylesheet" href="../shared.css"><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Zen+Dots&display=swap" rel="stylesheet">
+<style>
+body{min-height:100vh;background:#F5F5F7;color:#1D1D1F}
+a{text-decoration:none;color:inherit}
+.main{max-width:760px;margin:0 auto;padding:16px 20px 100px}
+
+/* CHAT HERO */
+.chat-hero{background:#FFF;border-radius:20px;border:1px solid rgba(0,0,0,0.04);margin:16px 0 20px;overflow:hidden;position:relative}
+.chat-hero::before{content:'';position:absolute;inset:0;border-radius:20px;padding:1.5px;background:linear-gradient(135deg,rgba(255,231,231,0.3) 0%,transparent 20%,rgba(215,0,48,0.2) 80%);-webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);-webkit-mask-composite:xor;mask-composite:exclude;pointer-events:none}
+.ch-top{display:flex;align-items:center;gap:10px;padding:14px 18px;border-bottom:1px solid rgba(0,0,0,0.04)}
+.ch-av{width:28px;height:28px;border-radius:8px;background:linear-gradient(135deg,#D70030,#8B0000);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.ch-av svg{width:14px;height:14px;stroke:#FFF;fill:none;stroke-width:1.5}
+.ch-nm{font-family:'Zen Dots',cursive;font-size:11px;color:#1D1D1F}
+.ch-ctx{font-family:'Inter',sans-serif;font-size:10px;color:#34C759}
+.ch-body{padding:20px;display:flex;flex-direction:column;gap:12px;min-height:400px;max-height:65vh;overflow-y:auto}
+.msg{max-width:88%;padding:12px 16px;border-radius:16px;font-family:'Satoshi',sans-serif;font-size:14px;line-height:1.6;animation:fadeUp 0.3s ease}
+.msg-ai{background:#F0F0F2;color:#1D1D1F;border-bottom-left-radius:4px;align-self:flex-start}
+.msg-user{background:#D70030;color:#FFF;border-bottom-right-radius:4px;align-self:flex-end}
+.msg-ai strong{color:#D70030}
+.quick-btns{display:flex;flex-wrap:wrap;gap:6px;align-self:flex-start}
+.qb{font-family:'Inter',sans-serif;font-size:12px;font-weight:500;padding:8px 16px;border-radius:980px;border:1px solid rgba(0,0,0,0.08);background:#FFF;color:#1D1D1F;cursor:pointer;transition:all 0.15s}
+.qb:hover{border-color:rgba(215,0,48,0.2);color:#D70030}
+.ch-input{display:flex;align-items:center;gap:10px;padding:14px 20px;border-top:1px solid rgba(0,0,0,0.04)}
+.ch-input input{flex:1;font-family:'Satoshi',sans-serif;font-size:14px;background:#F5F5F7;border:1px solid rgba(0,0,0,0.06);border-radius:14px;padding:12px 16px;outline:none;color:#1D1D1F}
+.ch-input input::placeholder{color:#AEAEB2}
+.ch-input input:focus{border-color:rgba(215,0,48,0.3)}
+.ch-send{width:36px;height:36px;border-radius:50%;background:#D70030;display:flex;align-items:center;justify-content:center;cursor:pointer;border:none;flex-shrink:0}
+.ch-send svg{width:14px;height:14px;stroke:#FFF;fill:none;stroke-width:2}
+
+/* PROGRESS */
+.progress{display:flex;align-items:center;gap:4px;padding:0 20px;margin-bottom:4px}
+.prog-step{flex:1;height:3px;border-radius:2px;background:#E8E8ED;transition:background 0.3s}
+.prog-step.done{background:#D70030}
+.prog-step.current{background:linear-gradient(90deg,#D70030,#FF6B8A)}
+.prog-label{font-family:'Inter',sans-serif;font-size:10px;color:#86868B;text-align:center;padding:4px 20px 8px}
+
+/* SUMMARY CARD */
+.summary{display:flex;flex-direction:column;gap:6px;width:100%;align-self:flex-start}
+.sum-item{display:flex;align-items:center;gap:10px;padding:8px 12px;background:#FFF;border:1px solid rgba(0,0,0,0.04);border-radius:10px}
+.sum-icon{width:24px;height:24px;border-radius:6px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.sum-icon svg{width:12px;height:12px;stroke:#FFF;fill:none;stroke-width:1.5}
+.sum-icon.red{background:linear-gradient(135deg,#D70030,#A60028)}
+.sum-icon.blue{background:linear-gradient(135deg,#007AFF,#0055CC)}
+.sum-icon.green{background:linear-gradient(135deg,#34C759,#248A3D)}
+.sum-icon.purple{background:linear-gradient(135deg,#5856D6,#3A38A0)}
+.sum-text{font-family:'Inter',sans-serif;font-size:12px;color:#1D1D1F;flex:1}
+.sum-val{font-family:'JetBrains Mono',monospace;font-size:11px;color:#86868B}
+
+@keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+</style>
+</head>
+<body data-active="clients">
+<div class="main">
+
+<div class="progress">
+  <div class="prog-step done"></div>
+  <div class="prog-step current"></div>
+  <div class="prog-step"></div>
+  <div class="prog-step"></div>
+  <div class="prog-step"></div>
+  <div class="prog-step"></div>
+  <div class="prog-step"></div>
+  <div class="prog-step"></div>
+  <div class="prog-step"></div>
+  <div class="prog-step"></div>
+</div>
+<div class="prog-label">Passo 2 de 10 — Briefing do founder</div>
+
+<div class="chat-hero">
+  <div class="ch-top">
+    <div class="ch-av"><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+    <div><div class="ch-nm">Sensei</div><div class="ch-ctx">Cadastrando novo cliente</div></div>
+  </div>
+  <div class="ch-body" id="chatBody">
+    <div class="msg msg-ai">Vou cadastrar o novo cliente passo a passo. Sao <strong>10 etapas</strong> — tudo via conversa, nada de formulario.<br><br>Passo 1: <strong>Nome completo do founder?</strong></div>
+    <div class="msg msg-user">Joao Mendes</div>
+    <div class="msg msg-ai"><strong>Joao Mendes</strong>, anotado. Passo 2: <strong>Qual a empresa dele e o cargo?</strong></div>
+  </div>
+  <div class="ch-input">
+    <input type="text" placeholder="Ex: TechFlow, CEO" id="userInput" autofocus>
+    <button class="ch-send" id="sendBtn"><svg viewBox="0 0 24 24"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+  </div>
+</div>
+
+</div>
+<script src="shared-sidebar.js"></script>
+
+<script>
+const body = document.getElementById('chatBody');
+const input = document.getElementById('userInput');
+let step = 0;
+const data = {name:'Joao Mendes'};
+
+const flow = [
+  { process: v => data.company = v, reply: v => `<strong>${v}</strong>. Passo 3: <strong>Qual o nicho dele?</strong> (ex: SaaS B2B, Consultoria, Saude, Imoveis...)` },
+  { process: v => data.niche = v, reply: v => `Nicho: <strong>${v}</strong>. Passo 4: <strong>Quantos seguidores ele tem no Instagram hoje?</strong>` },
+  { process: v => data.followers = v, reply: v => `${v} seguidores. Passo 5: <strong>Qual tipo de posicionamento?</strong>`, buttons: ['Especialista','Founder','Creator'] },
+  { process: v => data.type = v, reply: v => `Tipo: <strong>${v}</strong>. Passo 6: <strong>Qual social media sera responsavel?</strong>`, buttons: ['Maria Silva','Carlos Ribeiro','Julia Lima','Amanda Prado'] },
+  { process: v => data.sm = v, reply: v => `SM: <strong>${v}</strong>. Passo 7: <strong>Quais redes sociais ele quer posicionar?</strong>`, buttons: ['IG + LI','IG + TT + LI','Todas','IG only'] },
+  { process: v => data.networks = v, reply: v => `Redes: <strong>${v}</strong>. Passo 8: <strong>WhatsApp do founder</strong> (pra aprovacoes e tarefas):` },
+  { process: v => data.phone = v, reply: v => `WhatsApp registrado. Passo 9: <strong>Ele tem fotos profissionais?</strong>`, buttons: ['Sim, ja tem','Nao, precisa fazer','Vamos usar IA'] },
+  { process: v => data.photos = v, reply: v => `Fotos: <strong>${v}</strong>. Passo 10: <strong>Algo mais que eu precise saber?</strong> (diferencial, dores, objetivo) ou diga "pronto" pra finalizar.` },
+  { process: v => data.notes = v, reply: v => `Perfeito! Resumo do cadastro:`, action: () => showSummary() }
+];
+
+function addMsg(text, type) {
+  const d = document.createElement('div');
+  d.className = 'msg ' + (type === 'user' ? 'msg-user' : 'msg-ai');
+  d.innerHTML = text;
+  body.appendChild(d);
+  body.scrollTop = body.scrollHeight;
+}
+
+function showSummary() {
+  const s = document.createElement('div');
+  s.className = 'summary';
+  s.innerHTML = `
+    <div class="sum-item"><div class="sum-icon red"><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div class="sum-text">${data.name}</div><div class="sum-val">${data.company||''}</div></div>
+    <div class="sum-item"><div class="sum-icon blue"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div class="sum-text">Nicho: ${data.niche||''}</div><div class="sum-val">${data.followers||''} seg</div></div>
+    <div class="sum-item"><div class="sum-icon purple"><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div class="sum-text">Tipo: ${data.type||''}</div><div class="sum-val">SM: ${data.sm||''}</div></div>
+    <div class="sum-item"><div class="sum-icon green"><svg viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div class="sum-text">Redes: ${data.networks||''}</div><div class="sum-val">${data.phone||''}</div></div>
+  `;
+  body.appendChild(s);
+  setTimeout(() => {
+    addMsg('Cliente cadastrado! Agora o proximo passo e montar o <strong>Brand Book</strong> dele. Os agentes ja estao pesquisando concorrentes.', 'ai');
+    setTimeout(() => {
+      const btns = document.createElement('div');
+      btns.className = 'quick-btns';
+      btns.innerHTML = '<button class="qb" onclick="location.href=\'client-workspace.html\'">Ir pro workspace</button><button class="qb" onclick="location.href=\'brandbook.html\'">Montar Brand Book</button><button class="qb" onclick="location.href=\'client-list.html\'">Voltar pra lista</button>';
+      body.appendChild(btns);
+      body.scrollTop = body.scrollHeight;
+    }, 500);
+  }, 800);
+}
+
+function updateProgress() {
+  const steps = document.querySelectorAll('.prog-step');
+  const completed = step + 2;
+  steps.forEach((s, i) => { s.className = 'prog-step' + (i < completed ? ' done' : i === completed ? ' current' : ''); });
+  document.querySelector('.prog-label').textContent = `Passo ${Math.min(completed+1,10)} de 10 — ${['Nome','Empresa','Nicho','Seguidores','Tipo','Social Media','Redes','WhatsApp','Fotos','Extras'][Math.min(completed,9)]}`;
+}
+
+function send() {
+  const val = input.value.trim();
+  if (!val || step >= flow.length) return;
+  addMsg(val, 'user');
+  input.value = '';
+  const cur = flow[step];
+  cur.process(val);
+  setTimeout(() => {
+    addMsg(cur.reply(val), 'ai');
+    if (cur.buttons) {
+      const btns = document.createElement('div');
+      btns.className = 'quick-btns';
+      btns.innerHTML = cur.buttons.map(b => `<button class="qb" onclick="this.parentElement.remove();document.getElementById('userInput').value='${b}';document.getElementById('sendBtn').click()">${b}</button>`).join('');
+      body.appendChild(btns);
+    }
+    if (cur.action) cur.action();
+    step++;
+    updateProgress();
+    body.scrollTop = body.scrollHeight;
+  }, 600);
+}
+
+input.addEventListener('keypress', e => { if (e.key === 'Enter') send(); });
+document.getElementById('sendBtn').addEventListener('click', send);
+</script>
+</body></html>

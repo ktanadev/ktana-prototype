@@ -1,0 +1,160 @@
+<!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>KTANA Social — Sensei (Orquestrador)</title><link rel="stylesheet" href="../shared.css"><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Zen+Dots&display=swap" rel="stylesheet">
+<style>
+body{min-height:100vh;background:#F5F5F7;color:#1D1D1F}
+a{text-decoration:none;color:inherit}
+.main{max-width:760px;margin:0 auto;padding:16px 20px 100px}
+.breadcrumb{font-family:'Inter',sans-serif;font-size:11px;color:#86868B;margin-bottom:20px}
+.breadcrumb a{color:#D70030}
+.section-card{background:#FFF;border-radius:20px;border:1px solid rgba(0,0,0,0.04);padding:24px;margin-bottom:14px;animation:fadeIn 0.4s ease both}
+.card-label{font-family:'Inter',sans-serif;font-size:11px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:#D70030;margin-bottom:14px}
+.card-desc{font-family:'Satoshi',sans-serif;font-size:13px;color:#86868B;margin-bottom:16px;line-height:1.5}
+.role-header{background:#FFF;border-radius:20px;border:1px solid rgba(0,0,0,0.04);padding:28px;display:flex;align-items:center;gap:20px;margin-bottom:14px}
+.role-avatar{width:64px;height:64px;border-radius:16px;background:linear-gradient(135deg,#D70030,#8B0000);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.role-avatar svg{width:28px;height:28px;stroke:#FFF;fill:none;stroke-width:1.5}
+.role-meta h2{font-family:'Zen Dots',cursive;font-size:20px;color:#1D1D1F;margin-bottom:4px}
+.role-tag{font-family:'Inter',sans-serif;display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:500;color:#D70030;background:rgba(215,0,48,0.06);padding:3px 10px;border-radius:6px;margin-bottom:6px}
+.role-meta p{font-family:'Satoshi',sans-serif;font-size:13px;color:#86868B;line-height:1.5}
+.stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:14px}
+.stat-box{background:#FFF;border:1px solid rgba(0,0,0,0.04);border-radius:14px;padding:16px;text-align:center}
+.stat-val{font-family:'Zen Dots',cursive;font-size:20px;color:#1D1D1F}
+.stat-lab{font-family:'Inter',sans-serif;font-size:9px;color:#86868B;text-transform:uppercase;letter-spacing:0.05em;margin-top:2px}
+.form-group{margin-bottom:16px}
+.form-group:last-child{margin-bottom:0}
+.form-group label{font-family:'Inter',sans-serif;display:block;font-size:12px;font-weight:500;color:#86868B;margin-bottom:6px}
+.form-input{font-family:'Satoshi',sans-serif;background:#F5F5F7;border:1px solid rgba(0,0,0,0.06);border-radius:12px;padding:12px 14px;font-size:14px;width:100%;outline:none;color:#1D1D1F;transition:border-color 0.2s;box-sizing:border-box}
+.form-input:focus{border-color:rgba(215,0,48,0.3)}
+textarea.form-input{resize:vertical;min-height:100px;font-family:'JetBrains Mono',monospace;font-size:12px;line-height:1.6}
+.ref-list{display:flex;flex-direction:column;gap:8px}
+.ref-item{display:flex;align-items:center;gap:12px;padding:12px 14px;border-radius:14px;border:1.5px solid rgba(0,0,0,0.06);cursor:pointer;transition:all 0.15s;min-height:44px}
+.ref-item:hover{border-color:rgba(0,0,0,0.12)}
+.ref-item.active{border-color:rgba(215,0,48,0.25);background:rgba(215,0,48,0.015)}
+.ref-check{width:20px;height:20px;border-radius:50%;border:1.5px solid #D2D2D7;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all 0.15s}
+.ref-item.active .ref-check{border-color:#D70030;background:#D70030}
+.ref-item.active .ref-check::after{content:'';width:6px;height:6px;border-radius:50%;background:#FFF}
+.ref-info{flex:1}
+.ref-name{font-family:'Satoshi',sans-serif;font-size:13px;font-weight:500;color:#1D1D1F}
+.ref-desc{font-family:'Inter',sans-serif;font-size:11px;color:#86868B;margin-top:2px}
+.perm-list{display:flex;flex-direction:column;gap:8px}
+.perm-item{display:flex;align-items:center;justify-content:space-between;padding:12px 14px;background:#F5F5F7;border-radius:12px;min-height:44px}
+.perm-left{display:flex;align-items:center;gap:10px}
+.perm-left svg{width:18px;height:18px;stroke:#86868B;fill:none;stroke-width:1.5;flex-shrink:0}
+.perm-text{font-family:'Satoshi',sans-serif;font-size:13px;color:#1D1D1F}
+.perm-sub{font-family:'Inter',sans-serif;font-size:10px;color:#86868B}
+.toggle{width:44px;height:26px;border-radius:13px;background:#D2D2D7;position:relative;cursor:pointer;transition:background 0.2s;flex-shrink:0}
+.toggle.on{background:#D70030}
+.toggle::after{content:'';position:absolute;top:3px;left:3px;width:20px;height:20px;border-radius:50%;background:#FFF;transition:transform 0.2s}
+.toggle.on::after{transform:translateX(18px)}
+.btn-save{font-family:'Inter',sans-serif;width:100%;padding:14px;border-radius:14px;background:#D70030;color:#FFF;font-size:15px;font-weight:600;border:none;cursor:pointer;transition:opacity 0.15s;margin-top:24px}
+.btn-save:hover{opacity:0.9}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+@media(max-width:520px){.stats-row{grid-template-columns:repeat(2,1fr)}}
+</style>
+</head>
+<body data-active="agents">
+<div class="main">
+<div class="breadcrumb"><a href="dashboard.html">Dashboard</a> / <a href="agents.html">Agentes</a> / Sensei</div>
+
+<div class="role-header">
+  <div class="role-avatar"><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+  <div class="role-meta">
+    <span class="role-tag">Orquestrador Mestre</span>
+    <h2>Sensei</h2>
+    <p>Coordena todos os agentes, prioriza tarefas, resolve conflitos e gera o morning report diario. O cerebro central que garante consistencia e eficiencia do squad.</p>
+  </div>
+</div>
+
+<div class="stats-row">
+  <div class="stat-box"><div class="stat-val">89</div><div class="stat-lab">Acoes hoje</div></div>
+  <div class="stat-box"><div class="stat-val">28.4k</div><div class="stat-lab">Tokens usados</div></div>
+  <div class="stat-box"><div class="stat-val">96%</div><div class="stat-lab">Consistencia</div></div>
+  <div class="stat-box"><div class="stat-val">412</div><div class="stat-lab">Fatos na memoria</div></div>
+</div>
+
+<div class="section-card">
+  <p class="card-label">System Prompt</p>
+  <p class="card-desc">O prompt principal que define o comportamento do orquestrador. Controla como ele coordena todos os agentes.</p>
+  <div class="form-group">
+    <textarea class="form-input" style="min-height:140px">Voce e Sensei, o orquestrador mestre do squad de agentes de social media. Sua funcao e coordenar, priorizar e garantir consistencia.
+
+REGRAS:
+- SEMPRE verificar o calendario editorial antes de delegar tarefas
+- Priorizar tarefas por deadline e impacto (urgente + importante primeiro)
+- Resolver conflitos entre agentes automaticamente (ex: Canvas e Quill divergindo em tom)
+- Gerar morning report as 8h com: tarefas do dia, pendencias, metricas key
+- NUNCA executar tarefas de outros agentes — apenas coordenar e delegar
+- Escalar para master (humano) quando: budget excede 20%, conflito sem resolucao, decisao estrategica
+- Balancear carga: nenhum agente deve exceder 70% de capacidade</textarea>
+  </div>
+</div>
+
+<div class="section-card">
+  <p class="card-label">Skills ativas</p>
+  <p class="card-desc">Habilidades de orquestracao que o Sensei pode executar.</p>
+  <div class="ref-list">
+    <div class="ref-item active" onclick="this.classList.toggle('active')"><div class="ref-check"></div><div class="ref-info"><p class="ref-name">Coordenar agentes</p><p class="ref-desc">Distribuir tarefas entre os 6 agentes do squad com base em especialidade e carga.</p></div></div>
+    <div class="ref-item active" onclick="this.classList.toggle('active')"><div class="ref-check"></div><div class="ref-info"><p class="ref-name">Priorizar tarefas</p><p class="ref-desc">Ordenar backlog por urgencia, impacto e deadline do calendario editorial.</p></div></div>
+    <div class="ref-item active" onclick="this.classList.toggle('active')"><div class="ref-check"></div><div class="ref-info"><p class="ref-name">Resolver conflitos</p><p class="ref-desc">Mediar divergencias entre agentes e definir direcao final automaticamente.</p></div></div>
+    <div class="ref-item active" onclick="this.classList.toggle('active')"><div class="ref-check"></div><div class="ref-info"><p class="ref-name">Morning report</p><p class="ref-desc">Gerar resumo diario as 8h com tarefas, pendencias e metricas do dia anterior.</p></div></div>
+    <div class="ref-item active" onclick="this.classList.toggle('active')"><div class="ref-check"></div><div class="ref-info"><p class="ref-name">Escalar aprovacoes</p><p class="ref-desc">Enviar decisoes criticas para o master quando fora do escopo autonomo.</p></div></div>
+    <div class="ref-item active" onclick="this.classList.toggle('active')"><div class="ref-check"></div><div class="ref-info"><p class="ref-name">Balancear carga</p><p class="ref-desc">Redistribuir tarefas quando um agente esta sobrecarregado ou ocioso.</p></div></div>
+  </div>
+</div>
+
+<div class="section-card">
+  <p class="card-label">Cerebro (referencias de orquestracao)</p>
+  <p class="card-desc">Fontes de conhecimento que o Sensei usa para tomar decisoes de coordenacao.</p>
+  <div class="ref-list">
+    <div class="ref-item active" onclick="this.classList.toggle('active')"><div class="ref-check"></div><div class="ref-info"><p class="ref-name">Calendario editorial</p><p class="ref-desc">Programacao de posts, deadlines e datas especiais de cada cliente.</p></div></div>
+    <div class="ref-item active" onclick="this.classList.toggle('active')"><div class="ref-check"></div><div class="ref-info"><p class="ref-name">SLA por cliente</p><p class="ref-desc">Tempo maximo de resposta, quantidade de posts, prioridade por plano.</p></div></div>
+    <div class="ref-item active" onclick="this.classList.toggle('active')"><div class="ref-check"></div><div class="ref-info"><p class="ref-name">Capacidade dos agentes</p><p class="ref-desc">Limites de tokens, skills disponiveis e carga atual de cada agente.</p></div></div>
+    <div class="ref-item" onclick="this.classList.toggle('active')"><div class="ref-check"></div><div class="ref-info"><p class="ref-name">Historico de decisoes</p><p class="ref-desc">Log de conflitos resolvidos e escalacoes anteriores para consistencia.</p></div></div>
+  </div>
+</div>
+
+<div class="section-card">
+  <p class="card-label">Permissoes</p>
+  <div class="perm-list">
+    <div class="perm-item">
+      <div class="perm-left"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4-4v2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75" stroke-linecap="round" stroke-linejoin="round"/></svg><div><p class="perm-text">Coordenar todos agentes</p><p class="perm-sub">Delegar tarefas e redistribuir carga automaticamente</p></div></div>
+      <div class="toggle on" onclick="this.classList.toggle('on')"></div>
+    </div>
+    <div class="perm-item">
+      <div class="perm-left"><svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" stroke-linecap="round" stroke-linejoin="round"/><polyline points="22,6 12,13 2,6"/></svg><div><p class="perm-text">Enviar morning report</p><p class="perm-sub">Disparar resumo diario via WhatsApp e email</p></div></div>
+      <div class="toggle on" onclick="this.classList.toggle('on')"></div>
+    </div>
+    <div class="perm-item">
+      <div class="perm-left"><svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" stroke-linecap="round" stroke-linejoin="round"/></svg><div><p class="perm-text">Escalar para master</p><p class="perm-sub">Enviar decisoes criticas ao humano responsavel</p></div></div>
+      <div class="toggle on" onclick="this.classList.toggle('on')"></div>
+    </div>
+    <div class="perm-item">
+      <div class="perm-left"><svg viewBox="0 0 24 24"><path d="M16 3h5v5M4 20L21 3M21 16v5h-5M15 15l6 6M4 4l5 5" stroke-linecap="round" stroke-linejoin="round"/></svg><div><p class="perm-text">Redistribuir tarefas</p><p class="perm-sub">Mover tarefas entre agentes sem aprovacao</p></div></div>
+      <div class="toggle on" onclick="this.classList.toggle('on')"></div>
+    </div>
+  </div>
+</div>
+
+<div class="section-card">
+  <p class="card-label">Modelo de LLM</p>
+  <div class="form-group">
+    <label>Modelo principal</label>
+    <select class="form-input" style="cursor:pointer">
+      <option>Claude Opus 4 (maximo qualidade — orquestracao critica)</option>
+      <option>Claude Sonnet 4 (equilibrio custo/qualidade)</option>
+      <option>Claude Haiku 4.5 (rapido e barato, validacao)</option>
+      <option>GPT-4o (alternativa)</option>
+      <option>Grok (pesquisa)</option>
+    </select>
+  </div>
+  <div class="form-group">
+    <label>Limite de tokens por execucao</label>
+    <input type="text" class="form-input" value="8192">
+  </div>
+  <div class="form-group">
+    <label>Temperatura</label>
+    <input type="text" class="form-input" value="0.3" placeholder="0.0 = deterministico, 1.0 = criativo">
+  </div>
+</div>
+
+<button class="btn-save">Salvar configuracao do Sensei</button>
+</div>
+<script src="shared-sidebar.js"></script></body></html>

@@ -1,0 +1,162 @@
+<!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>KTANA Social — Director (Video)</title><link rel="stylesheet" href="../shared.css"><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Zen+Dots&display=swap" rel="stylesheet">
+<style>
+body{min-height:100vh;background:#F5F5F7;color:#1D1D1F}
+a{text-decoration:none;color:inherit}
+.main{max-width:760px;margin:0 auto;padding:16px 20px 100px}
+.breadcrumb{font-family:'Inter',sans-serif;font-size:11px;color:#86868B;margin-bottom:20px}
+.breadcrumb a{color:#D70030}
+.section-card{background:#FFF;border-radius:20px;border:1px solid rgba(0,0,0,0.04);padding:24px;margin-bottom:14px;animation:fadeIn 0.4s ease both}
+.card-label{font-family:'Inter',sans-serif;font-size:11px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:#D70030;margin-bottom:14px}
+.card-desc{font-family:'Satoshi',sans-serif;font-size:13px;color:#86868B;margin-bottom:16px;line-height:1.5}
+.role-header{background:#FFF;border-radius:20px;border:1px solid rgba(0,0,0,0.04);padding:28px;display:flex;align-items:center;gap:20px;margin-bottom:14px}
+.role-avatar{width:64px;height:64px;border-radius:16px;background:linear-gradient(135deg,#5AC8FA,#32ADE6);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.role-avatar svg{width:28px;height:28px;stroke:#FFF;fill:none;stroke-width:1.5}
+.role-meta h2{font-family:'Zen Dots',cursive;font-size:20px;color:#1D1D1F;margin-bottom:4px}
+.role-tag{font-family:'Inter',sans-serif;display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:500;color:#D70030;background:rgba(215,0,48,0.06);padding:3px 10px;border-radius:6px;margin-bottom:6px}
+.role-meta p{font-family:'Satoshi',sans-serif;font-size:13px;color:#86868B;line-height:1.5}
+.stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:14px}
+.stat-box{background:#FFF;border:1px solid rgba(0,0,0,0.04);border-radius:14px;padding:16px;text-align:center}
+.stat-val{font-family:'Zen Dots',cursive;font-size:20px;color:#1D1D1F}
+.stat-lab{font-family:'Inter',sans-serif;font-size:9px;color:#86868B;text-transform:uppercase;letter-spacing:0.05em;margin-top:2px}
+.form-group{margin-bottom:16px}
+.form-group:last-child{margin-bottom:0}
+.form-group label{font-family:'Inter',sans-serif;display:block;font-size:12px;font-weight:500;color:#86868B;margin-bottom:6px}
+.form-input{font-family:'Satoshi',sans-serif;background:#F5F5F7;border:1px solid rgba(0,0,0,0.06);border-radius:12px;padding:12px 14px;font-size:14px;width:100%;outline:none;color:#1D1D1F;transition:border-color 0.2s;box-sizing:border-box}
+.form-input:focus{border-color:rgba(215,0,48,0.3)}
+textarea.form-input{resize:vertical;min-height:100px;font-family:'JetBrains Mono',monospace;font-size:12px;line-height:1.6}
+.ref-list{display:flex;flex-direction:column;gap:8px}
+.ref-item{display:flex;align-items:center;gap:12px;padding:12px 14px;border-radius:14px;border:1.5px solid rgba(0,0,0,0.06);cursor:pointer;transition:all 0.15s;min-height:44px}
+.ref-item:hover{border-color:rgba(0,0,0,0.12)}
+.ref-item.active{border-color:rgba(215,0,48,0.25);background:rgba(215,0,48,0.015)}
+.ref-check{width:20px;height:20px;border-radius:50%;border:1.5px solid #D2D2D7;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all 0.15s}
+.ref-item.active .ref-check{border-color:#D70030;background:#D70030}
+.ref-item.active .ref-check::after{content:'';width:6px;height:6px;border-radius:50%;background:#FFF}
+.ref-info{flex:1}
+.ref-name{font-family:'Satoshi',sans-serif;font-size:13px;font-weight:500;color:#1D1D1F}
+.ref-desc{font-family:'Inter',sans-serif;font-size:11px;color:#86868B;margin-top:2px}
+.perm-list{display:flex;flex-direction:column;gap:8px}
+.perm-item{display:flex;align-items:center;justify-content:space-between;padding:12px 14px;background:#F5F5F7;border-radius:12px;min-height:44px}
+.perm-left{display:flex;align-items:center;gap:10px}
+.perm-left svg{width:18px;height:18px;stroke:#86868B;fill:none;stroke-width:1.5;flex-shrink:0}
+.perm-text{font-family:'Satoshi',sans-serif;font-size:13px;color:#1D1D1F}
+.perm-sub{font-family:'Inter',sans-serif;font-size:10px;color:#86868B}
+.toggle{width:44px;height:26px;border-radius:13px;background:#D2D2D7;position:relative;cursor:pointer;transition:background 0.2s;flex-shrink:0}
+.toggle.on{background:#D70030}
+.toggle::after{content:'';position:absolute;top:3px;left:3px;width:20px;height:20px;border-radius:50%;background:#FFF;transition:transform 0.2s}
+.toggle.on::after{transform:translateX(18px)}
+.btn-save{font-family:'Inter',sans-serif;width:100%;padding:14px;border-radius:14px;background:#D70030;color:#FFF;font-size:15px;font-weight:600;border:none;cursor:pointer;transition:opacity 0.15s;margin-top:24px}
+.btn-save:hover{opacity:0.9}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+@media(max-width:520px){.stats-row{grid-template-columns:repeat(2,1fr)}}
+</style>
+</head>
+<body data-active="agents">
+<div class="main">
+<div class="breadcrumb"><a href="dashboard.html">Dashboard</a> / <a href="agents.html">Agentes</a> / Director</div>
+
+<div class="role-header">
+  <div class="role-avatar"><svg viewBox="0 0 24 24"><polygon points="23 7 16 12 23 17 23 7" stroke-linecap="round" stroke-linejoin="round"/><rect x="1" y="5" width="15" height="14" rx="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+  <div class="role-meta">
+    <span class="role-tag">Director de Video & Imagem</span>
+    <h2>Director</h2>
+    <p>Cria roteiros visuais para reels, gera avatares via HeyGen, ensaios fotograficos com IA e storyboards. O olho criativo que transforma texto em video e imagem.</p>
+  </div>
+</div>
+
+<div class="stats-row">
+  <div class="stat-box"><div class="stat-val">8</div><div class="stat-lab">Videos hoje</div></div>
+  <div class="stat-box"><div class="stat-val">22.1k</div><div class="stat-lab">Tokens usados</div></div>
+  <div class="stat-box"><div class="stat-val">88%</div><div class="stat-lab">Qualidade</div></div>
+  <div class="stat-box"><div class="stat-val">67</div><div class="stat-lab">Avatares</div></div>
+</div>
+
+<div class="section-card">
+  <p class="card-label">System Prompt</p>
+  <p class="card-desc">O prompt que define como o Director cria conteudo audiovisual e roteiros de video.</p>
+  <div class="form-group">
+    <textarea class="form-input" style="min-height:140px">Voce e Director, especialista em producao de video e imagem para redes sociais, com foco em reels, stories e conteudo audiovisual de founders.
+
+REGRAS:
+- Roteiro visual: SEMPRE incluir segundagem, cenas, falas, texto na tela e musica
+- Hook nos primeiros 3 segundos — se nao prender, reescrever
+- Avatar HeyGen: selecionar avatar compativel com persona do founder
+- Ensaio fotografico IA: manter consistencia visual com brand book
+- Storyboard: 4-8 frames com descricao visual + texto + transicao
+- Edicao micro-cortes: ritmo rapido (2-4s por cena), transicoes suaves
+- Thumbnails: rosto visivel, texto bold, cores contrastantes, 1280x720
+- NUNCA repetir formato — cada video deve ter abordagem visual diferente
+- Adaptar duracao por rede: Reels 15-60s, TikTok 15-90s, Stories 15s</textarea>
+  </div>
+</div>
+
+<div class="section-card">
+  <p class="card-label">Skills ativas</p>
+  <p class="card-desc">Capacidades de producao audiovisual que o Director pode executar.</p>
+  <div class="ref-list">
+    <div class="ref-item active" onclick="this.classList.toggle('active')"><div class="ref-check"></div><div class="ref-info"><p class="ref-name">Roteiro visual reels</p><p class="ref-desc">Script completo com segundagem, cenas, falas e direcao de arte.</p></div></div>
+    <div class="ref-item active" onclick="this.classList.toggle('active')"><div class="ref-check"></div><div class="ref-info"><p class="ref-name">Avatar HeyGen</p><p class="ref-desc">Gerar video com avatar IA clonado da persona do founder.</p></div></div>
+    <div class="ref-item active" onclick="this.classList.toggle('active')"><div class="ref-check"></div><div class="ref-info"><p class="ref-name">Ensaio fotografico IA</p><p class="ref-desc">Criar fotos profissionais do founder via IA para posts e banners.</p></div></div>
+    <div class="ref-item active" onclick="this.classList.toggle('active')"><div class="ref-check"></div><div class="ref-info"><p class="ref-name">Storyboard</p><p class="ref-desc">Sequencia de frames visuais com descricao de cada cena e transicao.</p></div></div>
+    <div class="ref-item active" onclick="this.classList.toggle('active')"><div class="ref-check"></div><div class="ref-info"><p class="ref-name">Edicao micro-cortes</p><p class="ref-desc">Plano de edicao com ritmo rapido, cortes dinamicos e captions.</p></div></div>
+    <div class="ref-item" onclick="this.classList.toggle('active')"><div class="ref-check"></div><div class="ref-info"><p class="ref-name">Thumbnail</p><p class="ref-desc">Criar thumbnail impactante 1280x720 com rosto, texto e cores vibrantes.</p></div></div>
+  </div>
+</div>
+
+<div class="section-card">
+  <p class="card-label">Cerebro (referencias audiovisuais)</p>
+  <p class="card-desc">Ferramentas e fontes de inspiracao que o Director utiliza para producao.</p>
+  <div class="ref-list">
+    <div class="ref-item active" onclick="this.classList.toggle('active')"><div class="ref-check"></div><div class="ref-info"><p class="ref-name">HeyGen API</p><p class="ref-desc">Plataforma de avatares IA para videos com clonagem de voz e rosto.</p></div></div>
+    <div class="ref-item active" onclick="this.classList.toggle('active')"><div class="ref-check"></div><div class="ref-info"><p class="ref-name">Freepik IA</p><p class="ref-desc">Geracao de ensaios fotograficos e elementos visuais via inteligencia artificial.</p></div></div>
+    <div class="ref-item active" onclick="this.classList.toggle('active')"><div class="ref-check"></div><div class="ref-info"><p class="ref-name">Brand book do cliente</p><p class="ref-desc">Identidade visual, cores, fontes e guidelines para consistencia.</p></div></div>
+    <div class="ref-item" onclick="this.classList.toggle('active')"><div class="ref-check"></div><div class="ref-info"><p class="ref-name">Biblioteca de musicas</p><p class="ref-desc">Acervo de trilhas sonoras livres de copyright por mood e ritmo.</p></div></div>
+  </div>
+</div>
+
+<div class="section-card">
+  <p class="card-label">Permissoes</p>
+  <div class="perm-list">
+    <div class="perm-item">
+      <div class="perm-left"><svg viewBox="0 0 24 24"><polygon points="23 7 16 12 23 17 23 7" stroke-linecap="round" stroke-linejoin="round"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg><div><p class="perm-text">Acessar HeyGen API</p><p class="perm-sub">Gerar videos com avatar IA e clonagem de voz</p></div></div>
+      <div class="toggle on" onclick="this.classList.toggle('on')"></div>
+    </div>
+    <div class="perm-item">
+      <div class="perm-left"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21" stroke-linecap="round" stroke-linejoin="round"/></svg><div><p class="perm-text">Gerar ensaios Freepik</p><p class="perm-sub">Criar fotos profissionais via IA automaticamente</p></div></div>
+      <div class="toggle on" onclick="this.classList.toggle('on')"></div>
+    </div>
+    <div class="perm-item">
+      <div class="perm-left"><svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7" stroke-linecap="round" stroke-linejoin="round"/></svg><div><p class="perm-text">Publicar stories automaticamente</p><p class="perm-sub">Postar conteudo de stories sem aprovacao previa</p></div></div>
+      <div class="toggle" onclick="this.classList.toggle('on')"></div>
+    </div>
+    <div class="perm-item">
+      <div class="perm-left"><svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z" stroke-linecap="round" stroke-linejoin="round"/></svg><div><p class="perm-text">Solicitar gravacao do founder</p><p class="perm-sub">Enviar briefing de video para o cliente gravar</p></div></div>
+      <div class="toggle on" onclick="this.classList.toggle('on')"></div>
+    </div>
+  </div>
+</div>
+
+<div class="section-card">
+  <p class="card-label">Modelo de LLM</p>
+  <div class="form-group">
+    <label>Modelo principal</label>
+    <select class="form-input" style="cursor:pointer">
+      <option>Claude Sonnet 4 (recomendado — equilibrio custo/qualidade)</option>
+      <option>Claude Opus 4 (maximo qualidade, maior custo)</option>
+      <option>Claude Haiku 4.5 (rapido e barato, validacao)</option>
+      <option>GPT-4o (alternativa)</option>
+      <option>Grok (pesquisa)</option>
+    </select>
+  </div>
+  <div class="form-group">
+    <label>Limite de tokens por execucao</label>
+    <input type="text" class="form-input" value="6144">
+  </div>
+  <div class="form-group">
+    <label>Temperatura</label>
+    <input type="text" class="form-input" value="0.6" placeholder="0.0 = deterministico, 1.0 = criativo">
+  </div>
+</div>
+
+<button class="btn-save">Salvar configuracao do Director</button>
+</div>
+<script src="shared-sidebar.js"></script></body></html>

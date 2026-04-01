@@ -1,0 +1,153 @@
+<!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>Enviar arquivos — Joao Mendes</title><link rel="stylesheet" href="../shared.css"><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Zen+Dots&display=swap" rel="stylesheet">
+<style>
+body{min-height:100vh;background:#F5F5F7;color:#1D1D1F}
+a{text-decoration:none;color:inherit}
+.nav{position:fixed;top:0;left:0;right:0;z-index:50;height:48px;display:flex;align-items:center;justify-content:center;background:rgba(245,245,247,0.72);backdrop-filter:saturate(180%) blur(20px);border-bottom:0.5px solid rgba(0,0,0,0.06)}
+.nav-inner{width:100%;max-width:720px;padding:0 24px;display:flex;align-items:center;justify-content:space-between}
+.nav-logo{font-family:'Zen Dots',cursive;font-size:13px;color:#D70030;display:flex;align-items:center;gap:6px}
+.nav-logo span{font-family:'Inter',sans-serif;font-size:9px;color:#86868B;background:rgba(0,0,0,0.04);padding:2px 6px;border-radius:4px}
+.nav-tabs{display:flex;gap:4px}
+.nav-tab{font-family:'Inter',sans-serif;font-size:11px;font-weight:500;color:#86868B;padding:6px 12px;border-radius:980px;cursor:pointer;transition:all 0.15s}
+.nav-tab:hover{color:#1D1D1F}
+.nav-tab.active{background:rgba(215,0,48,0.06);color:#D70030}
+.nav-user{display:flex;align-items:center;gap:6px}
+.nav-avatar{width:24px;height:24px;border-radius:50%;background:linear-gradient(135deg,#D70030,#A60028);display:flex;align-items:center;justify-content:center;font-family:'Inter',sans-serif;font-size:8px;font-weight:600;color:#FFF}
+.container{max-width:720px;margin:0 auto;padding:64px 24px 100px}
+.sec{font-family:'Inter',sans-serif;font-size:10px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:#D70030;margin-bottom:10px;margin-top:28px}
+.back{display:inline-flex;align-items:center;gap:4px;font-family:'Inter',sans-serif;font-size:12px;color:#D70030;margin-bottom:16px}
+.back svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:1.5}
+.dropzone{border:2px dashed rgba(215,0,48,0.15);border-radius:20px;padding:48px 24px;text-align:center;background:rgba(215,0,48,0.01);transition:all 0.2s;cursor:pointer;margin-bottom:20px}
+.dropzone:hover,.dropzone.drag-over{border-color:rgba(215,0,48,0.35);background:rgba(215,0,48,0.03)}
+.dz-icon{width:48px;height:48px;border-radius:16px;background:linear-gradient(135deg,rgba(215,0,48,0.06),rgba(215,0,48,0.12));display:flex;align-items:center;justify-content:center;margin:0 auto 14px}
+.dz-icon svg{width:24px;height:24px;stroke:#D70030;fill:none;stroke-width:1.5}
+.dz-title{font-family:'Satoshi',sans-serif;font-size:16px;font-weight:600;color:#1D1D1F;margin-bottom:4px}
+.dz-sub{font-family:'Inter',sans-serif;font-size:12px;color:#86868B;line-height:1.5}
+.dz-sub strong{color:#D70030}
+.dz-formats{display:flex;gap:6px;justify-content:center;margin-top:12px;flex-wrap:wrap}
+.dz-tag{font-family:'Inter',sans-serif;font-size:10px;padding:4px 10px;border-radius:6px;background:rgba(0,0,0,0.03);color:#6E6E73}
+.cat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:24px}
+.cat-card{background:#FFF;border:1px solid rgba(0,0,0,0.04);border-radius:14px;padding:16px;text-align:center;cursor:pointer;transition:all 0.2s}
+.cat-card:hover{border-color:rgba(215,0,48,0.12);box-shadow:0 2px 12px rgba(0,0,0,0.04)}
+.cat-card.active{border-color:rgba(215,0,48,0.2);background:rgba(215,0,48,0.02)}
+.cat-icon{width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;margin:0 auto 8px}
+.cat-icon svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:1.5}
+.cat-icon.photos{background:rgba(215,0,48,0.06);color:#D70030}
+.cat-icon.videos{background:rgba(88,86,214,0.06);color:#5856D6}
+.cat-icon.docs{background:rgba(255,149,0,0.06);color:#FF9500}
+.cat-name{font-family:'Inter',sans-serif;font-size:12px;font-weight:600;color:#1D1D1F}
+.cat-count{font-family:'Inter',sans-serif;font-size:10px;color:#86868B;margin-top:2px}
+.checklist{background:#FFF;border:1px solid rgba(0,0,0,0.04);border-radius:16px;padding:18px;margin-bottom:20px}
+.checklist h3{font-family:'Satoshi',sans-serif;font-size:14px;font-weight:600;color:#1D1D1F;margin-bottom:12px}
+.cl-item{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:0.5px solid rgba(0,0,0,0.04);font-family:'Inter',sans-serif;font-size:12px;color:#6E6E73}
+.cl-item:last-child{border-bottom:none}
+.cl-check{width:18px;height:18px;border-radius:50%;border:1.5px solid rgba(0,0,0,0.1);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.cl-check.done{background:#34C759;border-color:#34C759}
+.cl-check.done svg{width:10px;height:10px;stroke:#FFF;fill:none;stroke-width:2}
+.cl-item.done{color:#1D1D1F}
+.cl-progress{display:flex;align-items:center;gap:8px;margin-top:12px}
+.cl-bar{flex:1;height:4px;border-radius:2px;background:rgba(0,0,0,0.04);overflow:hidden}
+.cl-fill{height:100%;border-radius:2px;background:linear-gradient(90deg,#D70030,#34C759);width:40%}
+.cl-pct{font-family:'Zen Dots',cursive;font-size:12px;color:#D70030}
+.file-item{display:flex;align-items:center;gap:12px;padding:14px 16px;background:#FFF;border:1px solid rgba(0,0,0,0.04);border-radius:14px;margin-bottom:8px;transition:all 0.2s}
+.file-item:hover{box-shadow:0 2px 12px rgba(0,0,0,0.04)}
+.file-thumb{width:44px;height:44px;border-radius:10px;background:linear-gradient(135deg,#F0F0F2,#E8E8ED);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.file-thumb svg{width:18px;height:18px;stroke:#86868B;fill:none;stroke-width:1.5}
+.file-thumb.photo{background:linear-gradient(135deg,rgba(215,0,48,0.06),rgba(215,0,48,0.12))}
+.file-thumb.photo svg{stroke:#D70030}
+.file-thumb.video{background:linear-gradient(135deg,rgba(88,86,214,0.06),rgba(88,86,214,0.12))}
+.file-thumb.video svg{stroke:#5856D6}
+.file-info{flex:1;min-width:0}
+.file-name{font-family:'Satoshi',sans-serif;font-size:13px;font-weight:500;color:#1D1D1F;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.file-meta{font-family:'Inter',sans-serif;font-size:10px;color:#86868B;margin-top:2px}
+.file-status{font-family:'Inter',sans-serif;font-size:10px;font-weight:600;padding:3px 8px;border-radius:6px;flex-shrink:0}
+.fs-ok{background:rgba(52,199,89,0.08);color:#34C759}
+.fs-processing{background:rgba(255,149,0,0.08);color:#FF9500}
+.fs-rejected{background:rgba(215,0,48,0.08);color:#D70030}
+</style>
+</head>
+<body>
+<nav class="nav"><div class="nav-inner">
+  <a href="client-portal.html" class="nav-logo">KTANA <span>Portal</span></a>
+  <div class="nav-tabs">
+    <a href="client-portal.html" class="nav-tab">Inicio</a>
+    <a href="client-approve-detail.html" class="nav-tab">Aprovacoes</a>
+    <a href="client-upload.html" class="nav-tab active">Enviar</a>
+    <a href="client-brand.html" class="nav-tab">Marca</a>
+  </div>
+  <div class="nav-user"><div class="nav-avatar">JM</div></div>
+</div></nav>
+
+<div class="container">
+  <a href="client-portal.html" class="back"><svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6" stroke-linecap="round" stroke-linejoin="round"/></svg> Voltar</a>
+  <h1 style="font-family:'Zen Dots',cursive;font-size:22px;margin-bottom:4px">Enviar arquivos</h1>
+  <p style="font-family:'Satoshi',sans-serif;font-size:14px;color:#86868B;margin-bottom:20px">Envie fotos, videos e documentos para sua equipe de posicionamento.</p>
+
+  <div class="dropzone" id="dropzone">
+    <div class="dz-icon"><svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+    <div class="dz-title">Arraste arquivos aqui</div>
+    <div class="dz-sub">ou clique para selecionar. Maximo <strong>50MB</strong> por arquivo.</div>
+    <div class="dz-formats">
+      <span class="dz-tag">JPG / PNG</span><span class="dz-tag">MP4 / MOV</span><span class="dz-tag">PDF / DOC</span><span class="dz-tag">HEIC</span>
+    </div>
+  </div>
+
+  <div class="sec">Categorias</div>
+  <div class="cat-grid">
+    <div class="cat-card active">
+      <div class="cat-icon photos"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      <div class="cat-name">Fotos</div><div class="cat-count">23 enviadas</div>
+    </div>
+    <div class="cat-card">
+      <div class="cat-icon videos"><svg viewBox="0 0 24 24"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      <div class="cat-name">Videos</div><div class="cat-count">3 enviados</div>
+    </div>
+    <div class="cat-card">
+      <div class="cat-icon docs"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z" stroke-linecap="round" stroke-linejoin="round"/><polyline points="14 2 14 8 20 8"/></svg></div>
+      <div class="cat-name">Documentos</div><div class="cat-count">2 enviados</div>
+    </div>
+  </div>
+
+  <div class="checklist">
+    <h3>Checklist de fotos para avatar</h3>
+    <div class="cl-item done"><div class="cl-check done"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div> 5+ fotos corpo inteiro</div>
+    <div class="cl-item done"><div class="cl-check done"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div> 10+ fotos close-up rosto</div>
+    <div class="cl-item"><div class="cl-check"></div> 10+ fotos meio-corpo</div>
+    <div class="cl-item"><div class="cl-check"></div> 5+ fotos trabalhando</div>
+    <div class="cl-item"><div class="cl-check"></div> Variar expressoes (serio, sorrindo, pensativo)</div>
+    <div class="cl-progress"><div class="cl-bar"><div class="cl-fill"></div></div><div class="cl-pct">40%</div></div>
+  </div>
+
+  <div class="sec">Enviados recentemente</div>
+  <div class="file-item">
+    <div class="file-thumb photo"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+    <div class="file-info"><div class="file-name">foto-escritorio-01.jpg</div><div class="file-meta">2.4 MB · Hoje 14:32</div></div>
+    <span class="file-status fs-ok">Validada</span>
+  </div>
+  <div class="file-item">
+    <div class="file-thumb photo"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+    <div class="file-info"><div class="file-name">retrato-close-sorrindo.heic</div><div class="file-meta">3.1 MB · Hoje 14:30</div></div>
+    <span class="file-status fs-ok">Validada</span>
+  </div>
+  <div class="file-item">
+    <div class="file-thumb video"><svg viewBox="0 0 24 24"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+    <div class="file-info"><div class="file-name">video-avatar-2min.mp4</div><div class="file-meta">48.2 MB · Ontem 09:15</div></div>
+    <span class="file-status fs-processing">Processando</span>
+  </div>
+  <div class="file-item">
+    <div class="file-thumb photo"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+    <div class="file-info"><div class="file-name">foto-fundo-branco-05.jpg</div><div class="file-meta">1.8 MB · Ontem 09:10</div></div>
+    <span class="file-status fs-rejected">Rejeitada — fundo escuro</span>
+  </div>
+  <div class="file-item">
+    <div class="file-thumb"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z" stroke-linecap="round" stroke-linejoin="round"/><polyline points="14 2 14 8 20 8"/></svg></div>
+    <div class="file-info"><div class="file-name">briefing-posicionamento.pdf</div><div class="file-meta">420 KB · 28 Mar</div></div>
+    <span class="file-status fs-ok">Recebido</span>
+  </div>
+</div>
+
+<script>
+const dz=document.getElementById('dropzone');
+['dragenter','dragover'].forEach(e=>dz.addEventListener(e,ev=>{ev.preventDefault();dz.classList.add('drag-over')}));
+['dragleave','drop'].forEach(e=>dz.addEventListener(e,ev=>{ev.preventDefault();dz.classList.remove('drag-over')}));
+</script>
+</body></html>
