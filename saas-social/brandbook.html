@@ -1,0 +1,198 @@
+<!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>KTANA Social — Brand Book</title><link rel="stylesheet" href="../shared.css"><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Zen+Dots&display=swap" rel="stylesheet">
+<style>
+body{min-height:100vh;background:#F5F5F7;color:#1D1D1F}
+a{text-decoration:none;color:inherit}
+.topbar{position:fixed;top:0;left:220px;right:0;height:48px;display:flex;align-items:center;justify-content:space-between;padding:0 24px;background:rgba(245,245,247,0.72);backdrop-filter:saturate(180%) blur(20px);border-bottom:0.5px solid rgba(0,0,0,0.06);z-index:5}
+.topbar-title{font-family:'Satoshi',sans-serif;font-size:15px;font-weight:600;color:#1D1D1F}
+.topbar-client{display:flex;align-items:center;gap:8px}
+.tc-avatar{width:24px;height:24px;border-radius:50%;background:linear-gradient(135deg,#D70030,#A60028);display:flex;align-items:center;justify-content:center;font-family:'Inter',sans-serif;font-size:8px;font-weight:600;color:#FFF}
+.tc-name{font-family:'Inter',sans-serif;font-size:11px;color:#86868B}
+.topbar-actions{display:flex;gap:8px}
+.ta-btn{font-family:'Inter',sans-serif;font-size:11px;font-weight:500;padding:6px 14px;border-radius:8px;border:1px solid rgba(0,0,0,0.06);background:#FFF;color:#86868B;cursor:pointer;transition:all 0.15s}
+.ta-btn:hover{border-color:rgba(215,0,48,0.12);color:#D70030}
+.ta-btn.primary{background:#D70030;color:#FFF;border-color:#D70030}
+.content{padding:64px 24px 24px;max-width:720px}
+
+/* SECTION */
+.bb-section{background:#FFF;border-radius:20px;border:1px solid rgba(0,0,0,0.04);padding:24px;margin-bottom:14px;position:relative;overflow:hidden}
+.bb-section::before{content:'';position:absolute;inset:0;border-radius:20px;padding:1px;background:linear-gradient(135deg,transparent 60%,rgba(215,0,48,0.06) 100%);-webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);-webkit-mask-composite:xor;mask-composite:exclude;opacity:0;transition:opacity 0.3s}
+.bb-section:hover::before{opacity:1}
+.bb-label{font-family:'Inter',sans-serif;font-size:10px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:#D70030;margin-bottom:12px}
+.bb-section h3{font-family:'Satoshi',sans-serif;font-size:16px;font-weight:600;color:#1D1D1F;margin-bottom:8px}
+.bb-section p{font-family:'Satoshi',sans-serif;font-size:13px;color:#86868B;line-height:1.6}
+
+/* POSITIONING COMPASS */
+.compass{background:#F5F5F7;border-radius:14px;padding:20px;margin-top:12px;font-family:'Satoshi',sans-serif;font-size:14px;color:#1D1D1F;line-height:1.8}
+.compass strong{color:#D70030}
+
+/* ARCHETYPE */
+.archetype-card{display:flex;gap:16px;align-items:center;background:#F5F5F7;border-radius:14px;padding:18px;margin-top:12px}
+.arch-icon{width:56px;height:56px;border-radius:14px;background:linear-gradient(135deg,#D70030,#8B0000);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.arch-icon svg{width:24px;height:24px;stroke:#FFF;fill:none;stroke-width:1.5}
+.arch-info h4{font-family:'Zen Dots',cursive;font-size:16px;color:#1D1D1F;margin-bottom:4px}
+.arch-info p{font-family:'Satoshi',sans-serif;font-size:12px;color:#86868B;line-height:1.4}
+.arch-brand{font-family:'Inter',sans-serif;font-size:10px;color:#AEAEB2;margin-top:6px}
+
+/* TONE */
+.tone-tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px}
+.tone-tag{font-family:'Inter',sans-serif;font-size:11px;font-weight:500;padding:6px 14px;border-radius:980px;background:rgba(215,0,48,0.06);color:#D70030}
+
+/* AUDIENCE */
+.audience-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px}
+.aud-card{background:#F5F5F7;border-radius:12px;padding:14px}
+.aud-card h4{font-family:'Inter',sans-serif;font-size:10px;font-weight:600;letter-spacing:0.05em;text-transform:uppercase;color:#D70030;margin-bottom:8px}
+.aud-card ul{list-style:none;padding:0;margin:0}
+.aud-card li{font-family:'Satoshi',sans-serif;font-size:12px;color:#6E6E73;padding:3px 0;padding-left:12px;position:relative;line-height:1.4}
+.aud-card li::before{content:'';position:absolute;left:0;top:8px;width:4px;height:4px;border-radius:50%;background:#D70030}
+
+/* VISUAL */
+.colors-row{display:flex;gap:8px;margin-top:12px}
+.color-swatch{width:48px;height:48px;border-radius:12px;display:flex;align-items:flex-end;padding:4px}
+.color-swatch span{font-family:'JetBrains Mono',monospace;font-size:8px;color:#FFF;background:rgba(0,0,0,0.3);padding:1px 4px;border-radius:3px}
+.fonts-row{display:flex;flex-direction:column;gap:8px;margin-top:12px}
+.font-sample{display:flex;align-items:center;justify-content:space-between;padding:10px 14px;background:#F5F5F7;border-radius:10px}
+.font-name{font-family:'Inter',sans-serif;font-size:11px;color:#86868B}
+
+/* REFS */
+.refs-list{display:flex;flex-direction:column;gap:6px;margin-top:12px}
+.ref-item{display:flex;align-items:center;gap:10px;padding:10px 14px;background:#F5F5F7;border-radius:10px}
+.ref-avatar{width:32px;height:32px;border-radius:50%;background:#E8E8ED;display:flex;align-items:center;justify-content:center;font-family:'Inter',sans-serif;font-size:10px;color:#86868B;flex-shrink:0}
+.ref-name{font-family:'Satoshi',sans-serif;font-size:13px;font-weight:500;color:#1D1D1F}
+.ref-why{font-family:'Inter',sans-serif;font-size:10px;color:#86868B}
+
+/* EDIT INDICATOR */
+.editable{position:relative;cursor:pointer}
+.editable:hover::after{content:'Editar';position:absolute;top:4px;right:4px;font-family:'Inter',sans-serif;font-size:9px;color:#D70030;background:rgba(215,0,48,0.06);padding:2px 8px;border-radius:4px}
+
+@media(max-width:768px){.topbar{left:0}.audience-grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body data-active="clients">
+<div class="topbar">
+  <div class="topbar-client"><div class="tc-avatar">JM</div><span class="tc-name">Joao Mendes — Brand Book</span></div>
+  <div class="topbar-title">Brand Book</div>
+  <div class="topbar-actions"><button class="ta-btn">Exportar PDF</button><button class="ta-btn primary">Editar via chat</button></div>
+</div>
+<div class="content">
+
+<!-- POSICIONAMENTO -->
+<div class="bb-section editable">
+  <div class="bb-label">Bussola de posicionamento</div>
+  <div class="compass">
+    <strong>Para</strong> CEOs de empresas SaaS B2B <strong>que</strong> precisam escalar receita sem depender de venture capital,<br>
+    <strong>a TechFlow e</strong> uma plataforma de growth <strong>que</strong> oferece previsibilidade de receita com unit economics saudaveis.<br>
+    <strong>Ao contrario de</strong> consultorias genericas e aceleradoras que diluem equity, <strong>nosso diferencial e</strong> bootstrapped growth com comprovacao de ROI em 90 dias.
+  </div>
+</div>
+
+<!-- ARQUÉTIPO -->
+<div class="bb-section editable">
+  <div class="bb-label">Arquetipo de marca</div>
+  <div class="archetype-card">
+    <div class="arch-icon"><svg viewBox="0 0 24 24"><path d="M14.5 17.5L3 6V3h3l11.5 11.5M13 19l6-6M15 17l2 2M7 3l7 7" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+    <div class="arch-info">
+      <h4>Heroi</h4>
+      <p>Busca por conquista com integridade. Motiva por exemplo, nao por teoria. Mostra resultados reais, enfrenta desafios de frente, inspira outros a agir.</p>
+      <div class="arch-brand">Referencia: Nike — "Just Do It" · Tom: Motivador, honesto, corajoso</div>
+    </div>
+  </div>
+</div>
+
+<!-- TIPO DE POSICIONAMENTO -->
+<div class="bb-section editable">
+  <div class="bb-label">Tipo de posicionamento</div>
+  <h3>Founder</h3>
+  <p>Comunica uma visao de mundo e uma tese central. Atrai pessoas que compartilham a mesma visao. Pode vender multiplos produtos porque a confianca vem da lideranca, nao de resolver um problema especifico.</p>
+</div>
+
+<!-- TESE CENTRAL -->
+<div class="bb-section editable">
+  <div class="bb-label">Tese central da marca</div>
+  <h3>"Voce nao precisa de dinheiro de investidor pra escalar. Precisa de unit economics que funcionam."</h3>
+  <p>Essa e a crenca que o Joao defende. Tudo que ele comunica reforça essa tese. Cada post, cada fala, cada decisao publica volta pra essa ideia central.</p>
+</div>
+
+<!-- TOM DE VOZ -->
+<div class="bb-section editable">
+  <div class="bb-label">Tom de voz</div>
+  <p>Direto, provocador, sem rodeio. Fala como CEO que ja errou e aprendeu. Usa dados pra provar ponto. Nunca institucional. Nunca generico. Nunca "estamos muito felizes em anunciar".</p>
+  <div class="tone-tags">
+    <span class="tone-tag">Direto</span>
+    <span class="tone-tag">Provocador</span>
+    <span class="tone-tag">Baseado em dados</span>
+    <span class="tone-tag">Anti-bullshit</span>
+    <span class="tone-tag">Storytelling pessoal</span>
+  </div>
+</div>
+
+<!-- PÚBLICO ALVO -->
+<div class="bb-section editable">
+  <div class="bb-label">Publico alvo</div>
+  <div class="audience-grid">
+    <div class="aud-card">
+      <h4>Demograficas</h4>
+      <ul><li>CEOs e founders de SaaS B2B</li><li>30-50 anos</li><li>Faturamento R$5M-50M/ano</li><li>Time de 20-200 pessoas</li></ul>
+    </div>
+    <div class="aud-card">
+      <h4>Comportamentais</h4>
+      <ul><li>Orientados a dados e metricas</li><li>Avessos a "guruzice"</li><li>Preferem prova a promessa</li><li>Leem Lenny's Newsletter, SaaStr</li></ul>
+    </div>
+    <div class="aud-card">
+      <h4>Desejos profundos</h4>
+      <ul><li>Escalar sem diluir equity</li><li>Previsibilidade de receita</li><li>Ser reconhecido no nicho</li><li>Sair do operacional</li><li>MRR estavel e crescente</li></ul>
+    </div>
+    <div class="aud-card">
+      <h4>Pontos de dor</h4>
+      <ul><li>CAC subindo todo mes</li><li>Churn acima de 5%</li><li>Dependencia de 1-2 clientes</li><li>Time de vendas inconsistente</li><li>Invisivel no mercado apesar dos resultados</li></ul>
+    </div>
+  </div>
+</div>
+
+<!-- CONCORRENTES -->
+<div class="bb-section editable">
+  <div class="bb-label">Concorrentes mapeados</div>
+  <p>5 perfis monitorados. O agente Scout analisa diariamente e identifica brechas de posicionamento.</p>
+  <div class="refs-list">
+    <div class="ref-item"><div class="ref-avatar">C1</div><div><div class="ref-name">@concorrente.saas</div><div class="ref-why">12.8K seg · Foco em growth hacking · Brecha: nao fala de unit economics</div></div></div>
+    <div class="ref-item"><div class="ref-avatar">C2</div><div><div class="ref-name">@tech.founder.br</div><div class="ref-why">8.4K seg · Foco em fundraising · Brecha: posicao contraria ao Joao</div></div></div>
+    <div class="ref-item"><div class="ref-avatar">C3</div><div><div class="ref-name">@leticia.finscale</div><div class="ref-why">15K seg · Consultoria fintech · Referencia de formato de conteudo</div></div></div>
+  </div>
+</div>
+
+<!-- IDENTIDADE VISUAL -->
+<div class="bb-section editable">
+  <div class="bb-label">Identidade visual</div>
+  <h3>Paleta de cores</h3>
+  <div class="colors-row">
+    <div class="color-swatch" style="background:#1D1D1F"><span>#1D1D1F</span></div>
+    <div class="color-swatch" style="background:#007AFF"><span>#007AFF</span></div>
+    <div class="color-swatch" style="background:#34C759"><span>#34C759</span></div>
+    <div class="color-swatch" style="background:#F5F5F7;border:1px solid rgba(0,0,0,0.06)"><span style="color:#1D1D1F">#F5F5F7</span></div>
+  </div>
+  <h3 style="margin-top:16px">Tipografia</h3>
+  <div class="fonts-row">
+    <div class="font-sample"><span style="font-family:'Zen Dots',cursive;font-size:18px;color:#1D1D1F">TechFlow</span><span class="font-name">Zen Dots · Headlines</span></div>
+    <div class="font-sample"><span style="font-family:'Satoshi',sans-serif;font-size:14px;color:#1D1D1F">Escale sem queimar caixa</span><span class="font-name">Satoshi · Body text</span></div>
+    <div class="font-sample"><span style="font-family:'Inter',sans-serif;font-size:12px;color:#86868B">MRR · CAC · LTV</span><span class="font-name">Inter · UI / Labels</span></div>
+  </div>
+</div>
+
+<!-- ESTILO FOTOGRÁFICO -->
+<div class="bb-section editable">
+  <div class="bb-label">Estilo fotografico</div>
+  <h3>Corporate Premium</h3>
+  <p>Paleto escuro + camisa sem gravata. Fundo neutro ou escritorio moderno. Pose confiante. Iluminacao natural da janela. Expressao seria com leve sorriso. Clone visual treinado com 38 fotos.</p>
+</div>
+
+<!-- REFERÊNCIAS DE ESTILO -->
+<div class="bb-section editable">
+  <div class="bb-label">Referencias de estilo de comunicacao</div>
+  <div class="refs-list">
+    <div class="ref-item"><div class="ref-avatar">GV</div><div><div class="ref-name">Gary Vaynerchuk</div><div class="ref-why">Tom direto, sem filtro, storytelling do dia a dia</div></div></div>
+    <div class="ref-item"><div class="ref-avatar">AH</div><div><div class="ref-name">Alex Hormozi</div><div class="ref-why">Frameworks numerados, dados, sem enrolacao</div></div></div>
+  </div>
+</div>
+
+</div>
+<script src="shared-sidebar.js"></script>
+</body></html>

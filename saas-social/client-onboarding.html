@@ -1,0 +1,239 @@
+<!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>Onboarding — Joao Mendes</title><link rel="stylesheet" href="../shared.css"><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Zen+Dots&display=swap" rel="stylesheet">
+<style>
+body{min-height:100vh;background:#F5F5F7;color:#1D1D1F}
+a{text-decoration:none;color:inherit}
+.container{max-width:520px;margin:0 auto;padding:40px 24px 80px}
+.progress{display:flex;justify-content:center;gap:6px;margin-bottom:40px}
+.dot{width:6px;height:6px;border-radius:50%;background:#D2D2D7}
+.dot.done{background:#86868B}
+.dot.active{background:#D70030;width:20px;border-radius:3px}
+.header{text-align:center;margin-bottom:32px}
+.header h1{font-family:'Zen Dots',cursive;font-size:26px;color:#1D1D1F;margin-bottom:6px}
+.header .sub{font-family:'Satoshi',sans-serif;font-size:15px;color:#86868B;line-height:1.5}
+.header .counter{font-family:'Inter',sans-serif;font-size:12px;color:#AEAEB2;margin-top:8px}
+.selected-bar{display:flex;gap:6px;justify-content:center;flex-wrap:wrap;margin-bottom:24px;min-height:28px}
+.selected-tag{font-family:'Inter',sans-serif;padding:5px 14px;border-radius:980px;background:rgba(215,0,48,0.06);color:#D70030;font-size:12px;font-weight:500}
+
+.step{display:none;animation:fadeIn 0.3s ease}
+.step.active{display:block}
+@keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+
+/* CHAT CARD */
+.chat-card{background:#FFF;border-radius:24px;border:1px solid rgba(0,0,0,0.04);overflow:hidden;box-shadow:0 4px 40px rgba(0,0,0,0.06);position:relative;margin-bottom:16px}
+.chat-card::before{content:'';position:absolute;inset:0;border-radius:24px;padding:1.5px;background:linear-gradient(135deg,rgba(255,231,231,0.3) 0%,transparent 20%,rgba(215,0,48,0.2) 80%);-webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);-webkit-mask-composite:xor;mask-composite:exclude;pointer-events:none}
+.cc-header{display:flex;align-items:center;gap:10px;padding:14px 18px;border-bottom:1px solid rgba(0,0,0,0.04)}
+.cc-avatar{width:28px;height:28px;border-radius:8px;background:linear-gradient(135deg,#D70030,#8B0000);display:flex;align-items:center;justify-content:center}
+.cc-avatar svg{width:14px;height:14px;stroke:#FFF;fill:none;stroke-width:1.5}
+.cc-name{font-family:'Zen Dots',cursive;font-size:11px;color:#1D1D1F}
+.cc-status{font-family:'Inter',sans-serif;font-size:10px;color:#34C759}
+.cc-body{padding:18px;display:flex;flex-direction:column;gap:10px;min-height:100px}
+.cc-msg{max-width:90%;padding:10px 14px;border-radius:16px;font-family:'Satoshi',sans-serif;font-size:14px;line-height:1.6}
+.cc-msg-ai{background:#F0F0F2;color:#1D1D1F;border-bottom-left-radius:4px;align-self:flex-start}
+.cc-input{padding:12px 18px;border-top:1px solid rgba(0,0,0,0.04);display:flex;align-items:center;gap:8px}
+.cc-input input{flex:1;font-family:'Satoshi',sans-serif;font-size:14px;background:#F5F5F7;border:1px solid rgba(0,0,0,0.06);border-radius:14px;padding:10px 14px;outline:none;color:#1D1D1F}
+.cc-input input:focus{border-color:rgba(215,0,48,0.3)}
+.cc-input input::placeholder{color:#AEAEB2}
+.cc-send{width:32px;height:32px;border-radius:50%;background:#D70030;display:flex;align-items:center;justify-content:center;cursor:pointer;border:none}
+.cc-send svg{width:14px;height:14px;stroke:#FFF;fill:none;stroke-width:2}
+
+/* BIG CARD */
+.big-card{background:#FFF;border-radius:24px;border:1px solid rgba(0,0,0,0.04);padding:40px 28px;text-align:center;margin-bottom:16px}
+.big-card .icon{margin-bottom:16px}
+.big-card .icon svg{width:40px;height:40px;stroke:#D70030;fill:none;stroke-width:1.5}
+.big-card h2{font-family:'Zen Dots',cursive;font-size:22px;color:#1D1D1F;margin-bottom:6px}
+.big-card p{font-family:'Satoshi',sans-serif;font-size:14px;color:#86868B;line-height:1.5;max-width:360px;margin:0 auto}
+
+/* UPLOAD AREA */
+.upload-zone{border:2px dashed rgba(0,0,0,0.08);border-radius:16px;padding:28px;text-align:center;cursor:pointer;transition:all 0.2s;margin:16px 0}
+.upload-zone:hover{border-color:rgba(215,0,48,0.15);background:rgba(215,0,48,0.01)}
+.upload-zone svg{width:28px;height:28px;stroke:#86868B;fill:none;stroke-width:1.5;margin-bottom:8px}
+.upload-zone h4{font-family:'Satoshi',sans-serif;font-size:14px;color:#1D1D1F;margin-bottom:4px}
+.upload-zone p{font-family:'Inter',sans-serif;font-size:11px;color:#86868B}
+
+/* STYLE SELECTOR */
+.style-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:16px 0}
+.style-item{border-radius:14px;border:2px solid rgba(0,0,0,0.06);overflow:hidden;cursor:pointer;transition:all 0.2s;text-align:center}
+.style-item:hover{border-color:rgba(0,0,0,0.12)}
+.style-item.selected{border-color:rgba(215,0,48,0.3)}
+.style-thumb{aspect-ratio:4/3;background:linear-gradient(135deg,#F0F0F2,#E8E8ED);display:flex;align-items:center;justify-content:center;font-family:'Inter',sans-serif;font-size:10px;color:#AEAEB2}
+.style-name{font-family:'Satoshi',sans-serif;font-size:11px;font-weight:500;color:#1D1D1F;padding:8px}
+
+/* ACTIONS */
+.actions{display:flex;gap:12px}
+.btn-yes{font-family:'Inter',sans-serif;flex:1;padding:18px;border-radius:16px;background:#1D1D1F;color:#F5F5F7;font-size:15px;font-weight:600;border:none;cursor:pointer;min-height:56px;transition:background 0.15s}
+.btn-yes:hover{background:#000}
+.btn-skip{font-family:'Inter',sans-serif;flex:1;padding:18px;border-radius:16px;background:#FFF;color:#86868B;font-size:15px;font-weight:500;border:1px solid rgba(0,0,0,0.06);cursor:pointer;min-height:56px}
+.btn-finish{font-family:'Inter',sans-serif;width:100%;padding:18px;border-radius:16px;background:#D70030;color:#FFF;font-size:15px;font-weight:600;border:none;cursor:pointer;min-height:56px;transition:all 0.15s}
+.btn-finish:hover{opacity:0.9;box-shadow:0 4px 16px rgba(215,0,48,0.25)}
+.hint{font-family:'Inter',sans-serif;font-size:11px;color:#AEAEB2;text-align:center;margin-top:12px}
+
+.final{display:none;text-align:center}
+.final.active{display:block;animation:fadeIn 0.3s ease}
+.final h2{font-family:'Zen Dots',cursive;font-size:24px;color:#1D1D1F;margin-bottom:8px}
+.final .sub{font-family:'Satoshi',sans-serif;font-size:14px;color:#86868B;margin-bottom:24px;line-height:1.5}
+.final-list{text-align:left;max-width:360px;margin:0 auto 24px}
+.final-item{display:flex;align-items:center;gap:12px;padding:10px 14px;background:#FFF;border-radius:12px;border:1px solid rgba(0,0,0,0.04);margin-bottom:6px}
+.fi-check{width:20px;height:20px;border-radius:50%;background:#34C759;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.fi-check svg{width:10px;height:10px;stroke:#FFF;fill:none;stroke-width:2.5}
+.fi-text{font-family:'Satoshi',sans-serif;font-size:13px;color:#1D1D1F}
+
+@media(max-width:520px){.style-grid{grid-template-columns:1fr 1fr}}
+</style>
+</head>
+<body>
+<div class="container">
+
+<div class="progress" id="prog">
+  <div class="dot active"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div>
+</div>
+
+<div class="header">
+  <h1>Vamos comecar.</h1>
+  <p class="sub">Seu assistente vai te guiar. Em poucos minutos seu posicionamento esta configurado.</p>
+  <p class="counter" id="counter">1 de 6</p>
+</div>
+
+<div class="selected-bar" id="selectedBar"></div>
+
+<!-- STEP 1: Boas vindas via chat -->
+<div class="step active" id="s1">
+  <div class="chat-card">
+    <div class="cc-header">
+      <div class="cc-avatar"><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      <div><div class="cc-name">Seu Assistente</div><div class="cc-status">Online</div></div>
+    </div>
+    <div class="cc-body">
+      <div class="cc-msg cc-msg-ai">Ola, Joao! Sou seu assistente de posicionamento. Vou te ajudar a configurar tudo em poucos minutos.<br><br>Primeiro: <strong>qual e o nome da sua empresa?</strong></div>
+    </div>
+    <div class="cc-input">
+      <input type="text" placeholder="Ex: TechFlow" id="inp1">
+      <button class="cc-send" onclick="go(2,'Empresa: '+document.getElementById('inp1').value)"><svg viewBox="0 0 24 24"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+    </div>
+  </div>
+</div>
+
+<!-- STEP 2: Nicho -->
+<div class="step" id="s2">
+  <div class="chat-card">
+    <div class="cc-header"><div class="cc-avatar"><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div><div class="cc-name">Seu Assistente</div><div class="cc-status">Online</div></div></div>
+    <div class="cc-body">
+      <div class="cc-msg cc-msg-ai">Otimo! E qual e o <strong>nicho ou segmento</strong> da sua empresa? Ex: SaaS B2B, consultoria, saude, direito...</div>
+    </div>
+    <div class="cc-input">
+      <input type="text" placeholder="Ex: SaaS B2B, Medicina estetica..." id="inp2">
+      <button class="cc-send" onclick="go(3,'Nicho: '+document.getElementById('inp2').value)"><svg viewBox="0 0 24 24"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+    </div>
+  </div>
+</div>
+
+<!-- STEP 3: Upload fotos -->
+<div class="step" id="s3">
+  <div class="big-card">
+    <div class="icon"><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="12" cy="7" r="4"/></svg></div>
+    <h2>Suas fotos.</h2>
+    <p>Envie 40-50 fotos suas pra treinar seu clone visual. Com isso voce tera ensaios fotograficos infinitos, sem fotografo.</p>
+  </div>
+  <div class="upload-zone">
+    <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4" stroke-linecap="round" stroke-linejoin="round"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+    <h4>Arraste suas fotos aqui</h4>
+    <p>JPG ou PNG · Minimo 1024x1024 · Variar angulos e expressoes</p>
+  </div>
+  <div class="actions">
+    <button class="btn-skip" onclick="go(4,'')">Enviar depois</button>
+    <button class="btn-yes" onclick="go(4,'Fotos enviadas')">Ja enviei</button>
+  </div>
+  <p class="hint">Seu assistente vai cobrar no WhatsApp se voce nao enviar</p>
+</div>
+
+<!-- STEP 4: Estilo fotográfico -->
+<div class="step" id="s4">
+  <div class="big-card">
+    <div class="icon"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg></div>
+    <h2>Seu estilo.</h2>
+    <p>Escolha como voce quer ser visto nas fotos geradas pela IA.</p>
+  </div>
+  <div class="style-grid">
+    <div class="style-item selected" onclick="document.querySelectorAll('.style-item').forEach(s=>s.classList.remove('selected'));this.classList.add('selected')"><div class="style-thumb">Corporate Premium</div><div class="style-name">Corporate</div></div>
+    <div class="style-item" onclick="document.querySelectorAll('.style-item').forEach(s=>s.classList.remove('selected'));this.classList.add('selected')"><div class="style-thumb">Lifestyle Casual</div><div class="style-name">Casual</div></div>
+    <div class="style-item" onclick="document.querySelectorAll('.style-item').forEach(s=>s.classList.remove('selected'));this.classList.add('selected')"><div class="style-thumb">Tech CEO</div><div class="style-name">Tech CEO</div></div>
+    <div class="style-item" onclick="document.querySelectorAll('.style-item').forEach(s=>s.classList.remove('selected'));this.classList.add('selected')"><div class="style-thumb">Speaker</div><div class="style-name">Speaker</div></div>
+    <div class="style-item" onclick="document.querySelectorAll('.style-item').forEach(s=>s.classList.remove('selected'));this.classList.add('selected')"><div class="style-thumb">Editorial</div><div class="style-name">Editorial</div></div>
+    <div class="style-item" onclick="document.querySelectorAll('.style-item').forEach(s=>s.classList.remove('selected'));this.classList.add('selected')"><div class="style-thumb">Creative</div><div class="style-name">Criativo</div></div>
+  </div>
+  <div class="actions">
+    <button class="btn-yes" onclick="go(5,'Estilo definido')">Confirmar estilo</button>
+  </div>
+</div>
+
+<!-- STEP 5: Video para avatar -->
+<div class="step" id="s5">
+  <div class="big-card">
+    <div class="icon"><svg viewBox="0 0 24 24"><polygon points="23 7 16 12 23 17 23 7" stroke-linecap="round" stroke-linejoin="round"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg></div>
+    <h2>Seu avatar em video.</h2>
+    <p>Grave um video de 2 minutos falando pra camera. A IA vai treinar seu avatar com voz e movimentos labiais realistas.</p>
+  </div>
+  <div class="upload-zone">
+    <svg viewBox="0 0 24 24"><polygon points="23 7 16 12 23 17 23 7" stroke-linecap="round" stroke-linejoin="round"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg>
+    <h4>Envie seu video de treinamento</h4>
+    <p>MP4 ou MOV · Minimo 1080p · 2 minutos falando de frente</p>
+  </div>
+  <div class="actions">
+    <button class="btn-skip" onclick="go(6,'')">Enviar depois</button>
+    <button class="btn-yes" onclick="go(6,'Video enviado')">Ja enviei</button>
+  </div>
+  <p class="hint">Sem video, usaremos so fotos pra gerar conteudo</p>
+</div>
+
+<!-- STEP 6: Conectar redes -->
+<div class="step" id="s6">
+  <div class="big-card">
+    <div class="icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9"/></svg></div>
+    <h2>Suas redes.</h2>
+    <p>Conecte suas redes sociais pra publicacao automatica. Voce pode fazer isso agora ou depois com seu social media.</p>
+  </div>
+  <div class="actions">
+    <button class="btn-skip" onclick="finish()">Meu SM configura depois</button>
+    <button class="btn-yes" onclick="finish()">Conectar agora</button>
+  </div>
+  <p class="hint">Seu social media pode configurar pra voce</p>
+</div>
+
+<!-- FINAL -->
+<div class="step" id="s-final">
+  <div class="final active">
+    <h2>Tudo pronto, Joao.</h2>
+    <p class="sub">Seu posicionamento esta sendo configurado. Seu assistente vai te acompanhar pelo WhatsApp e cobrar as tarefas da semana.</p>
+    <div class="final-list" id="finalList"></div>
+    <button class="btn-finish" onclick="location.href='client-portal.html'">Ir pro meu painel</button>
+    <p class="hint" style="margin-top:12px">Seu assistente no WhatsApp ja esta ativo e vai te mandar a primeira mensagem em breve.</p>
+  </div>
+</div>
+
+</div>
+
+<script>
+let step=1;const total=6;const selected=[];
+function go(n,tag){
+  if(tag)selected.push(tag);
+  updateBar();
+  step=n;
+  document.querySelectorAll('.step').forEach(s=>s.classList.remove('active'));
+  if(n<=total){document.getElementById('s'+n).classList.add('active');document.getElementById('counter').textContent=n+' de '+total}
+  updateDots();
+  window.scrollTo(0,0);
+  document.querySelectorAll('.cc-input input').forEach(i=>{setTimeout(()=>i.focus(),100)});
+}
+function finish(){
+  document.querySelectorAll('.step').forEach(s=>s.classList.remove('active'));
+  document.getElementById('s-final').classList.add('active');
+  document.getElementById('counter').style.display='none';
+  const list=document.getElementById('finalList');
+  const items=['Dados do founder','Clone visual configurado','Estilo fotografico definido','Avatar em video','Redes sociais'];
+  list.innerHTML=items.map(i=>'<div class="final-item"><div class="fi-check"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div class="fi-text">'+i+'</div></div>').join('');
+  document.querySelectorAll('.progress .dot').forEach(d=>{d.classList.remove('active');d.classList.add('done')});
+}
+function updateBar(){document.getElementById('selectedBar').innerHTML=selected.map(s=>'<span class="selected-tag">'+s.split(': ').pop()+'</span>').join('')}
+function updateDots(){document.querySelectorAll('.progress .dot').forEach((d,i)=>{d.classList.remove('active','done');if(i+1<step)d.classList.add('done');if(i+1===step)d.classList.add('active')})}
+document.querySelectorAll('.cc-input input').forEach(inp=>{inp.addEventListener('keypress',e=>{if(e.key==='Enter')inp.parentElement.querySelector('button').click()})});
+</script>
+</body></html>
