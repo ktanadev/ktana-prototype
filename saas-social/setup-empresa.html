@@ -1,310 +1,248 @@
-<!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>KTANA Social — Setup</title><link rel="stylesheet" href="../shared.css"><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Zen+Dots&display=swap" rel="stylesheet">
-<style>
-body{min-height:100vh;background:#F5F5F7;color:#1D1D1F}
-a{text-decoration:none;color:inherit}
-.container{max-width:520px;margin:0 auto;padding:40px 24px 80px}
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Configurar empresa — KTANA Social</title>
+  <link rel="stylesheet" href="../shared.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Zen+Dots&display=swap" rel="stylesheet">
+  <style>
+    body { min-height: 100vh; background: #F5F5F7; }
+    .container { max-width: 520px; margin: 0 auto; padding: 40px 24px 80px; }
 
-/* PROGRESS */
-.progress{display:flex;justify-content:center;gap:6px;margin-bottom:36px}
-.pdot{width:6px;height:6px;border-radius:50%;background:#D2D2D7;transition:all 0.3s}
-.pdot.done{background:#86868B}
-.pdot.active{background:#D70030;width:20px;border-radius:3px}
+    .progress { display: flex; justify-content: center; gap: 6px; margin-bottom: 40px; }
+    .dot { width: 6px; height: 6px; border-radius: 50%; background: #D2D2D7; }
+    .dot.done { background: #86868B; }
+    .dot.active { background: #D70030; width: 20px; border-radius: 3px; }
 
-/* STEP */
-.step{display:none;animation:fadeIn 0.3s ease}
-.step.active{display:block}
-@keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+    .header { text-align: center; margin-bottom: 32px; }
+    .header h1 { font-family: 'Zen Dots', cursive; font-size: 28px; color: #1D1D1F; margin-bottom: 6px; }
+    .header .sub { font-family: 'Satoshi', sans-serif; font-size: 15px; color: #86868B; }
+    .header .counter { font-family: 'Inter', sans-serif; font-size: 12px; color: #AEAEB2; margin-top: 8px; }
 
-/* CHAT ONBOARDING */
-.chat-onboard{background:#FFF;border-radius:24px;border:1px solid rgba(0,0,0,0.04);overflow:hidden;box-shadow:0 4px 40px rgba(0,0,0,0.06);position:relative}
-.chat-onboard::before{content:'';position:absolute;inset:0;border-radius:24px;padding:1.5px;background:linear-gradient(135deg,rgba(255,231,231,0.3) 0%,transparent 20%,rgba(215,0,48,0.25) 80%,rgba(215,0,48,0.1) 100%);-webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);-webkit-mask-composite:xor;mask-composite:exclude;pointer-events:none}
-.co-header{display:flex;align-items:center;gap:10px;padding:16px 20px;border-bottom:1px solid rgba(0,0,0,0.04)}
-.co-avatar{width:32px;height:32px;border-radius:10px;background:linear-gradient(135deg,#D70030,#8B0000);display:flex;align-items:center;justify-content:center;flex-shrink:0}
-.co-avatar svg{width:16px;height:16px;stroke:#FFF;fill:none;stroke-width:1.5}
-.co-info{display:flex;flex-direction:column}
-.co-name{font-family:'Zen Dots',cursive;font-size:12px;color:#1D1D1F}
-.co-status{font-family:'Inter',sans-serif;font-size:10px;color:#34C759;display:flex;align-items:center;gap:4px}
-.co-status::before{content:'';width:5px;height:5px;border-radius:50%;background:#34C759}
-.co-step{margin-left:auto;font-family:'Inter',sans-serif;font-size:10px;color:#86868B}
+    .selected-bar { display: flex; gap: 6px; justify-content: center; flex-wrap: wrap; margin-bottom: 24px; min-height: 28px; }
+    .selected-tag { font-family: 'Inter', sans-serif; padding: 5px 14px; border-radius: 980px; background: rgba(215,0,48,0.06); color: #D70030; font-size: 12px; font-weight: 500; }
 
-.co-body{padding:20px;min-height:200px;display:flex;flex-direction:column;gap:12px}
-.co-msg{max-width:90%;padding:12px 16px;border-radius:18px;font-family:'Satoshi',sans-serif;font-size:14px;line-height:1.6}
-.co-msg-ai{background:#F0F0F2;color:#1D1D1F;border-bottom-left-radius:4px;align-self:flex-start}
-.co-msg-user{background:#D70030;color:#FFF;border-bottom-right-radius:4px;align-self:flex-end}
+    .dept-step { display: none; }
+    .dept-step.active { display: block; animation: fadeIn 0.3s ease; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-/* CARD CHOICE (como onboarding PJ) */
-.choice-card{background:#FFF;border-radius:24px;border:1px solid rgba(0,0,0,0.04);padding:40px 28px;text-align:center;margin-bottom:16px}
-.choice-icon{width:56px;height:56px;border-radius:16px;margin:0 auto 16px;display:flex;align-items:center;justify-content:center}
-.choice-icon svg{width:24px;height:24px;stroke:#FFF;fill:none;stroke-width:1.5}
-.ci-red{background:linear-gradient(135deg,#D70030,#8B0000)}
-.ci-blue{background:linear-gradient(135deg,#007AFF,#0055CC)}
-.ci-green{background:linear-gradient(135deg,#34C759,#248A3D)}
-.ci-purple{background:linear-gradient(135deg,#5856D6,#3A38A0)}
-.ci-orange{background:linear-gradient(135deg,#FF9500,#CC7700)}
-.ci-teal{background:linear-gradient(135deg,#5AC8FA,#32ADE6)}
-.ci-pink{background:linear-gradient(135deg,#FF2D55,#CC0033)}
-.choice-card h2{font-family:'Zen Dots',cursive;font-size:22px;color:#1D1D1F;margin-bottom:6px}
-.choice-card p{font-family:'Satoshi',sans-serif;font-size:14px;color:#86868B;line-height:1.5;max-width:340px;margin:0 auto}
-.choice-roles{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;margin-top:16px}
-.choice-role{font-family:'Inter',sans-serif;font-size:11px;padding:5px 12px;border-radius:980px;border:0.5px solid rgba(0,0,0,0.06);color:#86868B}
+    .dept-card { background: #FFF; border-radius: 24px; border: 1px solid rgba(0,0,0,0.04); padding: 48px 32px; text-align: center; margin-bottom: 20px; }
+    .dept-icon { margin-bottom: 20px; }
+    .dept-icon svg { width: 32px; height: 32px; stroke: #D70030; }
+    .dept-name { font-family: 'Zen Dots', cursive; font-size: 24px; color: #1D1D1F; margin-bottom: 8px; }
+    .dept-desc { font-family: 'Satoshi', sans-serif; font-size: 15px; color: #86868B; line-height: 1.6; max-width: 360px; margin: 0 auto; }
+    .dept-roles { margin-top: 20px; display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; }
+    .dept-role { font-family: 'Inter', sans-serif; padding: 6px 16px; border-radius: 980px; border: 0.5px solid rgba(0,0,0,0.06); font-size: 12px; color: #86868B; }
 
-/* BIG BUTTONS */
-.actions{display:flex;gap:12px;margin-bottom:16px}
-.btn-yes{font-family:'Inter',sans-serif;flex:1;padding:18px;border-radius:16px;background:#1D1D1F;color:#F5F5F7;font-size:15px;font-weight:600;border:none;cursor:pointer;min-height:56px;transition:all 0.15s}
-.btn-yes:hover{background:#000}
-.btn-no{font-family:'Inter',sans-serif;flex:1;padding:18px;border-radius:16px;background:#FFF;color:#86868B;font-size:15px;font-weight:500;border:1px solid rgba(0,0,0,0.06);cursor:pointer;min-height:56px;transition:all 0.15s}
-.btn-no:hover{background:#F0F0F0}
-.btn-full{font-family:'Inter',sans-serif;width:100%;padding:18px;border-radius:16px;background:#D70030;color:#FFF;font-size:15px;font-weight:600;border:none;cursor:pointer;min-height:56px;transition:all 0.15s;margin-bottom:16px}
-.btn-full:hover{opacity:0.9;box-shadow:0 4px 16px rgba(215,0,48,0.25)}
+    .actions { display: flex; gap: 12px; }
+    .btn-yes { font-family: 'Inter', sans-serif; flex: 1; padding: 20px; border-radius: 16px; background: #1D1D1F; color: #F5F5F7; font-size: 16px; font-weight: 600; border: none; cursor: pointer; min-height: 64px; transition: background 0.15s; }
+    .btn-yes:hover { background: #000; }
+    .btn-no { font-family: 'Inter', sans-serif; flex: 1; padding: 20px; border-radius: 16px; background: #FFF; color: #86868B; font-size: 16px; font-weight: 500; border: 1px solid rgba(0,0,0,0.06); cursor: pointer; min-height: 64px; transition: all 0.15s; }
+    .btn-no:hover { background: #F0F0F0; }
 
-.hint{font-family:'Inter',sans-serif;font-size:11px;color:#AEAEB2;text-align:center}
+    .hint { font-family: 'Inter', sans-serif; font-size: 11px; color: #AEAEB2; text-align: center; margin-top: 12px; }
 
-/* SELECTED BAR */
-.selected-bar{display:flex;gap:6px;justify-content:center;flex-wrap:wrap;margin-bottom:24px;min-height:24px}
-.selected-tag{font-family:'Inter',sans-serif;padding:4px 12px;border-radius:980px;background:rgba(215,0,48,0.06);color:#D70030;font-size:11px;font-weight:500}
-
-/* INPUT CHAT */
-.co-input-area{padding:14px 20px;border-top:1px solid rgba(0,0,0,0.04);display:flex;align-items:center;gap:10px}
-.co-input{flex:1;font-family:'Satoshi',sans-serif;font-size:14px;background:#F5F5F7;border:1px solid rgba(0,0,0,0.06);border-radius:14px;padding:12px 16px;outline:none;color:#1D1D1F}
-.co-input::placeholder{color:#AEAEB2}
-.co-input:focus{border-color:rgba(215,0,48,0.3)}
-.co-send{width:36px;height:36px;border-radius:50%;background:#D70030;display:flex;align-items:center;justify-content:center;cursor:pointer;border:none;flex-shrink:0}
-.co-send svg{width:14px;height:14px;stroke:#FFF;fill:none;stroke-width:2}
-
-/* FINAL */
-.final{display:none;text-align:center}
-.final.active{display:block;animation:fadeIn 0.3s ease}
-.final h2{font-family:'Zen Dots',cursive;font-size:24px;color:#1D1D1F;margin-bottom:8px}
-.final .sub{font-family:'Satoshi',sans-serif;font-size:14px;color:#86868B;margin-bottom:24px}
-.final-list{text-align:left;max-width:400px;margin:0 auto 24px}
-.final-item{display:flex;align-items:center;gap:12px;padding:12px 16px;background:#FFF;border-radius:14px;border:1px solid rgba(0,0,0,0.04);margin-bottom:8px}
-.final-check{width:22px;height:22px;border-radius:50%;background:#D70030;display:flex;align-items:center;justify-content:center;flex-shrink:0}
-.final-check svg{width:10px;height:10px;stroke:#FFF;fill:none;stroke-width:2.5}
-.final-name{font-family:'Satoshi',sans-serif;font-size:14px;color:#1D1D1F;font-weight:500}
-.final-sub{font-family:'Inter',sans-serif;font-size:11px;color:#86868B}
-</style>
+    .final { display: none; text-align: center; }
+    .final.active { display: block; animation: fadeIn 0.3s ease; }
+    .final h2 { font-family: 'Zen Dots', cursive; font-size: 24px; color: #1D1D1F; margin-bottom: 8px; }
+    .final .sub { font-family: 'Satoshi', sans-serif; font-size: 14px; color: #86868B; margin-bottom: 24px; }
+    .final-list { text-align: left; max-width: 360px; margin: 0 auto 24px; }
+    .final-item { display: flex; align-items: center; gap: 12px; padding: 12px 16px; background: #FFF; border-radius: 14px; border: 1px solid rgba(0,0,0,0.04); margin-bottom: 8px; }
+    .final-check { width: 22px; height: 22px; border-radius: 50%; background: #D70030; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .final-check::after { content: ''; width: 5px; height: 9px; border: solid #FFF; border-width: 0 2px 2px 0; transform: rotate(45deg) translate(-0.5px,-0.5px); }
+    .final-name { font-family: 'Satoshi', sans-serif; font-size: 15px; color: #1D1D1F; font-weight: 500; }
+    .final-empty { font-family: 'Satoshi', sans-serif; font-size: 14px; color: #86868B; text-align: center; padding: 24px; }
+    .btn-next { font-family: 'Inter', sans-serif; padding: 20px 48px; border-radius: 16px; background: #D70030; color: #FFF; font-size: 16px; font-weight: 600; border: none; cursor: pointer; min-height: 64px; transition: all 0.15s; }
+    .btn-next:hover { opacity: 0.9; box-shadow: 0 4px 16px rgba(215,0,48,0.25); }
+  </style>
 </head>
 <body>
-<div class="container">
 
-<!-- PROGRESS DOTS -->
-<div class="progress" id="progressDots">
-  <div class="pdot active"></div>
-  <div class="pdot"></div>
-  <div class="pdot"></div>
-  <div class="pdot"></div>
-  <div class="pdot"></div>
-  <div class="pdot"></div>
-  <div class="pdot"></div>
-  <div class="pdot"></div>
-  <div class="pdot"></div>
-</div>
-
-<!-- SELECTED BAR -->
-<div class="selected-bar" id="selectedBar"></div>
-
-<!-- STEP 1: Chat intro -->
-<div class="step active" id="step1">
-  <div class="chat-onboard">
-    <div class="co-header">
-      <div class="co-avatar"><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-      <div class="co-info"><div class="co-name">Sensei</div><div class="co-status">Configurando</div></div>
-      <div class="co-step">1 / 9</div>
+  <div class="container">
+    <div class="progress">
+      <div class="dot done"></div>
+      <div class="dot active"></div>
+      <div class="dot"></div>
+      <div class="dot"></div>
+      <div class="dot"></div>
+      <div class="dot"></div>
     </div>
-    <div class="co-body">
-      <div class="co-msg co-msg-ai">Ola! Sou o Sensei, seu orquestrador. Vou configurar sua empresa em poucos minutos. Tudo via conversa — sem formularios chatos.<br><br>Pra comecar: <strong>como se chama sua empresa de assessoria?</strong></div>
+
+    <div class="header">
+      <h1>Sua empresa.</h1>
+      <p class="sub">Vamos montar os departamentos da sua assessoria, um por vez.</p>
+      <p class="counter" id="counter">1 de 6</p>
     </div>
-    <div class="co-input-area">
-      <input type="text" class="co-input" placeholder="Digite o nome da sua empresa..." id="companyInput">
-      <button class="co-send" onclick="captureCompany()"><svg viewBox="0 0 24 24"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+
+    <div class="selected-bar" id="selected-bar"></div>
+
+    <!-- Step 1: Comercial -->
+    <div class="dept-step active" id="step-0">
+      <div class="dept-card">
+        <div class="dept-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z"/></svg></div>
+        <p class="dept-name">Comercial</p>
+        <p class="dept-desc">Prospeccao, qualificacao de leads, closers, follow-up. Converte a demanda gerada pelo posicionamento em clientes.</p>
+        <div class="dept-roles">
+          <span class="dept-role">Closer</span>
+          <span class="dept-role">SDR</span>
+          <span class="dept-role">Gestor Comercial</span>
+        </div>
+      </div>
+      <div class="actions">
+        <button class="btn-no" onclick="nextStep(false)">Nao preciso</button>
+        <button class="btn-yes" onclick="nextStep(true)">Preciso desse</button>
+      </div>
+      <p class="hint">Voce pode adicionar ou remover depois</p>
+    </div>
+
+    <!-- Step 2: Marketing & Conteúdo -->
+    <div class="dept-step" id="step-1">
+      <div class="dept-card">
+        <div class="dept-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20V10M18 20V4M6 20v-4"/></svg></div>
+        <p class="dept-name">Marketing & Conteudo</p>
+        <p class="dept-desc">Social medias, redatores, designers, editores de video. Produzem o conteudo que posiciona os founders.</p>
+        <div class="dept-roles">
+          <span class="dept-role">Social Media Sr</span>
+          <span class="dept-role">Copywriter</span>
+          <span class="dept-role">Designer</span>
+          <span class="dept-role">Editor Video</span>
+        </div>
+      </div>
+      <div class="actions">
+        <button class="btn-no" onclick="nextStep(false)">Nao preciso</button>
+        <button class="btn-yes" onclick="nextStep(true)">Preciso desse</button>
+      </div>
+      <p class="hint">Este e o departamento central da sua operacao</p>
+    </div>
+
+    <!-- Step 3: Customer Success -->
+    <div class="dept-step" id="step-2">
+      <div class="dept-card">
+        <div class="dept-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg></div>
+        <p class="dept-name">Customer Success</p>
+        <p class="dept-desc">Gestores de conta, onboarding do founder, acompanhamento de resultados. Garante que cada cliente tenha sucesso.</p>
+        <div class="dept-roles">
+          <span class="dept-role">CS Manager</span>
+          <span class="dept-role">Onboarding</span>
+          <span class="dept-role">Suporte</span>
+        </div>
+      </div>
+      <div class="actions">
+        <button class="btn-no" onclick="nextStep(false)">Nao preciso</button>
+        <button class="btn-yes" onclick="nextStep(true)">Preciso desse</button>
+      </div>
+      <p class="hint">Voce pode adicionar ou remover depois</p>
+    </div>
+
+    <!-- Step 4: Financeiro -->
+    <div class="dept-step" id="step-3">
+      <div class="dept-card">
+        <div class="dept-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1v22M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg></div>
+        <p class="dept-name">Financeiro</p>
+        <p class="dept-desc">Cobrancas, faturamento, controle de custos com tokens e APIs, relatorios financeiros.</p>
+        <div class="dept-roles">
+          <span class="dept-role">Controller</span>
+          <span class="dept-role">Cobranca</span>
+        </div>
+      </div>
+      <div class="actions">
+        <button class="btn-no" onclick="nextStep(false)">Nao preciso</button>
+        <button class="btn-yes" onclick="nextStep(true)">Preciso desse</button>
+      </div>
+      <p class="hint">Voce pode adicionar ou remover depois</p>
+    </div>
+
+    <!-- Step 5: Administrativo -->
+    <div class="dept-step" id="step-4">
+      <div class="dept-card">
+        <div class="dept-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M16 4h2a2 2 0 012 2v14a2 2 0 01-2 2H6a2 2 0 01-2-2V6a2 2 0 012-2h2"/><rect x="8" y="2" width="8" height="4" rx="1"/></svg></div>
+        <p class="dept-name">Administrativo</p>
+        <p class="dept-desc">Gestao de agenda, contratos, documentos, organizacao geral da operacao.</p>
+        <div class="dept-roles">
+          <span class="dept-role">Assistente</span>
+          <span class="dept-role">Secretaria</span>
+        </div>
+      </div>
+      <div class="actions">
+        <button class="btn-no" onclick="nextStep(false)">Nao preciso</button>
+        <button class="btn-yes" onclick="nextStep(true)">Preciso desse</button>
+      </div>
+      <p class="hint">Voce pode adicionar ou remover depois</p>
+    </div>
+
+    <!-- Step 6: Projetos -->
+    <div class="dept-step" id="step-5">
+      <div class="dept-card">
+        <div class="dept-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg></div>
+        <p class="dept-name">Projetos</p>
+        <p class="dept-desc">Sprints, prazos, cobranca de entregas, alocacao de recursos, reports de progresso.</p>
+        <div class="dept-roles">
+          <span class="dept-role">PM</span>
+          <span class="dept-role">Scrum Master</span>
+        </div>
+      </div>
+      <div class="actions">
+        <button class="btn-no" onclick="nextStep(false)">Nao preciso</button>
+        <button class="btn-yes" onclick="nextStep(true)">Preciso desse</button>
+      </div>
+      <p class="hint">Voce pode adicionar ou remover depois</p>
+    </div>
+
+    <!-- Final: Summary -->
+    <div class="final" id="final-step">
+      <h2>Perfeito.</h2>
+      <p class="sub">Esses sao os departamentos da sua empresa.</p>
+      <div class="final-list" id="final-list"></div>
+      <p class="sub" style="margin-top:24px;color:#1D1D1F;font-weight:500">Agora vamos configurar sua area de Marketing & Posicionamento em detalhe.</p>
+      <p class="sub">Seus agentes de marketing, o framework editorial e o pipeline de conteudo.</p>
+      <br>
+      <button class="btn-next" onclick="location.href='setup-marketing.html'">Configurar Marketing</button>
+      <p class="hint" style="margin-top: 16px;">Proximo passo: ativar seus agentes de marketing e montar o framework.</p>
     </div>
   </div>
-</div>
 
-<!-- STEP 2: Quantos clientes -->
-<div class="step" id="step2">
-  <div class="chat-onboard">
-    <div class="co-header">
-      <div class="co-avatar"><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-      <div class="co-info"><div class="co-name">Sensei</div><div class="co-status">Configurando</div></div>
-      <div class="co-step">2 / 9</div>
-    </div>
-    <div class="co-body">
-      <div class="co-msg co-msg-user" id="step2Echo"></div>
-      <div class="co-msg co-msg-ai">Otimo! <strong>Quantos clientes voce gerencia hoje?</strong> Isso me ajuda a dimensionar os agentes e os recursos.</div>
-    </div>
-    <div class="co-input-area">
-      <input type="text" class="co-input" placeholder="Ex: 50, 200, 400..." id="clientsInput">
-      <button class="co-send" onclick="captureClients()"><svg viewBox="0 0 24 24"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
-    </div>
-  </div>
-</div>
+  <script>
+    const deptNames = ['Comercial', 'Marketing & Conteudo', 'Customer Success', 'Financeiro', 'Administrativo', 'Projetos'];
+    const selected = [];
+    let current = 0;
+    const total = deptNames.length;
 
-<!-- STEP 3: Dept Marketing -->
-<div class="step" id="step3">
-  <div class="choice-card">
-    <div class="choice-icon ci-red"><svg viewBox="0 0 24 24"><path d="M12 20V10M18 20V4M6 20v-4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-    <h2>Marketing & Conteudo</h2>
-    <p>Social medias, redatores, designers. Produzem conteudo para os founders que voce gerencia.</p>
-    <div class="choice-roles"><span class="choice-role">Social Media</span><span class="choice-role">Copywriter</span><span class="choice-role">Designer</span><span class="choice-role">Editor Video</span></div>
-  </div>
-  <div class="actions">
-    <button class="btn-yes" onclick="selectDept('Marketing',true)">Ativar</button>
-    <button class="btn-no" onclick="selectDept('Marketing',false)">Pular</button>
-  </div>
-  <p class="hint">3 / 9 — Ative os departamentos da sua empresa</p>
-</div>
+    function nextStep(accepted) {
+      if (accepted) {
+        selected.push(deptNames[current]);
+        updateSelectedBar();
+      }
+      current++;
+      document.querySelectorAll('.dept-step').forEach(s => s.classList.remove('active'));
 
-<!-- STEP 4: Dept Comercial -->
-<div class="step" id="step4">
-  <div class="choice-card">
-    <div class="choice-icon ci-blue"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-    <h2>Comercial</h2>
-    <p>Closers, SDRs, gestores de vendas. Convertem leads gerados pelo posicionamento em clientes.</p>
-    <div class="choice-roles"><span class="choice-role">Closer</span><span class="choice-role">SDR</span><span class="choice-role">Gestor Comercial</span></div>
-  </div>
-  <div class="actions">
-    <button class="btn-yes" onclick="selectDept('Comercial',true)">Ativar</button>
-    <button class="btn-no" onclick="selectDept('Comercial',false)">Pular</button>
-  </div>
-  <p class="hint">4 / 9</p>
-</div>
+      if (current < total) {
+        document.getElementById('step-' + current).classList.add('active');
+        document.getElementById('counter').textContent = (current + 1) + ' de ' + total;
+        // Update progress dots
+        const dots = document.querySelectorAll('.progress .dot');
+        dots.forEach((d, i) => {
+          d.classList.remove('active', 'done');
+          if (i <= current) d.classList.add(i < current ? 'done' : 'active');
+        });
+      } else {
+        document.getElementById('final-step').classList.add('active');
+        document.getElementById('counter').style.display = 'none';
+        const list = document.getElementById('final-list');
+        if (selected.length === 0) {
+          list.innerHTML = '<p class="final-empty">Nenhum departamento selecionado. Voce pode adicionar depois.</p>';
+        } else {
+          list.innerHTML = selected.map(d => '<div class="final-item"><div class="final-check"></div><span class="final-name">' + d + '</span></div>').join('');
+        }
+        // All dots done
+        document.querySelectorAll('.progress .dot').forEach(d => { d.classList.remove('active'); d.classList.add('done'); });
+      }
+      window.scrollTo(0, 0);
+    }
 
-<!-- STEP 5: Dept CS -->
-<div class="step" id="step5">
-  <div class="choice-card">
-    <div class="choice-icon ci-green"><svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-    <h2>Customer Success</h2>
-    <p>Gestores de conta, onboarding, acompanhamento. Garantem que o founder tenha resultado.</p>
-    <div class="choice-roles"><span class="choice-role">CS Manager</span><span class="choice-role">Onboarding</span><span class="choice-role">Suporte</span></div>
-  </div>
-  <div class="actions">
-    <button class="btn-yes" onclick="selectDept('CS',true)">Ativar</button>
-    <button class="btn-no" onclick="selectDept('CS',false)">Pular</button>
-  </div>
-  <p class="hint">5 / 9</p>
-</div>
-
-<!-- STEP 6: Agente Sensei -->
-<div class="step" id="step6">
-  <div class="choice-card">
-    <div class="choice-icon ci-red"><svg viewBox="0 0 24 24"><path d="M14.5 17.5L3 6V3h3l11.5 11.5M13 19l6-6M15 17l2 2M7 3l7 7" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-    <h2>Sensei — Orquestrador</h2>
-    <p>Coordena todos os agentes. Define prioridades, distribui tarefas, garante consistencia da marca do founder.</p>
-  </div>
-  <div class="actions">
-    <button class="btn-yes" onclick="selectAgent('Sensei',true)">Ativar</button>
-    <button class="btn-no" onclick="selectAgent('Sensei',false)">Pular</button>
-  </div>
-  <p class="hint">6 / 9 — Ative seus agentes IA</p>
-</div>
-
-<!-- STEP 7: Agente Scout -->
-<div class="step" id="step7">
-  <div class="choice-card">
-    <div class="choice-icon ci-blue"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-    <h2>Scout — Pesquisador</h2>
-    <p>Monitora concorrentes 24/7, identifica brechas de posicionamento, trending no nicho, noticias relevantes.</p>
-  </div>
-  <div class="actions">
-    <button class="btn-yes" onclick="selectAgent('Scout',true)">Ativar</button>
-    <button class="btn-no" onclick="selectAgent('Scout',false)">Pular</button>
-  </div>
-  <p class="hint">7 / 9</p>
-</div>
-
-<!-- STEP 8: Agente Quill -->
-<div class="step" id="step8">
-  <div class="choice-card">
-    <div class="choice-icon ci-purple"><svg viewBox="0 0 24 24"><path d="M12 20h9M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-    <h2>Quill — Copywriter</h2>
-    <p>Cria roteiros, legendas, CTAs, threads. Calibrado no tom de voz de cada founder. Score de humanidade.</p>
-  </div>
-  <div class="actions">
-    <button class="btn-yes" onclick="selectAgent('Quill',true)">Ativar</button>
-    <button class="btn-no" onclick="selectAgent('Quill',false)">Pular</button>
-  </div>
-  <p class="hint">8 / 9</p>
-</div>
-
-<!-- STEP 9: FINAL -->
-<div class="step" id="step9">
-  <div class="final active">
-    <h2>Tudo pronto.</h2>
-    <p>Sua empresa esta configurada. Os agentes estao sendo ativados.</p>
-    <div class="final-list" id="finalList">
-      <!-- JS populates -->
-    </div>
-    <button class="btn-full" onclick="location.href='dashboard.html'">Ir pro Dashboard</button>
-    <p class="hint">Voce pode reconfigurar tudo depois no menu Config.</p>
-  </div>
-</div>
-
-</div>
-
-<script>
-let currentStep = 1;
-let totalSteps = 9;
-let company = '';
-let clients = '';
-let selected = [];
-
-function goToStep(n) {
-  document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
-  document.getElementById('step'+n).classList.add('active');
-  currentStep = n;
-  // Update progress
-  document.querySelectorAll('.pdot').forEach((d,i) => {
-    d.classList.remove('active','done');
-    if(i+1 < n) d.classList.add('done');
-    if(i+1 === n) d.classList.add('active');
-  });
-  window.scrollTo(0,0);
-}
-
-function addTag(name) {
-  selected.push(name);
-  const bar = document.getElementById('selectedBar');
-  bar.innerHTML = selected.map(s => '<span class="selected-tag">'+s+'</span>').join('');
-}
-
-function captureCompany() {
-  company = document.getElementById('companyInput').value || 'Minha Empresa';
-  addTag(company);
-  document.getElementById('step2Echo').textContent = company;
-  goToStep(2);
-}
-
-function captureClients() {
-  clients = document.getElementById('clientsInput').value || '50';
-  addTag(clients + ' clientes');
-  goToStep(3);
-}
-
-function selectDept(name, activated) {
-  if(activated) addTag(name);
-  goToStep(currentStep + 1);
-}
-
-function selectAgent(name, activated) {
-  if(activated) addTag(name);
-  if(currentStep >= totalSteps - 1) {
-    // Final
-    const list = document.getElementById('finalList');
-    list.innerHTML = selected.map(s =>
-      '<div class="final-item"><div class="final-check"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div><div class="final-name">'+s+'</div></div></div>'
-    ).join('');
-    goToStep(totalSteps);
-  } else {
-    goToStep(currentStep + 1);
-  }
-}
-
-// Enter key support
-document.querySelectorAll('.co-input').forEach(input => {
-  input.addEventListener('keypress', e => {
-    if(e.key === 'Enter') input.nextElementSibling.click();
-  });
-});
-</script>
-</body></html>
+    function updateSelectedBar() {
+      document.getElementById('selected-bar').innerHTML = selected.map(d => '<span class="selected-tag">' + d + '</span>').join('');
+    }
+  </script>
+</body>
+</html>
