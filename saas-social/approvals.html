@@ -101,27 +101,7 @@
 
 <main class="main">
 
-  <!-- CHAT: Agente contextualiza a fila de aprovações -->
-  <div id="chat-zone"></div>
-  <!-- chat from shared-nav-social -->
-<!--     data-agent="Sensei"
-    data-context="Aprovacoes — 7 pendentes"
-    data-msg="<strong>7 aprovacoes pendentes</strong>. 3 atrasadas (SLA excedido). Joao Mendes tem carrossel IG aguardando 6h. Quer que eu envie lembrete?"></script>
-
-  
-    <div class="ch-body">
-      <div class="msg msg-ai">
-        Voce tem <strong>7 conteudos</strong> aguardando aprovacao. <strong>3 estao acima do SLA de 4h</strong> — ja enviei lembrete no WhatsApp pros social medias responsaveis.<br><br>
-        O carrossel do Joao sobre "5 erros de CEO" tem score de <strong>92%</strong> e esta pronto. Quer que eu aprove automaticamente tudo acima de 90%?
-      </div>
-      <div class="msg msg-user">Mostra os 3 atrasados primeiro</div>
-      <div class="msg msg-ai">Aqui estao os 3 atrasados. Voce pode aprovar direto ou pedir pra eu ajustar.</div>
-    </div>
-    <div class="ch-input">
-      <input type="text" placeholder="Ex: aprova todos acima de 90%, rejeita o do Pedro...">
-      <button class="ch-send"><svg viewBox="0 0 24 24"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
-    </div>
-  </div>
+  <!-- Chat comes from shared-nav-social.js -->
 
   <!-- CONTEÚDO 1: Joao Mendes — Carrossel IG -->
   <div class="sec">Atrasados (SLA > 4h)</div>
@@ -130,7 +110,7 @@
     <div class="ap-top">
       <div class="ap-av">JM</div>
       <div class="ap-info">
-        <div class="ap-title">"5 erros que CEOs cometem no Instagram"</div>
+        <a href="post-detail.html" class="ap-title" style="color:#1D1D1F;text-decoration:none">"5 erros que CEOs cometem no Instagram"</a>
         <div class="ap-meta">Joao Mendes — Carrossel IG 7 slides — Agendado Ter 10:30</div>
       </div>
       <span class="ap-sla sla-late">6h atrasado</span>
@@ -151,9 +131,9 @@
     </div>
     <div class="ap-actions">
       <button class="ap-btn ap-approve" onclick="this.textContent='Aprovado!';this.style.opacity='0.5'">Aprovar</button>
-      <button class="ap-btn ap-adjust">Ajustar</button>
+      <button class="ap-btn ap-adjust" onclick="this.textContent='Ajuste enviado';this.style.opacity='0.5'">Ajustar</button>
       <button class="ap-btn ap-redo">Refazer</button>
-      <button class="ap-btn ap-reject">Rejeitar</button>
+      <button class="ap-btn ap-reject" onclick="this.closest('.ap').style.opacity='0.3';this.textContent='Rejeitado'">Rejeitar</button>
     </div>
   </div>
 
@@ -162,7 +142,7 @@
     <div class="ap-top">
       <div class="ap-av">AC</div>
       <div class="ap-info">
-        <div class="ap-title">"Reforma tributaria: o que muda pra PME"</div>
+        <a href="post-detail.html" class="ap-title" style="color:#1D1D1F;text-decoration:none">"Reforma tributaria: o que muda pra PME"</a>
         <div class="ap-meta">Ana Costa — Reel TikTok 28s — Agendado Qua 15:00</div>
       </div>
       <span class="ap-sla sla-warn">5h</span>
@@ -179,9 +159,9 @@
     </div>
     <div class="ap-actions">
       <button class="ap-btn ap-approve" onclick="this.textContent='Aprovado!';this.style.opacity='0.5'">Aprovar</button>
-      <button class="ap-btn ap-adjust">Ajustar</button>
+      <button class="ap-btn ap-adjust" onclick="this.textContent='Ajuste enviado';this.style.opacity='0.5'">Ajustar</button>
       <button class="ap-btn ap-redo">Refazer</button>
-      <button class="ap-btn ap-reject">Rejeitar</button>
+      <button class="ap-btn ap-reject" onclick="this.closest('.ap').style.opacity='0.3';this.textContent='Rejeitado'">Rejeitar</button>
     </div>
   </div>
 
@@ -190,7 +170,7 @@
     <div class="ap-top">
       <div class="ap-av">PS</div>
       <div class="ap-info">
-        <div class="ap-title">"Por que recusei revenue share"</div>
+        <a href="post-detail.html" class="ap-title" style="color:#1D1D1F;text-decoration:none">"Por que recusei revenue share"</a>
         <div class="ap-meta">Pedro Souza — Thread X 5 tweets — Agendado Qua 12:00</div>
       </div>
       <span class="ap-sla sla-warn">4h</span>
@@ -208,9 +188,9 @@
     </div>
     <div class="ap-actions">
       <button class="ap-btn ap-approve">Aprovar</button>
-      <button class="ap-btn ap-adjust">Ajustar</button>
+      <button class="ap-btn ap-adjust" onclick="this.textContent='Ajuste enviado';this.style.opacity='0.5'">Ajustar</button>
       <button class="ap-btn ap-redo" onclick="this.textContent='Refazendo...';this.style.opacity='0.5'">Refazer</button>
-      <button class="ap-btn ap-reject">Rejeitar</button>
+      <button class="ap-btn ap-reject" onclick="this.closest('.ap').style.opacity='0.3';this.textContent='Rejeitado'">Rejeitar</button>
     </div>
   </div>
 
@@ -221,7 +201,7 @@
     <div class="ap-top">
       <div class="ap-av">JM</div>
       <div class="ap-info">
-        <div class="ap-title">"Mercado B2B 2026: o que muda"</div>
+        <a href="post-detail.html" class="ap-title" style="color:#1D1D1F;text-decoration:none">"Mercado B2B 2026: o que muda"</a>
         <div class="ap-meta">Joao Mendes — Artigo LinkedIn — SM aprovou, aguardando Joao</div>
       </div>
       <span class="ap-sla sla-ok">Enviado 2h</span>
@@ -237,7 +217,7 @@
     <div class="ap-top">
       <div class="ap-av">MF</div>
       <div class="ap-info">
-        <div class="ap-title">"Lideranca feminina em tech: dados"</div>
+        <a href="post-detail.html" class="ap-title" style="color:#1D1D1F;text-decoration:none">"Lideranca feminina em tech: dados"</a>
         <div class="ap-meta">Maria Fernandes — Artigo LinkedIn — SM aprovou, aguardando Maria</div>
       </div>
       <span class="ap-sla sla-ok">Enviado 1h</span>

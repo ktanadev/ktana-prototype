@@ -2,12 +2,7 @@
 <style>
 body{min-height:100vh;background:#F5F5F7;color:#1D1D1F}
 a{text-decoration:none;color:inherit}
-.nav{position:fixed;top:0;left:0;right:0;z-index:50;height:48px;display:flex;align-items:center;justify-content:center;background:rgba(245,245,247,0.72);backdrop-filter:saturate(180%) blur(20px);border-bottom:0.5px solid rgba(0,0,0,0.06)}
-.nav-inner{width:100%;max-width:1200px;padding:0 24px;display:flex;align-items:center;justify-content:space-between}
-.nav-logo{font-family:'Zen Dots',cursive;font-size:14px;color:#D70030}
-.nav-links a{font-family:'Inter',sans-serif;font-size:12px;color:#86868B;margin-left:20px}
-.nav-links a:hover{color:#D70030}
-.container{max-width:1200px;margin:0 auto;padding:64px 24px 80px}
+/* nav comes from shared-nav-social.js */
 .top-bar{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px}
 .top-bar h1{font-family:'Zen Dots',cursive;font-size:22px;color:#1D1D1F}
 .top-controls{display:flex;align-items:center;gap:10px}
@@ -63,26 +58,7 @@ a{text-decoration:none;color:inherit}
 </style>
 </head>
 <body data-client="true" data-active="calendar">
-<nav class="nav"><div class="nav-inner"><a href="landing.html" class="nav-logo">KTANA Social</a><div class="nav-links"><a href="dashboard.html">Dashboard</a><a href="agents.html">Agentes</a><a href="connections.html">Conexoes</a></div></div></nav>
-<div class="container">
-
-  <!-- CHAT HERO -->
-  <div id="chat-zone"></div>
-  <!-- chat from shared-nav-social -->
-<!--     data-agent="Sensei"
-    data-context="Calendario semanal"
-    data-msg="<strong>18 posts agendados</strong> esta semana. 3 slots vazios na sexta. Quer que eu preencha com pautas automaticas?"></script>
-
-  
-    <div style="padding:14px 18px">
-      <div style="max-width:88%;padding:10px 14px;border-radius:14px;border-bottom-left-radius:4px;background:#F0F0F2;font-family:'Satoshi',sans-serif;font-size:13px;color:#1D1D1F;line-height:1.5">Calendario: <strong>78% dos slots</strong> preenchidos esta semana. Sexta e sabado tem slots vazios — quer que eu gere pautas pra preencher?</div>
-    </div>
-    <div style="display:flex;align-items:center;gap:8px;padding:12px 18px;border-top:1px solid rgba(0,0,0,0.04)">
-      <input type="text" style="flex:1;font-family:'Satoshi',sans-serif;font-size:13px;background:#F5F5F7;border:1px solid rgba(0,0,0,0.06);border-radius:12px;padding:10px 14px;outline:none;color:#1D1D1F" placeholder="Pergunte ao Sensei...">
-      <button style="width:32px;height:32px;border-radius:50%;background:#D70030;display:flex;align-items:center;justify-content:center;cursor:pointer;border:none"><svg viewBox="0 0 24 24" style="width:12px;height:12px;stroke:#FFF;fill:none;stroke-width:2"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
-    </div>
-  </div>
-
+<main class="main" style="max-width:900px;padding:24px">
 
 <div class="top-bar">
   <h1>Calendario editorial.</h1>
@@ -148,5 +124,45 @@ a{text-decoration:none;color:inherit}
   <div class="cal-cell"><div class="cal-date">13</div><div class="cal-events"><div class="cal-event ce-empty">+ slot vazio</div></div></div>
 </div>
 
-</div>
+</main>
+
+<script>
+// Make events clickable
+document.querySelectorAll('.cal-event:not(.ce-empty)').forEach(e => {
+  e.style.cursor = 'pointer';
+  e.addEventListener('click', () => location.href = 'post-detail.html');
+});
+// Make empty slots clickable
+document.querySelectorAll('.cal-event.ce-empty').forEach(e => {
+  e.addEventListener('click', () => {
+    e.textContent = 'Gerando pauta...';
+    e.style.color = '#D70030';
+    e.style.borderColor = 'rgba(215,0,48,0.15)';
+    setTimeout(() => {
+      e.textContent = 'JM Carrossel (novo)';
+      e.className = 'cal-event ce-ig';
+      e.style.cursor = 'pointer';
+      e.onclick = () => location.href = 'post-detail.html';
+    }, 1500);
+  });
+});
+// Week navigation
+document.querySelectorAll('.month-nav button').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const name = document.querySelector('.month-name');
+    const months = ['Mar 2026','Abr 2026','Mai 2026'];
+    let idx = months.indexOf(name.textContent);
+    if (btn.querySelector('path[d*="15"]')) idx = Math.max(0, idx-1);
+    else idx = Math.min(months.length-1, idx+1);
+    name.textContent = months[idx];
+  });
+});
+// Filter chips
+document.querySelectorAll('.filter-chip').forEach(f => {
+  f.addEventListener('click', () => {
+    document.querySelectorAll('.filter-chip').forEach(x => x.classList.remove('active'));
+    f.classList.add('active');
+  });
+});
+</script>
 <script src="shared-nav-social.js"></script></body></html>
