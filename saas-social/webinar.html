@@ -1,0 +1,174 @@
+<!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>KTANA Social — Webinar & Micro-cortes</title><link rel="stylesheet" href="../shared.css"><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Zen+Dots&display=swap" rel="stylesheet">
+<style>
+body{min-height:100vh;background:#F5F5F7;color:#1D1D1F}
+a{text-decoration:none;color:inherit}
+.nav{position:fixed;top:0;left:0;right:0;z-index:50;height:48px;display:flex;align-items:center;justify-content:center;background:rgba(245,245,247,0.72);backdrop-filter:saturate(180%) blur(20px);border-bottom:0.5px solid rgba(0,0,0,0.06)}
+.nav-inner{width:100%;max-width:980px;padding:0 24px;display:flex;align-items:center;justify-content:space-between}
+.nav-logo{font-family:'Zen Dots',cursive;font-size:14px;color:#D70030}
+.nav-links a{font-family:'Inter',sans-serif;font-size:12px;color:#86868B;margin-left:20px}
+.nav-links a:hover{color:#D70030}
+.container{max-width:980px;margin:0 auto;padding:64px 24px 80px}
+h1{font-family:'Zen Dots',cursive;font-size:22px;color:#1D1D1F;margin-bottom:6px}
+.sub{font-family:'Satoshi',sans-serif;font-size:14px;color:#86868B;margin-bottom:24px}
+.section-label{font-family:'Inter',sans-serif;font-size:10px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:#D70030;margin-bottom:12px;margin-top:32px}
+.section-title{font-family:'Satoshi',sans-serif;font-size:16px;font-weight:600;color:#1D1D1F;margin-bottom:14px}
+
+/* UPLOAD */
+.upload-card{background:#FFF;border:2px dashed rgba(0,0,0,0.08);border-radius:20px;padding:40px;text-align:center;cursor:pointer;transition:all 0.2s;margin-bottom:24px}
+.upload-card:hover{border-color:rgba(215,0,48,0.15);background:rgba(215,0,48,0.01)}
+.upload-card svg{width:36px;height:36px;stroke:#86868B;fill:none;stroke-width:1.5;margin-bottom:12px}
+.upload-card h3{font-family:'Satoshi',sans-serif;font-size:16px;color:#1D1D1F;margin-bottom:4px}
+.upload-card p{font-family:'Inter',sans-serif;font-size:12px;color:#86868B;line-height:1.5}
+.upload-formats{display:flex;gap:6px;justify-content:center;margin-top:12px}
+.uf{font-family:'Inter',sans-serif;font-size:9px;font-weight:500;padding:3px 8px;border-radius:4px;background:rgba(0,0,0,0.04);color:#86868B}
+
+/* VIDEO LIST */
+.video-list{display:flex;flex-direction:column;gap:12px;margin-bottom:28px}
+.video-card{background:#FFF;border-radius:16px;border:1px solid rgba(0,0,0,0.04);overflow:hidden;transition:all 0.3s}
+.video-card:hover{box-shadow:0 4px 20px rgba(0,0,0,0.04)}
+.vc-top{display:flex;gap:16px;padding:18px}
+.vc-thumb{width:120px;height:68px;border-radius:10px;background:#1D1D1F;flex-shrink:0;display:flex;align-items:center;justify-content:center;position:relative}
+.vc-thumb svg{width:24px;height:24px;stroke:#FFF;fill:none;stroke-width:1.5}
+.vc-duration{position:absolute;bottom:4px;right:4px;font-family:'JetBrains Mono',monospace;font-size:9px;color:#FFF;background:rgba(0,0,0,0.6);padding:1px 5px;border-radius:3px}
+.vc-info{flex:1}
+.vc-title{font-family:'Satoshi',sans-serif;font-size:14px;font-weight:600;color:#1D1D1F;margin-bottom:4px}
+.vc-meta{font-family:'Inter',sans-serif;font-size:11px;color:#86868B;margin-bottom:8px}
+.vc-stats{display:flex;gap:12px;font-family:'Inter',sans-serif;font-size:10px;color:#6E6E73}
+.vc-stat{display:flex;align-items:center;gap:4px}
+.vc-stat svg{width:12px;height:12px;stroke:currentColor;fill:none;stroke-width:1.5}
+.vc-status{font-family:'Inter',sans-serif;font-size:10px;font-weight:600;padding:3px 8px;border-radius:6px}
+.vcs-done{background:rgba(52,199,89,0.08);color:#34C759}
+.vcs-processing{background:rgba(0,122,255,0.08);color:#007AFF}
+.vcs-new{background:rgba(255,149,0,0.08);color:#FF9500}
+
+/* CUTS VIEW */
+.vc-cuts{padding:0 18px 18px;border-top:1px solid rgba(0,0,0,0.04)}
+.cuts-header{display:flex;align-items:center;justify-content:space-between;padding:12px 0}
+.cuts-header h4{font-family:'Satoshi',sans-serif;font-size:13px;font-weight:600;color:#1D1D1F}
+.cuts-header .count{font-family:'Inter',sans-serif;font-size:11px;color:#86868B}
+.cuts-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:8px}
+.cut-item{background:#F5F5F7;border-radius:10px;padding:12px;cursor:pointer;transition:all 0.15s}
+.cut-item:hover{background:#EDEDF0;box-shadow:0 2px 8px rgba(0,0,0,0.04)}
+.cut-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:6px}
+.cut-format{font-family:'Inter',sans-serif;font-size:9px;font-weight:600;color:#D70030;text-transform:uppercase}
+.cut-score{font-family:'JetBrains Mono',monospace;font-size:10px;color:#34C759}
+.cut-title{font-family:'Satoshi',sans-serif;font-size:12px;font-weight:500;color:#1D1D1F;margin-bottom:4px;line-height:1.3}
+.cut-time{font-family:'JetBrains Mono',monospace;font-size:10px;color:#AEAEB2}
+.cut-actions{display:flex;gap:4px;margin-top:8px}
+.cut-btn{font-family:'Inter',sans-serif;font-size:9px;font-weight:500;padding:4px 8px;border-radius:6px;border:1px solid rgba(0,0,0,0.06);background:#FFF;color:#6E6E73;cursor:pointer;transition:all 0.15s}
+.cut-btn:hover{border-color:rgba(215,0,48,0.15);color:#D70030}
+.cut-btn.primary{background:rgba(215,0,48,0.06);color:#D70030;border-color:rgba(215,0,48,0.1)}
+
+/* TRANSCRIPT */
+.transcript-area{display:grid;grid-template-columns:1fr 300px;gap:16px;margin-top:16px}
+.transcript-text{background:#FFF;border-radius:16px;border:1px solid rgba(0,0,0,0.04);padding:20px;max-height:400px;overflow-y:auto}
+.transcript-text p{font-family:'Satoshi',sans-serif;font-size:13px;color:#6E6E73;line-height:1.8;margin-bottom:8px}
+.transcript-text .highlight{background:rgba(215,0,48,0.06);color:#1D1D1F;padding:2px 4px;border-radius:4px;font-weight:500}
+.transcript-text .timestamp{font-family:'JetBrains Mono',monospace;font-size:10px;color:#AEAEB2;margin-right:8px}
+.cuts-sidebar{display:flex;flex-direction:column;gap:8px}
+.cs-title{font-family:'Inter',sans-serif;font-size:10px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:#D70030;margin-bottom:4px}
+
+@media(max-width:768px){.transcript-area{grid-template-columns:1fr}.cuts-grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<nav class="nav"><div class="nav-inner"><a href="landing.html" class="nav-logo">KTANA Social</a><div class="nav-links"><a href="dashboard.html">Dashboard</a><a href="agents.html">Agentes</a><a href="connections.html">Conexoes</a></div></div></nav>
+<div class="container">
+<h1>Webinar & Micro-cortes.</h1>
+<p class="sub">Upload um video longo. A IA transcreve, identifica momentos de impacto e gera 50+ pecas de conteudo.</p>
+
+<!-- UPLOAD -->
+<div class="upload-card">
+  <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  <h3>Upload video ou audio</h3>
+  <p>Webinar, podcast, live, palestra, aula. A IA processa e extrai o maximo de conteudo.</p>
+  <div class="upload-formats"><span class="uf">MP4</span><span class="uf">MOV</span><span class="uf">MP3</span><span class="uf">WAV</span><span class="uf">WEBM</span></div>
+</div>
+
+<!-- VIDEO LIST -->
+<div class="section-label">Conteudos fonte</div>
+<div class="video-list">
+
+<!-- VIDEO 1 — PROCESSED -->
+<div class="video-card">
+  <div class="vc-top">
+    <div class="vc-thumb"><svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="vc-duration">1:12:34</span></div>
+    <div class="vc-info">
+      <div class="vc-title">Masterclass: Como escalar SaaS B2B sem venture capital</div>
+      <div class="vc-meta">Joao Mendes · Enviado 28/Mar · Processado</div>
+      <div class="vc-stats">
+        <span class="vc-stat"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg> 8 cortes video</span>
+        <span class="vc-stat"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg> 4 carrosseis</span>
+        <span class="vc-stat"><svg viewBox="0 0 24 24"><path d="M12 20h9M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg> 3 threads</span>
+        <span class="vc-stat"><svg viewBox="0 0 24 24"><path d="M4 4h16v16H4z"/><path d="M9 9h6v6H9z"/></svg> 2 artigos</span>
+      </div>
+    </div>
+    <div class="vc-status vcs-done">Processado</div>
+  </div>
+  <div class="vc-cuts">
+    <div class="cuts-header"><h4>Cortes identificados pela IA</h4><span class="count">17 pecas geradas</span></div>
+    <div class="cuts-grid">
+      <div class="cut-item"><div class="cut-top"><span class="cut-format">Reel 33s</span><span class="cut-score">94% viral</span></div><div class="cut-title">"O erro que 90% dos CEOs cometem"</div><div class="cut-time">0:42 — 1:15</div><div class="cut-actions"><button class="cut-btn primary">Usar</button><button class="cut-btn">Preview</button></div></div>
+      <div class="cut-item"><div class="cut-top"><span class="cut-format">Carrossel</span><span class="cut-score">88%</span></div><div class="cut-title">"3 metricas que importam de verdade"</div><div class="cut-time">3:20 — 4:05</div><div class="cut-actions"><button class="cut-btn primary">Usar</button><button class="cut-btn">Preview</button></div></div>
+      <div class="cut-item"><div class="cut-top"><span class="cut-format">Reel 43s</span><span class="cut-score">96% viral</span></div><div class="cut-title">"Por que eu recusei 3 investidores"</div><div class="cut-time">8:12 — 8:55</div><div class="cut-actions"><button class="cut-btn primary">Usar</button><button class="cut-btn">Preview</button></div></div>
+      <div class="cut-item"><div class="cut-top"><span class="cut-format">Thread X</span><span class="cut-score">87%</span></div><div class="cut-title">"Revenue-based financing vs equity"</div><div class="cut-time">15:30 — 18:22</div><div class="cut-actions"><button class="cut-btn primary">Usar</button><button class="cut-btn">Preview</button></div></div>
+      <div class="cut-item"><div class="cut-top"><span class="cut-format">Artigo SEO</span><span class="cut-score">91%</span></div><div class="cut-title">"Guia completo: escalar sem queimar caixa"</div><div class="cut-time">Full video</div><div class="cut-actions"><button class="cut-btn primary">Usar</button><button class="cut-btn">Preview</button></div></div>
+      <div class="cut-item"><div class="cut-top"><span class="cut-format">Citacao IG</span><span class="cut-score">82%</span></div><div class="cut-title">"Dinheiro de VC e como morfina: tira a dor mas vicia"</div><div class="cut-time">22:14</div><div class="cut-actions"><button class="cut-btn primary">Usar</button><button class="cut-btn">Preview</button></div></div>
+    </div>
+    <div style="text-align:center;margin-top:12px"><button class="cut-btn primary" style="padding:8px 20px;font-size:11px">Enviar TODOS para o Pipeline</button></div>
+  </div>
+</div>
+
+<!-- VIDEO 2 — PROCESSING -->
+<div class="video-card">
+  <div class="vc-top">
+    <div class="vc-thumb"><svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="vc-duration">0:45:18</span></div>
+    <div class="vc-info">
+      <div class="vc-title">Podcast com Ana Costa: Growth sem venture</div>
+      <div class="vc-meta">Joao Mendes · Enviado 25/Mar</div>
+      <div class="vc-stats"><span class="vc-stat">Processando... 67%</span></div>
+    </div>
+    <div class="vc-status vcs-processing">Processando</div>
+  </div>
+</div>
+
+<!-- VIDEO 3 — NEW -->
+<div class="video-card">
+  <div class="vc-top">
+    <div class="vc-thumb"><svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="vc-duration">0:32:07</span></div>
+    <div class="vc-info">
+      <div class="vc-title">Live Instagram: Q&A sobre precificacao</div>
+      <div class="vc-meta">Joao Mendes · Enviado 22/Mar</div>
+      <div class="vc-stats"><span class="vc-stat">Aguardando processamento</span></div>
+    </div>
+    <div class="vc-status vcs-new">Na fila</div>
+  </div>
+</div>
+
+</div>
+
+<!-- TRANSCRIPT VIEW -->
+<div class="section-label">Transcricao — Masterclass SaaS B2B</div>
+<div class="transcript-area">
+  <div class="transcript-text">
+    <p><span class="timestamp">[00:00]</span> Hoje vou falar sobre como escalar um SaaS B2B sem depender de venture capital. Isso e algo que eu vivo no dia a dia...</p>
+    <p><span class="timestamp">[00:42]</span> <span class="highlight">O erro que 90% dos CEOs cometem e achar que precisa de venture capital pra crescer. Na verdade o que funciona e...</span></p>
+    <p><span class="timestamp">[01:15]</span> Entao quando voce olha pra metricas, o que realmente importa nao e o valuation, nao e a rodada...</p>
+    <p><span class="timestamp">[03:20]</span> <span class="highlight">As 3 metricas que realmente importam sao: MRR growth rate, net revenue retention, e payback period...</span></p>
+    <p><span class="timestamp">[08:12]</span> <span class="highlight">Eu recusei 3 investidores no ultimo ano. E vou te contar por que. O primeiro veio com uma proposta de...</span></p>
+    <p><span class="timestamp">[15:30]</span> <span class="highlight">Revenue-based financing e uma alternativa que pouca gente conhece. Diferente do equity, voce nao dilui...</span></p>
+    <p><span class="timestamp">[22:14]</span> <span class="highlight">Dinheiro de VC e como morfina: tira a dor mas vicia. Voce para de pensar em unit economics...</span></p>
+    <p><span class="timestamp">[35:00]</span> E pra finalizar, minha recomendacao e: antes de levantar capital, prove que seu modelo funciona com...</p>
+  </div>
+  <div class="cuts-sidebar">
+    <div class="cs-title">Momentos de impacto</div>
+    <div class="cut-item"><div class="cut-top"><span class="cut-format">Reel</span><span class="cut-score">96%</span></div><div class="cut-title">"Por que recusei 3 investidores"</div><div class="cut-time">8:12</div></div>
+    <div class="cut-item"><div class="cut-top"><span class="cut-format">Reel</span><span class="cut-score">94%</span></div><div class="cut-title">"Erro dos 90% dos CEOs"</div><div class="cut-time">0:42</div></div>
+    <div class="cut-item"><div class="cut-top"><span class="cut-format">Artigo</span><span class="cut-score">91%</span></div><div class="cut-title">"Revenue-based financing"</div><div class="cut-time">15:30</div></div>
+    <div class="cut-item"><div class="cut-top"><span class="cut-format">Carrossel</span><span class="cut-score">88%</span></div><div class="cut-title">"3 metricas que importam"</div><div class="cut-time">3:20</div></div>
+    <div class="cut-item"><div class="cut-top"><span class="cut-format">Citacao</span><span class="cut-score">82%</span></div><div class="cut-title">"Dinheiro de VC = morfina"</div><div class="cut-time">22:14</div></div>
+  </div>
+</div>
+
+</div>
+</body></html>
