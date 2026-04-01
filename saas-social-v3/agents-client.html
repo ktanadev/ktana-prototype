@@ -1,0 +1,140 @@
+<!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>KTANA Social — Agentes do Cliente</title><link rel="stylesheet" href="../shared.css"><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Satoshi:wght@400;500;600;700&family=Zen+Dots&display=swap" rel="stylesheet">
+<style>
+body{min-height:100vh;background:#F5F5F7;color:#1D1D1F}
+a{text-decoration:none;color:inherit}
+.content{padding:16px 24px 80px;max-width:720px}
+.client-bar{background:#FFF;border-radius:16px;border:1px solid rgba(0,0,0,0.04);padding:16px 20px;margin-bottom:20px;display:flex;align-items:center;gap:14px;position:relative;overflow:hidden}
+.client-bar::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:#D70030}
+.cb-av{width:40px;height:40px;border-radius:12px;background:linear-gradient(135deg,#D70030,#A60028);display:flex;align-items:center;justify-content:center;font-family:'Inter',sans-serif;font-size:12px;font-weight:700;color:#FFF;flex-shrink:0}
+.cb-name{font-family:'Satoshi',sans-serif;font-size:15px;font-weight:600;color:#1D1D1F}
+.cb-meta{font-family:'Inter',sans-serif;font-size:11px;color:#86868B;margin-top:2px}
+.sec{font-family:'Inter',sans-serif;font-size:10px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:#D70030;margin:20px 0 10px}
+.agent-config{background:#FFF;border-radius:16px;border:1px solid rgba(0,0,0,0.04);margin-bottom:10px;overflow:hidden}
+.ac-header{display:flex;align-items:center;gap:12px;padding:16px 18px;cursor:pointer;transition:background 0.15s}
+.ac-header:hover{background:rgba(0,0,0,0.01)}
+.ac-icon{width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.ac-icon svg{width:16px;height:16px;stroke:#FFF;fill:none;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
+.ac-name{font-family:'Zen Dots',cursive;font-size:12px;color:#1D1D1F}
+.ac-role{font-family:'Inter',sans-serif;font-size:10px;color:#86868B}
+.ac-status{font-family:'Inter',sans-serif;font-size:9px;font-weight:600;padding:3px 8px;border-radius:6px;margin-left:auto;flex-shrink:0}
+.ac-status.herda{background:rgba(52,199,89,0.08);color:#34C759}
+.ac-status.custom{background:rgba(255,149,0,0.08);color:#FF9500}
+.ac-body{display:none;padding:0 18px 16px;border-top:1px solid rgba(0,0,0,0.04)}
+.ac-body.open{display:block}
+.config-row{display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:0.5px solid rgba(0,0,0,0.03)}
+.config-row:last-child{border-bottom:none}
+.cr-label{font-family:'Inter',sans-serif;font-size:12px;color:#1D1D1F}
+.cr-sub{font-family:'Inter',sans-serif;font-size:10px;color:#86868B}
+.cr-value{font-family:'Satoshi',sans-serif;font-size:12px;color:#6E6E73;text-align:right;max-width:200px}
+.cr-value strong{color:#1D1D1F}
+.toggle{width:40px;height:24px;border-radius:12px;background:#D2D2D7;position:relative;cursor:pointer;transition:background 0.2s;flex-shrink:0}
+.toggle.on{background:#D70030}
+.toggle::after{content:'';position:absolute;top:2px;left:2px;width:20px;height:20px;border-radius:50%;background:#FFF;transition:transform 0.2s}
+.toggle.on::after{transform:translateX(16px)}
+.btn-save{font-family:'Inter',sans-serif;width:100%;padding:14px;border-radius:12px;background:#D70030;color:#FFF;font-size:14px;font-weight:600;border:none;cursor:pointer;margin-top:16px}
+.btn-save:hover{opacity:0.9}
+</style>
+</head>
+<body data-client="true" data-active="agentes">
+<div class="content">
+
+<div class="client-bar">
+  <div class="cb-av">JM</div>
+  <div><div class="cb-name">Joao Mendes — Agentes</div><div class="cb-meta">Como cada agente se comporta pra esse cliente</div></div>
+</div>
+
+<div class="sec">Producao de conteudo</div>
+
+<!-- QUILL -->
+<div class="agent-config">
+  <div class="ac-header" onclick="this.nextElementSibling.classList.toggle('open')">
+    <div class="ac-icon" style="background:linear-gradient(135deg,#5856D6,#3A38A0)"><svg viewBox="0 0 24 24"><path d="M12 20h9M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg></div>
+    <div><div class="ac-name">Quill</div><div class="ac-role">Copywriter — roteiros, legendas, tom de voz</div></div>
+    <span class="ac-status herda">Herda Brand Book</span>
+  </div>
+  <div class="ac-body open">
+    <div class="config-row"><div><div class="cr-label">Tom de voz</div><div class="cr-sub">Definido no Brand Book</div></div><div class="cr-value"><strong>Direto, provocador, anti-bullshit</strong></div></div>
+    <div class="config-row"><div><div class="cr-label">Arquetipo</div><div class="cr-sub">Herda do Brand Book</div></div><div class="cr-value"><strong>Heroi</strong> (Nike)</div></div>
+    <div class="config-row"><div><div class="cr-label">Frequencia IG</div></div><div class="cr-value"><strong>3 posts/dia</strong></div></div>
+    <div class="config-row"><div><div class="cr-label">Frequencia LinkedIn</div></div><div class="cr-value"><strong>2 artigos/semana</strong></div></div>
+    <div class="config-row"><div><div class="cr-label">Frequencia TikTok</div></div><div class="cr-value"><strong>1 reel/dia</strong></div></div>
+    <div class="config-row"><div><div class="cr-label">Score minimo humanidade</div></div><div class="cr-value"><strong>85%</strong></div></div>
+    <div class="config-row"><div><div class="cr-label">Herdar do Brand Book automaticamente</div></div><div class="toggle on" onclick="this.classList.toggle('on')"></div></div>
+  </div>
+</div>
+
+<!-- SCOUT -->
+<div class="agent-config">
+  <div class="ac-header" onclick="this.nextElementSibling.classList.toggle('open')">
+    <div class="ac-icon" style="background:linear-gradient(135deg,#007AFF,#0055CC)"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg></div>
+    <div><div class="ac-name">Scout</div><div class="ac-role">Pesquisador — concorrentes, trending</div></div>
+    <span class="ac-status custom">Customizado</span>
+  </div>
+  <div class="ac-body">
+    <div class="config-row"><div><div class="cr-label">Concorrentes monitorados</div></div><div class="cr-value"><strong>@concorrente.saas, @tech.founder.br, @leticia.finscale</strong></div></div>
+    <div class="config-row"><div><div class="cr-label">Keywords</div></div><div class="cr-value"><strong>SaaS B2B, unit economics, bootstrapped growth</strong></div></div>
+    <div class="config-row"><div><div class="cr-label">Frequencia pesquisa</div></div><div class="cr-value"><strong>A cada 6h</strong></div></div>
+    <div class="config-row"><div><div class="cr-label">Google Trends</div></div><div class="toggle on" onclick="this.classList.toggle('on')"></div></div>
+    <div class="config-row"><div><div class="cr-label">RSS noticias nicho</div></div><div class="toggle on" onclick="this.classList.toggle('on')"></div></div>
+  </div>
+</div>
+
+<!-- CANVAS -->
+<div class="agent-config">
+  <div class="ac-header" onclick="this.nextElementSibling.classList.toggle('open')">
+    <div class="ac-icon" style="background:linear-gradient(135deg,#FF2D55,#CC0033)"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg></div>
+    <div><div class="ac-name">Canvas</div><div class="ac-role">Designer IA — templates, carrosseis</div></div>
+    <span class="ac-status herda">Herda Brand Book</span>
+  </div>
+  <div class="ac-body">
+    <div class="config-row"><div><div class="cr-label">Paleta de cores</div></div><div class="cr-value"><strong>#1D1D1F, #007AFF, #34C759</strong></div></div>
+    <div class="config-row"><div><div class="cr-label">Tipografia headlines</div></div><div class="cr-value"><strong>Zen Dots</strong></div></div>
+    <div class="config-row"><div><div class="cr-label">Template Figma</div></div><div class="cr-value"><strong>TechFlow v2</strong> (12 layouts)</div></div>
+    <div class="config-row"><div><div class="cr-label">Estilo fotografico</div></div><div class="cr-value"><strong>Corporate Premium</strong></div></div>
+    <div class="config-row"><div><div class="cr-label">Herdar identidade visual do Brand Book</div></div><div class="toggle on" onclick="this.classList.toggle('on')"></div></div>
+  </div>
+</div>
+
+<div class="sec">Distribuicao e interacao</div>
+
+<!-- PULSE -->
+<div class="agent-config">
+  <div class="ac-header" onclick="this.nextElementSibling.classList.toggle('open')">
+    <div class="ac-icon" style="background:linear-gradient(135deg,#34C759,#248A3D)"><svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg></div>
+    <div><div class="ac-name">Pulse</div><div class="ac-role">WhatsApp — aprovacoes, cobranca</div></div>
+    <span class="ac-status custom">Customizado</span>
+  </div>
+  <div class="ac-body">
+    <div class="config-row"><div><div class="cr-label">WhatsApp do founder</div></div><div class="cr-value"><strong>11 99999-1234</strong></div></div>
+    <div class="config-row"><div><div class="cr-label">Resumo matinal</div></div><div class="toggle on" onclick="this.classList.toggle('on')"></div></div>
+    <div class="config-row"><div><div class="cr-label">Cobranca de tarefas</div></div><div class="toggle on" onclick="this.classList.toggle('on')"></div></div>
+    <div class="config-row"><div><div class="cr-label">Relatorio noturno</div></div><div class="toggle on" onclick="this.classList.toggle('on')"></div></div>
+    <div class="config-row"><div><div class="cr-label">SLA aprovacao (timeout)</div></div><div class="cr-value"><strong>4h lembrete, 8h escala SM, 24h escala gestor</strong></div></div>
+    <div class="config-row"><div><div class="cr-label">Tom da conversa WA</div></div><div class="cr-value"><strong>Humanizado, sem linguagem tecnica</strong></div></div>
+  </div>
+</div>
+
+<!-- DIRECTOR -->
+<div class="agent-config">
+  <div class="ac-header" onclick="this.nextElementSibling.classList.toggle('open')">
+    <div class="ac-icon" style="background:linear-gradient(135deg,#5AC8FA,#32ADE6)"><svg viewBox="0 0 24 24"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg></div>
+    <div><div class="ac-name">Director</div><div class="ac-role">Video — avatar HeyGen, ensaios</div></div>
+    <span class="ac-status herda">Herda Brand Book</span>
+  </div>
+  <div class="ac-body">
+    <div class="config-row"><div><div class="cr-label">Avatar treinado</div></div><div class="cr-value"><strong>Sim</strong> — 38 fotos, 92% semelhanca</div></div>
+    <div class="config-row"><div><div class="cr-label">Estilo ensaio</div></div><div class="cr-value"><strong>Corporate Premium</strong></div></div>
+    <div class="config-row"><div><div class="cr-label">Lip sync</div></div><div class="toggle on" onclick="this.classList.toggle('on')"></div></div>
+  </div>
+</div>
+
+<button class="btn-save" onclick="this.textContent='Salvo!';this.style.background='#34C759'">Salvar configuracao dos agentes</button>
+
+<div style="display:flex;gap:8px;margin-top:12px">
+  <a href="client-invite.html" style="flex:1;font-family:'Inter',sans-serif;font-size:13px;font-weight:600;padding:12px;border-radius:10px;background:#FFF;border:1px solid rgba(215,0,48,0.12);color:#D70030;text-align:center">Proximo: Convidar founder</a>
+  <a href="client-workspace.html" style="flex:1;font-family:'Inter',sans-serif;font-size:13px;padding:12px;border-radius:10px;background:#FFF;border:1px solid rgba(0,0,0,0.06);color:#86868B;text-align:center">Ir pro workspace</a>
+</div>
+
+</div>
+<script src="shared-nav-social.js"></script>
+</body></html>
