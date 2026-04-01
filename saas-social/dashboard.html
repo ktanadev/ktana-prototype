@@ -1,223 +1,153 @@
-<!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>KTANA Social — Dashboard</title><link rel="stylesheet" href="../shared.css"><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Zen+Dots&display=swap" rel="stylesheet">
-<style>
-body{min-height:100vh;background:#F5F5F7;color:#1D1D1F}
-a{text-decoration:none;color:inherit}
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>KTANA Social — Dashboard</title>
+  <link rel="stylesheet" href="../shared.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Zen+Dots&display=swap" rel="stylesheet">
+  <style>
+    body{min-height:100vh;background:#F5F5F7;color:#1D1D1F}
+    a{text-decoration:none;color:inherit}
+    .main{max-width:760px;margin:0 auto;padding:0 20px 100px}
 
-/* NAV */
-.nav{position:fixed;top:0;left:0;right:0;z-index:50;height:48px;display:flex;align-items:center;justify-content:center;background:rgba(245,245,247,0.72);backdrop-filter:saturate(180%) blur(20px);border-bottom:0.5px solid rgba(0,0,0,0.06)}
-.nav-inner{width:100%;max-width:980px;padding:0 24px;display:flex;align-items:center;justify-content:space-between}
-.nav-logo{font-family:'Zen Dots',cursive;font-size:14px;color:#D70030;display:flex;align-items:center;gap:6px}
-.nav-logo span{font-family:'Inter',sans-serif;font-size:9px;color:#86868B;background:rgba(0,0,0,0.04);padding:2px 6px;border-radius:4px}
-.nav-links{display:flex;align-items:center;gap:20px}
-.nav-links a{font-family:'Inter',sans-serif;font-size:12px;color:#86868B;transition:color 0.15s}
-.nav-links a:hover{color:#D70030}
-.nav-user{width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,#D70030,#8B0000);display:flex;align-items:center;justify-content:center;font-family:'Inter',sans-serif;font-size:10px;font-weight:600;color:#FFF;cursor:pointer}
+    /* CHAT HERO */
+    .chat-hero{background:#FFF;border-radius:20px;border:1px solid rgba(0,0,0,0.04);margin:16px 0 20px;overflow:hidden;position:relative}
+    .chat-hero::before{content:'';position:absolute;inset:0;border-radius:20px;padding:1.5px;background:linear-gradient(135deg,rgba(255,231,231,0.3) 0%,transparent 20%,rgba(215,0,48,0.2) 80%);-webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);-webkit-mask-composite:xor;mask-composite:exclude;pointer-events:none}
+    .ch-top{display:flex;align-items:center;gap:10px;padding:14px 18px;border-bottom:1px solid rgba(0,0,0,0.04)}
+    .ch-av{width:32px;height:32px;border-radius:10px;background:linear-gradient(135deg,#D70030,#8B0000);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+    .ch-av svg{width:16px;height:16px;stroke:#FFF;fill:none;stroke-width:1.5}
+    .ch-nm{font-family:'Zen Dots',cursive;font-size:12px;color:#1D1D1F}
+    .ch-st{font-family:'Inter',sans-serif;font-size:10px;color:#34C759;display:flex;align-items:center;gap:4px}
+    .ch-st::before{content:'';width:5px;height:5px;border-radius:50%;background:#34C759}
+    .ch-body{padding:18px;display:flex;flex-direction:column;gap:12px;min-height:180px}
+    .msg{max-width:88%;padding:12px 16px;border-radius:16px;font-family:'Satoshi',sans-serif;font-size:14px;line-height:1.6}
+    .msg-ai{background:#F0F0F2;color:#1D1D1F;border-bottom-left-radius:4px;align-self:flex-start}
+    .msg-user{background:#D70030;color:#FFF;border-bottom-right-radius:4px;align-self:flex-end}
+    .msg-ai strong{color:#D70030}
+    .inline-card{display:inline-flex;align-items:center;gap:5px;background:#FFF;border:1px solid rgba(0,0,0,0.06);border-radius:8px;padding:4px 10px;margin:3px 2px;font-family:'Inter',sans-serif;font-size:11px;font-weight:500;color:#1D1D1F;cursor:pointer;transition:border-color 0.2s}
+    .inline-card:hover{border-color:rgba(215,0,48,0.2)}
+    .inline-card svg{width:12px;height:12px;stroke:currentColor;fill:none;stroke-width:1.5}
+    .ch-input{display:flex;align-items:center;gap:10px;padding:14px 18px;border-top:1px solid rgba(0,0,0,0.04)}
+    .ch-input input{flex:1;font-family:'Satoshi',sans-serif;font-size:14px;background:#F5F5F7;border:1px solid rgba(0,0,0,0.06);border-radius:14px;padding:12px 16px;outline:none;color:#1D1D1F;transition:border-color 0.2s}
+    .ch-input input::placeholder{color:#AEAEB2}
+    .ch-input input:focus{border-color:rgba(215,0,48,0.3)}
+    .ch-send{width:36px;height:36px;border-radius:50%;background:#D70030;display:flex;align-items:center;justify-content:center;cursor:pointer;border:none;flex-shrink:0}
+    .ch-send svg{width:14px;height:14px;stroke:#FFF;fill:none;stroke-width:2}
 
-/* LAYOUT: Chat-centric */
-.layout{max-width:980px;margin:0 auto;padding:64px 24px 40px;display:grid;grid-template-columns:1fr 320px;gap:20px;min-height:100vh}
+    /* SECTIONS */
+    .sec{font-family:'Inter',sans-serif;font-size:10px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:#D70030;margin-bottom:12px;margin-top:4px}
+    .scores{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:24px}
+    .sc{background:#FFF;border:1px solid rgba(0,0,0,0.04);border-radius:16px;padding:18px 14px;text-align:center;transition:all 0.2s;cursor:pointer}
+    .sc:hover{box-shadow:0 4px 16px rgba(0,0,0,0.04)}
+    .sc-v{font-family:'Zen Dots',cursive;font-size:24px;color:#1D1D1F}.sc-v.brand{color:#D70030}
+    .sc-l{font-family:'Inter',sans-serif;font-size:9px;color:#86868B;margin-top:4px;text-transform:uppercase;letter-spacing:.04em}
+    .sc-d{font-family:'Inter',sans-serif;font-size:10px;margin-top:2px;color:#34C759}
 
-/* LEFT: Chat + Context */
-.chat-area{display:flex;flex-direction:column}
+    .clients{display:flex;flex-direction:column;gap:8px;margin-bottom:24px}
+    .cl{display:flex;align-items:center;gap:12px;padding:14px 16px;background:#FFF;border:1px solid rgba(0,0,0,0.04);border-radius:14px;cursor:pointer;transition:all 0.2s}
+    .cl:hover{border-color:rgba(215,0,48,0.1);box-shadow:0 2px 12px rgba(0,0,0,0.04)}
+    .cl-av{width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,#D70030,#A60028);display:flex;align-items:center;justify-content:center;font-family:'Inter',sans-serif;font-size:10px;font-weight:600;color:#FFF;flex-shrink:0}
+    .cl-info{flex:1}
+    .cl-name{font-family:'Satoshi',sans-serif;font-size:13px;font-weight:500;color:#1D1D1F}
+    .cl-sub{font-family:'Inter',sans-serif;font-size:10px;color:#86868B}
+    .cl-phase{font-family:'Inter',sans-serif;font-size:9px;font-weight:600;padding:3px 8px;border-radius:6px}
+    .ph1{background:rgba(0,122,255,0.08);color:#007AFF}
+    .ph2{background:rgba(88,86,214,0.08);color:#5856D6}
+    .ph4{background:rgba(52,199,89,0.08);color:#34C759}
+    .ph5{background:rgba(215,0,48,0.08);color:#D70030}
+    .cl-bar{width:48px;height:3px;border-radius:2px;background:#E8E8ED;overflow:hidden}
+    .cl-fill{height:100%;border-radius:2px;background:linear-gradient(90deg,#D70030,#FF3B60)}
 
-.greeting{margin-bottom:24px}
-.greeting h1{font-family:'Zen Dots',cursive;font-size:22px;color:#1D1D1F;margin-bottom:6px}
-.greeting p{font-family:'Satoshi',sans-serif;font-size:14px;color:#86868B}
+    .feed{display:flex;flex-direction:column;gap:6px;margin-bottom:24px}
+    .fd{display:flex;align-items:flex-start;gap:10px;padding:10px 14px;background:#FFF;border:1px solid rgba(0,0,0,0.04);border-radius:10px;font-family:'Inter',sans-serif;font-size:12px;color:#6E6E73;line-height:1.4}
+    .fd-dot{width:6px;height:6px;border-radius:50%;margin-top:5px;flex-shrink:0}
+    .fd-dot.green{background:#34C759}.fd-dot.orange{background:#FF9500}.fd-dot.red{background:#D70030}.fd-dot.blue{background:#007AFF}
+    .fd strong{color:#1D1D1F}
+    .fd-time{margin-left:auto;font-family:'JetBrains Mono',monospace;font-size:9px;color:#AEAEB2;flex-shrink:0}
 
-/* CHAT */
-.chat-container{flex:1;background:#FFF;border-radius:20px;border:1px solid rgba(0,0,0,0.04);display:flex;flex-direction:column;min-height:480px;position:relative;overflow:hidden}
-.chat-container::before{content:'';position:absolute;inset:0;border-radius:20px;padding:1.5px;background:linear-gradient(135deg,rgba(255,231,231,0.2) 0%,transparent 24%,rgba(215,0,48,0.2) 81%,rgba(215,0,48,0.08) 100%);-webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);-webkit-mask-composite:xor;mask-composite:exclude;pointer-events:none;opacity:0.5}
-.chat-header{display:flex;align-items:center;gap:10px;padding:14px 20px;border-bottom:1px solid rgba(0,0,0,0.04)}
-.chat-avatar{width:32px;height:32px;border-radius:10px;background:linear-gradient(135deg,#D70030,#8B0000);display:flex;align-items:center;justify-content:center;flex-shrink:0}
-.chat-avatar svg{width:16px;height:16px;stroke:#FFF;fill:none;stroke-width:1.5}
-.chat-info{display:flex;flex-direction:column}
-.chat-name{font-family:'Zen Dots',cursive;font-size:12px;color:#1D1D1F}
-.chat-status{font-family:'Inter',sans-serif;font-size:10px;color:#34C759;display:flex;align-items:center;gap:4px}
-.chat-status::before{content:'';width:5px;height:5px;border-radius:50%;background:#34C759}
-.chat-body{flex:1;padding:20px;overflow-y:auto;display:flex;flex-direction:column;gap:12px}
-.msg{max-width:85%;padding:12px 16px;border-radius:16px;font-family:'Satoshi',sans-serif;font-size:14px;line-height:1.6}
-.msg-ai{background:#F0F0F2;color:#1D1D1F;border-bottom-left-radius:4px;align-self:flex-start}
-.msg-user{background:#D70030;color:#FFF;border-bottom-right-radius:4px;align-self:flex-end}
-.msg-ai strong{color:#D70030}
-.msg-ai .inline-card{display:inline-flex;align-items:center;gap:6px;background:#FFF;border:1px solid rgba(0,0,0,0.06);border-radius:8px;padding:4px 10px;margin:4px 2px;font-family:'Inter',sans-serif;font-size:11px;font-weight:500;color:#1D1D1F;cursor:pointer;transition:border-color 0.2s}
-.msg-ai .inline-card:hover{border-color:rgba(215,0,48,0.2)}
-.msg-ai .inline-card svg{width:12px;height:12px;stroke:currentColor;fill:none;stroke-width:1.5}
+    .qa{display:flex;gap:8px;margin-bottom:24px;flex-wrap:wrap}
+    .qa-btn{font-family:'Inter',sans-serif;font-size:11px;font-weight:500;padding:8px 14px;border-radius:10px;border:1px solid rgba(0,0,0,0.06);background:#FFF;color:#6E6E73;cursor:pointer;transition:all 0.15s;display:flex;align-items:center;gap:6px}
+    .qa-btn:hover{border-color:rgba(215,0,48,0.12);color:#D70030}
+    .qa-btn svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:1.5}
 
-.chat-input-area{padding:14px 20px;border-top:1px solid rgba(0,0,0,0.04);display:flex;align-items:center;gap:10px}
-.chat-input{flex:1;font-family:'Satoshi',sans-serif;font-size:14px;background:#F5F5F7;border:1px solid rgba(0,0,0,0.06);border-radius:14px;padding:12px 16px;outline:none;color:#1D1D1F;transition:border-color 0.2s}
-.chat-input::placeholder{color:#AEAEB2}
-.chat-input:focus{border-color:rgba(215,0,48,0.3)}
-.chat-send{width:36px;height:36px;border-radius:50%;background:#D70030;display:flex;align-items:center;justify-content:center;cursor:pointer;border:none;flex-shrink:0;transition:all 0.2s}
-.chat-send:hover{box-shadow:0 4px 16px rgba(215,0,48,0.25);transform:scale(1.05)}
-.chat-send svg{width:14px;height:14px;stroke:#FFF;fill:none;stroke-width:2}
-
-/* RIGHT: Context Panel */
-.context-panel{display:flex;flex-direction:column;gap:14px}
-
-.ctx-card{background:#FFF;border-radius:16px;border:1px solid rgba(0,0,0,0.04);padding:16px;position:relative;overflow:hidden}
-.ctx-card::before{content:'';position:absolute;inset:0;border-radius:16px;padding:1px;background:linear-gradient(135deg,transparent 60%,rgba(215,0,48,0.08) 100%);-webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);-webkit-mask-composite:xor;mask-composite:exclude;opacity:0;transition:opacity 0.3s}
-.ctx-card:hover::before{opacity:1}
-.ctx-label{font-family:'Inter',sans-serif;font-size:9px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:#D70030;margin-bottom:10px}
-
-/* Clients mini */
-.client-mini{display:flex;align-items:center;gap:10px;padding:8px 0;cursor:pointer;transition:all 0.15s;border-radius:8px}
-.client-mini:hover{background:rgba(215,0,48,0.02);margin:0 -8px;padding:8px}
-.cm-avatar{width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,#D70030,#A60028);display:flex;align-items:center;justify-content:center;font-family:'Inter',sans-serif;font-size:9px;font-weight:600;color:#FFF;flex-shrink:0}
-.cm-info{flex:1}
-.cm-name{font-family:'Satoshi',sans-serif;font-size:12px;font-weight:500;color:#1D1D1F}
-.cm-sub{font-family:'Inter',sans-serif;font-size:10px;color:#86868B}
-.cm-phase{font-family:'Inter',sans-serif;font-size:9px;font-weight:600;padding:2px 6px;border-radius:4px}
-.phase-1{background:rgba(0,122,255,0.08);color:#007AFF}
-.phase-2{background:rgba(88,86,214,0.08);color:#5856D6}
-.phase-4{background:rgba(52,199,89,0.08);color:#34C759}
-.phase-5{background:rgba(215,0,48,0.08);color:#D70030}
-
-/* Agents mini */
-.agent-mini{display:flex;align-items:center;gap:10px;padding:7px 0}
-.am-avatar{width:24px;height:24px;border-radius:8px;background:linear-gradient(135deg,#D70030,#8B0000);display:flex;align-items:center;justify-content:center;font-family:'Inter',sans-serif;font-size:8px;font-weight:700;color:#FFF;flex-shrink:0}
-.am-name{font-family:'Inter',sans-serif;font-size:11px;color:#1D1D1F}
-.am-status{margin-left:auto;width:6px;height:6px;border-radius:50%}
-.am-active{background:#34C759}
-.am-idle{background:#FF9500}
-
-/* Feed */
-.feed-item{display:flex;align-items:flex-start;gap:8px;padding:6px 0;font-family:'Inter',sans-serif;font-size:11px;color:#86868B;line-height:1.4}
-.feed-dot{width:5px;height:5px;border-radius:50%;margin-top:5px;flex-shrink:0}
-.feed-dot.green{background:#34C759}
-.feed-dot.orange{background:#FF9500}
-.feed-dot.red{background:#D70030}
-.feed-dot.blue{background:#007AFF}
-.feed-time{font-family:'JetBrains Mono',monospace;font-size:9px;color:#AEAEB2;margin-left:auto;flex-shrink:0}
-
-/* Quick access */
-.qa-list{display:flex;flex-direction:column;gap:6px}
-.qa-item{display:flex;align-items:center;gap:8px;padding:8px 10px;border-radius:10px;font-family:'Inter',sans-serif;font-size:11px;color:#6E6E73;cursor:pointer;transition:all 0.15s;border:1px solid transparent}
-.qa-item:hover{background:rgba(215,0,48,0.02);border-color:rgba(215,0,48,0.08);color:#D70030}
-.qa-item svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:1.5;flex-shrink:0}
-
-@media(max-width:768px){.layout{grid-template-columns:1fr}.context-panel{order:-1}}
-</style>
+    @media(max-width:600px){.scores{grid-template-columns:repeat(2,1fr)}}
+  </style>
 </head>
-<body data-active="dashboard" data-active="dashboard">
+<body data-active="dashboard">
 
-<nav class="nav"><div class="nav-inner">
-  <a href="landing.html" class="nav-logo">KTANA <span>Social</span></a>
-  <div class="nav-links">
-    <a href="client-workspace.html">Clientes</a>
-    <a href="#">Agentes</a>
-    <a href="connections.html">Conexoes</a>
-    <div class="nav-user">AS</div>
-  </div>
-</div></nav>
+<div class="main">
 
-<div class="layout">
-
-<!-- LEFT: Chat -->
-<div class="chat-area">
-  <div class="greeting">
-    <h1>Bom dia, Antonio.</h1>
-    <p>7 aprovacoes pendentes, 23 conteudos em producao, motor autopilot ativo em 342 clientes.</p>
-  </div>
-
-  <div class="chat-container">
-    <div class="chat-header">
-      <div class="chat-avatar"><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-      <div class="chat-info">
-        <div class="chat-name">KTANA Social</div>
-        <div class="chat-status">Online — 7 agentes ativos</div>
-      </div>
+  <!-- CHAT HERO -->
+  <div class="chat-hero">
+    <div class="ch-top">
+      <div class="ch-av"><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      <div><div class="ch-nm">Sensei</div><div class="ch-st">Online — 7 agentes ativos</div></div>
     </div>
-
-    <div class="chat-body">
+    <div class="ch-body">
       <div class="msg msg-ai">
-        Bom dia! Resumo do que aconteceu enquanto voce dormia:<br><br>
-        <strong>3 aprovacoes atrasadas (SLA > 4h):</strong><br>
-        <span class="inline-card"><svg viewBox="0 0 24 24"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> Joao Mendes — Carrossel IG (6h)</span>
-        <span class="inline-card"><svg viewBox="0 0 24 24"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> Ana Costa — Reel TikTok (5h)</span>
-        <span class="inline-card"><svg viewBox="0 0 24 24"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> Pedro Souza — Thread X (4h)</span><br><br>
-        <strong>Motor autopilot esta noite:</strong> publicou 18 posts, gerou 12 pautas novas, coletou metricas de 48 posts.<br><br>
-        Quer que eu envie lembrete no WhatsApp pros social medias responsaveis?
+        Bom dia, Antonio! Resumo da noite:<br><br>
+        <strong>3 aprovacoes atrasadas:</strong><br>
+        <span class="inline-card"><svg viewBox="0 0 24 24"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> Joao M. — Carrossel IG (6h)</span>
+        <span class="inline-card"><svg viewBox="0 0 24 24"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> Ana C. — Reel TT (5h)</span><br><br>
+        Motor publicou <strong>18 posts</strong> e gerou <strong>12 pautas</strong> esta noite. Enviar lembrete no WhatsApp?
       </div>
-      <div class="msg msg-user">Sim, envia lembrete. E me mostra as 3 melhores pautas geradas.</div>
+      <div class="msg msg-user">Sim, envia. E mostra as 3 melhores pautas.</div>
       <div class="msg msg-ai">
-        Lembretes enviados via WhatsApp para Maria (Joao), Carlos (Ana) e Julia (Pedro).<br><br>
-        <strong>Top 3 pautas geradas esta noite:</strong><br><br>
-        1. <strong>Joao Mendes</strong> — "Delegacao pra CEOs control freaks" (IG Carrossel) — Score <strong style="color:#34C759">94%</strong><br>
-        Inspiracao: @concurrent1 postou sobre delegacao ontem, ER 5.2%<br><br>
-        2. <strong>Maria Fernandes</strong> — "Lideranca feminina em tech: por que os dados provam" (LI Artigo) — Score <strong style="color:#34C759">91%</strong><br>
-        Trending no nicho: +340% em buscas essa semana<br><br>
-        3. <strong>Pedro Souza</strong> — "O mito do botox preventivo" (IG Reel) — Score <strong style="color:#34C759">89%</strong><br>
-        Brecha: nenhum concorrente abordou com tom cientifico<br><br>
-        <span class="inline-card"><svg viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg> Aprovar todas e enviar pro pipeline</span>
-        <span class="inline-card"><svg viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg> Ver detalhes</span>
+        Lembretes enviados. Top 3 pautas:<br><br>
+        1. <strong>Joao M.</strong> — "Delegacao pra CEOs control freaks" (IG) — <strong style="color:#34C759">94%</strong><br>
+        2. <strong>Maria F.</strong> — "Lideranca feminina: dados" (LI) — <strong style="color:#34C759">91%</strong><br>
+        3. <strong>Pedro S.</strong> — "Mito do botox preventivo" (IG) — <strong style="color:#34C759">89%</strong><br><br>
+        <span class="inline-card"><svg viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg> Aprovar e enviar pro pipeline</span>
       </div>
     </div>
-
-    <div class="chat-input-area">
-      <input type="text" class="chat-input" placeholder="Pergunte algo ao seu agente...">
-      <button class="chat-send"><svg viewBox="0 0 24 24"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
-    </div>
-  </div>
-</div>
-
-<!-- RIGHT: Context -->
-<div class="context-panel">
-
-  <!-- Quick Actions -->
-  <div class="ctx-card">
-    <div class="ctx-label">Acoes rapidas</div>
-    <div class="qa-list">
-      <div class="qa-item"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg> Novo cliente</div>
-      <div class="qa-item"><svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg> Enviar aprovacao em massa</div>
-      <div class="qa-item"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg> Gerar relatorio semanal</div>
-      <div class="qa-item"><svg viewBox="0 0 24 24"><path d="M12 20V10M18 20V4M6 20v-4"/></svg> Ver metricas consolidadas</div>
+    <div class="ch-input">
+      <input type="text" placeholder="Pergunte algo ao Sensei...">
+      <button class="ch-send"><svg viewBox="0 0 24 24"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
     </div>
   </div>
 
-  <!-- Clients -->
-  <div class="ctx-card">
-    <div class="ctx-label">Clientes com pendencia</div>
-    <div class="client-mini" onclick="location.href='client-workspace.html'">
-      <div class="cm-avatar">JM</div>
-      <div class="cm-info"><div class="cm-name">Joao Mendes</div><div class="cm-sub">Aprovacao IG atrasada 6h</div></div>
-      <span class="cm-phase phase-4">F4</span>
-    </div>
-    <div class="client-mini">
-      <div class="cm-avatar">AC</div>
-      <div class="cm-info"><div class="cm-name">Ana Costa</div><div class="cm-sub">Brand Book 60% — aguardando</div></div>
-      <span class="cm-phase phase-2">F2</span>
-    </div>
-    <div class="client-mini">
-      <div class="cm-avatar">PS</div>
-      <div class="cm-info"><div class="cm-name">Pedro Souza</div><div class="cm-sub">Onboarding 20%</div></div>
-      <span class="cm-phase phase-1">F1</span>
-    </div>
-    <div style="font-family:'Inter',sans-serif;font-size:11px;color:#D70030;margin-top:8px;cursor:pointer">Ver todos os 400 clientes →</div>
+  <!-- QUICK ACTIONS -->
+  <div class="qa">
+    <a class="qa-btn" href="pipeline.html"><svg viewBox="0 0 24 24"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg> Pipeline</a>
+    <a class="qa-btn" href="calendar.html"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/></svg> Calendario</a>
+    <a class="qa-btn" href="approvals.html"><svg viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg> Aprovacoes (7)</a>
+    <a class="qa-btn" href="insights.html"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg> Insights</a>
+    <a class="qa-btn" href="metrics.html"><svg viewBox="0 0 24 24"><path d="M12 20V10M18 20V4M6 20v-4"/></svg> Metricas</a>
+    <a class="qa-btn" href="agents.html"><svg viewBox="0 0 24 24"><path d="M14.5 17.5L3 6V3h3l11.5 11.5M13 19l6-6"/></svg> Agentes</a>
+    <a class="qa-btn" href="connections.html"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33"/></svg> Conexoes</a>
   </div>
 
-  <!-- Agents -->
-  <div class="ctx-card">
-    <div class="ctx-label">Agentes ativos</div>
-    <div class="agent-mini"><div class="am-avatar">O</div><div class="am-name">Orquestrador</div><div class="am-status am-active"></div></div>
-    <div class="agent-mini"><div class="am-avatar">P</div><div class="am-name">Pesquisador</div><div class="am-status am-active"></div></div>
-    <div class="agent-mini"><div class="am-avatar">C</div><div class="am-name">Copywriter</div><div class="am-status am-active"></div></div>
-    <div class="agent-mini"><div class="am-avatar">D</div><div class="am-name">Designer</div><div class="am-status am-active"></div></div>
-    <div class="agent-mini"><div class="am-avatar">S</div><div class="am-name">Social Media</div><div class="am-status am-active"></div></div>
-    <div class="agent-mini"><div class="am-avatar">W</div><div class="am-name">WhatsApp</div><div class="am-status am-idle"></div></div>
-    <div class="agent-mini"><div class="am-avatar">A</div><div class="am-name">Publicitario</div><div class="am-status am-active"></div></div>
-    <div style="font-family:'Inter',sans-serif;font-size:11px;color:#D70030;margin-top:8px;cursor:pointer">Configurar agentes →</div>
+  <!-- SCORES -->
+  <div class="sec">Visao geral</div>
+  <div class="scores">
+    <div class="sc"><div class="sc-v brand">7</div><div class="sc-l">Aprovacoes</div><div class="sc-d" style="color:#D70030">3 atrasadas</div></div>
+    <div class="sc"><div class="sc-v">23</div><div class="sc-l">Em producao</div></div>
+    <div class="sc"><div class="sc-v">142</div><div class="sc-l">Publicados semana</div><div class="sc-d">+18%</div></div>
+    <div class="sc"><div class="sc-v">34.2K</div><div class="sc-l">Tokens usados</div><div class="sc-d">de 100K (34%)</div></div>
   </div>
 
-  <!-- Feed -->
-  <div class="ctx-card">
-    <div class="ctx-label">Motor — tempo real</div>
-    <div class="feed-item"><div class="feed-dot blue"></div>Pesquisando concorrentes @joaomendes<span class="feed-time">agora</span></div>
-    <div class="feed-item"><div class="feed-dot green"></div>Carrossel publicado @anacosta IG<span class="feed-time">5min</span></div>
-    <div class="feed-item"><div class="feed-dot orange"></div>Aguardando aprovacao @pedrosouza<span class="feed-time">12min</span></div>
-    <div class="feed-item"><div class="feed-dot green"></div>Roteiro gerado @mariafernandes<span class="feed-time">18min</span></div>
-    <div class="feed-item"><div class="feed-dot red"></div>Token LinkedIn @pedrosouza expira 3d<span class="feed-time">1h</span></div>
+  <!-- CLIENTS -->
+  <div class="sec">Clientes com pendencia</div>
+  <div class="clients">
+    <a class="cl" href="client-workspace.html"><div class="cl-av">JM</div><div class="cl-info"><div class="cl-name">Joao Mendes</div><div class="cl-sub">Aprovacao IG atrasada 6h</div></div><span class="cl-phase ph4">F4</span><div class="cl-bar"><div class="cl-fill" style="width:86%"></div></div></a>
+    <div class="cl"><div class="cl-av">AC</div><div class="cl-info"><div class="cl-name">Ana Costa</div><div class="cl-sub">Brand Book 60%</div></div><span class="cl-phase ph2">F2</span><div class="cl-bar"><div class="cl-fill" style="width:42%"></div></div></div>
+    <div class="cl"><div class="cl-av">PS</div><div class="cl-info"><div class="cl-name">Pedro Souza</div><div class="cl-sub">Onboarding 20%</div></div><span class="cl-phase ph1">F1</span><div class="cl-bar"><div class="cl-fill" style="width:15%"></div></div></div>
+    <div class="cl"><div class="cl-av">MF</div><div class="cl-info"><div class="cl-name">Maria Fernandes</div><div class="cl-sub">20/21 posts — autopilot ativo</div></div><span class="cl-phase ph5">F5</span><div class="cl-bar"><div class="cl-fill" style="width:95%"></div></div></div>
+  </div>
+
+  <!-- FEED -->
+  <div class="sec">Motor autopilot</div>
+  <div class="feed">
+    <div class="fd"><div class="fd-dot blue"></div>Pesquisando concorrentes de <strong>@joaomendes</strong><span class="fd-time">agora</span></div>
+    <div class="fd"><div class="fd-dot green"></div>Carrossel publicado <strong>@anacosta</strong> Instagram<span class="fd-time">5min</span></div>
+    <div class="fd"><div class="fd-dot orange"></div>Aguardando aprovacao <strong>@pedrosouza</strong><span class="fd-time">12min</span></div>
+    <div class="fd"><div class="fd-dot green"></div>Roteiro gerado <strong>@mariafernandes</strong><span class="fd-time">18min</span></div>
+    <div class="fd"><div class="fd-dot red"></div>Token LinkedIn <strong>@pedrosouza</strong> expira 3d<span class="fd-time">1h</span></div>
   </div>
 
 </div>
-</div>
 
-<script src="shared-sidebar.js"></script></body></html>
+<script src="shared-sidebar.js"></script>
+</body>
+</html>
