@@ -33,6 +33,22 @@ h1{font-family:'Zen Dots',cursive;font-size:22px;color:#1D1D1F;margin-bottom:4px
 </head>
 <body data-active="clients">
 <div class="main">
+
+<!-- CHAT HERO -->
+<div style="background:#FFF;border-radius:20px;border:1px solid rgba(0,0,0,0.04);margin:16px 0 20px;overflow:hidden;position:relative">
+  <div style="display:flex;align-items:center;gap:10px;padding:14px 18px;border-bottom:1px solid rgba(0,0,0,0.04)">
+    <div style="width:28px;height:28px;border-radius:8px;background:linear-gradient(135deg,#D70030,#8B0000);display:flex;align-items:center;justify-content:center"><svg viewBox="0 0 24 24" style="width:14px;height:14px;stroke:#FFF;fill:none;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg></div>
+    <div><div style="font-family:'Zen Dots',cursive;font-size:11px;color:#1D1D1F">Sensei</div><div style="font-family:'Inter',sans-serif;font-size:10px;color:#D70030">400 clientes — 7 com pendencia</div></div>
+  </div>
+  <div style="padding:14px 18px">
+    <div style="max-width:88%;padding:10px 14px;border-radius:14px;border-bottom-left-radius:4px;background:#F0F0F2;font-family:'Satoshi',sans-serif;font-size:13px;color:#1D1D1F;line-height:1.5"><strong>7 clientes com pendencia</strong> hoje. Joao Mendes tem aprovacao atrasada 6h. Ana Costa esta 60% no Brand Book. Quer que eu priorize alguem?</div>
+  </div>
+  <div style="display:flex;align-items:center;gap:8px;padding:12px 18px;border-top:1px solid rgba(0,0,0,0.04)">
+    <input type="text" style="flex:1;font-family:'Satoshi',sans-serif;font-size:13px;background:#F5F5F7;border:1px solid rgba(0,0,0,0.06);border-radius:12px;padding:10px 14px;outline:none;color:#1D1D1F" placeholder="Pergunte ao Sensei sobre seus clientes...">
+    <button style="width:32px;height:32px;border-radius:50%;background:#D70030;display:flex;align-items:center;justify-content:center;cursor:pointer;border:none"><svg viewBox="0 0 24 24" style="width:12px;height:12px;stroke:#FFF;fill:none;stroke-width:2"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+  </div>
+</div>
+
 <h1>Clientes.</h1>
 <p class="sub">400 clientes gerenciados. Clique pra abrir o workspace.</p>
 <input type="text" class="search" placeholder="Buscar por nome, empresa, nicho...">
@@ -55,7 +71,7 @@ h1{font-family:'Zen Dots',cursive;font-size:22px;color:#1D1D1F;margin-bottom:4px
 <a class="client" href="client-workspace.html"><div class="cl-av">FS</div><div class="cl-info"><div class="cl-name">Fernando Santos</div><div class="cl-sub">Corretor de imoveis — SM: Amanda Prado</div></div><span class="cl-phase ph4">F4</span><div class="cl-bar"><div class="cl-fill" style="width:72%"></div></div></a>
 <a class="client" href="client-workspace.html"><div class="cl-av">CM</div><div class="cl-info"><div class="cl-name">Carla Menezes</div><div class="cl-sub">Psicologa — SM: Maria Silva</div></div><span class="cl-phase ph2">F2</span><div class="cl-bar"><div class="cl-fill" style="width:35%"></div></div></a>
 
-<div class="add-btn"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-linejoin="round"/></svg> Cadastrar novo cliente</div>
+<a href="client-onboarding-wizard.html" class="add-btn"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-linejoin="round"/></svg> Cadastrar novo cliente</a>
 </div>
 <script src="shared-sidebar.js"></script>
 </body></html>

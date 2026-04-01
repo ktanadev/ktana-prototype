@@ -1,0 +1,164 @@
+<!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>KTANA Social — Editor de Post</title><link rel="stylesheet" href="../shared.css"><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Zen+Dots&display=swap" rel="stylesheet">
+<style>
+body{min-height:100vh;background:#F5F5F7;color:#1D1D1F}
+a{text-decoration:none;color:inherit}
+.main{max-width:760px;margin:0 auto;padding:16px 20px 100px}
+.breadcrumb{font-family:'Inter',sans-serif;font-size:11px;color:#86868B;margin-bottom:16px}
+.breadcrumb a{color:#D70030}
+
+/* CHAT HERO */
+.chat-hero{background:#FFF;border-radius:20px;border:1px solid rgba(0,0,0,0.04);margin-bottom:20px;overflow:hidden;position:relative}
+.chat-hero::before{content:'';position:absolute;inset:0;border-radius:20px;padding:1.5px;background:linear-gradient(135deg,rgba(255,231,231,0.3) 0%,transparent 20%,rgba(215,0,48,0.2) 80%);-webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);-webkit-mask-composite:xor;mask-composite:exclude;pointer-events:none}
+.ch-top{display:flex;align-items:center;gap:10px;padding:14px 18px;border-bottom:1px solid rgba(0,0,0,0.04)}
+.ch-av{width:28px;height:28px;border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.ch-av svg{width:14px;height:14px;stroke:#FFF;fill:none;stroke-width:1.5}
+.ch-nm{font-family:'Zen Dots',cursive;font-size:11px;color:#1D1D1F}
+.ch-ctx{font-family:'Inter',sans-serif;font-size:10px;color:#5856D6}
+.ch-body{padding:18px;display:flex;flex-direction:column;gap:10px}
+.msg{max-width:88%;padding:10px 14px;border-radius:14px;font-family:'Satoshi',sans-serif;font-size:13px;line-height:1.5}
+.msg-ai{background:#F0F0F2;color:#1D1D1F;border-bottom-left-radius:4px;align-self:flex-start}
+.msg-ai strong{color:#D70030}
+.ch-input{display:flex;align-items:center;gap:8px;padding:12px 18px;border-top:1px solid rgba(0,0,0,0.04)}
+.ch-input input{flex:1;font-family:'Satoshi',sans-serif;font-size:13px;background:#F5F5F7;border:1px solid rgba(0,0,0,0.06);border-radius:12px;padding:10px 14px;outline:none;color:#1D1D1F}
+.ch-input input::placeholder{color:#AEAEB2}
+.ch-input input:focus{border-color:rgba(215,0,48,0.3)}
+.ch-send{width:32px;height:32px;border-radius:50%;background:#D70030;display:flex;align-items:center;justify-content:center;cursor:pointer;border:none}
+.ch-send svg{width:12px;height:12px;stroke:#FFF;fill:none;stroke-width:2}
+
+.sec{font-family:'Inter',sans-serif;font-size:10px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:#D70030;margin-bottom:10px;margin-top:4px}
+.card{background:#FFF;border-radius:16px;border:1px solid rgba(0,0,0,0.04);padding:20px;margin-bottom:14px}
+
+/* TABS REDE */
+.net-tabs{display:flex;gap:4px;margin-bottom:16px;background:#FFF;border-radius:12px;border:1px solid rgba(0,0,0,0.04);padding:4px;width:fit-content}
+.nt{font-family:'Inter',sans-serif;font-size:11px;font-weight:500;padding:6px 14px;border-radius:8px;cursor:pointer;transition:all 0.15s;color:#86868B}
+.nt:hover{color:#1D1D1F}
+.nt.active{background:rgba(215,0,48,0.06);color:#D70030}
+
+/* EDITOR */
+.editor{background:#FFF;border-radius:16px;border:1px solid rgba(0,0,0,0.04);padding:20px;margin-bottom:14px}
+.editor textarea{font-family:'Satoshi',sans-serif;width:100%;min-height:200px;background:#F5F5F7;border:1px solid rgba(0,0,0,0.06);border-radius:12px;padding:14px;font-size:14px;line-height:1.6;outline:none;color:#1D1D1F;resize:vertical;box-sizing:border-box}
+.editor textarea:focus{border-color:rgba(215,0,48,0.3)}
+.editor-tools{display:flex;gap:6px;margin-top:10px;flex-wrap:wrap}
+.et{font-family:'Inter',sans-serif;font-size:10px;font-weight:500;padding:5px 10px;border-radius:6px;border:1px solid rgba(0,0,0,0.06);background:#FFF;color:#86868B;cursor:pointer;display:flex;align-items:center;gap:4px;transition:all 0.15s}
+.et:hover{border-color:rgba(215,0,48,0.12);color:#D70030}
+.et svg{width:12px;height:12px;stroke:currentColor;fill:none;stroke-width:1.5}
+
+/* SCORE BAR */
+.score-bar{display:flex;align-items:center;gap:12px;padding:14px 16px;background:#FFF;border-radius:12px;border:1px solid rgba(0,0,0,0.04);margin-bottom:14px}
+.sb-label{font-family:'Inter',sans-serif;font-size:11px;color:#86868B;flex-shrink:0}
+.sb-track{flex:1;height:6px;background:#E8E8ED;border-radius:3px;overflow:hidden}
+.sb-fill{height:100%;border-radius:3px;transition:width 0.3s}
+.sb-fill.green{background:#34C759}
+.sb-fill.orange{background:#FF9500}
+.sb-val{font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:600;color:#34C759}
+
+/* HASHTAGS */
+.tag-input{display:flex;flex-wrap:wrap;gap:6px;padding:10px 14px;background:#F5F5F7;border:1px solid rgba(0,0,0,0.06);border-radius:12px;min-height:40px;align-items:center}
+.tag{font-family:'Inter',sans-serif;font-size:11px;padding:4px 10px;border-radius:980px;background:rgba(0,122,255,0.06);color:#007AFF;display:flex;align-items:center;gap:4px}
+.tag-x{cursor:pointer;font-size:14px;color:#86868B}
+
+.actions{display:flex;gap:8px;margin-top:20px}
+.act-btn{font-family:'Inter',sans-serif;font-size:12px;font-weight:600;padding:12px 20px;border-radius:12px;border:none;cursor:pointer;transition:all 0.15s;display:flex;align-items:center;gap:6px}
+.act-btn svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:1.5}
+.act-save{background:#D70030;color:#FFF}
+.act-save:hover{opacity:0.9}
+.act-preview{background:rgba(0,122,255,0.06);color:#007AFF}
+.act-discard{background:rgba(0,0,0,0.03);color:#86868B}
+</style>
+</head>
+<body data-client="true" data-active="pipeline">
+<div class="main">
+
+<div class="breadcrumb"><a href="dashboard.html">Dashboard</a> / <a href="pipeline.html">Pipeline</a> / <a href="post-detail.html">Detalhe</a> / Editor</div>
+
+<!-- CHAT HERO (Quill como copiloto) -->
+<div class="chat-hero">
+  <div class="ch-top">
+    <div class="ch-av" style="background:linear-gradient(135deg,#5856D6,#3A38A0)"><svg viewBox="0 0 24 24"><path d="M12 20h9M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+    <div><div class="ch-nm">Quill</div><div class="ch-ctx">Modo edicao — Carrossel IG</div></div>
+  </div>
+  <div class="ch-body">
+    <div class="msg msg-ai">Estou aqui como copiloto. Voce edita o texto e eu acompanho o <strong>score de humanidade</strong> em tempo real. Pode me pedir pra reescrever um slide, mudar o tom, adicionar dados ou trocar o CTA.</div>
+  </div>
+  <div class="ch-input">
+    <input type="text" placeholder="Ex: reescreva o slide 4 com mais urgencia...">
+    <button class="ch-send"><svg viewBox="0 0 24 24"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+  </div>
+</div>
+
+<!-- TABS POR REDE -->
+<div class="net-tabs">
+  <div class="nt active">Instagram</div>
+  <div class="nt">LinkedIn</div>
+  <div class="nt">TikTok</div>
+  <div class="nt">X / Twitter</div>
+  <div class="nt">Blog</div>
+</div>
+
+<!-- SCORE HUMANIDADE LIVE -->
+<div class="score-bar">
+  <span class="sb-label">Score humanidade</span>
+  <div class="sb-track"><div class="sb-fill green" style="width:94%"></div></div>
+  <span class="sb-val">94%</span>
+</div>
+
+<!-- EDITOR -->
+<div class="sec">Roteiro — Carrossel 7 slides</div>
+<div class="editor">
+  <textarea>SLIDE 1 (Hook):
+5 erros que TODO CEO comete no Instagram
+
+SLIDE 2:
+Erro 1: Postar sobre a empresa, nao sobre voce. Ninguem segue CNPJ. Seguem pessoas. Seu perfil nao e da empresa — e seu.
+
+SLIDE 3:
+Erro 2: Achar que precisa de fotos perfeitas. Conteudo real > producao cara. O celular no escritorio converte mais que estudio.
+
+SLIDE 4:
+Erro 3: Copiar o concorrente ao inves de criar tese propria. Autoridade vem de ponto de vista unico, nao de repetir o que todo mundo fala.
+
+SLIDE 5:
+Erro 4: Postar 1x por semana achando que e suficiente. Algoritmo recompensa frequencia. 3-5x/dia e o minimo pra escalar.
+
+SLIDE 6:
+Erro 5: Medir likes ao inves de conversao. Vanity metrics nao pagam boleto. Metricas que importam: DMs, leads, calls agendadas.
+
+SLIDE 7 (CTA):
+Quer parar de cometer esses erros? Me manda "POSICIONAMENTO" no DM e eu te mando o checklist completo. Link na bio.</textarea>
+  <div class="editor-tools">
+    <button class="et"><svg viewBox="0 0 24 24"><path d="M12 20h9M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z" stroke-linecap="round" stroke-linejoin="round"/></svg> Reescrever</button>
+    <button class="et"><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" stroke-linecap="round" stroke-linejoin="round"/></svg> Mais provocador</button>
+    <button class="et"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35" stroke-linecap="round" stroke-linejoin="round"/></svg> Adicionar dados</button>
+    <button class="et"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/></svg> Mais pessoal</button>
+    <button class="et"><svg viewBox="0 0 24 24"><path d="M4 12v8a2 2 0 002 2h12a2 2 0 002-2v-8M16 6l-4-4-4 4M12 2v13" stroke-linecap="round" stroke-linejoin="round"/></svg> Encurtar</button>
+  </div>
+</div>
+
+<!-- LEGENDA -->
+<div class="sec">Legenda</div>
+<div class="editor">
+  <textarea style="min-height:80px">Voce contrata CMO, investe em trafego, mas seu Instagram parece perfil de estagiario. Aqui vao 5 erros que eu cometi (e que custaram caro). Salva esse carrossel e manda pro CEO que precisa ouvir isso.</textarea>
+</div>
+
+<!-- HASHTAGS -->
+<div class="sec">Hashtags</div>
+<div class="tag-input">
+  <span class="tag">#ceo <span class="tag-x">&times;</span></span>
+  <span class="tag">#posicionamento <span class="tag-x">&times;</span></span>
+  <span class="tag">#marketingdigital <span class="tag-x">&times;</span></span>
+  <span class="tag">#empreendedorismo <span class="tag-x">&times;</span></span>
+  <span class="tag">#instagram <span class="tag-x">&times;</span></span>
+  <span class="tag">#lideranca <span class="tag-x">&times;</span></span>
+  <span class="tag">#founders <span class="tag-x">&times;</span></span>
+</div>
+
+<!-- ACTIONS -->
+<div class="actions">
+  <button class="act-btn act-save"><svg viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01" stroke-linecap="round" stroke-linejoin="round"/></svg> Salvar e enviar pra aprovacao</button>
+  <a href="post-detail.html" class="act-btn act-preview"><svg viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3" stroke-linecap="round" stroke-linejoin="round"/></svg> Ver preview</a>
+  <a href="pipeline.html" class="act-btn act-discard">Descartar</a>
+</div>
+
+</div>
+<script src="shared-sidebar.js"></script>
+</body></html>

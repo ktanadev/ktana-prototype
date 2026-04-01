@@ -21,7 +21,7 @@ a{text-decoration:none;color:inherit}
 .cd-approval{background:#D70030}
 .cd-scheduled{background:#34C759}
 .col-items{flex:1;display:flex;flex-direction:column;gap:8px;min-height:100px}
-.k-card{background:#FFF;border-radius:14px;border:1px solid rgba(0,0,0,0.04);padding:14px;cursor:pointer;transition:all 0.2s;position:relative;overflow:hidden}
+.k-card{background:#FFF;border-radius:14px;border:1px solid rgba(0,0,0,0.04);padding:14px;cursor:pointer;transition:all 0.2s;position:relative;overflow:hidden;display:block;text-decoration:none;color:inherit}
 .k-card::before{content:'';position:absolute;inset:0;border-radius:14px;padding:1px;background:linear-gradient(135deg,transparent 60%,rgba(215,0,48,0.1) 100%);-webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);-webkit-mask-composite:xor;mask-composite:exclude;opacity:0;transition:opacity 0.3s}
 .k-card:hover::before{opacity:1}
 .k-card:hover{transform:translateY(-1px);box-shadow:0 4px 16px rgba(0,0,0,0.04)}
@@ -75,9 +75,9 @@ a{text-decoration:none;color:inherit}
 <div class="kanban-col">
   <div class="col-header"><div class="col-dot cd-research"></div><div class="col-title">Pesquisa</div><div class="col-count">3</div></div>
   <div class="col-items">
-    <div class="k-card"><div class="k-top"><div class="k-avatar">JM</div><div class="k-client">Joao Mendes</div><div class="k-net">IG</div></div><div class="k-title">Concorrentes SaaS B2B — ultimas publicacoes</div><div class="k-meta"><span class="k-time">Iniciado 2h atras</span></div></div>
-    <div class="k-card"><div class="k-top"><div class="k-avatar">AC</div><div class="k-client">Ana Costa</div><div class="k-net">LI</div></div><div class="k-title">Trending tributario — reforma 2026</div><div class="k-meta"><span class="k-time">Iniciado 1h atras</span></div></div>
-    <div class="k-card"><div class="k-top"><div class="k-avatar">MF</div><div class="k-client">Maria Fernandes</div><div class="k-net">IG</div></div><div class="k-title">Noticias tech — IA em consulting</div><div class="k-meta"><span class="k-time">Iniciado 30min</span></div></div>
+    <a href="post-detail.html" class="k-card"><div class="k-top"><div class="k-avatar">JM</div><div class="k-client">Joao Mendes</div><div class="k-net">IG</div></div><div class="k-title">Concorrentes SaaS B2B — ultimas publicacoes</div><div class="k-meta"><span class="k-time">Iniciado 2h atras</span></div></a>
+    <a href="post-detail.html" class="k-card"><div class="k-top"><div class="k-avatar">AC</div><div class="k-client">Ana Costa</div><div class="k-net">LI</div></div><div class="k-title">Trending tributario — reforma 2026</div><div class="k-meta"><span class="k-time">Iniciado 1h atras</span></div></a>
+    <a href="post-detail.html" class="k-card"><div class="k-top"><div class="k-avatar">MF</div><div class="k-client">Maria Fernandes</div><div class="k-net">IG</div></div><div class="k-title">Noticias tech — IA em consulting</div><div class="k-meta"><span class="k-time">Iniciado 30min</span></div></a>
   </div>
 </div>
 
@@ -85,10 +85,10 @@ a{text-decoration:none;color:inherit}
 <div class="kanban-col">
   <div class="col-header"><div class="col-dot cd-pauta"></div><div class="col-title">Pauta</div><div class="col-count">4</div></div>
   <div class="col-items">
-    <div class="k-card"><div class="k-top"><div class="k-avatar">JM</div><div class="k-client">Joao Mendes</div><div class="k-net">IG</div></div><div class="k-title">5 erros que CEOs cometem no Instagram</div><div class="k-meta"><span class="k-score green">Score 94%</span><span class="k-time">Gerada 3h</span></div></div>
-    <div class="k-card"><div class="k-top"><div class="k-avatar">JM</div><div class="k-client">Joao Mendes</div><div class="k-net">LI</div></div><div class="k-title">Futuro do B2B: o que muda em 2026</div><div class="k-meta"><span class="k-score green">Score 91%</span><span class="k-time">Gerada 2h</span></div></div>
-    <div class="k-card"><div class="k-top"><div class="k-avatar">MF</div><div class="k-client">Maria Fernandes</div><div class="k-net">LI</div></div><div class="k-title">Lideranca feminina em tech: dados</div><div class="k-meta"><span class="k-score green">Score 89%</span><span class="k-time">Gerada 1h</span></div></div>
-    <div class="k-card"><div class="k-top"><div class="k-avatar">PS</div><div class="k-client">Pedro Souza</div><div class="k-net">IG</div></div><div class="k-title">Mito do botox preventivo</div><div class="k-meta"><span class="k-score green">Score 87%</span><span class="k-time">Gerada 45min</span></div></div>
+    <a href="post-detail.html" class="k-card"><div class="k-top"><div class="k-avatar">JM</div><div class="k-client">Joao Mendes</div><div class="k-net">IG</div></div><div class="k-title">5 erros que CEOs cometem no Instagram</div><div class="k-meta"><span class="k-score green">Score 94%</span><span class="k-time">Gerada 3h</span></div></a>
+    <a href="post-detail.html" class="k-card"><div class="k-top"><div class="k-avatar">JM</div><div class="k-client">Joao Mendes</div><div class="k-net">LI</div></div><div class="k-title">Futuro do B2B: o que muda em 2026</div><div class="k-meta"><span class="k-score green">Score 91%</span><span class="k-time">Gerada 2h</span></div></a>
+    <a href="post-detail.html" class="k-card"><div class="k-top"><div class="k-avatar">MF</div><div class="k-client">Maria Fernandes</div><div class="k-net">LI</div></div><div class="k-title">Lideranca feminina em tech: dados</div><div class="k-meta"><span class="k-score green">Score 89%</span><span class="k-time">Gerada 1h</span></div></a>
+    <a href="post-detail.html" class="k-card"><div class="k-top"><div class="k-avatar">PS</div><div class="k-client">Pedro Souza</div><div class="k-net">IG</div></div><div class="k-title">Mito do botox preventivo</div><div class="k-meta"><span class="k-score green">Score 87%</span><span class="k-time">Gerada 45min</span></div></a>
   </div>
 </div>
 
@@ -96,9 +96,9 @@ a{text-decoration:none;color:inherit}
 <div class="kanban-col">
   <div class="col-header"><div class="col-dot cd-roteiro"></div><div class="col-title">Roteiro</div><div class="col-count">3</div></div>
   <div class="col-items">
-    <div class="k-card"><div class="k-top"><div class="k-avatar">JM</div><div class="k-client">Joao Mendes</div><div class="k-net">IG</div></div><div class="k-title">Escale sem queimar caixa — 7 slides</div><div class="k-meta"><span class="k-score green">Humanidade 92%</span></div></div>
-    <div class="k-card"><div class="k-top"><div class="k-avatar">JM</div><div class="k-client">Joao Mendes</div><div class="k-net">TT</div></div><div class="k-title">Rotina de CEO — reel 28s</div><div class="k-meta"><span class="k-score orange">Humanidade 78%</span></div></div>
-    <div class="k-card"><div class="k-top"><div class="k-avatar">AC</div><div class="k-client">Ana Costa</div><div class="k-net">X</div></div><div class="k-title">Thread: reforma tributaria simplificada</div><div class="k-meta"><span class="k-score green">Humanidade 88%</span></div></div>
+    <a href="post-detail.html" class="k-card"><div class="k-top"><div class="k-avatar">JM</div><div class="k-client">Joao Mendes</div><div class="k-net">IG</div></div><div class="k-title">Escale sem queimar caixa — 7 slides</div><div class="k-meta"><span class="k-score green">Humanidade 92%</span></div></a>
+    <a href="post-detail.html" class="k-card"><div class="k-top"><div class="k-avatar">JM</div><div class="k-client">Joao Mendes</div><div class="k-net">TT</div></div><div class="k-title">Rotina de CEO — reel 28s</div><div class="k-meta"><span class="k-score orange">Humanidade 78%</span></div></a>
+    <a href="post-detail.html" class="k-card"><div class="k-top"><div class="k-avatar">AC</div><div class="k-client">Ana Costa</div><div class="k-net">X</div></div><div class="k-title">Thread: reforma tributaria simplificada</div><div class="k-meta"><span class="k-score green">Humanidade 88%</span></div></a>
   </div>
 </div>
 
@@ -106,8 +106,8 @@ a{text-decoration:none;color:inherit}
 <div class="kanban-col">
   <div class="col-header"><div class="col-dot cd-design"></div><div class="col-title">Design</div><div class="col-count">2</div></div>
   <div class="col-items">
-    <div class="k-card"><div class="k-top"><div class="k-avatar">JM</div><div class="k-client">Joao Mendes</div><div class="k-net">IG</div></div><div class="k-title">Lideranca tech — carrossel template</div><div class="k-meta"><span class="k-score orange">Renderizando...</span></div></div>
-    <div class="k-card"><div class="k-top"><div class="k-avatar">MF</div><div class="k-client">Maria Fernandes</div><div class="k-net">IG</div></div><div class="k-title">Post estatico — citacao lideranca</div><div class="k-meta"><span class="k-score green">Pronto</span></div></div>
+    <a href="post-detail.html" class="k-card"><div class="k-top"><div class="k-avatar">JM</div><div class="k-client">Joao Mendes</div><div class="k-net">IG</div></div><div class="k-title">Lideranca tech — carrossel template</div><div class="k-meta"><span class="k-score orange">Renderizando...</span></div></a>
+    <a href="post-detail.html" class="k-card"><div class="k-top"><div class="k-avatar">MF</div><div class="k-client">Maria Fernandes</div><div class="k-net">IG</div></div><div class="k-title">Post estatico — citacao lideranca</div><div class="k-meta"><span class="k-score green">Pronto</span></div></a>
   </div>
 </div>
 
@@ -115,9 +115,9 @@ a{text-decoration:none;color:inherit}
 <div class="kanban-col">
   <div class="col-header"><div class="col-dot cd-approval"></div><div class="col-title">Aprovacao</div><div class="col-count">3</div></div>
   <div class="col-items">
-    <div class="k-card" style="border-color:rgba(215,0,48,0.15)"><div class="k-top"><div class="k-avatar">JM</div><div class="k-client">Joao Mendes</div><div class="k-net">IG</div></div><div class="k-title">5 erros de CEO — carrossel 7 slides</div><div class="k-meta"><span class="k-score red">SM: 6h atrasado</span></div></div>
-    <div class="k-card"><div class="k-top"><div class="k-avatar">AC</div><div class="k-client">Ana Costa</div><div class="k-net">TT</div></div><div class="k-title">Reforma tributaria — reel 28s</div><div class="k-meta"><span class="k-score orange">SM: 5h</span></div></div>
-    <div class="k-card"><div class="k-top"><div class="k-avatar">JM</div><div class="k-client">Joao Mendes</div><div class="k-net">LI</div></div><div class="k-title">Mercado B2B 2026 — artigo</div><div class="k-meta"><span class="k-score green">Cliente: aguardando</span></div></div>
+    <a href="post-detail.html" class="k-card" style="border-color:rgba(215,0,48,0.15)"><div class="k-top"><div class="k-avatar">JM</div><div class="k-client">Joao Mendes</div><div class="k-net">IG</div></div><div class="k-title">5 erros de CEO — carrossel 7 slides</div><div class="k-meta"><span class="k-score red">SM: 6h atrasado</span></div></a>
+    <a href="post-detail.html" class="k-card"><div class="k-top"><div class="k-avatar">AC</div><div class="k-client">Ana Costa</div><div class="k-net">TT</div></div><div class="k-title">Reforma tributaria — reel 28s</div><div class="k-meta"><span class="k-score orange">SM: 5h</span></div></a>
+    <a href="post-detail.html" class="k-card"><div class="k-top"><div class="k-avatar">JM</div><div class="k-client">Joao Mendes</div><div class="k-net">LI</div></div><div class="k-title">Mercado B2B 2026 — artigo</div><div class="k-meta"><span class="k-score green">Cliente: aguardando</span></div></a>
   </div>
 </div>
 
@@ -125,11 +125,11 @@ a{text-decoration:none;color:inherit}
 <div class="kanban-col">
   <div class="col-header"><div class="col-dot cd-scheduled"></div><div class="col-title">Agendado</div><div class="col-count">5</div></div>
   <div class="col-items">
-    <div class="k-card"><div class="k-top"><div class="k-avatar">JM</div><div class="k-client">Joao Mendes</div><div class="k-net">IG</div></div><div class="k-title">Escale sem queimar caixa</div><div class="k-meta"><span>Ter 10:30</span></div></div>
-    <div class="k-card"><div class="k-top"><div class="k-avatar">JM</div><div class="k-client">Joao Mendes</div><div class="k-net">LI</div></div><div class="k-title">Futuro do B2B</div><div class="k-meta"><span>Qua 09:00</span></div></div>
-    <div class="k-card"><div class="k-top"><div class="k-avatar">JM</div><div class="k-client">Joao Mendes</div><div class="k-net">TT</div></div><div class="k-title">3 metricas de CEO</div><div class="k-meta"><span>Ter 15:00</span></div></div>
-    <div class="k-card"><div class="k-top"><div class="k-avatar">MF</div><div class="k-client">Maria Fernandes</div><div class="k-net">LI</div></div><div class="k-title">Lideranca feminina — artigo</div><div class="k-meta"><span>Qua 10:00</span></div></div>
-    <div class="k-card"><div class="k-top"><div class="k-avatar">JM</div><div class="k-client">Joao Mendes</div><div class="k-net">X</div></div><div class="k-title">Thread revenue share</div><div class="k-meta"><span>Qua 12:00</span></div></div>
+    <a href="post-detail.html" class="k-card"><div class="k-top"><div class="k-avatar">JM</div><div class="k-client">Joao Mendes</div><div class="k-net">IG</div></div><div class="k-title">Escale sem queimar caixa</div><div class="k-meta"><span>Ter 10:30</span></div></a>
+    <a href="post-detail.html" class="k-card"><div class="k-top"><div class="k-avatar">JM</div><div class="k-client">Joao Mendes</div><div class="k-net">LI</div></div><div class="k-title">Futuro do B2B</div><div class="k-meta"><span>Qua 09:00</span></div></a>
+    <a href="post-detail.html" class="k-card"><div class="k-top"><div class="k-avatar">JM</div><div class="k-client">Joao Mendes</div><div class="k-net">TT</div></div><div class="k-title">3 metricas de CEO</div><div class="k-meta"><span>Ter 15:00</span></div></a>
+    <a href="post-detail.html" class="k-card"><div class="k-top"><div class="k-avatar">MF</div><div class="k-client">Maria Fernandes</div><div class="k-net">LI</div></div><div class="k-title">Lideranca feminina — artigo</div><div class="k-meta"><span>Qua 10:00</span></div></a>
+    <a href="post-detail.html" class="k-card"><div class="k-top"><div class="k-avatar">JM</div><div class="k-client">Joao Mendes</div><div class="k-net">X</div></div><div class="k-title">Thread revenue share</div><div class="k-meta"><span>Qua 12:00</span></div></a>
   </div>
 </div>
 

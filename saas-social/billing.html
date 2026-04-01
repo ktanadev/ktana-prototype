@@ -1,0 +1,112 @@
+<!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>KTANA Social — Cobranca</title><link rel="stylesheet" href="../shared.css"><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Zen+Dots&display=swap" rel="stylesheet">
+<style>
+body{min-height:100vh;background:#F5F5F7;color:#1D1D1F}
+a{text-decoration:none;color:inherit}
+.main{max-width:760px;margin:0 auto;padding:16px 20px 100px}
+
+.chat-hero{background:#FFF;border-radius:20px;border:1px solid rgba(0,0,0,0.04);margin:16px 0 20px;overflow:hidden;position:relative}
+.chat-hero::before{content:'';position:absolute;inset:0;border-radius:20px;padding:1.5px;background:linear-gradient(135deg,rgba(255,231,231,0.3) 0%,transparent 20%,rgba(215,0,48,0.2) 80%);-webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);-webkit-mask-composite:xor;mask-composite:exclude;pointer-events:none}
+.ch-top{display:flex;align-items:center;gap:10px;padding:14px 18px;border-bottom:1px solid rgba(0,0,0,0.04)}
+.ch-av{width:28px;height:28px;border-radius:8px;background:linear-gradient(135deg,#D70030,#8B0000);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.ch-av svg{width:14px;height:14px;stroke:#FFF;fill:none;stroke-width:1.5}
+.ch-nm{font-family:'Zen Dots',cursive;font-size:11px;color:#1D1D1F}
+.ch-ctx{font-family:'Inter',sans-serif;font-size:10px;color:#D70030}
+.ch-body{padding:18px;display:flex;flex-direction:column;gap:10px}
+.msg{max-width:88%;padding:10px 14px;border-radius:14px;font-family:'Satoshi',sans-serif;font-size:13px;line-height:1.5}
+.msg-ai{background:#F0F0F2;color:#1D1D1F;border-bottom-left-radius:4px;align-self:flex-start}
+.msg-ai strong{color:#D70030}
+.ch-input{display:flex;align-items:center;gap:8px;padding:12px 18px;border-top:1px solid rgba(0,0,0,0.04)}
+.ch-input input{flex:1;font-family:'Satoshi',sans-serif;font-size:13px;background:#F5F5F7;border:1px solid rgba(0,0,0,0.06);border-radius:12px;padding:10px 14px;outline:none;color:#1D1D1F}
+.ch-input input::placeholder{color:#AEAEB2}
+.ch-input input:focus{border-color:rgba(215,0,48,0.3)}
+.ch-send{width:32px;height:32px;border-radius:50%;background:#D70030;display:flex;align-items:center;justify-content:center;cursor:pointer;border:none}
+.ch-send svg{width:12px;height:12px;stroke:#FFF;fill:none;stroke-width:2}
+
+.sec{font-family:'Inter',sans-serif;font-size:10px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:#D70030;margin-bottom:10px;margin-top:20px}
+
+/* PLAN CARD */
+.plan{background:#FFF;border-radius:20px;border:2px solid rgba(215,0,48,0.15);padding:28px;margin-bottom:14px;position:relative;overflow:hidden}
+.plan::before{content:'';position:absolute;inset:0;border-radius:20px;padding:1.5px;background:linear-gradient(135deg,rgba(215,0,48,0.1) 0%,transparent 30%,rgba(215,0,48,0.2) 80%);-webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);-webkit-mask-composite:xor;mask-composite:exclude;pointer-events:none}
+.plan-tag{font-family:'Inter',sans-serif;font-size:9px;font-weight:600;padding:3px 10px;border-radius:980px;background:rgba(215,0,48,0.06);color:#D70030;display:inline-block;margin-bottom:10px}
+.plan h2{font-family:'Zen Dots',cursive;font-size:20px;color:#1D1D1F;margin-bottom:4px}
+.plan-price{font-family:'Zen Dots',cursive;font-size:32px;color:#D70030;margin-bottom:4px}
+.plan-price span{font-family:'Inter',sans-serif;font-size:12px;color:#86868B;font-weight:400}
+.plan-desc{font-family:'Satoshi',sans-serif;font-size:13px;color:#86868B;line-height:1.5;margin-bottom:16px}
+.plan-features{display:flex;flex-direction:column;gap:6px}
+.pf{display:flex;align-items:center;gap:8px;font-family:'Inter',sans-serif;font-size:12px;color:#1D1D1F}
+.pf svg{width:14px;height:14px;stroke:#34C759;fill:none;stroke-width:2;flex-shrink:0}
+
+/* USAGE */
+.usage{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:20px}
+.u-card{background:#FFF;border:1px solid rgba(0,0,0,0.04);border-radius:14px;padding:18px;text-align:center}
+.u-val{font-family:'Zen Dots',cursive;font-size:20px;color:#1D1D1F}
+.u-lab{font-family:'Inter',sans-serif;font-size:9px;color:#86868B;text-transform:uppercase;margin-top:2px}
+.u-bar{width:80%;height:4px;border-radius:2px;background:#E8E8ED;margin:8px auto 0;overflow:hidden}
+.u-fill{height:100%;border-radius:2px;background:linear-gradient(90deg,#D70030,#FF3B60)}
+.u-pct{font-family:'JetBrains Mono',monospace;font-size:10px;color:#86868B;margin-top:4px}
+
+/* INVOICES */
+.invoice{display:flex;align-items:center;gap:12px;padding:14px 16px;background:#FFF;border:1px solid rgba(0,0,0,0.04);border-radius:12px;margin-bottom:6px}
+.inv-date{font-family:'JetBrains Mono',monospace;font-size:11px;color:#86868B;min-width:80px}
+.inv-desc{font-family:'Satoshi',sans-serif;font-size:13px;color:#1D1D1F;flex:1}
+.inv-amount{font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:600;color:#1D1D1F}
+.inv-status{font-family:'Inter',sans-serif;font-size:10px;font-weight:600;padding:3px 8px;border-radius:6px}
+.inv-paid{background:rgba(52,199,89,0.08);color:#34C759}
+.inv-pending{background:rgba(255,149,0,0.08);color:#FF9500}
+
+@media(max-width:600px){.usage{grid-template-columns:1fr}}
+</style>
+</head>
+<body data-active="billing">
+<div class="main">
+
+<div class="chat-hero">
+  <div class="ch-top">
+    <div class="ch-av"><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+    <div><div class="ch-nm">Sensei</div><div class="ch-ctx">Cobranca e consumo</div></div>
+  </div>
+  <div class="ch-body">
+    <div class="msg msg-ai">Plano <strong>Scale (400 clientes)</strong> ativo. Consumo de tokens este mes: <strong>34%</strong>. No ritmo atual, voce chega ao fim do mes com <strong>15% de folga</strong>. Tudo sob controle.</div>
+  </div>
+  <div class="ch-input">
+    <input type="text" placeholder="Pergunte sobre cobranca, consumo, upgrade...">
+    <button class="ch-send"><svg viewBox="0 0 24 24"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+  </div>
+</div>
+
+<!-- PLANO ATIVO -->
+<div class="sec">Plano ativo</div>
+<div class="plan">
+  <span class="plan-tag">PLANO ATUAL</span>
+  <h2>Scale</h2>
+  <div class="plan-price">R$ 4.990<span>/mes</span></div>
+  <p class="plan-desc">Para agencias com ate 500 clientes. Inclui 7 agentes, motor autopilot, anti-bot, WhatsApp dual.</p>
+  <div class="plan-features">
+    <div class="pf"><svg viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01" stroke-linecap="round" stroke-linejoin="round"/></svg> Ate 500 clientes</div>
+    <div class="pf"><svg viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01" stroke-linecap="round" stroke-linejoin="round"/></svg> 100K tokens/mes (Claude Sonnet)</div>
+    <div class="pf"><svg viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01" stroke-linecap="round" stroke-linejoin="round"/></svg> 7 agentes IA completos</div>
+    <div class="pf"><svg viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01" stroke-linecap="round" stroke-linejoin="round"/></svg> Motor autopilot 24/7</div>
+    <div class="pf"><svg viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01" stroke-linecap="round" stroke-linejoin="round"/></svg> GoLogin anti-detect + proxies</div>
+    <div class="pf"><svg viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01" stroke-linecap="round" stroke-linejoin="round"/></svg> HeyGen 100 creditos/mes</div>
+    <div class="pf"><svg viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01" stroke-linecap="round" stroke-linejoin="round"/></svg> Suporte prioritario</div>
+  </div>
+</div>
+
+<!-- CONSUMO -->
+<div class="sec">Consumo este mes</div>
+<div class="usage">
+  <div class="u-card"><div class="u-val">34.2K</div><div class="u-lab">Tokens usados</div><div class="u-bar"><div class="u-fill" style="width:34%"></div></div><div class="u-pct">34% de 100K</div></div>
+  <div class="u-card"><div class="u-val">47</div><div class="u-lab">Creditos HeyGen</div><div class="u-bar"><div class="u-fill" style="width:47%"></div></div><div class="u-pct">47% de 100</div></div>
+  <div class="u-card"><div class="u-val">142</div><div class="u-lab">Posts publicados</div><div class="u-bar"><div class="u-fill" style="width:71%"></div></div><div class="u-pct">71% da meta mensal</div></div>
+</div>
+
+<!-- FATURAS -->
+<div class="sec">Faturas</div>
+<div class="invoice"><span class="inv-date">01/Abr</span><span class="inv-desc">Plano Scale — Abril 2026</span><span class="inv-amount">R$ 4.990,00</span><span class="inv-status inv-pending">Pendente</span></div>
+<div class="invoice"><span class="inv-date">01/Mar</span><span class="inv-desc">Plano Scale — Marco 2026</span><span class="inv-amount">R$ 4.990,00</span><span class="inv-status inv-paid">Pago</span></div>
+<div class="invoice"><span class="inv-date">15/Mar</span><span class="inv-desc">Tokens extras — 20K adicional</span><span class="inv-amount">R$ 490,00</span><span class="inv-status inv-paid">Pago</span></div>
+<div class="invoice"><span class="inv-date">01/Fev</span><span class="inv-desc">Plano Scale — Fevereiro 2026</span><span class="inv-amount">R$ 4.990,00</span><span class="inv-status inv-paid">Pago</span></div>
+
+</div>
+<script src="shared-sidebar.js"></script>
+</body></html>

@@ -1,0 +1,107 @@
+<!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>KTANA Social — Configuracoes</title><link rel="stylesheet" href="../shared.css"><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Zen+Dots&display=swap" rel="stylesheet">
+<style>
+body{min-height:100vh;background:#F5F5F7;color:#1D1D1F}
+a{text-decoration:none;color:inherit}
+.main{max-width:760px;margin:0 auto;padding:16px 20px 100px}
+
+.chat-hero{background:#FFF;border-radius:20px;border:1px solid rgba(0,0,0,0.04);margin:16px 0 20px;overflow:hidden;position:relative}
+.chat-hero::before{content:'';position:absolute;inset:0;border-radius:20px;padding:1.5px;background:linear-gradient(135deg,rgba(255,231,231,0.3) 0%,transparent 20%,rgba(215,0,48,0.2) 80%);-webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);-webkit-mask-composite:xor;mask-composite:exclude;pointer-events:none}
+.ch-top{display:flex;align-items:center;gap:10px;padding:14px 18px;border-bottom:1px solid rgba(0,0,0,0.04)}
+.ch-av{width:28px;height:28px;border-radius:8px;background:linear-gradient(135deg,#D70030,#8B0000);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.ch-av svg{width:14px;height:14px;stroke:#FFF;fill:none;stroke-width:1.5}
+.ch-nm{font-family:'Zen Dots',cursive;font-size:11px;color:#1D1D1F}
+.ch-ctx{font-family:'Inter',sans-serif;font-size:10px;color:#D70030}
+.ch-body{padding:18px;display:flex;flex-direction:column;gap:10px}
+.msg{max-width:88%;padding:10px 14px;border-radius:14px;font-family:'Satoshi',sans-serif;font-size:13px;line-height:1.5}
+.msg-ai{background:#F0F0F2;color:#1D1D1F;border-bottom-left-radius:4px;align-self:flex-start}
+.msg-ai strong{color:#D70030}
+.ch-input{display:flex;align-items:center;gap:8px;padding:12px 18px;border-top:1px solid rgba(0,0,0,0.04)}
+.ch-input input{flex:1;font-family:'Satoshi',sans-serif;font-size:13px;background:#F5F5F7;border:1px solid rgba(0,0,0,0.06);border-radius:12px;padding:10px 14px;outline:none;color:#1D1D1F}
+.ch-input input::placeholder{color:#AEAEB2}
+.ch-input input:focus{border-color:rgba(215,0,48,0.3)}
+.ch-send{width:32px;height:32px;border-radius:50%;background:#D70030;display:flex;align-items:center;justify-content:center;cursor:pointer;border:none}
+.ch-send svg{width:12px;height:12px;stroke:#FFF;fill:none;stroke-width:2}
+
+.sec{font-family:'Inter',sans-serif;font-size:10px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:#D70030;margin-bottom:10px;margin-top:20px}
+.card{background:#FFF;border-radius:16px;border:1px solid rgba(0,0,0,0.04);padding:20px;margin-bottom:14px}
+.card h3{font-family:'Satoshi',sans-serif;font-size:14px;font-weight:600;color:#1D1D1F;margin-bottom:4px}
+.card p{font-family:'Inter',sans-serif;font-size:11px;color:#86868B;margin-bottom:14px}
+
+.form-group{margin-bottom:14px}
+.form-group label{font-family:'Inter',sans-serif;display:block;font-size:12px;font-weight:500;color:#86868B;margin-bottom:6px}
+.form-input{font-family:'Satoshi',sans-serif;background:#F5F5F7;border:1px solid rgba(0,0,0,0.06);border-radius:12px;padding:12px 14px;font-size:14px;width:100%;outline:none;color:#1D1D1F;transition:border-color 0.2s;box-sizing:border-box}
+.form-input:focus{border-color:rgba(215,0,48,0.3)}
+
+.setting{display:flex;align-items:center;justify-content:space-between;padding:14px 16px;background:#F5F5F7;border-radius:12px;margin-bottom:8px}
+.s-left{display:flex;align-items:center;gap:10px}
+.s-left svg{width:18px;height:18px;stroke:#86868B;fill:none;stroke-width:1.5;flex-shrink:0}
+.s-text{font-family:'Satoshi',sans-serif;font-size:13px;color:#1D1D1F}
+.s-sub{font-family:'Inter',sans-serif;font-size:10px;color:#86868B}
+.toggle{width:44px;height:26px;border-radius:13px;background:#D2D2D7;position:relative;cursor:pointer;transition:background 0.2s;flex-shrink:0}
+.toggle.on{background:#D70030}
+.toggle::after{content:'';position:absolute;top:3px;left:3px;width:20px;height:20px;border-radius:50%;background:#FFF;transition:transform 0.2s}
+.toggle.on::after{transform:translateX(18px)}
+
+.nav-link{display:flex;align-items:center;gap:12px;padding:14px 16px;background:#FFF;border:1px solid rgba(0,0,0,0.04);border-radius:12px;margin-bottom:8px;cursor:pointer;transition:all 0.15s}
+.nav-link:hover{border-color:rgba(215,0,48,0.1)}
+.nav-link svg{width:18px;height:18px;stroke:#86868B;fill:none;stroke-width:1.5;flex-shrink:0}
+.nav-link span{font-family:'Satoshi',sans-serif;font-size:13px;color:#1D1D1F;flex:1}
+.nav-link .arrow{width:14px;height:14px;stroke:#AEAEB2}
+</style>
+</head>
+<body data-active="settings">
+<div class="main">
+
+<div class="chat-hero">
+  <div class="ch-top">
+    <div class="ch-av"><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+    <div><div class="ch-nm">Sensei</div><div class="ch-ctx">Configuracoes do sistema</div></div>
+  </div>
+  <div class="ch-body">
+    <div class="msg msg-ai">Tudo configurado. <strong>9 conexoes ativas</strong>, autopilot ligado, aprovacao WhatsApp em 2 niveis. Quer mudar algo?</div>
+  </div>
+  <div class="ch-input">
+    <input type="text" placeholder="O que voce quer configurar?">
+    <button class="ch-send"><svg viewBox="0 0 24 24"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+  </div>
+</div>
+
+<!-- EMPRESA -->
+<div class="sec">Empresa</div>
+<div class="card">
+  <h3>Dados da empresa</h3>
+  <p>Informacoes da sua agencia de posicionamento.</p>
+  <div class="form-group"><label>Nome da empresa</label><input type="text" class="form-input" value="Grupo Silva"></div>
+  <div class="form-group"><label>CNPJ</label><input type="text" class="form-input" value="12.345.678/0001-90"></div>
+  <div class="form-group"><label>Email principal</label><input type="text" class="form-input" value="contato@gruposilva.com.br"></div>
+</div>
+
+<!-- AUTOPILOT -->
+<div class="sec">Motor autopilot</div>
+<div class="setting">
+  <div class="s-left"><svg viewBox="0 0 24 24"><path d="M22 12h-4l-3 9L9 3l-3 9H2" stroke-linecap="round" stroke-linejoin="round"/></svg><div><div class="s-text">Autopilot ativo</div><div class="s-sub">Motor funciona 24/7 automaticamente</div></div></div>
+  <div class="toggle on" onclick="this.classList.toggle('on')"></div>
+</div>
+<div class="setting">
+  <div class="s-left"><svg viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01" stroke-linecap="round" stroke-linejoin="round"/></svg><div><div class="s-text">Aprovacao em 2 niveis</div><div class="s-sub">SM aprova primeiro, depois cliente via WhatsApp</div></div></div>
+  <div class="toggle on" onclick="this.classList.toggle('on')"></div>
+</div>
+<div class="setting">
+  <div class="s-left"><svg viewBox="0 0 24 24"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9M13.73 21a2 2 0 01-3.46 0" stroke-linecap="round" stroke-linejoin="round"/></svg><div><div class="s-text">Lembretes automaticos</div><div class="s-sub">Cobrar aprovacao apos 4h, escalar apos 8h</div></div></div>
+  <div class="toggle on" onclick="this.classList.toggle('on')"></div>
+</div>
+<div class="setting">
+  <div class="s-left"><svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" stroke-linecap="round" stroke-linejoin="round"/></svg><div><div class="s-text">Anti-bot ativo</div><div class="s-sub">GoLogin + proxies residenciais + delays humanizados</div></div></div>
+  <div class="toggle on" onclick="this.classList.toggle('on')"></div>
+</div>
+
+<!-- NAVEGAÇÃO -->
+<div class="sec">Mais configuracoes</div>
+<a href="connections.html" class="nav-link"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0"/></svg><span>Conexoes e APIs</span><svg class="arrow" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+<a href="agents.html" class="nav-link"><svg viewBox="0 0 24 24"><path d="M14.5 17.5L3 6V3h3l11.5 11.5M13 19l6-6" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Agentes IA</span><svg class="arrow" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+<a href="team-management.html" class="nav-link"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Equipe</span><svg class="arrow" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+<a href="billing.html" class="nav-link"><svg viewBox="0 0 24 24"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Cobranca e planos</span><svg class="arrow" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+
+</div>
+<script src="shared-sidebar.js"></script>
+</body></html>
