@@ -20,25 +20,7 @@
     .ch-auto{font-family:'Inter',sans-serif;font-size:10px;color:#34C759;display:flex;align-items:center;gap:4px;margin-left:12px}
     .ch-auto::before{content:'';width:5px;height:5px;border-radius:50%;background:#34C759}
 
-    /* CHAT HERO */
-    .chat-hero{background:#FFF;border-radius:20px;border:1px solid rgba(0,0,0,0.04);margin-bottom:20px;overflow:hidden;position:relative}
-    .chat-hero::before{content:'';position:absolute;inset:0;border-radius:20px;padding:1.5px;background:linear-gradient(135deg,rgba(255,231,231,0.3) 0%,transparent 20%,rgba(215,0,48,0.2) 80%);-webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);-webkit-mask-composite:xor;mask-composite:exclude;pointer-events:none}
-    .ct-top{display:flex;align-items:center;gap:10px;padding:14px 18px;border-bottom:1px solid rgba(0,0,0,0.04)}
-    .ct-av{width:28px;height:28px;border-radius:8px;background:linear-gradient(135deg,#D70030,#8B0000);display:flex;align-items:center;justify-content:center;flex-shrink:0}
-    .ct-av svg{width:14px;height:14px;stroke:#FFF;fill:none;stroke-width:1.5}
-    .ct-nm{font-family:'Zen Dots',cursive;font-size:11px;color:#1D1D1F}
-    .ct-ctx{font-family:'Inter',sans-serif;font-size:10px;color:#D70030}
-    .ct-body{padding:18px;display:flex;flex-direction:column;gap:10px;min-height:140px}
-    .msg{max-width:88%;padding:10px 14px;border-radius:14px;font-family:'Satoshi',sans-serif;font-size:13px;line-height:1.5}
-    .msg-ai{background:#F0F0F2;color:#1D1D1F;border-bottom-left-radius:4px;align-self:flex-start}
-    .msg-user{background:#D70030;color:#FFF;border-bottom-right-radius:4px;align-self:flex-end}
-    .msg-ai strong{color:#D70030}
-    .ct-input{display:flex;align-items:center;gap:8px;padding:12px 18px;border-top:1px solid rgba(0,0,0,0.04)}
-    .ct-input input{flex:1;font-family:'Satoshi',sans-serif;font-size:13px;background:#F5F5F7;border:1px solid rgba(0,0,0,0.06);border-radius:12px;padding:10px 14px;outline:none;color:#1D1D1F}
-    .ct-input input::placeholder{color:#AEAEB2}
-    .ct-input input:focus{border-color:rgba(215,0,48,0.3)}
-    .ct-send{width:32px;height:32px;border-radius:50%;background:#D70030;display:flex;align-items:center;justify-content:center;cursor:pointer;border:none}
-    .ct-send svg{width:12px;height:12px;stroke:#FFF;fill:none;stroke-width:2}
+    /* Chat zone injected by shared-chat.js */
 
     /* QUICK NAV */
     .qa{display:flex;gap:6px;margin-bottom:20px;flex-wrap:wrap}
@@ -100,22 +82,12 @@
     <div class="ch-auto">Autopilot</div>
   </div>
 
-  <!-- CHAT HERO (contexto do cliente) -->
-  <div class="chat-hero">
-    <div class="ct-top">
-      <div class="ct-av"><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-      <div><div class="ct-nm">Sensei</div><div class="ct-ctx">Contexto: Joao Mendes — CEO TechFlow</div></div>
-    </div>
-    <div class="ct-body">
-      <div class="msg msg-ai">Contexto do Joao carregado. Ele tem <strong>3 posts pendentes de aprovacao</strong> e <strong>3 slots vazios</strong> na sexta. O @concurrent1 postou sobre delegacao ontem com ER 5.2% — oportunidade. Quer que eu crie pautas?</div>
-      <div class="msg msg-user">Cria 3 ideias de carrossel sobre delegacao</div>
-      <div class="msg msg-ai">Aqui vao 3 no tom do Joao:<br><br>1. <strong>"Delegacao pra CEOs control freaks"</strong> — 7 slides, provocador — Score <strong style="color:#34C759">94%</strong><br>2. <strong>"O teste dos 15 minutos"</strong> — 5 slides, didatico — Score <strong style="color:#34C759">87%</strong><br>3. <strong>"3 coisas que CEO NUNCA delega"</strong> — 6 slides, opiniao — Score <strong style="color:#34C759">91%</strong><br><br>Enviar pro pipeline?</div>
-    </div>
-    <div class="ct-input">
-      <input type="text" placeholder="Pergunte algo sobre Joao Mendes...">
-      <button class="ct-send"><svg viewBox="0 0 24 24"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
-    </div>
-  </div>
+  <!-- CHAT ZONE — Dark Ambient Glow -->
+  <div id="chat-zone"></div>
+  <script src="shared-chat.js"
+    data-agent="Sensei"
+    data-context="Joao Mendes — CEO TechFlow"
+    data-msg="Contexto do Joao carregado. Ele tem <strong>3 posts pendentes de aprovacao</strong> e <strong>3 slots vazios</strong> na sexta. O @concurrent1 postou sobre delegacao ontem com ER 5.2% — oportunidade. Quer que eu crie pautas?"></script>
 
   <!-- QUICK NAV -->
   <div class="qa">
