@@ -1,185 +1,257 @@
-<!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>KTANA Social — Aprovacoes</title><link rel="stylesheet" href="../shared.css"><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Zen+Dots&display=swap" rel="stylesheet">
-<style>
-body{min-height:100vh;background:#F5F5F7;color:#1D1D1F}
-a{text-decoration:none;color:inherit}
-.nav{position:fixed;top:0;left:0;right:0;z-index:50;height:48px;display:flex;align-items:center;justify-content:center;background:rgba(245,245,247,0.72);backdrop-filter:saturate(180%) blur(20px);border-bottom:0.5px solid rgba(0,0,0,0.06)}
-.nav-inner{width:100%;max-width:1200px;padding:0 24px;display:flex;align-items:center;justify-content:space-between}
-.nav-logo{font-family:'Zen Dots',cursive;font-size:14px;color:#D70030}
-.nav-links a{font-family:'Inter',sans-serif;font-size:12px;color:#86868B;margin-left:20px}
-.nav-links a:hover{color:#D70030}
-.container{max-width:1200px;margin:0 auto;padding:64px 24px 80px}
-h1{font-family:'Zen Dots',cursive;font-size:22px;color:#1D1D1F;margin-bottom:6px}
-.sub{font-family:'Satoshi',sans-serif;font-size:14px;color:#86868B;margin-bottom:24px}
-.filters{display:flex;gap:8px;margin-bottom:20px;flex-wrap:wrap}
-.filter-btn{font-family:'Inter',sans-serif;font-size:11px;font-weight:500;padding:6px 14px;border-radius:980px;border:1px solid rgba(0,0,0,0.08);background:#FFF;color:#86868B;cursor:pointer;transition:all 0.15s}
-.filter-btn:hover{border-color:rgba(215,0,48,0.15);color:#D70030}
-.filter-btn.active{background:rgba(215,0,48,0.06);border-color:rgba(215,0,48,0.15);color:#D70030}
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>KTANA Social — Aprovacoes</title>
+  <link rel="stylesheet" href="../shared.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Zen+Dots&display=swap" rel="stylesheet">
+  <style>
+    body { min-height: 100vh; background: #F5F5F7; color: #1D1D1F; }
+    a { text-decoration: none; color: inherit; }
+    .main { max-width: 760px; margin: 0 auto; padding: 16px 20px 100px; }
 
-/* APPROVAL CARD */
-.approval-list{display:flex;flex-direction:column;gap:14px}
-.approval-card{background:#FFF;border-radius:20px;border:1px solid rgba(0,0,0,0.04);overflow:hidden;display:grid;grid-template-columns:320px 1fr;transition:all 0.3s}
-.approval-card:hover{box-shadow:0 4px 24px rgba(0,0,0,0.06)}
+    /* ═══ CHAT HERO ═══ */
+    .chat-hero { background: #FFF; border-radius: 20px; border: 1px solid rgba(0,0,0,0.04); margin-bottom: 20px; overflow: hidden; position: relative; }
+    .chat-hero::before { content: ''; position: absolute; inset: 0; border-radius: 20px; padding: 1.5px; background: linear-gradient(135deg, rgba(255,231,231,0.3) 0%, transparent 20%, rgba(215,0,48,0.2) 80%); -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0); -webkit-mask-composite: xor; mask-composite: exclude; pointer-events: none; }
+    .ch-top { display: flex; align-items: center; gap: 10px; padding: 14px 18px; border-bottom: 1px solid rgba(0,0,0,0.04); }
+    .ch-av { width: 28px; height: 28px; border-radius: 8px; background: linear-gradient(135deg, #D70030, #8B0000); display: flex; align-items: center; justify-content: center; }
+    .ch-av svg { width: 14px; height: 14px; stroke: #FFF; fill: none; stroke-width: 1.5; }
+    .ch-nm { font-family: 'Zen Dots', cursive; font-size: 11px; color: #1D1D1F; }
+    .ch-ctx { font-family: 'Inter', sans-serif; font-size: 10px; color: #D70030; }
+    .ch-body { padding: 18px; display: flex; flex-direction: column; gap: 10px; }
+    .msg { max-width: 88%; padding: 10px 14px; border-radius: 14px; font-family: 'Satoshi', sans-serif; font-size: 13px; line-height: 1.6; }
+    .msg-ai { background: #F0F0F2; color: #1D1D1F; border-bottom-left-radius: 4px; align-self: flex-start; }
+    .msg-user { background: #D70030; color: #FFF; border-bottom-right-radius: 4px; align-self: flex-end; }
+    .msg-ai strong { color: #D70030; }
+    .ch-input { display: flex; align-items: center; gap: 8px; padding: 12px 18px; border-top: 1px solid rgba(0,0,0,0.04); }
+    .ch-input input { flex: 1; font-family: 'Satoshi', sans-serif; font-size: 13px; background: #F5F5F7; border: 1px solid rgba(0,0,0,0.06); border-radius: 12px; padding: 10px 14px; outline: none; color: #1D1D1F; }
+    .ch-input input::placeholder { color: #AEAEB2; }
+    .ch-input input:focus { border-color: rgba(215,0,48,0.3); }
+    .ch-send { width: 32px; height: 32px; border-radius: 50%; background: #D70030; display: flex; align-items: center; justify-content: center; cursor: pointer; border: none; }
+    .ch-send svg { width: 12px; height: 12px; stroke: #FFF; fill: none; stroke-width: 2; }
 
-/* PREVIEW */
-.preview{background:#F5F5F7;padding:20px;display:flex;flex-direction:column;align-items:center;justify-content:center;border-right:1px solid rgba(0,0,0,0.04)}
-.phone-mock{width:240px;background:#1D1D1F;border-radius:20px;padding:8px;box-shadow:0 8px 32px rgba(0,0,0,0.15)}
-.phone-screen{background:#FFF;border-radius:14px;overflow:hidden}
-.phone-header{display:flex;align-items:center;gap:8px;padding:10px 12px;border-bottom:1px solid rgba(0,0,0,0.04)}
-.ph-avatar{width:24px;height:24px;border-radius:50%;background:linear-gradient(135deg,#D70030,#A60028);display:flex;align-items:center;justify-content:center;font-family:'Inter',sans-serif;font-size:8px;font-weight:600;color:#FFF}
-.ph-name{font-family:'Inter',sans-serif;font-size:10px;font-weight:600;color:#1D1D1F}
-.phone-content{padding:12px}
-.phone-slide{width:100%;aspect-ratio:1;background:linear-gradient(135deg,#F0F0F2 0%,#E8E8ED 100%);border-radius:8px;display:flex;align-items:center;justify-content:center;margin-bottom:8px;font-family:'Zen Dots',cursive;font-size:11px;color:#86868B;text-align:center;padding:16px;line-height:1.4}
-.phone-caption{font-family:'Satoshi',sans-serif;font-size:9px;color:#86868B;line-height:1.4;padding:0 4px}
-.phone-dots{display:flex;justify-content:center;gap:4px;padding:8px}
-.phone-dots .d{width:5px;height:5px;border-radius:50%;background:#D2D2D7}
-.phone-dots .d.active{background:#D70030}
+    .sec { font-family: 'Inter', sans-serif; font-size: 10px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: #D70030; margin-bottom: 10px; margin-top: 4px; }
 
-/* DETAILS */
-.details{padding:24px}
-.det-top{display:flex;align-items:center;gap:12px;margin-bottom:16px}
-.det-avatar{width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#D70030,#A60028);display:flex;align-items:center;justify-content:center;font-family:'Inter',sans-serif;font-size:11px;font-weight:600;color:#FFF;flex-shrink:0}
-.det-info h3{font-family:'Satoshi',sans-serif;font-size:14px;font-weight:600;color:#1D1D1F}
-.det-info p{font-family:'Inter',sans-serif;font-size:11px;color:#86868B}
-.det-sla{margin-left:auto;font-family:'Inter',sans-serif;font-size:10px;font-weight:600;padding:4px 10px;border-radius:6px}
-.sla-ok{background:rgba(52,199,89,0.08);color:#34C759}
-.sla-warn{background:rgba(255,149,0,0.08);color:#FF9500}
-.sla-late{background:rgba(215,0,48,0.08);color:#D70030}
+    /* ═══ APPROVAL CARD ═══ */
+    .ap {
+      background: #FFF; border-radius: 16px; border: 1px solid rgba(0,0,0,0.04);
+      margin-bottom: 12px; overflow: hidden; transition: all 0.2s;
+    }
+    .ap:hover { box-shadow: 0 4px 16px rgba(0,0,0,0.04); }
 
-.det-meta{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:16px}
-.dm-item{background:#F5F5F7;border-radius:10px;padding:10px 12px;text-align:center}
-.dm-val{font-family:'Zen Dots',cursive;font-size:16px;color:#1D1D1F}
-.dm-val.brand{color:#D70030}
-.dm-val.green{color:#34C759}
-.dm-lab{font-family:'Inter',sans-serif;font-size:9px;color:#86868B;text-transform:uppercase;letter-spacing:0.05em;margin-top:2px}
+    .ap-top { display: flex; align-items: center; gap: 12px; padding: 16px 18px; }
+    .ap-av {
+      width: 36px; height: 36px; border-radius: 50%;
+      background: linear-gradient(135deg, #D70030, #A60028);
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 600; color: #FFF; flex-shrink: 0;
+    }
+    .ap-info { flex: 1; }
+    .ap-title { font-family: 'Satoshi', sans-serif; font-size: 14px; font-weight: 500; color: #1D1D1F; }
+    .ap-meta { font-family: 'Inter', sans-serif; font-size: 10px; color: #86868B; margin-top: 2px; }
+    .ap-sla {
+      font-family: 'Inter', sans-serif; font-size: 9px; font-weight: 600;
+      padding: 3px 8px; border-radius: 6px;
+    }
+    .sla-late { background: rgba(215,0,48,0.06); color: #D70030; }
+    .sla-warn { background: rgba(255,149,0,0.06); color: #FF9500; }
+    .sla-ok { background: rgba(52,199,89,0.06); color: #34C759; }
 
-/* COMPARE */
-.compare{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px}
-.compare-col{background:#F5F5F7;border-radius:10px;padding:12px;text-align:center}
-.compare-col .label{font-family:'Inter',sans-serif;font-size:9px;font-weight:600;color:#86868B;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:6px}
-.compare-col .mock{width:100%;aspect-ratio:1;background:#E8E8ED;border-radius:6px;display:flex;align-items:center;justify-content:center;font-family:'Inter',sans-serif;font-size:9px;color:#AEAEB2}
+    /* Preview do conteúdo */
+    .ap-preview { padding: 0 18px 12px; }
+    .ap-preview-box {
+      background: #F5F5F7; border-radius: 12px; padding: 14px;
+      font-family: 'Satoshi', sans-serif; font-size: 12px; color: #6E6E73; line-height: 1.6;
+    }
+    .ap-preview-box strong { color: #1D1D1F; }
 
-/* TIMELINE */
-.timeline{margin-bottom:16px}
-.tl-label{font-family:'Inter',sans-serif;font-size:10px;font-weight:600;color:#86868B;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:8px}
-.tl-steps{display:flex;gap:4px;align-items:center}
-.tl-step{flex:1;height:3px;border-radius:2px}
-.tl-done{background:#34C759}
-.tl-current{background:linear-gradient(90deg,#FF9500 50%,#E8E8ED 50%)}
-.tl-pending{background:#E8E8ED}
-.tl-labels{display:flex;justify-content:space-between;font-family:'Inter',sans-serif;font-size:8px;color:#AEAEB2;margin-top:4px}
+    /* Scores de qualidade */
+    .ap-scores { display: flex; gap: 8px; padding: 0 18px 12px; }
+    .ap-sc {
+      flex: 1; background: #F5F5F7; border-radius: 8px; padding: 8px; text-align: center;
+    }
+    .ap-sc-val { font-family: 'Zen Dots', cursive; font-size: 16px; color: #34C759; }
+    .ap-sc-val.warn { color: #FF9500; }
+    .ap-sc-lab {
+      font-family: 'Inter', sans-serif; font-size: 8px; color: #86868B;
+      text-transform: uppercase; letter-spacing: .04em; margin-top: 2px;
+    }
 
-/* ACTIONS */
-.approval-actions{display:flex;gap:8px}
-.aa-btn{flex:1;font-family:'Inter',sans-serif;font-size:13px;font-weight:600;padding:12px;border-radius:12px;border:none;cursor:pointer;transition:all 0.15s;text-align:center}
-.aa-approve{background:#34C759;color:#FFF}
-.aa-approve:hover{opacity:0.9;box-shadow:0 4px 12px rgba(52,199,89,0.25)}
-.aa-adjust{background:rgba(255,149,0,0.08);color:#FF9500;border:1px solid rgba(255,149,0,0.15)}
-.aa-adjust:hover{background:rgba(255,149,0,0.12)}
-.aa-redo{background:rgba(0,122,255,0.08);color:#007AFF;border:1px solid rgba(0,122,255,0.15)}
-.aa-redo:hover{background:rgba(0,122,255,0.12)}
-.aa-reject{background:rgba(215,0,48,0.06);color:#D70030;border:1px solid rgba(215,0,48,0.1)}
-.aa-reject:hover{background:rgba(215,0,48,0.1)}
+    /* Botões de ação */
+    .ap-actions { display: flex; gap: 6px; padding: 0 18px 16px; }
+    .ap-btn {
+      flex: 1; font-family: 'Inter', sans-serif; font-size: 12px; font-weight: 600;
+      padding: 10px; border-radius: 10px; border: none; cursor: pointer;
+      transition: all 0.15s; text-align: center;
+    }
+    .ap-approve { background: #34C759; color: #FFF; }
+    .ap-approve:hover { opacity: 0.9; box-shadow: 0 4px 12px rgba(52,199,89,0.25); }
+    .ap-adjust { background: rgba(255,149,0,0.06); color: #FF9500; border: 1px solid rgba(255,149,0,0.12); }
+    .ap-adjust:hover { background: rgba(255,149,0,0.1); }
+    .ap-redo { background: rgba(0,122,255,0.06); color: #007AFF; border: 1px solid rgba(0,122,255,0.1); }
+    .ap-redo:hover { background: rgba(0,122,255,0.1); }
+    .ap-reject { background: rgba(215,0,48,0.04); color: #D70030; border: 1px solid rgba(215,0,48,0.08); }
+    .ap-reject:hover { background: rgba(215,0,48,0.08); }
 
-@media(max-width:768px){.approval-card{grid-template-columns:1fr}.preview{border-right:none;border-bottom:1px solid rgba(0,0,0,0.04)}}
-</style>
+    @media (max-width: 600px) { .ap-scores { flex-direction: column; } }
+  </style>
 </head>
 <body data-active="approvals">
-<nav class="nav"><div class="nav-inner"><a href="landing.html" class="nav-logo">KTANA Social</a><div class="nav-links"><a href="dashboard.html">Dashboard</a><a href="agents.html">Agentes</a><a href="connections.html">Conexoes</a></div></div></nav>
-<div class="container">
-<h1>Aprovacoes.</h1>
-<p class="sub">7 conteudos aguardando sua revisao. 3 acima do SLA de 4h.</p>
 
-<div class="filters">
-  <div class="filter-btn active">Todos (7)</div>
-  <div class="filter-btn">Atrasados (3)</div>
-  <div class="filter-btn">Instagram (4)</div>
-  <div class="filter-btn">LinkedIn (2)</div>
-  <div class="filter-btn">TikTok (1)</div>
-</div>
+<div class="main">
 
-<div class="approval-list">
+  <!-- CHAT: Agente contextualiza a fila de aprovações -->
+  <div class="chat-hero">
+    <div class="ch-top">
+      <div class="ch-av"><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      <div>
+        <div class="ch-nm">Sensei</div>
+        <div class="ch-ctx">Fila de aprovacoes — 7 pendentes</div>
+      </div>
+    </div>
+    <div class="ch-body">
+      <div class="msg msg-ai">
+        Voce tem <strong>7 conteudos</strong> aguardando aprovacao. <strong>3 estao acima do SLA de 4h</strong> — ja enviei lembrete no WhatsApp pros social medias responsaveis.<br><br>
+        O carrossel do Joao sobre "5 erros de CEO" tem score de <strong>92%</strong> e esta pronto. Quer que eu aprove automaticamente tudo acima de 90%?
+      </div>
+      <div class="msg msg-user">Mostra os 3 atrasados primeiro</div>
+      <div class="msg msg-ai">Aqui estao os 3 atrasados. Voce pode aprovar direto ou pedir pra eu ajustar.</div>
+    </div>
+    <div class="ch-input">
+      <input type="text" placeholder="Ex: aprova todos acima de 90%, rejeita o do Pedro...">
+      <button class="ch-send"><svg viewBox="0 0 24 24"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+    </div>
+  </div>
 
-<!-- APPROVAL 1 -->
-<div class="approval-card">
-  <div class="preview">
-    <div class="phone-mock">
-      <div class="phone-screen">
-        <div class="phone-header"><div class="ph-avatar">JM</div><div class="ph-name">joaomendes.ceo</div></div>
-        <div class="phone-content">
-          <div class="phone-slide">5 erros que CEOs cometem no Instagram<br>(e como parar de cometer hoje)</div>
-          <div class="phone-dots"><div class="d active"></div><div class="d"></div><div class="d"></div><div class="d"></div><div class="d"></div><div class="d"></div><div class="d"></div></div>
-          <div class="phone-caption">"Todo CEO acha que sabe tudo. Eu tambem achava. Ate perder R$2M por orgulho. Esses 5 erros..."</div>
-        </div>
+  <!-- CONTEÚDO 1: Joao Mendes — Carrossel IG -->
+  <div class="sec">Atrasados (SLA > 4h)</div>
+
+  <div class="ap">
+    <div class="ap-top">
+      <div class="ap-av">JM</div>
+      <div class="ap-info">
+        <div class="ap-title">"5 erros que CEOs cometem no Instagram"</div>
+        <div class="ap-meta">Joao Mendes — Carrossel IG 7 slides — Agendado Ter 10:30</div>
+      </div>
+      <span class="ap-sla sla-late">6h atrasado</span>
+    </div>
+    <div class="ap-preview">
+      <div class="ap-preview-box">
+        <strong>Slide 1:</strong> "Todo CEO acha que sabe tudo. Eu tambem achava. Ate perder R$2M por orgulho."<br>
+        <strong>Slide 2:</strong> "Erro #1 — Postar so quando lembra"<br>
+        <strong>Slide 3:</strong> "Erro #2 — Copiar o que concorrente faz"<br>
+        <strong>...</strong><br>
+        <strong>Legenda:</strong> "5 erros que eu mesmo cometi e como parei. Salva esse post pra nao esquecer."
+      </div>
+    </div>
+    <div class="ap-scores">
+      <div class="ap-sc"><div class="ap-sc-val">92%</div><div class="ap-sc-lab">Humanidade</div></div>
+      <div class="ap-sc"><div class="ap-sc-val">87%</div><div class="ap-sc-lab">Tom de voz</div></div>
+      <div class="ap-sc"><div class="ap-sc-val">97%</div><div class="ap-sc-lab">Originalidade</div></div>
+    </div>
+    <div class="ap-actions">
+      <button class="ap-btn ap-approve" onclick="this.textContent='Aprovado!';this.style.opacity='0.5'">Aprovar</button>
+      <button class="ap-btn ap-adjust">Ajustar</button>
+      <button class="ap-btn ap-redo">Refazer</button>
+      <button class="ap-btn ap-reject">Rejeitar</button>
+    </div>
+  </div>
+
+  <!-- CONTEÚDO 2: Ana Costa — Reel TikTok -->
+  <div class="ap">
+    <div class="ap-top">
+      <div class="ap-av">AC</div>
+      <div class="ap-info">
+        <div class="ap-title">"Reforma tributaria: o que muda pra PME"</div>
+        <div class="ap-meta">Ana Costa — Reel TikTok 28s — Agendado Qua 15:00</div>
+      </div>
+      <span class="ap-sla sla-warn">5h</span>
+    </div>
+    <div class="ap-preview">
+      <div class="ap-preview-box">
+        <strong>Roteiro (28s):</strong> "Se voce tem empresa no Simples, presta atencao. A reforma tributaria muda TUDO. Primeiro: o IBS substitui PIS/Cofins. Segundo: cashback pra empresas pequenas. Terceiro: a transicao leva 7 anos. O que fazer agora? Me segue que eu explico."
+      </div>
+    </div>
+    <div class="ap-scores">
+      <div class="ap-sc"><div class="ap-sc-val">89%</div><div class="ap-sc-lab">Humanidade</div></div>
+      <div class="ap-sc"><div class="ap-sc-val">91%</div><div class="ap-sc-lab">Tom</div></div>
+      <div class="ap-sc"><div class="ap-sc-val">94%</div><div class="ap-sc-lab">Original</div></div>
+    </div>
+    <div class="ap-actions">
+      <button class="ap-btn ap-approve" onclick="this.textContent='Aprovado!';this.style.opacity='0.5'">Aprovar</button>
+      <button class="ap-btn ap-adjust">Ajustar</button>
+      <button class="ap-btn ap-redo">Refazer</button>
+      <button class="ap-btn ap-reject">Rejeitar</button>
+    </div>
+  </div>
+
+  <!-- CONTEÚDO 3: Pedro Souza — Thread X -->
+  <div class="ap">
+    <div class="ap-top">
+      <div class="ap-av">PS</div>
+      <div class="ap-info">
+        <div class="ap-title">"Por que recusei revenue share"</div>
+        <div class="ap-meta">Pedro Souza — Thread X 5 tweets — Agendado Qua 12:00</div>
+      </div>
+      <span class="ap-sla sla-warn">4h</span>
+    </div>
+    <div class="ap-preview">
+      <div class="ap-preview-box">
+        <strong>Tweet 1:</strong> "Todo mundo fala em levantar rodada. Eu fiz diferente. Thread:"<br>
+        <strong>Tweet 2:</strong> "Recebi 3 propostas de revenue share no ultimo ano. Recusei todas. Motivo:"
+      </div>
+    </div>
+    <div class="ap-scores">
+      <div class="ap-sc"><div class="ap-sc-val warn">78%</div><div class="ap-sc-lab">Humanidade</div></div>
+      <div class="ap-sc"><div class="ap-sc-val">85%</div><div class="ap-sc-lab">Tom</div></div>
+      <div class="ap-sc"><div class="ap-sc-val">91%</div><div class="ap-sc-lab">Original</div></div>
+    </div>
+    <div class="ap-actions">
+      <button class="ap-btn ap-approve">Aprovar</button>
+      <button class="ap-btn ap-adjust">Ajustar</button>
+      <button class="ap-btn ap-redo" onclick="this.textContent='Refazendo...';this.style.opacity='0.5'">Refazer</button>
+      <button class="ap-btn ap-reject">Rejeitar</button>
+    </div>
+  </div>
+
+  <!-- STATUS: Aguardando cliente final -->
+  <div class="sec">Aguardando aprovacao do founder</div>
+
+  <div class="ap">
+    <div class="ap-top">
+      <div class="ap-av">JM</div>
+      <div class="ap-info">
+        <div class="ap-title">"Mercado B2B 2026: o que muda"</div>
+        <div class="ap-meta">Joao Mendes — Artigo LinkedIn — SM aprovou, aguardando Joao</div>
+      </div>
+      <span class="ap-sla sla-ok">Enviado 2h</span>
+    </div>
+    <div class="ap-preview">
+      <div class="ap-preview-box">
+        <strong>Status:</strong> Enviado pro WhatsApp do Joao as 10:05. Mensagem lida. Aguardando resposta. Se nao responder em 2h, vou enviar lembrete.
       </div>
     </div>
   </div>
-  <div class="details">
-    <div class="det-top">
-      <div class="det-avatar">JM</div>
-      <div class="det-info"><h3>Joao Mendes — Carrossel Instagram</h3><p>"5 erros que CEOs cometem no Instagram" — 7 slides</p></div>
-      <div class="det-sla sla-late">SLA: 6h atrasado</div>
-    </div>
-    <div class="det-meta">
-      <div class="dm-item"><div class="dm-val green">92%</div><div class="dm-lab">Score humanidade</div></div>
-      <div class="dm-item"><div class="dm-val">87%</div><div class="dm-lab">Alinhamento tom</div></div>
-      <div class="dm-item"><div class="dm-val">97%</div><div class="dm-lab">Originalidade</div></div>
-    </div>
-    <div class="compare">
-      <div class="compare-col"><div class="label">Nosso post</div><div class="mock">Preview carrossel</div></div>
-      <div class="compare-col"><div class="label">Post concorrente (referencia)</div><div class="mock">@concurrent1 — delegacao</div></div>
-    </div>
-    <div class="timeline">
-      <div class="tl-label">Pipeline</div>
-      <div class="tl-steps"><div class="tl-step tl-done"></div><div class="tl-step tl-done"></div><div class="tl-step tl-done"></div><div class="tl-step tl-done"></div><div class="tl-step tl-current"></div><div class="tl-step tl-pending"></div></div>
-      <div class="tl-labels"><span>Pesquisa</span><span>Pauta</span><span>Roteiro</span><span>Design</span><span>Aprovacao</span><span>Publicar</span></div>
-    </div>
-    <div class="approval-actions">
-      <button class="aa-btn aa-approve">Aprovar</button>
-      <button class="aa-btn aa-adjust">Ajustar</button>
-      <button class="aa-btn aa-redo">Refazer</button>
-      <button class="aa-btn aa-reject">Rejeitar</button>
-    </div>
-  </div>
-</div>
 
-<!-- APPROVAL 2 -->
-<div class="approval-card">
-  <div class="preview">
-    <div class="phone-mock">
-      <div class="phone-screen">
-        <div class="phone-header"><div class="ph-avatar">AC</div><div class="ph-name">anacosta.adv</div></div>
-        <div class="phone-content">
-          <div class="phone-slide" style="aspect-ratio:9/16;font-size:10px">Reel: "A reforma tributaria muda TUDO pra PME. Deixa eu te explicar em 30s..."</div>
-          <div class="phone-caption">"Se voce tem empresa no Simples, presta atencao..."</div>
-        </div>
+  <div class="ap">
+    <div class="ap-top">
+      <div class="ap-av">MF</div>
+      <div class="ap-info">
+        <div class="ap-title">"Lideranca feminina em tech: dados"</div>
+        <div class="ap-meta">Maria Fernandes — Artigo LinkedIn — SM aprovou, aguardando Maria</div>
+      </div>
+      <span class="ap-sla sla-ok">Enviado 1h</span>
+    </div>
+    <div class="ap-preview">
+      <div class="ap-preview-box">
+        <strong>Status:</strong> Enviado pro WhatsApp da Maria as 11:15. Mensagem entregue, nao lida ainda.
       </div>
     </div>
   </div>
-  <div class="details">
-    <div class="det-top">
-      <div class="det-avatar">AC</div>
-      <div class="det-info"><h3>Ana Costa — Reel TikTok</h3><p>"Reforma tributaria: o que muda pra PME" — 28 segundos</p></div>
-      <div class="det-sla sla-warn">SLA: 5h</div>
-    </div>
-    <div class="det-meta">
-      <div class="dm-item"><div class="dm-val green">89%</div><div class="dm-lab">Score humanidade</div></div>
-      <div class="dm-item"><div class="dm-val">91%</div><div class="dm-lab">Alinhamento tom</div></div>
-      <div class="dm-item"><div class="dm-val">94%</div><div class="dm-lab">Originalidade</div></div>
-    </div>
-    <div class="timeline">
-      <div class="tl-label">Pipeline</div>
-      <div class="tl-steps"><div class="tl-step tl-done"></div><div class="tl-step tl-done"></div><div class="tl-step tl-done"></div><div class="tl-step tl-done"></div><div class="tl-step tl-current"></div><div class="tl-step tl-pending"></div></div>
-      <div class="tl-labels"><span>Pesquisa</span><span>Pauta</span><span>Roteiro</span><span>Video</span><span>Aprovacao</span><span>Publicar</span></div>
-    </div>
-    <div class="approval-actions">
-      <button class="aa-btn aa-approve">Aprovar</button>
-      <button class="aa-btn aa-adjust">Ajustar</button>
-      <button class="aa-btn aa-redo">Refazer</button>
-      <button class="aa-btn aa-reject">Rejeitar</button>
-    </div>
-  </div>
-</div>
 
 </div>
-</div>
-<script src="shared-sidebar.js"></script></body></html>
+
+<script src="shared-sidebar.js"></script>
+</body>
+</html>
