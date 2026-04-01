@@ -93,35 +93,61 @@
     ]},
   ];
 
-  const SECTIONS = [
+  // Check if a client is selected (data-client="true" on body)
+  const isClientView = document.body.getAttribute('data-client') === 'true';
+
+  // GLOBAL SECTIONS (no client selected)
+  const SECTIONS_GLOBAL = [
     { id: 'painel', label: 'Painel', icon: 'M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z', items: [
       { label: 'Dashboard', href: t('dashboard.html'), icon: 'M4 6h16M4 12h16M4 18h7' },
       { label: 'Clientes', href: t('client-list.html'), icon: 'M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2' },
+      { label: 'Minha Fila', href: t('sm-inbox.html'), icon: 'M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2', badge: '14' },
     ]},
-    { id: 'producao', label: 'Producao', icon: 'M22 12h-4l-3 9L9 3l-3 9H2', badge: '14', items: [
-      { label: 'Minha Fila', href: t('sm-inbox.html'), icon: 'M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2' },
+    { id: 'producao', label: 'Producao', icon: 'M22 12h-4l-3 9L9 3l-3 9H2', items: [
       { label: 'Pipeline', href: t('pipeline.html'), icon: 'M22 12h-4l-3 9L9 3l-3 9H2' },
       { label: 'Calendario', href: t('calendar.html'), icon: 'M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z' },
       { label: 'Aprovacoes', href: t('approvals.html'), icon: 'M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z' },
       { label: 'Webinars', href: t('webinar.html'), icon: 'M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z' },
     ]},
-    { id: 'inteligencia', label: 'Inteligencia', icon: 'M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3', items: [
-      { label: 'Insights', href: t('insights.html'), icon: 'M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z' },
-      { label: 'Metricas', href: t('metrics.html'), icon: 'M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z' },
-      { label: 'Brand Book', href: t('brandbook.html'), icon: 'M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253' },
-      { label: 'Avatar Clone', href: t('avatar-clone.html'), icon: 'M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z' },
-    ]},
     { id: 'agentes', label: 'Agentes', icon: 'M14.5 17.5L3 6V3h3l11.5 11.5M13 19l6-6', items: [
-      { label: 'Meus agentes', href: t('agents.html'), icon: 'M14.5 17.5L3 6V3h3l11.5 11.5M13 19l6-6M15 17l2 2M7 3l7 7' },
+      { label: 'Empresa Inteligente', href: t('agents-overview.html'), icon: 'M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z' },
       { label: 'Conexoes', href: t('connections.html'), icon: 'M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101' },
       { label: 'Saude contas', href: t('health.html'), icon: 'M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z' },
     ]},
     { id: 'config', label: 'Config', icon: 'M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.066 2.573c1.756.426 1.756 2.924 0 3.35', items: [
       { label: 'Equipe', href: t('team-management.html'), icon: 'M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197' },
+      { label: 'Copilotos', href: t('team-copilot.html'), icon: 'M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71' },
+      { label: 'Permissoes', href: t('team-permissions.html'), icon: 'M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z' },
       { label: 'Cobranca', href: t('billing.html'), icon: 'M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z' },
       { label: 'Configuracoes', href: t('settings.html'), icon: 'M10.325 4.317c.426-1.756 2.924-1.756 3.35 0' },
     ]},
   ];
+
+  // PER-CLIENT SECTIONS (client selected in org switcher)
+  const SECTIONS_CLIENT = [
+    { id: 'voltar', label: '← Todos clientes', icon: 'M19 12H5M12 19l-7-7 7-7', items: [
+      { label: 'Dashboard', href: t('dashboard.html'), icon: 'M4 6h16M4 12h16M4 18h7' },
+    ]},
+    { id: 'cliente', label: 'Joao Mendes', icon: 'M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2M12 3a4 4 0 100 8 4 4 0 000-8z', items: [
+      { label: 'Workspace', href: t('client-workspace.html'), icon: 'M4 6h16M4 12h16M4 18h7' },
+      { label: 'Pipeline', href: t('pipeline.html'), icon: 'M22 12h-4l-3 9L9 3l-3 9H2' },
+      { label: 'Calendario', href: t('calendar.html'), icon: 'M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z' },
+      { label: 'Aprovacoes', href: t('approvals.html'), icon: 'M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z' },
+      { label: 'Brand Book', href: t('brandbook.html'), icon: 'M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253' },
+      { label: 'Metricas', href: t('metrics.html'), icon: 'M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2z' },
+      { label: 'Insights', href: t('insights.html'), icon: 'M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z' },
+      { label: 'Webinar', href: t('webinar.html'), icon: 'M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z' },
+      { label: 'Avatar Clone', href: t('avatar-clone.html'), icon: 'M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z' },
+    ]},
+    { id: 'gestao-client', label: 'Gestao', icon: 'M10.325 4.317c.426-1.756 2.924-1.756 3.35 0', items: [
+      { label: 'Agentes (Joao)', href: t('agents-client.html'), icon: 'M14.5 17.5L3 6V3h3l11.5 11.5M13 19l6-6' },
+      { label: 'Equipe (Joao)', href: t('client-team-assign.html'), icon: 'M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1z' },
+      { label: 'Checklist', href: t('client-checklist.html'), icon: 'M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z' },
+      { label: 'Atividade', href: t('client-activity.html'), icon: 'M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z' },
+    ]},
+  ];
+
+  const SECTIONS = isClientView ? SECTIONS_CLIENT : SECTIONS_GLOBAL;
 
   function svg(d, size) {
     return `<svg width="${size||16}" height="${size||16}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="${d}"/></svg>`;
