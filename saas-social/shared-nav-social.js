@@ -98,7 +98,8 @@
       { label: 'Dashboard', href: t('dashboard.html'), icon: 'M4 6h16M4 12h16M4 18h7' },
       { label: 'Clientes', href: t('client-list.html'), icon: 'M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2' },
     ]},
-    { id: 'producao', label: 'Producao', icon: 'M22 12h-4l-3 9L9 3l-3 9H2', items: [
+    { id: 'producao', label: 'Producao', icon: 'M22 12h-4l-3 9L9 3l-3 9H2', badge: '14', items: [
+      { label: 'Minha Fila', href: t('sm-inbox.html'), icon: 'M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2' },
       { label: 'Pipeline', href: t('pipeline.html'), icon: 'M22 12h-4l-3 9L9 3l-3 9H2' },
       { label: 'Calendario', href: t('calendar.html'), icon: 'M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z' },
       { label: 'Aprovacoes', href: t('approvals.html'), icon: 'M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z' },
@@ -138,6 +139,8 @@
     'metrics':     { avatar:'M', name:'Metrics — Analista', sender:'Metrics', greeting:'Resumo semanal: 142 posts publicados, ER medio 4.2%, +18% vs semana anterior. Melhor post: Joao carrossel delegacao (ER 6.8%).', chips:['Relatorio completo','Por cliente','Exportar PDF'] },
     'webinar':     { avatar:'D', name:'Director — Video', sender:'Director', greeting:'3 webinars processados. Ultimo: "Delegacao pra CEOs" (1h12min) gerou 47 micro-cortes. Quer enviar pro pipeline?', chips:['Ver cortes','Novo upload','Enviar pro pipeline'] },
     'avatar':      { avatar:'D', name:'Director — Avatar', sender:'Director', greeting:'3 avatares treinados. Joao: 92% semelhanca, 47 fotos. Quer gerar ensaio fotografico?', chips:['Gerar ensaio','Treinar novo','Ver galeria'] },
+    'sm-inbox':    { avatar:'S', name:'Sensei — Sua Fila', sender:'Sensei', greeting:'Bom dia Maria! De madrugada produzi 8 roteiros e 3 designs. 3 com SLA vencendo. Joao pediu ajuste em 1. Por onde quer comecar?', chips:['Urgentes primeiro','Ver roteiros','Feedback founder'] },
+    'client-activity': { avatar:'S', name:'Sensei — Atividade', sender:'Sensei', greeting:'Timeline completa desse cliente. Tudo que a IA fez, o SM revisou e o founder respondeu. Quer filtrar por tipo?', chips:['So IA','So founder','Ultimos 7 dias'] },
     'brandbook':   { avatar:'Q', name:'Quill — Brand Book', sender:'Quill', greeting:'Brand Book do Joao 86% completo. Faltam: paleta cores, variantes logo, tom secundario. Quer que eu finalize?', chips:['Finalizar','Editar bussola','Ver completo'] },
     'health':      { avatar:'S', name:'Sensei — Saude', sender:'Sensei', greeting:'9 de 12 contas saudaveis. Token LinkedIn do Pedro expira em 3 dias. GoLogin: 12 perfis ativos, 0 alertas.', chips:['Ver alertas','Renovar tokens','Status GoLogin'] },
     'connections':  { avatar:'S', name:'Sensei — Conexoes', sender:'Sensei', greeting:'9 de 12 ferramentas conectadas. Token LinkedIn expira em 3d. X e Blog nao configurados.', chips:['Configurar X','Renovar LinkedIn','Ver todas'] },
