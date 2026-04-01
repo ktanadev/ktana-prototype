@@ -1,0 +1,300 @@
+<!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>KTANA Social — Joao Mendes</title><link rel="stylesheet" href="../shared.css"><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Zen+Dots&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+body{min-height:100vh;background:#F5F5F7;color:#1D1D1F;display:flex}
+
+/* SIDEBAR - same as dashboard */
+.sidebar{width:220px;position:fixed;top:0;left:0;bottom:0;background:#FFF;border-right:1px solid rgba(0,0,0,0.06);padding:16px 0;overflow-y:auto;z-index:10;display:flex;flex-direction:column}
+.sidebar-logo{padding:0 16px;margin-bottom:20px;display:flex;align-items:center;gap:8px;text-decoration:none}
+.sidebar-logo .brand{font-family:'Zen Dots',cursive;font-size:13px;color:#D70030}
+.sidebar-logo .product{font-family:'Inter',sans-serif;font-size:9px;color:#86868B;background:rgba(0,0,0,0.04);padding:2px 6px;border-radius:4px}
+.nav-label{font-family:'Inter',sans-serif;font-size:9px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:#AEAEB2;padding:14px 16px 6px}
+.nav-item{display:flex;align-items:center;gap:10px;padding:8px 16px;font-family:'Inter',sans-serif;font-size:12px;color:#6E6E73;text-decoration:none;transition:all 0.15s;border-left:2px solid transparent;cursor:pointer}
+.nav-item:hover{color:#D70030;background:rgba(215,0,48,0.03)}
+.nav-item.active{color:#D70030;border-left-color:#D70030;background:rgba(215,0,48,0.04);font-weight:500}
+.nav-item .icon{width:18px;text-align:center;font-size:14px}
+.nav-back{display:flex;align-items:center;gap:8px;padding:10px 16px 14px;font-family:'Inter',sans-serif;font-size:11px;color:#86868B;text-decoration:none;transition:color 0.15s;border-bottom:1px solid rgba(0,0,0,0.04);margin-bottom:8px}
+.nav-back:hover{color:#D70030}
+
+/* MAIN */
+.main{margin-left:220px;flex:1;display:flex;flex-direction:column;min-height:100vh;margin-right:320px}
+.topbar{height:52px;display:flex;align-items:center;padding:0 24px;background:#FFF;border-bottom:1px solid rgba(0,0,0,0.04);gap:16px}
+.client-topbar-avatar{width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,#D70030,#A60028);display:flex;align-items:center;justify-content:center;font-family:'Inter',sans-serif;font-size:11px;font-weight:600;color:#FFF}
+.client-topbar-info h2{font-family:'Satoshi',sans-serif;font-size:14px;font-weight:600;color:#1D1D1F}
+.client-topbar-info p{font-family:'Inter',sans-serif;font-size:10px;color:#86868B}
+.topbar-phase{font-family:'Inter',sans-serif;font-size:9px;font-weight:600;letter-spacing:0.05em;text-transform:uppercase;padding:3px 10px;border-radius:6px;background:rgba(52,199,89,0.08);color:#34C759;margin-left:auto}
+.topbar-autopilot{display:flex;align-items:center;gap:6px;font-family:'Inter',sans-serif;font-size:11px;color:#34C759}
+.topbar-autopilot::before{content:'';width:6px;height:6px;border-radius:50%;background:#34C759}
+
+/* TABS */
+.tabs{display:flex;gap:0;background:#FFF;border-bottom:1px solid rgba(0,0,0,0.04);padding:0 24px}
+.tab{font-family:'Inter',sans-serif;font-size:12px;color:#86868B;padding:12px 16px;cursor:pointer;border-bottom:2px solid transparent;transition:all 0.15s}
+.tab:hover{color:#1D1D1F}
+.tab.active{color:#D70030;border-bottom-color:#D70030;font-weight:500}
+
+.content{flex:1;padding:24px;overflow-y:auto}
+
+/* OVERVIEW CARDS */
+.overview-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:24px}
+.ov-card{background:#FFF;border-radius:16px;padding:18px;border:1px solid rgba(0,0,0,0.04);position:relative;overflow:hidden}
+.ov-card::before{content:'';position:absolute;inset:0;border-radius:16px;padding:1px;background:linear-gradient(135deg,transparent 60%,rgba(215,0,48,0.1) 100%);-webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);-webkit-mask-composite:xor;mask-composite:exclude;opacity:0;transition:opacity 0.3s}
+.ov-card:hover::before{opacity:1}
+.ov-card h4{font-family:'Inter',sans-serif;font-size:10px;font-weight:600;letter-spacing:0.05em;text-transform:uppercase;color:#86868B;margin-bottom:6px}
+.ov-card .val{font-family:'Zen Dots',cursive;font-size:22px;color:#1D1D1F}
+.ov-card .val.brand{color:#D70030}
+.ov-card .sub{font-family:'Inter',sans-serif;font-size:10px;color:#86868B;margin-top:4px}
+.ov-card .net-row{display:flex;gap:8px;margin-top:8px}
+.ov-net{display:flex;flex-direction:column;align-items:center;gap:2px}
+.ov-net .name{font-family:'Inter',sans-serif;font-size:9px;color:#86868B}
+.ov-net .count{font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:600;color:#1D1D1F}
+.ov-net .delta{font-family:'Inter',sans-serif;font-size:9px;color:#34C759}
+
+/* QUICK ACTIONS */
+.quick-actions{display:flex;gap:8px;margin-bottom:24px;flex-wrap:wrap}
+.qa-btn{font-family:'Inter',sans-serif;font-size:11px;font-weight:500;padding:8px 14px;border-radius:10px;border:1px solid rgba(0,0,0,0.06);background:#FFF;color:#1D1D1F;cursor:pointer;transition:all 0.2s;display:flex;align-items:center;gap:6px}
+.qa-btn:hover{border-color:rgba(215,0,48,0.2);color:#D70030;box-shadow:0 2px 12px rgba(215,0,48,0.06)}
+.qa-btn.primary{background:#D70030;color:#FFF;border-color:#D70030}
+.qa-btn.primary:hover{background:#B8002A;box-shadow:0 4px 16px rgba(215,0,48,0.2)}
+
+/* SECTION */
+.section-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;margin-top:24px}
+.section-title{font-family:'Satoshi',sans-serif;font-size:15px;font-weight:600;color:#1D1D1F}
+.section-action{font-family:'Inter',sans-serif;font-size:11px;font-weight:500;color:#D70030;cursor:pointer}
+
+/* PIPELINE MINI */
+.pipeline-mini{display:flex;gap:8px;overflow-x:auto;padding-bottom:8px}
+.pipeline-col{min-width:160px;flex:1}
+.pipeline-col-header{font-family:'Inter',sans-serif;font-size:10px;font-weight:600;letter-spacing:0.05em;text-transform:uppercase;color:#86868B;margin-bottom:8px;display:flex;align-items:center;gap:6px}
+.pipeline-col-header .count{font-family:'JetBrains Mono',monospace;font-size:10px;color:#AEAEB2}
+.pipeline-item{background:#FFF;border:1px solid rgba(0,0,0,0.04);border-radius:10px;padding:10px 12px;margin-bottom:6px;cursor:pointer;transition:all 0.2s}
+.pipeline-item:hover{border-color:rgba(215,0,48,0.15);box-shadow:0 2px 8px rgba(0,0,0,0.04)}
+.pipeline-item .net{font-family:'Inter',sans-serif;font-size:9px;font-weight:600;color:#D70030;text-transform:uppercase;margin-bottom:3px}
+.pipeline-item .title{font-family:'Satoshi',sans-serif;font-size:12px;font-weight:500;color:#1D1D1F;margin-bottom:4px}
+.pipeline-item .score{font-family:'JetBrains Mono',monospace;font-size:10px;color:#34C759}
+
+/* CALENDAR MINI */
+.calendar-week{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;margin-top:12px}
+.cal-day{background:#FFF;border:1px solid rgba(0,0,0,0.04);border-radius:10px;padding:10px 8px;min-height:80px}
+.cal-day-name{font-family:'Inter',sans-serif;font-size:9px;font-weight:600;letter-spacing:0.05em;text-transform:uppercase;color:#86868B;margin-bottom:6px;text-align:center}
+.cal-slot{font-family:'Inter',sans-serif;font-size:9px;padding:3px 6px;border-radius:4px;margin-bottom:3px;text-align:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.cal-slot.published{background:rgba(52,199,89,0.08);color:#34C759}
+.cal-slot.scheduled{background:rgba(0,122,255,0.08);color:#007AFF}
+.cal-slot.producing{background:rgba(255,149,0,0.08);color:#FF9500}
+.cal-slot.empty{background:rgba(0,0,0,0.02);color:#AEAEB2;border:1px dashed rgba(0,0,0,0.08)}
+
+/* CHAT PANEL */
+.chat-panel{position:fixed;right:0;top:0;bottom:0;width:320px;background:#FFF;border-left:1px solid rgba(0,0,0,0.06);display:flex;flex-direction:column;z-index:5}
+.chat-header{padding:12px 16px;border-bottom:1px solid rgba(0,0,0,0.04);display:flex;align-items:center;gap:10px}
+.chat-header-avatar{width:28px;height:28px;border-radius:50%;background:#D70030;display:flex;align-items:center;justify-content:center}
+.chat-header-avatar svg{width:14px;height:14px;fill:#FFF}
+.chat-header-info{display:flex;flex-direction:column}
+.chat-header-name{font-family:'Zen Dots',cursive;font-size:11px;color:#1D1D1F}
+.chat-header-ctx{font-family:'Inter',sans-serif;font-size:10px;color:#D70030}
+.chat-body{flex:1;padding:16px;overflow-y:auto;display:flex;flex-direction:column;gap:10px}
+.chat-msg{max-width:85%;padding:10px 14px;border-radius:16px;font-family:'Satoshi',sans-serif;font-size:13px;line-height:1.5}
+.chat-msg-ai{background:#F0F0F2;color:#1D1D1F;border-bottom-left-radius:4px;align-self:flex-start}
+.chat-msg-user{background:#D70030;color:#FFF;border-bottom-right-radius:4px;align-self:flex-end}
+.chat-input-area{padding:12px 16px;border-top:1px solid rgba(0,0,0,0.04);display:flex;align-items:center;gap:8px}
+.chat-input{flex:1;font-family:'Inter',sans-serif;font-size:13px;background:#F0F0F2;border:1px solid rgba(0,0,0,0.04);border-radius:20px;padding:8px 14px;outline:none;color:#1D1D1F}
+.chat-input::placeholder{color:#AEAEB2}
+.chat-input:focus{border-color:rgba(215,0,48,0.3)}
+.chat-send{width:28px;height:28px;border-radius:50%;background:#D70030;display:flex;align-items:center;justify-content:center;cursor:pointer;border:none;flex-shrink:0}
+.chat-send svg{width:12px;height:12px;fill:#FFF}
+
+@media(max-width:1200px){.chat-panel{display:none}.main{margin-right:0}}
+@media(max-width:768px){.sidebar{display:none}.main{margin-left:0}.overview-grid{grid-template-columns:1fr}.calendar-week{grid-template-columns:repeat(3,1fr)}}
+</style>
+</head>
+<body>
+
+<!-- SIDEBAR -->
+<aside class="sidebar">
+  <a href="landing.html" class="sidebar-logo">
+    <span class="brand">KTANA</span>
+    <span class="product">Social</span>
+  </a>
+  <a href="dashboard.html" class="nav-back">&#8592; Voltar ao Dashboard</a>
+
+  <div class="nav-label">Joao Mendes</div>
+  <a class="nav-item active"><span class="icon">&#9679;</span> Visao Geral</a>
+  <a class="nav-item"><span class="icon">&#128214;</span> Brand Book</a>
+  <a class="nav-item"><span class="icon">&#128203;</span> Pipeline</a>
+  <a class="nav-item"><span class="icon">&#128197;</span> Calendario</a>
+  <a class="nav-item"><span class="icon">&#128269;</span> Insights</a>
+  <a class="nav-item"><span class="icon">&#127916;</span> Webinars</a>
+  <a class="nav-item"><span class="icon">&#128248;</span> Avatar & Clone</a>
+  <a class="nav-item"><span class="icon">&#128202;</span> Metricas</a>
+  <a class="nav-item"><span class="icon">&#128101;</span> Perfis</a>
+  <a class="nav-item"><span class="icon">&#128193;</span> Arquivos</a>
+  <a class="nav-item" href="connections.html"><span class="icon">&#9881;</span> Conexoes</a>
+  <a class="nav-item"><span class="icon">&#9881;</span> Config</a>
+</aside>
+
+<!-- MAIN -->
+<div class="main">
+  <div class="topbar">
+    <div class="client-topbar-avatar">JM</div>
+    <div class="client-topbar-info">
+      <h2>Joao Mendes</h2>
+      <p>CEO TechFlow — SaaS B2B — Arquetipo: Heroi — Tom: Direto e provocador</p>
+    </div>
+    <div class="topbar-phase">Fase 4 — Producao</div>
+    <div class="topbar-autopilot">Autopilot Ativo</div>
+  </div>
+
+  <!-- TABS -->
+  <div class="tabs">
+    <div class="tab active">Visao Geral</div>
+    <div class="tab">Brand Book</div>
+    <div class="tab">Pipeline</div>
+    <div class="tab">Calendario</div>
+    <div class="tab">Insights</div>
+    <div class="tab">Webinars</div>
+    <div class="tab">Avatar</div>
+    <div class="tab">Metricas</div>
+    <div class="tab">Perfis</div>
+    <div class="tab">Conexoes</div>
+  </div>
+
+  <div class="content">
+    <!-- OVERVIEW CARDS -->
+    <div class="overview-grid">
+      <div class="ov-card">
+        <h4>Seguidores totais</h4>
+        <div class="net-row">
+          <div class="ov-net"><span class="name">IG</span><span class="count">12.4K</span><span class="delta">+340</span></div>
+          <div class="ov-net"><span class="name">LI</span><span class="count">8.2K</span><span class="delta">+120</span></div>
+          <div class="ov-net"><span class="name">TT</span><span class="count">3.1K</span><span class="delta">+89</span></div>
+          <div class="ov-net"><span class="name">X</span><span class="count">2.8K</span><span class="delta">+45</span></div>
+        </div>
+      </div>
+      <div class="ov-card">
+        <h4>Posts esta semana</h4>
+        <div class="val">18<span style="font-family:Inter;font-size:14px;color:#86868B">/21</span></div>
+        <div class="sub">86% dos slots preenchidos</div>
+      </div>
+      <div class="ov-card">
+        <h4>Engagement Rate medio</h4>
+        <div class="val brand">4.8%</div>
+        <div class="sub">+0.6% vs mes anterior — acima do nicho (3.2%)</div>
+      </div>
+    </div>
+
+    <!-- QUICK ACTIONS -->
+    <div class="quick-actions">
+      <button class="qa-btn primary">+ Criar conteudo</button>
+      <button class="qa-btn">&#128203; Ver pautas sugeridas</button>
+      <button class="qa-btn">&#128197; Calendario</button>
+      <button class="qa-btn">&#127916; Upload webinar</button>
+      <button class="qa-btn">&#128202; Relatorio</button>
+      <button class="qa-btn">&#128172; WhatsApp cliente</button>
+    </div>
+
+    <!-- PIPELINE MINI -->
+    <div class="section-header">
+      <div class="section-title">Pipeline de conteudo</div>
+      <div class="section-action">Ver pipeline completo</div>
+    </div>
+    <div class="pipeline-mini">
+      <div class="pipeline-col">
+        <div class="pipeline-col-header">Pesquisa <span class="count">2</span></div>
+        <div class="pipeline-item"><div class="net">IG</div><div class="title">Concorrentes SaaS</div></div>
+        <div class="pipeline-item"><div class="net">LI</div><div class="title">Trending B2B</div></div>
+      </div>
+      <div class="pipeline-col">
+        <div class="pipeline-col-header">Pauta <span class="count">3</span></div>
+        <div class="pipeline-item"><div class="net">IG</div><div class="title">5 erros de CEO</div><div class="score">Score 87%</div></div>
+        <div class="pipeline-item"><div class="net">LI</div><div class="title">Futuro do B2B</div><div class="score">Score 94%</div></div>
+        <div class="pipeline-item"><div class="net">X</div><div class="title">Revenue share vs equity</div><div class="score">Score 91%</div></div>
+      </div>
+      <div class="pipeline-col">
+        <div class="pipeline-col-header">Roteiro <span class="count">2</span></div>
+        <div class="pipeline-item"><div class="net">IG</div><div class="title">Escale sem queimar caixa</div><div class="score">Humanidade 92%</div></div>
+        <div class="pipeline-item"><div class="net">TT</div><div class="title">Rotina de CEO</div><div class="score">Humanidade 88%</div></div>
+      </div>
+      <div class="pipeline-col">
+        <div class="pipeline-col-header">Design <span class="count">1</span></div>
+        <div class="pipeline-item"><div class="net">IG</div><div class="title">Lideranca tech</div><div class="score">Renderizando...</div></div>
+      </div>
+      <div class="pipeline-col">
+        <div class="pipeline-col-header">Aprovacao <span class="count">2</span></div>
+        <div class="pipeline-item" style="border-color:rgba(255,149,0,0.2)"><div class="net">IG</div><div class="title">Rotina de CEO</div><div class="score" style="color:#FF9500">Aguardando SM (6h)</div></div>
+        <div class="pipeline-item"><div class="net">LI</div><div class="title">Mercado 2026</div><div class="score" style="color:#007AFF">Aguardando cliente</div></div>
+      </div>
+      <div class="pipeline-col">
+        <div class="pipeline-col-header">Agendado <span class="count">4</span></div>
+        <div class="pipeline-item"><div class="net">IG</div><div class="title">Escale sem caixa</div><div class="score">Ter 10:30</div></div>
+        <div class="pipeline-item"><div class="net">LI</div><div class="title">Futuro B2B</div><div class="score">Qua 09:00</div></div>
+        <div class="pipeline-item"><div class="net">TT</div><div class="title">3 metricas</div><div class="score">Ter 15:00</div></div>
+        <div class="pipeline-item"><div class="net">X</div><div class="title">Thread revenue</div><div class="score">Qua 12:00</div></div>
+      </div>
+    </div>
+
+    <!-- CALENDAR MINI -->
+    <div class="section-header">
+      <div class="section-title">Calendario — Esta semana</div>
+      <div class="section-action">Ver calendario completo</div>
+    </div>
+    <div class="calendar-week">
+      <div class="cal-day">
+        <div class="cal-day-name">Seg 31</div>
+        <div class="cal-slot published">IG Carrossel</div>
+        <div class="cal-slot published">TT Reel</div>
+        <div class="cal-slot published">LI Post</div>
+      </div>
+      <div class="cal-day">
+        <div class="cal-day-name">Ter 1</div>
+        <div class="cal-slot scheduled">IG 10:30</div>
+        <div class="cal-slot scheduled">TT 15:00</div>
+        <div class="cal-slot producing">X Thread</div>
+      </div>
+      <div class="cal-day">
+        <div class="cal-day-name">Qua 2</div>
+        <div class="cal-slot scheduled">LI 09:00</div>
+        <div class="cal-slot scheduled">X 12:00</div>
+        <div class="cal-slot producing">IG Reel</div>
+      </div>
+      <div class="cal-day">
+        <div class="cal-day-name">Qui 3</div>
+        <div class="cal-slot producing">IG 11:00</div>
+        <div class="cal-slot empty">TT</div>
+        <div class="cal-slot producing">LI</div>
+      </div>
+      <div class="cal-day">
+        <div class="cal-day-name">Sex 4</div>
+        <div class="cal-slot empty">IG</div>
+        <div class="cal-slot empty">TT</div>
+        <div class="cal-slot empty">Blog</div>
+      </div>
+      <div class="cal-day">
+        <div class="cal-day-name">Sab 5</div>
+        <div class="cal-slot empty">IG</div>
+      </div>
+      <div class="cal-day">
+        <div class="cal-day-name">Dom 6</div>
+        <div class="cal-slot empty">IG</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CHAT PANEL -->
+<div class="chat-panel">
+  <div class="chat-header">
+    <div class="chat-header-avatar"><svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg></div>
+    <div class="chat-header-info">
+      <div class="chat-header-name">KTANA Social</div>
+      <div class="chat-header-ctx">Contexto: Joao Mendes — CEO TechFlow</div>
+    </div>
+  </div>
+  <div class="chat-body">
+    <div class="chat-msg chat-msg-ai">Contexto do Joao carregado. Ele e CEO da TechFlow, nicho SaaS B2B, tom direto e provocador, arquetipo Heroi. Tem 3 posts pendentes de aprovacao e 3 slots vazios na sexta. Como posso ajudar?</div>
+    <div class="chat-msg chat-msg-user">Gera 3 ideias de carrossel sobre delegacao pro Joao</div>
+    <div class="chat-msg chat-msg-ai">Baseado no benchmark: @concurrent1 postou sobre delegacao ontem (ER 5.2%). Aqui vao 3 ideias no tom do Joao:<br><br><strong>1.</strong> "Delegacao pra CEOs control freaks" — carrossel 7 slides, tom provocador, gancho: "Voce nao sabe delegar. E ta tudo bem."<br><br><strong>2.</strong> "O teste dos 15 minutos" — 5 slides, didatico, gancho: "Se voce gasta mais de 15min explicando uma tarefa, o problema e voce."<br><br><strong>3.</strong> "3 coisas que CEO bom NUNCA delega" — 6 slides, opinion forte, gancho: lista do que manter.<br><br>Scores: 94%, 87%, 91%. Quer que eu crie os roteiros e envie pro pipeline?</div>
+  </div>
+  <div class="chat-input-area">
+    <input type="text" class="chat-input" placeholder="Pergunte algo sobre Joao Mendes...">
+    <button class="chat-send"><svg viewBox="0 0 24 24"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg></button>
+  </div>
+</div>
+
+</body></html>
