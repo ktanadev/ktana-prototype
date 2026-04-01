@@ -2,11 +2,6 @@
 <style>
 body{min-height:100vh;background:#F5F5F7;color:#1D1D1F}
 a{text-decoration:none;color:inherit}
-.nav{position:fixed;top:0;left:0;right:0;z-index:50;height:48px;display:flex;align-items:center;justify-content:center;background:rgba(245,245,247,0.72);backdrop-filter:saturate(180%) blur(20px);border-bottom:0.5px solid rgba(0,0,0,0.06)}
-.nav-inner{width:100%;max-width:980px;padding:0 24px;display:flex;align-items:center;justify-content:space-between}
-.nav-logo{font-family:'Zen Dots',cursive;font-size:14px;color:#D70030}
-.nav-links a{font-family:'Inter',sans-serif;font-size:12px;color:#86868B;margin-left:20px}
-.nav-links a:hover{color:#D70030}
 .container{max-width:980px;margin:0 auto;padding:64px 24px 80px}
 h1{font-family:'Zen Dots',cursive;font-size:22px;color:#1D1D1F;margin-bottom:6px}
 .sub{font-family:'Satoshi',sans-serif;font-size:14px;color:#86868B;margin-bottom:24px}
@@ -72,25 +67,9 @@ h1{font-family:'Zen Dots',cursive;font-size:22px;color:#1D1D1F;margin-bottom:6px
 </style>
 </head>
 <body data-client="true" data-active="webinar">
-<nav class="nav"><div class="nav-inner"><a href="landing.html" class="nav-logo">KTANA Social</a><div class="nav-links"><a href="dashboard.html">Dashboard</a><a href="agents.html">Agentes</a><a href="connections.html">Conexoes</a></div></div></nav>
-<div class="container">
+<main class="main" style="max-width:760px;padding:24px">
 
   <!-- CHAT HERO -->
-  <div id="chat-zone"></div>
-  <!-- chat from shared-nav-social -->
-<!--     data-agent="Director"
-    data-context="Webinars e micro-cortes"
-    data-msg="<strong>3 webinars</strong> processados. Ultimo: "Delegacao pra CEOs" (1h12min) gerou <strong>47 micro-cortes</strong> — 12 reels, 8 carrosseis, 15 threads, 7 artigos, 5 citacoes."></script>
-
-  
-    <div style="padding:14px 18px">
-      <div style="max-width:88%;padding:10px 14px;border-radius:14px;border-bottom-left-radius:4px;background:#F0F0F2;font-family:'Satoshi',sans-serif;font-size:13px;color:#1D1D1F;line-height:1.5">Voce tem <strong>3 videos</strong> processados e <strong>17 pecas</strong> geradas. O webinar "Masterclass SaaS B2B" gerou 8 cortes de video, 4 carrosseis e 3 threads. Quer enviar tudo pro pipeline?</div>
-    </div>
-    <div style="display:flex;align-items:center;gap:8px;padding:12px 18px;border-top:1px solid rgba(0,0,0,0.04)">
-      <input type="text" style="flex:1;font-family:'Satoshi',sans-serif;font-size:13px;background:#F5F5F7;border:1px solid rgba(0,0,0,0.06);border-radius:12px;padding:10px 14px;outline:none;color:#1D1D1F" placeholder="Pergunte ao Director...">
-      <button style="width:32px;height:32px;border-radius:50%;background:#D70030;display:flex;align-items:center;justify-content:center;cursor:pointer;border:none"><svg viewBox="0 0 24 24" style="width:12px;height:12px;stroke:#FFF;fill:none;stroke-width:2"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
-    </div>
-  </div>
 
 <h1>Webinar & Micro-cortes.</h1>
 <p class="sub">Upload um video longo. A IA transcreve, identifica momentos de impacto e gera 50+ pecas de conteudo.</p>

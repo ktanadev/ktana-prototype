@@ -2,11 +2,6 @@
 <style>
 body{min-height:100vh;background:#F5F5F7;color:#1D1D1F}
 a{text-decoration:none;color:inherit}
-.nav{position:fixed;top:0;left:0;right:0;z-index:50;height:48px;display:flex;align-items:center;justify-content:center;background:rgba(245,245,247,0.72);backdrop-filter:saturate(180%) blur(20px);border-bottom:0.5px solid rgba(0,0,0,0.06)}
-.nav-inner{width:100%;max-width:980px;padding:0 24px;display:flex;align-items:center;justify-content:space-between}
-.nav-logo{font-family:'Zen Dots',cursive;font-size:14px;color:#D70030}
-.nav-links a{font-family:'Inter',sans-serif;font-size:12px;color:#86868B;margin-left:20px}
-.nav-links a:hover{color:#D70030}
 .container{max-width:980px;margin:0 auto;padding:64px 24px 80px}
 h1{font-family:'Zen Dots',cursive;font-size:22px;color:#1D1D1F;margin-bottom:6px}
 .sub{font-family:'Satoshi',sans-serif;font-size:14px;color:#86868B;margin-bottom:24px}
@@ -104,25 +99,9 @@ h1{font-family:'Zen Dots',cursive;font-size:22px;color:#1D1D1F;margin-bottom:6px
 </style>
 </head>
 <body data-client="true" data-active="avatar">
-<nav class="nav"><div class="nav-inner"><a href="landing.html" class="nav-logo">KTANA Social</a><div class="nav-links"><a href="dashboard.html">Dashboard</a><a href="agents.html">Agentes</a></div></div></nav>
-<div class="container">
+<main class="main" style="max-width:760px;padding:24px">
 
   <!-- CHAT HERO -->
-  <div id="chat-zone"></div>
-  <!-- chat from shared-nav-social -->
-<!--     data-agent="Director"
-    data-context="Avatar e clone visual"
-    data-msg="<strong>3 avatares</strong> treinados. Joao Mendes: 92% semelhanca, 47 fotos base. Pronto pra gerar ensaios."></script>
-
-  
-    <div style="padding:14px 18px">
-      <div style="max-width:88%;padding:10px 14px;border-radius:14px;border-bottom-left-radius:4px;background:#F0F0F2;font-family:'Satoshi',sans-serif;font-size:13px;color:#1D1D1F;line-height:1.5">Clone visual do Joao: <strong>38 fotos</strong> enviadas, estilo <strong>Corporate Premium</strong>. O modelo esta <strong>85% treinado</strong>. Faltam fotos de corpo inteiro e ambiente de trabalho. Quer que eu cobre o Joao no WhatsApp?</div>
-    </div>
-    <div style="display:flex;align-items:center;gap:8px;padding:12px 18px;border-top:1px solid rgba(0,0,0,0.04)">
-      <input type="text" style="flex:1;font-family:'Satoshi',sans-serif;font-size:13px;background:#F5F5F7;border:1px solid rgba(0,0,0,0.06);border-radius:12px;padding:10px 14px;outline:none;color:#1D1D1F" placeholder="Pergunte ao Canvas...">
-      <button style="width:32px;height:32px;border-radius:50%;background:#D70030;display:flex;align-items:center;justify-content:center;cursor:pointer;border:none"><svg viewBox="0 0 24 24" style="width:12px;height:12px;stroke:#FFF;fill:none;stroke-width:2"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
-    </div>
-  </div>
 
 <h1>Avatar & Clone Visual.</h1>
 <p class="sub">Joao Mendes — Treine o modelo visual do founder. Fotos infinitas, videos com avatar, sem fotografo.</p>
