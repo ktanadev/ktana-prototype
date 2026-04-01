@@ -7,8 +7,15 @@ a{text-decoration:none;color:inherit}
 /* TOOLBAR */
 .toolbar{display:flex;align-items:center;gap:12px;margin-bottom:16px;flex-shrink:0;flex-wrap:wrap}
 .toolbar-title{font-family:'Satoshi',sans-serif;font-size:20px;font-weight:700;color:#1D1D1F;margin-right:auto}
-.filter{font-family:'Inter',sans-serif;font-size:12px;padding:6px 14px;border-radius:980px;border:1px solid rgba(0,0,0,0.06);background:#FFF;color:#86868B;cursor:pointer;transition:all 0.15s;user-select:none}
-.filter:hover,.filter.on{background:rgba(215,0,48,0.06);border-color:rgba(215,0,48,0.12);color:#D70030}
+/* CLIENT FILTER BAR */
+.client-filter-bar{display:flex;align-items:center;gap:8px;padding:10px 16px;background:#FFF;border-radius:14px;border:1px solid rgba(0,0,0,0.04);margin-bottom:16px;flex-shrink:0;overflow-x:auto}
+.cf-label{font-family:'Inter',sans-serif;font-size:10px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:#86868B;margin-right:4px;white-space:nowrap}
+.filter{display:flex;align-items:center;gap:6px;font-family:'Inter',sans-serif;font-size:12px;font-weight:500;padding:8px 14px;border-radius:10px;border:1.5px solid rgba(0,0,0,0.04);background:#F5F5F7;color:#6E6E73;cursor:pointer;transition:all 0.2s;user-select:none;white-space:nowrap}
+.filter:hover{border-color:rgba(215,0,48,0.15);background:rgba(215,0,48,0.03);color:#D70030}
+.filter.on{border-color:rgba(215,0,48,0.3);background:rgba(215,0,48,0.06);color:#D70030;font-weight:600;box-shadow:0 0 0 1px rgba(215,0,48,0.1)}
+.filter .f-av{width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Inter',sans-serif;font-size:8px;font-weight:700;color:#FFF;flex-shrink:0}
+.filter .f-count{font-family:'Inter',sans-serif;font-size:9px;color:#AEAEB2;background:rgba(0,0,0,0.04);padding:1px 5px;border-radius:4px;margin-left:2px}
+.filter.on .f-count{background:rgba(215,0,48,0.1);color:#D70030}
 .summary{display:flex;gap:16px;font-family:'Inter',sans-serif;font-size:12px;color:#86868B;margin-bottom:16px;flex-shrink:0}
 .summary strong{color:#1D1D1F}
 
@@ -52,11 +59,15 @@ a{text-decoration:none;color:inherit}
 
 <div class="toolbar">
   <div class="toolbar-title">Pipeline de Conteudo</div>
-  <div class="filter on" data-f="all">Todos</div>
-  <div class="filter" data-f="JM">Joao M.</div>
-  <div class="filter" data-f="AC">Ana C.</div>
-  <div class="filter" data-f="PS">Pedro S.</div>
-  <div class="filter" data-f="MF">Maria F.</div>
+</div>
+
+<div class="client-filter-bar">
+  <span class="cf-label">Cliente:</span>
+  <div class="filter on" data-f="all"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>Todos<span class="f-count">20</span></div>
+  <div class="filter" data-f="JM"><span class="f-av" style="background:linear-gradient(135deg,#D70030,#A60028)">JM</span>Joao Mendes<span class="f-count">12</span></div>
+  <div class="filter" data-f="AC"><span class="f-av" style="background:linear-gradient(135deg,#5856D6,#3A38A0)">AC</span>Ana Costa<span class="f-count">3</span></div>
+  <div class="filter" data-f="PS"><span class="f-av" style="background:linear-gradient(135deg,#007AFF,#0055CC)">PS</span>Pedro Souza<span class="f-count">1</span></div>
+  <div class="filter" data-f="MF"><span class="f-av" style="background:linear-gradient(135deg,#FF9500,#CC7700)">MF</span>Maria Fernandes<span class="f-count">4</span></div>
 </div>
 
 <div class="summary">

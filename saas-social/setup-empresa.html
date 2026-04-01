@@ -107,21 +107,27 @@ body{min-height:100vh;background:#F5F5F7}
   </div>
   <div class="selected-bar" id="selectedBar"></div>
 
-  <!-- ═══ PASSO 1: ESSÊNCIA ═══ -->
+  <!-- ═══ PASSO 1: ESSÊNCIA (via CHAT) ═══ -->
   <div class="step active" id="step-0">
-    <div class="chat-box">
-      <label>Nome da empresa</label>
-      <input type="text" id="essNome" placeholder="Ex: Grupo Silva" value="Grupo Silva">
+    <div style="background:#1D1D1F;border-radius:20px;overflow:hidden;margin-bottom:16px">
+      <div style="display:flex;align-items:center;gap:10px;padding:14px 18px;border-bottom:1px solid rgba(255,255,255,0.06)">
+        <div style="width:28px;height:28px;border-radius:8px;background:linear-gradient(135deg,#D70030,#8B0000);display:flex;align-items:center;justify-content:center">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#FFF" stroke-width="1.5"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <div><div style="font-family:'Zen Dots',cursive;font-size:11px;color:#FFF">Sensei</div><div style="font-family:'Inter',sans-serif;font-size:10px;color:rgba(255,255,255,0.5)">Configurando sua empresa</div></div>
+      </div>
+      <div id="essChat" style="padding:18px;display:flex;flex-direction:column;gap:10px;max-height:360px;overflow-y:auto">
+        <div style="max-width:85%;padding:10px 14px;border-radius:14px 14px 14px 4px;background:rgba(255,255,255,0.08);font-family:'Satoshi',sans-serif;font-size:13px;color:rgba(255,255,255,0.9);line-height:1.5">Vamos comecar! Qual o <strong style="color:#D70030">nome da sua empresa</strong> de assessoria?</div>
+      </div>
+      <div style="display:flex;align-items:center;gap:8px;padding:12px 18px;border-top:1px solid rgba(255,255,255,0.06)">
+        <input type="text" id="essInput" placeholder="Digite aqui..." style="flex:1;font-family:'Satoshi',sans-serif;font-size:13px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);border-radius:12px;padding:10px 14px;outline:none;color:#FFF" onkeydown="if(event.key==='Enter')essNext()">
+        <button onclick="essNext()" style="width:32px;height:32px;border-radius:50%;background:#D70030;display:flex;align-items:center;justify-content:center;cursor:pointer;border:none;flex-shrink:0"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#FFF" stroke-width="2"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+      </div>
     </div>
-    <div class="chat-box">
-      <label>Nicho principal</label>
-      <input type="text" id="essNicho" placeholder="Ex: Posicionamento de founders como autoridade">
-    </div>
-    <div class="chat-box">
-      <label>Proposta de valor (o que voce faz de diferente)</label>
-      <textarea id="essProposta" placeholder="Ex: Transformamos founders invisiveis em autoridades reconhecidas usando IA + conteudo humano em escala"></textarea>
-    </div>
-    <button class="btn-next" onclick="goStep(1)">Proximo: Metodologia</button>
+    <input type="hidden" id="essNome" value="">
+    <input type="hidden" id="essNicho" value="">
+    <input type="hidden" id="essProposta" value="">
+    <button class="btn-next" id="essNextBtn" onclick="goStep(1)" style="display:none">Proximo: Metodologia</button>
   </div>
 
   <!-- ═══ PASSO 2: METODOLOGIA BUILDER ═══ -->
@@ -280,5 +286,44 @@ document.getElementById('builderCanvas').addEventListener('dragover', e => {
   if(after) canvas.insertBefore(dragBlock, after);
   else canvas.appendChild(dragBlock);
 });
+
+// ═══ ESSÊNCIA VIA CHAT ═══
+let essStep = 0;
+const essQuestions = [
+  {field:'essNome', q:'Qual o <strong style="color:#D70030">nicho principal</strong> da assessoria? (Ex: posicionamento de founders como autoridade)'},
+  {field:'essNicho', q:'E a <strong style="color:#D70030">proposta de valor</strong>? O que voces fazem de diferente dos concorrentes?'},
+  {field:'essProposta', q:null}
+];
+function essNext() {
+  const input = document.getElementById('essInput');
+  const val = input.value.trim();
+  if(!val) return;
+  const chat = document.getElementById('essChat');
+  // User msg
+  chat.innerHTML += '<div style="max-width:85%;padding:10px 14px;border-radius:14px 14px 4px 14px;background:#D70030;font-family:Satoshi,sans-serif;font-size:13px;color:#FFF;align-self:flex-end;margin-left:auto">'+val+'</div>';
+  // Save value
+  if(essStep===0) document.getElementById('essNome').value = val;
+  else if(essStep===1) document.getElementById('essNicho').value = val;
+  else if(essStep===2) document.getElementById('essProposta').value = val;
+  input.value = '';
+  essStep++;
+  if(essStep < 3) {
+    setTimeout(()=>{
+      chat.innerHTML += '<div style="max-width:85%;padding:10px 14px;border-radius:14px 14px 14px 4px;background:rgba(255,255,255,0.08);font-family:Satoshi,sans-serif;font-size:13px;color:rgba(255,255,255,0.9);line-height:1.5">'+essQuestions[essStep-1].q+'</div>';
+      chat.scrollTop = chat.scrollHeight;
+      input.focus();
+    }, 400);
+  } else {
+    const nome = document.getElementById('essNome').value;
+    setTimeout(()=>{
+      chat.innerHTML += '<div style="max-width:85%;padding:10px 14px;border-radius:14px 14px 14px 4px;background:rgba(255,255,255,0.08);font-family:Satoshi,sans-serif;font-size:13px;color:rgba(255,255,255,0.9);line-height:1.5">Perfeito! <strong style="color:#D70030">'+nome+'</strong> esta configurada. Agora vamos montar sua metodologia.</div>';
+      chat.scrollTop = chat.scrollHeight;
+      document.getElementById('essNextBtn').style.display = 'block';
+      input.disabled = true;
+      input.placeholder = 'Essencia completa!';
+    }, 400);
+  }
+  chat.scrollTop = chat.scrollHeight;
+}
 </script>
 </body></html>
