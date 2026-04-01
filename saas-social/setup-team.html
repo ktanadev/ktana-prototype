@@ -7,270 +7,139 @@
   <link rel="stylesheet" href="../shared.css">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Zen+Dots&display=swap" rel="stylesheet">
   <style>
-    body{min-height:100vh;background:#F5F5F7}
+    body{min-height:100vh;background:#F5F5F7;color:#1D1D1F;display:flex;align-items:center;justify-content:center;padding:24px}
     a{text-decoration:none;color:inherit}
-    .container{max-width:520px;margin:0 auto;padding:40px 24px 80px}
-    .progress{display:flex;justify-content:center;gap:6px;margin-bottom:40px}
-    .dot{width:6px;height:6px;border-radius:50%;background:#D2D2D7}
-    .dot.done{background:#86868B}
-    .dot.active{background:#D70030;width:20px;border-radius:3px}
-    .header{text-align:center;margin-bottom:32px}
-    .header h1{font-family:'Zen Dots',cursive;font-size:28px;color:#1D1D1F;margin-bottom:6px}
-    .header .sub{font-family:'Satoshi',sans-serif;font-size:15px;color:#86868B}
-    .header .counter{font-family:'Inter',sans-serif;font-size:12px;color:#AEAEB2;margin-top:8px}
-
-    /* DEPT SECTION */
-    .dept-section{display:none;animation:fadeIn 0.3s ease}
-    .dept-section.active{display:block}
-    @keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
-
-    .dept-header{background:#FFF;border-radius:20px;border:1px solid rgba(0,0,0,0.04);padding:24px;display:flex;align-items:center;gap:16px;margin-bottom:14px}
-    .dept-avatar{width:48px;height:48px;border-radius:14px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
-    .dept-avatar svg{width:22px;height:22px;stroke:#FFF;fill:none;stroke-width:1.5}
-    .da-red{background:linear-gradient(135deg,#D70030,#8B0000)}
-    .da-blue{background:linear-gradient(135deg,#007AFF,#0055CC)}
-    .da-green{background:linear-gradient(135deg,#34C759,#248A3D)}
-    .da-orange{background:linear-gradient(135deg,#FF9500,#CC7700)}
-    .da-purple{background:linear-gradient(135deg,#5856D6,#3A38A0)}
-    .dept-meta h2{font-family:'Zen Dots',cursive;font-size:18px;color:#1D1D1F;margin-bottom:2px}
-    .dept-meta p{font-family:'Inter',sans-serif;font-size:12px;color:#86868B}
-
-    /* ROLE CARD — selecionar C-Level */
-    .section-card{background:#FFF;border-radius:20px;border:1px solid rgba(0,0,0,0.04);padding:24px;margin-bottom:14px}
-    .card-label{font-family:'Inter',sans-serif;font-size:11px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:#D70030;margin-bottom:14px}
-    .card-desc{font-family:'Satoshi',sans-serif;font-size:13px;color:#86868B;margin-bottom:16px;line-height:1.5}
-
-    /* ROLE LIST */
-    .role-list{display:flex;flex-direction:column;gap:8px}
-    .role-item{display:flex;align-items:center;gap:12px;padding:14px 16px;border-radius:14px;border:1.5px solid rgba(0,0,0,0.06);cursor:pointer;transition:all 0.15s;min-height:52px}
-    .role-item:hover{border-color:rgba(0,0,0,0.12)}
-    .role-item.selected{border-color:rgba(215,0,48,0.25);background:rgba(215,0,48,0.015)}
-    .role-check{width:22px;height:22px;border-radius:50%;border:1.5px solid #D2D2D7;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all 0.15s}
-    .role-item.selected .role-check{border-color:#D70030;background:#D70030}
-    .role-item.selected .role-check::after{content:'';width:6px;height:6px;border-radius:50%;background:#FFF}
-    .role-info{flex:1}
-    .role-name{font-family:'Satoshi',sans-serif;font-size:14px;font-weight:500;color:#1D1D1F}
-    .role-desc{font-family:'Inter',sans-serif;font-size:11px;color:#86868B;margin-top:2px}
-
-    /* MEMBER INPUT */
-    .member-list{display:flex;flex-direction:column;gap:8px;margin-bottom:12px}
-    .member-row{display:flex;align-items:center;gap:10px;padding:10px 14px;background:#F5F5F7;border-radius:12px}
-    .mr-avatar{width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,#D70030,#A60028);display:flex;align-items:center;justify-content:center;font-family:'Inter',sans-serif;font-size:9px;font-weight:600;color:#FFF;flex-shrink:0}
-    .mr-info{flex:1}
-    .mr-name{font-family:'Satoshi',sans-serif;font-size:12px;font-weight:500;color:#1D1D1F}
-    .mr-role{font-family:'Inter',sans-serif;font-size:10px;color:#86868B}
-    .mr-remove{font-family:'Inter',sans-serif;font-size:10px;color:#AEAEB2;cursor:pointer;transition:color 0.15s}
-    .mr-remove:hover{color:#D70030}
-
-    .add-member{display:flex;gap:8px;margin-bottom:8px}
-    .add-input{font-family:'Satoshi',sans-serif;flex:1;padding:10px 14px;border-radius:12px;border:1px solid rgba(0,0,0,0.06);background:#FFF;font-size:13px;outline:none;color:#1D1D1F}
-    .add-input:focus{border-color:rgba(215,0,48,0.3)}
-    .add-input::placeholder{color:#AEAEB2}
-    .add-btn{font-family:'Inter',sans-serif;padding:10px 16px;border-radius:12px;background:#1D1D1F;color:#FFF;font-size:12px;font-weight:500;border:none;cursor:pointer;white-space:nowrap;transition:background 0.15s}
-    .add-btn:hover{background:#000}
-
-    .skip-link{font-family:'Inter',sans-serif;font-size:11px;color:#AEAEB2;text-align:center;display:block;margin-top:8px;cursor:pointer;transition:color 0.15s}
-    .skip-link:hover{color:#D70030}
-
-    /* ACTIONS */
-    .actions{display:flex;gap:12px;margin-top:20px}
-    .btn-back{font-family:'Inter',sans-serif;flex:1;padding:18px;border-radius:16px;background:#FFF;color:#86868B;font-size:15px;font-weight:500;border:1px solid rgba(0,0,0,0.06);cursor:pointer;min-height:56px;transition:all 0.15s}
-    .btn-back:hover{background:#F0F0F0}
-    .btn-next{font-family:'Inter',sans-serif;flex:1;padding:18px;border-radius:16px;background:#1D1D1F;color:#F5F5F7;font-size:15px;font-weight:600;border:none;cursor:pointer;min-height:56px;transition:background 0.15s}
-    .btn-next:hover{background:#000}
-
-    .hint{font-family:'Inter',sans-serif;font-size:11px;color:#AEAEB2;text-align:center;margin-top:12px}
-
-    /* FINAL */
-    .final{display:none;text-align:center}
-    .final.active{display:block;animation:fadeIn 0.3s ease}
-    .final h2{font-family:'Zen Dots',cursive;font-size:24px;color:#1D1D1F;margin-bottom:8px}
-    .final .sub{font-family:'Satoshi',sans-serif;font-size:14px;color:#86868B;margin-bottom:24px;line-height:1.5}
-    .final-list{text-align:left;max-width:400px;margin:0 auto 24px}
-    .final-dept{margin-bottom:16px}
-    .final-dept-name{font-family:'Satoshi',sans-serif;font-size:13px;font-weight:600;color:#D70030;margin-bottom:6px;text-transform:uppercase;letter-spacing:0.05em}
-    .final-member{display:flex;align-items:center;gap:10px;padding:8px 14px;background:#FFF;border-radius:10px;border:1px solid rgba(0,0,0,0.04);margin-bottom:4px}
-    .fm-avatar{width:24px;height:24px;border-radius:50%;background:linear-gradient(135deg,#D70030,#A60028);display:flex;align-items:center;justify-content:center;font-family:'Inter',sans-serif;font-size:8px;font-weight:600;color:#FFF;flex-shrink:0}
-    .fm-name{font-family:'Satoshi',sans-serif;font-size:12px;color:#1D1D1F}
-    .fm-role{font-family:'Inter',sans-serif;font-size:10px;color:#86868B;margin-left:auto}
-    .btn-finish{font-family:'Inter',sans-serif;padding:20px 48px;border-radius:16px;background:#D70030;color:#FFF;font-size:16px;font-weight:600;border:none;cursor:pointer;min-height:64px;transition:all 0.15s}
-    .btn-finish:hover{opacity:0.9;box-shadow:0 4px 16px rgba(215,0,48,0.25)}
+    .chat-card{width:100%;max-width:480px;background:#FFF;border-radius:24px;border:1px solid rgba(0,0,0,0.04);box-shadow:0 4px 40px rgba(0,0,0,0.06);overflow:hidden;position:relative}
+    .chat-card::before{content:'';position:absolute;inset:0;border-radius:24px;padding:1.5px;background:linear-gradient(135deg,rgba(255,231,231,0.3) 0%,transparent 20%,rgba(215,0,48,0.25) 80%);-webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);-webkit-mask-composite:xor;mask-composite:exclude;pointer-events:none}
+    .cc-header{display:flex;align-items:center;gap:10px;padding:16px 20px;border-bottom:1px solid rgba(0,0,0,0.04)}
+    .cc-av{width:32px;height:32px;border-radius:10px;background:linear-gradient(135deg,#D70030,#8B0000);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+    .cc-av svg{width:16px;height:16px;stroke:#FFF;fill:none;stroke-width:1.5}
+    .cc-nm{font-family:'Zen Dots',cursive;font-size:12px;color:#1D1D1F}
+    .cc-st{font-family:'Inter',sans-serif;font-size:10px;color:#34C759}
+    .cc-body{padding:20px;display:flex;flex-direction:column;gap:12px;min-height:320px;max-height:60vh;overflow-y:auto}
+    .msg{max-width:88%;padding:12px 16px;border-radius:16px;font-family:'Satoshi',sans-serif;font-size:14px;line-height:1.6;animation:fadeUp 0.3s ease}
+    .msg-ai{background:#F0F0F2;color:#1D1D1F;border-bottom-left-radius:4px;align-self:flex-start}
+    .msg-user{background:#D70030;color:#FFF;border-bottom-right-radius:4px;align-self:flex-end}
+    .msg-ai strong{color:#D70030}
+    .quick-btns{display:flex;flex-wrap:wrap;gap:6px;align-self:flex-start}
+    .qb{font-family:'Inter',sans-serif;font-size:12px;font-weight:500;padding:8px 16px;border-radius:980px;border:1px solid rgba(0,0,0,0.08);background:#FFF;color:#1D1D1F;cursor:pointer;transition:all 0.15s}
+    .qb:hover{border-color:rgba(215,0,48,0.2);color:#D70030}
+    .team-summary{display:flex;flex-direction:column;gap:6px;width:100%;align-self:flex-start}
+    .ts-item{display:flex;align-items:center;gap:8px;padding:8px 12px;background:#FFF;border:1px solid rgba(0,0,0,0.04);border-radius:10px;font-family:'Inter',sans-serif;font-size:12px;color:#1D1D1F}
+    .ts-av{width:24px;height:24px;border-radius:50%;background:linear-gradient(135deg,#D70030,#A60028);display:flex;align-items:center;justify-content:center;font-size:8px;font-weight:600;color:#FFF;flex-shrink:0}
+    .ts-role{margin-left:auto;font-size:10px;color:#86868B}
+    .cc-input{display:flex;align-items:center;gap:10px;padding:14px 20px;border-top:1px solid rgba(0,0,0,0.04)}
+    .cc-input input{flex:1;font-family:'Satoshi',sans-serif;font-size:14px;background:#F5F5F7;border:1px solid rgba(0,0,0,0.06);border-radius:14px;padding:12px 16px;outline:none;color:#1D1D1F}
+    .cc-input input::placeholder{color:#AEAEB2}
+    .cc-input input:focus{border-color:rgba(215,0,48,0.3)}
+    .cc-send{width:36px;height:36px;border-radius:50%;background:#D70030;display:flex;align-items:center;justify-content:center;cursor:pointer;border:none;flex-shrink:0}
+    .cc-send svg{width:14px;height:14px;stroke:#FFF;fill:none;stroke-width:2}
+    @keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
   </style>
 </head>
 <body>
-<div class="container">
-
-  <div class="progress">
-    <div class="dot done"></div>
-    <div class="dot done"></div>
-    <div class="dot active"></div>
-    <div class="dot"></div>
-    <div class="dot"></div>
-    <div class="dot"></div>
+<div class="chat-card">
+  <div class="cc-header">
+    <div class="cc-av"><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+    <div><div class="cc-nm">Sensei</div><div class="cc-st">Montando sua equipe</div></div>
   </div>
-
-  <div class="header">
-    <h1>Sua equipe.</h1>
-    <p class="sub">Configure os lideres e colaboradores de cada departamento que voce ativou.</p>
-    <p class="counter" id="counter">Departamento 1</p>
+  <div class="cc-body" id="chatBody">
+    <div class="msg msg-ai">Agora vamos montar sua equipe. Eu preciso saber <strong>quem lidera cada departamento</strong> que voce ativou.<br><br>Comecando pelo <strong>Marketing</strong> — quem e o lider? Me diz o nome e cargo.</div>
   </div>
-
-  <!-- DEPT 1: Comercial -->
-  <div class="dept-section active" id="dept-0">
-    <div class="dept-header">
-      <div class="dept-avatar da-blue"><svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-      <div class="dept-meta"><h2>Comercial</h2><p>Prospeccao, qualificacao, fechamento</p></div>
-    </div>
-    <div class="section-card">
-      <p class="card-label">Lider do departamento</p>
-      <p class="card-desc">Quem lidera o comercial na sua empresa?</p>
-      <div class="role-list">
-        <div class="role-item selected" onclick="this.classList.toggle('selected')"><div class="role-check"></div><div class="role-info"><p class="role-name">Diretor Comercial</p><p class="role-desc">Estrategia de vendas, metas, pipeline</p></div></div>
-        <div class="role-item" onclick="this.classList.toggle('selected')"><div class="role-check"></div><div class="role-info"><p class="role-name">Gestor de Vendas</p><p class="role-desc">Operacao diaria, coaching do time</p></div></div>
-      </div>
-    </div>
-    <div class="section-card">
-      <p class="card-label">Colaboradores</p>
-      <p class="card-desc">Adicione os membros do time comercial. Eles terao acesso ao sistema.</p>
-      <div class="member-list" id="members-0">
-        <div class="member-row"><div class="mr-avatar">RF</div><div class="mr-info"><div class="mr-name">Renan Ferreira</div><div class="mr-role">Closer</div></div><span class="mr-remove">Remover</span></div>
-      </div>
-      <div class="add-member">
-        <input type="text" class="add-input" placeholder="Nome do colaborador">
-        <input type="text" class="add-input" placeholder="Cargo" style="max-width:120px">
-        <button class="add-btn">Adicionar</button>
-      </div>
-      <span class="skip-link">Pular — adicionar depois</span>
-    </div>
-    <div class="actions">
-      <button class="btn-back" onclick="location.href='setup-empresa.html'">Voltar</button>
-      <button class="btn-next" onclick="nextDept()">Proximo departamento</button>
-    </div>
+  <div class="cc-input">
+    <input type="text" placeholder="Ex: Maria Silva, Social Media Senior" id="userInput" autofocus>
+    <button class="cc-send" id="sendBtn"><svg viewBox="0 0 24 24"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
   </div>
-
-  <!-- DEPT 2: Marketing & Conteúdo -->
-  <div class="dept-section" id="dept-1">
-    <div class="dept-header">
-      <div class="dept-avatar da-red"><svg viewBox="0 0 24 24"><path d="M12 20V10M18 20V4M6 20v-4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-      <div class="dept-meta"><h2>Marketing & Conteudo</h2><p>Producao, design, publicacao</p></div>
-    </div>
-    <div class="section-card">
-      <p class="card-label">Lider do departamento</p>
-      <div class="role-list">
-        <div class="role-item selected" onclick="this.classList.toggle('selected')"><div class="role-check"></div><div class="role-info"><p class="role-name">Head de Marketing</p><p class="role-desc">Estrategia de conteudo, posicionamento, campanhas</p></div></div>
-        <div class="role-item" onclick="this.classList.toggle('selected')"><div class="role-check"></div><div class="role-info"><p class="role-name">Coordenador de Conteudo</p><p class="role-desc">Operacao editorial, calendario, aprovacoes</p></div></div>
-      </div>
-    </div>
-    <div class="section-card">
-      <p class="card-label">Colaboradores</p>
-      <p class="card-desc">Social medias, redatores, designers que vao usar o sistema diariamente.</p>
-      <div class="member-list" id="members-1">
-        <div class="member-row"><div class="mr-avatar">MS</div><div class="mr-info"><div class="mr-name">Maria Silva</div><div class="mr-role">Social Media Sr</div></div><span class="mr-remove">Remover</span></div>
-        <div class="member-row"><div class="mr-avatar">CR</div><div class="mr-info"><div class="mr-name">Carlos Ribeiro</div><div class="mr-role">Social Media</div></div><span class="mr-remove">Remover</span></div>
-        <div class="member-row"><div class="mr-avatar">JL</div><div class="mr-info"><div class="mr-name">Julia Lima</div><div class="mr-role">Designer</div></div><span class="mr-remove">Remover</span></div>
-      </div>
-      <div class="add-member">
-        <input type="text" class="add-input" placeholder="Nome do colaborador">
-        <input type="text" class="add-input" placeholder="Cargo" style="max-width:120px">
-        <button class="add-btn">Adicionar</button>
-      </div>
-      <span class="skip-link">Adicionar mais depois</span>
-    </div>
-    <div class="actions">
-      <button class="btn-back" onclick="prevDept()">Voltar</button>
-      <button class="btn-next" onclick="nextDept()">Proximo departamento</button>
-    </div>
-  </div>
-
-  <!-- DEPT 3: Customer Success -->
-  <div class="dept-section" id="dept-2">
-    <div class="dept-header">
-      <div class="dept-avatar da-green"><svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-      <div class="dept-meta"><h2>Customer Success</h2><p>Onboarding, acompanhamento, retencao</p></div>
-    </div>
-    <div class="section-card">
-      <p class="card-label">Lider do departamento</p>
-      <div class="role-list">
-        <div class="role-item selected" onclick="this.classList.toggle('selected')"><div class="role-check"></div><div class="role-info"><p class="role-name">Head de CS</p><p class="role-desc">Estrategia de retencao, NPS, health score</p></div></div>
-      </div>
-    </div>
-    <div class="section-card">
-      <p class="card-label">Colaboradores</p>
-      <p class="card-desc">Gestores de conta que acompanham cada founder.</p>
-      <div class="member-list" id="members-2">
-        <div class="member-row"><div class="mr-avatar">AP</div><div class="mr-info"><div class="mr-name">Amanda Prado</div><div class="mr-role">CS Manager</div></div><span class="mr-remove">Remover</span></div>
-      </div>
-      <div class="add-member">
-        <input type="text" class="add-input" placeholder="Nome do colaborador">
-        <input type="text" class="add-input" placeholder="Cargo" style="max-width:120px">
-        <button class="add-btn">Adicionar</button>
-      </div>
-      <span class="skip-link">Adicionar mais depois</span>
-    </div>
-    <div class="actions">
-      <button class="btn-back" onclick="prevDept()">Voltar</button>
-      <button class="btn-next" onclick="nextDept()">Finalizar equipe</button>
-    </div>
-  </div>
-
-  <!-- FINAL -->
-  <div class="final" id="final-step">
-    <h2>Equipe montada.</h2>
-    <p class="sub">Seus departamentos estao configurados com lideres e colaboradores. Agora vamos ativar seus agentes de marketing.</p>
-    <div class="final-list">
-      <div class="final-dept">
-        <div class="final-dept-name">Comercial</div>
-        <div class="final-member"><div class="fm-avatar">RF</div><span class="fm-name">Renan Ferreira</span><span class="fm-role">Closer</span></div>
-      </div>
-      <div class="final-dept">
-        <div class="final-dept-name">Marketing & Conteudo</div>
-        <div class="final-member"><div class="fm-avatar">MS</div><span class="fm-name">Maria Silva</span><span class="fm-role">Social Media Sr</span></div>
-        <div class="final-member"><div class="fm-avatar">CR</div><span class="fm-name">Carlos Ribeiro</span><span class="fm-role">Social Media</span></div>
-        <div class="final-member"><div class="fm-avatar">JL</div><span class="fm-name">Julia Lima</span><span class="fm-role">Designer</span></div>
-      </div>
-      <div class="final-dept">
-        <div class="final-dept-name">Customer Success</div>
-        <div class="final-member"><div class="fm-avatar">AP</div><span class="fm-name">Amanda Prado</span><span class="fm-role">CS Manager</span></div>
-      </div>
-    </div>
-    <button class="btn-finish" onclick="location.href='setup-marketing.html'">Configurar agentes de marketing</button>
-    <p class="hint" style="margin-top:16px">Proximo: ativar Sensei, Scout, Quill e os outros agentes IA.</p>
-  </div>
-
 </div>
 
 <script>
-let currentDept = 0;
-const totalDepts = 3;
+const body = document.getElementById('chatBody');
+const input = document.getElementById('userInput');
+let step = 0;
+const team = [];
 
-function nextDept() {
-  currentDept++;
-  document.querySelectorAll('.dept-section').forEach(s => s.classList.remove('active'));
-  if (currentDept < totalDepts) {
-    document.getElementById('dept-' + currentDept).classList.add('active');
-    document.getElementById('counter').textContent = 'Departamento ' + (currentDept + 1);
-  } else {
-    document.getElementById('final-step').classList.add('active');
-    document.getElementById('counter').style.display = 'none';
+const flow = [
+  {
+    process: (val) => { team.push({name: val.split(',')[0]?.trim(), role: val.split(',')[1]?.trim() || 'Social Media', dept: 'Marketing'}); },
+    reply: (val) => { const n=val.split(',')[0]?.trim(); return `<strong>${n}</strong> como lider de Marketing! Tem mais alguem no Marketing? Se sim, manda nome e cargo. Se nao:`; },
+    buttons: ['Proximo departamento', 'Adicionar mais']
+  },
+  {
+    process: (val) => { if(val !== '__skip') team.push({name: val.split(',')[0]?.trim(), role: val.split(',')[1]?.trim() || 'Membro', dept: 'Marketing'}); },
+    reply: (val) => `Agora o <strong>Comercial</strong> — quem lidera? Nome e cargo.`,
+  },
+  {
+    process: (val) => { team.push({name: val.split(',')[0]?.trim(), role: val.split(',')[1]?.trim() || 'Closer', dept: 'Comercial'}); },
+    reply: (val) => { const n=val.split(',')[0]?.trim(); return `<strong>${n}</strong> no Comercial! E o <strong>Customer Success</strong> — quem cuida?`; },
+  },
+  {
+    process: (val) => { team.push({name: val.split(',')[0]?.trim(), role: val.split(',')[1]?.trim() || 'CS Manager', dept: 'CS'}); },
+    reply: (val) => `Equipe montada! Aqui o resumo:`,
+    action: () => { showSummary(); }
   }
-  // Progress
-  const dots = document.querySelectorAll('.progress .dot');
-  dots.forEach((d, i) => {
-    d.classList.remove('active','done');
-    if (i <= currentDept + 2) d.classList.add(i < currentDept + 2 ? 'done' : 'active');
-  });
-  window.scrollTo(0,0);
+];
+
+function addMsg(text, type) {
+  const div = document.createElement('div');
+  div.className = 'msg ' + (type === 'user' ? 'msg-user' : 'msg-ai');
+  div.innerHTML = text;
+  body.appendChild(div);
+  body.scrollTop = body.scrollHeight;
 }
 
-function prevDept() {
-  if (currentDept > 0) {
-    currentDept--;
-    document.querySelectorAll('.dept-section').forEach(s => s.classList.remove('active'));
-    document.getElementById('dept-' + currentDept).classList.add('active');
-    document.getElementById('counter').textContent = 'Departamento ' + (currentDept + 1);
-    window.scrollTo(0,0);
+function showSummary() {
+  const summary = document.createElement('div');
+  summary.className = 'team-summary';
+  summary.innerHTML = team.map(t =>
+    `<div class="ts-item"><div class="ts-av">${t.name?.[0]||'?'}${t.name?.split(' ')[1]?.[0]||''}</div>${t.name}<span class="ts-role">${t.role} — ${t.dept}</span></div>`
+  ).join('');
+  body.appendChild(summary);
+
+  setTimeout(() => {
+    addMsg('Tudo certo! Agora vamos ativar seus <strong>agentes de marketing</strong>. Eles sao seus funcionarios inteligentes.', 'ai');
+    setTimeout(() => {
+      const btn = document.createElement('div');
+      btn.className = 'quick-btns';
+      btn.innerHTML = '<button class="qb" onclick="location.href=\'setup-marketing.html\'">Ativar agentes</button>';
+      body.appendChild(btn);
+      body.scrollTop = body.scrollHeight;
+    }, 500);
+  }, 800);
+}
+
+function send() {
+  const val = input.value.trim();
+  if (!val || step >= flow.length) return;
+  addMsg(val, 'user');
+  input.value = '';
+  const current = flow[step];
+  current.process(val);
+  setTimeout(() => {
+    addMsg(current.reply(val), 'ai');
+    if (current.action) current.action();
+    if (current.buttons) {
+      const btns = document.createElement('div');
+      btns.className = 'quick-btns';
+      btns.innerHTML = current.buttons.map(b =>
+        `<button class="qb" onclick="this.parentElement.remove();${b==='Proximo departamento'?'skipToNext()':'document.getElementById(\'userInput\').focus()'}">${b}</button>`
+      ).join('');
+      body.appendChild(btns);
+    }
+    step++;
+    body.scrollTop = body.scrollHeight;
+  }, 600);
+}
+
+function skipToNext() {
+  flow[step]?.process('__skip');
+  step++;
+  if (step < flow.length) {
+    addMsg(flow[step-1]?.reply('') || flow[step]?.reply(''), 'ai');
   }
 }
+
+input.addEventListener('keypress', (e) => { if (e.key === 'Enter') send(); });
+document.getElementById('sendBtn').addEventListener('click', send);
 </script>
 </body>
 </html>
