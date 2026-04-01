@@ -1,0 +1,202 @@
+<!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>KTANA Social — Conexoes</title><link rel="stylesheet" href="../shared.css"><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Zen+Dots&display=swap" rel="stylesheet">
+<style>
+body{min-height:100vh;background:#F5F5F7;color:#1D1D1F}
+a{text-decoration:none;color:inherit}
+.nav{position:fixed;top:0;left:0;right:0;z-index:50;height:48px;display:flex;align-items:center;justify-content:center;background:rgba(245,245,247,0.72);backdrop-filter:saturate(180%) blur(20px);border-bottom:0.5px solid rgba(0,0,0,0.06)}
+.nav-inner{width:100%;max-width:980px;padding:0 24px;display:flex;align-items:center;justify-content:space-between}
+.nav-logo{font-family:'Zen Dots',cursive;font-size:14px;color:#D70030}
+.nav-links a{font-family:'Inter',sans-serif;font-size:12px;color:#86868B;margin-left:20px}
+.nav-links a:hover{color:#D70030}
+.nav-links a.active{color:#D70030;font-weight:500}
+.container{max-width:980px;margin:0 auto;padding:64px 24px 80px}
+h1{font-family:'Zen Dots',cursive;font-size:22px;color:#1D1D1F;margin-bottom:6px}
+.sub{font-family:'Satoshi',sans-serif;font-size:14px;color:#86868B;margin-bottom:28px}
+.section-label{font-family:'Inter',sans-serif;font-size:10px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:#D70030;margin-bottom:12px;margin-top:32px}
+.conn-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:12px}
+.conn-card{background:#FFF;border-radius:16px;border:1px solid rgba(0,0,0,0.04);padding:20px;transition:all 0.3s;position:relative;overflow:hidden;cursor:pointer}
+.conn-card::before{content:'';position:absolute;inset:0;border-radius:16px;padding:1.5px;background:linear-gradient(135deg,rgba(255,231,231,0.2) 0%,transparent 24%,rgba(215,0,48,0.2) 81%,rgba(215,0,48,0.08) 100%);-webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);-webkit-mask-composite:xor;mask-composite:exclude;opacity:0;transition:opacity 0.3s}
+.conn-card:hover::before{opacity:1}
+.conn-card:hover{transform:translateY(-1px);box-shadow:0 4px 20px rgba(0,0,0,0.04)}
+.conn-top{display:flex;align-items:center;gap:12px;margin-bottom:14px}
+.conn-icon{width:40px;height:40px;border-radius:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.conn-icon svg{width:20px;height:20px;stroke:#FFF;fill:none;stroke-width:1.5}
+.ci-meta{background:linear-gradient(135deg,#007AFF,#0055CC)}
+.ci-linkedin{background:linear-gradient(135deg,#0A66C2,#004182)}
+.ci-tiktok{background:linear-gradient(135deg,#1D1D1F,#3A3A3C)}
+.ci-x{background:linear-gradient(135deg,#1D1D1F,#3A3A3C)}
+.ci-wa{background:linear-gradient(135deg,#25D366,#128C7E)}
+.ci-blog{background:linear-gradient(135deg,#FF9500,#CC7700)}
+.ci-heygen{background:linear-gradient(135deg,#5856D6,#3A38A0)}
+.ci-freepik{background:linear-gradient(135deg,#D70030,#8B0000)}
+.ci-figma{background:linear-gradient(135deg,#A259FF,#7B3FCC)}
+.ci-clickup{background:linear-gradient(135deg,#7B68EE,#5B4BC9)}
+.ci-drive{background:linear-gradient(135deg,#34C759,#248A3D)}
+.ci-cflab{background:linear-gradient(135deg,#FF2D55,#CC0033)}
+.conn-info h3{font-family:'Satoshi',sans-serif;font-size:14px;font-weight:600;color:#1D1D1F}
+.conn-info p{font-family:'Inter',sans-serif;font-size:11px;color:#86868B}
+.conn-status{display:flex;align-items:center;gap:6px;font-family:'Inter',sans-serif;font-size:11px;font-weight:500;padding:12px 0;border-top:1px solid rgba(0,0,0,0.04);border-bottom:1px solid rgba(0,0,0,0.04);margin-bottom:12px}
+.conn-status .dot{width:6px;height:6px;border-radius:50%}
+.st-ok .dot{background:#34C759}
+.st-ok{color:#34C759}
+.st-warn .dot{background:#FF9500}
+.st-warn{color:#FF9500}
+.st-off .dot{background:#D2D2D7}
+.st-off{color:#AEAEB2}
+.conn-fields{display:flex;flex-direction:column;gap:8px}
+.conn-field{display:flex;align-items:center;justify-content:space-between;font-family:'Inter',sans-serif;font-size:11px}
+.conn-field .label{color:#86868B}
+.conn-field .value{color:#1D1D1F;font-family:'JetBrains Mono',monospace;font-size:10px;max-width:140px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.conn-field .value.masked{color:#AEAEB2}
+.conn-actions{display:flex;gap:8px;margin-top:12px}
+.conn-btn{flex:1;font-family:'Inter',sans-serif;font-size:11px;font-weight:500;padding:8px;border-radius:8px;border:none;cursor:pointer;transition:all 0.15s;text-align:center}
+.conn-btn-primary{background:rgba(215,0,48,0.06);color:#D70030}
+.conn-btn-primary:hover{background:rgba(215,0,48,0.1)}
+.conn-btn-ghost{background:rgba(0,0,0,0.03);color:#86868B}
+.conn-btn-ghost:hover{background:rgba(0,0,0,0.06);color:#1D1D1F}
+</style>
+</head>
+<body>
+<nav class="nav"><div class="nav-inner"><a href="landing.html" class="nav-logo">KTANA Social</a><div class="nav-links"><a href="dashboard.html">Dashboard</a><a href="agents.html">Agentes</a><a href="connections.html" class="active">Conexoes</a></div></div></nav>
+<div class="container">
+<h1>Conexoes.</h1>
+<p class="sub">Gerencie APIs, tokens e integrações de cada rede social e ferramenta.</p>
+
+<div class="section-label">Redes sociais</div>
+<div class="conn-grid">
+
+<div class="conn-card">
+  <div class="conn-top"><div class="conn-icon ci-meta"><svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div class="conn-info"><h3>Meta (Instagram + Facebook)</h3><p>Publicar carrosseis, reels, stories, posts</p></div></div>
+  <div class="conn-status st-ok"><span class="dot"></span> Conectado — Token valido ate 14/Mai</div>
+  <div class="conn-fields">
+    <div class="conn-field"><span class="label">App ID</span><span class="value">586093936327</span></div>
+    <div class="conn-field"><span class="label">Access Token</span><span class="value masked">EAAHx...kZB4</span></div>
+    <div class="conn-field"><span class="label">IG Business ID</span><span class="value">17841400...</span></div>
+    <div class="conn-field"><span class="label">Rate limit</span><span class="value">82/100 posts restantes</span></div>
+  </div>
+  <div class="conn-actions"><button class="conn-btn conn-btn-primary">Configurar</button><button class="conn-btn conn-btn-ghost">Renovar token</button></div>
+</div>
+
+<div class="conn-card">
+  <div class="conn-top"><div class="conn-icon ci-linkedin"><svg viewBox="0 0 24 24"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-4 0v7h-4v-7a6 6 0 016-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div class="conn-info"><h3>LinkedIn</h3><p>Posts corporativos, artigos, carrosseis PDF</p></div></div>
+  <div class="conn-status st-ok"><span class="dot"></span> Conectado</div>
+  <div class="conn-fields">
+    <div class="conn-field"><span class="label">Client ID</span><span class="value">78x9k2...q1m</span></div>
+    <div class="conn-field"><span class="label">Person URN</span><span class="value">urn:li:person:abc...</span></div>
+  </div>
+  <div class="conn-actions"><button class="conn-btn conn-btn-primary">Configurar</button><button class="conn-btn conn-btn-ghost">Testar</button></div>
+</div>
+
+<div class="conn-card">
+  <div class="conn-top"><div class="conn-icon ci-tiktok"><svg viewBox="0 0 24 24"><path d="M9 12a4 4 0 104 4V4a5 5 0 005 5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div class="conn-info"><h3>TikTok</h3><p>Videos curtos, Direct Post API</p></div></div>
+  <div class="conn-status st-warn"><span class="dot"></span> Parcial — falta scope video.publish</div>
+  <div class="conn-fields">
+    <div class="conn-field"><span class="label">App ID</span><span class="value">7341...</span></div>
+    <div class="conn-field"><span class="label">Limite</span><span class="value">12/15 posts restantes</span></div>
+  </div>
+  <div class="conn-actions"><button class="conn-btn conn-btn-primary">Reconfigurar</button><button class="conn-btn conn-btn-ghost">Testar</button></div>
+</div>
+
+<div class="conn-card">
+  <div class="conn-top"><div class="conn-icon ci-x"><svg viewBox="0 0 24 24"><path d="M4 4l11.733 16h4.267l-11.733-16zM4 20l6.768-6.768M20 4l-6.768 6.768" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div class="conn-info"><h3>X / Twitter</h3><p>Tweets, threads, plano Free/Basic/Pro</p></div></div>
+  <div class="conn-status st-off"><span class="dot"></span> Nao conectado</div>
+  <div class="conn-fields">
+    <div class="conn-field"><span class="label">Plano</span><span class="value">—</span></div>
+  </div>
+  <div class="conn-actions"><button class="conn-btn conn-btn-primary">Conectar</button></div>
+</div>
+
+<div class="conn-card">
+  <div class="conn-top"><div class="conn-icon ci-wa"><svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div class="conn-info"><h3>WhatsApp</h3><p>Aprovacoes, cobranca, agente autonomo</p></div></div>
+  <div class="conn-status st-ok"><span class="dot"></span> Evolution API — +55 11 9XXXX-XXXX</div>
+  <div class="conn-fields">
+    <div class="conn-field"><span class="label">Modo</span><span class="value">Evolution (Baileys)</span></div>
+    <div class="conn-field"><span class="label">Instance</span><span class="value">gs_main</span></div>
+    <div class="conn-field"><span class="label">Rate limit</span><span class="value">8 msgs/min</span></div>
+  </div>
+  <div class="conn-actions"><button class="conn-btn conn-btn-primary">Configurar</button><button class="conn-btn conn-btn-ghost">Ver QR</button></div>
+</div>
+
+<div class="conn-card">
+  <div class="conn-top"><div class="conn-icon ci-blog"><svg viewBox="0 0 24 24"><path d="M4 4h16v16H4z" stroke-linecap="round" stroke-linejoin="round"/><path d="M9 9h6v6H9z"/><path d="M9 1v3M15 1v3M9 20v3M15 20v3M20 9h3M20 14h3M1 9h3M1 14h3"/></svg></div><div class="conn-info"><h3>Blog / WordPress</h3><p>Artigos SEO, REST API</p></div></div>
+  <div class="conn-status st-off"><span class="dot"></span> Nao conectado</div>
+  <div class="conn-actions"><button class="conn-btn conn-btn-primary">Conectar</button></div>
+</div>
+
+</div>
+
+<div class="section-label">Ferramentas de producao</div>
+<div class="conn-grid">
+
+<div class="conn-card">
+  <div class="conn-top"><div class="conn-icon ci-heygen"><svg viewBox="0 0 24 24"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div class="conn-info"><h3>HeyGen</h3><p>Avatar em video, lip sync, legendas</p></div></div>
+  <div class="conn-status st-ok"><span class="dot"></span> API Pro — 47/100 creditos</div>
+  <div class="conn-fields">
+    <div class="conn-field"><span class="label">API Key</span><span class="value masked">hg_sk...x9z</span></div>
+    <div class="conn-field"><span class="label">Avatares</span><span class="value">3 treinados</span></div>
+  </div>
+  <div class="conn-actions"><button class="conn-btn conn-btn-primary">Configurar</button><button class="conn-btn conn-btn-ghost">Ver avatares</button></div>
+</div>
+
+<div class="conn-card">
+  <div class="conn-top"><div class="conn-icon ci-freepik"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div class="conn-info"><h3>Freepik / NanoBanana</h3><p>Geracao de imagens, clone visual</p></div></div>
+  <div class="conn-status st-ok"><span class="dot"></span> Conectado — 2 modelos treinados</div>
+  <div class="conn-fields">
+    <div class="conn-field"><span class="label">API Key</span><span class="value masked">FPSXab3...d186</span></div>
+    <div class="conn-field"><span class="label">Clones</span><span class="value">Joao M., Maria F.</span></div>
+  </div>
+  <div class="conn-actions"><button class="conn-btn conn-btn-primary">Configurar</button><button class="conn-btn conn-btn-ghost">Treinar modelo</button></div>
+</div>
+
+<div class="conn-card">
+  <div class="conn-top"><div class="conn-icon ci-figma"><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div class="conn-info"><h3>Figma</h3><p>Templates de carrossel, posts, stories</p></div></div>
+  <div class="conn-status st-ok"><span class="dot"></span> Conectado — 4 templates mapeados</div>
+  <div class="conn-fields">
+    <div class="conn-field"><span class="label">API Token</span><span class="value masked">figd_LBdr...ntgX</span></div>
+    <div class="conn-field"><span class="label">File Key</span><span class="value">gUM5lW3...</span></div>
+  </div>
+  <div class="conn-actions"><button class="conn-btn conn-btn-primary">Configurar</button><button class="conn-btn conn-btn-ghost">Mapear templates</button></div>
+</div>
+
+<div class="conn-card">
+  <div class="conn-top"><div class="conn-icon ci-cflab"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 0110 10 10 10 0 01-10 10A10 10 0 012 12 10 10 0 0112 2z"/><path d="M12 8v8M8 12h8" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div class="conn-info"><h3>CFLab AI</h3><p>Clonagem visual, UGC, workflows de imagem</p></div></div>
+  <div class="conn-status st-off"><span class="dot"></span> Nao conectado</div>
+  <div class="conn-actions"><button class="conn-btn conn-btn-primary">Conectar</button></div>
+</div>
+
+<div class="conn-card">
+  <div class="conn-top"><div class="conn-icon ci-clickup"><svg viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div class="conn-info"><h3>ClickUp</h3><p>Gestao de projetos, tarefas, sprints</p></div></div>
+  <div class="conn-status st-ok"><span class="dot"></span> Conectado</div>
+  <div class="conn-fields">
+    <div class="conn-field"><span class="label">API Token</span><span class="value masked">pk_1584...V3AE</span></div>
+    <div class="conn-field"><span class="label">Workspace</span><span class="value">Grupo Silva</span></div>
+  </div>
+  <div class="conn-actions"><button class="conn-btn conn-btn-primary">Configurar</button><button class="conn-btn conn-btn-ghost">Sync</button></div>
+</div>
+
+<div class="conn-card">
+  <div class="conn-top"><div class="conn-icon ci-drive"><svg viewBox="0 0 24 24"><path d="M22 19a2 2 0 01-2 2H4a2 2 0 01-2-2V5a2 2 0 012-2h5l2 3h9a2 2 0 012 2z" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div class="conn-info"><h3>Google Drive</h3><p>Arquivos dos clientes, assets, brand books</p></div></div>
+  <div class="conn-status st-ok"><span class="dot"></span> OAuth conectado</div>
+  <div class="conn-fields">
+    <div class="conn-field"><span class="label">Conta</span><span class="value">contato@grupo...</span></div>
+    <div class="conn-field"><span class="label">Pasta raiz</span><span class="value">/Clientes/</span></div>
+  </div>
+  <div class="conn-actions"><button class="conn-btn conn-btn-primary">Configurar</button><button class="conn-btn conn-btn-ghost">Abrir Drive</button></div>
+</div>
+
+</div>
+
+<div class="section-label">Anti-deteccao</div>
+<div class="conn-grid">
+<div class="conn-card">
+  <div class="conn-top"><div class="conn-icon" style="background:linear-gradient(135deg,#1D1D1F,#3A3A3C)"><svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div class="conn-info"><h3>GoLogin</h3><p>Anti-detect browser, fingerprints, proxies</p></div></div>
+  <div class="conn-status st-ok"><span class="dot"></span> 12 perfis ativos</div>
+  <div class="conn-fields">
+    <div class="conn-field"><span class="label">Perfis</span><span class="value">12 ativos / 5 backup</span></div>
+    <div class="conn-field"><span class="label">Proxy pool</span><span class="value">SP residencial</span></div>
+  </div>
+  <div class="conn-actions"><button class="conn-btn conn-btn-primary">Gerenciar perfis</button><button class="conn-btn conn-btn-ghost">Config proxy</button></div>
+</div>
+</div>
+
+</div>
+</body></html>

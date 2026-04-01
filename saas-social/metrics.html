@@ -1,0 +1,169 @@
+<!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>KTANA Social — Metricas</title><link rel="stylesheet" href="../shared.css"><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Zen+Dots&display=swap" rel="stylesheet">
+<style>
+body{min-height:100vh;background:#F5F5F7;color:#1D1D1F}
+a{text-decoration:none;color:inherit}
+.nav{position:fixed;top:0;left:0;right:0;z-index:50;height:48px;display:flex;align-items:center;justify-content:center;background:rgba(245,245,247,0.72);backdrop-filter:saturate(180%) blur(20px);border-bottom:0.5px solid rgba(0,0,0,0.06)}
+.nav-inner{width:100%;max-width:980px;padding:0 24px;display:flex;align-items:center;justify-content:space-between}
+.nav-logo{font-family:'Zen Dots',cursive;font-size:14px;color:#D70030}
+.nav-links a{font-family:'Inter',sans-serif;font-size:12px;color:#86868B;margin-left:20px}
+.nav-links a:hover{color:#D70030}
+.container{max-width:980px;margin:0 auto;padding:64px 24px 80px}
+h1{font-family:'Zen Dots',cursive;font-size:22px;color:#1D1D1F;margin-bottom:6px}
+.sub{font-family:'Satoshi',sans-serif;font-size:14px;color:#86868B;margin-bottom:24px}
+.section-label{font-family:'Inter',sans-serif;font-size:10px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:#D70030;margin-bottom:12px;margin-top:32px}
+
+/* METRIC CARDS */
+.metrics-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:24px}
+.mc{background:#FFF;border-radius:16px;border:1px solid rgba(0,0,0,0.04);padding:18px;text-align:center;position:relative;overflow:hidden}
+.mc::before{content:'';position:absolute;inset:0;border-radius:16px;padding:1px;background:linear-gradient(135deg,transparent 60%,rgba(215,0,48,0.1) 100%);-webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);-webkit-mask-composite:xor;mask-composite:exclude;opacity:0;transition:opacity 0.3s}
+.mc:hover::before{opacity:1}
+.mc-val{font-family:'Zen Dots',cursive;font-size:28px;color:#1D1D1F}
+.mc-val.brand{color:#D70030}
+.mc-lab{font-family:'Inter',sans-serif;font-size:10px;color:#86868B;text-transform:uppercase;letter-spacing:0.05em;margin-top:4px}
+.mc-delta{font-family:'Inter',sans-serif;font-size:11px;margin-top:4px}
+.mc-delta.up{color:#34C759}
+.mc-delta.down{color:#D70030}
+
+/* CHART PLACEHOLDER */
+.chart-card{background:#FFF;border-radius:20px;border:1px solid rgba(0,0,0,0.04);padding:24px;margin-bottom:14px}
+.chart-card h3{font-family:'Satoshi',sans-serif;font-size:15px;font-weight:600;color:#1D1D1F;margin-bottom:4px}
+.chart-card p{font-family:'Inter',sans-serif;font-size:11px;color:#86868B;margin-bottom:16px}
+.chart-placeholder{width:100%;height:180px;background:linear-gradient(180deg,rgba(215,0,48,0.03) 0%,rgba(215,0,48,0.01) 100%);border-radius:12px;display:flex;align-items:flex-end;justify-content:space-around;padding:16px 12px 12px;gap:6px}
+.chart-bar{width:100%;border-radius:6px 6px 0 0;transition:height 0.3s}
+.cb-red{background:linear-gradient(180deg,#D70030,rgba(215,0,48,0.4))}
+.cb-gray{background:linear-gradient(180deg,#86868B,rgba(134,134,139,0.3))}
+.chart-labels{display:flex;justify-content:space-around;font-family:'Inter',sans-serif;font-size:9px;color:#AEAEB2;margin-top:8px;padding:0 12px}
+
+/* TOP POSTS */
+.posts-list{display:flex;flex-direction:column;gap:8px}
+.post-item{display:flex;align-items:center;gap:14px;padding:14px 16px;background:#FFF;border-radius:14px;border:1px solid rgba(0,0,0,0.04);transition:all 0.2s}
+.post-item:hover{border-color:rgba(215,0,48,0.1);box-shadow:0 2px 12px rgba(0,0,0,0.04)}
+.post-rank{font-family:'Zen Dots',cursive;font-size:16px;color:#D70030;min-width:24px}
+.post-thumb{width:44px;height:44px;border-radius:8px;background:linear-gradient(135deg,#F0F0F2,#E8E8ED);flex-shrink:0;display:flex;align-items:center;justify-content:center;font-family:'Inter',sans-serif;font-size:8px;color:#AEAEB2}
+.post-info{flex:1}
+.post-title{font-family:'Satoshi',sans-serif;font-size:13px;font-weight:500;color:#1D1D1F}
+.post-meta{font-family:'Inter',sans-serif;font-size:10px;color:#86868B;margin-top:2px}
+.post-stats{display:flex;gap:12px;font-family:'Inter',sans-serif;font-size:11px;color:#6E6E73}
+.post-stats span{display:flex;align-items:center;gap:4px}
+.post-stats svg{width:12px;height:12px;stroke:currentColor;fill:none;stroke-width:1.5}
+.post-er{font-family:'Zen Dots',cursive;font-size:14px;color:#34C759}
+
+/* NETWORK BREAKDOWN */
+.net-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.net-card{background:#FFF;border-radius:16px;border:1px solid rgba(0,0,0,0.04);padding:18px;text-align:center}
+.net-card h4{font-family:'Satoshi',sans-serif;font-size:13px;font-weight:600;color:#1D1D1F;margin-bottom:8px}
+.net-row{display:flex;justify-content:space-between;font-family:'Inter',sans-serif;font-size:11px;padding:4px 0;border-bottom:0.5px solid rgba(0,0,0,0.04)}
+.net-row:last-child{border-bottom:none}
+.net-row .label{color:#86868B}
+.net-row .value{color:#1D1D1F;font-weight:500}
+
+/* AI INSIGHTS */
+.insight-card{background:#FFF;border-radius:16px;border:1px solid rgba(0,0,0,0.04);padding:18px;margin-bottom:8px}
+.insight-card .icon{width:28px;height:28px;border-radius:8px;background:rgba(215,0,48,0.06);display:flex;align-items:center;justify-content:center;margin-bottom:10px}
+.insight-card .icon svg{width:14px;height:14px;stroke:#D70030;fill:none;stroke-width:1.5}
+.insight-card p{font-family:'Satoshi',sans-serif;font-size:13px;color:#1D1D1F;line-height:1.5}
+.insight-card .source{font-family:'Inter',sans-serif;font-size:10px;color:#86868B;margin-top:6px}
+
+@media(max-width:768px){.metrics-grid{grid-template-columns:repeat(2,1fr)}.net-grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<nav class="nav"><div class="nav-inner"><a href="landing.html" class="nav-logo">KTANA Social</a><div class="nav-links"><a href="dashboard.html">Dashboard</a><a href="agents.html">Agentes</a><a href="connections.html">Conexoes</a></div></div></nav>
+<div class="container">
+<h1>Metricas.</h1>
+<p class="sub">Visao consolidada de todos os clientes. Periodo: Ultima semana.</p>
+
+<div class="metrics-grid">
+  <div class="mc"><div class="mc-val brand">142</div><div class="mc-lab">Posts publicados</div><div class="mc-delta up">+18% vs semana anterior</div></div>
+  <div class="mc"><div class="mc-val">847K</div><div class="mc-lab">Alcance total</div><div class="mc-delta up">+24% vs semana anterior</div></div>
+  <div class="mc"><div class="mc-val">4.2%</div><div class="mc-lab">Engagement Rate medio</div><div class="mc-delta up">+0.3% vs media nicho</div></div>
+  <div class="mc"><div class="mc-val">23</div><div class="mc-lab">Leads gerados (organico)</div><div class="mc-delta up">+8 vs semana anterior</div></div>
+</div>
+
+<!-- CHART -->
+<div class="chart-card">
+  <h3>Publicacoes por dia</h3>
+  <p>Volume de posts publicados por dia nos ultimos 7 dias.</p>
+  <div class="chart-placeholder">
+    <div class="chart-bar cb-red" style="height:55%"></div>
+    <div class="chart-bar cb-red" style="height:72%"></div>
+    <div class="chart-bar cb-red" style="height:88%"></div>
+    <div class="chart-bar cb-red" style="height:65%"></div>
+    <div class="chart-bar cb-red" style="height:95%"></div>
+    <div class="chart-bar cb-gray" style="height:40%"></div>
+    <div class="chart-bar cb-gray" style="height:30%"></div>
+  </div>
+  <div class="chart-labels"><span>Seg</span><span>Ter</span><span>Qua</span><span>Qui</span><span>Sex</span><span>Sab</span><span>Dom</span></div>
+</div>
+
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
+<div class="chart-card">
+  <h3>Engagement por rede</h3>
+  <p>Taxa media de engajamento por plataforma.</p>
+  <div class="chart-placeholder" style="height:140px">
+    <div class="chart-bar cb-red" style="height:85%"></div>
+    <div class="chart-bar cb-red" style="height:65%"></div>
+    <div class="chart-bar cb-red" style="height:92%"></div>
+    <div class="chart-bar cb-red" style="height:45%"></div>
+    <div class="chart-bar cb-red" style="height:35%"></div>
+  </div>
+  <div class="chart-labels"><span>IG</span><span>LI</span><span>TT</span><span>X</span><span>Blog</span></div>
+</div>
+<div class="chart-card">
+  <h3>Formato que mais performa</h3>
+  <p>ER medio por tipo de conteudo.</p>
+  <div class="chart-placeholder" style="height:140px">
+    <div class="chart-bar cb-red" style="height:95%"></div>
+    <div class="chart-bar cb-red" style="height:70%"></div>
+    <div class="chart-bar cb-red" style="height:55%"></div>
+    <div class="chart-bar cb-red" style="height:45%"></div>
+    <div class="chart-bar cb-red" style="height:80%"></div>
+  </div>
+  <div class="chart-labels"><span>Carrossel</span><span>Reel</span><span>Post</span><span>Thread</span><span>Video</span></div>
+</div>
+</div>
+
+<!-- AI INSIGHTS -->
+<div class="section-label">Insights da IA</div>
+<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:24px">
+  <div class="insight-card"><div class="icon"><svg viewBox="0 0 24 24"><path d="M22 12h-4l-3 9L9 3l-3 9H2" stroke-linecap="round" stroke-linejoin="round"/></svg></div><p>Carrosseis sobre <strong>erros e aprendizados</strong> tem 2.3x mais saves que posts informativos neste nicho.</p><div class="source">Baseado em 48 posts analisados</div></div>
+  <div class="insight-card"><div class="icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3" stroke-linecap="round" stroke-linejoin="round"/></svg></div><p>Melhor horario para <strong>Instagram</strong> dos seus clientes: <strong>10:00-10:30</strong> (terça e quinta). ER 40% maior.</p><div class="source">Baseado em 7 dias de metricas</div></div>
+  <div class="insight-card"><div class="icon"><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" stroke-linecap="round" stroke-linejoin="round"/></svg></div><p><strong>Reels curtos (&lt;20s)</strong> tem 3x mais compartilhamentos que reels longos. Ajustar roteiros.</p><div class="source">Baseado em 23 reels publicados</div></div>
+</div>
+
+<!-- TOP POSTS -->
+<div class="section-label">Top posts da semana</div>
+<div class="posts-list">
+  <div class="post-item">
+    <div class="post-rank">1</div>
+    <div class="post-thumb">IG</div>
+    <div class="post-info"><div class="post-title">"Delegacao pra CEOs control freaks" — Joao Mendes</div><div class="post-meta">Carrossel 7 slides · Publicado Ter 10:30</div></div>
+    <div class="post-stats"><span><svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg> 342</span><span><svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg> 28</span><span><svg viewBox="0 0 24 24"><path d="M19 21l-7-5-7 5V5a2 2 0 012-2h10a2 2 0 012 2z"/></svg> 89</span></div>
+    <div class="post-er">6.2%</div>
+  </div>
+  <div class="post-item">
+    <div class="post-rank">2</div>
+    <div class="post-thumb">LI</div>
+    <div class="post-info"><div class="post-title">"O futuro do B2B nao e o que voce pensa" — Maria Fernandes</div><div class="post-meta">Artigo · Publicado Qua 09:00</div></div>
+    <div class="post-stats"><span><svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg> 187</span><span><svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg> 43</span><span><svg viewBox="0 0 24 24"><path d="M17 1l4 4-4 4"/><path d="M3 11V9a4 4 0 014-4h14"/></svg> 67</span></div>
+    <div class="post-er">5.8%</div>
+  </div>
+  <div class="post-item">
+    <div class="post-rank">3</div>
+    <div class="post-thumb">TT</div>
+    <div class="post-info"><div class="post-title">"3 metricas que CEO bom olha todo dia" — Joao Mendes</div><div class="post-meta">Reel 22s · Publicado Qui 15:00</div></div>
+    <div class="post-stats"><span><svg viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg> 12.4K</span><span><svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg> 1.2K</span></div>
+    <div class="post-er">8.3%</div>
+  </div>
+</div>
+
+<!-- NETWORK BREAKDOWN -->
+<div class="section-label">Por rede social</div>
+<div class="net-grid">
+  <div class="net-card"><h4>Instagram</h4><div class="net-row"><span class="label">Posts</span><span class="value">68</span></div><div class="net-row"><span class="label">Alcance</span><span class="value">412K</span></div><div class="net-row"><span class="label">ER medio</span><span class="value">4.2%</span></div><div class="net-row"><span class="label">Saves</span><span class="value">1.8K</span></div><div class="net-row"><span class="label">Shares</span><span class="value">890</span></div></div>
+  <div class="net-card"><h4>LinkedIn</h4><div class="net-row"><span class="label">Posts</span><span class="value">32</span></div><div class="net-row"><span class="label">Impressoes</span><span class="value">187K</span></div><div class="net-row"><span class="label">ER medio</span><span class="value">6.1%</span></div><div class="net-row"><span class="label">Cliques</span><span class="value">2.3K</span></div><div class="net-row"><span class="label">Shares</span><span class="value">456</span></div></div>
+  <div class="net-card"><h4>TikTok</h4><div class="net-row"><span class="label">Videos</span><span class="value">24</span></div><div class="net-row"><span class="label">Views</span><span class="value">248K</span></div><div class="net-row"><span class="label">ER medio</span><span class="value">8.3%</span></div><div class="net-row"><span class="label">Completions</span><span class="value">67%</span></div><div class="net-row"><span class="label">Shares</span><span class="value">1.1K</span></div></div>
+</div>
+
+</div>
+</body></html>

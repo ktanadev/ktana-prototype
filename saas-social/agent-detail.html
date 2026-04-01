@@ -1,0 +1,168 @@
+<!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>KTANA Social — Configurar Agente</title><link rel="stylesheet" href="../shared.css"><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Zen+Dots&display=swap" rel="stylesheet">
+<style>
+body{min-height:100vh;background:#F5F5F7;color:#1D1D1F}
+a{text-decoration:none;color:inherit}
+.nav{position:fixed;top:0;left:0;right:0;z-index:50;height:48px;display:flex;align-items:center;justify-content:center;background:rgba(245,245,247,0.72);backdrop-filter:saturate(180%) blur(20px);border-bottom:0.5px solid rgba(0,0,0,0.06)}
+.nav-inner{width:100%;max-width:980px;padding:0 24px;display:flex;align-items:center;justify-content:space-between}
+.nav-logo{font-family:'Zen Dots',cursive;font-size:14px;color:#D70030}
+.nav-links a{font-family:'Inter',sans-serif;font-size:12px;color:#86868B;margin-left:20px}
+.nav-links a:hover{color:#D70030}
+.container{max-width:680px;margin:0 auto;padding:64px 24px 80px}
+.breadcrumb{font-family:'Inter',sans-serif;font-size:11px;color:#86868B;margin-bottom:20px}
+.breadcrumb a{color:#D70030}
+.section-card{background:#FFF;border-radius:20px;border:1px solid rgba(0,0,0,0.04);padding:24px;margin-bottom:14px;animation:fadeIn 0.4s ease both}
+.card-label{font-family:'Inter',sans-serif;font-size:11px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:#D70030;margin-bottom:14px}
+.card-desc{font-family:'Satoshi',sans-serif;font-size:13px;color:#86868B;margin-bottom:16px;line-height:1.5}
+.role-header{background:#FFF;border-radius:20px;border:1px solid rgba(0,0,0,0.04);padding:28px;display:flex;align-items:center;gap:20px;margin-bottom:14px}
+.role-avatar{width:64px;height:64px;border-radius:16px;background:linear-gradient(135deg,#5856D6,#3A38A0);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.role-avatar svg{width:28px;height:28px;stroke:#FFF;fill:none;stroke-width:1.5}
+.role-meta h2{font-family:'Zen Dots',cursive;font-size:20px;color:#1D1D1F;margin-bottom:4px}
+.role-tag{font-family:'Inter',sans-serif;display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:500;color:#D70030;background:rgba(215,0,48,0.06);padding:3px 10px;border-radius:6px;margin-bottom:6px}
+.role-meta p{font-family:'Satoshi',sans-serif;font-size:13px;color:#86868B;line-height:1.5}
+.stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:14px}
+.stat-box{background:#FFF;border:1px solid rgba(0,0,0,0.04);border-radius:14px;padding:16px;text-align:center}
+.stat-val{font-family:'Zen Dots',cursive;font-size:20px;color:#1D1D1F}
+.stat-lab{font-family:'Inter',sans-serif;font-size:9px;color:#86868B;text-transform:uppercase;letter-spacing:0.05em;margin-top:2px}
+.form-group{margin-bottom:16px}
+.form-group:last-child{margin-bottom:0}
+.form-group label{font-family:'Inter',sans-serif;display:block;font-size:12px;font-weight:500;color:#86868B;margin-bottom:6px}
+.form-input{font-family:'Satoshi',sans-serif;background:#F5F5F7;border:1px solid rgba(0,0,0,0.06);border-radius:12px;padding:12px 14px;font-size:14px;width:100%;outline:none;color:#1D1D1F;transition:border-color 0.2s;box-sizing:border-box}
+.form-input:focus{border-color:rgba(215,0,48,0.3)}
+textarea.form-input{resize:vertical;min-height:100px;font-family:'JetBrains Mono',monospace;font-size:12px;line-height:1.6}
+.ref-list{display:flex;flex-direction:column;gap:8px}
+.ref-item{display:flex;align-items:center;gap:12px;padding:12px 14px;border-radius:14px;border:1.5px solid rgba(0,0,0,0.06);cursor:pointer;transition:all 0.15s;min-height:44px}
+.ref-item:hover{border-color:rgba(0,0,0,0.12)}
+.ref-item.active{border-color:rgba(215,0,48,0.25);background:rgba(215,0,48,0.015)}
+.ref-check{width:20px;height:20px;border-radius:50%;border:1.5px solid #D2D2D7;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all 0.15s}
+.ref-item.active .ref-check{border-color:#D70030;background:#D70030}
+.ref-item.active .ref-check::after{content:'';width:6px;height:6px;border-radius:50%;background:#FFF}
+.ref-info{flex:1}
+.ref-name{font-family:'Satoshi',sans-serif;font-size:13px;font-weight:500;color:#1D1D1F}
+.ref-desc{font-family:'Inter',sans-serif;font-size:11px;color:#86868B;margin-top:2px}
+.perm-list{display:flex;flex-direction:column;gap:8px}
+.perm-item{display:flex;align-items:center;justify-content:space-between;padding:12px 14px;background:#F5F5F7;border-radius:12px;min-height:44px}
+.perm-left{display:flex;align-items:center;gap:10px}
+.perm-left svg{width:18px;height:18px;stroke:#86868B;fill:none;stroke-width:1.5;flex-shrink:0}
+.perm-text{font-family:'Satoshi',sans-serif;font-size:13px;color:#1D1D1F}
+.perm-sub{font-family:'Inter',sans-serif;font-size:10px;color:#86868B}
+.toggle{width:44px;height:26px;border-radius:13px;background:#D2D2D7;position:relative;cursor:pointer;transition:background 0.2s;flex-shrink:0}
+.toggle.on{background:#D70030}
+.toggle::after{content:'';position:absolute;top:3px;left:3px;width:20px;height:20px;border-radius:50%;background:#FFF;transition:transform 0.2s}
+.toggle.on::after{transform:translateX(18px)}
+.btn-save{font-family:'Inter',sans-serif;width:100%;padding:14px;border-radius:14px;background:#D70030;color:#FFF;font-size:15px;font-weight:600;border:none;cursor:pointer;transition:opacity 0.15s;margin-top:24px}
+.btn-save:hover{opacity:0.9}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+@media(max-width:520px){.stats-row{grid-template-columns:repeat(2,1fr)}}
+</style>
+</head>
+<body>
+<nav class="nav"><div class="nav-inner"><a href="landing.html" class="nav-logo">KTANA Social</a><div class="nav-links"><a href="dashboard.html">Dashboard</a><a href="agents.html">Agentes</a></div></div></nav>
+<div class="container">
+<div class="breadcrumb"><a href="dashboard.html">Dashboard</a> / <a href="agents.html">Agentes</a> / Quill</div>
+
+<div class="role-header">
+  <div class="role-avatar"><svg viewBox="0 0 24 24"><path d="M12 20h9M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+  <div class="role-meta">
+    <span class="role-tag">Copywriter Persuasivo</span>
+    <h2>Quill</h2>
+    <p>Cria roteiros, legendas, CTAs, threads e textos persuasivos. Calibrado no tom de voz de cada founder. Score de humanidade obrigatorio.</p>
+  </div>
+</div>
+
+<div class="stats-row">
+  <div class="stat-box"><div class="stat-val">34</div><div class="stat-lab">Roteiros hoje</div></div>
+  <div class="stat-box"><div class="stat-val">12.8k</div><div class="stat-lab">Tokens usados</div></div>
+  <div class="stat-box"><div class="stat-val">91%</div><div class="stat-lab">Score humanidade</div></div>
+  <div class="stat-box"><div class="stat-val">187</div><div class="stat-lab">Fatos na memoria</div></div>
+</div>
+
+<div class="section-card">
+  <p class="card-label">System Prompt</p>
+  <p class="card-desc">O prompt principal que define o comportamento deste agente. Edite para ajustar ao estilo da sua empresa.</p>
+  <div class="form-group">
+    <textarea class="form-input" style="min-height:140px">Voce e Quill, copywriter persuasivo senior especializado em conteudo para redes sociais de founders e empresarios.
+
+REGRAS:
+- SEMPRE escrever no tom de voz definido no Brand Book do cliente
+- NUNCA usar linguagem institucional ou corporativa
+- Score de humanidade DEVE ser > 85% — se nao atingir, reescrever
+- Cada rede tem formato especifico (IG: curto, LI: longo, X: thread)
+- Usar gatilhos mentais sem parecer forçado
+- Referenciar dados reais (Perplexity) quando possivel
+- Comparar com posts reais de concorrentes para validar naturalidade</textarea>
+  </div>
+</div>
+
+<div class="section-card">
+  <p class="card-label">Skills ativas</p>
+  <p class="card-desc">Habilidades que este agente pode executar. Toggle para ativar/desativar.</p>
+  <div class="ref-list">
+    <div class="ref-item active" onclick="this.classList.toggle('active')"><div class="ref-check"></div><div class="ref-info"><p class="ref-name">Roteiro de carrossel Instagram</p><p class="ref-desc">Gera slides com hook, conteudo e CTA. Formato 1080x1080.</p></div></div>
+    <div class="ref-item active" onclick="this.classList.toggle('active')"><div class="ref-check"></div><div class="ref-info"><p class="ref-name">Roteiro de Reels / TikTok</p><p class="ref-desc">Script com segundagem, falas, cenas. Hook nos primeiros 3s.</p></div></div>
+    <div class="ref-item active" onclick="this.classList.toggle('active')"><div class="ref-check"></div><div class="ref-info"><p class="ref-name">Thread para X/Twitter</p><p class="ref-desc">3-7 tweets encadeados com gancho forte no primeiro.</p></div></div>
+    <div class="ref-item active" onclick="this.classList.toggle('active')"><div class="ref-check"></div><div class="ref-info"><p class="ref-name">Artigo LinkedIn</p><p class="ref-desc">Texto longo 1000-2000 chars, storytelling, dados, CTA profissional.</p></div></div>
+    <div class="ref-item active" onclick="this.classList.toggle('active')"><div class="ref-check"></div><div class="ref-info"><p class="ref-name">Artigo SEO Blog</p><p class="ref-desc">1500-3000 palavras, H2/H3, meta description, internal links.</p></div></div>
+    <div class="ref-item" onclick="this.classList.toggle('active')"><div class="ref-check"></div><div class="ref-info"><p class="ref-name">Legenda de Stories</p><p class="ref-desc">Textos curtos para stories com CTA e enquetes.</p></div></div>
+    <div class="ref-item" onclick="this.classList.toggle('active')"><div class="ref-check"></div><div class="ref-info"><p class="ref-name">Bio de perfil</p><p class="ref-desc">Bio otimizada para conversao em cada rede social.</p></div></div>
+    <div class="ref-item" onclick="this.classList.toggle('active')"><div class="ref-check"></div><div class="ref-info"><p class="ref-name">Email marketing</p><p class="ref-desc">Newsletter, sequencia de nurturing, cold outreach.</p></div></div>
+  </div>
+</div>
+
+<div class="section-card">
+  <p class="card-label">Cerebro (referencias de estilo)</p>
+  <p class="card-desc">O agente vai absorver o estilo de escrita dessas referencias.</p>
+  <div class="ref-list">
+    <div class="ref-item active" onclick="this.classList.toggle('active')"><div class="ref-check"></div><div class="ref-info"><p class="ref-name">Gary Vaynerchuk</p><p class="ref-desc">Tom direto, sem filtro, storytelling do dia a dia, urgencia</p></div></div>
+    <div class="ref-item active" onclick="this.classList.toggle('active')"><div class="ref-check"></div><div class="ref-info"><p class="ref-name">Alex Hormozi</p><p class="ref-desc">Frameworks numerados, valor extremo, sem enrolacao, dados</p></div></div>
+    <div class="ref-item" onclick="this.classList.toggle('active')"><div class="ref-check"></div><div class="ref-info"><p class="ref-name">Seth Godin</p><p class="ref-desc">Textos curtos, profundos, metaforas, provocacoes intelectuais</p></div></div>
+    <div class="ref-item" onclick="this.classList.toggle('active')"><div class="ref-check"></div><div class="ref-info"><p class="ref-name">David Ogilvy</p><p class="ref-desc">Copy classica, headlines poderosas, persuasao cientifica</p></div></div>
+  </div>
+</div>
+
+<div class="section-card">
+  <p class="card-label">Permissoes</p>
+  <div class="perm-list">
+    <div class="perm-item">
+      <div class="perm-left"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z" stroke-linecap="round" stroke-linejoin="round"/><polyline points="14 2 14 8 20 8"/></svg><div><p class="perm-text">Criar roteiros automaticamente</p><p class="perm-sub">Gerar sem aprovacao previa</p></div></div>
+      <div class="toggle on" onclick="this.classList.toggle('on')"></div>
+    </div>
+    <div class="perm-item">
+      <div class="perm-left"><svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z" stroke-linecap="round" stroke-linejoin="round"/></svg><div><p class="perm-text">Enviar para aprovacao via WhatsApp</p><p class="perm-sub">Disparar mensagem de aprovacao automaticamente</p></div></div>
+      <div class="toggle on" onclick="this.classList.toggle('on')"></div>
+    </div>
+    <div class="perm-item">
+      <div class="perm-left"><svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7" stroke-linecap="round" stroke-linejoin="round"/></svg><div><p class="perm-text">Publicar diretamente</p><p class="perm-sub">Publicar sem aprovacao humana</p></div></div>
+      <div class="toggle" onclick="this.classList.toggle('on')"></div>
+    </div>
+    <div class="perm-item">
+      <div class="perm-left"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35" stroke-linecap="round" stroke-linejoin="round"/></svg><div><p class="perm-text">Pesquisar concorrentes</p><p class="perm-sub">Acessar dados de benchmarking</p></div></div>
+      <div class="toggle on" onclick="this.classList.toggle('on')"></div>
+    </div>
+  </div>
+</div>
+
+<div class="section-card">
+  <p class="card-label">Modelo de LLM</p>
+  <div class="form-group">
+    <label>Modelo principal</label>
+    <select class="form-input" style="cursor:pointer">
+      <option>Claude Sonnet 4 (recomendado — equilibrio custo/qualidade)</option>
+      <option>Claude Opus 4 (maximo qualidade, maior custo)</option>
+      <option>Claude Haiku 4.5 (rapido e barato, validacao)</option>
+      <option>GPT-4o (alternativa)</option>
+      <option>Grok (pesquisa)</option>
+    </select>
+  </div>
+  <div class="form-group">
+    <label>Limite de tokens por execucao</label>
+    <input type="text" class="form-input" value="4096">
+  </div>
+  <div class="form-group">
+    <label>Temperatura</label>
+    <input type="text" class="form-input" value="0.7" placeholder="0.0 = deterministico, 1.0 = criativo">
+  </div>
+</div>
+
+<button class="btn-save">Salvar configuracao do Quill</button>
+</div>
+</body></html>
