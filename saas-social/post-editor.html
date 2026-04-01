@@ -126,11 +126,11 @@ Erro 5: Medir likes ao inves de conversao. Vanity metrics nao pagam boleto. Metr
 SLIDE 7 (CTA):
 Quer parar de cometer esses erros? Me manda "POSICIONAMENTO" no DM e eu te mando o checklist completo. Link na bio.</textarea>
   <div class="editor-tools">
-    <button class="et"><svg viewBox="0 0 24 24"><path d="M12 20h9M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z" stroke-linecap="round" stroke-linejoin="round"/></svg> Reescrever</button>
-    <button class="et"><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" stroke-linecap="round" stroke-linejoin="round"/></svg> Mais provocador</button>
-    <button class="et"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35" stroke-linecap="round" stroke-linejoin="round"/></svg> Adicionar dados</button>
-    <button class="et"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/></svg> Mais pessoal</button>
-    <button class="et"><svg viewBox="0 0 24 24"><path d="M4 12v8a2 2 0 002 2h12a2 2 0 002-2v-8M16 6l-4-4-4 4M12 2v13" stroke-linecap="round" stroke-linejoin="round"/></svg> Encurtar</button>
+    <button class="et" onclick="this.innerHTML='Reescrevendo...';this.style.opacity='0.5';setTimeout(()=>{this.innerHTML='Pronto!';this.style.opacity='1';this.style.background='#34C759';this.style.color='#FFF'},1500)"><svg viewBox="0 0 24 24"><path d="M12 20h9M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z" stroke-linecap="round" stroke-linejoin="round"/></svg> Reescrever</button>
+    <button class="et" onclick="this.innerHTML='Aplicando tom...';this.style.opacity='0.5';setTimeout(()=>{this.innerHTML='Tom ajustado!';this.style.opacity='1'},1000)"><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" stroke-linecap="round" stroke-linejoin="round"/></svg> Mais provocador</button>
+    <button class="et" onclick="this.innerHTML='Buscando dados...';this.style.opacity='0.5';setTimeout(()=>{this.innerHTML='3 dados inseridos!';this.style.opacity='1'},1000)"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35" stroke-linecap="round" stroke-linejoin="round"/></svg> Adicionar dados</button>
+    <button class="et" onclick="this.innerHTML='Ajustando...';this.style.opacity='0.5';setTimeout(()=>{this.innerHTML='Tom pessoal!';this.style.opacity='1'},1000)"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/></svg> Mais pessoal</button>
+    <button class="et" onclick="this.innerHTML='Encurtando...';this.style.opacity='0.5';setTimeout(()=>{this.innerHTML='-30%!';this.style.opacity='1'},1000)"><svg viewBox="0 0 24 24"><path d="M4 12v8a2 2 0 002 2h12a2 2 0 002-2v-8M16 6l-4-4-4 4M12 2v13" stroke-linecap="round" stroke-linejoin="round"/></svg> Encurtar</button>
   </div>
 </div>
 
@@ -154,7 +154,7 @@ Quer parar de cometer esses erros? Me manda "POSICIONAMENTO" no DM e eu te mando
 
 <!-- ACTIONS -->
 <div class="actions">
-  <button class="act-btn act-save"><svg viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01" stroke-linecap="round" stroke-linejoin="round"/></svg> Salvar e enviar pra aprovacao</button>
+  <button class="act-btn act-save" onclick="this.innerHTML='Enviado pra aprovacao!';this.style.background='#34C759';this.style.color='#FFF'"><svg viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01" stroke-linecap="round" stroke-linejoin="round"/></svg> Salvar e enviar pra aprovacao</button>
   <a href="post-detail.html" class="act-btn act-preview"><svg viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3" stroke-linecap="round" stroke-linejoin="round"/></svg> Ver preview</a>
   <a href="pipeline.html" class="act-btn act-discard">Descartar</a>
 </div>

@@ -342,8 +342,8 @@ h1{font-family:'Zen Dots',cursive;font-size:24px;color:#1D1D1F;margin-bottom:6px
 <!-- SAVE BAR -->
 <div class="save-bar">
   <span class="status">Ultima alteracao: agora</span>
-  <button class="btn btn-ghost">Descartar</button>
-  <button class="btn btn-primary">Salvar alteracoes</button>
+  <button class="btn btn-ghost" onclick="this.textContent='Descartado';this.style.opacity='0.4'">Descartar</button>
+  <button class="btn btn-primary" onclick="this.textContent='Salvo!';this.style.background='#34C759';this.style.color='#FFF'">Salvar alteracoes</button>
 </div>
 
 <script>

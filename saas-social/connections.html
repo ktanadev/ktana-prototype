@@ -66,7 +66,7 @@ h1{font-family:'Zen Dots',cursive;font-size:22px;color:#1D1D1F;margin-bottom:6px
     <div class="conn-field"><span class="label">IG Business ID</span><span class="value">17841400...</span></div>
     <div class="conn-field"><span class="label">Rate limit</span><span class="value">82/100 posts restantes</span></div>
   </div>
-  <div class="conn-actions"><a href="connection-instagram.html" class="conn-btn conn-btn-primary">Configurar</a><button class="conn-btn conn-btn-ghost">Renovar token</button></div>
+  <div class="conn-actions"><a href="connection-instagram.html" class="conn-btn conn-btn-primary">Configurar</a><button class="conn-btn conn-btn-ghost" onclick="this.textContent='Renovado!';this.style.background='#34C759';this.style.color='#FFF'">Renovar token</button></div>
 </div>
 
 <div class="conn-card">
@@ -76,7 +76,7 @@ h1{font-family:'Zen Dots',cursive;font-size:22px;color:#1D1D1F;margin-bottom:6px
     <div class="conn-field"><span class="label">Client ID</span><span class="value">78x9k2...q1m</span></div>
     <div class="conn-field"><span class="label">Person URN</span><span class="value">urn:li:person:abc...</span></div>
   </div>
-  <div class="conn-actions"><a href="connection-linkedin.html" class="conn-btn conn-btn-primary">Configurar</a><button class="conn-btn conn-btn-ghost">Testar</button></div>
+  <div class="conn-actions"><a href="connection-linkedin.html" class="conn-btn conn-btn-primary">Configurar</a><button class="conn-btn conn-btn-ghost" onclick="this.textContent='OK!';this.style.background='#34C759';this.style.color='#FFF'">Testar</button></div>
 </div>
 
 <div class="conn-card">
@@ -86,7 +86,7 @@ h1{font-family:'Zen Dots',cursive;font-size:22px;color:#1D1D1F;margin-bottom:6px
     <div class="conn-field"><span class="label">App ID</span><span class="value">7341...</span></div>
     <div class="conn-field"><span class="label">Limite</span><span class="value">12/15 posts restantes</span></div>
   </div>
-  <div class="conn-actions"><a href="connection-tiktok.html" class="conn-btn conn-btn-primary">Reconfigurar</a><button class="conn-btn conn-btn-ghost">Testar</button></div>
+  <div class="conn-actions"><a href="connection-tiktok.html" class="conn-btn conn-btn-primary">Reconfigurar</a><button class="conn-btn conn-btn-ghost" onclick="this.textContent='OK!';this.style.background='#34C759';this.style.color='#FFF'">Testar</button></div>
 </div>
 
 <div class="conn-card">
@@ -106,7 +106,7 @@ h1{font-family:'Zen Dots',cursive;font-size:22px;color:#1D1D1F;margin-bottom:6px
     <div class="conn-field"><span class="label">Instance</span><span class="value">gs_main</span></div>
     <div class="conn-field"><span class="label">Rate limit</span><span class="value">8 msgs/min</span></div>
   </div>
-  <div class="conn-actions"><a href="connection-whatsapp.html" class="conn-btn conn-btn-primary">Configurar</a><button class="conn-btn conn-btn-ghost">Ver QR</button></div>
+  <div class="conn-actions"><a href="connection-whatsapp.html" class="conn-btn conn-btn-primary">Configurar</a><button class="conn-btn conn-btn-ghost" onclick="alert('QR Code gerado — escaneie com WhatsApp Business')">Ver QR</button></div>
 </div>
 
 <div class="conn-card">
@@ -127,7 +127,7 @@ h1{font-family:'Zen Dots',cursive;font-size:22px;color:#1D1D1F;margin-bottom:6px
     <div class="conn-field"><span class="label">API Key</span><span class="value masked">hg_sk...x9z</span></div>
     <div class="conn-field"><span class="label">Avatares</span><span class="value">3 treinados</span></div>
   </div>
-  <div class="conn-actions"><a href="connection-heygen.html" class="conn-btn conn-btn-primary">Configurar</a><button class="conn-btn conn-btn-ghost">Ver avatares</button></div>
+  <div class="conn-actions"><a href="connection-heygen.html" class="conn-btn conn-btn-primary">Configurar</a><button class="conn-btn conn-btn-ghost" onclick="location.href='avatar-clone.html'">Ver avatares</button></div>
 </div>
 
 <div class="conn-card">
@@ -137,7 +137,7 @@ h1{font-family:'Zen Dots',cursive;font-size:22px;color:#1D1D1F;margin-bottom:6px
     <div class="conn-field"><span class="label">API Key</span><span class="value masked">FPSXab3...d186</span></div>
     <div class="conn-field"><span class="label">Clones</span><span class="value">Joao M., Maria F.</span></div>
   </div>
-  <div class="conn-actions"><button class="conn-btn conn-btn-primary">Configurar</button><button class="conn-btn conn-btn-ghost">Treinar modelo</button></div>
+  <div class="conn-actions"><button class="conn-btn conn-btn-primary" onclick="this.textContent='Configurado!';this.style.background='#34C759';this.style.color='#FFF'">Configurar</button><button class="conn-btn conn-btn-ghost" onclick="this.textContent='Treinando...';this.style.opacity='0.6'">Treinar modelo</button></div>
 </div>
 
 <div class="conn-card">
@@ -147,13 +147,13 @@ h1{font-family:'Zen Dots',cursive;font-size:22px;color:#1D1D1F;margin-bottom:6px
     <div class="conn-field"><span class="label">API Token</span><span class="value masked">figd_LBdr...ntgX</span></div>
     <div class="conn-field"><span class="label">File Key</span><span class="value">gUM5lW3...</span></div>
   </div>
-  <div class="conn-actions"><button class="conn-btn conn-btn-primary">Configurar</button><button class="conn-btn conn-btn-ghost">Mapear templates</button></div>
+  <div class="conn-actions"><button class="conn-btn conn-btn-primary" onclick="this.textContent='Configurado!';this.style.background='#34C759';this.style.color='#FFF'">Configurar</button><button class="conn-btn conn-btn-ghost" onclick="this.textContent='Mapeando...';setTimeout(()=>{this.textContent='8 templates!';this.style.background='#34C759';this.style.color='#FFF'},1000)">Mapear templates</button></div>
 </div>
 
 <div class="conn-card">
   <div class="conn-top"><div class="conn-icon ci-cflab"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 0110 10 10 10 0 01-10 10A10 10 0 012 12 10 10 0 0112 2z"/><path d="M12 8v8M8 12h8" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div class="conn-info"><h3>CFLab AI</h3><p>Clonagem visual, UGC, workflows de imagem</p></div></div>
   <div class="conn-status st-off"><span class="dot"></span> Nao conectado</div>
-  <div class="conn-actions"><button class="conn-btn conn-btn-primary">Conectar</button></div>
+  <div class="conn-actions"><button class="conn-btn conn-btn-primary" onclick="this.textContent='Conectado!';this.style.background='#34C759';this.style.color='#FFF'">Conectar</button></div>
 </div>
 
 <div class="conn-card">
@@ -163,7 +163,7 @@ h1{font-family:'Zen Dots',cursive;font-size:22px;color:#1D1D1F;margin-bottom:6px
     <div class="conn-field"><span class="label">API Token</span><span class="value masked">pk_1584...V3AE</span></div>
     <div class="conn-field"><span class="label">Workspace</span><span class="value">Grupo Silva</span></div>
   </div>
-  <div class="conn-actions"><button class="conn-btn conn-btn-primary">Configurar</button><button class="conn-btn conn-btn-ghost">Sync</button></div>
+  <div class="conn-actions"><button class="conn-btn conn-btn-primary" onclick="this.textContent='Configurado!';this.style.background='#34C759';this.style.color='#FFF'">Configurar</button><button class="conn-btn conn-btn-ghost" onclick="this.textContent='Sincronizado!';this.style.background='#34C759';this.style.color='#FFF'">Sync</button></div>
 </div>
 
 <div class="conn-card">
@@ -173,7 +173,7 @@ h1{font-family:'Zen Dots',cursive;font-size:22px;color:#1D1D1F;margin-bottom:6px
     <div class="conn-field"><span class="label">Conta</span><span class="value">contato@grupo...</span></div>
     <div class="conn-field"><span class="label">Pasta raiz</span><span class="value">/Clientes/</span></div>
   </div>
-  <div class="conn-actions"><button class="conn-btn conn-btn-primary">Configurar</button><button class="conn-btn conn-btn-ghost">Abrir Drive</button></div>
+  <div class="conn-actions"><button class="conn-btn conn-btn-primary" onclick="this.textContent='Configurado!';this.style.background='#34C759';this.style.color='#FFF'">Configurar</button><button class="conn-btn conn-btn-ghost" onclick="alert('Abrindo Google Drive...')">Abrir Drive</button></div>
 </div>
 
 </div>
@@ -187,7 +187,7 @@ h1{font-family:'Zen Dots',cursive;font-size:22px;color:#1D1D1F;margin-bottom:6px
     <div class="conn-field"><span class="label">Perfis</span><span class="value">12 ativos / 5 backup</span></div>
     <div class="conn-field"><span class="label">Proxy pool</span><span class="value">SP residencial</span></div>
   </div>
-  <div class="conn-actions"><button class="conn-btn conn-btn-primary">Gerenciar perfis</button><button class="conn-btn conn-btn-ghost">Config proxy</button></div>
+  <div class="conn-actions"><button class="conn-btn conn-btn-primary" onclick="alert('Abrindo GoLogin...')">Gerenciar perfis</button><button class="conn-btn conn-btn-ghost" onclick="alert('Configuracao de proxy GoLogin')">Config proxy</button></div>
 </div>
 </div>
 

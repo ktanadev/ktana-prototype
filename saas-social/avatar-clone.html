@@ -195,8 +195,8 @@ h1{font-family:'Zen Dots',cursive;font-size:22px;color:#1D1D1F;margin-bottom:6px
         <div class="style-card"><div class="style-thumb">Creative Director</div><div class="style-info"><div class="style-name">Creative Director</div><div class="style-desc">Artistico, iluminacao neon</div></div></div>
       </div>
       <div style="display:flex;gap:10px;margin-top:16px">
-        <button class="btn-action btn-brand">Iniciar treinamento</button>
-        <button class="btn-action btn-secondary">Salvar e voltar</button>
+        <button class="btn-action btn-brand" onclick="this.textContent='Treinando... 0%';this.style.background='#FF9500';this.style.color='#FFF';setTimeout(()=>{this.textContent='Treinado!';this.style.background='#34C759'},1500)">Iniciar treinamento</button>
+        <button class="btn-action btn-secondary" onclick="this.textContent='Salvo!';this.style.background='#34C759';this.style.color='#FFF'">Salvar e voltar</button>
       </div>
     </div>
 
