@@ -1,38 +1,43 @@
 <!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>SaaS Social — Fluxo dos 4 Atores</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-body{background:#000;color:#FFF;font-family:-apple-system,'Inter',sans-serif;padding:40px;min-height:100vh}
+body{background:#FAFAFA;color:#1D1D1F;font-family:-apple-system,'Inter',sans-serif;padding:40px;min-height:100vh}
 h1{font-family:'Courier New',monospace;font-size:28px;text-align:center;margin-bottom:8px;color:#D70030}
-.sub{text-align:center;font-size:13px;color:rgba(255,255,255,0.4);margin-bottom:48px}
+.sub{text-align:center;font-size:13px;color:#86868B;margin-bottom:48px}
 .actor{margin-bottom:56px;position:relative}
 .actor-header{display:flex;align-items:center;gap:14px;margin-bottom:24px}
-.actor-num{width:40px;height:40px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:16px;flex-shrink:0}
-.actor-name{font-size:18px;font-weight:700}
-.actor-role{font-size:12px;color:rgba(255,255,255,0.5);margin-top:2px}
+.actor-num{width:40px;height:40px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:16px;flex-shrink:0;color:#FFF}
+.actor-name{font-size:18px;font-weight:700;color:#1D1D1F}
+.actor-role{font-size:12px;color:#86868B;margin-top:2px}
 .flow{display:flex;flex-wrap:wrap;gap:12px;align-items:flex-start;margin-left:54px}
-.step{background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:14px;padding:14px 16px;min-width:160px;max-width:200px;position:relative;transition:all 0.2s}
-.step:hover{border-color:rgba(215,0,48,0.3);background:rgba(215,0,48,0.04)}
+.step{background:#FFF;border:1px solid rgba(0,0,0,0.08);border-radius:14px;padding:14px 16px;min-width:160px;max-width:200px;position:relative;transition:all 0.2s;box-shadow:0 1px 3px rgba(0,0,0,0.04)}
+.step:hover{border-color:rgba(215,0,48,0.3);background:rgba(215,0,48,0.02);box-shadow:0 2px 8px rgba(0,0,0,0.06)}
 .step-file{font-family:'Courier New',monospace;font-size:10px;color:#D70030;margin-bottom:6px;word-break:break-all}
-.step-title{font-size:13px;font-weight:600;color:#FFF;margin-bottom:4px}
-.step-desc{font-size:10px;color:rgba(255,255,255,0.45);line-height:1.4}
-.arrow{display:flex;align-items:center;color:rgba(255,255,255,0.2);font-size:20px;padding:0 2px;align-self:center}
+.step-title{font-size:13px;font-weight:600;color:#1D1D1F;margin-bottom:4px}
+.step-desc{font-size:10px;color:#86868B;line-height:1.4}
+.arrow{display:flex;align-items:center;color:#AEAEB2;font-size:20px;padding:0 2px;align-self:center}
 .section{margin-left:54px;margin-bottom:20px}
-.section-title{font-size:11px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:rgba(255,255,255,0.3);margin-bottom:12px;padding-left:4px}
+.section-title{font-size:11px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#86868B;margin-bottom:12px;padding-left:4px}
 .branch{display:flex;flex-direction:column;gap:6px;margin-left:54px;margin-bottom:16px}
-.branch-item{display:flex;align-items:center;gap:8px;font-size:12px;color:rgba(255,255,255,0.6)}
+.branch-item{display:flex;align-items:center;gap:8px;font-size:12px;color:#6E6E73}
 .branch-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0}
 .branch-file{font-family:'Courier New',monospace;font-size:10px;color:#D70030}
-.divider{height:1px;background:rgba(255,255,255,0.06);margin:48px 0}
+.divider{height:1px;background:rgba(0,0,0,0.06);margin:48px 0}
 .cycle{margin-left:54px;display:grid;grid-template-columns:80px 1fr;gap:8px 16px;margin-bottom:16px}
 .cycle-time{font-family:'Courier New',monospace;font-size:13px;color:#D70030;text-align:right;font-weight:700}
-.cycle-what{font-size:12px;color:rgba(255,255,255,0.6);line-height:1.5}
-.cycle-what strong{color:#FFF}
+.cycle-what{font-size:12px;color:#6E6E73;line-height:1.5}
+.cycle-what strong{color:#1D1D1F}
 .tag{display:inline-block;font-size:9px;font-weight:600;padding:2px 6px;border-radius:4px;margin-left:4px}
-.tag-gestor{background:rgba(88,86,214,0.15);color:#8E8CE6}
-.tag-sm{background:rgba(52,199,89,0.15);color:#6BDE8A}
-.tag-founder{background:rgba(255,149,0,0.15);color:#FFBA5C}
-.tag-admin{background:rgba(0,122,255,0.15);color:#64B5F6}
-.tag-ia{background:rgba(215,0,48,0.15);color:#FF6B8A}
+.tag-gestor{background:rgba(88,86,214,0.1);color:#5856D6}
+.tag-sm{background:rgba(52,199,89,0.1);color:#248A3D}
+.tag-founder{background:rgba(255,149,0,0.1);color:#CC7700}
+.tag-admin{background:rgba(0,122,255,0.1);color:#0055CC}
+.tag-ia{background:rgba(215,0,48,0.1);color:#D70030}
+.index-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:6px;margin-left:54px;margin-bottom:16px}
+.index-item{display:flex;align-items:center;gap:8px;padding:8px 12px;background:#FFF;border:1px solid rgba(0,0,0,0.06);border-radius:8px;font-family:'Courier New',monospace;font-size:11px;color:#D70030;text-decoration:none;transition:all 0.15s}
+.index-item:hover{border-color:rgba(215,0,48,0.2);background:rgba(215,0,48,0.02);box-shadow:0 2px 6px rgba(0,0,0,0.04)}
+.ix-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0}
+.ix-desc{font-family:-apple-system,'Inter',sans-serif;font-size:10px;color:#86868B;margin-left:auto;text-align:right}
 </style>
 </head>
 <body>
@@ -206,9 +211,113 @@ h1{font-family:'Courier New',monospace;font-size:28px;text-align:center;margin-b
   </div>
 </div>
 
-<div style="text-align:center;padding:40px 0;font-size:11px;color:rgba(255,255,255,0.2)">
+<div class="divider"></div>
+
+<!-- ══════ ÍNDICE COMPLETO ══════ -->
+<div class="actor">
+  <div class="actor-header">
+    <div class="actor-num" style="background:linear-gradient(135deg,#1D1D1F,#3A3A3C);color:#FFF">58</div>
+    <div><div class="actor-name">Índice Completo — 58 Telas</div><div class="actor-role">Clique em qualquer tela pra abrir no protótipo</div></div>
+  </div>
+
+  <div class="section-title">Público (sem login)</div>
+  <div class="index-grid">
+    <a href="../landing.html" class="index-item"><span class="ix-dot" style="background:#D70030"></span>landing.html<span class="ix-desc">LP do produto</span></a>
+    <a href="../signup.html" class="index-item"><span class="ix-dot" style="background:#D70030"></span>signup.html<span class="ix-desc">Cadastro via chat</span></a>
+    <a href="../login.html" class="index-item"><span class="ix-dot" style="background:#D70030"></span>login.html<span class="ix-desc">Login email/Google</span></a>
+    <a href="../index.html" class="index-item"><span class="ix-dot" style="background:#86868B"></span>index.html<span class="ix-desc">Redirect</span></a>
+  </div>
+
+  <div class="section-title">Setup da Agência (gestor)</div>
+  <div class="index-grid">
+    <a href="../setup-empresa.html" class="index-item"><span class="ix-dot" style="background:#5856D6"></span>setup-empresa.html<span class="ix-desc">5 passos: essência, metodologia, depts, agentes, resumo</span></a>
+    <a href="../setup-marketing.html" class="index-item"><span class="ix-dot" style="background:#5856D6"></span>setup-marketing.html<span class="ix-desc">Config marketing</span></a>
+    <a href="../setup-team.html" class="index-item"><span class="ix-dot" style="background:#5856D6"></span>setup-team.html<span class="ix-desc">Config equipe</span></a>
+  </div>
+
+  <div class="section-title">Painel do Gestor (shared-nav)</div>
+  <div class="index-grid">
+    <a href="../dashboard.html" class="index-item"><span class="ix-dot" style="background:#D70030"></span>dashboard.html<span class="ix-desc">Dashboard principal</span></a>
+    <a href="../client-list.html" class="index-item"><span class="ix-dot" style="background:#5856D6"></span>client-list.html<span class="ix-desc">Lista de 400 clientes</span></a>
+    <a href="../sm-inbox.html" class="index-item"><span class="ix-dot" style="background:#34C759"></span>sm-inbox.html<span class="ix-desc">Minha Fila (SM inbox)</span></a>
+    <a href="../pipeline.html" class="index-item"><span class="ix-dot" style="background:#007AFF"></span>pipeline.html<span class="ix-desc">Kanban 6 colunas</span></a>
+    <a href="../calendar.html" class="index-item"><span class="ix-dot" style="background:#007AFF"></span>calendar.html<span class="ix-desc">Calendário 2 semanas</span></a>
+    <a href="../approvals.html" class="index-item"><span class="ix-dot" style="background:#D70030"></span>approvals.html<span class="ix-desc">Aprovações 2 níveis</span></a>
+    <a href="../webinar.html" class="index-item"><span class="ix-dot" style="background:#FF9500"></span>webinar.html<span class="ix-desc">Upload + micro-cortes</span></a>
+    <a href="../insights.html" class="index-item"><span class="ix-dot" style="background:#5856D6"></span>insights.html<span class="ix-desc">Concorrentes + trending</span></a>
+    <a href="../metrics.html" class="index-item"><span class="ix-dot" style="background:#FF2D55"></span>metrics.html<span class="ix-desc">KPIs + gráficos</span></a>
+    <a href="../brandbook.html" class="index-item"><span class="ix-dot" style="background:#FF9500"></span>brandbook.html<span class="ix-desc">Brand Book 2 zonas</span></a>
+    <a href="../avatar-clone.html" class="index-item"><span class="ix-dot" style="background:#AF52DE"></span>avatar-clone.html<span class="ix-desc">Clone visual 5 etapas</span></a>
+    <a href="../notifications.html" class="index-item"><span class="ix-dot" style="background:#86868B"></span>notifications.html<span class="ix-desc">Notificações</span></a>
+    <a href="../post-detail.html" class="index-item"><span class="ix-dot" style="background:#007AFF"></span>post-detail.html<span class="ix-desc">Detalhe do post</span></a>
+    <a href="../post-editor.html" class="index-item"><span class="ix-dot" style="background:#007AFF"></span>post-editor.html<span class="ix-desc">Editor de roteiro</span></a>
+  </div>
+
+  <div class="section-title">Per-Client (gestor seleciona cliente)</div>
+  <div class="index-grid">
+    <a href="../client-workspace.html" class="index-item"><span class="ix-dot" style="background:#D70030"></span>client-workspace.html<span class="ix-desc">Workspace do cliente</span></a>
+    <a href="../client-onboarding-wizard.html" class="index-item"><span class="ix-dot" style="background:#34C759"></span>client-onboarding-wizard.html<span class="ix-desc">Cadastrar cliente (10 passos)</span></a>
+    <a href="../client-invite.html" class="index-item"><span class="ix-dot" style="background:#FF9500"></span>client-invite.html<span class="ix-desc">Enviar convite email+WA</span></a>
+    <a href="../client-checklist.html" class="index-item"><span class="ix-dot" style="background:#FF9500"></span>client-checklist.html<span class="ix-desc">Checklist semanal founder</span></a>
+    <a href="../client-activity.html" class="index-item"><span class="ix-dot" style="background:#5856D6"></span>client-activity.html<span class="ix-desc">Timeline IA+SM+Founder</span></a>
+  </div>
+
+  <div class="section-title">Agentes IA (7 + detalhe)</div>
+  <div class="index-grid">
+    <a href="../agents.html" class="index-item"><span class="ix-dot" style="background:#D70030"></span>agents.html<span class="ix-desc">Grid dos 7 agentes</span></a>
+    <a href="../agent-sensei.html" class="index-item"><span class="ix-dot" style="background:#D70030"></span>agent-sensei.html<span class="ix-desc">Orquestrador</span></a>
+    <a href="../agent-scout.html" class="index-item"><span class="ix-dot" style="background:#007AFF"></span>agent-scout.html<span class="ix-desc">Pesquisador</span></a>
+    <a href="../agent-quill.html" class="index-item"><span class="ix-dot" style="background:#5856D6"></span>agent-quill.html<span class="ix-desc">Copywriter</span></a>
+    <a href="../agent-canvas.html" class="index-item"><span class="ix-dot" style="background:#FF2D55"></span>agent-canvas.html<span class="ix-desc">Designer</span></a>
+    <a href="../agent-pulse.html" class="index-item"><span class="ix-dot" style="background:#34C759"></span>agent-pulse.html<span class="ix-desc">WhatsApp</span></a>
+    <a href="../agent-metrics.html" class="index-item"><span class="ix-dot" style="background:#FF9500"></span>agent-metrics.html<span class="ix-desc">Analista</span></a>
+    <a href="../agent-director.html" class="index-item"><span class="ix-dot" style="background:#5AC8FA"></span>agent-director.html<span class="ix-desc">Vídeo</span></a>
+    <a href="../agent-detail.html" class="index-item"><span class="ix-dot" style="background:#86868B"></span>agent-detail.html<span class="ix-desc">Detalhe genérico</span></a>
+  </div>
+
+  <div class="section-title">Conexões (8 redes + hub)</div>
+  <div class="index-grid">
+    <a href="../connections.html" class="index-item"><span class="ix-dot" style="background:#D70030"></span>connections.html<span class="ix-desc">Hub de conexões</span></a>
+    <a href="../connection-instagram.html" class="index-item"><span class="ix-dot" style="background:#E1306C"></span>connection-instagram.html<span class="ix-desc">Meta Graph API</span></a>
+    <a href="../connection-linkedin.html" class="index-item"><span class="ix-dot" style="background:#0A66C2"></span>connection-linkedin.html<span class="ix-desc">LinkedIn API</span></a>
+    <a href="../connection-tiktok.html" class="index-item"><span class="ix-dot" style="background:#1D1D1F"></span>connection-tiktok.html<span class="ix-desc">TikTok Content API</span></a>
+    <a href="../connection-x.html" class="index-item"><span class="ix-dot" style="background:#1D1D1F"></span>connection-x.html<span class="ix-desc">X API v2</span></a>
+    <a href="../connection-whatsapp.html" class="index-item"><span class="ix-dot" style="background:#25D366"></span>connection-whatsapp.html<span class="ix-desc">Evolution API</span></a>
+    <a href="../connection-figma.html" class="index-item"><span class="ix-dot" style="background:#A259FF"></span>connection-figma.html<span class="ix-desc">Figma MCP</span></a>
+    <a href="../connection-heygen.html" class="index-item"><span class="ix-dot" style="background:#5AC8FA"></span>connection-heygen.html<span class="ix-desc">HeyGen Avatar</span></a>
+    <a href="../connection-blog.html" class="index-item"><span class="ix-dot" style="background:#FF9500"></span>connection-blog.html<span class="ix-desc">WordPress REST API</span></a>
+  </div>
+
+  <div class="section-title">Config da Empresa</div>
+  <div class="index-grid">
+    <a href="../team-management.html" class="index-item"><span class="ix-dot" style="background:#5856D6"></span>team-management.html<span class="ix-desc">Equipe + RBAC + visão role</span></a>
+    <a href="../billing.html" class="index-item"><span class="ix-dot" style="background:#34C759"></span>billing.html<span class="ix-desc">Cobrança R$1K/cliente</span></a>
+    <a href="../settings.html" class="index-item"><span class="ix-dot" style="background:#86868B"></span>settings.html<span class="ix-desc">Configurações</span></a>
+    <a href="../health.html" class="index-item"><span class="ix-dot" style="background:#34C759"></span>health.html<span class="ix-desc">Saúde das contas</span></a>
+  </div>
+
+  <div class="section-title">Portal do Founder (nav simples)</div>
+  <div class="index-grid">
+    <a href="../client-accept-invite.html" class="index-item"><span class="ix-dot" style="background:#FF9500"></span>client-accept-invite.html<span class="ix-desc">Aceitar convite + criar senha</span></a>
+    <a href="../client-onboarding.html" class="index-item"><span class="ix-dot" style="background:#FF9500"></span>client-onboarding.html<span class="ix-desc">Onboarding 6 passos</span></a>
+    <a href="../client-portal.html" class="index-item"><span class="ix-dot" style="background:#D70030"></span>client-portal.html<span class="ix-desc">Portal: welcome, tarefas, WA, aprovações</span></a>
+    <a href="../client-brand.html" class="index-item"><span class="ix-dot" style="background:#FF9500"></span>client-brand.html<span class="ix-desc">Brand Book visão founder</span></a>
+    <a href="../client-upload.html" class="index-item"><span class="ix-dot" style="background:#007AFF"></span>client-upload.html<span class="ix-desc">Enviar fotos/vídeos</span></a>
+    <a href="../client-approve-detail.html" class="index-item"><span class="ix-dot" style="background:#D70030"></span>client-approve-detail.html<span class="ix-desc">Detalhe aprovação</span></a>
+  </div>
+
+  <div class="section-title">Admin KTANA (sidebar dark)</div>
+  <div class="index-grid">
+    <a href="../admin.html" class="index-item"><span class="ix-dot" style="background:#007AFF"></span>admin.html<span class="ix-desc">Dashboard admin</span></a>
+    <a href="../admin-tenant-detail.html" class="index-item"><span class="ix-dot" style="background:#007AFF"></span>admin-tenant-detail.html<span class="ix-desc">Detalhe tenant</span></a>
+    <a href="../admin-agents.html" class="index-item"><span class="ix-dot" style="background:#007AFF"></span>admin-agents.html<span class="ix-desc">Agentes globais</span></a>
+    <a href="../admin-billing.html" class="index-item"><span class="ix-dot" style="background:#007AFF"></span>admin-billing.html<span class="ix-desc">Billing plataforma</span></a>
+  </div>
+</div>
+
+<div style="text-align:center;padding:40px 0;font-size:11px;color:#AEAEB2">
   58 telas · 0 botões fictícios · 0 links quebrados · protótipo navegável ponta a ponta<br>
-  ktanadev.github.io/ktana-prototype/saas-social/
+  <a href="../landing.html" style="color:#D70030">Abrir protótipo →</a>
 </div>
 
 </body></html>
