@@ -5,117 +5,141 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>KTANA Social — Dashboard</title>
   <link rel="stylesheet" href="../shared.css">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Zen+Dots&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Satoshi:wght@400;500;600;700&family=Zen+Dots&display=swap" rel="stylesheet">
   <style>
     body{min-height:100vh;background:#F5F5F7;color:#1D1D1F}
     a{text-decoration:none;color:inherit}
-    .main{max-width:760px;margin:0 auto;padding:16px 20px 100px}
-
-    /* GREETING */
-    .greeting{margin-bottom:4px}
+    .main{max-width:760px;padding:32px 24px 100px}
+    .greeting{margin-bottom:28px}
     .greeting h1{font-family:'Satoshi',sans-serif;font-size:28px;font-weight:700;color:#1D1D1F;margin-bottom:8px;letter-spacing:-0.01em}
     .greeting-stats{display:flex;align-items:center;gap:16px;font-family:'Inter',sans-serif;font-size:13px;color:#86868B}
     .greeting-stats strong{font-family:'Satoshi',sans-serif;font-weight:600;color:#1D1D1F}
-    .greeting-stats .dot{width:3px;height:3px;border-radius:50%;background:#D2D2D7}
-
-    /* SECTIONS */
-    .sec{font-family:'Inter',sans-serif;font-size:10px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:#D70030;margin-bottom:10px;margin-top:20px}
-
-    .qa{display:flex;gap:6px;margin-bottom:16px;flex-wrap:wrap}
-    .qa-btn{font-family:'Inter',sans-serif;font-size:11px;font-weight:500;padding:7px 12px;border-radius:8px;border:1px solid rgba(0,0,0,0.06);background:#FFF;color:#6E6E73;cursor:pointer;transition:all 0.15s;display:flex;align-items:center;gap:5px}
-    .qa-btn:hover{border-color:rgba(215,0,48,0.12);color:#D70030}
-    .qa-btn svg{width:12px;height:12px;stroke:currentColor;fill:none;stroke-width:1.5}
-
-    .scores{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:16px}
-    .sc{background:#FFF;border:1px solid rgba(0,0,0,0.04);border-radius:14px;padding:14px 10px;text-align:center;transition:all 0.2s;cursor:pointer}
-    .sc:hover{box-shadow:0 4px 16px rgba(0,0,0,0.04)}
-    .sc-v{font-family:'Zen Dots',cursive;font-size:20px;color:#1D1D1F}.sc-v.brand{color:#D70030}
-    .sc-l{font-family:'Inter',sans-serif;font-size:9px;color:#86868B;margin-top:2px;text-transform:uppercase;letter-spacing:.04em}
-    .sc-d{font-family:'Inter',sans-serif;font-size:10px;margin-top:2px;color:#34C759}
-
-    .clients{display:flex;flex-direction:column;gap:6px;margin-bottom:16px}
-    .cl{display:flex;align-items:center;gap:10px;padding:12px 14px;background:#FFF;border:1px solid rgba(0,0,0,0.04);border-radius:12px;cursor:pointer;transition:all 0.2s}
+    .cost-inline{font-family:'Inter',sans-serif;font-size:12px;color:#AEAEB2;margin-top:10px;display:flex;align-items:center;gap:10px}
+    .cost-bar{width:80px;height:3px;background:rgba(0,0,0,0.04);border-radius:2px;overflow:hidden}
+    .cost-fill{height:100%;border-radius:2px;background:#86868B}
+    .section-label{font-family:'Inter',sans-serif;font-size:11px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:#86868B;margin-bottom:12px;display:flex;align-items:center;justify-content:space-between}
+    .section-count{font-family:'Inter',sans-serif;font-size:11px;font-weight:600;color:#D70030}
+    .approval{display:block;background:#FFF;border-radius:20px;border:1px solid rgba(0,0,0,0.04);padding:18px 20px;margin-bottom:10px;transition:box-shadow 0.2s;cursor:pointer}
+    .approval:hover{box-shadow:0 4px 24px rgba(0,0,0,0.04)}
+    .approval-top{display:flex;align-items:start;justify-content:space-between;margin-bottom:6px}
+    .approval-agent{display:flex;align-items:center;gap:10px}
+    .approval-avatar{width:34px;height:34px;border-radius:50%;border:1.5px solid rgba(215,0,48,0.15);display:flex;align-items:center;justify-content:center;flex-shrink:0;background:rgba(215,0,48,0.03)}
+    .approval-avatar span{font-family:'Zen Dots',cursive;font-size:10px;color:#D70030}
+    .approval-title{font-family:'Satoshi',sans-serif;font-size:14px;font-weight:500;color:#2C2C2E}
+    .approval-sub{font-family:'Satoshi',sans-serif;font-size:12px;color:#86868B;margin-top:2px}
+    .badge-urgent{font-family:'Inter',sans-serif;padding:3px 10px;border-radius:8px;font-size:11px;font-weight:500;border:1px solid rgba(215,0,48,0.15);color:#D70030}
+    .approval-note{font-family:'Satoshi',sans-serif;font-size:12px;color:#86868B;margin-left:44px;margin-bottom:12px}
+    .approval-actions{display:flex;gap:8px;margin-left:44px}
+    .btn-approve{font-family:'Inter',sans-serif;padding:8px 20px;border-radius:12px;background:#1D1D1F;color:#F5F5F7;font-size:13px;font-weight:500;border:none;cursor:pointer;min-height:40px;transition:all 0.15s}
+    .btn-approve:hover{background:#000}
+    .btn-secondary{font-family:'Inter',sans-serif;padding:8px 20px;border-radius:12px;background:transparent;color:#86868B;font-size:13px;border:0.5px solid rgba(0,0,0,0.08);cursor:pointer;min-height:40px}
+    .scores{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:28px}
+    .sc{display:block;background:#FFF;border-radius:18px;border:1px solid rgba(0,0,0,0.04);padding:18px 14px;text-align:center;transition:all 0.2s;cursor:pointer}
+    .sc:hover{box-shadow:0 4px 20px rgba(0,0,0,0.04);transform:translateY(-1px)}
+    .sc-v{font-family:'Satoshi',sans-serif;font-size:24px;font-weight:700;color:#1D1D1F}
+    .sc-v.brand{color:#D70030}
+    .sc-l{font-family:'Inter',sans-serif;font-size:10px;color:#86868B;margin-top:4px}
+    .sc-d{font-family:'Inter',sans-serif;font-size:11px;margin-top:2px;color:#34C759}
+    .clients{display:flex;flex-direction:column;gap:8px;margin-bottom:28px}
+    .cl{display:flex;align-items:center;gap:12px;padding:14px 18px;background:#FFF;border-radius:16px;border:1px solid rgba(0,0,0,0.04);cursor:pointer;transition:all 0.2s}
     .cl:hover{border-color:rgba(215,0,48,0.1);box-shadow:0 2px 12px rgba(0,0,0,0.04)}
-    .cl-av{width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,#D70030,#A60028);display:flex;align-items:center;justify-content:center;font-family:'Inter',sans-serif;font-size:9px;font-weight:600;color:#FFF;flex-shrink:0}
+    .cl-av{width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,#D70030,#A60028);display:flex;align-items:center;justify-content:center;font-family:'Inter',sans-serif;font-size:11px;font-weight:600;color:#FFF;flex-shrink:0}
     .cl-info{flex:1;min-width:0}
-    .cl-name{font-family:'Satoshi',sans-serif;font-size:12px;font-weight:500;color:#1D1D1F}
-    .cl-sub{font-family:'Inter',sans-serif;font-size:10px;color:#86868B}
-    .cl-phase{font-family:'Inter',sans-serif;font-size:9px;font-weight:600;padding:2px 6px;border-radius:4px}
+    .cl-name{font-family:'Satoshi',sans-serif;font-size:14px;font-weight:500;color:#1D1D1F}
+    .cl-sub{font-family:'Inter',sans-serif;font-size:11px;color:#86868B;margin-top:1px}
+    .cl-phase{font-family:'Inter',sans-serif;font-size:10px;font-weight:600;padding:3px 8px;border-radius:6px}
     .ph1{background:rgba(0,122,255,0.08);color:#007AFF}
     .ph2{background:rgba(88,86,214,0.08);color:#5856D6}
     .ph4{background:rgba(52,199,89,0.08);color:#34C759}
     .ph5{background:rgba(215,0,48,0.08);color:#D70030}
-
-    .feed{display:flex;flex-direction:column;gap:4px}
-    .fd{display:flex;align-items:flex-start;gap:8px;padding:8px 12px;background:#FFF;border:1px solid rgba(0,0,0,0.04);border-radius:8px;font-family:'Inter',sans-serif;font-size:11px;color:#6E6E73;line-height:1.4}
-    .fd-dot{width:5px;height:5px;border-radius:50%;margin-top:4px;flex-shrink:0}
+    .cl-bar{width:48px;height:3px;border-radius:2px;background:#E8E8ED;overflow:hidden;margin-left:8px}
+    .cl-fill{height:100%;border-radius:2px;background:linear-gradient(90deg,#D70030,#FF3B60)}
+    .feed{display:flex;flex-direction:column;gap:6px}
+    .fd{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:0.5px solid rgba(0,0,0,0.03)}
+    .fd:last-child{border-bottom:none}
+    .fd-time{font-family:'Inter',sans-serif;font-size:11px;color:#AEAEB2;width:36px;flex-shrink:0;font-variant-numeric:tabular-nums}
+    .fd-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0}
     .fd-dot.green{background:#34C759}.fd-dot.orange{background:#FF9500}.fd-dot.red{background:#D70030}.fd-dot.blue{background:#007AFF}
-    .fd strong{color:#1D1D1F}
-    .fd-time{margin-left:auto;font-family:'JetBrains Mono',monospace;font-size:9px;color:#AEAEB2;flex-shrink:0}
-
-    @media(max-width:600px){.scores{grid-template-columns:repeat(2,1fr)}}
+    .fd-text{font-family:'Satoshi',sans-serif;font-size:13px;color:#86868B;flex:1}
+    .fd-text strong{color:#48484A;font-weight:500}
+    .view-all{font-family:'Inter',sans-serif;font-size:12px;color:#D70030;margin-top:12px;display:inline-block;cursor:pointer}
+    @media(max-width:640px){.scores{grid-template-columns:repeat(2,1fr)}}
   </style>
 </head>
-<body data-active="dashboard">
+<body>
 
-<div class="main">
-
-  <!-- GREETING -->
+<main class="main">
   <div class="greeting">
     <h1>Bom dia, Antonio.</h1>
     <div class="greeting-stats">
       <span><strong>142</strong> posts semana</span>
-      <span class="dot"></span>
+      <span style="width:3px;height:3px;border-radius:50%;background:#D2D2D7"></span>
       <span><strong>7</strong> agentes online</span>
-      <span class="dot"></span>
+      <span style="width:3px;height:3px;border-radius:50%;background:#D2D2D7"></span>
       <span><strong>400</strong> clientes</span>
+    </div>
+    <div class="cost-inline">
+      R$400K MRR (400 x R$1.000)
+      <div class="cost-bar"><div class="cost-fill" style="width:34%"></div></div>
+      34% tokens
     </div>
   </div>
 
-  <!-- Chat is injected by shared-sidebar.js as fixed LEFT panel -->
+  <div class="section-label"><span>Precisam de voce</span><span class="section-count">3 atrasadas</span></div>
 
-  <!-- QUICK ACTIONS -->
-  <div class="sec">Acoes rapidas</div>
-  <div class="qa">
-    <a class="qa-btn" href="pipeline.html"><svg viewBox="0 0 24 24"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg> Pipeline</a>
-    <a class="qa-btn" href="calendar.html"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/></svg> Calendario</a>
-    <a class="qa-btn" href="approvals.html"><svg viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg> Aprovacoes (7)</a>
-    <a class="qa-btn" href="insights.html"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg> Insights</a>
-    <a class="qa-btn" href="metrics.html"><svg viewBox="0 0 24 24"><path d="M12 20V10M18 20V4M6 20v-4"/></svg> Metricas</a>
-    <a class="qa-btn" href="agents.html"><svg viewBox="0 0 24 24"><path d="M14.5 17.5L3 6V3h3l11.5 11.5M13 19l6-6"/></svg> Agentes</a>
-    <a class="qa-btn" href="connections.html"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0"/></svg> Conexoes</a>
-  </div>
+  <a class="approval" href="post-detail.html">
+    <div class="approval-top">
+      <div class="approval-agent">
+        <div class="approval-avatar"><span>Q</span></div>
+        <div><p class="approval-title">Carrossel "5 erros de CEO" aguardando aprovacao</p><p class="approval-sub">Joao Mendes — Instagram — Score 94%</p></div>
+      </div>
+      <span class="badge-urgent">6h atrasado</span>
+    </div>
+    <p class="approval-note">Quill recomenda: aprovar — score humanidade 94%, tom alinhado.</p>
+    <div class="approval-actions">
+      <button class="btn-approve" onclick="event.stopPropagation();event.preventDefault();this.innerHTML='Aprovado';this.style.background='#34C759'">Aprovar</button>
+      <button class="btn-secondary" onclick="event.stopPropagation();location.href='post-detail.html'">Ver detalhes</button>
+    </div>
+  </a>
 
-  <!-- SCORES -->
-  <div class="sec">Visao geral</div>
+  <a class="approval" href="post-detail.html">
+    <div class="approval-agent" style="display:flex;align-items:center;gap:10px;margin-bottom:8px">
+      <div class="approval-avatar"><span>Q</span></div>
+      <div><p class="approval-title">Reel TikTok "Reforma tributaria" — Ana Costa</p><p class="approval-sub">SM: Carlos Ribeiro — 5h atrasado</p></div>
+    </div>
+    <div class="approval-actions">
+      <button class="btn-approve" onclick="event.stopPropagation();event.preventDefault();this.innerHTML='Aprovado';this.style.background='#34C759'">Aprovar</button>
+      <button class="btn-secondary">Ver detalhes</button>
+    </div>
+  </a>
+
+  <div class="section-label" style="margin-top:28px"><span>Visao geral</span></div>
   <div class="scores">
-    <div class="sc"><div class="sc-v brand">7</div><div class="sc-l">Aprovacoes</div><div class="sc-d" style="color:#D70030">3 atrasadas</div></div>
-    <div class="sc"><div class="sc-v">23</div><div class="sc-l">Em producao</div></div>
-    <div class="sc"><div class="sc-v">142</div><div class="sc-l">Publicados semana</div><div class="sc-d">+18%</div></div>
-    <div class="sc"><div class="sc-v">34.2K</div><div class="sc-l">Tokens usados</div><div class="sc-d">de 100K (34%)</div></div>
+    <a class="sc" href="approvals.html"><div class="sc-v brand">7</div><div class="sc-l">Aprovacoes</div><div class="sc-d" style="color:#D70030">3 atrasadas</div></a>
+    <a class="sc" href="pipeline.html"><div class="sc-v">23</div><div class="sc-l">Em producao</div></a>
+    <a class="sc" href="metrics.html"><div class="sc-v">142</div><div class="sc-l">Publicados semana</div><div class="sc-d">+18%</div></a>
+    <a class="sc" href="billing.html"><div class="sc-v">34.2K</div><div class="sc-l">Tokens usados</div><div class="sc-d">de 100K (34%)</div></a>
   </div>
 
-  <!-- CLIENTS -->
-  <div class="sec">Clientes com pendencia</div>
+  <div class="section-label"><span>Clientes com pendencia</span><a href="client-list.html" class="view-all" style="margin:0">Ver todos</a></div>
   <div class="clients">
-    <a class="cl" href="client-workspace.html"><div class="cl-av">JM</div><div class="cl-info"><div class="cl-name">Joao Mendes</div><div class="cl-sub">Aprovacao IG atrasada 6h</div></div><span class="cl-phase ph4">F4</span></a>
-    <a class="cl" href="client-workspace.html"><div class="cl-av">AC</div><div class="cl-info"><div class="cl-name">Ana Costa</div><div class="cl-sub">Brand Book 60%</div></div><span class="cl-phase ph2">F2</span></a>
-    <a class="cl" href="client-workspace.html"><div class="cl-av">PS</div><div class="cl-info"><div class="cl-name">Pedro Souza</div><div class="cl-sub">Onboarding 20%</div></div><span class="cl-phase ph1">F1</span></a>
-    <a class="cl" href="client-workspace.html"><div class="cl-av">MF</div><div class="cl-info"><div class="cl-name">Maria Fernandes</div><div class="cl-sub">20/21 posts — autopilot</div></div><span class="cl-phase ph5">F5</span></a>
+    <a class="cl" href="client-workspace.html"><div class="cl-av">JM</div><div class="cl-info"><div class="cl-name">Joao Mendes</div><div class="cl-sub">Aprovacao IG atrasada 6h — SM: Maria Silva</div></div><span class="cl-phase ph4">F4</span><div class="cl-bar"><div class="cl-fill" style="width:86%"></div></div></a>
+    <a class="cl" href="client-workspace.html"><div class="cl-av">AC</div><div class="cl-info"><div class="cl-name">Ana Costa</div><div class="cl-sub">Brand Book 60% — SM: Carlos Ribeiro</div></div><span class="cl-phase ph2">F2</span><div class="cl-bar"><div class="cl-fill" style="width:42%"></div></div></a>
+    <a class="cl" href="client-workspace.html"><div class="cl-av">PS</div><div class="cl-info"><div class="cl-name">Pedro Souza</div><div class="cl-sub">Onboarding 20% — SM: Julia Lima</div></div><span class="cl-phase ph1">F1</span><div class="cl-bar"><div class="cl-fill" style="width:15%"></div></div></a>
+    <a class="cl" href="client-workspace.html"><div class="cl-av">MF</div><div class="cl-info"><div class="cl-name">Maria Fernandes</div><div class="cl-sub">20/21 posts — autopilot ativo</div></div><span class="cl-phase ph5">F5</span><div class="cl-bar"><div class="cl-fill" style="width:95%"></div></div></a>
   </div>
 
-  <!-- FEED -->
-  <div class="sec">Motor autopilot</div>
+  <div class="section-label"><span>Motor autopilot</span></div>
   <div class="feed">
-    <div class="fd"><div class="fd-dot blue"></div>Pesquisando concorrentes de <strong>@joaomendes</strong><span class="fd-time">agora</span></div>
-    <div class="fd"><div class="fd-dot green"></div>Carrossel publicado <strong>@anacosta</strong> IG<span class="fd-time">5min</span></div>
-    <div class="fd"><div class="fd-dot orange"></div>Aguardando aprovacao <strong>@pedrosouza</strong><span class="fd-time">12min</span></div>
-    <div class="fd"><div class="fd-dot green"></div>Roteiro gerado <strong>@mariafernandes</strong><span class="fd-time">18min</span></div>
-    <div class="fd"><div class="fd-dot red"></div>Token LinkedIn <strong>@pedrosouza</strong> expira 3d<span class="fd-time">1h</span></div>
+    <div class="fd"><span class="fd-time">agora</span><div class="fd-dot blue"></div><div class="fd-text">Pesquisando concorrentes de <strong>@joaomendes</strong></div></div>
+    <div class="fd"><span class="fd-time">5min</span><div class="fd-dot green"></div><div class="fd-text">Carrossel publicado <strong>@anacosta</strong> Instagram</div></div>
+    <div class="fd"><span class="fd-time">12min</span><div class="fd-dot orange"></div><div class="fd-text">Aguardando aprovacao <strong>@pedrosouza</strong></div></div>
+    <div class="fd"><span class="fd-time">18min</span><div class="fd-dot green"></div><div class="fd-text">Roteiro gerado <strong>@mariafernandes</strong></div></div>
+    <div class="fd"><span class="fd-time">1h</span><div class="fd-dot red"></div><div class="fd-text">Token LinkedIn <strong>@pedrosouza</strong> expira em 3 dias</div></div>
   </div>
+  <a href="pipeline.html" class="view-all">Ver pipeline completo</a>
+</main>
 
-</div>
-
-<script src="shared-sidebar.js?v=2"></script>
+<script src="shared-nav-social.js"></script>
 </body>
 </html>
