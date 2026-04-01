@@ -1,0 +1,123 @@
+<!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>KTANA Social — Pipeline</title><link rel="stylesheet" href="../shared.css"><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Zen+Dots&display=swap" rel="stylesheet">
+<style>
+body{min-height:100vh;background:#F5F5F7;color:#1D1D1F}
+a{text-decoration:none;color:inherit}
+.topbar{position:fixed;top:0;left:220px;right:0;height:48px;display:flex;align-items:center;justify-content:space-between;padding:0 24px;background:rgba(245,245,247,0.72);backdrop-filter:saturate(180%) blur(20px);border-bottom:0.5px solid rgba(0,0,0,0.06);z-index:5}
+.topbar-title{font-family:'Satoshi',sans-serif;font-size:15px;font-weight:600;color:#1D1D1F}
+.topbar-right{display:flex;align-items:center;gap:12px}
+.topbar-filter{font-family:'Inter',sans-serif;font-size:11px;padding:5px 12px;border-radius:980px;border:1px solid rgba(0,0,0,0.06);background:#FFF;color:#86868B;cursor:pointer}
+.topbar-filter.active{background:rgba(215,0,48,0.06);border-color:rgba(215,0,48,0.12);color:#D70030}
+.content{padding:64px 24px 24px;overflow-x:auto}
+.kanban{display:flex;gap:12px;min-height:calc(100vh - 100px)}
+.kanban-col{min-width:240px;flex:1;display:flex;flex-direction:column}
+.col-header{display:flex;align-items:center;gap:8px;padding:10px 12px;margin-bottom:8px}
+.col-title{font-family:'Inter',sans-serif;font-size:12px;font-weight:600;color:#1D1D1F;text-transform:uppercase;letter-spacing:0.05em}
+.col-count{font-family:'JetBrains Mono',monospace;font-size:11px;color:#86868B;background:rgba(0,0,0,0.04);padding:1px 6px;border-radius:4px}
+.col-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.cd-research{background:#007AFF}
+.cd-pauta{background:#5856D6}
+.cd-roteiro{background:#FF9500}
+.cd-design{background:#FF2D55}
+.cd-approval{background:#D70030}
+.cd-scheduled{background:#34C759}
+.col-items{flex:1;display:flex;flex-direction:column;gap:8px;min-height:100px}
+.k-card{background:#FFF;border-radius:14px;border:1px solid rgba(0,0,0,0.04);padding:14px;cursor:pointer;transition:all 0.2s;position:relative;overflow:hidden}
+.k-card::before{content:'';position:absolute;inset:0;border-radius:14px;padding:1px;background:linear-gradient(135deg,transparent 60%,rgba(215,0,48,0.1) 100%);-webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);-webkit-mask-composite:xor;mask-composite:exclude;opacity:0;transition:opacity 0.3s}
+.k-card:hover::before{opacity:1}
+.k-card:hover{transform:translateY(-1px);box-shadow:0 4px 16px rgba(0,0,0,0.04)}
+.k-top{display:flex;align-items:center;gap:8px;margin-bottom:8px}
+.k-avatar{width:24px;height:24px;border-radius:50%;background:linear-gradient(135deg,#D70030,#A60028);display:flex;align-items:center;justify-content:center;font-family:'Inter',sans-serif;font-size:8px;font-weight:600;color:#FFF;flex-shrink:0}
+.k-client{font-family:'Inter',sans-serif;font-size:10px;color:#86868B}
+.k-net{margin-left:auto;font-family:'Inter',sans-serif;font-size:9px;font-weight:600;color:#D70030;text-transform:uppercase;padding:2px 6px;border-radius:4px;background:rgba(215,0,48,0.06)}
+.k-title{font-family:'Satoshi',sans-serif;font-size:13px;font-weight:500;color:#1D1D1F;line-height:1.3;margin-bottom:6px}
+.k-meta{display:flex;align-items:center;justify-content:space-between;font-family:'Inter',sans-serif;font-size:10px;color:#86868B}
+.k-score{font-family:'JetBrains Mono',monospace;font-size:10px}
+.k-score.green{color:#34C759}
+.k-score.orange{color:#FF9500}
+.k-score.red{color:#D70030}
+.k-time{font-size:9px;color:#AEAEB2}
+.k-add{padding:12px;border:1.5px dashed rgba(0,0,0,0.06);border-radius:14px;text-align:center;font-family:'Inter',sans-serif;font-size:11px;color:#86868B;cursor:pointer;transition:all 0.15s}
+.k-add:hover{border-color:rgba(215,0,48,0.15);color:#D70030}
+@media(max-width:768px){body.has-sidebar{padding-left:0}.topbar{left:0}}
+</style>
+</head>
+<body data-active="pipeline">
+<div class="topbar">
+  <div class="topbar-title">Pipeline de Conteudo</div>
+  <div class="topbar-right">
+    <div class="topbar-filter active">Todos</div>
+    <div class="topbar-filter">Joao M.</div>
+    <div class="topbar-filter">Ana C.</div>
+    <div class="topbar-filter">Pedro S.</div>
+    <div class="topbar-filter">Maria F.</div>
+  </div>
+</div>
+<div class="content">
+<div class="kanban">
+
+<!-- PESQUISA -->
+<div class="kanban-col">
+  <div class="col-header"><div class="col-dot cd-research"></div><div class="col-title">Pesquisa</div><div class="col-count">3</div></div>
+  <div class="col-items">
+    <div class="k-card"><div class="k-top"><div class="k-avatar">JM</div><div class="k-client">Joao Mendes</div><div class="k-net">IG</div></div><div class="k-title">Concorrentes SaaS B2B — ultimas publicacoes</div><div class="k-meta"><span class="k-time">Iniciado 2h atras</span></div></div>
+    <div class="k-card"><div class="k-top"><div class="k-avatar">AC</div><div class="k-client">Ana Costa</div><div class="k-net">LI</div></div><div class="k-title">Trending tributario — reforma 2026</div><div class="k-meta"><span class="k-time">Iniciado 1h atras</span></div></div>
+    <div class="k-card"><div class="k-top"><div class="k-avatar">MF</div><div class="k-client">Maria Fernandes</div><div class="k-net">IG</div></div><div class="k-title">Noticias tech — IA em consulting</div><div class="k-meta"><span class="k-time">Iniciado 30min</span></div></div>
+  </div>
+</div>
+
+<!-- PAUTA -->
+<div class="kanban-col">
+  <div class="col-header"><div class="col-dot cd-pauta"></div><div class="col-title">Pauta</div><div class="col-count">4</div></div>
+  <div class="col-items">
+    <div class="k-card"><div class="k-top"><div class="k-avatar">JM</div><div class="k-client">Joao Mendes</div><div class="k-net">IG</div></div><div class="k-title">5 erros que CEOs cometem no Instagram</div><div class="k-meta"><span class="k-score green">Score 94%</span><span class="k-time">Gerada 3h</span></div></div>
+    <div class="k-card"><div class="k-top"><div class="k-avatar">JM</div><div class="k-client">Joao Mendes</div><div class="k-net">LI</div></div><div class="k-title">Futuro do B2B: o que muda em 2026</div><div class="k-meta"><span class="k-score green">Score 91%</span><span class="k-time">Gerada 2h</span></div></div>
+    <div class="k-card"><div class="k-top"><div class="k-avatar">MF</div><div class="k-client">Maria Fernandes</div><div class="k-net">LI</div></div><div class="k-title">Lideranca feminina em tech: dados</div><div class="k-meta"><span class="k-score green">Score 89%</span><span class="k-time">Gerada 1h</span></div></div>
+    <div class="k-card"><div class="k-top"><div class="k-avatar">PS</div><div class="k-client">Pedro Souza</div><div class="k-net">IG</div></div><div class="k-title">Mito do botox preventivo</div><div class="k-meta"><span class="k-score green">Score 87%</span><span class="k-time">Gerada 45min</span></div></div>
+  </div>
+</div>
+
+<!-- ROTEIRO -->
+<div class="kanban-col">
+  <div class="col-header"><div class="col-dot cd-roteiro"></div><div class="col-title">Roteiro</div><div class="col-count">3</div></div>
+  <div class="col-items">
+    <div class="k-card"><div class="k-top"><div class="k-avatar">JM</div><div class="k-client">Joao Mendes</div><div class="k-net">IG</div></div><div class="k-title">Escale sem queimar caixa — 7 slides</div><div class="k-meta"><span class="k-score green">Humanidade 92%</span></div></div>
+    <div class="k-card"><div class="k-top"><div class="k-avatar">JM</div><div class="k-client">Joao Mendes</div><div class="k-net">TT</div></div><div class="k-title">Rotina de CEO — reel 28s</div><div class="k-meta"><span class="k-score orange">Humanidade 78%</span></div></div>
+    <div class="k-card"><div class="k-top"><div class="k-avatar">AC</div><div class="k-client">Ana Costa</div><div class="k-net">X</div></div><div class="k-title">Thread: reforma tributaria simplificada</div><div class="k-meta"><span class="k-score green">Humanidade 88%</span></div></div>
+  </div>
+</div>
+
+<!-- DESIGN -->
+<div class="kanban-col">
+  <div class="col-header"><div class="col-dot cd-design"></div><div class="col-title">Design</div><div class="col-count">2</div></div>
+  <div class="col-items">
+    <div class="k-card"><div class="k-top"><div class="k-avatar">JM</div><div class="k-client">Joao Mendes</div><div class="k-net">IG</div></div><div class="k-title">Lideranca tech — carrossel template</div><div class="k-meta"><span class="k-score orange">Renderizando...</span></div></div>
+    <div class="k-card"><div class="k-top"><div class="k-avatar">MF</div><div class="k-client">Maria Fernandes</div><div class="k-net">IG</div></div><div class="k-title">Post estatico — citacao lideranca</div><div class="k-meta"><span class="k-score green">Pronto</span></div></div>
+  </div>
+</div>
+
+<!-- APROVAÇÃO -->
+<div class="kanban-col">
+  <div class="col-header"><div class="col-dot cd-approval"></div><div class="col-title">Aprovacao</div><div class="col-count">3</div></div>
+  <div class="col-items">
+    <div class="k-card" style="border-color:rgba(215,0,48,0.15)"><div class="k-top"><div class="k-avatar">JM</div><div class="k-client">Joao Mendes</div><div class="k-net">IG</div></div><div class="k-title">5 erros de CEO — carrossel 7 slides</div><div class="k-meta"><span class="k-score red">SM: 6h atrasado</span></div></div>
+    <div class="k-card"><div class="k-top"><div class="k-avatar">AC</div><div class="k-client">Ana Costa</div><div class="k-net">TT</div></div><div class="k-title">Reforma tributaria — reel 28s</div><div class="k-meta"><span class="k-score orange">SM: 5h</span></div></div>
+    <div class="k-card"><div class="k-top"><div class="k-avatar">JM</div><div class="k-client">Joao Mendes</div><div class="k-net">LI</div></div><div class="k-title">Mercado B2B 2026 — artigo</div><div class="k-meta"><span class="k-score green">Cliente: aguardando</span></div></div>
+  </div>
+</div>
+
+<!-- AGENDADO -->
+<div class="kanban-col">
+  <div class="col-header"><div class="col-dot cd-scheduled"></div><div class="col-title">Agendado</div><div class="col-count">5</div></div>
+  <div class="col-items">
+    <div class="k-card"><div class="k-top"><div class="k-avatar">JM</div><div class="k-client">Joao Mendes</div><div class="k-net">IG</div></div><div class="k-title">Escale sem queimar caixa</div><div class="k-meta"><span>Ter 10:30</span></div></div>
+    <div class="k-card"><div class="k-top"><div class="k-avatar">JM</div><div class="k-client">Joao Mendes</div><div class="k-net">LI</div></div><div class="k-title">Futuro do B2B</div><div class="k-meta"><span>Qua 09:00</span></div></div>
+    <div class="k-card"><div class="k-top"><div class="k-avatar">JM</div><div class="k-client">Joao Mendes</div><div class="k-net">TT</div></div><div class="k-title">3 metricas de CEO</div><div class="k-meta"><span>Ter 15:00</span></div></div>
+    <div class="k-card"><div class="k-top"><div class="k-avatar">MF</div><div class="k-client">Maria Fernandes</div><div class="k-net">LI</div></div><div class="k-title">Lideranca feminina — artigo</div><div class="k-meta"><span>Qua 10:00</span></div></div>
+    <div class="k-card"><div class="k-top"><div class="k-avatar">JM</div><div class="k-client">Joao Mendes</div><div class="k-net">X</div></div><div class="k-title">Thread revenue share</div><div class="k-meta"><span>Qua 12:00</span></div></div>
+  </div>
+</div>
+
+</div>
+</div>
+<script src="shared-sidebar.js"></script>
+</body></html>
