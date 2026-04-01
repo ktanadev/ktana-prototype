@@ -1,0 +1,214 @@
+<!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>SaaS Social — Fluxo dos 4 Atores</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#000;color:#FFF;font-family:-apple-system,'Inter',sans-serif;padding:40px;min-height:100vh}
+h1{font-family:'Courier New',monospace;font-size:28px;text-align:center;margin-bottom:8px;color:#D70030}
+.sub{text-align:center;font-size:13px;color:rgba(255,255,255,0.4);margin-bottom:48px}
+.actor{margin-bottom:56px;position:relative}
+.actor-header{display:flex;align-items:center;gap:14px;margin-bottom:24px}
+.actor-num{width:40px;height:40px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:16px;flex-shrink:0}
+.actor-name{font-size:18px;font-weight:700}
+.actor-role{font-size:12px;color:rgba(255,255,255,0.5);margin-top:2px}
+.flow{display:flex;flex-wrap:wrap;gap:12px;align-items:flex-start;margin-left:54px}
+.step{background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:14px;padding:14px 16px;min-width:160px;max-width:200px;position:relative;transition:all 0.2s}
+.step:hover{border-color:rgba(215,0,48,0.3);background:rgba(215,0,48,0.04)}
+.step-file{font-family:'Courier New',monospace;font-size:10px;color:#D70030;margin-bottom:6px;word-break:break-all}
+.step-title{font-size:13px;font-weight:600;color:#FFF;margin-bottom:4px}
+.step-desc{font-size:10px;color:rgba(255,255,255,0.45);line-height:1.4}
+.arrow{display:flex;align-items:center;color:rgba(255,255,255,0.2);font-size:20px;padding:0 2px;align-self:center}
+.section{margin-left:54px;margin-bottom:20px}
+.section-title{font-size:11px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:rgba(255,255,255,0.3);margin-bottom:12px;padding-left:4px}
+.branch{display:flex;flex-direction:column;gap:6px;margin-left:54px;margin-bottom:16px}
+.branch-item{display:flex;align-items:center;gap:8px;font-size:12px;color:rgba(255,255,255,0.6)}
+.branch-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0}
+.branch-file{font-family:'Courier New',monospace;font-size:10px;color:#D70030}
+.divider{height:1px;background:rgba(255,255,255,0.06);margin:48px 0}
+.cycle{margin-left:54px;display:grid;grid-template-columns:80px 1fr;gap:8px 16px;margin-bottom:16px}
+.cycle-time{font-family:'Courier New',monospace;font-size:13px;color:#D70030;text-align:right;font-weight:700}
+.cycle-what{font-size:12px;color:rgba(255,255,255,0.6);line-height:1.5}
+.cycle-what strong{color:#FFF}
+.tag{display:inline-block;font-size:9px;font-weight:600;padding:2px 6px;border-radius:4px;margin-left:4px}
+.tag-gestor{background:rgba(88,86,214,0.15);color:#8E8CE6}
+.tag-sm{background:rgba(52,199,89,0.15);color:#6BDE8A}
+.tag-founder{background:rgba(255,149,0,0.15);color:#FFBA5C}
+.tag-admin{background:rgba(0,122,255,0.15);color:#64B5F6}
+.tag-ia{background:rgba(215,0,48,0.15);color:#FF6B8A}
+</style>
+</head>
+<body>
+
+<h1>SaaS Social — Fluxo dos 4 Atores</h1>
+<p class="sub">58 telas · cada box = tela real no protótipo · cada seta = clique funcional</p>
+
+<!-- ══════ ATOR 1: GESTOR ══════ -->
+<div class="actor">
+  <div class="actor-header">
+    <div class="actor-num" style="background:linear-gradient(135deg,#5856D6,#3A38A0);color:#FFF">G</div>
+    <div><div class="actor-name">Gestor da Agência <span class="tag tag-gestor">Antonio Silva</span></div><div class="actor-role">Dono do Grupo Silva · 400 clientes · R$400K MRR</div></div>
+  </div>
+
+  <div class="section-title">Onboarding (1x)</div>
+  <div class="flow">
+    <div class="step"><div class="step-file">landing.html</div><div class="step-title">Landing Page</div><div class="step-desc">LP do produto, dores, framework 5 fases, motor 12 etapas, chat demo</div></div>
+    <div class="arrow">→</div>
+    <div class="step"><div class="step-file">signup.html</div><div class="step-title">Signup via Chat</div><div class="step-desc">Sensei pergunta nome, email, empresa, nicho. 4 passos conversacionais</div></div>
+    <div class="arrow">→</div>
+    <div class="step"><div class="step-file">setup-empresa.html</div><div class="step-title">Setup 5 Passos</div><div class="step-desc">1.Essência(chat) 2.Metodologia(builder) 3.Departamentos 4.Agentes 5.Resumo</div></div>
+    <div class="arrow">→</div>
+    <div class="step" style="border-color:rgba(88,86,214,0.3)"><div class="step-file">dashboard.html</div><div class="step-title">Dashboard</div><div class="step-desc">Opera dia a dia. 142 posts, 7 agentes, aprovações urgentes, clientes pendência</div></div>
+  </div>
+
+  <div class="section-title" style="margin-top:24px">Cadastrar novo cliente</div>
+  <div class="flow">
+    <div class="step"><div class="step-file">client-onboarding-wizard.html</div><div class="step-title">Wizard 10 Passos</div><div class="step-desc">Chat: nome, empresa, nicho, seguidores, tipo, SM, redes, WhatsApp, fotos, notas</div></div>
+    <div class="arrow">→</div>
+    <div class="step"><div class="step-file">client-invite.html</div><div class="step-title">Enviar Convite</div><div class="step-desc">Email com preview + WhatsApp com checklist. Gestor escolhe canal</div></div>
+    <div class="arrow">→</div>
+    <div class="step" style="border-style:dashed;border-color:rgba(255,149,0,0.3)"><div class="step-file" style="color:#FF9500">aguarda founder</div><div class="step-title">Founder Aceita</div><div class="step-desc">Email/WA chega no founder. Ele cria conta e faz onboarding</div></div>
+  </div>
+
+  <div class="section-title" style="margin-top:24px">Dia a dia — Sidebar</div>
+  <div class="branch">
+    <div class="branch-item"><div class="branch-dot" style="background:#5856D6"></div><span class="branch-file">sm-inbox.html</span> Minha Fila — o que a IA produziu pra revisar (badge 14)</div>
+    <div class="branch-item"><div class="branch-dot" style="background:#007AFF"></div><span class="branch-file">pipeline.html</span> Pipeline — kanban 6 colunas, filtro cliente com avatares</div>
+    <div class="branch-item"><div class="branch-dot" style="background:#34C759"></div><span class="branch-file">calendar.html</span> Calendário — grid 2 semanas, slots clicáveis</div>
+    <div class="branch-item"><div class="branch-dot" style="background:#D70030"></div><span class="branch-file">approvals.html</span> Aprovações — 2 níveis (SM roxo → Founder laranja → Verde)</div>
+    <div class="branch-item"><div class="branch-dot" style="background:#FF9500"></div><span class="branch-file">brandbook.html</span> Brand Book — 2 zonas: estratégia gestor + material founder</div>
+    <div class="branch-item"><div class="branch-dot" style="background:#FF2D55"></div><span class="branch-file">insights.html</span> Insights — concorrentes, trending, brechas</div>
+    <div class="branch-item"><div class="branch-dot" style="background:#5AC8FA"></div><span class="branch-file">metrics.html</span> Métricas — KPIs, gráficos, engagement</div>
+    <div class="branch-item"><div class="branch-dot" style="background:#AF52DE"></div><span class="branch-file">agents.html</span> 7 Agentes — Sensei, Scout, Quill, Canvas, Pulse, Metrics, Director</div>
+    <div class="branch-item"><div class="branch-dot" style="background:#8E8CD8"></div><span class="branch-file">connections.html</span> 8 Conexões — IG, LI, TT, X, WA, Figma, HeyGen, Blog</div>
+  </div>
+
+  <div class="section-title">Per-client (ao selecionar cliente)</div>
+  <div class="branch">
+    <div class="branch-item"><div class="branch-dot" style="background:#D70030"></div><span class="branch-file">client-workspace.html</span> Workspace — scores, pipeline mini, calendário</div>
+    <div class="branch-item"><div class="branch-dot" style="background:#FF9500"></div><span class="branch-file">client-checklist.html</span> Checklist semanal — tarefas founder com log WA</div>
+    <div class="branch-item"><div class="branch-dot" style="background:#5856D6"></div><span class="branch-file">client-activity.html</span> Timeline — IA + SM + Founder + Sistema</div>
+    <div class="branch-item"><div class="branch-dot" style="background:#FF2D55"></div><span class="branch-file">avatar-clone.html</span> Avatar Clone — wizard 5 etapas</div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- ══════ ATOR 2: SM ══════ -->
+<div class="actor">
+  <div class="actor-header">
+    <div class="actor-num" style="background:linear-gradient(135deg,#34C759,#248A3D);color:#FFF">S</div>
+    <div><div class="actor-name">Social Media <span class="tag tag-sm">Maria Silva</span></div><div class="actor-role">Funcionária do Grupo Silva · 120 clientes · revisa o que a IA produziu</div></div>
+  </div>
+
+  <div class="section-title">Ciclo diário</div>
+  <div class="flow">
+    <div class="step"><div class="step-file">login.html</div><div class="step-title">Login</div><div class="step-desc">Email + senha ou Google OAuth</div></div>
+    <div class="arrow">→</div>
+    <div class="step"><div class="step-file">dashboard.html</div><div class="step-title">Dashboard</div><div class="step-desc">Mesmo layout, vê só seus 120 clientes</div></div>
+    <div class="arrow">→</div>
+    <div class="step" style="border-color:rgba(52,199,89,0.4);background:rgba(52,199,89,0.04)"><div class="step-file">sm-inbox.html</div><div class="step-title">Minha Fila</div><div class="step-desc">CORAÇÃO. 14 tarefas da IA. SLA tracking. Urgências no topo</div></div>
+  </div>
+
+  <div class="section-title" style="margin-top:24px">Dentro da Minha Fila</div>
+  <div class="branch">
+    <div class="branch-item"><div class="branch-dot" style="background:#D70030"></div>Urgente (SLA vencendo) → Aprovar/Editar/Rejeitar</div>
+    <div class="branch-item"><div class="branch-dot" style="background:#5856D6"></div>Roteiros madrugada → <span class="branch-file">post-detail.html</span> → Aprovar envia WA pro founder</div>
+    <div class="branch-item"><div class="branch-dot" style="background:#FF2D55"></div>Designs prontos → Aprovar / Ajustar no Figma</div>
+    <div class="branch-item"><div class="branch-dot" style="background:#FF9500"></div>Feedback founder → "muito formal" → Quill reescreveu / <span class="branch-file">post-editor.html</span></div>
+    <div class="branch-item"><div class="branch-dot" style="background:#AEAEB2"></div>Founder inativo → Ligar / Ver histórico WA / Forçar publicação</div>
+  </div>
+
+  <div class="section-title">Fluxo aprovação (2 níveis)</div>
+  <div class="flow">
+    <div class="step" style="border-color:rgba(215,0,48,0.2)"><div class="step-file" style="color:#FF6B8A">IA 03:00</div><div class="step-title">IA Produz</div><div class="step-desc">Scout pesquisa, Quill escreve, Canvas desenha</div></div>
+    <div class="arrow">→</div>
+    <div class="step" style="border-color:rgba(88,86,214,0.3)"><div class="step-file" style="color:#8E8CE6">Nível 1</div><div class="step-title">SM Revisa</div><div class="step-desc">sm-inbox → aprova, edita ou rejeita</div></div>
+    <div class="arrow">→</div>
+    <div class="step" style="border-color:rgba(255,149,0,0.3)"><div class="step-file" style="color:#FFBA5C">Nível 2</div><div class="step-title">Founder Aprova</div><div class="step-desc">WhatsApp: responde 1/2/3</div></div>
+    <div class="arrow">→</div>
+    <div class="step" style="border-color:rgba(52,199,89,0.3)"><div class="step-file" style="color:#6BDE8A">Publicar</div><div class="step-title">Agendado</div><div class="step-desc">Publica no horário ideal. Metrics monitora</div></div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- ══════ ATOR 3: FOUNDER ══════ -->
+<div class="actor">
+  <div class="actor-header">
+    <div class="actor-num" style="background:linear-gradient(135deg,#FF9500,#CC7700);color:#FFF">F</div>
+    <div><div class="actor-name">Founder <span class="tag tag-founder">João Mendes</span></div><div class="actor-role">CEO TechFlow · cliente da agência · aprova conteúdo + envia material</div></div>
+  </div>
+
+  <div class="section-title">Primeiro acesso</div>
+  <div class="flow">
+    <div class="step" style="border-style:dashed"><div class="step-file">Email / WhatsApp</div><div class="step-title">Recebe Convite</div><div class="step-desc">Email com link + WA com checklist da semana</div></div>
+    <div class="arrow">→</div>
+    <div class="step"><div class="step-file">client-accept-invite.html</div><div class="step-title">Criar Conta</div><div class="step-desc">Dark. Nome preenchido, cria senha, vê benefícios</div></div>
+    <div class="arrow">→</div>
+    <div class="step"><div class="step-file">client-onboarding.html</div><div class="step-title">Onboarding 6 Passos</div><div class="step-desc">1.Brand Book chat 2.Nicho 3.Fotos clone 4.Estilo 5.Vídeo avatar 6.Redes</div></div>
+    <div class="arrow">→</div>
+    <div class="step" style="border-color:rgba(255,149,0,0.4)"><div class="step-file">client-portal.html</div><div class="step-title">Portal Founder</div><div class="step-desc">Welcome, checklist, WA preview, aprovações, métricas</div></div>
+  </div>
+
+  <div class="section-title" style="margin-top:24px">Dia a dia</div>
+  <div class="flow">
+    <div class="step" style="background:rgba(37,211,102,0.06);border-color:rgba(37,211,102,0.2)"><div class="step-file" style="color:#25D366">WhatsApp</div><div class="step-title">Canal Principal</div><div class="step-desc">08h resumo · 09h aprovações (1/2/3) · 14h cobrança tarefas · 22h relatório</div></div>
+    <div class="arrow">ou</div>
+    <div class="step"><div class="step-file">client-portal.html</div><div class="step-title">Portal</div><div class="step-desc">Quando quer mais detalhes, métricas, upload material</div></div>
+  </div>
+
+  <div class="section-title" style="margin-top:24px">Telas do founder</div>
+  <div class="branch">
+    <div class="branch-item"><div class="branch-dot" style="background:#FF9500"></div><span class="branch-file">client-portal.html</span> Início — welcome, stats, checklist, WA preview, aprovações</div>
+    <div class="branch-item"><div class="branch-dot" style="background:#D70030"></div><span class="branch-file">client-brand.html</span> Minha Marca — brand book visão do founder</div>
+    <div class="branch-item"><div class="branch-dot" style="background:#007AFF"></div><span class="branch-file">client-upload.html</span> Enviar — fotos, vídeos, documentos drag&drop</div>
+    <div class="branch-item"><div class="branch-dot" style="background:#5856D6"></div><span class="branch-file">client-approve-detail.html</span> Detalhe aprovação — preview + 3 botões</div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- ══════ ATOR 4: ADMIN ══════ -->
+<div class="actor">
+  <div class="actor-header">
+    <div class="actor-num" style="background:linear-gradient(135deg,#007AFF,#0055CC);color:#FFF">A</div>
+    <div><div class="actor-name">Admin KTANA <span class="tag tag-admin">Dono da plataforma</span></div><div class="actor-role">Gerencia todos os tenants, agentes globais, billing</div></div>
+  </div>
+
+  <div class="flow">
+    <div class="step"><div class="step-file">admin.html</div><div class="step-title">Dashboard Admin</div><div class="step-desc">12 tenants, MRR total, tokens, erros</div></div>
+    <div class="arrow">→</div>
+    <div class="step"><div class="step-file">admin-tenant-detail.html</div><div class="step-title">Detalhe Tenant</div><div class="step-desc">Stats, agentes ativos, top clientes do tenant</div></div>
+  </div>
+  <div class="branch" style="margin-top:12px">
+    <div class="branch-item"><div class="branch-dot" style="background:#007AFF"></div><span class="branch-file">admin-agents.html</span> Agentes globais — 7 agentes, instâncias, tokens, modelo LLM</div>
+    <div class="branch-item"><div class="branch-dot" style="background:#34C759"></div><span class="branch-file">admin-billing.html</span> Billing — MRR por plano, consumo, faturas</div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- ══════ CICLO 24H ══════ -->
+<div class="actor">
+  <div class="actor-header">
+    <div class="actor-num" style="background:linear-gradient(135deg,#D70030,#8B0000);color:#FFF">24</div>
+    <div><div class="actor-name">Ciclo de 24 Horas</div><div class="actor-role">Como os 4 atores interagem ao longo do dia</div></div>
+  </div>
+
+  <div class="cycle">
+    <div class="cycle-time">03:00</div><div class="cycle-what"><span class="tag tag-ia">IA</span> Scout pesquisa · Quill escreve roteiros · Canvas gera designs → tudo entra no pipeline <strong>"PENDENTE SM"</strong></div>
+    <div class="cycle-time">07:00</div><div class="cycle-what"><span class="tag tag-sm">SM</span> Abre <strong>sm-inbox.html</strong> → revisa 14 itens: aprova 8, edita 3, escala 1 founder inativo</div>
+    <div class="cycle-time">09:00</div><div class="cycle-what"><span class="tag tag-founder">FOUNDER</span> Recebe WhatsApp: <strong>"3 posts pra aprovar"</strong> → responde "1" aprovar, "ajustar 2 mais provocador"</div>
+    <div class="cycle-time">09:48</div><div class="cycle-what"><span class="tag tag-ia">IA</span> Quill reescreve com feedback do founder → <strong>score 91%</strong> → volta pro SM</div>
+    <div class="cycle-time">12:00</div><div class="cycle-what"><span class="tag tag-gestor">GESTOR</span> Abre <strong>dashboard.html</strong> → 142 posts semana, 3 founders inativos, Maria com carga alta</div>
+    <div class="cycle-time">14:00</div><div class="cycle-what"><span class="tag tag-ia">IA</span> Pulse cobra founder via WA: <strong>"Falta gravar stories, consegue hoje?"</strong></div>
+    <div class="cycle-time">18:00</div><div class="cycle-what"><span class="tag tag-ia">IA</span> Publica posts aprovados nos horários ideais · Metrics monitora engajamento</div>
+    <div class="cycle-time">22:00</div><div class="cycle-what"><span class="tag tag-founder">FOUNDER</span> recebe: "+47 seguidores, reel 3.2K views" · <span class="tag tag-gestor">GESTOR</span> recebe: resumo do dia</div>
+    <div class="cycle-time">03:00</div><div class="cycle-what"><span class="tag tag-ia">IA</span> Feedback loop: performou → prioriza · flopou → evita · horários → ajusta. <strong>Ciclo recomeça</strong></div>
+  </div>
+</div>
+
+<div style="text-align:center;padding:40px 0;font-size:11px;color:rgba(255,255,255,0.2)">
+  58 telas · 0 botões fictícios · 0 links quebrados · protótipo navegável ponta a ponta<br>
+  ktanadev.github.io/ktana-prototype/saas-social/
+</div>
+
+</body></html>
