@@ -372,42 +372,36 @@
       </div>
     </div>
 
-    <!-- MODAL DE SUPORTE (branco, estilo support.html, overlay escuro) -->
+    <!-- MODAL DE SUPORTE — Chat Dark Ambient Glow com agente treinado -->
     <div class="ks-support-overlay" id="ksSupportOverlay" onclick="closeSupportModal()"></div>
     <div class="ks-support" id="ksSupportModal">
       <div class="ks-support-head">
-        <div style="width:44px;height:44px;border-radius:50%;border:1.5px solid rgba(215,0,48,0.12);display:flex;align-items:center;justify-content:center;margin:0 auto 8px;">
-          <span style="font-family:'Zen Dots',cursive;font-size:14px;color:#D70030;">K</span>
-        </div>
-        <div style="text-align:center;">
-          <div style="font-family:'Satoshi',sans-serif;font-size:16px;font-weight:600;color:#1D1D1F;">Suporte KTANA</div>
-          <div style="font-family:'Inter',sans-serif;font-size:12px;color:#86868B;display:flex;align-items:center;justify-content:center;gap:5px;margin-top:2px;">
-            <span style="width:6px;height:6px;border-radius:50%;background:#30D158;display:inline-block;"></span> Sempre disponivel
-          </div>
-        </div>
-        <button onclick="closeSupportModal()" style="position:absolute;top:16px;right:16px;width:32px;height:32px;border-radius:50%;background:rgba(0,0,0,0.04);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;color:#86868B;">${svg('M6 18L18 6M6 6l12 12', 14)}</button>
-      </div>
-      <div class="ks-support-msgs" id="ksSupportMsgs">
-        <div style="display:flex;gap:10px;max-width:85%;">
-          <div style="width:28px;height:28px;border-radius:50%;border:1px solid rgba(215,0,48,0.1);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
-            <span style="font-family:'Zen Dots',cursive;font-size:8px;color:#D70030;">K</span>
+        <div style="display:flex;align-items:center;gap:12px;">
+          <div style="width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,#D70030,#8B0000);display:flex;align-items:center;justify-content:center;flex-shrink:0;position:relative;">
+            ${svg('M14.5 17.5L3 6V3h3l11.5 11.5M13 19l6-6', 16)}
+            <div style="position:absolute;bottom:-1px;right:-1px;width:10px;height:10px;border-radius:50%;background:#30D158;border:2px solid #1D1D1F;"></div>
           </div>
           <div>
-            <div style="padding:12px 16px;background:#FFF;border:0.5px solid rgba(0,0,0,0.04);border-radius:20px;border-top-left-radius:6px;box-shadow:0 1px 3px rgba(0,0,0,0.02);font-family:'Satoshi',sans-serif;font-size:15px;line-height:1.55;color:#1D1D1F;">
-              Oi! Sou o suporte KTANA. Como posso ajudar?
-              <div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:10px;">
-                <button onclick="document.getElementById('ksSupportInput').value='Conexao quebrou';sendSupport();" style="font-family:'Inter',sans-serif;padding:8px 16px;border-radius:12px;border:0.5px solid rgba(0,0,0,0.06);background:#FFF;font-size:13px;color:#1D1D1F;cursor:pointer;">Conexao quebrou</button>
-                <button onclick="document.getElementById('ksSupportInput').value='Samurai nao responde';sendSupport();" style="font-family:'Inter',sans-serif;padding:8px 16px;border-radius:12px;border:0.5px solid rgba(0,0,0,0.06);background:#FFF;font-size:13px;color:#1D1D1F;cursor:pointer;">Samurai nao responde</button>
-                <button onclick="document.getElementById('ksSupportInput').value='Mudar plano';sendSupport();" style="font-family:'Inter',sans-serif;padding:8px 16px;border-radius:12px;border:0.5px solid rgba(0,0,0,0.06);background:#FFF;font-size:13px;color:#1D1D1F;cursor:pointer;">Mudar plano</button>
-                <button onclick="document.getElementById('ksSupportInput').value='Problema de cobranca';sendSupport();" style="font-family:'Inter',sans-serif;padding:8px 16px;border-radius:12px;border:0.5px solid rgba(0,0,0,0.06);background:#FFF;font-size:13px;color:#1D1D1F;cursor:pointer;">Problema de cobranca</button>
-              </div>
-            </div>
+            <div style="font-family:'Zen Dots',cursive;font-size:12px;color:#FFF;">Suporte KTANA</div>
+            <div style="font-family:'Inter',sans-serif;font-size:10px;color:rgba(255,255,255,0.5);">Agente treinado · Resposta imediata</div>
           </div>
+        </div>
+        <button onclick="closeSupportModal()" style="position:absolute;top:14px;right:14px;width:28px;height:28px;border-radius:8px;background:rgba(255,255,255,0.08);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,0.5);">${svg('M6 18L18 6M6 6l12 12', 12)}</button>
+      </div>
+      <div class="ks-support-msgs" id="ksSupportMsgs">
+        <div style="max-width:88%;padding:12px 16px;border-radius:16px 16px 16px 4px;background:rgba(255,255,255,0.08);font-family:'Satoshi',sans-serif;font-size:13px;line-height:1.6;color:rgba(255,255,255,0.9);">
+          Oi! Sou o agente de suporte KTANA. Posso ajudar com <strong style="color:#D70030;">conexoes, agentes, cobranca, configuracoes</strong> e qualquer problema tecnico. O que precisa?
+        </div>
+        <div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:4px;">
+          <button onclick="document.getElementById('ksSupportInput').value='Conexao com Instagram caiu';sendSupport();" style="font-family:'Inter',sans-serif;padding:7px 14px;border-radius:980px;border:1px solid rgba(255,255,255,0.1);background:rgba(255,255,255,0.04);font-size:11px;color:rgba(255,255,255,0.7);cursor:pointer;transition:all 0.15s;">Conexao caiu</button>
+          <button onclick="document.getElementById('ksSupportInput').value='Agente nao esta respondendo';sendSupport();" style="font-family:'Inter',sans-serif;padding:7px 14px;border-radius:980px;border:1px solid rgba(255,255,255,0.1);background:rgba(255,255,255,0.04);font-size:11px;color:rgba(255,255,255,0.7);cursor:pointer;transition:all 0.15s;">Agente parou</button>
+          <button onclick="document.getElementById('ksSupportInput').value='Preciso mudar meu plano';sendSupport();" style="font-family:'Inter',sans-serif;padding:7px 14px;border-radius:980px;border:1px solid rgba(255,255,255,0.1);background:rgba(255,255,255,0.04);font-size:11px;color:rgba(255,255,255,0.7);cursor:pointer;transition:all 0.15s;">Mudar plano</button>
+          <button onclick="document.getElementById('ksSupportInput').value='Problema de cobranca';sendSupport();" style="font-family:'Inter',sans-serif;padding:7px 14px;border-radius:980px;border:1px solid rgba(255,255,255,0.1);background:rgba(255,255,255,0.04);font-size:11px;color:rgba(255,255,255,0.7);cursor:pointer;transition:all 0.15s;">Cobranca</button>
         </div>
       </div>
       <div class="ks-support-input">
         <input type="text" id="ksSupportInput" placeholder="Descreva seu problema..." onkeydown="if(event.key==='Enter')sendSupport()">
-        <button onclick="sendSupport()">${svg('M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z', 16)}</button>
+        <button onclick="sendSupport()">${svg('M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z', 14)}</button>
       </div>
     </div>`;
   }
@@ -591,19 +585,19 @@
     .kc-send:hover { background: #E5003A; }
     .kc-send:active { transform: scale(0.92); }
 
-    /* MODAL DE SUPORTE — Branco, overlay escurecido */
-    .ks-support-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.6); backdrop-filter: blur(4px); z-index: 500; display: none; }
+    /* MODAL DE SUPORTE — Chat Dark Ambient Glow */
+    .ks-support-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.7); backdrop-filter: blur(8px); z-index: 500; display: none; }
     .ks-support-overlay.open { display: block; }
-    .ks-support { position: fixed; top: 50%; left: 50%; transform: translate(-50%,-50%); width: 440px; max-height: 600px; background: #FFF; border-radius: 24px; box-shadow: 0 24px 80px rgba(0,0,0,0.2); z-index: 501; display: none; flex-direction: column; overflow: hidden; }
+    .ks-support { position: fixed; top: 50%; left: 50%; transform: translate(-50%,-50%); width: 440px; max-height: 600px; background: #1D1D1F; border-radius: 24px; box-shadow: 0 24px 80px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,255,255,0.06); z-index: 501; display: none; flex-direction: column; overflow: hidden; }
     .ks-support.open { display: flex; }
-    .ks-support-head { padding: 20px 20px 16px; position: relative; border-bottom: 1px solid rgba(0,0,0,0.06); }
-    .ks-support-msgs { flex: 1; overflow-y: auto; padding: 20px; min-height: 200px; max-height: 380px; }
-    .ks-support-input { padding: 14px 18px; border-top: 1px solid rgba(0,0,0,0.06); display: flex; gap: 8px; }
-    .ks-support-input input { flex: 1; padding: 12px 16px; border-radius: 14px; border: 1px solid rgba(0,0,0,0.08); background: #F5F5F7; font-family: 'Satoshi', sans-serif; font-size: 14px; color: #1D1D1F; outline: none; }
-    .ks-support-input input:focus { border-color: rgba(215,0,48,0.3); }
-    .ks-support-input input::placeholder { color: #AEAEB2; }
-    .ks-support-input button { width: 40px; height: 40px; border-radius: 12px; background: #1D1D1F; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; color: #FFF; flex-shrink: 0; }
-    .ks-support-input button:hover { background: #000; }
+    .ks-support-head { padding: 16px 18px; position: relative; border-bottom: 1px solid rgba(255,255,255,0.06); }
+    .ks-support-msgs { flex: 1; overflow-y: auto; padding: 18px; min-height: 200px; max-height: 380px; display: flex; flex-direction: column; gap: 10px; }
+    .ks-support-input { padding: 12px 16px; border-top: 1px solid rgba(255,255,255,0.06); display: flex; gap: 8px; }
+    .ks-support-input input { flex: 1; padding: 10px 14px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.1); background: rgba(255,255,255,0.04); font-family: 'Satoshi', sans-serif; font-size: 13px; color: #FFF; outline: none; }
+    .ks-support-input input:focus { border-color: rgba(215,0,48,0.4); }
+    .ks-support-input input::placeholder { color: rgba(255,255,255,0.3); }
+    .ks-support-input button { width: 34px; height: 34px; border-radius: 10px; background: #D70030; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; color: #FFF; flex-shrink: 0; }
+    .ks-support-input button:hover { background: #E5003A; }
 
     /* Micro-animations (Apple HIG Motion) */
     .kt-toggle:active { transform: scale(0.92); }
@@ -714,11 +708,21 @@
     const val = input.value.trim();
     if (!val) return;
     const msgs = document.getElementById('ksSupportMsgs');
-    msgs.innerHTML += '<div style="padding:10px 14px;background:#1D1D1F;color:#F5F5F7;border-radius:16px;border-bottom-right-radius:4px;margin-left:auto;max-width:85%;margin-bottom:10px;font-family:Satoshi,sans-serif;font-size:14px;">' + val + '</div>';
+    // User msg — vermelho (mesmo padrao chat principal)
+    msgs.innerHTML += '<div style="padding:10px 14px;background:#D70030;color:#FFF;border-radius:16px 16px 4px 16px;align-self:flex-end;max-width:85%;font-family:Satoshi,sans-serif;font-size:13px;">' + val + '</div>';
     input.value = '';
     msgs.scrollTop = msgs.scrollHeight;
+    // Respostas contextuais por tipo de problema
+    const responses = {
+      'conexao': 'Verificando suas conexoes agora... <strong style="color:#D70030">Instagram</strong> e <strong style="color:#D70030">LinkedIn</strong> estao ativos. Qual rede especificamente esta com problema?',
+      'agente': 'Analisando status dos agentes... Todos os 7 agentes estao online. <strong style="color:#D70030">Scout</strong> teve um pico de latencia as 14h mas ja normalizou. Qual agente esta travado?',
+      'plano': 'Seu plano atual: <strong style="color:#D70030">400 clientes x R$1.000</strong> = R$400K MRR. Posso ajudar a entender as opcoes de upgrade, desconto por volume, ou ajuste de consumo de tokens.',
+      'cobranca': 'Ultima fatura: <strong style="color:#D70030">R$12.400</strong> (tokens + infra). Status: paga em 28/Mar. Proxima vence em 28/Abr. Quer que eu detalhe algum item?'
+    };
+    const key = val.toLowerCase().includes('conex') ? 'conexao' : val.toLowerCase().includes('agent') || val.toLowerCase().includes('respond') ? 'agente' : val.toLowerCase().includes('plano') || val.toLowerCase().includes('mudar') ? 'plano' : val.toLowerCase().includes('cobran') || val.toLowerCase().includes('fatura') ? 'cobranca' : null;
     setTimeout(function() {
-      msgs.innerHTML += '<div style="padding:12px 16px;background:#F5F5F7;border-radius:16px;border-bottom-left-radius:4px;max-width:85%;margin-bottom:10px;font-family:Satoshi,sans-serif;font-size:14px;line-height:1.6;color:#1D1D1F;">Entendi! Vou verificar isso pra voce. Um momento...</div>';
+      const reply = key ? responses[key] : 'Entendi. Estou analisando o problema. Vou verificar logs e status dos sistemas. Em casos complexos, escalo automaticamente pro time tecnico com toda a evidencia.';
+      msgs.innerHTML += '<div style="padding:12px 16px;background:rgba(255,255,255,0.08);border-radius:16px 16px 16px 4px;max-width:88%;font-family:Satoshi,sans-serif;font-size:13px;line-height:1.6;color:rgba(255,255,255,0.9);">' + reply + '</div>';
       msgs.scrollTop = msgs.scrollHeight;
     }, 800);
   };
