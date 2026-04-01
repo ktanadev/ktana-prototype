@@ -9,86 +9,84 @@
   <style>
     body{min-height:100vh;background:#F5F5F7;color:#1D1D1F}
     a{text-decoration:none;color:inherit}
+    .main{max-width:760px;margin:0 auto;padding:16px 20px 100px}
 
-    /* ═══ SPLIT LAYOUT: Chat Left + Context Right ═══ */
-    .split{display:flex;min-height:100vh}
+    /* GREETING */
+    .greeting{margin-bottom:4px}
+    .greeting h1{font-family:'Satoshi',sans-serif;font-size:28px;font-weight:700;color:#1D1D1F;margin-bottom:8px;letter-spacing:-0.01em}
+    .greeting-stats{display:flex;align-items:center;gap:16px;font-family:'Inter',sans-serif;font-size:13px;color:#86868B}
+    .greeting-stats strong{font-family:'Satoshi',sans-serif;font-weight:600;color:#1D1D1F}
+    .greeting-stats .dot{width:3px;height:3px;border-radius:50%;background:#D2D2D7}
 
-    /* ═══ CHAT ZONE — Dark Ambient Glow (LEFT) ═══ */
-    .chat-zone{width:50%;min-width:380px;max-width:520px;background:#0A0A0A;position:sticky;top:0;height:100vh;display:flex;flex-direction:column;overflow:hidden}
+    /* ═══ COMPACT CHAT ZONE — Dark Ambient Glow Widget ═══ */
+    .chat-zone{background:#0A0A0A;border-radius:16px;position:relative;overflow:hidden;margin:20px 0;padding:0;box-shadow:0 4px 32px rgba(0,0,0,0.18),0 0 0 1px rgba(255,255,255,0.04)}
     .ambient-glow{position:absolute;top:0;left:0;width:100%;height:100%;z-index:0;pointer-events:none}
-    .ambient-glow-orb{position:absolute;border-radius:50%;pointer-events:none;filter:blur(80px)}
-    .ambient-glow-orb:nth-child(1){width:60%;height:50%;top:10%;left:-10%;background:radial-gradient(ellipse at center,rgba(215,0,48,0.16) 0%,transparent 70%);animation:orbDrift1 10s ease-in-out infinite}
-    .ambient-glow-orb:nth-child(2){width:50%;height:45%;top:30%;right:-15%;background:radial-gradient(ellipse at center,rgba(160,15,5,0.13) 0%,transparent 70%);animation:orbDrift2 14s ease-in-out infinite}
-    .ambient-glow-orb:nth-child(3){width:55%;height:50%;bottom:5%;left:20%;background:radial-gradient(ellipse at center,rgba(220,80,25,0.11) 0%,transparent 70%);animation:orbDrift3 12s ease-in-out infinite}
-    @keyframes orbDrift1{0%,100%{transform:translate(0,0)}33%{transform:translate(10%,8%)}66%{transform:translate(-5%,-5%)}}
-    @keyframes orbDrift2{0%,100%{transform:translate(0,0)}50%{transform:translate(-12%,6%)}}
-    @keyframes orbDrift3{0%,100%{transform:translate(0,0)}33%{transform:translate(8%,-8%)}66%{transform:translate(-6%,4%)}}
+    .ambient-glow-orb{position:absolute;border-radius:50%;pointer-events:none;filter:blur(60px)}
+    .ambient-glow-orb:nth-child(1){width:55%;height:45%;top:0;left:-10%;background:radial-gradient(ellipse at center,rgba(215,0,48,0.22) 0%,transparent 70%);animation:od1 10s ease-in-out infinite}
+    .ambient-glow-orb:nth-child(2){width:45%;height:40%;top:20%;right:-10%;background:radial-gradient(ellipse at center,rgba(160,15,5,0.18) 0%,transparent 70%);animation:od2 14s ease-in-out infinite}
+    .ambient-glow-orb:nth-child(3){width:40%;height:45%;bottom:-5%;left:20%;background:radial-gradient(ellipse at center,rgba(220,80,25,0.15) 0%,transparent 70%);animation:od3 12s ease-in-out infinite}
+    @keyframes od1{0%,100%{transform:translate(0,0)}33%{transform:translate(8%,6%)}66%{transform:translate(-4%,-4%)}}
+    @keyframes od2{0%,100%{transform:translate(0,0)}50%{transform:translate(-10%,5%)}}
+    @keyframes od3{0%,100%{transform:translate(0,0)}33%{transform:translate(6%,-6%)}66%{transform:translate(-5%,3%)}}
+    .cz-inner{position:relative;z-index:1;padding:20px 22px 18px}
 
-    /* Chat header */
-    .chat-header{display:flex;align-items:center;gap:10px;padding:16px 20px;border-bottom:0.5px solid rgba(255,255,255,0.06);position:relative;z-index:2}
-    .chat-av{width:32px;height:32px;border-radius:10px;background:linear-gradient(135deg,#D70030,#8B0000);display:flex;align-items:center;justify-content:center;flex-shrink:0}
-    .chat-av svg{width:16px;height:16px;stroke:#FFF;fill:none;stroke-width:1.5}
-    .chat-nm{font-family:'Zen Dots',cursive;font-size:12px;color:#F5F5F7}
-    .chat-st{font-family:'Inter',sans-serif;font-size:10px;color:#34C759;display:flex;align-items:center;gap:4px}
-    .chat-st::before{content:'';width:5px;height:5px;border-radius:50%;background:#34C759}
+    /* Chat label */
+    .cz-label{font-family:'Inter',sans-serif;font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:#D70030;margin-bottom:14px;display:flex;align-items:center;gap:8px}
+    .cz-dot{width:6px;height:6px;border-radius:50%;background:#34C759;animation:pulse 2s infinite}
+    @keyframes pulse{0%,100%{opacity:1}50%{opacity:0.3}}
 
-    /* Messages */
-    .chat-messages{flex:1;padding:16px 20px;overflow-y:auto;display:flex;flex-direction:column;gap:14px;position:relative;z-index:1}
-    .msg{max-width:88%;border-radius:20px;padding:12px 16px;position:relative}
-    .msg-ai{background:rgba(255,255,255,0.04);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,0.06);border-top-left-radius:6px;align-self:flex-start}
-    .msg-ai p{font-family:'Satoshi',sans-serif;font-size:14px;line-height:1.6;color:#E5E5EA}
-    .msg-ai strong{color:#F5F5F7}
-    .msg-ai .hl{color:#D70030;font-weight:600}
-    .msg-user{background:rgba(215,0,48,0.12);border:1px solid rgba(215,0,48,0.18);border-bottom-right-radius:6px;align-self:flex-end}
-    .msg-user p{font-family:'Satoshi',sans-serif;font-size:14px;line-height:1.6;color:#F5F5F7}
-    .inline-card{display:inline-flex;align-items:center;gap:5px;background:rgba(255,255,255,0.06);border:0.5px solid rgba(255,255,255,0.1);border-radius:8px;padding:5px 10px;margin:3px 2px;font-family:'Inter',sans-serif;font-size:11px;font-weight:500;color:#E5E5EA;cursor:pointer;transition:all 0.15s}
-    .inline-card:hover{background:rgba(215,0,48,0.15);border-color:rgba(215,0,48,0.3)}
-    .inline-card svg{width:12px;height:12px;stroke:currentColor;fill:none;stroke-width:1.5}
-    .quick-actions{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
-    .quick-btn{font-family:'Inter',sans-serif;padding:8px 16px;border-radius:12px;background:rgba(255,255,255,0.04);border:0.5px solid rgba(255,255,255,0.1);font-size:12px;color:#E5E5EA;cursor:pointer;transition:all 0.15s}
-    .quick-btn:hover{background:rgba(215,0,48,0.15);color:#F5F5F7;border-color:rgba(215,0,48,0.3)}
+    /* Dark messages */
+    .cz-msgs{max-height:240px;overflow-y:auto;margin-bottom:16px;display:flex;flex-direction:column;gap:10px}
+    .cz-msg{max-width:85%;padding:12px 16px;border-radius:16px;font-family:'Satoshi',sans-serif;font-size:14px;line-height:1.5}
+    .cz-msg-ai{background:rgba(255,255,255,0.04);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,0.06);color:#E5E5EA;border-bottom-left-radius:4px;align-self:flex-start}
+    .cz-msg-user{background:rgba(215,0,48,0.12);border:1px solid rgba(215,0,48,0.18);color:#F5F5F7;border-bottom-right-radius:4px;align-self:flex-end}
+    .cz-msg-ai strong{color:#F5F5F7}
+    .cz-msg-ai .hl{color:#D70030;font-weight:600}
+    .cz-sender{font-family:'Inter',sans-serif;font-size:11px;color:#D70030;font-weight:500;margin-bottom:4px}
+    .cz-inline{display:inline-flex;align-items:center;gap:5px;background:rgba(255,255,255,0.06);border:0.5px solid rgba(255,255,255,0.1);border-radius:8px;padding:5px 10px;margin:3px 2px;font-family:'Inter',sans-serif;font-size:11px;color:#E5E5EA;cursor:pointer;transition:all 0.15s}
+    .cz-inline:hover{background:rgba(215,0,48,0.15);border-color:rgba(215,0,48,0.3)}
+    .cz-inline svg{width:12px;height:12px;stroke:currentColor;fill:none;stroke-width:1.5}
 
-    /* Input area */
-    .input-area{padding:12px 20px 24px;position:relative;z-index:2}
-    .input-wrapper{position:relative;border-radius:16px}
-    .input-glow{position:absolute;top:50%;left:50%;width:130%;height:200%;transform:translate(-50%,-50%);pointer-events:none;z-index:0;filter:blur(35px);opacity:0.7;background:radial-gradient(ellipse 50% 50% at 30% 40%,rgba(215,0,48,0.5) 0%,transparent 70%),radial-gradient(ellipse 45% 50% at 70% 50%,rgba(160,15,5,0.4) 0%,transparent 65%),radial-gradient(ellipse 40% 45% at 50% 55%,rgba(220,80,25,0.3) 0%,transparent 60%);animation:glowMove 8s ease-in-out infinite}
-    @keyframes glowMove{0%{transform:translate(-50%,-50%) rotate(0deg)}25%{transform:translate(-45%,-53%) rotate(2deg)}50%{transform:translate(-55%,-47%) rotate(-1deg)}75%{transform:translate(-48%,-52%) rotate(1.5deg)}100%{transform:translate(-50%,-50%) rotate(0deg)}}
-    .input-border-spin{position:absolute;inset:-1px;border-radius:15px;z-index:1;overflow:hidden;pointer-events:none}
-    .input-border-spin::before{content:'';position:absolute;top:-50%;left:-50%;width:200%;height:200%;background:conic-gradient(transparent 30%,rgba(140,10,5,0.6) 38%,rgba(215,0,48,0.8) 42%,rgba(220,80,25,0.5) 48%,transparent 55%,transparent 80%,rgba(180,30,8,0.3) 87%,rgba(215,0,48,0.5) 92%,transparent 97%);animation:rotateLine 5s linear infinite}
-    @keyframes rotateLine{to{transform:rotate(360deg)}}
-    .input-border-spin::after{content:'';position:absolute;inset:1px;border-radius:14px;background:#111}
-    .input-card{background:#111;border-radius:14px;position:relative;z-index:2;display:flex;flex-direction:column}
-    .input-card textarea{background:transparent;border:none;outline:none;font-family:'Satoshi',sans-serif;font-size:14px;color:#F5F5F7;padding:14px 16px;resize:none;min-height:48px;max-height:120px;width:100%;box-sizing:border-box}
-    .input-card textarea::placeholder{color:rgba(255,255,255,0.25)}
-    .input-footer{display:flex;align-items:center;justify-content:space-between;padding:0 12px 10px}
-    .input-left{display:flex;gap:6px}
-    .input-icon{width:28px;height:28px;border-radius:8px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:rgba(255,255,255,0.25);transition:all 0.15s;background:transparent;border:none}
-    .input-icon:hover{background:rgba(255,255,255,0.06);color:rgba(255,255,255,0.6)}
-    .input-icon svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
-    .send-btn{width:32px;height:32px;border-radius:50%;background:#D70030;display:flex;align-items:center;justify-content:center;cursor:pointer;border:none;transition:all 0.15s}
-    .send-btn:hover{box-shadow:0 0 16px rgba(215,0,48,0.4)}
-    .send-btn svg{width:14px;height:14px;stroke:#FFF;fill:none;stroke-width:2}
+    /* Suggestions */
+    .cz-shortcuts{display:flex;gap:6px;margin-top:14px;flex-wrap:wrap}
+    .cz-sc{font-family:'Inter',sans-serif;font-size:12px;color:rgba(255,255,255,0.4);background:rgba(255,255,255,0.03);border:0.5px solid rgba(255,255,255,0.1);border-radius:980px;padding:6px 14px;cursor:pointer;transition:all 0.15s}
+    .cz-sc:hover{background:rgba(215,0,48,0.12);color:#F5F5F7;border-color:rgba(215,0,48,0.25)}
 
-    /* ═══ CONTEXT PANEL (RIGHT) ═══ */
-    .context{flex:1;padding:20px 24px 100px;overflow-y:auto;min-width:300px}
+    /* Input with glow + rotating border */
+    .cz-input-outer{position:relative;border-radius:14px;margin-top:16px}
+    .cz-input-glow{position:absolute;top:50%;left:50%;width:110%;height:180%;transform:translate(-50%,-50%);pointer-events:none;z-index:0;filter:blur(30px);opacity:0.65;background:radial-gradient(ellipse 50% 50% at 30% 40%,rgba(215,0,48,0.45) 0%,transparent 70%),radial-gradient(ellipse 45% 50% at 70% 50%,rgba(160,15,5,0.35) 0%,transparent 65%),radial-gradient(ellipse 40% 45% at 50% 55%,rgba(220,80,25,0.25) 0%,transparent 60%);animation:gm 8s ease-in-out infinite}
+    @keyframes gm{0%{transform:translate(-50%,-50%) rotate(0)}25%{transform:translate(-45%,-53%) rotate(2deg)}50%{transform:translate(-55%,-47%) rotate(-1deg)}75%{transform:translate(-48%,-52%) rotate(1.5deg)}100%{transform:translate(-50%,-50%) rotate(0)}}
+    .cz-input-spin{position:absolute;inset:-1px;border-radius:15px;z-index:1;overflow:hidden;pointer-events:none}
+    .cz-input-spin::before{content:'';position:absolute;top:-50%;left:-50%;width:200%;height:200%;background:conic-gradient(transparent 30%,rgba(140,10,5,0.6) 38%,rgba(215,0,48,0.8) 42%,rgba(220,80,25,0.5) 48%,transparent 55%,transparent 80%,rgba(180,30,8,0.3) 87%,rgba(215,0,48,0.5) 92%,transparent 97%);animation:rl 5s linear infinite}
+    @keyframes rl{to{transform:rotate(360deg)}}
+    .cz-input-spin::after{content:'';position:absolute;inset:1px;border-radius:14px;background:#111}
+    .cz-input-card{background:#111;border-radius:14px;position:relative;z-index:2;display:flex;flex-direction:column}
+    .cz-input-card textarea{width:100%;padding:14px 18px 48px;border-radius:14px;border:none;background:transparent;font-family:'Satoshi',sans-serif;font-size:15px;color:#E5E5EA;outline:none;min-height:56px;max-height:120px;resize:none;box-sizing:border-box}
+    .cz-input-card textarea::placeholder{color:rgba(255,255,255,0.25)}
+    .cz-input-footer{position:absolute;bottom:0;left:0;right:0;padding:8px 14px;display:flex;align-items:center;gap:8px;border-top:1px solid rgba(255,255,255,0.04)}
+    .cz-add{width:30px;height:30px;border-radius:8px;border:1px solid rgba(255,255,255,0.1);background:transparent;color:rgba(255,255,255,0.4);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all 0.15s}
+    .cz-add:hover{background:rgba(255,255,255,0.06);color:rgba(255,255,255,0.7)}
+    .cz-add svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
+    .cz-agent{font-family:'Inter',sans-serif;font-size:12px;color:rgba(255,255,255,0.5);background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:8px;padding:5px 10px;cursor:pointer;-webkit-appearance:none;appearance:none}
+    .cz-send{margin-left:auto;width:34px;height:34px;border-radius:10px;background:#D70030;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all 0.15s;color:#F5F5F7}
+    .cz-send:hover{background:#E5003A}
+    .cz-send svg{width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+
+    /* ═══ SECTIONS ═══ */
     .sec{font-family:'Inter',sans-serif;font-size:10px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:#D70030;margin-bottom:10px;margin-top:20px}
-    .sec:first-child{margin-top:0}
 
-    /* Quick nav */
     .qa{display:flex;gap:6px;margin-bottom:16px;flex-wrap:wrap}
     .qa-btn{font-family:'Inter',sans-serif;font-size:11px;font-weight:500;padding:7px 12px;border-radius:8px;border:1px solid rgba(0,0,0,0.06);background:#FFF;color:#6E6E73;cursor:pointer;transition:all 0.15s;display:flex;align-items:center;gap:5px}
     .qa-btn:hover{border-color:rgba(215,0,48,0.12);color:#D70030}
     .qa-btn svg{width:12px;height:12px;stroke:currentColor;fill:none;stroke-width:1.5}
 
-    /* Scores */
-    .scores{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-bottom:16px}
-    .sc{background:#FFF;border:1px solid rgba(0,0,0,0.04);border-radius:14px;padding:14px 12px;text-align:center;transition:all 0.2s;cursor:pointer}
+    .scores{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:16px}
+    .sc{background:#FFF;border:1px solid rgba(0,0,0,0.04);border-radius:14px;padding:14px 10px;text-align:center;transition:all 0.2s;cursor:pointer}
     .sc:hover{box-shadow:0 4px 16px rgba(0,0,0,0.04)}
     .sc-v{font-family:'Zen Dots',cursive;font-size:20px;color:#1D1D1F}.sc-v.brand{color:#D70030}
     .sc-l{font-family:'Inter',sans-serif;font-size:9px;color:#86868B;margin-top:2px;text-transform:uppercase;letter-spacing:.04em}
     .sc-d{font-family:'Inter',sans-serif;font-size:10px;margin-top:2px;color:#34C759}
 
-    /* Clients */
     .clients{display:flex;flex-direction:column;gap:6px;margin-bottom:16px}
     .cl{display:flex;align-items:center;gap:10px;padding:12px 14px;background:#FFF;border:1px solid rgba(0,0,0,0.04);border-radius:12px;cursor:pointer;transition:all 0.2s}
     .cl:hover{border-color:rgba(215,0,48,0.1);box-shadow:0 2px 12px rgba(0,0,0,0.04)}
@@ -102,116 +100,123 @@
     .ph4{background:rgba(52,199,89,0.08);color:#34C759}
     .ph5{background:rgba(215,0,48,0.08);color:#D70030}
 
-    /* Feed */
-    .feed{display:flex;flex-direction:column;gap:4px;margin-bottom:16px}
+    .feed{display:flex;flex-direction:column;gap:4px}
     .fd{display:flex;align-items:flex-start;gap:8px;padding:8px 12px;background:#FFF;border:1px solid rgba(0,0,0,0.04);border-radius:8px;font-family:'Inter',sans-serif;font-size:11px;color:#6E6E73;line-height:1.4}
     .fd-dot{width:5px;height:5px;border-radius:50%;margin-top:4px;flex-shrink:0}
     .fd-dot.green{background:#34C759}.fd-dot.orange{background:#FF9500}.fd-dot.red{background:#D70030}.fd-dot.blue{background:#007AFF}
     .fd strong{color:#1D1D1F}
     .fd-time{margin-left:auto;font-family:'JetBrains Mono',monospace;font-size:9px;color:#AEAEB2;flex-shrink:0}
 
-    @media(max-width:900px){.split{flex-direction:column}.chat-zone{width:100%;max-width:100%;height:50vh;position:relative}.context{padding:16px}}
+    @media(max-width:600px){.scores{grid-template-columns:repeat(2,1fr)}}
   </style>
 </head>
 <body data-active="dashboard">
 
-<div class="split">
+<div class="main">
 
-  <!-- ═══ CHAT ZONE (LEFT) — Dark Ambient Glow ═══ -->
+  <!-- GREETING -->
+  <div class="greeting">
+    <h1>Bom dia, Antonio.</h1>
+    <div class="greeting-stats">
+      <span><strong>142</strong> posts semana</span>
+      <span class="dot"></span>
+      <span><strong>7</strong> agentes online</span>
+      <span class="dot"></span>
+      <span><strong>400</strong> clientes</span>
+    </div>
+  </div>
+
+  <!-- ═══ CHAT ZONE — Dark Ambient Glow Widget ═══ -->
   <div class="chat-zone">
     <div class="ambient-glow">
       <div class="ambient-glow-orb"></div>
       <div class="ambient-glow-orb"></div>
       <div class="ambient-glow-orb"></div>
     </div>
+    <div class="cz-inner">
+      <div class="cz-label"><span class="cz-dot"></span> Sensei — Orquestrador</div>
 
-    <div class="chat-header">
-      <div class="chat-av"><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-      <div><div class="chat-nm">Sensei</div><div class="chat-st">Online — 7 agentes ativos</div></div>
-    </div>
-
-    <div class="chat-messages">
-      <div class="msg msg-ai">
-        <p>Bom dia, Antonio! Resumo da noite:</p>
-        <p><span class="hl">3 aprovacoes atrasadas:</span><br>
-        <span class="inline-card"><svg viewBox="0 0 24 24"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> Joao M. — Carrossel IG (6h)</span>
-        <span class="inline-card"><svg viewBox="0 0 24 24"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> Ana C. — Reel TT (5h)</span></p>
-        <p>Motor publicou <strong>18 posts</strong> e gerou <strong>12 pautas</strong> esta noite. Enviar lembrete no WhatsApp?</p>
-      </div>
-
-      <div class="msg msg-user"><p>Sim, envia. E mostra as 3 melhores pautas.</p></div>
-
-      <div class="msg msg-ai">
-        <p>Lembretes enviados. Top 3 pautas:</p>
-        <p>1. <strong>Joao M.</strong> — "Delegacao pra CEOs control freaks" (IG) — <span class="hl">94%</span><br>
-        2. <strong>Maria F.</strong> — "Lideranca feminina: dados" (LI) — <span class="hl">91%</span><br>
-        3. <strong>Pedro S.</strong> — "Mito do botox preventivo" (IG) — <span class="hl">89%</span></p>
-        <div class="quick-actions">
-          <button class="quick-btn" onclick="location.href='pipeline.html'">Ver pipeline completo</button>
-          <button class="quick-btn" onclick="location.href='approvals.html'">Resolver aprovacoes</button>
+      <div class="cz-msgs">
+        <div class="cz-msg cz-msg-ai">
+          <div class="cz-sender">Sensei</div>
+          Bom dia! Resumo da noite: Motor publicou <strong>18 posts</strong> e gerou <strong>12 pautas</strong>.<br><br>
+          <span class="hl">3 aprovacoes atrasadas:</span><br>
+          <span class="cz-inline"><svg viewBox="0 0 24 24"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> Joao M. — Carrossel IG (6h)</span>
+          <span class="cz-inline"><svg viewBox="0 0 24 24"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> Ana C. — Reel TT (5h)</span><br><br>
+          Enviar lembrete no WhatsApp?
+        </div>
+        <div class="cz-msg cz-msg-user">Sim, envia. E mostra as 3 melhores pautas.</div>
+        <div class="cz-msg cz-msg-ai">
+          <div class="cz-sender">Sensei</div>
+          Lembretes enviados. Top 3 pautas:<br><br>
+          1. <strong>Joao M.</strong> — "Delegacao pra CEOs" (IG) — <span class="hl">94%</span><br>
+          2. <strong>Maria F.</strong> — "Lideranca feminina" (LI) — <span class="hl">91%</span><br>
+          3. <strong>Pedro S.</strong> — "Mito do botox" (IG) — <span class="hl">89%</span>
         </div>
       </div>
-    </div>
 
-    <!-- INPUT -->
-    <div class="input-area">
-      <div class="input-wrapper">
-        <div class="input-glow"></div>
-        <div class="input-border-spin"></div>
-        <div class="input-card">
+      <div class="cz-shortcuts">
+        <a href="approvals.html" class="cz-sc">Resolver aprovacoes</a>
+        <a href="pipeline.html" class="cz-sc">Ver pipeline</a>
+        <a href="insights.html" class="cz-sc">Insights do dia</a>
+      </div>
+
+      <!-- INPUT -->
+      <div class="cz-input-outer">
+        <div class="cz-input-glow"></div>
+        <div class="cz-input-spin"></div>
+        <div class="cz-input-card">
           <textarea rows="1" placeholder="Pergunte algo ao Sensei..."></textarea>
-          <div class="input-footer">
-            <div class="input-left">
-              <button class="input-icon"><svg viewBox="0 0 24 24"><path d="M21.44 11.05l-9.19 9.19a6 6 0 01-8.49-8.49l9.19-9.19a4 4 0 015.66 5.66l-9.2 9.19a2 2 0 01-2.83-2.83l8.49-8.48"/></svg></button>
-              <button class="input-icon"><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg></button>
-            </div>
-            <button class="send-btn"><svg viewBox="0 0 24 24"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+          <div class="cz-input-footer">
+            <button class="cz-add"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></button>
+            <select class="cz-agent"><option>Sensei</option><option>Scout</option><option>Quill</option><option>Canvas</option><option>Pulse</option><option>Metrics</option><option>Director</option></select>
+            <button class="cz-send"><svg viewBox="0 0 24 24"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg></button>
           </div>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- ═══ CONTEXT PANEL (RIGHT) — Light ═══ -->
-  <div class="context">
-
-    <div class="sec">Acoes rapidas</div>
-    <div class="qa">
-      <a class="qa-btn" href="pipeline.html"><svg viewBox="0 0 24 24"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg> Pipeline</a>
-      <a class="qa-btn" href="calendar.html"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/></svg> Calendario</a>
-      <a class="qa-btn" href="approvals.html"><svg viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg> Aprovacoes (7)</a>
-      <a class="qa-btn" href="insights.html"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg> Insights</a>
-      <a class="qa-btn" href="metrics.html"><svg viewBox="0 0 24 24"><path d="M12 20V10M18 20V4M6 20v-4"/></svg> Metricas</a>
-      <a class="qa-btn" href="agents.html"><svg viewBox="0 0 24 24"><path d="M14.5 17.5L3 6V3h3l11.5 11.5M13 19l6-6"/></svg> Agentes</a>
-      <a class="qa-btn" href="connections.html"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0"/></svg> Conexoes</a>
-    </div>
-
-    <div class="sec">Visao geral</div>
-    <div class="scores">
-      <div class="sc"><div class="sc-v brand">7</div><div class="sc-l">Aprovacoes</div><div class="sc-d" style="color:#D70030">3 atrasadas</div></div>
-      <div class="sc"><div class="sc-v">23</div><div class="sc-l">Em producao</div></div>
-      <div class="sc"><div class="sc-v">142</div><div class="sc-l">Publicados semana</div><div class="sc-d">+18%</div></div>
-      <div class="sc"><div class="sc-v">34.2K</div><div class="sc-l">Tokens usados</div><div class="sc-d">de 100K (34%)</div></div>
-    </div>
-
-    <div class="sec">Clientes com pendencia</div>
-    <div class="clients">
-      <a class="cl" href="client-workspace.html"><div class="cl-av">JM</div><div class="cl-info"><div class="cl-name">Joao Mendes</div><div class="cl-sub">Aprovacao IG atrasada 6h</div></div><span class="cl-phase ph4">F4</span></a>
-      <a class="cl" href="client-workspace.html"><div class="cl-av">AC</div><div class="cl-info"><div class="cl-name">Ana Costa</div><div class="cl-sub">Brand Book 60%</div></div><span class="cl-phase ph2">F2</span></a>
-      <a class="cl" href="client-workspace.html"><div class="cl-av">PS</div><div class="cl-info"><div class="cl-name">Pedro Souza</div><div class="cl-sub">Onboarding 20%</div></div><span class="cl-phase ph1">F1</span></a>
-      <a class="cl" href="client-workspace.html"><div class="cl-av">MF</div><div class="cl-info"><div class="cl-name">Maria Fernandes</div><div class="cl-sub">20/21 posts — autopilot</div></div><span class="cl-phase ph5">F5</span></a>
-    </div>
-
-    <div class="sec">Motor autopilot</div>
-    <div class="feed">
-      <div class="fd"><div class="fd-dot blue"></div>Pesquisando concorrentes de <strong>@joaomendes</strong><span class="fd-time">agora</span></div>
-      <div class="fd"><div class="fd-dot green"></div>Carrossel publicado <strong>@anacosta</strong> IG<span class="fd-time">5min</span></div>
-      <div class="fd"><div class="fd-dot orange"></div>Aguardando aprovacao <strong>@pedrosouza</strong><span class="fd-time">12min</span></div>
-      <div class="fd"><div class="fd-dot green"></div>Roteiro gerado <strong>@mariafernandes</strong><span class="fd-time">18min</span></div>
-      <div class="fd"><div class="fd-dot red"></div>Token LinkedIn <strong>@pedrosouza</strong> expira 3d<span class="fd-time">1h</span></div>
-    </div>
-
+  <!-- QUICK ACTIONS -->
+  <div class="sec">Acoes rapidas</div>
+  <div class="qa">
+    <a class="qa-btn" href="pipeline.html"><svg viewBox="0 0 24 24"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg> Pipeline</a>
+    <a class="qa-btn" href="calendar.html"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/></svg> Calendario</a>
+    <a class="qa-btn" href="approvals.html"><svg viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg> Aprovacoes (7)</a>
+    <a class="qa-btn" href="insights.html"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg> Insights</a>
+    <a class="qa-btn" href="metrics.html"><svg viewBox="0 0 24 24"><path d="M12 20V10M18 20V4M6 20v-4"/></svg> Metricas</a>
+    <a class="qa-btn" href="agents.html"><svg viewBox="0 0 24 24"><path d="M14.5 17.5L3 6V3h3l11.5 11.5M13 19l6-6"/></svg> Agentes</a>
+    <a class="qa-btn" href="connections.html"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0"/></svg> Conexoes</a>
   </div>
+
+  <!-- SCORES -->
+  <div class="sec">Visao geral</div>
+  <div class="scores">
+    <div class="sc"><div class="sc-v brand">7</div><div class="sc-l">Aprovacoes</div><div class="sc-d" style="color:#D70030">3 atrasadas</div></div>
+    <div class="sc"><div class="sc-v">23</div><div class="sc-l">Em producao</div></div>
+    <div class="sc"><div class="sc-v">142</div><div class="sc-l">Publicados semana</div><div class="sc-d">+18%</div></div>
+    <div class="sc"><div class="sc-v">34.2K</div><div class="sc-l">Tokens usados</div><div class="sc-d">de 100K (34%)</div></div>
+  </div>
+
+  <!-- CLIENTS -->
+  <div class="sec">Clientes com pendencia</div>
+  <div class="clients">
+    <a class="cl" href="client-workspace.html"><div class="cl-av">JM</div><div class="cl-info"><div class="cl-name">Joao Mendes</div><div class="cl-sub">Aprovacao IG atrasada 6h</div></div><span class="cl-phase ph4">F4</span></a>
+    <a class="cl" href="client-workspace.html"><div class="cl-av">AC</div><div class="cl-info"><div class="cl-name">Ana Costa</div><div class="cl-sub">Brand Book 60%</div></div><span class="cl-phase ph2">F2</span></a>
+    <a class="cl" href="client-workspace.html"><div class="cl-av">PS</div><div class="cl-info"><div class="cl-name">Pedro Souza</div><div class="cl-sub">Onboarding 20%</div></div><span class="cl-phase ph1">F1</span></a>
+    <a class="cl" href="client-workspace.html"><div class="cl-av">MF</div><div class="cl-info"><div class="cl-name">Maria Fernandes</div><div class="cl-sub">20/21 posts — autopilot</div></div><span class="cl-phase ph5">F5</span></a>
+  </div>
+
+  <!-- FEED -->
+  <div class="sec">Motor autopilot</div>
+  <div class="feed">
+    <div class="fd"><div class="fd-dot blue"></div>Pesquisando concorrentes de <strong>@joaomendes</strong><span class="fd-time">agora</span></div>
+    <div class="fd"><div class="fd-dot green"></div>Carrossel publicado <strong>@anacosta</strong> IG<span class="fd-time">5min</span></div>
+    <div class="fd"><div class="fd-dot orange"></div>Aguardando aprovacao <strong>@pedrosouza</strong><span class="fd-time">12min</span></div>
+    <div class="fd"><div class="fd-dot green"></div>Roteiro gerado <strong>@mariafernandes</strong><span class="fd-time">18min</span></div>
+    <div class="fd"><div class="fd-dot red"></div>Token LinkedIn <strong>@pedrosouza</strong> expira 3d<span class="fd-time">1h</span></div>
+  </div>
+
 </div>
 
 <script src="shared-sidebar.js"></script>
