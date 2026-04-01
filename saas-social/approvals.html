@@ -101,10 +101,32 @@
 
 <main class="main">
 
-  <!-- Chat comes from shared-nav-social.js -->
+  <!-- APPROVAL FLOW TRACKER -->
+  <div style="display:flex;gap:8px;margin-bottom:20px">
+    <div style="flex:1;background:#FFF;border-radius:14px;border:1px solid rgba(0,0,0,0.04);padding:14px;text-align:center;position:relative;overflow:hidden">
+      <div style="position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,#5856D6,#8E8CE6)"></div>
+      <div style="font-family:'Zen Dots',cursive;font-size:20px;color:#5856D6">3</div>
+      <div style="font-family:'Inter',sans-serif;font-size:9px;color:#86868B;text-transform:uppercase;letter-spacing:.04em;margin-top:2px">Nivel 1 — SM</div>
+      <div style="font-family:'Inter',sans-serif;font-size:10px;color:#5856D6;margin-top:4px">IA produziu, SM revisa</div>
+    </div>
+    <div style="display:flex;align-items:center;color:#D2D2D7"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div>
+    <div style="flex:1;background:#FFF;border-radius:14px;border:1px solid rgba(0,0,0,0.04);padding:14px;text-align:center;position:relative;overflow:hidden">
+      <div style="position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,#FF9500,#FFBA5C)"></div>
+      <div style="font-family:'Zen Dots',cursive;font-size:20px;color:#FF9500">2</div>
+      <div style="font-family:'Inter',sans-serif;font-size:9px;color:#86868B;text-transform:uppercase;letter-spacing:.04em;margin-top:2px">Nivel 2 — Founder</div>
+      <div style="font-family:'Inter',sans-serif;font-size:10px;color:#FF9500;margin-top:4px">SM aprovou, founder decide</div>
+    </div>
+    <div style="display:flex;align-items:center;color:#D2D2D7"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div>
+    <div style="flex:1;background:#FFF;border-radius:14px;border:1px solid rgba(0,0,0,0.04);padding:14px;text-align:center;position:relative;overflow:hidden">
+      <div style="position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,#34C759,#6BDE8A)"></div>
+      <div style="font-family:'Zen Dots',cursive;font-size:20px;color:#34C759">5</div>
+      <div style="font-family:'Inter',sans-serif;font-size:9px;color:#86868B;text-transform:uppercase;letter-spacing:.04em;margin-top:2px">Aprovados</div>
+      <div style="font-family:'Inter',sans-serif;font-size:10px;color:#34C759;margin-top:4px">Prontos pra publicar</div>
+    </div>
+  </div>
 
-  <!-- CONTEÚDO 1: Joao Mendes — Carrossel IG -->
-  <div class="sec">Atrasados (SLA > 4h)</div>
+  <!-- NIVEL 1: SM PRECISA REVISAR -->
+  <div class="sec" style="display:flex;align-items:center;gap:8px"><span style="width:8px;height:8px;border-radius:50%;background:#5856D6;display:inline-block"></span> Nivel 1 — Pendente revisao SM <span style="font-weight:400;color:#86868B">(3)</span></div>
 
   <div class="ap">
     <div class="ap-top">
@@ -194,8 +216,8 @@
     </div>
   </div>
 
-  <!-- STATUS: Aguardando cliente final -->
-  <div class="sec">Aguardando aprovacao do founder</div>
+  <!-- NIVEL 2: FOUNDER PRECISA APROVAR -->
+  <div class="sec" style="display:flex;align-items:center;gap:8px;margin-top:28px"><span style="width:8px;height:8px;border-radius:50%;background:#FF9500;display:inline-block"></span> Nivel 2 — Aguardando founder <span style="font-weight:400;color:#86868B">(2)</span></div>
 
   <div class="ap">
     <div class="ap-top">
@@ -226,6 +248,64 @@
       <div class="ap-preview-box">
         <strong>Status:</strong> Enviado pro WhatsApp da Maria as 11:15. Mensagem entregue, nao lida ainda.
       </div>
+    </div>
+  </div>
+
+  <!-- NIVEL 3: APROVADOS — PRONTOS PRA PUBLICAR -->
+  <div class="sec" style="display:flex;align-items:center;gap:8px;margin-top:28px"><span style="width:8px;height:8px;border-radius:50%;background:#34C759;display:inline-block"></span> Aprovados hoje — prontos pra publicar <span style="font-weight:400;color:#86868B">(5)</span></div>
+
+  <div class="ap" style="border-left:3px solid #34C759;opacity:0.7">
+    <div class="ap-top">
+      <div class="ap-av">JM</div>
+      <div class="ap-info">
+        <div class="ap-title">"Escale sem queimar caixa" — Carrossel IG</div>
+        <div class="ap-meta">SM Maria aprovou 08:15 · Joao aprovou via WA 09:22 · Agendado Ter 10:30</div>
+      </div>
+      <span class="ap-sla sla-ok">Pronto</span>
+    </div>
+  </div>
+
+  <div class="ap" style="border-left:3px solid #34C759;opacity:0.7">
+    <div class="ap-top">
+      <div class="ap-av">JM</div>
+      <div class="ap-info">
+        <div class="ap-title">"Futuro do B2B" — Artigo LinkedIn</div>
+        <div class="ap-meta">SM Maria aprovou 08:20 · Joao aprovou via WA 09:22 · Agendado Qua 09:00</div>
+      </div>
+      <span class="ap-sla sla-ok">Pronto</span>
+    </div>
+  </div>
+
+  <div class="ap" style="border-left:3px solid #34C759;opacity:0.7">
+    <div class="ap-top">
+      <div class="ap-av">JM</div>
+      <div class="ap-info">
+        <div class="ap-title">"3 metricas de CEO" — Reel TikTok</div>
+        <div class="ap-meta">SM Maria aprovou 07:45 · Joao aprovou via WA 09:22 · Agendado Ter 15:00</div>
+      </div>
+      <span class="ap-sla sla-ok">Pronto</span>
+    </div>
+  </div>
+
+  <div class="ap" style="border-left:3px solid #34C759;opacity:0.7">
+    <div class="ap-top">
+      <div class="ap-av">MF</div>
+      <div class="ap-info">
+        <div class="ap-title">"Citacao lideranca feminina" — Post IG</div>
+        <div class="ap-meta">SM Carlos aprovou 09:00 · Maria F. aprovou portal 10:15 · Agendado Qua 10:00</div>
+      </div>
+      <span class="ap-sla sla-ok">Pronto</span>
+    </div>
+  </div>
+
+  <div class="ap" style="border-left:3px solid #34C759;opacity:0.7">
+    <div class="ap-top">
+      <div class="ap-av">JM</div>
+      <div class="ap-info">
+        <div class="ap-title">"Thread revenue share" — X</div>
+        <div class="ap-meta">SM Maria aprovou 08:30 · Joao aprovou via WA 09:22 · Agendado Qua 12:00</div>
+      </div>
+      <span class="ap-sla sla-ok">Pronto</span>
     </div>
   </div>
 
