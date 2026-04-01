@@ -1,476 +1,310 @@
-<!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>KTANA Social — Setup da Empresa</title><link rel="stylesheet" href="../shared.css"><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Zen+Dots&display=swap" rel="stylesheet">
+<!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>KTANA Social — Setup</title><link rel="stylesheet" href="../shared.css"><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Zen+Dots&display=swap" rel="stylesheet">
 <style>
 body{min-height:100vh;background:#F5F5F7;color:#1D1D1F}
 a{text-decoration:none;color:inherit}
+.container{max-width:520px;margin:0 auto;padding:40px 24px 80px}
 
-/* PROGRESS BAR */
-.progress-bar{position:fixed;top:0;left:0;right:0;z-index:50;background:#FFF;border-bottom:0.5px solid rgba(0,0,0,0.06)}
-.progress-inner{max-width:680px;margin:0 auto;padding:12px 24px;display:flex;align-items:center;gap:16px}
-.progress-logo{font-family:'Zen Dots',cursive;font-size:13px;color:#D70030}
-.progress-steps{display:flex;gap:4px;flex:1}
-.progress-step{height:3px;flex:1;border-radius:2px;background:rgba(0,0,0,0.06);transition:background 0.3s}
-.progress-step.done{background:#D70030}
-.progress-step.current{background:linear-gradient(90deg,#D70030 60%,rgba(0,0,0,0.06) 60%)}
-.progress-label{font-family:'Inter',sans-serif;font-size:10px;color:#86868B}
+/* PROGRESS */
+.progress{display:flex;justify-content:center;gap:6px;margin-bottom:36px}
+.pdot{width:6px;height:6px;border-radius:50%;background:#D2D2D7;transition:all 0.3s}
+.pdot.done{background:#86868B}
+.pdot.active{background:#D70030;width:20px;border-radius:3px}
 
-.container{max-width:680px;margin:0 auto;padding:72px 24px 100px}
+/* STEP */
+.step{display:none;animation:fadeIn 0.3s ease}
+.step.active{display:block}
+@keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
 
-/* STEP HEADER */
-.step-header{text-align:center;margin-bottom:32px}
-.step-num{font-family:'Inter',sans-serif;font-size:10px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:#D70030;margin-bottom:8px}
-.step-header h1{font-family:'Zen Dots',cursive;font-size:22px;color:#1D1D1F;margin-bottom:6px}
-.step-header p{font-family:'Satoshi',sans-serif;font-size:14px;color:#86868B;line-height:1.5}
+/* CHAT ONBOARDING */
+.chat-onboard{background:#FFF;border-radius:24px;border:1px solid rgba(0,0,0,0.04);overflow:hidden;box-shadow:0 4px 40px rgba(0,0,0,0.06);position:relative}
+.chat-onboard::before{content:'';position:absolute;inset:0;border-radius:24px;padding:1.5px;background:linear-gradient(135deg,rgba(255,231,231,0.3) 0%,transparent 20%,rgba(215,0,48,0.25) 80%,rgba(215,0,48,0.1) 100%);-webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);-webkit-mask-composite:xor;mask-composite:exclude;pointer-events:none}
+.co-header{display:flex;align-items:center;gap:10px;padding:16px 20px;border-bottom:1px solid rgba(0,0,0,0.04)}
+.co-avatar{width:32px;height:32px;border-radius:10px;background:linear-gradient(135deg,#D70030,#8B0000);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.co-avatar svg{width:16px;height:16px;stroke:#FFF;fill:none;stroke-width:1.5}
+.co-info{display:flex;flex-direction:column}
+.co-name{font-family:'Zen Dots',cursive;font-size:12px;color:#1D1D1F}
+.co-status{font-family:'Inter',sans-serif;font-size:10px;color:#34C759;display:flex;align-items:center;gap:4px}
+.co-status::before{content:'';width:5px;height:5px;border-radius:50%;background:#34C759}
+.co-step{margin-left:auto;font-family:'Inter',sans-serif;font-size:10px;color:#86868B}
 
-/* SECTION CARD */
-.section-card{background:#FFF;border-radius:20px;border:1px solid rgba(0,0,0,0.04);padding:24px;margin-bottom:14px;animation:fadeIn 0.4s ease both}
-.section-card:nth-child(2){animation-delay:0.05s}
-.section-card:nth-child(3){animation-delay:0.1s}
-.section-card:nth-child(4){animation-delay:0.15s}
-.card-label{font-family:'Inter',sans-serif;font-size:11px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:#D70030;margin-bottom:14px}
-.card-desc{font-family:'Satoshi',sans-serif;font-size:13px;color:#86868B;margin-bottom:16px;line-height:1.5}
+.co-body{padding:20px;min-height:200px;display:flex;flex-direction:column;gap:12px}
+.co-msg{max-width:90%;padding:12px 16px;border-radius:18px;font-family:'Satoshi',sans-serif;font-size:14px;line-height:1.6}
+.co-msg-ai{background:#F0F0F2;color:#1D1D1F;border-bottom-left-radius:4px;align-self:flex-start}
+.co-msg-user{background:#D70030;color:#FFF;border-bottom-right-radius:4px;align-self:flex-end}
 
-/* FORM */
-.form-group{margin-bottom:16px}
-.form-group:last-child{margin-bottom:0}
-.form-group label{font-family:'Inter',sans-serif;display:block;font-size:12px;font-weight:500;color:#86868B;margin-bottom:6px}
-.form-input{font-family:'Satoshi',sans-serif;background:#F5F5F7;border:1px solid rgba(0,0,0,0.06);border-radius:12px;padding:12px 14px;font-size:14px;width:100%;outline:none;color:#1D1D1F;transition:border-color 0.2s;box-sizing:border-box}
-.form-input:focus{border-color:rgba(215,0,48,0.3)}
-.form-input::placeholder{color:#AEAEB2}
-textarea.form-input{resize:vertical;min-height:80px;font-family:'Satoshi',sans-serif}
-.form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+/* CARD CHOICE (como onboarding PJ) */
+.choice-card{background:#FFF;border-radius:24px;border:1px solid rgba(0,0,0,0.04);padding:40px 28px;text-align:center;margin-bottom:16px}
+.choice-icon{width:56px;height:56px;border-radius:16px;margin:0 auto 16px;display:flex;align-items:center;justify-content:center}
+.choice-icon svg{width:24px;height:24px;stroke:#FFF;fill:none;stroke-width:1.5}
+.ci-red{background:linear-gradient(135deg,#D70030,#8B0000)}
+.ci-blue{background:linear-gradient(135deg,#007AFF,#0055CC)}
+.ci-green{background:linear-gradient(135deg,#34C759,#248A3D)}
+.ci-purple{background:linear-gradient(135deg,#5856D6,#3A38A0)}
+.ci-orange{background:linear-gradient(135deg,#FF9500,#CC7700)}
+.ci-teal{background:linear-gradient(135deg,#5AC8FA,#32ADE6)}
+.ci-pink{background:linear-gradient(135deg,#FF2D55,#CC0033)}
+.choice-card h2{font-family:'Zen Dots',cursive;font-size:22px;color:#1D1D1F;margin-bottom:6px}
+.choice-card p{font-family:'Satoshi',sans-serif;font-size:14px;color:#86868B;line-height:1.5;max-width:340px;margin:0 auto}
+.choice-roles{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;margin-top:16px}
+.choice-role{font-family:'Inter',sans-serif;font-size:11px;padding:5px 12px;border-radius:980px;border:0.5px solid rgba(0,0,0,0.06);color:#86868B}
 
-/* SELECTIONS */
-.select-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
-.select-item{display:flex;flex-direction:column;align-items:center;gap:8px;padding:16px 10px;border-radius:14px;border:1.5px solid rgba(0,0,0,0.06);cursor:pointer;transition:all 0.15s;text-align:center}
-.select-item:hover{border-color:rgba(0,0,0,0.12)}
-.select-item.active{border-color:rgba(215,0,48,0.25);background:rgba(215,0,48,0.015)}
-.select-item .si-icon{width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center}
-.select-item .si-icon svg{width:18px;height:18px;stroke:#FFF;fill:none;stroke-width:1.5}
-.si-red{background:linear-gradient(135deg,#D70030,#8B0000)}
-.si-blue{background:linear-gradient(135deg,#007AFF,#0055CC)}
-.si-purple{background:linear-gradient(135deg,#5856D6,#3A38A0)}
-.si-green{background:linear-gradient(135deg,#34C759,#248A3D)}
-.si-orange{background:linear-gradient(135deg,#FF9500,#CC7700)}
-.si-teal{background:linear-gradient(135deg,#5AC8FA,#32ADE6)}
-.select-item .si-name{font-family:'Satoshi',sans-serif;font-size:12px;font-weight:500;color:#1D1D1F}
-.select-item .si-desc{font-family:'Inter',sans-serif;font-size:10px;color:#86868B;line-height:1.3}
+/* BIG BUTTONS */
+.actions{display:flex;gap:12px;margin-bottom:16px}
+.btn-yes{font-family:'Inter',sans-serif;flex:1;padding:18px;border-radius:16px;background:#1D1D1F;color:#F5F5F7;font-size:15px;font-weight:600;border:none;cursor:pointer;min-height:56px;transition:all 0.15s}
+.btn-yes:hover{background:#000}
+.btn-no{font-family:'Inter',sans-serif;flex:1;padding:18px;border-radius:16px;background:#FFF;color:#86868B;font-size:15px;font-weight:500;border:1px solid rgba(0,0,0,0.06);cursor:pointer;min-height:56px;transition:all 0.15s}
+.btn-no:hover{background:#F0F0F0}
+.btn-full{font-family:'Inter',sans-serif;width:100%;padding:18px;border-radius:16px;background:#D70030;color:#FFF;font-size:15px;font-weight:600;border:none;cursor:pointer;min-height:56px;transition:all 0.15s;margin-bottom:16px}
+.btn-full:hover{opacity:0.9;box-shadow:0 4px 16px rgba(215,0,48,0.25)}
 
-/* BUILDER MINI */
-.builder-items{display:flex;flex-direction:column;gap:6px}
-.builder-item{display:flex;align-items:center;gap:10px;padding:12px 14px;background:#F5F5F7;border-radius:12px;cursor:grab;user-select:none;transition:all 0.15s}
-.builder-item:hover{background:#EDEDF0}
-.builder-item:active{cursor:grabbing;background:rgba(215,0,48,0.04)}
-.bi-grip{color:#D2D2D7;font-size:12px;cursor:grab}
-.bi-num{width:24px;height:24px;border-radius:50%;background:rgba(215,0,48,0.08);display:flex;align-items:center;justify-content:center;font-family:'Inter',sans-serif;font-size:10px;font-weight:700;color:#D70030;flex-shrink:0}
-.bi-name{font-family:'Satoshi',sans-serif;font-size:13px;color:#1D1D1F;flex:1}
-.bi-name input{font-family:'Satoshi',sans-serif;font-size:13px;color:#1D1D1F;border:none;outline:none;background:transparent;width:100%}
-.bi-toggle{width:36px;height:20px;border-radius:10px;background:#D70030;position:relative;cursor:pointer;flex-shrink:0}
-.bi-toggle::after{content:'';position:absolute;top:2px;right:2px;width:16px;height:16px;border-radius:50%;background:#FFF}
-.builder-add{display:flex;align-items:center;justify-content:center;gap:6px;padding:10px;border:1.5px dashed rgba(0,0,0,0.08);border-radius:12px;cursor:pointer;font-family:'Inter',sans-serif;font-size:11px;color:#86868B;transition:all 0.2s;margin-top:8px}
-.builder-add:hover{border-color:rgba(215,0,48,0.15);color:#D70030}
-.builder-add svg{width:12px;height:12px;stroke:currentColor;fill:none;stroke-width:1.5}
+.hint{font-family:'Inter',sans-serif;font-size:11px;color:#AEAEB2;text-align:center}
 
-/* TEAM MEMBERS */
-.team-dept{margin-bottom:20px}
-.team-dept-header{display:flex;align-items:center;gap:10px;margin-bottom:10px}
-.team-dept-icon{width:28px;height:28px;border-radius:8px;display:flex;align-items:center;justify-content:center}
-.team-dept-icon svg{width:14px;height:14px;stroke:#FFF;fill:none;stroke-width:1.5}
-.team-dept-name{font-family:'Satoshi',sans-serif;font-size:14px;font-weight:600;color:#1D1D1F}
-.team-members{display:flex;flex-direction:column;gap:6px}
-.team-member{display:flex;align-items:center;gap:10px;padding:10px 14px;background:#F5F5F7;border-radius:12px}
-.tm-avatar{width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,#D70030,#A60028);display:flex;align-items:center;justify-content:center;font-family:'Inter',sans-serif;font-size:9px;font-weight:600;color:#FFF;flex-shrink:0}
-.tm-info{flex:1}
-.tm-name{font-family:'Satoshi',sans-serif;font-size:12px;font-weight:500;color:#1D1D1F}
-.tm-role{font-family:'Inter',sans-serif;font-size:10px;color:#86868B}
-.tm-remove{font-family:'Inter',sans-serif;font-size:10px;color:#AEAEB2;cursor:pointer}
-.tm-remove:hover{color:#D70030}
-.team-add{display:flex;align-items:center;gap:6px;padding:10px 14px;border:1.5px dashed rgba(0,0,0,0.08);border-radius:12px;cursor:pointer;font-family:'Inter',sans-serif;font-size:11px;color:#86868B;transition:all 0.15s}
-.team-add:hover{border-color:rgba(215,0,48,0.15);color:#D70030}
-.team-add svg{width:12px;height:12px;stroke:currentColor;fill:none;stroke-width:1.5}
+/* SELECTED BAR */
+.selected-bar{display:flex;gap:6px;justify-content:center;flex-wrap:wrap;margin-bottom:24px;min-height:24px}
+.selected-tag{font-family:'Inter',sans-serif;padding:4px 12px;border-radius:980px;background:rgba(215,0,48,0.06);color:#D70030;font-size:11px;font-weight:500}
 
-/* NAVIGATION */
-.nav-buttons{display:flex;justify-content:space-between;margin-top:32px}
-.btn{font-family:'Inter',sans-serif;padding:12px 28px;border-radius:980px;font-size:14px;font-weight:500;border:none;cursor:pointer;transition:all 0.15s;display:flex;align-items:center;gap:8px}
-.btn svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2}
-.btn-back{background:transparent;color:#86868B;border:1px solid rgba(0,0,0,0.08)}
-.btn-back:hover{color:#1D1D1F;border-color:rgba(0,0,0,0.15)}
-.btn-next{background:#D70030;color:#FFF}
-.btn-next:hover{opacity:0.9;box-shadow:0 4px 16px rgba(215,0,48,0.2)}
-.btn-finish{background:#1D1D1F;color:#FFF;font-weight:600}
-.btn-finish:hover{opacity:0.9}
+/* INPUT CHAT */
+.co-input-area{padding:14px 20px;border-top:1px solid rgba(0,0,0,0.04);display:flex;align-items:center;gap:10px}
+.co-input{flex:1;font-family:'Satoshi',sans-serif;font-size:14px;background:#F5F5F7;border:1px solid rgba(0,0,0,0.06);border-radius:14px;padding:12px 16px;outline:none;color:#1D1D1F}
+.co-input::placeholder{color:#AEAEB2}
+.co-input:focus{border-color:rgba(215,0,48,0.3)}
+.co-send{width:36px;height:36px;border-radius:50%;background:#D70030;display:flex;align-items:center;justify-content:center;cursor:pointer;border:none;flex-shrink:0}
+.co-send svg{width:14px;height:14px;stroke:#FFF;fill:none;stroke-width:2}
 
-/* STEPS INDICATOR */
-.steps-tabs{display:flex;gap:0;margin-bottom:28px;background:#FFF;border-radius:12px;border:1px solid rgba(0,0,0,0.04);overflow:hidden}
-.stab{flex:1;padding:10px 8px;font-family:'Inter',sans-serif;font-size:10px;font-weight:500;color:#AEAEB2;text-align:center;cursor:pointer;transition:all 0.15s;border-right:1px solid rgba(0,0,0,0.04)}
-.stab:last-child{border-right:none}
-.stab.done{color:#34C759;background:rgba(52,199,89,0.03)}
-.stab.current{color:#D70030;background:rgba(215,0,48,0.03);font-weight:600}
-.stab:hover{color:#1D1D1F}
-
-@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
-@media(max-width:520px){.form-row,.select-grid{grid-template-columns:1fr}}
+/* FINAL */
+.final{display:none;text-align:center}
+.final.active{display:block;animation:fadeIn 0.3s ease}
+.final h2{font-family:'Zen Dots',cursive;font-size:24px;color:#1D1D1F;margin-bottom:8px}
+.final .sub{font-family:'Satoshi',sans-serif;font-size:14px;color:#86868B;margin-bottom:24px}
+.final-list{text-align:left;max-width:400px;margin:0 auto 24px}
+.final-item{display:flex;align-items:center;gap:12px;padding:12px 16px;background:#FFF;border-radius:14px;border:1px solid rgba(0,0,0,0.04);margin-bottom:8px}
+.final-check{width:22px;height:22px;border-radius:50%;background:#D70030;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.final-check svg{width:10px;height:10px;stroke:#FFF;fill:none;stroke-width:2.5}
+.final-name{font-family:'Satoshi',sans-serif;font-size:14px;color:#1D1D1F;font-weight:500}
+.final-sub{font-family:'Inter',sans-serif;font-size:11px;color:#86868B}
 </style>
 </head>
 <body>
+<div class="container">
 
-<!-- PROGRESS -->
-<div class="progress-bar">
-  <div class="progress-inner">
-    <div class="progress-logo">KTANA</div>
-    <div class="progress-steps">
-      <div class="progress-step done"></div>
-      <div class="progress-step current"></div>
-      <div class="progress-step"></div>
-      <div class="progress-step"></div>
-      <div class="progress-step"></div>
+<!-- PROGRESS DOTS -->
+<div class="progress" id="progressDots">
+  <div class="pdot active"></div>
+  <div class="pdot"></div>
+  <div class="pdot"></div>
+  <div class="pdot"></div>
+  <div class="pdot"></div>
+  <div class="pdot"></div>
+  <div class="pdot"></div>
+  <div class="pdot"></div>
+  <div class="pdot"></div>
+</div>
+
+<!-- SELECTED BAR -->
+<div class="selected-bar" id="selectedBar"></div>
+
+<!-- STEP 1: Chat intro -->
+<div class="step active" id="step1">
+  <div class="chat-onboard">
+    <div class="co-header">
+      <div class="co-avatar"><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      <div class="co-info"><div class="co-name">Sensei</div><div class="co-status">Configurando</div></div>
+      <div class="co-step">1 / 9</div>
     </div>
-    <div class="progress-label">Passo 2 de 5</div>
+    <div class="co-body">
+      <div class="co-msg co-msg-ai">Ola! Sou o Sensei, seu orquestrador. Vou configurar sua empresa em poucos minutos. Tudo via conversa — sem formularios chatos.<br><br>Pra comecar: <strong>como se chama sua empresa de assessoria?</strong></div>
+    </div>
+    <div class="co-input-area">
+      <input type="text" class="co-input" placeholder="Digite o nome da sua empresa..." id="companyInput">
+      <button class="co-send" onclick="captureCompany()"><svg viewBox="0 0 24 24"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+    </div>
   </div>
 </div>
 
-<div class="container">
-
-  <!-- STEP TABS -->
-  <div class="steps-tabs">
-    <div class="stab done" onclick="showStep(1)">1. Essencia</div>
-    <div class="stab current" onclick="showStep(2)">2. Metodologia</div>
-    <div class="stab" onclick="showStep(3)">3. Equipe</div>
-    <div class="stab" onclick="showStep(4)">4. Agentes</div>
-    <div class="stab" onclick="showStep(5)">5. Conexoes</div>
-  </div>
-
-  <!-- ═══ STEP 1: ESSÊNCIA DA EMPRESA ═══ -->
-  <div id="step-1" style="display:none">
-    <div class="step-header">
-      <div class="step-num">Passo 1 de 5</div>
-      <h1>Sua essencia.</h1>
-      <p>Conte sobre sua empresa de assessoria. Isso vai alimentar o cerebro dos seus agentes e definir como eles se comportam.</p>
+<!-- STEP 2: Quantos clientes -->
+<div class="step" id="step2">
+  <div class="chat-onboard">
+    <div class="co-header">
+      <div class="co-avatar"><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      <div class="co-info"><div class="co-name">Sensei</div><div class="co-status">Configurando</div></div>
+      <div class="co-step">2 / 9</div>
     </div>
-
-    <div class="section-card">
-      <p class="card-label">Identidade da empresa</p>
-      <div class="form-group">
-        <label>Nome da empresa</label>
-        <input type="text" class="form-input" value="Grupo Silva" placeholder="Nome da sua assessoria">
-      </div>
-      <div class="form-row">
-        <div class="form-group">
-          <label>Segmento</label>
-          <input type="text" class="form-input" value="Posicionamento de founders" placeholder="O que voce faz">
-        </div>
-        <div class="form-group">
-          <label>Numero de clientes</label>
-          <input type="text" class="form-input" value="400" placeholder="Quantos clientes atende">
-        </div>
-      </div>
+    <div class="co-body">
+      <div class="co-msg co-msg-user" id="step2Echo"></div>
+      <div class="co-msg co-msg-ai">Otimo! <strong>Quantos clientes voce gerencia hoje?</strong> Isso me ajuda a dimensionar os agentes e os recursos.</div>
     </div>
-
-    <div class="section-card">
-      <p class="card-label">Missao e valores</p>
-      <div class="form-group">
-        <label>Missao da empresa</label>
-        <textarea class="form-input" placeholder="Qual e a missao da sua assessoria?">Transformar founders invisiveis em autoridades reconhecidas no seu nicho, gerando demanda organica previsivel.</textarea>
-      </div>
-      <div class="form-group">
-        <label>Diferenciais competitivos</label>
-        <textarea class="form-input" placeholder="O que te diferencia das outras assessorias?">Framework proprietario de microprogramas. Time senior que atendeu Thiago Reis, Leonardo Castello. Metodologia de conteudo de dentro pra fora.</textarea>
-      </div>
-    </div>
-
-    <div class="section-card">
-      <p class="card-label">Tipo de servico</p>
-      <p class="card-desc">Selecione os servicos que sua empresa oferece aos clientes.</p>
-      <div class="select-grid">
-        <div class="select-item active" onclick="this.classList.toggle('active')">
-          <div class="si-icon si-red"><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-          <div class="si-name">Posicionamento</div>
-          <div class="si-desc">Brand book, bussola, tom de voz</div>
-        </div>
-        <div class="select-item active" onclick="this.classList.toggle('active')">
-          <div class="si-icon si-purple"><svg viewBox="0 0 24 24"><path d="M12 20h9M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-          <div class="si-name">Producao de conteudo</div>
-          <div class="si-desc">Roteiros, carrosseis, videos</div>
-        </div>
-        <div class="select-item active" onclick="this.classList.toggle('active')">
-          <div class="si-icon si-blue"><svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-          <div class="si-name">Gestao de redes</div>
-          <div class="si-desc">Publicacao, engajamento, metricas</div>
-        </div>
-        <div class="select-item" onclick="this.classList.toggle('active')">
-          <div class="si-icon si-green"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-          <div class="si-name">Design e branding</div>
-          <div class="si-desc">Kit branding, identidade visual</div>
-        </div>
-        <div class="select-item" onclick="this.classList.toggle('active')">
-          <div class="si-icon si-orange"><svg viewBox="0 0 24 24"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-          <div class="si-name">Video e avatar</div>
-          <div class="si-desc">Clone visual, HeyGen, ensaios</div>
-        </div>
-        <div class="select-item" onclick="this.classList.toggle('active')">
-          <div class="si-icon si-teal"><svg viewBox="0 0 24 24"><path d="M12 20V10M18 20V4M6 20v-4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-          <div class="si-name">Analytics e relatorios</div>
-          <div class="si-desc">Metricas, ROI, dashboards</div>
-        </div>
-      </div>
-    </div>
-
-    <div class="nav-buttons">
-      <button class="btn btn-back" onclick="location.href='signup.html'"><svg viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7" stroke-linecap="round" stroke-linejoin="round"/></svg> Voltar</button>
-      <button class="btn btn-next" onclick="showStep(2)">Proximo <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+    <div class="co-input-area">
+      <input type="text" class="co-input" placeholder="Ex: 50, 200, 400..." id="clientsInput">
+      <button class="co-send" onclick="captureClients()"><svg viewBox="0 0 24 24"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
     </div>
   </div>
+</div>
 
-  <!-- ═══ STEP 2: METODOLOGIA / BUILDER ═══ -->
-  <div id="step-2">
-    <div class="step-header">
-      <div class="step-num">Passo 2 de 5</div>
-      <h1>Sua metodologia.</h1>
-      <p>Monte o fluxo operacional da sua empresa. Arraste para reordenar as etapas. Isso vira a base do cerebro dos seus agentes.</p>
-    </div>
-
-    <div class="section-card">
-      <p class="card-label">Framework de atendimento ao cliente</p>
-      <p class="card-desc">Defina as etapas que cada cliente percorre na sua assessoria. Arraste para reordenar. Clique para editar nomes.</p>
-      <div class="builder-items">
-        <div class="builder-item"><span class="bi-grip">&#8942;&#8942;</span><div class="bi-num">1</div><div class="bi-name"><input value="Diagnostico e analise de perfil"/></div><div class="bi-toggle"></div></div>
-        <div class="builder-item"><span class="bi-grip">&#8942;&#8942;</span><div class="bi-num">2</div><div class="bi-name"><input value="Brand Book e posicionamento"/></div><div class="bi-toggle"></div></div>
-        <div class="builder-item"><span class="bi-grip">&#8942;&#8942;</span><div class="bi-num">3</div><div class="bi-name"><input value="Estrategia editorial e microprogramas"/></div><div class="bi-toggle"></div></div>
-        <div class="builder-item"><span class="bi-grip">&#8942;&#8942;</span><div class="bi-num">4</div><div class="bi-name"><input value="Producao de conteudo (40 roteiros)"/></div><div class="bi-toggle"></div></div>
-        <div class="builder-item"><span class="bi-grip">&#8942;&#8942;</span><div class="bi-num">5</div><div class="bi-name"><input value="Validacao e teste (2 meses)"/></div><div class="bi-toggle"></div></div>
-        <div class="builder-item"><span class="bi-grip">&#8942;&#8942;</span><div class="bi-num">6</div><div class="bi-name"><input value="Escala com IA (roteiros automaticos)"/></div><div class="bi-toggle"></div></div>
-        <div class="builder-item"><span class="bi-grip">&#8942;&#8942;</span><div class="bi-num">7</div><div class="bi-name"><input value="Acompanhamento e consultoria"/></div><div class="bi-toggle"></div></div>
-        <div class="builder-item"><span class="bi-grip">&#8942;&#8942;</span><div class="bi-num">8</div><div class="bi-name"><input value="Transicao e autonomia"/></div><div class="bi-toggle"></div></div>
-      </div>
-      <div class="builder-add"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg> Adicionar etapa</div>
-    </div>
-
-    <div class="section-card">
-      <p class="card-label">Pipeline de conteudo</p>
-      <p class="card-desc">Defina as etapas do pipeline de producao de cada conteudo.</p>
-      <div class="builder-items">
-        <div class="builder-item"><span class="bi-grip">&#8942;&#8942;</span><div class="bi-num">1</div><div class="bi-name"><input value="Pesquisa e inteligencia"/></div><div class="bi-toggle"></div></div>
-        <div class="builder-item"><span class="bi-grip">&#8942;&#8942;</span><div class="bi-num">2</div><div class="bi-name"><input value="Geracao de pauta"/></div><div class="bi-toggle"></div></div>
-        <div class="builder-item"><span class="bi-grip">&#8942;&#8942;</span><div class="bi-num">3</div><div class="bi-name"><input value="Criacao de roteiro"/></div><div class="bi-toggle"></div></div>
-        <div class="builder-item"><span class="bi-grip">&#8942;&#8942;</span><div class="bi-num">4</div><div class="bi-name"><input value="Design e visual"/></div><div class="bi-toggle"></div></div>
-        <div class="builder-item"><span class="bi-grip">&#8942;&#8942;</span><div class="bi-num">5</div><div class="bi-name"><input value="Aprovacao (SM + cliente)"/></div><div class="bi-toggle"></div></div>
-        <div class="builder-item"><span class="bi-grip">&#8942;&#8942;</span><div class="bi-num">6</div><div class="bi-name"><input value="Publicacao automatica"/></div><div class="bi-toggle"></div></div>
-        <div class="builder-item"><span class="bi-grip">&#8942;&#8942;</span><div class="bi-num">7</div><div class="bi-name"><input value="Monitoramento e feedback loop"/></div><div class="bi-toggle"></div></div>
-      </div>
-      <div class="builder-add"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg> Adicionar etapa</div>
-    </div>
-
-    <div class="nav-buttons">
-      <button class="btn btn-back" onclick="showStep(1)"><svg viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7" stroke-linecap="round" stroke-linejoin="round"/></svg> Voltar</button>
-      <button class="btn btn-next" onclick="showStep(3)">Proximo <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
-    </div>
+<!-- STEP 3: Dept Marketing -->
+<div class="step" id="step3">
+  <div class="choice-card">
+    <div class="choice-icon ci-red"><svg viewBox="0 0 24 24"><path d="M12 20V10M18 20V4M6 20v-4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+    <h2>Marketing & Conteudo</h2>
+    <p>Social medias, redatores, designers. Produzem conteudo para os founders que voce gerencia.</p>
+    <div class="choice-roles"><span class="choice-role">Social Media</span><span class="choice-role">Copywriter</span><span class="choice-role">Designer</span><span class="choice-role">Editor Video</span></div>
   </div>
-
-  <!-- ═══ STEP 3: EQUIPE / DEPARTAMENTOS ═══ -->
-  <div id="step-3" style="display:none">
-    <div class="step-header">
-      <div class="step-num">Passo 3 de 5</div>
-      <h1>Sua equipe.</h1>
-      <p>Configure os departamentos e convide seus colaboradores. Cada um tera acesso ao que precisa.</p>
-    </div>
-
-    <div class="section-card">
-      <p class="card-label">Departamentos</p>
-      <p class="card-desc">Organize sua equipe por area. Cada departamento tem agentes IA dedicados.</p>
-
-      <div class="team-dept">
-        <div class="team-dept-header">
-          <div class="team-dept-icon si-red"><svg viewBox="0 0 24 24"><path d="M12 20V10M18 20V4M6 20v-4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-          <div class="team-dept-name">Marketing & Conteudo</div>
-        </div>
-        <div class="team-members">
-          <div class="team-member">
-            <div class="tm-avatar">MS</div>
-            <div class="tm-info"><div class="tm-name">Maria Silva</div><div class="tm-role">Social Media Senior</div></div>
-            <span class="tm-remove">Remover</span>
-          </div>
-          <div class="team-member">
-            <div class="tm-avatar">CR</div>
-            <div class="tm-info"><div class="tm-name">Carlos Ribeiro</div><div class="tm-role">Social Media</div></div>
-            <span class="tm-remove">Remover</span>
-          </div>
-          <div class="team-member">
-            <div class="tm-avatar">JL</div>
-            <div class="tm-info"><div class="tm-name">Julia Lima</div><div class="tm-role">Designer</div></div>
-            <span class="tm-remove">Remover</span>
-          </div>
-          <div class="team-add"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg> Adicionar colaborador</div>
-        </div>
-      </div>
-
-      <div class="team-dept">
-        <div class="team-dept-header">
-          <div class="team-dept-icon si-blue"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-          <div class="team-dept-name">Comercial</div>
-        </div>
-        <div class="team-members">
-          <div class="team-member">
-            <div class="tm-avatar">RF</div>
-            <div class="tm-info"><div class="tm-name">Renan Ferreira</div><div class="tm-role">Closer</div></div>
-            <span class="tm-remove">Remover</span>
-          </div>
-          <div class="team-add"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg> Adicionar colaborador</div>
-        </div>
-      </div>
-
-      <div class="team-dept">
-        <div class="team-dept-header">
-          <div class="team-dept-icon si-green"><svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-          <div class="team-dept-name">Customer Success</div>
-        </div>
-        <div class="team-members">
-          <div class="team-member">
-            <div class="tm-avatar">AP</div>
-            <div class="tm-info"><div class="tm-name">Amanda Prado</div><div class="tm-role">CS Manager</div></div>
-            <span class="tm-remove">Remover</span>
-          </div>
-          <div class="team-add"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg> Adicionar colaborador</div>
-        </div>
-      </div>
-
-      <div class="builder-add" style="margin-top:16px"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg> Adicionar departamento</div>
-    </div>
-
-    <div class="nav-buttons">
-      <button class="btn btn-back" onclick="showStep(2)"><svg viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7" stroke-linecap="round" stroke-linejoin="round"/></svg> Voltar</button>
-      <button class="btn btn-next" onclick="showStep(4)">Proximo <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
-    </div>
+  <div class="actions">
+    <button class="btn-yes" onclick="selectDept('Marketing',true)">Ativar</button>
+    <button class="btn-no" onclick="selectDept('Marketing',false)">Pular</button>
   </div>
+  <p class="hint">3 / 9 — Ative os departamentos da sua empresa</p>
+</div>
 
-  <!-- ═══ STEP 4: AGENTES IA ═══ -->
-  <div id="step-4" style="display:none">
-    <div class="step-header">
-      <div class="step-num">Passo 4 de 5</div>
-      <h1>Seus agentes.</h1>
-      <p>Seus funcionarios inteligentes. Cada agente tem especialidade, cerebro e skills configuraveis. Ative os que precisa.</p>
-    </div>
-
-    <div class="section-card">
-      <p class="card-label">Agentes disponiveis</p>
-      <p class="card-desc">Selecione quais agentes quer ativar. Voce pode configurar cada um depois no dashboard.</p>
-      <div class="select-grid" style="grid-template-columns:repeat(2,1fr)">
-        <div class="select-item active" onclick="this.classList.toggle('active')" style="padding:14px">
-          <div class="si-icon si-red"><svg viewBox="0 0 24 24"><path d="M14.5 17.5L3 6V3h3l11.5 11.5M13 19l6-6M15 17l2 2M7 3l7 7" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-          <div class="si-name">Sensei — Orquestrador</div>
-          <div class="si-desc">Coordena todos. Define prioridades.</div>
-        </div>
-        <div class="select-item active" onclick="this.classList.toggle('active')" style="padding:14px">
-          <div class="si-icon si-blue"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-          <div class="si-name">Scout — Pesquisador</div>
-          <div class="si-desc">Concorrentes, trending, noticias.</div>
-        </div>
-        <div class="select-item active" onclick="this.classList.toggle('active')" style="padding:14px">
-          <div class="si-icon si-purple"><svg viewBox="0 0 24 24"><path d="M12 20h9M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-          <div class="si-name">Quill — Copywriter</div>
-          <div class="si-desc">Roteiros, legendas, CTAs, threads.</div>
-        </div>
-        <div class="select-item active" onclick="this.classList.toggle('active')" style="padding:14px">
-          <div class="si-icon si-pink"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-          <div class="si-name">Canvas — Designer</div>
-          <div class="si-desc">Templates, carrosseis, identidade.</div>
-        </div>
-        <div class="select-item active" onclick="this.classList.toggle('active')" style="padding:14px">
-          <div class="si-icon si-green"><svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-          <div class="si-name">Pulse — WhatsApp</div>
-          <div class="si-desc">Aprovacoes, cobranca, interacao.</div>
-        </div>
-        <div class="select-item active" onclick="this.classList.toggle('active')" style="padding:14px">
-          <div class="si-icon si-orange"><svg viewBox="0 0 24 24"><path d="M12 20V10M18 20V4M6 20v-4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-          <div class="si-name">Metrics — Analista</div>
-          <div class="si-desc">Engajamento, relatorios, ROI.</div>
-        </div>
-        <div class="select-item" onclick="this.classList.toggle('active')" style="padding:14px">
-          <div class="si-icon si-teal"><svg viewBox="0 0 24 24"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-          <div class="si-name">Director — Video</div>
-          <div class="si-desc">Avatar HeyGen, ensaios, roteiros visuais.</div>
-        </div>
-        <div class="select-item" onclick="this.classList.toggle('active')" style="padding:14px;border-style:dashed">
-          <div style="width:36px;height:36px;border-radius:10px;background:rgba(0,0,0,0.04);display:flex;align-items:center;justify-content:center"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#86868B" stroke-width="1.5" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></div>
-          <div class="si-name" style="color:#86868B">Criar agente custom</div>
-          <div class="si-desc">Seu proprio agente especializado.</div>
-        </div>
-      </div>
-    </div>
-
-    <div class="nav-buttons">
-      <button class="btn btn-back" onclick="showStep(3)"><svg viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7" stroke-linecap="round" stroke-linejoin="round"/></svg> Voltar</button>
-      <button class="btn btn-next" onclick="showStep(5)">Proximo <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
-    </div>
+<!-- STEP 4: Dept Comercial -->
+<div class="step" id="step4">
+  <div class="choice-card">
+    <div class="choice-icon ci-blue"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+    <h2>Comercial</h2>
+    <p>Closers, SDRs, gestores de vendas. Convertem leads gerados pelo posicionamento em clientes.</p>
+    <div class="choice-roles"><span class="choice-role">Closer</span><span class="choice-role">SDR</span><span class="choice-role">Gestor Comercial</span></div>
   </div>
-
-  <!-- ═══ STEP 5: CONEXÕES ═══ -->
-  <div id="step-5" style="display:none">
-    <div class="step-header">
-      <div class="step-num">Passo 5 de 5</div>
-      <h1>Suas conexoes.</h1>
-      <p>Conecte as ferramentas que sua equipe usa. Voce pode configurar detalhes depois no dashboard.</p>
-    </div>
-
-    <div class="section-card">
-      <p class="card-label">Ferramentas essenciais</p>
-      <p class="card-desc">Clique para conectar. Voce pode pular e configurar depois.</p>
-      <div class="select-grid" style="grid-template-columns:repeat(2,1fr)">
-        <div class="select-item" onclick="this.classList.toggle('active')" style="padding:14px">
-          <div class="si-icon si-blue"><svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-          <div class="si-name">Meta (IG + FB)</div>
-          <div class="si-desc">Publicar e monitorar Instagram e Facebook</div>
-        </div>
-        <div class="select-item" onclick="this.classList.toggle('active')" style="padding:14px">
-          <div class="si-icon si-blue"><svg viewBox="0 0 24 24"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-          <div class="si-name">LinkedIn</div>
-          <div class="si-desc">Posts corporativos e artigos</div>
-        </div>
-        <div class="select-item" onclick="this.classList.toggle('active')" style="padding:14px">
-          <div class="si-icon si-green"><svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-          <div class="si-name">WhatsApp</div>
-          <div class="si-desc">Aprovacoes e interacao com clientes</div>
-        </div>
-        <div class="select-item" onclick="this.classList.toggle('active')" style="padding:14px">
-          <div class="si-icon si-purple"><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-          <div class="si-name">Figma</div>
-          <div class="si-desc">Templates de carrosseis e posts</div>
-        </div>
-        <div class="select-item" onclick="this.classList.toggle('active')" style="padding:14px">
-          <div class="si-icon si-orange"><svg viewBox="0 0 24 24"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-          <div class="si-name">HeyGen</div>
-          <div class="si-desc">Avatar em video com lip sync</div>
-        </div>
-        <div class="select-item" onclick="this.classList.toggle('active')" style="padding:14px">
-          <div class="si-icon si-teal"><svg viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-          <div class="si-name">ClickUp</div>
-          <div class="si-desc">Gestao de projetos e tarefas</div>
-        </div>
-      </div>
-    </div>
-
-    <div class="nav-buttons">
-      <button class="btn btn-back" onclick="showStep(4)"><svg viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7" stroke-linecap="round" stroke-linejoin="round"/></svg> Voltar</button>
-      <button class="btn btn-finish" onclick="location.href='dashboard.html'">Finalizar e ir pro Dashboard <svg viewBox="0 0 24 24" style="stroke:#FFF"><path d="M5 12h14M12 5l7 7-7 7" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
-    </div>
+  <div class="actions">
+    <button class="btn-yes" onclick="selectDept('Comercial',true)">Ativar</button>
+    <button class="btn-no" onclick="selectDept('Comercial',false)">Pular</button>
   </div>
+  <p class="hint">4 / 9</p>
+</div>
+
+<!-- STEP 5: Dept CS -->
+<div class="step" id="step5">
+  <div class="choice-card">
+    <div class="choice-icon ci-green"><svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+    <h2>Customer Success</h2>
+    <p>Gestores de conta, onboarding, acompanhamento. Garantem que o founder tenha resultado.</p>
+    <div class="choice-roles"><span class="choice-role">CS Manager</span><span class="choice-role">Onboarding</span><span class="choice-role">Suporte</span></div>
+  </div>
+  <div class="actions">
+    <button class="btn-yes" onclick="selectDept('CS',true)">Ativar</button>
+    <button class="btn-no" onclick="selectDept('CS',false)">Pular</button>
+  </div>
+  <p class="hint">5 / 9</p>
+</div>
+
+<!-- STEP 6: Agente Sensei -->
+<div class="step" id="step6">
+  <div class="choice-card">
+    <div class="choice-icon ci-red"><svg viewBox="0 0 24 24"><path d="M14.5 17.5L3 6V3h3l11.5 11.5M13 19l6-6M15 17l2 2M7 3l7 7" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+    <h2>Sensei — Orquestrador</h2>
+    <p>Coordena todos os agentes. Define prioridades, distribui tarefas, garante consistencia da marca do founder.</p>
+  </div>
+  <div class="actions">
+    <button class="btn-yes" onclick="selectAgent('Sensei',true)">Ativar</button>
+    <button class="btn-no" onclick="selectAgent('Sensei',false)">Pular</button>
+  </div>
+  <p class="hint">6 / 9 — Ative seus agentes IA</p>
+</div>
+
+<!-- STEP 7: Agente Scout -->
+<div class="step" id="step7">
+  <div class="choice-card">
+    <div class="choice-icon ci-blue"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+    <h2>Scout — Pesquisador</h2>
+    <p>Monitora concorrentes 24/7, identifica brechas de posicionamento, trending no nicho, noticias relevantes.</p>
+  </div>
+  <div class="actions">
+    <button class="btn-yes" onclick="selectAgent('Scout',true)">Ativar</button>
+    <button class="btn-no" onclick="selectAgent('Scout',false)">Pular</button>
+  </div>
+  <p class="hint">7 / 9</p>
+</div>
+
+<!-- STEP 8: Agente Quill -->
+<div class="step" id="step8">
+  <div class="choice-card">
+    <div class="choice-icon ci-purple"><svg viewBox="0 0 24 24"><path d="M12 20h9M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+    <h2>Quill — Copywriter</h2>
+    <p>Cria roteiros, legendas, CTAs, threads. Calibrado no tom de voz de cada founder. Score de humanidade.</p>
+  </div>
+  <div class="actions">
+    <button class="btn-yes" onclick="selectAgent('Quill',true)">Ativar</button>
+    <button class="btn-no" onclick="selectAgent('Quill',false)">Pular</button>
+  </div>
+  <p class="hint">8 / 9</p>
+</div>
+
+<!-- STEP 9: FINAL -->
+<div class="step" id="step9">
+  <div class="final active">
+    <h2>Tudo pronto.</h2>
+    <p>Sua empresa esta configurada. Os agentes estao sendo ativados.</p>
+    <div class="final-list" id="finalList">
+      <!-- JS populates -->
+    </div>
+    <button class="btn-full" onclick="location.href='dashboard.html'">Ir pro Dashboard</button>
+    <p class="hint">Voce pode reconfigurar tudo depois no menu Config.</p>
+  </div>
+</div>
 
 </div>
 
 <script>
-function showStep(n) {
-  for(let i=1;i<=5;i++) document.getElementById('step-'+i).style.display = i===n ? 'block' : 'none';
-  document.querySelectorAll('.stab').forEach((el,i) => {
-    el.classList.remove('done','current');
-    if(i+1 < n) el.classList.add('done');
-    if(i+1 === n) el.classList.add('current');
+let currentStep = 1;
+let totalSteps = 9;
+let company = '';
+let clients = '';
+let selected = [];
+
+function goToStep(n) {
+  document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
+  document.getElementById('step'+n).classList.add('active');
+  currentStep = n;
+  // Update progress
+  document.querySelectorAll('.pdot').forEach((d,i) => {
+    d.classList.remove('active','done');
+    if(i+1 < n) d.classList.add('done');
+    if(i+1 === n) d.classList.add('active');
   });
-  document.querySelectorAll('.progress-step').forEach((el,i) => {
-    el.classList.remove('done','current');
-    if(i+1 < n) el.classList.add('done');
-    if(i+1 === n) el.classList.add('current');
-  });
-  document.querySelector('.progress-label').textContent = 'Passo '+n+' de 5';
   window.scrollTo(0,0);
 }
-</script>
 
+function addTag(name) {
+  selected.push(name);
+  const bar = document.getElementById('selectedBar');
+  bar.innerHTML = selected.map(s => '<span class="selected-tag">'+s+'</span>').join('');
+}
+
+function captureCompany() {
+  company = document.getElementById('companyInput').value || 'Minha Empresa';
+  addTag(company);
+  document.getElementById('step2Echo').textContent = company;
+  goToStep(2);
+}
+
+function captureClients() {
+  clients = document.getElementById('clientsInput').value || '50';
+  addTag(clients + ' clientes');
+  goToStep(3);
+}
+
+function selectDept(name, activated) {
+  if(activated) addTag(name);
+  goToStep(currentStep + 1);
+}
+
+function selectAgent(name, activated) {
+  if(activated) addTag(name);
+  if(currentStep >= totalSteps - 1) {
+    // Final
+    const list = document.getElementById('finalList');
+    list.innerHTML = selected.map(s =>
+      '<div class="final-item"><div class="final-check"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div><div class="final-name">'+s+'</div></div></div>'
+    ).join('');
+    goToStep(totalSteps);
+  } else {
+    goToStep(currentStep + 1);
+  }
+}
+
+// Enter key support
+document.querySelectorAll('.co-input').forEach(input => {
+  input.addEventListener('keypress', e => {
+    if(e.key === 'Enter') input.nextElementSibling.click();
+  });
+});
+</script>
 </body></html>
