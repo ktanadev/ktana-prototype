@@ -1,0 +1,205 @@
+<!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>SaaS Social V3 — Fluxo Completo</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#FAFAFA;color:#1D1D1F;font-family:-apple-system,'Inter',sans-serif;padding:40px;min-height:100vh}
+h1{font-size:28px;font-weight:800;text-align:center;margin-bottom:4px;color:#D70030}
+.sub{text-align:center;font-size:13px;color:#86868B;margin-bottom:48px}
+.phase{margin-bottom:48px}
+.phase-header{display:flex;align-items:center;gap:14px;margin-bottom:20px;padding:16px 20px;background:#FFF;border-radius:16px;border:1px solid rgba(0,0,0,0.04);box-shadow:0 1px 4px rgba(0,0,0,0.03)}
+.phase-num{width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:16px;color:#FFF;flex-shrink:0}
+.phase-title{font-size:18px;font-weight:700;color:#1D1D1F}
+.phase-desc{font-size:12px;color:#86868B;margin-top:2px}
+.flow{display:flex;flex-wrap:wrap;gap:10px;align-items:flex-start;margin-left:20px;margin-bottom:16px}
+.step{background:#FFF;border:1px solid rgba(0,0,0,0.06);border-radius:12px;padding:12px 14px;min-width:170px;max-width:210px;box-shadow:0 1px 3px rgba(0,0,0,0.03);transition:all 0.15s}
+.step:hover{border-color:rgba(215,0,48,0.2);box-shadow:0 2px 8px rgba(0,0,0,0.06)}
+.step-file{font-family:monospace;font-size:10px;color:#D70030;margin-bottom:4px}
+.step-title{font-size:12px;font-weight:600;color:#1D1D1F;margin-bottom:3px}
+.step-desc{font-size:10px;color:#86868B;line-height:1.4}
+.step.new{border-color:rgba(52,199,89,0.3);background:rgba(52,199,89,0.02)}
+.step.new::after{content:'NOVA';font-size:8px;font-weight:700;color:#34C759;background:rgba(52,199,89,0.1);padding:1px 5px;border-radius:3px;float:right;margin-top:-20px}
+.step.change{border-color:rgba(255,149,0,0.3);background:rgba(255,149,0,0.02)}
+.step.change::after{content:'MUDOU';font-size:8px;font-weight:700;color:#FF9500;background:rgba(255,149,0,0.1);padding:1px 5px;border-radius:3px;float:right;margin-top:-20px}
+.arrow{color:#AEAEB2;font-size:18px;align-self:center;padding:0 2px}
+.section{font-size:11px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#86868B;margin:16px 0 8px 20px}
+.items{margin-left:20px;margin-bottom:12px}
+.item{display:flex;align-items:center;gap:8px;font-size:12px;color:#6E6E73;padding:3px 0}
+.dot{width:6px;height:6px;border-radius:50%;flex-shrink:0}
+.note{margin:8px 0 0 20px;padding:10px 14px;background:rgba(255,149,0,0.04);border:1px solid rgba(255,149,0,0.1);border-radius:8px;font-size:11px;color:#CC7700;line-height:1.5}
+.divider{height:1px;background:rgba(0,0,0,0.06);margin:40px 0}
+.sidebar-compare{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:16px 20px}
+.sidebar-col{background:#FFF;border-radius:12px;border:1px solid rgba(0,0,0,0.06);padding:16px;font-size:12px}
+.sidebar-col h4{font-size:11px;font-weight:700;color:#86868B;text-transform:uppercase;letter-spacing:.06em;margin-bottom:10px}
+.sidebar-col .si{padding:4px 0;color:#6E6E73;display:flex;align-items:center;gap:6px}
+.sidebar-col .si strong{color:#1D1D1F}
+.tag{display:inline-block;font-size:8px;font-weight:700;padding:2px 5px;border-radius:3px;margin-left:4px;vertical-align:middle}
+.tag-new{background:rgba(52,199,89,0.1);color:#34C759}
+.tag-change{background:rgba(255,149,0,0.1);color:#FF9500}
+</style>
+</head>
+<body>
+
+<h1>SaaS Social V3 — Fluxo Completo</h1>
+<p class="sub">5 atores · 4 fases · verde = tela nova · laranja = tela que mudou</p>
+
+<!-- FASE 1 -->
+<div class="phase">
+  <div class="phase-header">
+    <div class="phase-num" style="background:linear-gradient(135deg,#D70030,#8B0000)">1</div>
+    <div><div class="phase-title">Dono configura a empresa</div><div class="phase-desc">Contrata, faz onboarding, monta departamentos e agentes (1 vez)</div></div>
+  </div>
+  <div class="flow">
+    <div class="step"><div class="step-file">landing.html</div><div class="step-title">Landing Page</div><div class="step-desc">LP do produto, dores, framework, motor, chat demo</div></div>
+    <div class="arrow">→</div>
+    <div class="step"><div class="step-file">signup.html</div><div class="step-title">Signup via Chat</div><div class="step-desc">Sensei entrevista: nome, email, empresa, nicho</div></div>
+    <div class="arrow">→</div>
+    <div class="step"><div class="step-file">setup-empresa.html</div><div class="step-title">Setup 5 Passos</div><div class="step-desc">1.Essencia(chat) 2.Metodologia(builder) 3.Departamentos 4.Agentes 5.Resumo</div></div>
+    <div class="arrow">→</div>
+    <div class="step new"><div class="step-file">agents-overview.html</div><div class="step-title">Empresa Inteligente</div><div class="step-desc">7 colaboradores digitais criados. Organograma IA. Producao e performance</div></div>
+    <div class="arrow">→</div>
+    <div class="step"><div class="step-file">dashboard.html</div><div class="step-title">Dashboard</div><div class="step-desc">Visao global de todos os clientes e operacao</div></div>
+  </div>
+</div>
+
+<!-- FASE 2 -->
+<div class="phase">
+  <div class="phase-header">
+    <div class="phase-num" style="background:linear-gradient(135deg,#5856D6,#3A38A0)">2</div>
+    <div><div class="phase-title">Dono monta a equipe</div><div class="phase-desc">Convida funcionarios reais, vincula ao copiloto IA, configura permissoes</div></div>
+  </div>
+  <div class="section">Convidar funcionarios</div>
+  <div class="flow">
+    <div class="step change"><div class="step-file">team-management.html</div><div class="step-title">Equipe</div><div class="step-desc">Lista membros + RBAC + visao role + botao "Convidar"</div></div>
+    <div class="arrow">→</div>
+    <div class="step new"><div class="step-file">team-invite.html</div><div class="step-title">Convidar Funcionario</div><div class="step-desc">Nome, email, cargo, copiloto IA sugerido pelo sistema, preview email</div></div>
+    <div class="arrow">→</div>
+    <div class="step new"><div class="step-file">team-accept-invite.html</div><div class="step-title">Funcionario Aceita</div><div class="step-desc">Recebe email, cria senha, ve: "Seu copiloto IA e o Quill"</div></div>
+  </div>
+  <div class="section">Vincular copiloto IA (automatico no convite ou manual)</div>
+  <div class="items">
+    <div class="item"><div class="dot" style="background:#34C759"></div>Maria Silva (SM) ↔ <strong>Quill</strong> (copywriter) — revisa roteiros juntos</div>
+    <div class="item"><div class="dot" style="background:#34C759"></div>Carlos Ribeiro (SM) ↔ <strong>Quill</strong> (copywriter)</div>
+    <div class="item"><div class="dot" style="background:#FF2D55"></div>Rafaela (Designer) ↔ <strong>Canvas</strong> (designer IA) — cria templates juntos</div>
+    <div class="item"><div class="dot" style="background:#5856D6"></div>Felipe (Gestor) ↔ <strong>Sensei</strong> (orquestrador) — gerencia prioridades</div>
+  </div>
+  <div class="note">Na tela team-invite.html o sistema SUGERE o copiloto ideal com base no cargo. Dono pode trocar.</div>
+</div>
+
+<!-- FASE 3 -->
+<div class="phase">
+  <div class="phase-header">
+    <div class="phase-num" style="background:linear-gradient(135deg,#FF9500,#CC7700)">3</div>
+    <div><div class="phase-title">Gestor cadastra clientes (tenants)</div><div class="phase-desc">Felipe (gestor) cadastra cada founder, atribui equipe, convida o founder</div></div>
+  </div>
+  <div class="section">Cadastrar + atribuir equipe + convidar founder</div>
+  <div class="flow">
+    <div class="step change"><div class="step-file">client-onboarding-wizard.html</div><div class="step-title">Wizard 10 Passos</div><div class="step-desc">Chat: nome, empresa, nicho, seguidores, tipo, redes, WhatsApp, fotos</div></div>
+    <div class="arrow">→</div>
+    <div class="step new"><div class="step-file">client-team-assign.html</div><div class="step-title">Atribuir Equipe</div><div class="step-desc">Qual SM cuida? Qual designer? Arrastar funcionarios pro tenant</div></div>
+    <div class="arrow">→</div>
+    <div class="step new"><div class="step-file">agents-client.html</div><div class="step-title">Config Agentes (tenant)</div><div class="step-desc">Como Quill escreve pro Joao? Tom, frequencia, redes. Herda do Brand Book</div></div>
+    <div class="arrow">→</div>
+    <div class="step"><div class="step-file">client-invite.html</div><div class="step-title">Convidar Founder</div><div class="step-desc">Email + WhatsApp com link do portal</div></div>
+  </div>
+  <div class="section">Founder recebe e entra</div>
+  <div class="flow">
+    <div class="step" style="border-style:dashed"><div class="step-title">Email / WhatsApp</div><div class="step-desc">Founder recebe convite da agencia</div></div>
+    <div class="arrow">→</div>
+    <div class="step"><div class="step-file">client-accept-invite.html</div><div class="step-title">Criar Conta</div><div class="step-desc">Cria senha, ve beneficios</div></div>
+    <div class="arrow">→</div>
+    <div class="step"><div class="step-file">client-onboarding.html</div><div class="step-title">Onboarding 6 Passos</div><div class="step-desc">Brand Book chat, fotos clone, estilo, video avatar, redes</div></div>
+    <div class="arrow">→</div>
+    <div class="step"><div class="step-file">client-portal.html</div><div class="step-title">Portal Founder</div><div class="step-desc">Welcome, checklist, WA, aprovacoes</div></div>
+  </div>
+</div>
+
+<!-- FASE 4 -->
+<div class="phase">
+  <div class="phase-header">
+    <div class="phase-num" style="background:linear-gradient(135deg,#34C759,#248A3D)">4</div>
+    <div><div class="phase-title">Operacao per-tenant</div><div class="phase-desc">Funcionarios selecionam tenant e trabalham DENTRO daquele cliente</div></div>
+  </div>
+  <div class="section">Sidebar muda conforme selecao <span class="tag tag-change">MUDANCA ESTRUTURAL</span></div>
+  <div class="sidebar-compare">
+    <div class="sidebar-col">
+      <h4>Sem cliente selecionado (global)</h4>
+      <div class="si"><strong>Dashboard</strong> — overview 400 clientes</div>
+      <div class="si"><strong>Clientes</strong> — lista browse</div>
+      <div class="si"><strong>Minha Fila</strong> — tarefas de TODOS</div>
+      <div class="si" style="color:#D2D2D7">──────────</div>
+      <div class="si"><strong>Pipeline</strong> — resumo por cliente (contagem) <span class="tag tag-change">MUDOU</span></div>
+      <div class="si"><strong>Aprovacoes</strong> — 2 niveis todos</div>
+      <div class="si" style="color:#D2D2D7">──────────</div>
+      <div class="si"><strong>Empresa Intel.</strong> — 7 agentes global <span class="tag tag-new">NOVA</span></div>
+      <div class="si"><strong>Conexoes</strong> — 8 redes</div>
+      <div class="si" style="color:#D2D2D7">──────────</div>
+      <div class="si"><strong>Equipe</strong> — membros + RBAC</div>
+      <div class="si"><strong>Cobranca</strong></div>
+      <div class="si"><strong>Configuracoes</strong></div>
+    </div>
+    <div class="sidebar-col">
+      <h4>Com cliente selecionado (per-tenant)</h4>
+      <div class="si"><strong>← Voltar</strong> (global)</div>
+      <div class="si" style="color:#D70030;font-weight:600">[JM] Joao Mendes — TechFlow</div>
+      <div class="si" style="color:#D2D2D7">──────────</div>
+      <div class="si"><strong>Workspace</strong> — hub do cliente</div>
+      <div class="si"><strong>Pipeline</strong> — SO desse cliente</div>
+      <div class="si"><strong>Calendario</strong> — SO desse cliente</div>
+      <div class="si"><strong>Aprovacoes</strong> — SO desse cliente</div>
+      <div class="si"><strong>Brand Book</strong> — gestor + founder</div>
+      <div class="si"><strong>Metricas</strong> — desse cliente</div>
+      <div class="si"><strong>Insights</strong> — concorrentes dele</div>
+      <div class="si" style="color:#D2D2D7">──────────</div>
+      <div class="si"><strong>Agentes</strong> — config PER-CLIENT <span class="tag tag-new">NOVA</span></div>
+      <div class="si"><strong>Equipe</strong> — quem cuida desse tenant <span class="tag tag-new">NOVA</span></div>
+      <div class="si"><strong>Checklist</strong> — tarefas do founder</div>
+      <div class="si"><strong>Atividade</strong> — timeline</div>
+    </div>
+  </div>
+  <div class="section">Ciclo diario de operacao</div>
+  <div style="margin-left:20px;display:grid;grid-template-columns:70px 1fr;gap:6px 14px;font-size:12px;color:#6E6E73">
+    <div style="font-family:monospace;color:#D70030;text-align:right;font-weight:700">03:00</div><div><strong>IA</strong> Scout pesquisa · Quill escreve · Canvas desenha → pipeline "PENDENTE SM"</div>
+    <div style="font-family:monospace;color:#D70030;text-align:right;font-weight:700">07:00</div><div><strong>SM</strong> abre Minha Fila → revisa por TENANT (seleciona cliente, ve so dele)</div>
+    <div style="font-family:monospace;color:#D70030;text-align:right;font-weight:700">09:00</div><div><strong>Founder</strong> recebe WA: "3 posts pra aprovar" → responde 1/2/3</div>
+    <div style="font-family:monospace;color:#D70030;text-align:right;font-weight:700">12:00</div><div><strong>Gestor</strong> abre Dashboard (global) → ve quem esta atrasado, redistribui</div>
+    <div style="font-family:monospace;color:#D70030;text-align:right;font-weight:700">18:00</div><div><strong>IA</strong> publica posts aprovados → Metrics monitora</div>
+    <div style="font-family:monospace;color:#D70030;text-align:right;font-weight:700">22:00</div><div><strong>IA</strong> relatorio noturno pro founder + gestor</div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- ADMIN -->
+<div class="phase">
+  <div class="phase-header">
+    <div class="phase-num" style="background:linear-gradient(135deg,#007AFF,#0055CC)">A</div>
+    <div><div class="phase-title">Admin KTANA (dono da plataforma)</div><div class="phase-desc">Ve TUDO por cima: todos os tenants de todas as agencias</div></div>
+  </div>
+  <div class="flow">
+    <div class="step"><div class="step-file">admin.html</div><div class="step-title">Dashboard Admin</div><div class="step-desc">Todas as agencias (tenants), MRR total, tokens, saude plataforma</div></div>
+    <div class="arrow">→</div>
+    <div class="step"><div class="step-file">admin-tenant-detail.html</div><div class="step-title">Detalhe Tenant</div><div class="step-desc">Grupo Silva: 400 clientes, 8 membros, 7 agentes, consumo tokens</div></div>
+  </div>
+  <div class="items">
+    <div class="item"><div class="dot" style="background:#007AFF"></div>admin-agents.html — Agentes globais, instancias por tenant, tokens, modelo LLM</div>
+    <div class="item"><div class="dot" style="background:#007AFF"></div>admin-billing.html — MRR por plano, consumo, faturas por tenant</div>
+  </div>
+  <div class="note">O admin ve TODOS os tenants (Grupo Silva, Agencia X, Agencia Y). Cada tenant e uma agencia com seus clientes. Nivel acima do dono da agencia.</div>
+</div>
+
+<div class="divider"></div>
+
+<!-- RESUMO -->
+<div style="background:#FFF;border-radius:16px;border:1px solid rgba(0,0,0,0.04);padding:24px;margin-bottom:20px">
+  <h3 style="font-size:16px;font-weight:700;color:#1D1D1F;margin-bottom:12px">V3 — O que muda</h3>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;font-size:12px">
+    <div style="padding:12px;background:rgba(52,199,89,0.04);border:1px solid rgba(52,199,89,0.1);border-radius:8px;color:#248A3D"><strong>NOVAS (8):</strong><br>agents-overview.html — Empresa Inteligente<br>team-invite.html — Convidar funcionario<br>team-accept-invite.html — Funcionario aceita<br>team-copilot.html — Vincular copiloto<br>team-permissions.html — Permissoes granulares<br>client-team-assign.html — Atribuir equipe ao tenant<br>agents-client.html — Agentes per-client<br>Sidebar dinamica — global ↔ per-client</div>
+    <div style="padding:12px;background:rgba(255,149,0,0.04);border:1px solid rgba(255,149,0,0.1);border-radius:8px;color:#CC7700"><strong>MUDAM (4):</strong><br>shared-nav-social.js — sidebar dinamica<br>team-management.html — + botao convidar<br>client-onboarding-wizard.html — + atribuir equipe<br>pipeline.html — global=resumo, per-client=kanban<br><br><strong>MANTEM (50):</strong><br>Todas as outras telas continuam iguais da V2</div>
+  </div>
+</div>
+
+<div style="text-align:center;font-size:11px;color:#AEAEB2;padding:20px 0">
+  V3 — ktanadev.github.io/ktana-prototype/saas-social-v3/<br>
+  V2 preservada em /saas-social/ (nao afetada)
+</div>
+
+</body></html>

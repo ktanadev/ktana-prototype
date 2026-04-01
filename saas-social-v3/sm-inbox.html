@@ -1,0 +1,336 @@
+<!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>KTANA Social — Minha Fila</title><link rel="stylesheet" href="../shared.css"><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Satoshi:wght@400;500;600;700&family=Zen+Dots&display=swap" rel="stylesheet">
+<style>
+body{min-height:100vh;background:#F5F5F7;color:#1D1D1F}
+a{text-decoration:none;color:inherit}
+.main{max-width:760px;margin:0 auto;padding:16px 20px 100px}
+
+/* PROFILE BAR */
+.profile-bar{display:flex;align-items:center;gap:14px;background:#FFF;border-radius:16px;border:1px solid rgba(0,0,0,0.04);padding:16px 20px;margin-bottom:20px}
+.pb-av{width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,#34C759,#248A3D);display:flex;align-items:center;justify-content:center;font-family:'Inter',sans-serif;font-size:12px;font-weight:700;color:#FFF;flex-shrink:0}
+.pb-info{flex:1}
+.pb-name{font-family:'Satoshi',sans-serif;font-size:15px;font-weight:600;color:#1D1D1F}
+.pb-meta{font-family:'Inter',sans-serif;font-size:11px;color:#86868B;margin-top:2px}
+.pb-stats{display:flex;gap:16px;flex-shrink:0}
+.pb-stat{text-align:center}
+.pb-stat-v{font-family:'Zen Dots',cursive;font-size:18px;color:#1D1D1F}
+.pb-stat-v.urgent{color:#D70030}
+.pb-stat-l{font-family:'Inter',sans-serif;font-size:9px;color:#86868B;text-transform:uppercase;letter-spacing:.04em}
+
+/* TABS */
+.tabs{display:flex;gap:4px;margin-bottom:16px;overflow-x:auto;padding-bottom:4px}
+.tab{font-family:'Inter',sans-serif;font-size:12px;font-weight:500;padding:8px 16px;border-radius:980px;background:#FFF;border:1px solid rgba(0,0,0,0.04);color:#86868B;cursor:pointer;transition:all 0.15s;white-space:nowrap;display:flex;align-items:center;gap:6px}
+.tab:hover{border-color:rgba(215,0,48,0.1);color:#D70030}
+.tab.on{background:rgba(215,0,48,0.06);border-color:rgba(215,0,48,0.15);color:#D70030;font-weight:600}
+.tab .badge{font-family:'Inter',sans-serif;font-size:9px;font-weight:700;padding:2px 6px;border-radius:4px;background:rgba(215,0,48,0.1);color:#D70030}
+
+.sec{font-family:'Inter',sans-serif;font-size:10px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:#D70030;margin:20px 0 10px;display:flex;align-items:center;gap:8px}
+.sec .count{font-family:'Inter',sans-serif;font-size:10px;color:#86868B;font-weight:400}
+
+/* TASK CARD */
+.task{background:#FFF;border-radius:16px;border:1px solid rgba(0,0,0,0.04);padding:16px 18px;margin-bottom:8px;transition:all 0.2s;cursor:pointer;position:relative;overflow:hidden}
+.task:hover{border-color:rgba(215,0,48,0.08);box-shadow:0 2px 12px rgba(0,0,0,0.04)}
+.task.urgent::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:#D70030}
+.task.warning::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:#FF9500}
+.task-top{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+.task-agent{width:24px;height:24px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-family:'Zen Dots',cursive;font-size:8px;color:#FFF;flex-shrink:0}
+.task-agent.quill{background:linear-gradient(135deg,#5856D6,#3A38A0)}
+.task-agent.canvas{background:linear-gradient(135deg,#FF2D55,#CC0033)}
+.task-agent.scout{background:linear-gradient(135deg,#007AFF,#0055CC)}
+.task-agent.pulse{background:linear-gradient(135deg,#34C759,#248A3D)}
+.task-agent.sensei{background:linear-gradient(135deg,#D70030,#8B0000)}
+.task-from{font-family:'Inter',sans-serif;font-size:10px;color:#86868B}
+.task-from strong{color:#1D1D1F}
+.task-time{font-family:'Inter',sans-serif;font-size:10px;color:#AEAEB2;margin-left:auto}
+.task-sla{font-family:'Inter',sans-serif;font-size:9px;font-weight:600;padding:2px 6px;border-radius:4px;margin-left:8px}
+.task-sla.red{background:rgba(215,0,48,0.08);color:#D70030}
+.task-sla.orange{background:rgba(255,149,0,0.08);color:#FF9500}
+.task-sla.green{background:rgba(52,199,89,0.08);color:#34C759}
+.task-title{font-family:'Satoshi',sans-serif;font-size:14px;font-weight:500;color:#1D1D1F;margin-bottom:6px}
+.task-client{display:flex;align-items:center;gap:6px;margin-bottom:8px}
+.task-client-av{width:18px;height:18px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Inter',sans-serif;font-size:7px;font-weight:700;color:#FFF;flex-shrink:0}
+.task-client-name{font-family:'Inter',sans-serif;font-size:11px;color:#86868B}
+.task-preview{background:#F5F5F7;border-radius:10px;padding:10px 14px;font-family:'Satoshi',sans-serif;font-size:12px;color:#6E6E73;line-height:1.5;margin-bottom:10px;max-height:60px;overflow:hidden}
+.task-score{display:inline-flex;align-items:center;gap:4px;font-family:'Inter',sans-serif;font-size:10px;font-weight:600;padding:3px 8px;border-radius:6px}
+.score-high{background:rgba(52,199,89,0.08);color:#34C759}
+.score-mid{background:rgba(255,149,0,0.08);color:#FF9500}
+.score-low{background:rgba(215,0,48,0.08);color:#D70030}
+.task-actions{display:flex;gap:6px;margin-top:10px}
+.ta-btn{font-family:'Inter',sans-serif;font-size:11px;font-weight:500;padding:7px 14px;border-radius:8px;border:none;cursor:pointer;transition:all 0.15s}
+.ta-approve{background:#34C759;color:#FFF}
+.ta-approve:hover{background:#2DB84E}
+.ta-edit{background:#FFF;color:#FF9500;border:1px solid rgba(255,149,0,0.15)}
+.ta-edit:hover{background:rgba(255,149,0,0.04)}
+.ta-reject{background:#FFF;color:#D70030;border:1px solid rgba(215,0,48,0.1)}
+.ta-view{background:#FFF;color:#1D1D1F;border:1px solid rgba(0,0,0,0.06)}
+
+/* NET BADGE */
+.net{font-family:'Inter',sans-serif;font-size:9px;font-weight:700;text-transform:uppercase;padding:2px 6px;border-radius:4px}
+.net-ig{background:rgba(215,0,48,0.06);color:#D70030}
+.net-li{background:rgba(10,102,194,0.08);color:#0A66C2}
+.net-tt{background:rgba(29,29,31,0.06);color:#1D1D1F}
+.net-x{background:rgba(29,29,31,0.06);color:#1D1D1F}
+
+/* EMPTY STATE */
+.empty{text-align:center;padding:40px 20px;background:#FFF;border-radius:16px;border:1px solid rgba(0,0,0,0.04)}
+.empty svg{width:32px;height:32px;stroke:#D2D2D7;fill:none;stroke-width:1.5;margin-bottom:12px}
+.empty h3{font-family:'Satoshi',sans-serif;font-size:16px;color:#1D1D1F;margin-bottom:4px}
+.empty p{font-family:'Inter',sans-serif;font-size:12px;color:#86868B}
+</style>
+</head>
+<body data-active="producao">
+<main class="main">
+
+<!-- PROFILE BAR — SM logada -->
+<div class="profile-bar">
+  <div class="pb-av">MS</div>
+  <div class="pb-info">
+    <div class="pb-name">Bom dia, Maria!</div>
+    <div class="pb-meta">Social Media Senior · 120 clientes · Grupo Silva</div>
+  </div>
+  <div class="pb-stats">
+    <div class="pb-stat"><div class="pb-stat-v urgent">14</div><div class="pb-stat-l">Pra revisar</div></div>
+    <div class="pb-stat"><div class="pb-stat-v">3</div><div class="pb-stat-l">SLA vencendo</div></div>
+    <div class="pb-stat"><div class="pb-stat-v">8</div><div class="pb-stat-l">Aprovados hoje</div></div>
+  </div>
+</div>
+
+<!-- TABS -->
+<div class="tabs">
+  <div class="tab on" data-tab="all">Tudo <span class="badge">14</span></div>
+  <div class="tab" data-tab="roteiros">Roteiros <span class="badge">8</span></div>
+  <div class="tab" data-tab="designs">Designs <span class="badge">3</span></div>
+  <div class="tab" data-tab="escalacoes">Escalacoes <span class="badge">2</span></div>
+  <div class="tab" data-tab="feedback">Feedback founder <span class="badge">1</span></div>
+</div>
+
+<!-- URGENTE — SLA VENCENDO -->
+<div class="sec">Urgente — SLA vencendo <span class="count">(3)</span></div>
+
+<div class="task urgent" onclick="location.href='post-detail.html'">
+  <div class="task-top">
+    <div class="task-agent quill">Q</div>
+    <div class="task-from"><strong>Quill</strong> escreveu roteiro</div>
+    <div class="task-time">03:14</div>
+    <span class="task-sla red">SLA 6h atrasado</span>
+  </div>
+  <div class="task-client"><div class="task-client-av" style="background:linear-gradient(135deg,#D70030,#A60028)">JM</div><span class="task-client-name">Joao Mendes</span><span class="net net-ig">IG</span></div>
+  <div class="task-title">5 erros que CEOs cometem no Instagram — Carrossel 9 slides</div>
+  <div class="task-preview">"Slide 1 (Hook): 'Voce esta queimando dinheiro no Instagram sem saber.' Slide 2: 'Erro #1: Postar sem estrategia de..."</div>
+  <span class="task-score score-high">94% humanidade</span>
+  <div class="task-actions">
+    <button class="ta-btn ta-approve" onclick="event.stopPropagation();this.textContent='Aprovado!';this.style.opacity=0.6">Aprovar → WhatsApp do founder</button>
+    <button class="ta-btn ta-edit" onclick="event.stopPropagation();location.href='post-editor.html'">Editar</button>
+    <button class="ta-btn ta-reject" onclick="event.stopPropagation();this.textContent='Rejeitado';this.style.opacity=0.6">Rejeitar</button>
+  </div>
+</div>
+
+<div class="task urgent" onclick="location.href='post-detail.html'">
+  <div class="task-top">
+    <div class="task-agent canvas">C</div>
+    <div class="task-from"><strong>Canvas</strong> gerou design</div>
+    <div class="task-time">04:22</div>
+    <span class="task-sla red">SLA 4h atrasado</span>
+  </div>
+  <div class="task-client"><div class="task-client-av" style="background:linear-gradient(135deg,#5856D6,#3A38A0)">AC</div><span class="task-client-name">Ana Costa</span><span class="net net-ig">IG</span></div>
+  <div class="task-title">Reforma tributaria 2026 — Post unico</div>
+  <span class="task-score score-high">Template aplicado</span>
+  <div class="task-actions">
+    <button class="ta-btn ta-approve" onclick="event.stopPropagation();this.textContent='Aprovado!'">Aprovar</button>
+    <button class="ta-btn ta-edit" onclick="event.stopPropagation()">Ajustar no Figma</button>
+  </div>
+</div>
+
+<div class="task warning" onclick="location.href='post-detail.html'">
+  <div class="task-top">
+    <div class="task-agent pulse">P</div>
+    <div class="task-from"><strong>Pulse</strong> escalou — founder inativo</div>
+    <div class="task-time">ontem</div>
+    <span class="task-sla orange">3 dias sem resposta</span>
+  </div>
+  <div class="task-client"><div class="task-client-av" style="background:linear-gradient(135deg,#007AFF,#0055CC)">PS</div><span class="task-client-name">Pedro Souza</span></div>
+  <div class="task-title">Pedro nao responde WhatsApp ha 3 dias — 5 posts travados</div>
+  <div class="task-actions">
+    <button class="ta-btn ta-view" onclick="event.stopPropagation();alert('Ligando pro Pedro...')">Ligar pro founder</button>
+    <button class="ta-btn ta-edit" onclick="event.stopPropagation()">Ver historico WhatsApp</button>
+    <button class="ta-btn ta-approve" onclick="event.stopPropagation();this.textContent='Publicar sem aprovacao'">Forcar publicacao</button>
+  </div>
+</div>
+
+<!-- ROTEIROS PRA REVISAR -->
+<div class="sec">Roteiros produzidos de madrugada <span class="count">(5)</span></div>
+
+<div class="task" onclick="location.href='post-detail.html'">
+  <div class="task-top">
+    <div class="task-agent quill">Q</div>
+    <div class="task-from"><strong>Quill</strong> escreveu roteiro</div>
+    <div class="task-time">03:41</div>
+    <span class="task-sla green">Dentro do SLA</span>
+  </div>
+  <div class="task-client"><div class="task-client-av" style="background:linear-gradient(135deg,#D70030,#A60028)">JM</div><span class="task-client-name">Joao Mendes</span><span class="net net-li">LI</span></div>
+  <div class="task-title">Futuro do B2B em 2026 — Artigo LinkedIn 1.800 palavras</div>
+  <span class="task-score score-high">91% humanidade</span>
+  <div class="task-actions">
+    <button class="ta-btn ta-approve" onclick="event.stopPropagation();this.textContent='Aprovado!'">Aprovar</button>
+    <button class="ta-btn ta-edit" onclick="event.stopPropagation()">Editar</button>
+  </div>
+</div>
+
+<div class="task" onclick="location.href='post-detail.html'">
+  <div class="task-top">
+    <div class="task-agent quill">Q</div>
+    <div class="task-from"><strong>Quill</strong> escreveu roteiro</div>
+    <div class="task-time">04:05</div>
+    <span class="task-sla green">Dentro do SLA</span>
+  </div>
+  <div class="task-client"><div class="task-client-av" style="background:linear-gradient(135deg,#D70030,#A60028)">JM</div><span class="task-client-name">Joao Mendes</span><span class="net net-tt">TT</span></div>
+  <div class="task-title">Rotina de CEO — Reel 28 segundos</div>
+  <div class="task-preview">"0-5s (Hook): Camera frontal, Joao andando no escritorio. 'Se voce e CEO e ainda faz isso, ta perdendo dinheiro.'"</div>
+  <span class="task-score score-mid">78% humanidade</span>
+  <div class="task-actions">
+    <button class="ta-btn ta-approve" onclick="event.stopPropagation()">Aprovar</button>
+    <button class="ta-btn ta-edit" onclick="event.stopPropagation()">Editar (score baixo)</button>
+  </div>
+</div>
+
+<div class="task" onclick="location.href='post-detail.html'">
+  <div class="task-top">
+    <div class="task-agent quill">Q</div>
+    <div class="task-from"><strong>Quill</strong> escreveu roteiro</div>
+    <div class="task-time">04:18</div>
+  </div>
+  <div class="task-client"><div class="task-client-av" style="background:linear-gradient(135deg,#FF9500,#CC7700)">MF</div><span class="task-client-name">Maria Fernandes</span><span class="net net-li">LI</span></div>
+  <div class="task-title">Lideranca feminina: dados reais vs achismos — Artigo</div>
+  <span class="task-score score-high">89% humanidade</span>
+  <div class="task-actions">
+    <button class="ta-btn ta-approve" onclick="event.stopPropagation()">Aprovar</button>
+    <button class="ta-btn ta-edit" onclick="event.stopPropagation()">Editar</button>
+  </div>
+</div>
+
+<div class="task" onclick="location.href='post-detail.html'">
+  <div class="task-top">
+    <div class="task-agent quill">Q</div>
+    <div class="task-from"><strong>Quill</strong> escreveu roteiro</div>
+    <div class="task-time">04:33</div>
+  </div>
+  <div class="task-client"><div class="task-client-av" style="background:linear-gradient(135deg,#007AFF,#0055CC)">PS</div><span class="task-client-name">Pedro Souza</span><span class="net net-ig">IG</span></div>
+  <div class="task-title">Mito do botox preventivo — Carrossel educativo</div>
+  <span class="task-score score-high">87% humanidade</span>
+  <div class="task-actions">
+    <button class="ta-btn ta-approve" onclick="event.stopPropagation()">Aprovar</button>
+    <button class="ta-btn ta-edit" onclick="event.stopPropagation()">Editar</button>
+  </div>
+</div>
+
+<div class="task" onclick="location.href='post-detail.html'">
+  <div class="task-top">
+    <div class="task-agent quill">Q</div>
+    <div class="task-from"><strong>Quill</strong> escreveu roteiro</div>
+    <div class="task-time">05:12</div>
+  </div>
+  <div class="task-client"><div class="task-client-av" style="background:linear-gradient(135deg,#5856D6,#3A38A0)">AC</div><span class="task-client-name">Ana Costa</span><span class="net net-x">X</span></div>
+  <div class="task-title">Thread: 7 mudancas tributarias que ninguem esta falando</div>
+  <span class="task-score score-high">88% humanidade</span>
+  <div class="task-actions">
+    <button class="ta-btn ta-approve" onclick="event.stopPropagation()">Aprovar</button>
+    <button class="ta-btn ta-edit" onclick="event.stopPropagation()">Editar</button>
+  </div>
+</div>
+
+<!-- DESIGNS PRA APROVAR -->
+<div class="sec">Designs prontos <span class="count">(3)</span></div>
+
+<div class="task" onclick="location.href='post-detail.html'">
+  <div class="task-top">
+    <div class="task-agent canvas">C</div>
+    <div class="task-from"><strong>Canvas</strong> gerou design</div>
+    <div class="task-time">05:30</div>
+  </div>
+  <div class="task-client"><div class="task-client-av" style="background:linear-gradient(135deg,#D70030,#A60028)">JM</div><span class="task-client-name">Joao Mendes</span><span class="net net-ig">IG</span></div>
+  <div class="task-title">Escale sem queimar caixa — Carrossel 7 slides</div>
+  <span class="task-score score-high">Template Figma aplicado</span>
+  <div class="task-actions">
+    <button class="ta-btn ta-approve" onclick="event.stopPropagation()">Aprovar design</button>
+    <button class="ta-btn ta-edit" onclick="event.stopPropagation()">Ajustar no Figma</button>
+  </div>
+</div>
+
+<div class="task" onclick="location.href='post-detail.html'">
+  <div class="task-top">
+    <div class="task-agent canvas">C</div>
+    <div class="task-from"><strong>Canvas</strong> gerou design</div>
+    <div class="task-time">05:45</div>
+  </div>
+  <div class="task-client"><div class="task-client-av" style="background:linear-gradient(135deg,#D70030,#A60028)">JM</div><span class="task-client-name">Joao Mendes</span><span class="net net-ig">IG</span></div>
+  <div class="task-title">Lideranca tech — Post unico com citacao</div>
+  <span class="task-score score-high">Template Figma aplicado</span>
+  <div class="task-actions">
+    <button class="ta-btn ta-approve" onclick="event.stopPropagation()">Aprovar</button>
+    <button class="ta-btn ta-edit" onclick="event.stopPropagation()">Ajustar</button>
+  </div>
+</div>
+
+<div class="task" onclick="location.href='post-detail.html'">
+  <div class="task-top">
+    <div class="task-agent canvas">C</div>
+    <div class="task-from"><strong>Canvas</strong> gerou design</div>
+    <div class="task-time">06:02</div>
+  </div>
+  <div class="task-client"><div class="task-client-av" style="background:linear-gradient(135deg,#FF9500,#CC7700)">MF</div><span class="task-client-name">Maria Fernandes</span><span class="net net-ig">IG</span></div>
+  <div class="task-title">Citacao lideranca feminina — Post unico</div>
+  <span class="task-score score-high">Template Figma aplicado</span>
+  <div class="task-actions">
+    <button class="ta-btn ta-approve" onclick="event.stopPropagation()">Aprovar</button>
+    <button class="ta-btn ta-edit" onclick="event.stopPropagation()">Ajustar</button>
+  </div>
+</div>
+
+<!-- FEEDBACK DO FOUNDER -->
+<div class="sec">Feedback do founder <span class="count">(1)</span></div>
+
+<div class="task warning">
+  <div class="task-top">
+    <div class="task-agent pulse">P</div>
+    <div class="task-from"><strong>Joao Mendes</strong> pediu ajuste via WhatsApp</div>
+    <div class="task-time">09:42</div>
+  </div>
+  <div class="task-client"><div class="task-client-av" style="background:linear-gradient(135deg,#D70030,#A60028)">JM</div><span class="task-client-name">Joao Mendes</span><span class="net net-li">LI</span></div>
+  <div class="task-title">Artigo "Mercado B2B 2026" — Joao: "muito formal, quero mais provocador"</div>
+  <div class="task-preview" style="background:rgba(255,149,0,0.04);border:1px solid rgba(255,149,0,0.08)">
+    <strong style="color:#FF9500">Feedback do founder:</strong> "Esse texto ta muito seco. Quero algo mais provocador, tipo 'quem nao entender isso vai quebrar'. Coloca dados reais."
+  </div>
+  <div class="task-actions">
+    <button class="ta-btn ta-edit" onclick="location.href='post-editor.html'">Reescrever com feedback</button>
+    <button class="ta-btn ta-view" onclick="alert('Quill ja reescreveu automaticamente. Score: 91%')">Quill ja reescreveu</button>
+  </div>
+</div>
+
+</main>
+
+<script>
+// Tab filter
+document.querySelectorAll('.tab').forEach(t => {
+  t.addEventListener('click', () => {
+    document.querySelectorAll('.tab').forEach(x => x.classList.remove('on'));
+    t.classList.add('on');
+  });
+});
+
+// Approve animation
+document.querySelectorAll('.ta-approve').forEach(btn => {
+  btn.addEventListener('click', function(e) {
+    e.stopPropagation();
+    const task = this.closest('.task');
+    this.textContent = 'Aprovado! → WhatsApp';
+    this.style.opacity = '0.6';
+    this.disabled = true;
+    setTimeout(() => {
+      task.style.opacity = '0.4';
+      task.style.transform = 'translateX(20px)';
+      task.style.transition = 'all 0.3s';
+    }, 800);
+  });
+});
+</script>
+<script src="shared-nav-social.js"></script>
+</body></html>

@@ -1,0 +1,119 @@
+<!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>KTANA Social — Notificacoes</title><link rel="stylesheet" href="../shared.css"><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Zen+Dots&display=swap" rel="stylesheet">
+<style>
+body{min-height:100vh;background:#F5F5F7;color:#1D1D1F}
+a{text-decoration:none;color:inherit}
+.main{max-width:760px;margin:0 auto;padding:16px 20px 100px}
+
+.chat-hero{background:#FFF;border-radius:20px;border:1px solid rgba(0,0,0,0.04);margin:16px 0 20px;overflow:hidden;position:relative}
+.chat-hero::before{content:'';position:absolute;inset:0;border-radius:20px;padding:1.5px;background:linear-gradient(135deg,rgba(255,231,231,0.3) 0%,transparent 20%,rgba(215,0,48,0.2) 80%);-webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);-webkit-mask-composite:xor;mask-composite:exclude;pointer-events:none}
+.ch-top{display:flex;align-items:center;gap:10px;padding:14px 18px;border-bottom:1px solid rgba(0,0,0,0.04)}
+.ch-av{width:28px;height:28px;border-radius:8px;background:linear-gradient(135deg,#D70030,#8B0000);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.ch-av svg{width:14px;height:14px;stroke:#FFF;fill:none;stroke-width:1.5}
+.ch-nm{font-family:'Zen Dots',cursive;font-size:11px;color:#1D1D1F}
+.ch-ctx{font-family:'Inter',sans-serif;font-size:10px;color:#D70030}
+.ch-body{padding:18px;display:flex;flex-direction:column;gap:10px}
+.msg{max-width:88%;padding:10px 14px;border-radius:14px;font-family:'Satoshi',sans-serif;font-size:13px;line-height:1.5}
+.msg-ai{background:#F0F0F2;color:#1D1D1F;border-bottom-left-radius:4px;align-self:flex-start}
+.msg-ai strong{color:#D70030}
+.ch-input{display:flex;align-items:center;gap:8px;padding:12px 18px;border-top:1px solid rgba(0,0,0,0.04)}
+.ch-input input{flex:1;font-family:'Satoshi',sans-serif;font-size:13px;background:#F5F5F7;border:1px solid rgba(0,0,0,0.06);border-radius:12px;padding:10px 14px;outline:none;color:#1D1D1F}
+.ch-input input::placeholder{color:#AEAEB2}
+.ch-input input:focus{border-color:rgba(215,0,48,0.3)}
+.ch-send{width:32px;height:32px;border-radius:50%;background:#D70030;display:flex;align-items:center;justify-content:center;cursor:pointer;border:none}
+.ch-send svg{width:12px;height:12px;stroke:#FFF;fill:none;stroke-width:2}
+
+.sec{font-family:'Inter',sans-serif;font-size:10px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:#D70030;margin-bottom:10px;margin-top:4px}
+.filters{display:flex;gap:4px;margin-bottom:16px}
+.f-btn{font-family:'Inter',sans-serif;font-size:10px;font-weight:500;padding:5px 12px;border-radius:980px;border:1px solid rgba(0,0,0,0.06);background:#FFF;color:#86868B;cursor:pointer;transition:all 0.15s}
+.f-btn:hover{border-color:rgba(215,0,48,0.12);color:#D70030}
+.f-btn.active{background:rgba(215,0,48,0.06);border-color:rgba(215,0,48,0.12);color:#D70030}
+
+.notif{display:flex;align-items:flex-start;gap:12px;padding:14px 16px;background:#FFF;border:1px solid rgba(0,0,0,0.04);border-radius:14px;margin-bottom:8px;transition:all 0.15s;cursor:pointer}
+.notif:hover{border-color:rgba(215,0,48,0.1)}
+.notif.unread{border-left:3px solid #D70030}
+.n-icon{width:32px;height:32px;border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.n-icon svg{width:16px;height:16px;stroke:#FFF;fill:none;stroke-width:1.5}
+.ni-red{background:linear-gradient(135deg,#D70030,#A60028)}
+.ni-blue{background:linear-gradient(135deg,#007AFF,#0055CC)}
+.ni-green{background:linear-gradient(135deg,#34C759,#248A3D)}
+.ni-orange{background:linear-gradient(135deg,#FF9500,#CC7700)}
+.ni-purple{background:linear-gradient(135deg,#5856D6,#3A38A0)}
+.n-content{flex:1}
+.n-text{font-family:'Satoshi',sans-serif;font-size:13px;color:#1D1D1F;line-height:1.4}
+.n-text strong{color:#D70030}
+.n-meta{font-family:'Inter',sans-serif;font-size:10px;color:#86868B;margin-top:4px}
+.n-time{font-family:'JetBrains Mono',monospace;font-size:10px;color:#AEAEB2;flex-shrink:0}
+</style>
+</head>
+<body data-active="notifications">
+<main class="main">
+
+<div class="chat-hero">
+  <div class="ch-top">
+    <div class="ch-av"><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+    <div><div class="ch-nm">Sensei</div><div class="ch-ctx">12 notificacoes novas</div></div>
+  </div>
+  <div class="ch-body">
+    <div class="msg msg-ai">Voce tem <strong>3 aprovacoes atrasadas</strong>, <strong>1 token expirando</strong>, e <strong>8 posts publicados com sucesso</strong> nas ultimas 6h. Quer que eu resolva as pendencias?</div>
+  </div>
+  <div class="ch-input">
+    <input type="text" placeholder="Pergunte ao Sensei...">
+    <button class="ch-send"><svg viewBox="0 0 24 24"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+  </div>
+</div>
+
+<div class="filters">
+  <div class="f-btn active">Todas (12)</div>
+  <div class="f-btn">Urgentes (4)</div>
+  <div class="f-btn">Aprovacoes (3)</div>
+  <div class="f-btn">Motor (5)</div>
+  <div class="f-btn">Sistema (4)</div>
+</div>
+
+<div class="sec">Urgentes</div>
+<a href="approvals.html" class="notif unread">
+  <div class="n-icon ni-red"><svg viewBox="0 0 24 24"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+  <div class="n-content"><div class="n-text">Aprovacao de <strong>Joao Mendes</strong> atrasada <strong>6h</strong> — Carrossel IG "5 erros CEO"</div><div class="n-meta">SM: Maria Silva — SLA excedido</div></div>
+  <div class="n-time">6h</div>
+</a>
+<a href="approvals.html" class="notif unread">
+  <div class="n-icon ni-red"><svg viewBox="0 0 24 24"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+  <div class="n-content"><div class="n-text">Aprovacao de <strong>Ana Costa</strong> atrasada <strong>5h</strong> — Reel TikTok</div><div class="n-meta">SM: Carlos Ribeiro</div></div>
+  <div class="n-time">5h</div>
+</a>
+<a href="connections.html" class="notif unread">
+  <div class="n-icon ni-orange"><svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+  <div class="n-content"><div class="n-text">Token LinkedIn de <strong>Pedro Souza</strong> expira em <strong>3 dias</strong></div><div class="n-meta">Renovar antes de expirar para evitar interrupcao</div></div>
+  <div class="n-time">1h</div>
+</a>
+
+<div class="sec">Motor autopilot</div>
+<a href="pipeline.html" class="notif">
+  <div class="n-icon ni-green"><svg viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+  <div class="n-content"><div class="n-text">Carrossel publicado — <strong>Ana Costa</strong> Instagram</div><div class="n-meta">ER estimado 4.2% — melhor que media</div></div>
+  <div class="n-time">5min</div>
+</a>
+<a href="pipeline.html" class="notif">
+  <div class="n-icon ni-purple"><svg viewBox="0 0 24 24"><path d="M12 20h9M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+  <div class="n-content"><div class="n-text">Quill gerou <strong>3 roteiros</strong> para <strong>Joao Mendes</strong></div><div class="n-meta">Scores: 94%, 91%, 87%</div></div>
+  <div class="n-time">18min</div>
+</a>
+<a href="insights.html" class="notif">
+  <div class="n-icon ni-blue"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+  <div class="n-content"><div class="n-text">Scout encontrou <strong>2 brechas</strong> nos concorrentes de <strong>Joao Mendes</strong></div><div class="n-meta">Tema: delegacao — ER 5.2% no @concurrent1</div></div>
+  <div class="n-time">30min</div>
+</a>
+<a href="pipeline.html" class="notif">
+  <div class="n-icon ni-green"><svg viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+  <div class="n-content"><div class="n-text"><strong>8 posts</strong> publicados com sucesso esta noite</div><div class="n-meta">4 IG, 2 LI, 1 TT, 1 X</div></div>
+  <div class="n-time">3h</div>
+</a>
+<a href="metrics.html" class="notif">
+  <div class="n-icon ni-green"><svg viewBox="0 0 24 24"><path d="M12 20V10M18 20V4M6 20v-4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+  <div class="n-content"><div class="n-text">Relatorio semanal de <strong>Maria Fernandes</strong> disponivel</div><div class="n-meta">ER 6.1% — acima da media do segmento</div></div>
+  <div class="n-time">5h</div>
+</a>
+
+</div>
+<script src="shared-nav-social.js"></script>
+</body></html>

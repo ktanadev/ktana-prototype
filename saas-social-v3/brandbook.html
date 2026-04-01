@@ -1,0 +1,382 @@
+<!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>KTANA Social — Brand Book</title><link rel="stylesheet" href="../shared.css"><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Zen+Dots&display=swap" rel="stylesheet">
+<style>
+body{min-height:100vh;background:#F5F5F7;color:#1D1D1F}
+a{text-decoration:none;color:inherit}
+.content{padding:16px 24px 80px;max-width:720px}
+
+/* CLIENT INDICATOR BAR */
+.client-bar{background:#FFF;border-radius:16px;border:1px solid rgba(0,0,0,0.04);padding:16px 20px;margin-bottom:20px;display:flex;align-items:center;gap:14px;position:relative;overflow:hidden}
+.client-bar::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:#D70030;border-radius:0 2px 2px 0}
+.cb-avatar{width:40px;height:40px;border-radius:12px;background:linear-gradient(135deg,#D70030,#A60028);display:flex;align-items:center;justify-content:center;font-family:'Inter',sans-serif;font-size:12px;font-weight:700;color:#FFF;flex-shrink:0}
+.cb-info{flex:1;min-width:0}
+.cb-name{font-family:'Satoshi',sans-serif;font-size:15px;font-weight:600;color:#1D1D1F}
+.cb-meta{font-family:'Inter',sans-serif;font-size:11px;color:#86868B;margin-top:2px}
+.cb-completion{text-align:right;flex-shrink:0}
+.cb-pct{font-family:'Zen Dots',cursive;font-size:22px;color:#D70030}
+.cb-pct-label{font-family:'Inter',sans-serif;font-size:10px;color:#86868B;margin-top:2px}
+.cb-progress{width:80px;height:4px;background:rgba(0,0,0,0.04);border-radius:2px;margin-top:6px}
+.cb-progress-fill{height:100%;background:linear-gradient(90deg,#D70030,#FF6B6B);border-radius:2px;transition:width 0.5s}
+
+/* SECTION ZONE */
+.zone{margin-bottom:24px}
+.zone-header{display:flex;align-items:center;gap:10px;margin-bottom:14px;padding:0 4px}
+.zone-icon{width:28px;height:28px;border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.zone-icon svg{width:14px;height:14px;stroke:#FFF;fill:none;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
+.zone-icon.gestor{background:linear-gradient(135deg,#5856D6,#3A38A0)}
+.zone-icon.founder{background:linear-gradient(135deg,#FF9500,#CC7700)}
+.zone-title{font-family:'Satoshi',sans-serif;font-size:14px;font-weight:600;color:#1D1D1F}
+.zone-sub{font-family:'Inter',sans-serif;font-size:11px;color:#86868B}
+
+/* BRAND SECTION */
+.bb-section{background:#FFF;border-radius:16px;border:1px solid rgba(0,0,0,0.04);padding:20px;margin-bottom:10px;position:relative;overflow:hidden;cursor:pointer;transition:all 0.2s}
+.bb-section:hover{border-color:rgba(215,0,48,0.08);box-shadow:0 2px 12px rgba(0,0,0,0.03)}
+.bb-top{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:12px}
+.bb-label{font-family:'Inter',sans-serif;font-size:10px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:#D70030}
+.bb-contributors{display:flex;gap:6px;flex-shrink:0}
+.bb-contrib{display:flex;align-items:center;gap:4px;font-family:'Inter',sans-serif;font-size:9px;font-weight:500;padding:3px 8px;border-radius:6px}
+.bb-contrib.done{background:rgba(52,199,89,0.08);color:#30D158}
+.bb-contrib.pending{background:rgba(255,149,0,0.08);color:#FF9500}
+.bb-contrib svg{width:10px;height:10px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.bb-section h3{font-family:'Satoshi',sans-serif;font-size:15px;font-weight:600;color:#1D1D1F;margin-bottom:6px}
+.bb-section p{font-family:'Satoshi',sans-serif;font-size:13px;color:#86868B;line-height:1.6}
+
+/* COMPASS */
+.compass{background:#F5F5F7;border-radius:12px;padding:16px;margin-top:10px;font-family:'Satoshi',sans-serif;font-size:13px;color:#1D1D1F;line-height:1.8}
+.compass strong{color:#D70030}
+
+/* ARCHETYPE */
+.archetype-card{display:flex;gap:14px;align-items:center;background:#F5F5F7;border-radius:12px;padding:14px;margin-top:10px}
+.arch-icon{width:48px;height:48px;border-radius:12px;background:linear-gradient(135deg,#D70030,#8B0000);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.arch-icon svg{width:22px;height:22px;stroke:#FFF;fill:none;stroke-width:1.5}
+.arch-info h4{font-family:'Zen Dots',cursive;font-size:14px;color:#1D1D1F;margin-bottom:3px}
+.arch-info p{font-family:'Satoshi',sans-serif;font-size:11px;color:#86868B;line-height:1.4}
+.arch-brand{font-family:'Inter',sans-serif;font-size:9px;color:#AEAEB2;margin-top:4px}
+
+/* TONE TAGS */
+.tone-tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.tone-tag{font-family:'Inter',sans-serif;font-size:11px;font-weight:500;padding:5px 12px;border-radius:980px;background:rgba(215,0,48,0.06);color:#D70030}
+
+/* AUDIENCE GRID */
+.audience-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}
+.aud-card{background:#F5F5F7;border-radius:10px;padding:12px}
+.aud-card h4{font-family:'Inter',sans-serif;font-size:9px;font-weight:600;letter-spacing:0.05em;text-transform:uppercase;color:#D70030;margin-bottom:6px}
+.aud-card ul{list-style:none;padding:0;margin:0}
+.aud-card li{font-family:'Satoshi',sans-serif;font-size:11px;color:#6E6E73;padding:2px 0 2px 10px;position:relative;line-height:1.4}
+.aud-card li::before{content:'';position:absolute;left:0;top:7px;width:3px;height:3px;border-radius:50%;background:#D70030}
+
+/* COLORS */
+.colors-row{display:flex;gap:6px;margin-top:10px}
+.color-swatch{width:44px;height:44px;border-radius:10px;display:flex;align-items:flex-end;padding:3px}
+.color-swatch span{font-family:'JetBrains Mono',monospace;font-size:7px;color:#FFF;background:rgba(0,0,0,0.3);padding:1px 3px;border-radius:2px}
+.fonts-row{display:flex;flex-direction:column;gap:6px;margin-top:10px}
+.font-sample{display:flex;align-items:center;justify-content:space-between;padding:8px 12px;background:#F5F5F7;border-radius:8px}
+.font-name{font-family:'Inter',sans-serif;font-size:10px;color:#86868B}
+
+/* REFS LIST */
+.refs-list{display:flex;flex-direction:column;gap:6px;margin-top:10px}
+.ref-item{display:flex;align-items:center;gap:10px;padding:8px 12px;background:#F5F5F7;border-radius:8px}
+.ref-avatar{width:28px;height:28px;border-radius:50%;background:#E8E8ED;display:flex;align-items:center;justify-content:center;font-family:'Inter',sans-serif;font-size:9px;color:#86868B;flex-shrink:0}
+.ref-name{font-family:'Satoshi',sans-serif;font-size:12px;font-weight:500;color:#1D1D1F}
+.ref-why{font-family:'Inter',sans-serif;font-size:10px;color:#86868B}
+
+/* EDIT HOVER */
+.bb-section .edit-hint{position:absolute;top:12px;right:12px;font-family:'Inter',sans-serif;font-size:9px;color:#D70030;background:rgba(215,0,48,0.06);padding:3px 8px;border-radius:4px;opacity:0;transition:opacity 0.2s;pointer-events:none}
+.bb-section:hover .edit-hint{opacity:1}
+
+/* PHOTO GRID */
+.photo-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-top:10px}
+.photo-thumb{aspect-ratio:1;border-radius:8px;background:#E8E8ED;display:flex;align-items:center;justify-content:center;font-family:'Inter',sans-serif;font-size:9px;color:#86868B}
+
+/* PENDING STATE */
+.bb-section.pending-state{border-style:dashed;border-color:rgba(255,149,0,0.2);background:rgba(255,149,0,0.01)}
+.bb-section.pending-state h3{color:#AEAEB2}
+
+@media(max-width:768px){.audience-grid{grid-template-columns:1fr}.photo-grid{grid-template-columns:repeat(3,1fr)}}
+</style>
+</head>
+<body data-client="true" data-active="inteligencia">
+<div class="content">
+
+<!-- CLIENT INDICATOR BAR -->
+<div class="client-bar">
+  <div class="cb-avatar">JM</div>
+  <div class="cb-info">
+    <div class="cb-name">Joao Mendes</div>
+    <div class="cb-meta">CEO TechFlow · Fase 4 · Autopilot · Gestor: Maria Silva</div>
+  </div>
+  <div class="cb-completion">
+    <div class="cb-pct">86%</div>
+    <div class="cb-pct-label">completo</div>
+    <div class="cb-progress"><div class="cb-progress-fill" style="width:86%"></div></div>
+  </div>
+</div>
+
+<!-- ===== ZONA 1: POSICIONAMENTO ESTRATEGICO (GESTOR DEFINE) ===== -->
+<div class="zone">
+  <div class="zone-header">
+    <div class="zone-icon gestor"><svg viewBox="0 0 24 24"><path d="M14.5 17.5L3 6V3h3l11.5 11.5M13 19l6-6"/></svg></div>
+    <div>
+      <div class="zone-title">Posicionamento Estrategico</div>
+      <div class="zone-sub">Gestor define a estrategia · Founder valida</div>
+    </div>
+  </div>
+
+  <!-- BUSSOLA -->
+  <div class="bb-section" onclick="editSection('bussola')">
+    <span class="edit-hint">Editar via Quill</span>
+    <div class="bb-top">
+      <div class="bb-label">Bussola de posicionamento</div>
+      <div class="bb-contributors">
+        <span class="bb-contrib done"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg>Gestor</span>
+        <span class="bb-contrib done"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg>Founder</span>
+      </div>
+    </div>
+    <div class="compass">
+      <strong>Para</strong> CEOs de empresas SaaS B2B <strong>que</strong> precisam escalar receita sem depender de venture capital,<br>
+      <strong>a TechFlow e</strong> uma plataforma de growth <strong>que</strong> oferece previsibilidade de receita com unit economics saudaveis.<br>
+      <strong>Ao contrario de</strong> consultorias genericas e aceleradoras que diluem equity, <strong>nosso diferencial e</strong> bootstrapped growth com comprovacao de ROI em 90 dias.
+    </div>
+  </div>
+
+  <!-- ARQUETIPO -->
+  <div class="bb-section" onclick="editSection('arquetipo')">
+    <span class="edit-hint">Editar via Quill</span>
+    <div class="bb-top">
+      <div class="bb-label">Arquetipo de marca</div>
+      <div class="bb-contributors">
+        <span class="bb-contrib done"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg>Gestor</span>
+        <span class="bb-contrib done"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg>Founder</span>
+      </div>
+    </div>
+    <div class="archetype-card">
+      <div class="arch-icon"><svg viewBox="0 0 24 24"><path d="M14.5 17.5L3 6V3h3l11.5 11.5M13 19l6-6M15 17l2 2M7 3l7 7" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      <div class="arch-info">
+        <h4>Heroi</h4>
+        <p>Busca por conquista com integridade. Motiva por exemplo, nao por teoria. Mostra resultados reais, enfrenta desafios de frente, inspira outros a agir.</p>
+        <div class="arch-brand">Referencia: Nike — "Just Do It" · Tom: Motivador, honesto, corajoso</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TIPO POSICIONAMENTO -->
+  <div class="bb-section" onclick="editSection('tipo')">
+    <span class="edit-hint">Editar via Quill</span>
+    <div class="bb-top">
+      <div class="bb-label">Tipo de posicionamento</div>
+      <div class="bb-contributors">
+        <span class="bb-contrib done"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg>Gestor</span>
+        <span class="bb-contrib pending"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="1"/></svg>Founder</span>
+      </div>
+    </div>
+    <h3>Founder</h3>
+    <p>Comunica uma visao de mundo e uma tese central. Atrai pessoas que compartilham a mesma visao. Pode vender multiplos produtos porque a confianca vem da lideranca.</p>
+  </div>
+
+  <!-- TESE CENTRAL -->
+  <div class="bb-section" onclick="editSection('tese')">
+    <span class="edit-hint">Editar via Quill</span>
+    <div class="bb-top">
+      <div class="bb-label">Tese central da marca</div>
+      <div class="bb-contributors">
+        <span class="bb-contrib done"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg>Gestor</span>
+        <span class="bb-contrib done"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg>Founder</span>
+      </div>
+    </div>
+    <h3>"Voce nao precisa de dinheiro de investidor pra escalar. Precisa de unit economics que funcionam."</h3>
+    <p>Essa e a crenca que o Joao defende. Tudo que ele comunica reforca essa tese. Cada post, cada fala, cada decisao publica volta pra essa ideia central.</p>
+  </div>
+
+  <!-- TOM DE VOZ -->
+  <div class="bb-section" onclick="editSection('tom')">
+    <span class="edit-hint">Editar via Quill</span>
+    <div class="bb-top">
+      <div class="bb-label">Tom de voz</div>
+      <div class="bb-contributors">
+        <span class="bb-contrib done"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg>Gestor</span>
+        <span class="bb-contrib done"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg>Founder</span>
+      </div>
+    </div>
+    <p>Direto, provocador, sem rodeio. Fala como CEO que ja errou e aprendeu. Usa dados pra provar ponto. Nunca institucional. Nunca generico.</p>
+    <div class="tone-tags">
+      <span class="tone-tag">Direto</span>
+      <span class="tone-tag">Provocador</span>
+      <span class="tone-tag">Baseado em dados</span>
+      <span class="tone-tag">Anti-bullshit</span>
+      <span class="tone-tag">Storytelling pessoal</span>
+    </div>
+  </div>
+
+  <!-- PUBLICO ALVO -->
+  <div class="bb-section" onclick="editSection('publico')">
+    <span class="edit-hint">Editar via Quill</span>
+    <div class="bb-top">
+      <div class="bb-label">Publico alvo</div>
+      <div class="bb-contributors">
+        <span class="bb-contrib done"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg>Gestor</span>
+        <span class="bb-contrib pending"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="1"/></svg>Founder</span>
+      </div>
+    </div>
+    <div class="audience-grid">
+      <div class="aud-card">
+        <h4>Demograficas</h4>
+        <ul><li>CEOs e founders de SaaS B2B</li><li>30-50 anos</li><li>Faturamento R$5M-50M/ano</li><li>Time de 20-200 pessoas</li></ul>
+      </div>
+      <div class="aud-card">
+        <h4>Comportamentais</h4>
+        <ul><li>Orientados a dados e metricas</li><li>Avessos a "guruzice"</li><li>Preferem prova a promessa</li><li>Leem Lenny's Newsletter, SaaStr</li></ul>
+      </div>
+      <div class="aud-card">
+        <h4>Desejos profundos</h4>
+        <ul><li>Escalar sem diluir equity</li><li>Previsibilidade de receita</li><li>Ser reconhecido no nicho</li><li>Sair do operacional</li></ul>
+      </div>
+      <div class="aud-card">
+        <h4>Pontos de dor</h4>
+        <ul><li>CAC subindo todo mes</li><li>Churn acima de 5%</li><li>Dependencia de 1-2 clientes</li><li>Invisivel no mercado</li></ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- CONCORRENTES -->
+  <div class="bb-section" onclick="editSection('concorrentes')">
+    <span class="edit-hint">Editar via Quill</span>
+    <div class="bb-top">
+      <div class="bb-label">Concorrentes mapeados</div>
+      <div class="bb-contributors">
+        <span class="bb-contrib done"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg>Scout</span>
+        <span class="bb-contrib done"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg>Gestor</span>
+      </div>
+    </div>
+    <p style="font-family:'Satoshi',sans-serif;font-size:12px;color:#86868B;margin-bottom:8px">5 perfis monitorados. Scout analisa diariamente e identifica brechas.</p>
+    <div class="refs-list">
+      <div class="ref-item"><div class="ref-avatar">C1</div><div><div class="ref-name">@concorrente.saas</div><div class="ref-why">12.8K seg · Growth hacking · Brecha: nao fala de unit economics</div></div></div>
+      <div class="ref-item"><div class="ref-avatar">C2</div><div><div class="ref-name">@tech.founder.br</div><div class="ref-why">8.4K seg · Fundraising · Brecha: posicao contraria ao Joao</div></div></div>
+      <div class="ref-item"><div class="ref-avatar">C3</div><div><div class="ref-name">@leticia.finscale</div><div class="ref-why">15K seg · Consultoria fintech · Referencia de formato</div></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== ZONA 2: IDENTIDADE & MATERIAL PESSOAL (FOUNDER ENVIA) ===== -->
+<div class="zone">
+  <div class="zone-header">
+    <div class="zone-icon founder"><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2M12 3a4 4 0 100 8 4 4 0 000-8z"/></svg></div>
+    <div>
+      <div class="zone-title">Identidade & Material Pessoal</div>
+      <div class="zone-sub">Founder envia conteudo · Gestor faz curadoria</div>
+    </div>
+  </div>
+
+  <!-- IDENTIDADE VISUAL -->
+  <div class="bb-section" onclick="editSection('visual')">
+    <span class="edit-hint">Editar via Quill</span>
+    <div class="bb-top">
+      <div class="bb-label">Identidade visual</div>
+      <div class="bb-contributors">
+        <span class="bb-contrib done"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg>Founder</span>
+        <span class="bb-contrib done"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg>Gestor</span>
+      </div>
+    </div>
+    <h3>Paleta de cores</h3>
+    <div class="colors-row">
+      <div class="color-swatch" style="background:#1D1D1F"><span>#1D1D1F</span></div>
+      <div class="color-swatch" style="background:#007AFF"><span>#007AFF</span></div>
+      <div class="color-swatch" style="background:#34C759"><span>#34C759</span></div>
+      <div class="color-swatch" style="background:#F5F5F7;border:1px solid rgba(0,0,0,0.06)"><span style="color:#1D1D1F">#F5F5F7</span></div>
+    </div>
+    <h3 style="margin-top:14px">Tipografia</h3>
+    <div class="fonts-row">
+      <div class="font-sample"><span style="font-family:'Zen Dots',cursive;font-size:16px;color:#1D1D1F">TechFlow</span><span class="font-name">Zen Dots · Headlines</span></div>
+      <div class="font-sample"><span style="font-family:'Satoshi',sans-serif;font-size:13px;color:#1D1D1F">Escale sem queimar caixa</span><span class="font-name">Satoshi · Body</span></div>
+      <div class="font-sample"><span style="font-family:'Inter',sans-serif;font-size:11px;color:#86868B">MRR · CAC · LTV</span><span class="font-name">Inter · UI</span></div>
+    </div>
+  </div>
+
+  <!-- ESTILO FOTOGRAFICO -->
+  <div class="bb-section" onclick="editSection('fotos')">
+    <span class="edit-hint">Editar via Quill</span>
+    <div class="bb-top">
+      <div class="bb-label">Estilo fotografico</div>
+      <div class="bb-contributors">
+        <span class="bb-contrib done"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg>Founder</span>
+        <span class="bb-contrib done"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg>Gestor</span>
+      </div>
+    </div>
+    <h3>Corporate Premium</h3>
+    <p>Paleto escuro + camisa sem gravata. Fundo neutro ou escritorio moderno. Pose confiante. Iluminacao natural. Expressao seria com leve sorriso.</p>
+    <div style="display:flex;align-items:center;gap:8px;margin-top:10px;padding:10px 14px;background:#F5F5F7;border-radius:8px">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#30D158" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 01-2 2H3a2 2 0 01-2-2V8a2 2 0 012-2h4l2-3h6l2 3h4a2 2 0 012 2z"/><circle cx="12" cy="13" r="4"/></svg>
+      <span style="font-family:'Inter',sans-serif;font-size:11px;color:#1D1D1F;font-weight:500">38 fotos enviadas pelo founder</span>
+      <span style="font-family:'Inter',sans-serif;font-size:10px;color:#30D158;margin-left:auto">Clone treinado</span>
+    </div>
+    <div class="photo-grid">
+      <div class="photo-thumb">01</div>
+      <div class="photo-thumb">02</div>
+      <div class="photo-thumb">03</div>
+      <div class="photo-thumb">04</div>
+      <div class="photo-thumb">05</div>
+      <div class="photo-thumb">06</div>
+      <div class="photo-thumb">07</div>
+      <div class="photo-thumb">08</div>
+    </div>
+  </div>
+
+  <!-- REFERENCIAS -->
+  <div class="bb-section" onclick="editSection('refs')">
+    <span class="edit-hint">Editar via Quill</span>
+    <div class="bb-top">
+      <div class="bb-label">Referencias de comunicacao</div>
+      <div class="bb-contributors">
+        <span class="bb-contrib done"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg>Gestor</span>
+        <span class="bb-contrib pending"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="1"/></svg>Founder</span>
+      </div>
+    </div>
+    <div class="refs-list">
+      <div class="ref-item"><div class="ref-avatar">GV</div><div><div class="ref-name">Gary Vaynerchuk</div><div class="ref-why">Tom direto, sem filtro, storytelling do dia a dia</div></div></div>
+      <div class="ref-item"><div class="ref-avatar">AH</div><div><div class="ref-name">Alex Hormozi</div><div class="ref-why">Frameworks numerados, dados, sem enrolacao</div></div></div>
+    </div>
+    <div style="margin-top:8px;padding:8px 12px;background:rgba(255,149,0,0.04);border:1px dashed rgba(255,149,0,0.15);border-radius:8px;font-family:'Inter',sans-serif;font-size:11px;color:#FF9500">
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" style="display:inline;vertical-align:-2px;margin-right:4px"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+      Pendente: founder ainda nao enviou suas referencias pessoais via WhatsApp
+    </div>
+  </div>
+
+  <!-- VIDEOS ENVIADOS -->
+  <div class="bb-section pending-state" onclick="editSection('videos')">
+    <span class="edit-hint">Solicitar via WhatsApp</span>
+    <div class="bb-top">
+      <div class="bb-label">Videos de referencia</div>
+      <div class="bb-contributors">
+        <span class="bb-contrib pending"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="1"/></svg>Founder</span>
+      </div>
+    </div>
+    <h3 style="color:#AEAEB2">Aguardando envio do founder</h3>
+    <p>Joao precisa gravar 3 videos curtos: (1) apresentacao pessoal, (2) tese central, (3) dia a dia no escritorio. Solicitado via WhatsApp em 28/Mar.</p>
+    <div style="margin-top:10px;display:flex;gap:8px">
+      <button onclick="event.stopPropagation();alert('Lembrete enviado via WhatsApp')" style="font-family:'Inter',sans-serif;font-size:11px;font-weight:500;padding:6px 14px;border-radius:8px;border:1px solid rgba(215,0,48,0.12);background:#FFF;color:#D70030;cursor:pointer;transition:all 0.15s">Enviar lembrete no WhatsApp</button>
+    </div>
+  </div>
+</div>
+
+<!-- ACTIONS -->
+<div style="display:flex;gap:8px;margin-top:8px;padding:0 4px">
+  <button onclick="window.print()" style="flex:1;font-family:'Inter',sans-serif;font-size:12px;font-weight:500;padding:10px;border-radius:10px;border:1px solid rgba(0,0,0,0.06);background:#FFF;color:#86868B;cursor:pointer;transition:all 0.15s">Exportar PDF</button>
+  <a href="client-brand.html" style="flex:1;font-family:'Inter',sans-serif;font-size:12px;font-weight:500;padding:10px;border-radius:10px;border:1px solid rgba(215,0,48,0.12);background:rgba(215,0,48,0.03);color:#D70030;cursor:pointer;text-align:center;text-decoration:none;transition:all 0.15s">Ver como o Founder ve</a>
+</div>
+
+</div>
+
+<script>
+function editSection(section) {
+  // Open Quill chat with context about the section being edited
+  const chatPanel = document.getElementById('ktChatPanel');
+  if (chatPanel) {
+    chatPanel.style.display = 'flex';
+    const input = chatPanel.querySelector('input');
+    if (input) {
+      input.focus();
+      input.placeholder = 'Editando ' + section + '... diga o que quer mudar';
+    }
+  }
+}
+</script>
+<script src="shared-nav-social.js"></script>
+</body></html>

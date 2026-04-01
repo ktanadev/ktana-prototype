@@ -1,0 +1,189 @@
+<!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>KTANA Social — Sistema de Posicionamento Digital</title><link rel="stylesheet" href="../shared.css"><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Zen+Dots&display=swap" rel="stylesheet">
+<style>
+body{min-height:100vh;background:#F5F5F7;color:#1D1D1F}
+a{text-decoration:none;color:inherit}
+
+/* NAV */
+.nav{position:fixed;top:0;left:0;right:0;z-index:50;height:48px;display:flex;align-items:center;justify-content:center;background:rgba(245,245,247,0.72);backdrop-filter:saturate(180%) blur(20px);border-bottom:0.5px solid rgba(0,0,0,0.06)}
+.nav-inner{width:100%;max-width:980px;padding:0 24px;display:flex;align-items:center;justify-content:space-between}
+.nav-logo{font-family:'Zen Dots',cursive;font-size:14px;color:#D70030;display:flex;align-items:center;gap:8px}
+.nav-logo span{color:#D70030}
+.nav-links{display:flex;align-items:center;gap:24px}
+.nav-links a{font-family:'Inter',sans-serif;font-size:12px;color:#86868B;transition:color 0.2s}
+.nav-links a:hover{color:#1D1D1F}
+.nav-cta{font-family:'Inter',sans-serif;font-size:11px;font-weight:500;background:#1D1D1F;color:#FFF;padding:6px 14px;border-radius:980px;transition:opacity 0.2s}
+.nav-cta:hover{opacity:0.9}
+
+/* HERO */
+.hero{min-height:100svh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:80px 24px 60px;position:relative}
+.hero-tag{display:inline-flex;align-items:center;gap:6px;font-family:'Inter',sans-serif;font-size:11px;font-weight:500;letter-spacing:0.04em;text-transform:uppercase;color:#D70030;margin-bottom:32px;opacity:0;animation:fadeUp 0.8s 0.2s forwards;padding:5px 14px;border-radius:980px;border:1px solid rgba(215,0,48,0.15);background:rgba(215,0,48,0.06)}
+.hero-tag svg{width:12px;height:12px;stroke:#D70030;fill:none;stroke-width:2}
+.hero h1{font-family:'Zen Dots',cursive;font-size:clamp(28px,5.5vw,56px);font-weight:400;line-height:1.12;color:#1D1D1F;margin-bottom:20px;opacity:0;animation:fadeUp 0.8s 0.35s forwards;max-width:700px}
+.hero h1 em{font-style:normal;color:#D70030}
+.hero p{font-family:'Satoshi',sans-serif;font-size:clamp(15px,1.6vw,18px);line-height:1.7;color:#86868B;max-width:520px;margin-bottom:40px;opacity:0;animation:fadeUp 0.8s 0.5s forwards}
+.hero-actions{display:flex;gap:12px;opacity:0;animation:fadeUp 0.8s 0.65s forwards}
+.btn-brand{display:inline-flex;align-items:center;gap:8px;padding:13px 28px;border-radius:980px;font-family:'Inter',sans-serif;font-size:14px;font-weight:600;background:#D70030;color:#FFF;box-shadow:0 4px 16px rgba(215,0,48,0.2);transition:all 0.2s}
+.btn-brand:hover{box-shadow:0 6px 24px rgba(215,0,48,0.35);transform:translateY(-1px)}
+.btn-brand svg{width:14px;height:14px;stroke:#FFF;fill:none;stroke-width:2}
+.btn-outline{display:inline-flex;align-items:center;gap:8px;padding:13px 28px;border-radius:980px;font-family:'Inter',sans-serif;font-size:14px;font-weight:500;color:#1D1D1F;border:1.5px solid rgba(0,0,0,0.12);transition:all 0.2s}
+.btn-outline:hover{border-color:rgba(0,0,0,0.3)}
+
+/* CHAT DEMO */
+.hero-chat{width:100%;max-width:440px;background:#FFF;border:1px solid rgba(0,0,0,0.04);border-radius:20px;margin-top:48px;overflow:hidden;opacity:0;animation:fadeUp 0.8s 0.85s forwards;box-shadow:0 4px 40px rgba(0,0,0,0.06)}
+.hc-header{display:flex;align-items:center;gap:10px;padding:14px 18px;border-bottom:1px solid rgba(0,0,0,0.04)}
+.hc-avatar{width:28px;height:28px;border-radius:50%;background:#D70030;display:flex;align-items:center;justify-content:center}
+.hc-avatar svg{width:14px;height:14px;stroke:#FFF;fill:none;stroke-width:1.5}
+.hc-name{font-family:'Zen Dots',cursive;font-size:11px;color:#1D1D1F}
+.hc-status{font-family:'Inter',sans-serif;font-size:10px;color:#34C759;display:flex;align-items:center;gap:4px}
+.hc-status::before{content:'';width:5px;height:5px;border-radius:50%;background:#34C759}
+.hc-body{padding:16px 18px;display:flex;flex-direction:column;gap:10px;min-height:120px}
+.hc-msg{max-width:88%;padding:10px 14px;border-radius:14px;font-family:'Satoshi',sans-serif;font-size:13px;line-height:1.5}
+.hc-msg-ai{background:#F0F0F2;color:#1D1D1F;border-bottom-left-radius:4px;align-self:flex-start}
+.hc-msg-user{background:#D70030;color:#FFF;border-bottom-right-radius:4px;align-self:flex-end}
+.hc-input{display:flex;align-items:center;gap:8px;padding:12px 18px;border-top:1px solid rgba(0,0,0,0.04)}
+.hc-input span{font-family:'Inter',sans-serif;font-size:12px;color:#AEAEB2;flex:1}
+.hc-send{width:28px;height:28px;border-radius:50%;background:#D70030;display:flex;align-items:center;justify-content:center}
+.hc-send svg{width:12px;height:12px;stroke:#FFF;fill:none;stroke-width:2}
+
+/* SECTIONS */
+.s{padding:100px 24px;max-width:980px;margin:0 auto}
+.s-label{font-family:'Inter',sans-serif;font-size:10px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:#D70030;margin-bottom:10px}
+.s-headline{font-family:'Zen Dots',cursive;font-size:clamp(22px,3vw,36px);font-weight:400;line-height:1.15;color:#1D1D1F;margin-bottom:14px}
+.s-sub{font-family:'Satoshi',sans-serif;font-size:15px;line-height:1.7;color:#86868B;max-width:480px}
+
+/* PAIN POINTS */
+.pains{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:40px}
+.pain{background:#FFF;border:1px solid rgba(0,0,0,0.04);border-radius:16px;padding:24px 18px;transition:all 0.3s}
+.pain:hover{border-color:rgba(215,0,48,0.12);box-shadow:0 4px 20px rgba(0,0,0,0.04)}
+.pain-icon{width:32px;height:32px;border-radius:10px;display:flex;align-items:center;justify-content:center;margin-bottom:14px}
+.pain-icon svg{width:16px;height:16px;stroke-width:1.5;fill:none}
+.pain-icon.red{background:rgba(215,0,48,0.08)}
+.pain-icon.red svg{stroke:#D70030}
+.pain h3{font-family:'Satoshi',sans-serif;font-size:14px;font-weight:600;color:#1D1D1F;margin-bottom:6px}
+.pain p{font-family:'Satoshi',sans-serif;font-size:12px;color:#86868B;line-height:1.5}
+
+/* PHASES */
+.phases{display:flex;flex-direction:column;gap:14px;margin-top:40px}
+.phase{display:flex;gap:20px;align-items:flex-start;padding:24px 20px;background:#FFF;border:1px solid rgba(0,0,0,0.04);border-radius:16px;transition:all 0.3s}
+.phase:hover{border-color:rgba(215,0,48,0.12);box-shadow:0 4px 20px rgba(0,0,0,0.04)}
+.phase-num{font-family:'Zen Dots',cursive;font-size:24px;color:#D70030;min-width:36px}
+.phase h3{font-family:'Satoshi',sans-serif;font-size:15px;font-weight:600;color:#1D1D1F;margin-bottom:4px}
+.phase p{font-family:'Satoshi',sans-serif;font-size:12px;color:#86868B;line-height:1.5}
+.phase-tags{display:flex;flex-wrap:wrap;gap:5px;margin-top:10px}
+.ptag{font-family:'Inter',sans-serif;font-size:9px;font-weight:500;padding:3px 8px;border-radius:980px;background:rgba(215,0,48,0.06);color:rgba(215,0,48,0.8);border:1px solid rgba(215,0,48,0.08)}
+
+/* MOTOR STEPS */
+.motor-list{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-top:40px}
+.motor-step{display:flex;align-items:center;gap:12px;padding:14px 16px;background:#FFF;border:1px solid rgba(0,0,0,0.04);border-radius:10px;transition:all 0.2s}
+.motor-step:hover{border-color:rgba(215,0,48,0.1);background:rgba(215,0,48,0.02)}
+.ms-num{font-family:'Inter',sans-serif;font-size:10px;font-weight:700;color:#D70030;background:rgba(215,0,48,0.08);width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.ms-text{font-family:'Satoshi',sans-serif;font-size:13px;color:#6E6E73}
+
+/* CTA */
+.cta-s{text-align:center;padding:120px 24px}
+.cta-s h2{font-family:'Zen Dots',cursive;font-size:clamp(22px,3.5vw,40px);color:#1D1D1F;margin-bottom:14px}
+.cta-s p{font-family:'Satoshi',sans-serif;font-size:16px;color:#86868B;max-width:440px;margin:0 auto 36px}
+
+.footer{padding:32px 24px;border-top:0.5px solid rgba(0,0,0,0.06);text-align:center}
+.footer p{font-family:'Inter',sans-serif;font-size:10px;color:#AEAEB2}
+
+@keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+@media(max-width:768px){.pains,.motor-list{grid-template-columns:1fr}.phase{flex-direction:column;gap:8px}}
+</style>
+</head>
+<body>
+
+<nav class="nav"><div class="nav-inner">
+  <a href="landing.html" class="nav-logo">KTANA <span>Social</span></a>
+  <div class="nav-links">
+    <a href="#dores">Dores</a>
+    <a href="#framework">Framework</a>
+    <a href="#motor">Motor</a>
+    <a href="login.html" class="nav-cta">Acessar</a>
+  </div>
+</div></nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-tag"><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" stroke-linecap="round" stroke-linejoin="round"/></svg> Founder-Led Growth</div>
+  <h1>O sistema operacional de <em>posicionamento digital.</em></h1>
+  <p>Para empresas de assessoria que posicionam founders como autoridade. Motor autopilot que pesquisa, cria, aprova e publica. Conteudo humano, escala de maquina.</p>
+  <div class="hero-actions">
+    <a href="signup.html" class="btn-brand"><svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7" stroke-linecap="round" stroke-linejoin="round"/></svg> Comecar agora</a>
+    <a href="#framework" class="btn-outline">Ver framework</a>
+  </div>
+
+  <!-- CHAT DEMO -->
+  <div class="hero-chat">
+    <div class="hc-header">
+      <div class="hc-avatar"><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      <div><div class="hc-name">KTANA Social</div><div class="hc-status">Online</div></div>
+    </div>
+    <div class="hc-body">
+      <div class="hc-msg hc-msg-ai">Ola! Tenho 7 aprovacoes pendentes e 3 pautas novas geradas. O carrossel do Joao sobre delegacao tem score de 94%. Quer que eu envie pra aprovacao?</div>
+      <div class="hc-msg hc-msg-user">Envia. E gera 3 ideias novas pro Pedro no nicho de cirurgia.</div>
+      <div class="hc-msg hc-msg-ai">Pronto. Aprovacao enviada via WhatsApp. Gerando pautas pro Pedro... Encontrei 2 brechas nos concorrentes dele. Quer ver?</div>
+    </div>
+    <div class="hc-input"><span>Pergunte algo ao seu agente...</span><div class="hc-send"><svg viewBox="0 0 24 24"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div>
+  </div>
+</section>
+
+<!-- DORES -->
+<section class="s" id="dores">
+  <div class="s-label">As dores</div>
+  <div class="s-headline">Voce gerencia posicionamento de founders. Essas dores sao suas.</div>
+  <div class="pains">
+    <div class="pain"><div class="pain-icon red"><svg viewBox="0 0 24 24"><path d="M12 1v22M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6" stroke-linecap="round" stroke-linejoin="round"/></svg></div><h3>Escala mata margem</h3><p>Cada cliente novo exige mais social media, mais redator, mais CS. Custo cresce proporcional. Margem nunca melhora.</p></div>
+    <div class="pain"><div class="pain-icon red"><svg viewBox="0 0 24 24"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0zM12 9v4M12 17h.01" stroke-linecap="round" stroke-linejoin="round"/></svg></div><h3>IA gera lixo generico</h3><p>ChatGPT sem contexto = copy sem alma. Cresce seguidor mas nao vende. Founder nao se reconhece no conteudo.</p></div>
+    <div class="pain"><div class="pain-icon red"><svg viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3" stroke-linecap="round" stroke-linejoin="round"/></svg></div><h3>Instagram pune automacao</h3><p>Metadata detection, shadow ban, conteudo IA deprioritizado. Founder com milhoes de seguidores nao pode arriscar.</p></div>
+    <div class="pain"><div class="pain-icon red"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2M9 11a4 4 0 100-8 4 4 0 000 8zM23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75" stroke-linecap="round" stroke-linejoin="round"/></svg></div><h3>Time nao entende o nicho</h3><p>Social media generico nao conhece o mercado do founder. Conteudo raso. Concorrentes com posicionamento melhor.</p></div>
+    <div class="pain"><div class="pain-icon red"><svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" stroke-linecap="round" stroke-linejoin="round"/></svg></div><h3>Risco de perder contas</h3><p>Bot detectado = conta banida. Founder com audiencia construida em anos perde tudo por automacao amadora.</p></div>
+    <div class="pain"><div class="pain-icon red"><svg viewBox="0 0 24 24"><path d="M22 12h-4l-3 9L9 3l-3 9H2" stroke-linecap="round" stroke-linejoin="round"/></svg></div><h3>Sem metricas reais</h3><p>Agencia sem relatorio nao e agencia. Clientes pedem ROI e voce mostra likes. Engajamento nao e conversao.</p></div>
+  </div>
+</section>
+
+<!-- FRAMEWORK -->
+<section class="s" id="framework">
+  <div class="s-label">Framework</div>
+  <div class="s-headline">5 fases. Da invisibilidade a autoridade reconhecida.</div>
+  <div class="s-sub">Bussola de posicionamento, microprogramas, clone visual, motor autopilot. Tudo num sistema unico.</div>
+  <div class="phases">
+    <div class="phase"><div class="phase-num">01</div><div><h3>Diagnostico</h3><p>Analise de ativos, benchmark, brechas nos concorrentes, mapa de riscos e alavancas.</p><div class="phase-tags"><span class="ptag">SWOT</span><span class="ptag">Benchmark</span><span class="ptag">Brechas</span></div></div></div>
+    <div class="phase"><div class="phase-num">02</div><div><h3>Identidade</h3><p>Bussola de posicionamento, 12 arquetipos, tom de voz, brand book, design system, clone visual e avatar.</p><div class="phase-tags"><span class="ptag">Brand Book</span><span class="ptag">Arquetipos</span><span class="ptag">Clone IA</span><span class="ptag">Avatar HeyGen</span></div></div></div>
+    <div class="phase"><div class="phase-num">03</div><div><h3>Estrategia</h3><p>Linha editorial, microprogramas, mapa de distribuicao, ecossistema multi-perfil, roadmap 90 dias.</p><div class="phase-tags"><span class="ptag">Microprogramas</span><span class="ptag">Multi-perfil</span><span class="ptag">1h = 50+ pecas</span></div></div></div>
+    <div class="phase"><div class="phase-num">04</div><div><h3>Producao</h3><p>Motor autopilot 24/7. Pesquisa, cria, design, video, aprova via WhatsApp, publica. Tudo automatico.</p><div class="phase-tags"><span class="ptag">Autopilot</span><span class="ptag">Score Humanidade</span><span class="ptag">WhatsApp</span></div></div></div>
+    <div class="phase"><div class="phase-num">05</div><div><h3>Metricas</h3><p>Dashboard inteligente, feedback loop, relatorios, saude das contas, anti-bot, contingencia.</p><div class="phase-tags"><span class="ptag">Feedback Loop</span><span class="ptag">Anti-bot</span><span class="ptag">GoLogin</span></div></div></div>
+  </div>
+</section>
+
+<!-- MOTOR -->
+<section class="s" id="motor">
+  <div class="s-label">Motor Autopilot</div>
+  <div class="s-headline">12 etapas. Do zero a publicado.</div>
+  <div class="s-sub">O social media aprova em 1 toque no WhatsApp. O founder nao precisa fazer nada.</div>
+  <div class="motor-list">
+    <div class="motor-step"><div class="ms-num">1</div><div class="ms-text">Coleta de inteligencia — concorrentes, trending, noticias</div></div>
+    <div class="motor-step"><div class="ms-num">2</div><div class="ms-text">Geracao de pautas — IA + brand book + brechas</div></div>
+    <div class="motor-step"><div class="ms-num">3</div><div class="ms-text">Criacao de roteiros — por rede, no tom do founder</div></div>
+    <div class="motor-step"><div class="ms-num">4</div><div class="ms-text">Geracao de design — templates Figma automatizados</div></div>
+    <div class="motor-step"><div class="ms-num">5</div><div class="ms-text">Geracao de video — avatar HeyGen com lip sync</div></div>
+    <div class="motor-step"><div class="ms-num">6</div><div class="ms-text">Score de humanidade — comparativo com posts reais</div></div>
+    <div class="motor-step"><div class="ms-num">7</div><div class="ms-text">Aprovacao social media — WhatsApp com SLA</div></div>
+    <div class="motor-step"><div class="ms-num">8</div><div class="ms-text">Aprovacao cliente final — WhatsApp humanizado</div></div>
+    <div class="motor-step"><div class="ms-num">9</div><div class="ms-text">Agendamento inteligente — horario otimo por rede</div></div>
+    <div class="motor-step"><div class="ms-num">10</div><div class="ms-text">Publicacao automatica — Meta, LinkedIn, TikTok, X, Blog</div></div>
+    <div class="motor-step"><div class="ms-num">11</div><div class="ms-text">Monitoramento — metricas em 1h, 6h, 24h, 72h, 7d</div></div>
+    <div class="motor-step"><div class="ms-num">12</div><div class="ms-text">Feedback loop — IA aprende, proxima pesquisa melhor</div></div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-s">
+  <h2>Posicione founders. <span style="color:#D70030">Escale sem contratar.</span></h2>
+  <p>O sistema que multiplica a capacidade da sua equipe. Conteudo humano, distribuicao inteligente.</p>
+  <a href="signup.html" class="btn-brand"><svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7" stroke-linecap="round" stroke-linejoin="round"/></svg> Comecar agora</a>
+</section>
+
+<footer class="footer"><p>KTANA Social — ktana.ai &copy; 2026</p></footer>
+
+</body></html>

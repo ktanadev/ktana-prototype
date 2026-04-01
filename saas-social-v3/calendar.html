@@ -1,0 +1,168 @@
+<!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>KTANA Social — Calendario Editorial</title><link rel="stylesheet" href="../shared.css"><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Zen+Dots&display=swap" rel="stylesheet">
+<style>
+body{min-height:100vh;background:#F5F5F7;color:#1D1D1F}
+a{text-decoration:none;color:inherit}
+/* nav comes from shared-nav-social.js */
+.top-bar{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px}
+.top-bar h1{font-family:'Zen Dots',cursive;font-size:22px;color:#1D1D1F}
+.top-controls{display:flex;align-items:center;gap:10px}
+.view-toggle{display:flex;background:#FFF;border:1px solid rgba(0,0,0,0.06);border-radius:10px;overflow:hidden}
+.vt-btn{font-family:'Inter',sans-serif;font-size:11px;font-weight:500;padding:7px 14px;cursor:pointer;transition:all 0.15s;color:#86868B}
+.vt-btn.active{background:rgba(215,0,48,0.06);color:#D70030}
+.vt-btn:hover{color:#1D1D1F}
+.month-nav{display:flex;align-items:center;gap:10px}
+.month-nav button{width:28px;height:28px;border-radius:50%;border:1px solid rgba(0,0,0,0.06);background:#FFF;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all 0.15s}
+.month-nav button:hover{border-color:rgba(215,0,48,0.15)}
+.month-nav button svg{width:12px;height:12px;stroke:#86868B;fill:none;stroke-width:2}
+.month-name{font-family:'Satoshi',sans-serif;font-size:14px;font-weight:600;color:#1D1D1F;min-width:120px;text-align:center}
+
+/* FILTERS */
+.filters{display:flex;gap:6px;margin-bottom:16px;flex-wrap:wrap}
+.filter-chip{font-family:'Inter',sans-serif;font-size:10px;font-weight:500;padding:5px 12px;border-radius:980px;border:1px solid rgba(0,0,0,0.06);background:#FFF;color:#86868B;cursor:pointer;transition:all 0.15s}
+.filter-chip:hover{border-color:rgba(215,0,48,0.12);color:#D70030}
+.filter-chip.active{background:rgba(215,0,48,0.06);border-color:rgba(215,0,48,0.12);color:#D70030}
+
+/* CALENDAR GRID */
+.cal-header{display:grid;grid-template-columns:repeat(7,1fr);gap:2px;margin-bottom:2px}
+.cal-header-cell{font-family:'Inter',sans-serif;font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:0.05em;color:#AEAEB2;text-align:center;padding:8px 0}
+.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:2px}
+.cal-cell{background:#FFF;border:1px solid rgba(0,0,0,0.04);border-radius:10px;min-height:120px;padding:8px;transition:all 0.2s;cursor:pointer}
+.cal-cell:hover{border-color:rgba(215,0,48,0.1);box-shadow:0 2px 8px rgba(0,0,0,0.04)}
+.cal-cell.today{border-color:rgba(215,0,48,0.2);background:rgba(215,0,48,0.01)}
+.cal-cell.other-month{opacity:0.35}
+.cal-date{font-family:'Inter',sans-serif;font-size:11px;font-weight:600;color:#1D1D1F;margin-bottom:6px;display:flex;align-items:center;justify-content:space-between}
+.cal-date .today-dot{width:5px;height:5px;border-radius:50%;background:#D70030}
+.cal-events{display:flex;flex-direction:column;gap:3px}
+.cal-event{font-family:'Inter',sans-serif;font-size:9px;font-weight:500;padding:3px 6px;border-radius:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;cursor:grab}
+.ce-ig{background:rgba(215,0,48,0.06);color:#D70030}
+.ce-li{background:rgba(0,122,255,0.06);color:#007AFF}
+.ce-tt{background:rgba(29,29,31,0.06);color:#1D1D1F}
+.ce-x{background:rgba(29,29,31,0.06);color:#3A3A3C}
+.ce-blog{background:rgba(255,149,0,0.06);color:#FF9500}
+.ce-published{opacity:0.5;text-decoration:line-through}
+.ce-empty{border:1px dashed rgba(0,0,0,0.06);color:#AEAEB2;background:transparent;text-align:center;font-style:italic}
+
+/* SUMMARY BAR */
+.summary{display:flex;gap:16px;padding:16px 20px;background:#FFF;border-radius:14px;border:1px solid rgba(0,0,0,0.04);margin-bottom:20px}
+.summary-item{display:flex;align-items:center;gap:6px;font-family:'Inter',sans-serif;font-size:11px}
+.summary-dot{width:8px;height:8px;border-radius:50%}
+.sd-published{background:#34C759}
+.sd-scheduled{background:#007AFF}
+.sd-producing{background:#FF9500}
+.sd-empty{background:#D2D2D7}
+.summary-count{font-weight:600;color:#1D1D1F}
+.summary-label{color:#86868B}
+.summary-fill{margin-left:auto;font-family:'Zen Dots',cursive;font-size:16px;color:#D70030}
+
+@media(max-width:768px){.cal-grid,.cal-header{grid-template-columns:repeat(3,1fr)}.summary{flex-wrap:wrap}}
+</style>
+</head>
+<body data-client="true" data-active="calendar">
+<main class="main" style="max-width:900px;padding:24px">
+
+<div class="top-bar">
+  <h1>Calendario editorial.</h1>
+  <div class="top-controls">
+    <div class="view-toggle">
+      <div class="vt-btn">Mensal</div>
+      <div class="vt-btn active">Semanal</div>
+      <div class="vt-btn">Lista</div>
+    </div>
+    <div class="month-nav">
+      <button><svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+      <span class="month-name">Abr 2026</span>
+      <button><svg viewBox="0 0 24 24"><path d="M9 18l6-6-6-6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+    </div>
+  </div>
+</div>
+
+<div class="filters">
+  <div class="filter-chip active">Todos os clientes</div>
+  <div class="filter-chip">Joao Mendes</div>
+  <div class="filter-chip">Ana Costa</div>
+  <div class="filter-chip">Pedro Souza</div>
+  <div class="filter-chip">Maria Fernandes</div>
+</div>
+
+<!-- SUMMARY -->
+<div class="summary">
+  <div class="summary-item"><div class="summary-dot sd-published"></div><span class="summary-count">34</span><span class="summary-label">Publicados</span></div>
+  <div class="summary-item"><div class="summary-dot sd-scheduled"></div><span class="summary-count">18</span><span class="summary-label">Agendados</span></div>
+  <div class="summary-item"><div class="summary-dot sd-producing"></div><span class="summary-count">12</span><span class="summary-label">Em producao</span></div>
+  <div class="summary-item"><div class="summary-dot sd-empty"></div><span class="summary-count">8</span><span class="summary-label">Slots vazios</span></div>
+  <div class="summary-fill">78%</div>
+</div>
+
+<!-- CALENDAR -->
+<div class="cal-header">
+  <div class="cal-header-cell">Seg</div>
+  <div class="cal-header-cell">Ter</div>
+  <div class="cal-header-cell">Qua</div>
+  <div class="cal-header-cell">Qui</div>
+  <div class="cal-header-cell">Sex</div>
+  <div class="cal-header-cell">Sab</div>
+  <div class="cal-header-cell">Dom</div>
+</div>
+
+<div class="cal-grid">
+  <!-- Week 1 -->
+  <div class="cal-cell other-month"><div class="cal-date">31</div><div class="cal-events"><div class="cal-event ce-ig ce-published">JM Carrossel</div><div class="cal-event ce-tt ce-published">JM Reel</div><div class="cal-event ce-li ce-published">JM Post</div></div></div>
+  <div class="cal-cell today"><div class="cal-date">1<span class="today-dot"></span></div><div class="cal-events"><div class="cal-event ce-ig">JM 10:30 Carrossel</div><div class="cal-event ce-tt">JM 15:00 Reel</div><div class="cal-event ce-li">AC 09:00 Artigo</div></div></div>
+  <div class="cal-cell"><div class="cal-date">2</div><div class="cal-events"><div class="cal-event ce-li">JM 09:00 Post</div><div class="cal-event ce-x">JM 12:00 Thread</div><div class="cal-event ce-ig">AC 10:30 Carrossel</div></div></div>
+  <div class="cal-cell"><div class="cal-date">3</div><div class="cal-events"><div class="cal-event ce-ig" style="background:rgba(255,149,0,0.06);color:#FF9500">JM Reel (produzindo)</div><div class="cal-event ce-li">MF 10:00 Artigo</div><div class="cal-event ce-tt">PS 16:00 Video</div></div></div>
+  <div class="cal-cell"><div class="cal-date">4</div><div class="cal-events"><div class="cal-event ce-ig">MF 10:00 Post</div><div class="cal-event ce-blog">JM Blog SEO</div><div class="cal-event ce-empty">+ IG slot vazio</div></div></div>
+  <div class="cal-cell"><div class="cal-date">5</div><div class="cal-events"><div class="cal-event ce-ig">JM 11:00 Reel</div><div class="cal-event ce-empty">+ slot vazio</div></div></div>
+  <div class="cal-cell"><div class="cal-date">6</div><div class="cal-events"><div class="cal-event ce-ig">MF Story</div><div class="cal-event ce-empty">+ slot vazio</div></div></div>
+
+  <!-- Week 2 -->
+  <div class="cal-cell"><div class="cal-date">7</div><div class="cal-events"><div class="cal-event ce-ig">JM Carrossel</div><div class="cal-event ce-tt">JM Reel</div><div class="cal-event ce-li">AC Post</div></div></div>
+  <div class="cal-cell"><div class="cal-date">8</div><div class="cal-events"><div class="cal-event ce-ig">AC 10:30</div><div class="cal-event ce-x">JM Thread</div><div class="cal-event ce-ig">MF Carrossel</div></div></div>
+  <div class="cal-cell"><div class="cal-date">9</div><div class="cal-events"><div class="cal-event ce-li">JM Artigo</div><div class="cal-event ce-tt">PS Video</div><div class="cal-event ce-empty">+ LI slot vazio</div></div></div>
+  <div class="cal-cell"><div class="cal-date">10</div><div class="cal-events"><div class="cal-event ce-ig">JM Reel</div><div class="cal-event ce-li">MF 10:00</div></div></div>
+  <div class="cal-cell"><div class="cal-date">11</div><div class="cal-events"><div class="cal-event ce-blog">AC Blog SEO</div><div class="cal-event ce-ig">JM Post</div></div></div>
+  <div class="cal-cell"><div class="cal-date">12</div><div class="cal-events"><div class="cal-event ce-ig">MF Reel</div></div></div>
+  <div class="cal-cell"><div class="cal-date">13</div><div class="cal-events"><div class="cal-event ce-empty">+ slot vazio</div></div></div>
+</div>
+
+</main>
+
+<script>
+// Make events clickable
+document.querySelectorAll('.cal-event:not(.ce-empty)').forEach(e => {
+  e.style.cursor = 'pointer';
+  e.addEventListener('click', () => location.href = 'post-detail.html');
+});
+// Make empty slots clickable
+document.querySelectorAll('.cal-event.ce-empty').forEach(e => {
+  e.addEventListener('click', () => {
+    e.textContent = 'Gerando pauta...';
+    e.style.color = '#D70030';
+    e.style.borderColor = 'rgba(215,0,48,0.15)';
+    setTimeout(() => {
+      e.textContent = 'JM Carrossel (novo)';
+      e.className = 'cal-event ce-ig';
+      e.style.cursor = 'pointer';
+      e.onclick = () => location.href = 'post-detail.html';
+    }, 1500);
+  });
+});
+// Week navigation
+document.querySelectorAll('.month-nav button').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const name = document.querySelector('.month-name');
+    const months = ['Mar 2026','Abr 2026','Mai 2026'];
+    let idx = months.indexOf(name.textContent);
+    if (btn.querySelector('path[d*="15"]')) idx = Math.max(0, idx-1);
+    else idx = Math.min(months.length-1, idx+1);
+    name.textContent = months[idx];
+  });
+});
+// Filter chips
+document.querySelectorAll('.filter-chip').forEach(f => {
+  f.addEventListener('click', () => {
+    document.querySelectorAll('.filter-chip').forEach(x => x.classList.remove('active'));
+    f.classList.add('active');
+  });
+});
+</script>
+<script src="shared-nav-social.js"></script></body></html>

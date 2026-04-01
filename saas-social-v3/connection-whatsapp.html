@@ -1,0 +1,221 @@
+<!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>KTANA Social — WhatsApp</title><link rel="stylesheet" href="../shared.css"><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Zen+Dots&display=swap" rel="stylesheet">
+<style>
+body{min-height:100vh;background:#F5F5F7;color:#1D1D1F}
+a{text-decoration:none;color:inherit}
+.main{max-width:760px;margin:0 auto;padding:16px 20px 100px}
+.breadcrumb{font-family:'Inter',sans-serif;font-size:11px;color:#86868B;margin-bottom:20px}
+.breadcrumb a{color:#D70030}
+.section-card{background:#FFF;border-radius:20px;border:1px solid rgba(0,0,0,0.04);padding:24px;margin-bottom:14px;animation:fadeIn 0.4s ease both}
+.card-label{font-family:'Inter',sans-serif;font-size:11px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:#D70030;margin-bottom:14px}
+.card-desc{font-family:'Satoshi',sans-serif;font-size:13px;color:#86868B;margin-bottom:16px;line-height:1.5}
+.form-group{margin-bottom:16px}
+.form-group:last-child{margin-bottom:0}
+.form-group label{font-family:'Inter',sans-serif;display:block;font-size:12px;font-weight:500;color:#86868B;margin-bottom:6px}
+.form-input{font-family:'Satoshi',sans-serif;background:#F5F5F7;border:1px solid rgba(0,0,0,0.06);border-radius:12px;padding:12px 14px;font-size:14px;width:100%;outline:none;color:#1D1D1F;transition:border-color 0.2s;box-sizing:border-box}
+.form-input:focus{border-color:rgba(215,0,48,0.3)}
+.form-input.masked{color:#AEAEB2;letter-spacing:2px}
+.form-select{font-family:'Satoshi',sans-serif;background:#F5F5F7;border:1px solid rgba(0,0,0,0.06);border-radius:12px;padding:12px 14px;font-size:14px;width:100%;outline:none;color:#1D1D1F;appearance:none;background-image:url("data:image/svg+xml,%3Csvg width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%2386868B' stroke-width='2' stroke-linecap='round' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center;box-sizing:border-box}
+.toggle{width:44px;height:26px;border-radius:13px;background:#D2D2D7;position:relative;cursor:pointer;transition:background 0.2s;flex-shrink:0}
+.toggle.on{background:#D70030}
+.toggle::after{content:'';position:absolute;top:3px;left:3px;width:20px;height:20px;border-radius:50%;background:#FFF;transition:transform 0.2s}
+.toggle.on::after{transform:translateX(18px)}
+.toggle-row{display:flex;align-items:center;justify-content:space-between;padding:12px 14px;background:#F5F5F7;border-radius:12px;min-height:44px;margin-bottom:8px}
+.toggle-left{display:flex;align-items:center;gap:10px}
+.toggle-left svg{width:18px;height:18px;stroke:#86868B;fill:none;stroke-width:1.5;flex-shrink:0}
+.toggle-text{font-family:'Satoshi',sans-serif;font-size:13px;color:#1D1D1F}
+.toggle-sub{font-family:'Inter',sans-serif;font-size:10px;color:#86868B}
+.status-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.status-dot.ok{background:#34C759}
+.mode-tabs{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px}
+.mode-tab{padding:16px;border-radius:14px;border:1.5px solid rgba(0,0,0,0.06);cursor:pointer;transition:all 0.2s;text-align:center}
+.mode-tab:hover{border-color:rgba(0,0,0,0.12)}
+.mode-tab.active{border-color:rgba(215,0,48,0.4);background:rgba(215,0,48,0.02)}
+.mode-tab-icon{width:40px;height:40px;border-radius:12px;margin:0 auto 10px;display:flex;align-items:center;justify-content:center}
+.mode-tab-icon svg{width:20px;height:20px;stroke:#FFF;fill:none;stroke-width:1.5}
+.mode-tab-name{font-family:'Satoshi',sans-serif;font-size:14px;font-weight:600;color:#1D1D1F;margin-bottom:2px}
+.mode-tab-desc{font-family:'Inter',sans-serif;font-size:11px;color:#86868B}
+.mode-badge{font-family:'Inter',sans-serif;font-size:10px;font-weight:600;color:#34C759;background:rgba(52,199,89,0.08);padding:2px 8px;border-radius:4px;display:inline-block;margin-bottom:8px}
+.qr-area{display:flex;align-items:center;justify-content:center;background:#F5F5F7;border:2px dashed rgba(0,0,0,0.08);border-radius:16px;padding:40px;margin-top:12px}
+.qr-placeholder{text-align:center}
+.qr-placeholder svg{width:64px;height:64px;stroke:#D2D2D7;fill:none;stroke-width:1;margin-bottom:10px}
+.qr-placeholder p{font-family:'Inter',sans-serif;font-size:12px;color:#86868B}
+.rate-bar{height:8px;background:#F0F0F2;border-radius:4px;overflow:hidden;margin-top:8px}
+.rate-fill{height:100%;border-radius:4px;transition:width 0.5s ease}
+.rate-info{display:flex;justify-content:space-between;font-family:'Inter',sans-serif;font-size:11px;color:#86868B;margin-top:6px}
+.template-item{display:flex;align-items:center;gap:12px;padding:12px 14px;background:#F5F5F7;border-radius:12px;margin-bottom:8px}
+.template-icon{width:32px;height:32px;border-radius:8px;background:rgba(215,0,48,0.06);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.template-icon svg{width:16px;height:16px;stroke:#D70030;fill:none;stroke-width:1.5}
+.template-info{flex:1}
+.template-name{font-family:'Satoshi',sans-serif;font-size:13px;font-weight:500;color:#1D1D1F}
+.template-meta{font-family:'Inter',sans-serif;font-size:10px;color:#86868B}
+.btn-row{display:flex;gap:10px;margin-top:24px}
+.btn-action{flex:1;font-family:'Inter',sans-serif;padding:14px;border-radius:14px;font-size:14px;font-weight:600;border:none;cursor:pointer;transition:opacity 0.15s;text-align:center}
+.btn-primary{background:#D70030;color:#FFF}
+.btn-primary:hover{opacity:0.9}
+.btn-secondary{background:#F0F0F2;color:#1D1D1F;border:1px solid rgba(0,0,0,0.06)}
+.btn-secondary:hover{background:#E8E8EA}
+.btn-ghost{background:transparent;color:#D70030;border:1px solid rgba(215,0,48,0.15)}
+.btn-ghost:hover{background:rgba(215,0,48,0.04)}
+.btn-back{display:inline-flex;align-items:center;gap:6px;font-family:'Inter',sans-serif;font-size:13px;color:#86868B;padding:10px 0;cursor:pointer;transition:color 0.15s}
+.btn-back:hover{color:#D70030}
+.btn-back svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:1.5}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+</style>
+</head>
+<body data-client="true" data-active="connections">
+<main class="main">
+
+<div class="breadcrumb"><a href="dashboard.html">Dashboard</a> / <a href="connections.html">Conexoes</a> / WhatsApp</div>
+
+<!-- CHAT HERO -->
+<div style="background:#FFF;border-radius:20px;border:1px solid rgba(0,0,0,0.04);margin-bottom:20px;overflow:hidden">
+  <div style="display:flex;align-items:center;gap:10px;padding:14px 18px;border-bottom:1px solid rgba(0,0,0,0.04)">
+    <div style="width:28px;height:28px;border-radius:8px;background:linear-gradient(135deg,#D70030,#8B0000);display:flex;align-items:center;justify-content:center"><svg viewBox="0 0 24 24" style="width:14px;height:14px;stroke:#FFF;fill:none;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg></div>
+    <div><div style="font-family:'Zen Dots',cursive;font-size:11px;color:#1D1D1F">Sensei</div><div style="font-family:'Inter',sans-serif;font-size:10px;color:#D70030">WhatsApp — Evolution API</div></div>
+  </div>
+
+<!-- DUAL MODE -->
+<div class="section-card" style="animation-delay:0.05s">
+  <p class="card-label">Modo de conexao</p>
+  <p class="card-desc">Escolha entre Evolution API (Baileys, auto-hospedado) ou Cloud API (oficial Meta). Dual mode permite usar ambos.</p>
+  <div class="mode-tabs">
+    <div class="mode-tab active" onclick="document.querySelectorAll('.mode-tab').forEach(c=>c.classList.remove('active'));this.classList.add('active')">
+      <div class="mode-tab-icon" style="background:linear-gradient(135deg,#25D366,#128C7E)"><svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      <div class="mode-badge">Ativo</div>
+      <div class="mode-tab-name">Evolution API</div>
+      <div class="mode-tab-desc">Baileys, auto-hospedado, sem custo por msg</div>
+    </div>
+    <div class="mode-tab" onclick="document.querySelectorAll('.mode-tab').forEach(c=>c.classList.remove('active'));this.classList.add('active')">
+      <div class="mode-tab-icon" style="background:linear-gradient(135deg,#007AFF,#0055CC)"><svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      <div class="mode-tab-name">Cloud API</div>
+      <div class="mode-tab-desc">Meta oficial, pago por conversa, mais estavel</div>
+    </div>
+  </div>
+</div>
+
+<!-- INSTANCE CONFIG -->
+<div class="section-card" style="animation-delay:0.1s">
+  <p class="card-label">Configuracao da instance</p>
+  <p class="card-desc">Dados da instancia Evolution API conectada.</p>
+  <div class="form-group">
+    <label>Instance name</label>
+    <input type="text" class="form-input" value="gs_main" readonly>
+  </div>
+  <div class="form-group">
+    <label>API URL</label>
+    <input type="text" class="form-input" value="https://evo.ktana.ai/instance/gs_main" readonly>
+  </div>
+  <div class="form-group">
+    <label>API Key</label>
+    <input type="text" class="form-input masked" value="**** **** **** Bk9X" readonly>
+  </div>
+  <div class="form-group">
+    <label>Numero conectado</label>
+    <input type="text" class="form-input" value="+55 11 9XXXX-XXXX" readonly>
+  </div>
+  <div style="display:flex;align-items:center;gap:8px;margin-top:12px;padding:10px 14px;background:rgba(52,199,89,0.06);border-radius:10px">
+    <div class="status-dot ok"></div>
+    <span style="font-family:'Inter',sans-serif;font-size:12px;color:#34C759;font-weight:500">Sessao ativa — conectado via QR Code</span>
+  </div>
+</div>
+
+<!-- QR CODE -->
+<div class="section-card" style="animation-delay:0.15s">
+  <p class="card-label">QR Code</p>
+  <p class="card-desc">Escaneie com WhatsApp para reconectar caso a sessao expire.</p>
+  <div class="qr-area">
+    <div class="qr-placeholder">
+      <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1" stroke-linecap="round" stroke-linejoin="round"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="3" height="3"/><line x1="21" y1="14" x2="21" y2="14.01"/><line x1="21" y1="21" x2="21" y2="21.01"/><line x1="14" y1="21" x2="14" y2="21.01"/></svg>
+      <p>Sessao ativa — QR nao necessario.<br>Clique para gerar novo QR se precisar reconectar.</p>
+    </div>
+  </div>
+</div>
+
+<!-- CONFIG AGENTE WHATSAPP -->
+<div class="section-card" style="animation-delay:0.2s">
+  <p class="card-label">Agente WhatsApp</p>
+  <p class="card-desc">Configuracao do agente autonomo que responde mensagens recebidas.</p>
+  <div class="toggle-row">
+    <div class="toggle-left">
+      <svg viewBox="0 0 24 24"><path d="M14.5 17.5L3 6V3h3l11.5 11.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M13 19l6-6M15 17l2 2M7 3l7 7"/></svg>
+      <div><div class="toggle-text">Agente autonomo ativo</div><div class="toggle-sub">Responde mensagens automaticamente</div></div>
+    </div>
+    <div class="toggle on" onclick="this.classList.toggle('on')"></div>
+  </div>
+  <div class="form-group" style="margin-top:12px">
+    <label>Modo de conversa</label>
+    <select class="form-select">
+      <option selected>Cordial-Consultivo</option>
+      <option>Direto-Objetivo</option>
+      <option>Vendas-Ativo</option>
+      <option>Suporte-Tecnico</option>
+    </select>
+  </div>
+  <div class="form-group">
+    <label>Tom de voz</label>
+    <select class="form-select">
+      <option selected>Profissional e amigavel</option>
+      <option>Formal corporativo</option>
+      <option>Casual e proximo</option>
+    </select>
+  </div>
+  <div class="form-group">
+    <label>Horario de operacao</label>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+      <input type="text" class="form-input" value="08:00" style="text-align:center">
+      <input type="text" class="form-input" value="18:00" style="text-align:center">
+    </div>
+  </div>
+  <div class="toggle-row">
+    <div class="toggle-left">
+      <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <div><div class="toggle-text">Fora do horario: mensagem automatica</div><div class="toggle-sub">"Obrigado pela mensagem! Retornamos no proximo dia util."</div></div>
+    </div>
+    <div class="toggle on" onclick="this.classList.toggle('on')"></div>
+  </div>
+</div>
+
+<!-- TEMPLATES -->
+<div class="section-card" style="animation-delay:0.25s">
+  <p class="card-label">Templates de mensagem</p>
+  <p class="card-desc">Templates pre-aprovados para envio proativo (Cloud API).</p>
+  <div class="template-item">
+    <div class="template-icon"><svg viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 11-5.93-9.14" stroke-linecap="round" stroke-linejoin="round"/><polyline points="22 4 12 14.01 9 11.01"/></svg></div>
+    <div class="template-info"><div class="template-name">Aprovacao de post</div><div class="template-meta">Categoria: Utility &middot; Aprovado</div></div>
+  </div>
+  <div class="template-item">
+    <div class="template-icon"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2" stroke-linecap="round" stroke-linejoin="round"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></div>
+    <div class="template-info"><div class="template-name">Lembrete de reuniao</div><div class="template-meta">Categoria: Utility &middot; Aprovado</div></div>
+  </div>
+  <div class="template-item">
+    <div class="template-icon"><svg viewBox="0 0 24 24"><path d="M12 20V10M18 20V4M6 20v-4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+    <div class="template-info"><div class="template-name">Relatorio semanal</div><div class="template-meta">Categoria: Marketing &middot; Aprovado</div></div>
+  </div>
+</div>
+
+<!-- RATE LIMITS -->
+<div class="section-card" style="animation-delay:0.3s">
+  <p class="card-label">Rate limits</p>
+  <p class="card-desc">Limites configurados para evitar ban. Evolution API nao tem limite oficial, mas recomendamos 8 msgs/min.</p>
+  <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:4px">
+    <span style="font-family:'Zen Dots',cursive;font-size:22px;color:#1D1D1F">8</span>
+    <span style="font-family:'Inter',sans-serif;font-size:12px;color:#86868B">msgs/min (configuravel)</span>
+  </div>
+  <div class="rate-bar"><div class="rate-fill" style="width:40%;background:linear-gradient(90deg,#34C759,#30D158)"></div></div>
+  <div class="rate-info"><span>~3.2 msgs/min media atual</span><span>Delay: 7-12s entre msgs</span></div>
+</div>
+
+<!-- ACOES -->
+<div class="btn-row">
+  <button class="btn-action btn-ghost" onclick="alert('QR Code gerado — escaneie com WhatsApp Business')">Gerar QR Code</button>
+  <button class="btn-action btn-secondary" onclick="this.textContent='Conectado!';this.style.background='#34C759';this.style.color='#FFF'">Testar Conexao</button>
+  <button class="btn-action btn-primary" onclick="this.textContent='Salvo!';this.style.background='#34C759';this.style.color='#FFF';this.style.borderColor='#34C759'">Salvar</button>
+</div>
+
+<a href="connections.html" class="btn-back" style="margin-top:20px">
+  <svg viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  Voltar para Conexoes
+</a>
+
+</div>
+<script src="shared-nav-social.js"></script></body></html>

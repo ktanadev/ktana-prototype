@@ -1,0 +1,186 @@
+<!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>Minha marca — Joao Mendes</title><link rel="stylesheet" href="../shared.css"><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Zen+Dots&display=swap" rel="stylesheet">
+<style>
+body{min-height:100vh;background:#F5F5F7;color:#1D1D1F}
+a{text-decoration:none;color:inherit}
+.nav{position:fixed;top:0;left:0;right:0;z-index:50;height:48px;display:flex;align-items:center;justify-content:center;background:rgba(245,245,247,0.72);backdrop-filter:saturate(180%) blur(20px);border-bottom:0.5px solid rgba(0,0,0,0.06)}
+.nav-inner{width:100%;max-width:720px;padding:0 24px;display:flex;align-items:center;justify-content:space-between}
+.nav-logo{font-family:'Zen Dots',cursive;font-size:13px;color:#D70030;display:flex;align-items:center;gap:6px}
+.nav-logo span{font-family:'Inter',sans-serif;font-size:9px;color:#86868B;background:rgba(0,0,0,0.04);padding:2px 6px;border-radius:4px}
+.nav-tabs{display:flex;gap:4px}
+.nav-tab{font-family:'Inter',sans-serif;font-size:11px;font-weight:500;color:#86868B;padding:6px 12px;border-radius:980px;cursor:pointer;transition:all 0.15s}
+.nav-tab:hover{color:#1D1D1F}
+.nav-tab.active{background:rgba(215,0,48,0.06);color:#D70030}
+.nav-user{display:flex;align-items:center;gap:6px}
+.nav-avatar{width:24px;height:24px;border-radius:50%;background:linear-gradient(135deg,#D70030,#A60028);display:flex;align-items:center;justify-content:center;font-family:'Inter',sans-serif;font-size:8px;font-weight:600;color:#FFF}
+.container{max-width:720px;margin:0 auto;padding:64px 24px 100px}
+.sec{font-family:'Inter',sans-serif;font-size:10px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:#D70030;margin-bottom:10px;margin-top:28px}
+.back{display:inline-flex;align-items:center;gap:4px;font-family:'Inter',sans-serif;font-size:12px;color:#D70030;margin-bottom:16px}
+.back svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:1.5}
+
+/* BRAND CARDS */
+.brand-card{background:#FFF;border:1px solid rgba(0,0,0,0.04);border-radius:16px;padding:20px;margin-bottom:12px;position:relative;overflow:hidden}
+.brand-card::before{content:'';position:absolute;inset:0;border-radius:16px;padding:1px;background:linear-gradient(135deg,rgba(255,231,231,0.2) 0%,transparent 30%,rgba(215,0,48,0.12) 100%);-webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);-webkit-mask-composite:xor;mask-composite:exclude;pointer-events:none}
+.bc-label{font-family:'Inter',sans-serif;font-size:10px;font-weight:600;color:#D70030;text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px}
+.bc-title{font-family:'Satoshi',sans-serif;font-size:16px;font-weight:600;color:#1D1D1F;margin-bottom:4px}
+.bc-text{font-family:'Satoshi',sans-serif;font-size:13px;color:#6E6E73;line-height:1.6}
+.bc-text strong{color:#1D1D1F}
+
+/* BUSSOLA */
+.bussola{font-family:'Satoshi',sans-serif;font-size:14px;color:#1D1D1F;line-height:1.8;padding:4px 0}
+.bussola em{font-style:normal;color:#D70030;font-weight:600}
+
+/* TAGS */
+.tag-list{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
+.tag{font-family:'Inter',sans-serif;font-size:11px;padding:5px 12px;border-radius:980px;border:1px solid rgba(0,0,0,0.06);background:#FFF;color:#6E6E73}
+.tag.active{border-color:rgba(215,0,48,0.15);background:rgba(215,0,48,0.03);color:#D70030}
+
+/* ARCHETYPE */
+.archetype{display:flex;align-items:center;gap:14px;padding:4px 0}
+.arch-icon{width:48px;height:48px;border-radius:14px;background:linear-gradient(135deg,rgba(215,0,48,0.06),rgba(215,0,48,0.14));display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.arch-icon svg{width:22px;height:22px;stroke:#D70030;fill:none;stroke-width:1.5}
+.arch-info h3{font-family:'Zen Dots',cursive;font-size:14px;color:#1D1D1F;margin-bottom:2px}
+.arch-info p{font-family:'Inter',sans-serif;font-size:11px;color:#86868B}
+
+/* PALETTE */
+.palette{display:flex;gap:8px;margin-top:8px}
+.swatch{width:44px;height:44px;border-radius:10px;position:relative}
+.swatch span{position:absolute;bottom:-16px;left:50%;transform:translateX(-50%);font-family:'Inter',sans-serif;font-size:8px;color:#86868B;white-space:nowrap}
+
+/* COMPETITOR */
+.comp{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:0.5px solid rgba(0,0,0,0.04)}
+.comp:last-child{border-bottom:none}
+.comp-av{width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,#E8E8ED,#D2D2D7);display:flex;align-items:center;justify-content:center;font-family:'Inter',sans-serif;font-size:9px;font-weight:600;color:#6E6E73;flex-shrink:0}
+.comp-name{font-family:'Satoshi',sans-serif;font-size:13px;font-weight:500;color:#1D1D1F;flex:1}
+.comp-handle{font-family:'Inter',sans-serif;font-size:10px;color:#86868B}
+.comp-followers{font-family:'Inter',sans-serif;font-size:10px;color:#6E6E73}
+.comp-gap{font-family:'Inter',sans-serif;font-size:10px;font-weight:600;padding:2px 8px;border-radius:4px;background:rgba(52,199,89,0.08);color:#34C759}
+
+/* EDIT BTN */
+.edit-float{position:fixed;bottom:24px;right:24px;display:flex;align-items:center;gap:8px;padding:12px 20px;background:#D70030;color:#FFF;border-radius:980px;font-family:'Inter',sans-serif;font-size:13px;font-weight:600;cursor:pointer;box-shadow:0 4px 24px rgba(215,0,48,0.3);border:none;z-index:40;transition:transform 0.15s}
+.edit-float:hover{transform:scale(1.03)}
+.edit-float svg{width:16px;height:16px;stroke:#FFF;fill:none;stroke-width:1.5}
+</style>
+</head>
+<body>
+<nav class="nav"><div class="nav-inner">
+  <a href="client-portal.html" class="nav-logo">KTANA <span>Portal</span></a>
+  <div class="nav-tabs">
+    <a href="client-portal.html" class="nav-tab">Inicio</a>
+    <a href="client-approve-detail.html" class="nav-tab">Aprovacoes</a>
+    <a href="client-upload.html" class="nav-tab">Enviar</a>
+    <a href="client-brand.html" class="nav-tab active">Marca</a>
+  </div>
+  <div class="nav-user"><div class="nav-avatar">JM</div></div>
+</div></nav>
+
+<div class="container">
+  <a href="client-portal.html" class="back"><svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6" stroke-linecap="round" stroke-linejoin="round"/></svg> Voltar</a>
+  <h1 style="font-family:'Zen Dots',cursive;font-size:22px;margin-bottom:4px">Minha marca</h1>
+  <p style="font-family:'Satoshi',sans-serif;font-size:14px;color:#86868B;margin-bottom:20px">Seu brand book completo. Tudo que define como voce se posiciona.</p>
+
+  <!-- BUSSOLA -->
+  <div class="brand-card">
+    <div class="bc-label">Bussola de posicionamento</div>
+    <div class="bussola">Para <em>CEOs e founders de tech</em> que precisam de <em>posicionamento digital como autoridade</em>, o <em>Joao Mendes</em> e o <em>mentor de negocios</em> que <em>transforma expertise em influencia</em>, ao contrario de <em>agencias genericas</em>, nosso diferencial e a <em>combinacao de experiencia real + distribuicao inteligente</em>.</div>
+  </div>
+
+  <!-- ARCHETYPE -->
+  <div class="brand-card">
+    <div class="bc-label">Arquetipo</div>
+    <div class="archetype">
+      <div class="arch-icon"><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      <div class="arch-info">
+        <h3>Sabio</h3>
+        <p>Mentor que guia com conhecimento e experiencia. Referencia: Simon Sinek, Ray Dalio.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- TIPO POSICIONAMENTO -->
+  <div class="brand-card">
+    <div class="bc-label">Tipo de posicionamento</div>
+    <div class="bc-title">Founder</div>
+    <div class="bc-text">Visao de mundo propria, tese central clara, lideranca pelo exemplo. Comunica como CEO e empresario.</div>
+  </div>
+
+  <!-- TESE CENTRAL -->
+  <div class="brand-card">
+    <div class="bc-label">Tese central</div>
+    <div class="bc-title" style="font-size:18px;line-height:1.4">"Autoridade nao se compra. Se constroi com consistencia, metodo e distribuicao inteligente."</div>
+  </div>
+
+  <!-- TOM DE VOZ -->
+  <div class="brand-card">
+    <div class="bc-label">Tom de voz</div>
+    <div class="tag-list">
+      <span class="tag active">Direto</span>
+      <span class="tag active">Provocador</span>
+      <span class="tag active">Dados</span>
+      <span class="tag active">Anti-bullshit</span>
+      <span class="tag">Storytelling</span>
+      <span class="tag">Inspiracional</span>
+      <span class="tag">Tecnico</span>
+    </div>
+  </div>
+
+  <!-- PUBLICO -->
+  <div class="sec">Publico-alvo</div>
+  <div class="brand-card">
+    <div class="bc-label">Demograficas</div>
+    <div class="bc-text">Homens e mulheres, 30-50 anos, renda A/B, SP/RJ/capitais, C-Level e founders de tech, SaaS, consultoria.</div>
+  </div>
+  <div class="brand-card">
+    <div class="bc-label">Desejos profundos</div>
+    <div class="bc-text">Ser reconhecido como referencia no mercado. Atrair clientes pelo posicionamento, nao por vendas ativas. Sair do anonimato.</div>
+  </div>
+  <div class="brand-card">
+    <div class="bc-label">Pontos de dor</div>
+    <div class="bc-text">"Sei que preciso postar mas nao tenho tempo." "Tentei agencia e era conteudo generico." "Nao quero parecer influencer, quero parecer CEO."</div>
+  </div>
+
+  <!-- CONCORRENTES -->
+  <div class="sec">Concorrentes mapeados</div>
+  <div class="brand-card" style="padding:14px 16px">
+    <div class="comp">
+      <div class="comp-av">RS</div>
+      <div style="flex:1"><div class="comp-name">Rodrigo Souza</div><div class="comp-handle">@rodrigosouza · 45K seg</div></div>
+      <span class="comp-gap">Brecha: sem metodo</span>
+    </div>
+    <div class="comp">
+      <div class="comp-av">ML</div>
+      <div style="flex:1"><div class="comp-name">Marina Lima</div><div class="comp-handle">@marinalima · 120K seg</div></div>
+      <span class="comp-gap">Brecha: so lifestyle</span>
+    </div>
+    <div class="comp">
+      <div class="comp-av">PF</div>
+      <div style="flex:1"><div class="comp-name">Paulo Ferreira</div><div class="comp-handle">@pauloferreira · 78K seg</div></div>
+      <span class="comp-gap">Brecha: conteudo raso</span>
+    </div>
+  </div>
+
+  <!-- IDENTIDADE VISUAL -->
+  <div class="sec">Identidade visual</div>
+  <div class="brand-card">
+    <div class="bc-label">Paleta de cores</div>
+    <div class="palette">
+      <div class="swatch" style="background:#1D1D1F"><span>#1D1D1F</span></div>
+      <div class="swatch" style="background:#D70030"><span>#D70030</span></div>
+      <div class="swatch" style="background:#F5F5F7;border:1px solid rgba(0,0,0,0.06)"><span>#F5F5F7</span></div>
+      <div class="swatch" style="background:#34C759"><span>#34C759</span></div>
+      <div class="swatch" style="background:#007AFF"><span>#007AFF</span></div>
+    </div>
+  </div>
+  <div class="brand-card" style="margin-top:28px">
+    <div class="bc-label">Tipografia</div>
+    <div style="font-family:'Zen Dots',cursive;font-size:18px;color:#1D1D1F;margin-bottom:4px">Zen Dots — Titulos</div>
+    <div style="font-family:'Satoshi',sans-serif;font-size:14px;color:#6E6E73">Satoshi — Corpo de texto</div>
+    <div style="font-family:'Inter',sans-serif;font-size:12px;color:#86868B;margin-top:2px">Inter — Labels e UI</div>
+  </div>
+
+</div>
+
+<button class="edit-float" onclick="location.href='client-portal.html'">
+  <svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  Editar via chat
+</button>
+</body></html>

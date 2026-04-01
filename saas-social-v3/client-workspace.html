@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>KTANA Social — Joao Mendes</title>
+  <link rel="stylesheet" href="../shared.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Zen+Dots&display=swap" rel="stylesheet">
+  <style>
+    body{min-height:100vh;background:#F5F5F7;color:#1D1D1F}
+    a{text-decoration:none;color:inherit}
+    .main{max-width:760px;margin:0 auto;padding:0 20px 100px}
+
+    /* CLIENT HEADER */
+    .client-header{display:flex;align-items:center;gap:14px;padding:16px 0 20px}
+    .ch-avatar{width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,#D70030,#A60028);display:flex;align-items:center;justify-content:center;font-family:'Inter',sans-serif;font-size:14px;font-weight:600;color:#FFF;flex-shrink:0}
+    .ch-info h1{font-family:'Zen Dots',cursive;font-size:20px;color:#1D1D1F;margin-bottom:2px}
+    .ch-info p{font-family:'Inter',sans-serif;font-size:11px;color:#86868B}
+    .ch-phase{margin-left:auto;font-family:'Inter',sans-serif;font-size:10px;font-weight:600;padding:4px 10px;border-radius:6px;background:rgba(52,199,89,0.08);color:#34C759}
+    .ch-auto{font-family:'Inter',sans-serif;font-size:10px;color:#34C759;display:flex;align-items:center;gap:4px;margin-left:12px}
+    .ch-auto::before{content:'';width:5px;height:5px;border-radius:50%;background:#34C759}
+
+
+    /* QUICK NAV */
+    .qa{display:flex;gap:6px;margin-bottom:20px;flex-wrap:wrap}
+    .qa-btn{font-family:'Inter',sans-serif;font-size:11px;font-weight:500;padding:7px 12px;border-radius:8px;border:1px solid rgba(0,0,0,0.06);background:#FFF;color:#6E6E73;cursor:pointer;transition:all 0.15s;display:flex;align-items:center;gap:5px}
+    .qa-btn:hover{border-color:rgba(215,0,48,0.12);color:#D70030}
+    .qa-btn svg{width:12px;height:12px;stroke:currentColor;fill:none;stroke-width:1.5}
+
+    /* SECTIONS */
+    .sec{font-family:'Inter',sans-serif;font-size:10px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:#D70030;margin-bottom:10px;margin-top:4px}
+
+    /* SCORES */
+    .scores{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:20px}
+    .sc{background:#FFF;border:1px solid rgba(0,0,0,0.04);border-radius:14px;padding:16px 12px;text-align:center}
+    .sc-v{font-family:'Zen Dots',cursive;font-size:20px;color:#1D1D1F}.sc-v.brand{color:#D70030}
+    .sc-l{font-family:'Inter',sans-serif;font-size:9px;color:#86868B;margin-top:2px;text-transform:uppercase;letter-spacing:.04em}
+    .net-row{display:flex;gap:10px;justify-content:center;margin-top:6px}
+    .net-item{text-align:center}
+    .net-item .nm{font-family:'Inter',sans-serif;font-size:9px;color:#86868B}
+    .net-item .vl{font-family:'JetBrains Mono',monospace;font-size:11px;color:#1D1D1F;font-weight:600}
+    .net-item .dt{font-family:'Inter',sans-serif;font-size:9px;color:#34C759}
+
+    /* PIPELINE MINI */
+    .pipe{display:flex;gap:8px;overflow-x:auto;margin-bottom:20px;padding-bottom:4px}
+    .pipe-col{min-width:140px;flex:1}
+    .pipe-col-h{font-family:'Inter',sans-serif;font-size:9px;font-weight:600;letter-spacing:.05em;text-transform:uppercase;color:#86868B;margin-bottom:6px;display:flex;align-items:center;gap:4px}
+    .pipe-col-h span{font-family:'JetBrains Mono',monospace;font-size:9px;color:#AEAEB2}
+    .pipe-item{background:#FFF;border:1px solid rgba(0,0,0,0.04);border-radius:8px;padding:8px 10px;margin-bottom:4px;cursor:pointer;transition:all 0.15s}
+    .pipe-item:hover{border-color:rgba(215,0,48,0.1)}
+    .pipe-item .net{font-family:'Inter',sans-serif;font-size:8px;font-weight:600;color:#D70030;text-transform:uppercase}
+    .pipe-item .title{font-family:'Satoshi',sans-serif;font-size:11px;color:#1D1D1F;margin-top:2px}
+    .pipe-item .score{font-family:'JetBrains Mono',monospace;font-size:9px;color:#34C759;margin-top:2px}
+
+    /* CALENDAR MINI */
+    .cal{display:flex;gap:4px;margin-bottom:20px}
+    .cal-day{flex:1;background:#FFF;border:1px solid rgba(0,0,0,0.04);border-radius:8px;padding:8px 4px;text-align:center;min-height:70px}
+    .cal-day.today{border-color:rgba(215,0,48,0.15)}
+    .cal-dn{font-family:'Inter',sans-serif;font-size:8px;font-weight:600;color:#86868B;text-transform:uppercase;margin-bottom:4px}
+    .cal-slot{font-family:'Inter',sans-serif;font-size:8px;padding:2px 4px;border-radius:3px;margin-bottom:2px}
+    .cal-pub{background:rgba(52,199,89,0.08);color:#34C759}
+    .cal-sch{background:rgba(0,122,255,0.08);color:#007AFF}
+    .cal-prod{background:rgba(255,149,0,0.08);color:#FF9500}
+    .cal-empty{background:rgba(0,0,0,0.02);color:#AEAEB2;border:1px dashed rgba(0,0,0,0.06)}
+
+    @media(max-width:600px){.scores{grid-template-columns:1fr 1fr}.cal{flex-wrap:wrap}.cal-day{min-width:80px}}
+  </style>
+</head>
+<body data-client="true" data-active="workspace">
+
+<main class="main">
+
+  <!-- CLIENT HEADER -->
+  <div class="client-header">
+    <div class="ch-avatar">JM</div>
+    <div class="ch-info">
+      <h1>Joao Mendes</h1>
+      <p>CEO TechFlow — SaaS B2B — Heroi — Tom direto e provocador</p>
+    </div>
+    <div class="ch-phase">Fase 4</div>
+    <div class="ch-auto">Autopilot</div>
+  </div>
+<!-- QUICK NAV -->
+  <div class="qa">
+    <a class="qa-btn" href="brandbook.html"><svg viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg> Brand Book</a>
+    <a class="qa-btn" href="pipeline.html"><svg viewBox="0 0 24 24"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg> Pipeline</a>
+    <a class="qa-btn" href="calendar.html"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/></svg> Calendario</a>
+    <a class="qa-btn" href="insights.html"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg> Insights</a>
+    <a class="qa-btn" href="webinar.html"><svg viewBox="0 0 24 24"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg> Webinars</a>
+    <a class="qa-btn" href="avatar-clone.html"><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg> Avatar</a>
+    <a class="qa-btn" href="metrics.html"><svg viewBox="0 0 24 24"><path d="M12 20V10M18 20V4M6 20v-4"/></svg> Metricas</a>
+    <a class="qa-btn" href="connections.html"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0"/></svg> Conexoes</a>
+  </div>
+
+  <!-- SCORES -->
+  <div class="sec">Numeros</div>
+  <div class="scores">
+    <div class="sc">
+      <div class="sc-l">Seguidores</div>
+      <div class="net-row">
+        <div class="net-item"><div class="nm">IG</div><div class="vl">12.4K</div><div class="dt">+340</div></div>
+        <div class="net-item"><div class="nm">LI</div><div class="vl">8.2K</div><div class="dt">+120</div></div>
+        <div class="net-item"><div class="nm">TT</div><div class="vl">3.1K</div><div class="dt">+89</div></div>
+      </div>
+    </div>
+    <div class="sc"><div class="sc-v">18<span style="font-family:Inter;font-size:12px;color:#86868B">/21</span></div><div class="sc-l">Posts semana (86%)</div></div>
+    <div class="sc"><div class="sc-v brand">4.8%</div><div class="sc-l">Engagement Rate</div></div>
+  </div>
+
+  <!-- PIPELINE MINI -->
+  <div class="sec">Pipeline</div>
+  <div class="pipe">
+    <div class="pipe-col"><div class="pipe-col-h">Pesquisa <span>2</span></div><div class="pipe-item"><div class="net">IG</div><div class="title">Concorrentes SaaS</div></div><div class="pipe-item"><div class="net">LI</div><div class="title">Trending B2B</div></div></div>
+    <div class="pipe-col"><div class="pipe-col-h">Pauta <span>3</span></div><div class="pipe-item"><div class="net">IG</div><div class="title">5 erros de CEO</div><div class="score">87%</div></div><div class="pipe-item"><div class="net">LI</div><div class="title">Futuro B2B</div><div class="score">94%</div></div><div class="pipe-item"><div class="net">X</div><div class="title">Revenue vs equity</div><div class="score">91%</div></div></div>
+    <div class="pipe-col"><div class="pipe-col-h">Roteiro <span>2</span></div><div class="pipe-item"><div class="net">IG</div><div class="title">Escale sem caixa</div><div class="score">92%</div></div><div class="pipe-item"><div class="net">TT</div><div class="title">Rotina CEO</div><div class="score" style="color:#FF9500">78%</div></div></div>
+    <div class="pipe-col"><div class="pipe-col-h">Aprovacao <span>2</span></div><div class="pipe-item" style="border-color:rgba(215,0,48,0.15)"><div class="net">IG</div><div class="title">5 erros CEO</div><div class="score" style="color:#D70030">SM: 6h</div></div><div class="pipe-item"><div class="net">LI</div><div class="title">Mercado 2026</div><div class="score" style="color:#007AFF">Cliente</div></div></div>
+    <div class="pipe-col"><div class="pipe-col-h">Agendado <span>4</span></div><div class="pipe-item"><div class="net">IG</div><div class="title">Escale</div><div class="score">Ter 10:30</div></div><div class="pipe-item"><div class="net">LI</div><div class="title">Futuro B2B</div><div class="score">Qua 09:00</div></div></div>
+  </div>
+
+  <!-- CALENDAR MINI -->
+  <div class="sec">Calendario</div>
+  <div class="cal">
+    <div class="cal-day"><div class="cal-dn">Seg 31</div><div class="cal-slot cal-pub">IG</div><div class="cal-slot cal-pub">TT</div><div class="cal-slot cal-pub">LI</div></div>
+    <div class="cal-day today"><div class="cal-dn">Ter 1</div><div class="cal-slot cal-sch">IG 10:30</div><div class="cal-slot cal-sch">TT 15:00</div></div>
+    <div class="cal-day"><div class="cal-dn">Qua 2</div><div class="cal-slot cal-sch">LI 09:00</div><div class="cal-slot cal-sch">X 12:00</div></div>
+    <div class="cal-day"><div class="cal-dn">Qui 3</div><div class="cal-slot cal-prod">IG Reel</div><div class="cal-slot cal-prod">LI</div></div>
+    <div class="cal-day"><div class="cal-dn">Sex 4</div><div class="cal-slot cal-empty">IG</div><div class="cal-slot cal-empty">TT</div></div>
+    <div class="cal-day"><div class="cal-dn">Sab 5</div><div class="cal-slot cal-empty">IG</div></div>
+    <div class="cal-day"><div class="cal-dn">Dom 6</div><div class="cal-slot cal-empty">IG</div></div>
+  </div>
+
+</div>
+
+<script src="shared-nav-social.js"></script>
+</body>
+</html>

@@ -1,0 +1,144 @@
+<!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>KTANA Social — Checklist do Founder</title><link rel="stylesheet" href="../shared.css"><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Satoshi:wght@400;500;600;700&family=Zen+Dots&display=swap" rel="stylesheet">
+<style>
+body{min-height:100vh;background:#F5F5F7;color:#1D1D1F}
+a{text-decoration:none;color:inherit}
+.content{padding:16px 24px 80px;max-width:720px}
+.client-bar{background:#FFF;border-radius:16px;border:1px solid rgba(0,0,0,0.04);padding:16px 20px;margin-bottom:20px;display:flex;align-items:center;gap:14px;position:relative;overflow:hidden}
+.client-bar::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:#D70030}
+.cb-av{width:40px;height:40px;border-radius:12px;background:linear-gradient(135deg,#D70030,#A60028);display:flex;align-items:center;justify-content:center;font-family:'Inter',sans-serif;font-size:12px;font-weight:700;color:#FFF;flex-shrink:0}
+.cb-info{flex:1}
+.cb-name{font-family:'Satoshi',sans-serif;font-size:15px;font-weight:600;color:#1D1D1F}
+.cb-meta{font-family:'Inter',sans-serif;font-size:11px;color:#86868B;margin-top:2px}
+.cb-score{text-align:right}
+.cb-score-v{font-family:'Zen Dots',cursive;font-size:22px}
+.cb-score-l{font-family:'Inter',sans-serif;font-size:10px;color:#86868B}
+
+/* WEEK SELECTOR */
+.weeks{display:flex;gap:4px;margin-bottom:16px;overflow-x:auto}
+.week{font-family:'Inter',sans-serif;font-size:11px;font-weight:500;padding:7px 14px;border-radius:980px;background:#FFF;border:1px solid rgba(0,0,0,0.04);color:#86868B;cursor:pointer}
+.week.on{background:rgba(215,0,48,0.06);border-color:rgba(215,0,48,0.15);color:#D70030}
+
+/* TASK */
+.task{display:flex;align-items:flex-start;gap:12px;padding:14px 16px;background:#FFF;border-radius:14px;border:1px solid rgba(0,0,0,0.04);margin-bottom:8px;transition:all 0.2s}
+.task:hover{border-color:rgba(0,0,0,0.08)}
+.task-check{width:22px;height:22px;border-radius:50%;border:1.5px solid #D2D2D7;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;transition:all 0.15s}
+.task-check.done{border-color:#34C759;background:#34C759}
+.task-check.done::after{content:'';width:5px;height:9px;border:solid #FFF;border-width:0 2px 2px 0;transform:rotate(45deg) translate(-0.5px,-0.5px)}
+.task-body{flex:1}
+.task-title{font-family:'Satoshi',sans-serif;font-size:13px;color:#1D1D1F;margin-bottom:4px}
+.task.completed .task-title{text-decoration:line-through;color:#86868B}
+.task-meta{font-family:'Inter',sans-serif;font-size:10px;color:#86868B;display:flex;align-items:center;gap:8px}
+.task-due{font-family:'Inter',sans-serif;font-size:10px;font-weight:500;padding:2px 8px;border-radius:4px}
+.due-done{background:rgba(52,199,89,0.08);color:#34C759}
+.due-today{background:rgba(0,122,255,0.08);color:#007AFF}
+.due-late{background:rgba(215,0,48,0.08);color:#D70030}
+.due-upcoming{background:rgba(0,0,0,0.03);color:#86868B}
+.task-source{font-family:'Inter',sans-serif;font-size:9px;color:#AEAEB2}
+
+/* WA LOG */
+.wa-log{background:#F5F5F7;border-radius:10px;padding:10px 14px;margin-top:6px;font-family:'Inter',sans-serif;font-size:11px;color:#6E6E73;display:flex;align-items:center;gap:6px}
+.wa-log svg{width:12px;height:12px;stroke:#25D366;fill:none;stroke-width:1.5;flex-shrink:0}
+
+.sec{font-family:'Inter',sans-serif;font-size:10px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:#D70030;margin:20px 0 10px}
+
+/* ACTIONS */
+.action-bar{display:flex;gap:8px;margin-top:20px}
+.action-btn{flex:1;font-family:'Inter',sans-serif;font-size:12px;font-weight:500;padding:12px;border-radius:10px;border:1px solid rgba(0,0,0,0.06);background:#FFF;color:#86868B;text-align:center;cursor:pointer;transition:all 0.15s}
+.action-btn:hover{border-color:rgba(215,0,48,0.12);color:#D70030}
+.action-btn.primary{background:#D70030;color:#FFF;border-color:#D70030}
+</style>
+</head>
+<body data-client="true" data-active="clients">
+<div class="content">
+
+<div class="client-bar">
+  <div class="cb-av">JM</div>
+  <div class="cb-info">
+    <div class="cb-name">Joao Mendes — Checklist</div>
+    <div class="cb-meta">CEO TechFlow · SM: Maria Silva · Semana 01-07 Abr</div>
+  </div>
+  <div class="cb-score">
+    <div class="cb-score-v" style="color:#FF9500">3/7</div>
+    <div class="cb-score-l">tarefas feitas</div>
+  </div>
+</div>
+
+<div class="weeks">
+  <div class="week">24-30 Mar</div>
+  <div class="week on">01-07 Abr</div>
+  <div class="week">08-14 Abr</div>
+</div>
+
+<div class="sec">Conteudo (aprovacoes)</div>
+
+<div class="task completed">
+  <div class="task-check done"></div>
+  <div class="task-body">
+    <div class="task-title">Aprovar carrossel "Escale sem queimar caixa"</div>
+    <div class="task-meta"><span class="task-due due-done">Entregue Seg 09:22</span><span class="task-source">Via WhatsApp — respondeu "1"</span></div>
+  </div>
+</div>
+
+<div class="task completed">
+  <div class="task-check done"></div>
+  <div class="task-body">
+    <div class="task-title">Aprovar artigo "Futuro do B2B"</div>
+    <div class="task-meta"><span class="task-due due-done">Entregue Seg 09:22</span><span class="task-source">Via WhatsApp — respondeu "1"</span></div>
+  </div>
+</div>
+
+<div class="task">
+  <div class="task-check"></div>
+  <div class="task-body">
+    <div class="task-title">Aprovar reel "3 metricas de CEO"</div>
+    <div class="task-meta"><span class="task-due due-today">Hoje</span><span class="task-source">Enviado via WhatsApp 09:42</span></div>
+    <div class="wa-log"><svg viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z"/></svg>Mensagem lida as 10:05, sem resposta ainda</div>
+  </div>
+</div>
+
+<div class="sec">Material pra enviar</div>
+
+<div class="task completed">
+  <div class="task-check done"></div>
+  <div class="task-body">
+    <div class="task-title">Gravar video de 1h sobre "Escalar SaaS"</div>
+    <div class="task-meta"><span class="task-due due-done">Entregue Seg 20:15</span><span class="task-source">Upload via portal — 47min MP4</span></div>
+  </div>
+</div>
+
+<div class="task">
+  <div class="task-check"></div>
+  <div class="task-body">
+    <div class="task-title">Gravar 3 stories de bastidores do escritorio</div>
+    <div class="task-meta"><span class="task-due due-late">Atrasado 1 dia</span><span class="task-source">Cobrado via WhatsApp Ter 14:00</span></div>
+    <div class="wa-log"><svg viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z"/></svg>Joao: "Gravo depois do almoco" (Ter 08:10) — nao entregou</div>
+  </div>
+</div>
+
+<div class="task">
+  <div class="task-check"></div>
+  <div class="task-body">
+    <div class="task-title">Enviar 5 fotos novas (casual + social)</div>
+    <div class="task-meta"><span class="task-due due-upcoming">Qua 02 Abr</span><span class="task-source">Sera cobrado via WhatsApp amanha</span></div>
+  </div>
+</div>
+
+<div class="sec">Brand Book & Identidade</div>
+
+<div class="task">
+  <div class="task-check"></div>
+  <div class="task-body">
+    <div class="task-title">Responder 3 perguntas do Brand Book (publico alvo, referencias, tese)</div>
+    <div class="task-meta"><span class="task-due due-upcoming">Qui 03 Abr</span><span class="task-source">Quill vai perguntar via WhatsApp</span></div>
+  </div>
+</div>
+
+<div class="action-bar">
+  <button class="action-btn" onclick="alert('Lembrete enviado pro WhatsApp do Joao')">Cobrar pendencias via WA</button>
+  <a href="client-activity.html" class="action-btn">Ver atividade</a>
+  <a href="brandbook.html" class="action-btn">Brand Book</a>
+</div>
+
+</div>
+<script src="shared-nav-social.js"></script>
+</body></html>

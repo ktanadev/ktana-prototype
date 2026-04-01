@@ -1,0 +1,99 @@
+<!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>KTANA Social — Saude das Contas</title><link rel="stylesheet" href="../shared.css"><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Zen+Dots&display=swap" rel="stylesheet">
+<style>
+body{min-height:100vh;background:#F5F5F7;color:#1D1D1F}
+a{text-decoration:none;color:inherit}
+.main{max-width:760px;margin:0 auto;padding:16px 20px 100px}
+h1{font-family:'Zen Dots',cursive;font-size:22px;color:#1D1D1F;margin-bottom:4px}
+.sub{font-family:'Satoshi',sans-serif;font-size:13px;color:#86868B;margin-bottom:20px}
+.sec{font-family:'Inter',sans-serif;font-size:10px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:#D70030;margin-bottom:10px;margin-top:24px}
+.alert-bar{display:flex;gap:12px;margin-bottom:20px;padding:14px 18px;background:#FFF;border-radius:14px;border:1px solid rgba(0,0,0,0.04)}
+.ab-item{display:flex;align-items:center;gap:6px;font-family:'Inter',sans-serif;font-size:12px}
+.ab-dot{width:8px;height:8px;border-radius:50%}
+.ab-green{background:#34C759}
+.ab-yellow{background:#FF9500}
+.ab-red{background:#D70030}
+.ab-count{font-weight:600;color:#1D1D1F}
+.ab-label{color:#86868B}
+
+.account{display:flex;align-items:center;gap:12px;padding:14px 16px;background:#FFF;border:1px solid rgba(0,0,0,0.04);border-radius:14px;margin-bottom:8px;transition:all 0.2s}
+.account:hover{box-shadow:0 2px 12px rgba(0,0,0,0.04)}
+.ac-av{width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,#D70030,#A60028);display:flex;align-items:center;justify-content:center;font-family:'Inter',sans-serif;font-size:10px;font-weight:600;color:#FFF;flex-shrink:0}
+.ac-info{flex:1}
+.ac-name{font-family:'Satoshi',sans-serif;font-size:13px;font-weight:500;color:#1D1D1F}
+.ac-detail{font-family:'Inter',sans-serif;font-size:10px;color:#86868B}
+.ac-nets{display:flex;gap:4px}
+.ac-net{font-family:'Inter',sans-serif;font-size:9px;font-weight:500;padding:2px 6px;border-radius:4px;display:flex;align-items:center;gap:3px}
+.an-ok{background:rgba(52,199,89,0.06);color:#34C759}
+.an-warn{background:rgba(255,149,0,0.06);color:#FF9500}
+.an-error{background:rgba(215,0,48,0.06);color:#D70030}
+.an-off{background:rgba(0,0,0,0.03);color:#AEAEB2}
+.ac-net svg{width:8px;height:8px;stroke:currentColor;fill:none;stroke-width:2}
+.ac-backup{font-family:'Inter',sans-serif;font-size:9px;padding:2px 6px;border-radius:4px}
+.bk-ok{background:rgba(52,199,89,0.06);color:#34C759}
+.bk-miss{background:rgba(215,0,48,0.04);color:#D70030}
+.ac-action{font-family:'Inter',sans-serif;font-size:10px;color:#D70030;cursor:pointer;white-space:nowrap}
+</style>
+</head>
+<body data-client="true" data-active="health">
+<main class="main">
+  <!-- CHAT HERO -->
+
+<h1>Saude das contas.</h1>
+<p class="sub">Monitore o status de cada conta de cada cliente em todas as redes.</p>
+
+<div class="alert-bar">
+  <div class="ab-item"><div class="ab-dot ab-green"></div><div class="ab-count">342</div><div class="ab-label">Saudaveis</div></div>
+  <div class="ab-item"><div class="ab-dot ab-yellow"></div><div class="ab-count">12</div><div class="ab-label">Atencao</div></div>
+  <div class="ab-item"><div class="ab-dot ab-red"></div><div class="ab-count">3</div><div class="ab-label">Risco</div></div>
+  <div class="ab-item" style="margin-left:auto"><div class="ab-count">17</div><div class="ab-label">Sem backup</div></div>
+</div>
+
+<div class="sec">Contas com risco</div>
+<div class="account" style="border-color:rgba(215,0,48,0.12)">
+  <div class="ac-av">AC</div>
+  <div class="ac-info"><div class="ac-name">Ana Costa</div><div class="ac-detail">Shadow ban detectado — alcance caiu 28% em 48h</div></div>
+  <div class="ac-nets"><span class="ac-net an-error"><svg viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"/></svg>IG</span><span class="ac-net an-ok">LI</span></div>
+  <span class="ac-backup bk-ok">Backup warm</span>
+  <span class="ac-action">Ativar backup</span>
+</div>
+<div class="account" style="border-color:rgba(215,0,48,0.12)">
+  <div class="ac-av">FS</div>
+  <div class="ac-info"><div class="ac-name">Fernando Santos</div><div class="ac-detail">Token Meta expirado — publicacao pausada</div></div>
+  <div class="ac-nets"><span class="ac-net an-error"><svg viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"/></svg>IG</span><span class="ac-net an-error">FB</span></div>
+  <span class="ac-backup bk-miss">Sem backup</span>
+  <span class="ac-action">Renovar token</span>
+</div>
+
+<div class="sec">Contas com atencao</div>
+<div class="account">
+  <div class="ac-av">PS</div>
+  <div class="ac-info"><div class="ac-name">Pedro Souza</div><div class="ac-detail">Token LinkedIn expira em 3 dias</div></div>
+  <div class="ac-nets"><span class="ac-net an-ok">IG</span><span class="ac-net an-warn">LI</span><span class="ac-net an-off">TT</span></div>
+  <span class="ac-backup bk-miss">Sem backup</span>
+  <span class="ac-action">Renovar</span>
+</div>
+<div class="account">
+  <div class="ac-av">JM</div>
+  <div class="ac-info"><div class="ac-name">Joao Mendes</div><div class="ac-detail">TikTok alcance -22% — reduzir frequencia</div></div>
+  <div class="ac-nets"><span class="ac-net an-ok">IG</span><span class="ac-net an-ok">LI</span><span class="ac-net an-warn">TT</span><span class="ac-net an-ok">X</span></div>
+  <span class="ac-backup bk-ok">Backup warm</span>
+  <span class="ac-action">Config</span>
+</div>
+
+<div class="sec">Saudaveis (mostrando 4 de 342)</div>
+<div class="account">
+  <div class="ac-av">MF</div>
+  <div class="ac-info"><div class="ac-name">Maria Fernandes</div><div class="ac-detail">Todas as redes OK — autopilot ativo</div></div>
+  <div class="ac-nets"><span class="ac-net an-ok">IG</span><span class="ac-net an-ok">LI</span><span class="ac-net an-ok">TT</span><span class="ac-net an-ok">X</span><span class="ac-net an-ok">Blog</span></div>
+  <span class="ac-backup bk-ok">Backup</span>
+</div>
+<div class="account">
+  <div class="ac-av">RC</div>
+  <div class="ac-info"><div class="ac-name">Roberto Campos</div><div class="ac-detail">IG e LI saudaveis</div></div>
+  <div class="ac-nets"><span class="ac-net an-ok">IG</span><span class="ac-net an-ok">LI</span></div>
+  <span class="ac-backup bk-ok">Backup</span>
+</div>
+
+</div>
+<script src="shared-nav-social.js"></script>
+</body></html>

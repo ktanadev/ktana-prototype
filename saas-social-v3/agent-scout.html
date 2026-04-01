@@ -1,0 +1,161 @@
+<!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>KTANA Social — Scout (Pesquisador)</title><link rel="stylesheet" href="../shared.css"><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Zen+Dots&display=swap" rel="stylesheet">
+<style>
+body{min-height:100vh;background:#F5F5F7;color:#1D1D1F}
+a{text-decoration:none;color:inherit}
+.main{max-width:760px;margin:0 auto;padding:16px 20px 100px}
+.breadcrumb{font-family:'Inter',sans-serif;font-size:11px;color:#86868B;margin-bottom:20px}
+.breadcrumb a{color:#D70030}
+.section-card{background:#FFF;border-radius:20px;border:1px solid rgba(0,0,0,0.04);padding:24px;margin-bottom:14px;animation:fadeIn 0.4s ease both}
+.card-label{font-family:'Inter',sans-serif;font-size:11px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:#D70030;margin-bottom:14px}
+.card-desc{font-family:'Satoshi',sans-serif;font-size:13px;color:#86868B;margin-bottom:16px;line-height:1.5}
+.role-header{background:#FFF;border-radius:20px;border:1px solid rgba(0,0,0,0.04);padding:28px;display:flex;align-items:center;gap:20px;margin-bottom:14px}
+.role-avatar{width:64px;height:64px;border-radius:16px;background:linear-gradient(135deg,#007AFF,#0055CC);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.role-avatar svg{width:28px;height:28px;stroke:#FFF;fill:none;stroke-width:1.5}
+.role-meta h2{font-family:'Zen Dots',cursive;font-size:20px;color:#1D1D1F;margin-bottom:4px}
+.role-tag{font-family:'Inter',sans-serif;display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:500;color:#D70030;background:rgba(215,0,48,0.06);padding:3px 10px;border-radius:6px;margin-bottom:6px}
+.role-meta p{font-family:'Satoshi',sans-serif;font-size:13px;color:#86868B;line-height:1.5}
+.stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:14px}
+.stat-box{background:#FFF;border:1px solid rgba(0,0,0,0.04);border-radius:14px;padding:16px;text-align:center}
+.stat-val{font-family:'Zen Dots',cursive;font-size:20px;color:#1D1D1F}
+.stat-lab{font-family:'Inter',sans-serif;font-size:9px;color:#86868B;text-transform:uppercase;letter-spacing:0.05em;margin-top:2px}
+.form-group{margin-bottom:16px}
+.form-group:last-child{margin-bottom:0}
+.form-group label{font-family:'Inter',sans-serif;display:block;font-size:12px;font-weight:500;color:#86868B;margin-bottom:6px}
+.form-input{font-family:'Satoshi',sans-serif;background:#F5F5F7;border:1px solid rgba(0,0,0,0.06);border-radius:12px;padding:12px 14px;font-size:14px;width:100%;outline:none;color:#1D1D1F;transition:border-color 0.2s;box-sizing:border-box}
+.form-input:focus{border-color:rgba(215,0,48,0.3)}
+textarea.form-input{resize:vertical;min-height:100px;font-family:'JetBrains Mono',monospace;font-size:12px;line-height:1.6}
+.ref-list{display:flex;flex-direction:column;gap:8px}
+.ref-item{display:flex;align-items:center;gap:12px;padding:12px 14px;border-radius:14px;border:1.5px solid rgba(0,0,0,0.06);cursor:pointer;transition:all 0.15s;min-height:44px}
+.ref-item:hover{border-color:rgba(0,0,0,0.12)}
+.ref-item.active{border-color:rgba(215,0,48,0.25);background:rgba(215,0,48,0.015)}
+.ref-check{width:20px;height:20px;border-radius:50%;border:1.5px solid #D2D2D7;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all 0.15s}
+.ref-item.active .ref-check{border-color:#D70030;background:#D70030}
+.ref-item.active .ref-check::after{content:'';width:6px;height:6px;border-radius:50%;background:#FFF}
+.ref-info{flex:1}
+.ref-name{font-family:'Satoshi',sans-serif;font-size:13px;font-weight:500;color:#1D1D1F}
+.ref-desc{font-family:'Inter',sans-serif;font-size:11px;color:#86868B;margin-top:2px}
+.perm-list{display:flex;flex-direction:column;gap:8px}
+.perm-item{display:flex;align-items:center;justify-content:space-between;padding:12px 14px;background:#F5F5F7;border-radius:12px;min-height:44px}
+.perm-left{display:flex;align-items:center;gap:10px}
+.perm-left svg{width:18px;height:18px;stroke:#86868B;fill:none;stroke-width:1.5;flex-shrink:0}
+.perm-text{font-family:'Satoshi',sans-serif;font-size:13px;color:#1D1D1F}
+.perm-sub{font-family:'Inter',sans-serif;font-size:10px;color:#86868B}
+.toggle{width:44px;height:26px;border-radius:13px;background:#D2D2D7;position:relative;cursor:pointer;transition:background 0.2s;flex-shrink:0}
+.toggle.on{background:#D70030}
+.toggle::after{content:'';position:absolute;top:3px;left:3px;width:20px;height:20px;border-radius:50%;background:#FFF;transition:transform 0.2s}
+.toggle.on::after{transform:translateX(18px)}
+.btn-save{font-family:'Inter',sans-serif;width:100%;padding:14px;border-radius:14px;background:#D70030;color:#FFF;font-size:15px;font-weight:600;border:none;cursor:pointer;transition:opacity 0.15s;margin-top:24px}
+.btn-save:hover{opacity:0.9}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+@media(max-width:520px){.stats-row{grid-template-columns:repeat(2,1fr)}}
+</style>
+</head>
+<body data-active="agents">
+<main class="main">
+<div class="breadcrumb"><a href="dashboard.html">Dashboard</a> / <a href="agents.html">Agentes</a> / Scout</div>
+
+<div class="role-header">
+  <div class="role-avatar"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8" stroke-linecap="round" stroke-linejoin="round"/><path d="M21 21l-4.35-4.35" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+  <div class="role-meta">
+    <span class="role-tag">Pesquisador de Inteligencia</span>
+    <h2>Scout</h2>
+    <p>Monitora concorrentes, detecta trending topics, analisa hashtags e encontra brechas de conteudo. O radar do squad que garante relevancia e timing perfeito.</p>
+  </div>
+</div>
+
+<div class="stats-row">
+  <div class="stat-box"><div class="stat-val">23</div><div class="stat-lab">Pesquisas hoje</div></div>
+  <div class="stat-box"><div class="stat-val">15.2k</div><div class="stat-lab">Tokens usados</div></div>
+  <div class="stat-box"><div class="stat-val">94%</div><div class="stat-lab">Relevancia</div></div>
+  <div class="stat-box"><div class="stat-val">328</div><div class="stat-lab">Fatos na memoria</div></div>
+</div>
+
+<div class="section-card">
+  <p class="card-label">System Prompt</p>
+  <p class="card-desc">O prompt que define como o Scout pesquisa e analisa inteligencia competitiva.</p>
+  <div class="form-group">
+    <textarea class="form-input" style="min-height:140px">Voce e Scout, pesquisador de inteligencia de social media. Sua funcao e monitorar, analisar e reportar oportunidades e ameacas.
+
+REGRAS:
+- Monitorar concorrentes definidos no brand book a cada 6 horas
+- Trending topics: filtrar apenas relevantes ao nicho do cliente
+- NUNCA reportar trends genericos — sempre contextualizar para o negocio
+- Google Trends: cruzar com calendario editorial para timing
+- Hashtag analysis: volume + relevancia + saturacao (evitar hashtags mortas)
+- Brecha detection: encontrar temas que concorrentes NAO cobrem
+- Formato de report: bullet points, dados numericos, link de fonte
+- Prioridade: oportunidades de curto prazo (24-72h) primeiro</textarea>
+  </div>
+</div>
+
+<div class="section-card">
+  <p class="card-label">Skills ativas</p>
+  <p class="card-desc">Habilidades de pesquisa e monitoramento que o Scout executa.</p>
+  <div class="ref-list">
+    <div class="ref-item active" onclick="this.classList.toggle('active')"><div class="ref-check"></div><div class="ref-info"><p class="ref-name">Monitorar concorrentes</p><p class="ref-desc">Rastrear posts, engajamento e estrategias dos concorrentes definidos.</p></div></div>
+    <div class="ref-item active" onclick="this.classList.toggle('active')"><div class="ref-check"></div><div class="ref-info"><p class="ref-name">Trending topics</p><p class="ref-desc">Detectar temas em alta relevantes ao nicho do cliente em tempo real.</p></div></div>
+    <div class="ref-item active" onclick="this.classList.toggle('active')"><div class="ref-check"></div><div class="ref-info"><p class="ref-name">Google Trends</p><p class="ref-desc">Cruzar dados de busca com calendario editorial para timing ideal.</p></div></div>
+    <div class="ref-item active" onclick="this.classList.toggle('active')"><div class="ref-check"></div><div class="ref-info"><p class="ref-name">RSS noticias</p><p class="ref-desc">Agregar noticias do setor via RSS para oportunidades de newsjacking.</p></div></div>
+    <div class="ref-item active" onclick="this.classList.toggle('active')"><div class="ref-check"></div><div class="ref-info"><p class="ref-name">Hashtag analysis</p><p class="ref-desc">Analisar volume, relevancia e saturacao de hashtags por rede social.</p></div></div>
+    <div class="ref-item active" onclick="this.classList.toggle('active')"><div class="ref-check"></div><div class="ref-info"><p class="ref-name">Brecha detection</p><p class="ref-desc">Identificar temas que concorrentes nao cobrem — oportunidades de conteudo.</p></div></div>
+  </div>
+</div>
+
+<div class="section-card">
+  <p class="card-label">Cerebro (fontes de inteligencia)</p>
+  <p class="card-desc">Plataformas e fontes que o Scout consulta para inteligencia competitiva.</p>
+  <div class="ref-list">
+    <div class="ref-item active" onclick="this.classList.toggle('active')"><div class="ref-check"></div><div class="ref-info"><p class="ref-name">SimilarWeb</p><p class="ref-desc">Trafego, fontes, audiencia e benchmarking de concorrentes digitais.</p></div></div>
+    <div class="ref-item active" onclick="this.classList.toggle('active')"><div class="ref-check"></div><div class="ref-info"><p class="ref-name">BuzzSumo</p><p class="ref-desc">Conteudo mais compartilhado, influenciadores e trending por nicho.</p></div></div>
+    <div class="ref-item active" onclick="this.classList.toggle('active')"><div class="ref-check"></div><div class="ref-info"><p class="ref-name">Google Trends</p><p class="ref-desc">Tendencias de busca, sazonalidade e interesse regional por topicos.</p></div></div>
+    <div class="ref-item" onclick="this.classList.toggle('active')"><div class="ref-check"></div><div class="ref-info"><p class="ref-name">Perplexity AI</p><p class="ref-desc">Pesquisa em tempo real com fontes verificadas e dados atualizados.</p></div></div>
+  </div>
+</div>
+
+<div class="section-card">
+  <p class="card-label">Permissoes</p>
+  <div class="perm-list">
+    <div class="perm-item">
+      <div class="perm-left"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35" stroke-linecap="round" stroke-linejoin="round"/></svg><div><p class="perm-text">Acessar APIs de pesquisa</p><p class="perm-sub">Google Trends, SimilarWeb, BuzzSumo</p></div></div>
+      <div class="toggle on" onclick="this.classList.toggle('on')"></div>
+    </div>
+    <div class="perm-item">
+      <div class="perm-left"><svg viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" stroke-linecap="round" stroke-linejoin="round"/><circle cx="12" cy="12" r="3"/></svg><div><p class="perm-text">Monitorar perfis concorrentes</p><p class="perm-sub">Coletar dados publicos de engajamento e conteudo</p></div></div>
+      <div class="toggle on" onclick="this.classList.toggle('on')"></div>
+    </div>
+    <div class="perm-item">
+      <div class="perm-left"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z" stroke-linecap="round" stroke-linejoin="round"/><polyline points="14 2 14 8 20 8"/></svg><div><p class="perm-text">Gerar relatorios automaticamente</p><p class="perm-sub">Criar reports de inteligencia sem aprovacao previa</p></div></div>
+      <div class="toggle on" onclick="this.classList.toggle('on')"></div>
+    </div>
+    <div class="perm-item">
+      <div class="perm-left"><svg viewBox="0 0 24 24"><path d="M22 12h-4l-3 9L9 3l-3 9H2" stroke-linecap="round" stroke-linejoin="round"/></svg><div><p class="perm-text">Alertar oportunidades urgentes</p><p class="perm-sub">Notificar squad sobre trends de curto prazo (24-72h)</p></div></div>
+      <div class="toggle on" onclick="this.classList.toggle('on')"></div>
+    </div>
+  </div>
+</div>
+
+<div class="section-card">
+  <p class="card-label">Modelo de LLM</p>
+  <div class="form-group">
+    <label>Modelo principal</label>
+    <select class="form-input" style="cursor:pointer">
+      <option>Claude Sonnet 4 (recomendado — equilibrio custo/qualidade)</option>
+      <option>Claude Opus 4 (maximo qualidade, maior custo)</option>
+      <option>Claude Haiku 4.5 (rapido e barato, validacao)</option>
+      <option>GPT-4o (alternativa)</option>
+      <option>Grok (pesquisa em tempo real)</option>
+    </select>
+  </div>
+  <div class="form-group">
+    <label>Limite de tokens por execucao</label>
+    <input type="text" class="form-input" value="4096">
+  </div>
+  <div class="form-group">
+    <label>Temperatura</label>
+    <input type="text" class="form-input" value="0.4" placeholder="0.0 = deterministico, 1.0 = criativo">
+  </div>
+</div>
+
+<button class="btn-save" onclick="this.textContent='Salvo!';this.style.background='#34C759';this.style.color='#FFF'">Salvar configuracao do Scout</button>
+</div>
+<script src="shared-nav-social.js"></script></body></html>

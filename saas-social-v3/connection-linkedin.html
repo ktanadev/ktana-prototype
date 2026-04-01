@@ -1,0 +1,167 @@
+<!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>KTANA Social — LinkedIn</title><link rel="stylesheet" href="../shared.css"><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Zen+Dots&display=swap" rel="stylesheet">
+<style>
+body{min-height:100vh;background:#F5F5F7;color:#1D1D1F}
+a{text-decoration:none;color:inherit}
+.main{max-width:760px;margin:0 auto;padding:16px 20px 100px}
+.breadcrumb{font-family:'Inter',sans-serif;font-size:11px;color:#86868B;margin-bottom:20px}
+.breadcrumb a{color:#D70030}
+.section-card{background:#FFF;border-radius:20px;border:1px solid rgba(0,0,0,0.04);padding:24px;margin-bottom:14px;animation:fadeIn 0.4s ease both}
+.card-label{font-family:'Inter',sans-serif;font-size:11px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:#D70030;margin-bottom:14px}
+.card-desc{font-family:'Satoshi',sans-serif;font-size:13px;color:#86868B;margin-bottom:16px;line-height:1.5}
+.form-group{margin-bottom:16px}
+.form-group:last-child{margin-bottom:0}
+.form-group label{font-family:'Inter',sans-serif;display:block;font-size:12px;font-weight:500;color:#86868B;margin-bottom:6px}
+.form-input{font-family:'Satoshi',sans-serif;background:#F5F5F7;border:1px solid rgba(0,0,0,0.06);border-radius:12px;padding:12px 14px;font-size:14px;width:100%;outline:none;color:#1D1D1F;transition:border-color 0.2s;box-sizing:border-box}
+.form-input:focus{border-color:rgba(215,0,48,0.3)}
+.form-input.masked{color:#AEAEB2;letter-spacing:2px}
+.toggle{width:44px;height:26px;border-radius:13px;background:#D2D2D7;position:relative;cursor:pointer;transition:background 0.2s;flex-shrink:0}
+.toggle.on{background:#D70030}
+.toggle::after{content:'';position:absolute;top:3px;left:3px;width:20px;height:20px;border-radius:50%;background:#FFF;transition:transform 0.2s}
+.toggle.on::after{transform:translateX(18px)}
+.toggle-row{display:flex;align-items:center;justify-content:space-between;padding:12px 14px;background:#F5F5F7;border-radius:12px;min-height:44px;margin-bottom:8px}
+.toggle-left{display:flex;align-items:center;gap:10px}
+.toggle-left svg{width:18px;height:18px;stroke:#86868B;fill:none;stroke-width:1.5;flex-shrink:0}
+.toggle-text{font-family:'Satoshi',sans-serif;font-size:13px;color:#1D1D1F}
+.toggle-sub{font-family:'Inter',sans-serif;font-size:10px;color:#86868B}
+.rate-bar{height:8px;background:#F0F0F2;border-radius:4px;overflow:hidden;margin-top:8px}
+.rate-fill{height:100%;border-radius:4px;transition:width 0.5s ease}
+.rate-info{display:flex;justify-content:space-between;font-family:'Inter',sans-serif;font-size:11px;color:#86868B;margin-top:6px}
+.status-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.status-dot.ok{background:#34C759}
+.scope-item{display:flex;align-items:center;gap:10px;padding:10px 14px;background:#F5F5F7;border-radius:10px;margin-bottom:6px}
+.scope-item svg{width:16px;height:16px;stroke:#34C759;fill:none;stroke-width:2;flex-shrink:0}
+.scope-name{font-family:'Inter',sans-serif;font-size:12px;color:#1D1D1F}
+.scope-desc{font-family:'Inter',sans-serif;font-size:10px;color:#86868B}
+.btn-row{display:flex;gap:10px;margin-top:24px}
+.btn-action{flex:1;font-family:'Inter',sans-serif;padding:14px;border-radius:14px;font-size:14px;font-weight:600;border:none;cursor:pointer;transition:opacity 0.15s;text-align:center}
+.btn-primary{background:#D70030;color:#FFF}
+.btn-primary:hover{opacity:0.9}
+.btn-secondary{background:#F0F0F2;color:#1D1D1F;border:1px solid rgba(0,0,0,0.06)}
+.btn-secondary:hover{background:#E8E8EA}
+.btn-ghost{background:transparent;color:#D70030;border:1px solid rgba(215,0,48,0.15)}
+.btn-ghost:hover{background:rgba(215,0,48,0.04)}
+.btn-back{display:inline-flex;align-items:center;gap:6px;font-family:'Inter',sans-serif;font-size:13px;color:#86868B;padding:10px 0;cursor:pointer;transition:color 0.15s}
+.btn-back:hover{color:#D70030}
+.btn-back svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:1.5}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+</style>
+</head>
+<body data-client="true" data-active="connections">
+<main class="main">
+
+<div class="breadcrumb"><a href="dashboard.html">Dashboard</a> / <a href="connections.html">Conexoes</a> / LinkedIn</div>
+
+<!-- CHAT HERO -->
+<div style="background:#FFF;border-radius:20px;border:1px solid rgba(0,0,0,0.04);margin-bottom:20px;overflow:hidden">
+  <div style="display:flex;align-items:center;gap:10px;padding:14px 18px;border-bottom:1px solid rgba(0,0,0,0.04)">
+    <div style="width:28px;height:28px;border-radius:8px;background:linear-gradient(135deg,#D70030,#8B0000);display:flex;align-items:center;justify-content:center"><svg viewBox="0 0 24 24" style="width:14px;height:14px;stroke:#FFF;fill:none;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg></div>
+    <div><div style="font-family:'Zen Dots',cursive;font-size:11px;color:#1D1D1F">Sensei</div><div style="font-family:'Inter',sans-serif;font-size:10px;color:#D70030">LinkedIn — Community Management API</div></div>
+  </div>
+
+<!-- OAUTH -->
+<div class="section-card" style="animation-delay:0.05s">
+  <p class="card-label">OAuth 2.0</p>
+  <p class="card-desc">Credenciais do LinkedIn Developer Portal. Usamos Community Management API para publicacao e leitura.</p>
+  <div class="form-group">
+    <label>Client ID</label>
+    <input type="text" class="form-input" value="78x9k2d1f0pq1m" readonly>
+  </div>
+  <div class="form-group">
+    <label>Client Secret</label>
+    <input type="text" class="form-input masked" value="**** **** **** r8kP" readonly>
+  </div>
+  <div class="form-group">
+    <label>Person URN</label>
+    <input type="text" class="form-input" value="urn:li:person:abc123def456" readonly>
+  </div>
+  <div class="form-group">
+    <label>Organization URN (Company Page)</label>
+    <input type="text" class="form-input" value="urn:li:organization:98765432" readonly>
+  </div>
+  <div style="display:flex;align-items:center;gap:8px;margin-top:12px;padding:10px 14px;background:rgba(52,199,89,0.06);border-radius:10px">
+    <div class="status-dot ok"></div>
+    <span style="font-family:'Inter',sans-serif;font-size:12px;color:#34C759;font-weight:500">OAuth ativo — Token renovado automaticamente</span>
+  </div>
+</div>
+
+<!-- SCOPES -->
+<div class="section-card" style="animation-delay:0.1s">
+  <p class="card-label">Scopes ativos</p>
+  <p class="card-desc">Permissoes concedidas pela autorizacao OAuth.</p>
+  <div class="scope-item">
+    <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    <div><div class="scope-name">w_member_social</div><div class="scope-desc">Publicar posts como pessoa</div></div>
+  </div>
+  <div class="scope-item">
+    <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    <div><div class="scope-name">r_organization_social</div><div class="scope-desc">Ler analytics da Company Page</div></div>
+  </div>
+  <div class="scope-item">
+    <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    <div><div class="scope-name">w_organization_social</div><div class="scope-desc">Publicar como Company Page</div></div>
+  </div>
+  <div class="scope-item">
+    <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    <div><div class="scope-name">r_liteprofile</div><div class="scope-desc">Dados basicos do perfil</div></div>
+  </div>
+</div>
+
+<!-- FORMATOS -->
+<div class="section-card" style="animation-delay:0.15s">
+  <p class="card-label">Formatos de publicacao</p>
+  <p class="card-desc">Tipos de conteudo habilitados para publicacao automatica.</p>
+  <div class="toggle-row">
+    <div class="toggle-left">
+      <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z" stroke-linecap="round" stroke-linejoin="round"/><polyline points="14 2 14 8 20 8"/></svg>
+      <div><div class="toggle-text">Artigo (Newsletter)</div><div class="toggle-sub">Texto longo com rich formatting</div></div>
+    </div>
+    <div class="toggle on" onclick="this.classList.toggle('on')"></div>
+  </div>
+  <div class="toggle-row">
+    <div class="toggle-left">
+      <svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5" stroke-linecap="round" stroke-linejoin="round"/><path d="M16 8H8v8h8V8z"/></svg>
+      <div><div class="toggle-text">Carrossel PDF</div><div class="toggle-sub">Upload de PDF como slides nativos</div></div>
+    </div>
+    <div class="toggle on" onclick="this.classList.toggle('on')"></div>
+  </div>
+  <div class="toggle-row">
+    <div class="toggle-left">
+      <svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <div><div class="toggle-text">Post simples</div><div class="toggle-sub">Texto + imagem ou apenas texto</div></div>
+    </div>
+    <div class="toggle on" onclick="this.classList.toggle('on')"></div>
+  </div>
+  <div class="toggle-row">
+    <div class="toggle-left">
+      <svg viewBox="0 0 24 24"><polygon points="23 7 16 12 23 17 23 7" stroke-linecap="round" stroke-linejoin="round"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg>
+      <div><div class="toggle-text">Video nativo</div><div class="toggle-sub">Upload direto ate 10min</div></div>
+    </div>
+    <div class="toggle" onclick="this.classList.toggle('on')"></div>
+  </div>
+</div>
+
+<!-- RATE LIMITS -->
+<div class="section-card" style="animation-delay:0.2s">
+  <p class="card-label">Rate limits</p>
+  <p class="card-desc">Limites diarios da Community Management API.</p>
+  <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:4px">
+    <span style="font-family:'Zen Dots',cursive;font-size:22px;color:#1D1D1F">37</span>
+    <span style="font-family:'Inter',sans-serif;font-size:12px;color:#86868B">de ~50 posts/dia</span>
+  </div>
+  <div class="rate-bar"><div class="rate-fill" style="width:74%;background:linear-gradient(90deg,#34C759,#30D158)"></div></div>
+  <div class="rate-info"><span>~13 usados hoje</span><span>Limite aproximado (LinkedIn nao expoe exato)</span></div>
+</div>
+
+<!-- ACOES -->
+<div class="btn-row">
+  <button class="btn-action btn-secondary" onclick="this.textContent='Conectado!';this.style.background='#34C759';this.style.color='#FFF'">Testar Conexao</button>
+  <button class="btn-action btn-primary" onclick="this.textContent='Salvo!';this.style.background='#34C759';this.style.color='#FFF';this.style.borderColor='#34C759'">Salvar</button>
+</div>
+
+<a href="connections.html" class="btn-back" style="margin-top:20px">
+  <svg viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  Voltar para Conexoes
+</a>
+
+</div>
+<script src="shared-nav-social.js"></script></body></html>

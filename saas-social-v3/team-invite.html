@@ -1,0 +1,159 @@
+<!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>KTANA Social — Convidar Funcionario</title><link rel="stylesheet" href="../shared.css"><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Satoshi:wght@400;500;600;700&family=Zen+Dots&display=swap" rel="stylesheet">
+<style>
+body{min-height:100vh;background:#F5F5F7;color:#1D1D1F}
+a{text-decoration:none;color:inherit}
+.main{max-width:640px;margin:0 auto;padding:16px 20px 100px}
+.back{display:inline-flex;align-items:center;gap:4px;font-family:'Inter',sans-serif;font-size:12px;color:#D70030;margin-bottom:16px;cursor:pointer}
+.back svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:1.5}
+.title{font-family:'Zen Dots',cursive;font-size:22px;color:#1D1D1F;margin-bottom:4px}
+.subtitle{font-family:'Satoshi',sans-serif;font-size:14px;color:#86868B;margin-bottom:24px}
+.card{background:#FFF;border-radius:20px;border:1px solid rgba(0,0,0,0.04);padding:24px;margin-bottom:14px}
+.card-label{font-family:'Inter',sans-serif;font-size:10px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:#D70030;margin-bottom:14px}
+.form-group{margin-bottom:16px}
+.form-group label{font-family:'Inter',sans-serif;display:block;font-size:12px;font-weight:500;color:#86868B;margin-bottom:6px}
+.form-input{font-family:'Satoshi',sans-serif;background:#F5F5F7;border:1px solid rgba(0,0,0,0.06);border-radius:12px;padding:12px 14px;font-size:14px;width:100%;outline:none;color:#1D1D1F;box-sizing:border-box}
+.form-input:focus{border-color:rgba(215,0,48,0.3)}
+
+/* ROLE SELECTOR */
+.role-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:16px}
+.role-opt{padding:14px;border-radius:14px;border:1.5px solid rgba(0,0,0,0.06);background:#FFF;cursor:pointer;transition:all 0.2s;text-align:center}
+.role-opt:hover{border-color:rgba(215,0,48,0.15)}
+.role-opt.selected{border-color:rgba(215,0,48,0.3);background:rgba(215,0,48,0.02)}
+.role-opt .r-name{font-family:'Satoshi',sans-serif;font-size:14px;font-weight:600;color:#1D1D1F;margin-bottom:2px}
+.role-opt .r-desc{font-family:'Inter',sans-serif;font-size:10px;color:#86868B}
+
+/* COPILOT SUGGESTION */
+.copilot-suggest{display:flex;align-items:center;gap:14px;padding:16px;background:#F5F5F7;border-radius:14px;border:1.5px solid rgba(0,0,0,0.04);margin-bottom:16px}
+.copilot-suggest.matched{border-color:rgba(52,199,89,0.2);background:rgba(52,199,89,0.02)}
+.cs-icon{width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.cs-icon svg{width:18px;height:18px;stroke:#FFF;fill:none;stroke-width:1.5}
+.cs-info{flex:1}
+.cs-name{font-family:'Zen Dots',cursive;font-size:13px;color:#1D1D1F}
+.cs-role{font-family:'Inter',sans-serif;font-size:11px;color:#86868B}
+.cs-match{font-family:'Inter',sans-serif;font-size:10px;font-weight:600;color:#34C759;background:rgba(52,199,89,0.08);padding:3px 8px;border-radius:6px}
+
+/* EMAIL PREVIEW */
+.email-preview{background:#F5F5F7;border-radius:12px;padding:16px;margin-top:12px;font-family:'Inter',sans-serif;font-size:12px;color:#6E6E73;line-height:1.6}
+.email-preview strong{color:#1D1D1F}
+
+.btn-send{font-family:'Inter',sans-serif;width:100%;padding:16px;border-radius:14px;background:#D70030;color:#FFF;font-size:15px;font-weight:600;border:none;cursor:pointer;transition:all 0.15s}
+.btn-send:hover{opacity:0.9}
+.sent{display:none;text-align:center;padding:40px}
+.sent.active{display:block}
+.sent h2{font-family:'Zen Dots',cursive;font-size:20px;color:#1D1D1F;margin-bottom:8px}
+.sent p{font-family:'Satoshi',sans-serif;font-size:13px;color:#86868B;margin-bottom:20px}
+</style>
+</head>
+<body data-active="team">
+<main class="main">
+
+<a href="team-management.html" class="back"><svg viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg> Voltar pra equipe</a>
+
+<div id="formView">
+<h1 class="title">Convidar funcionario</h1>
+<p class="subtitle">O funcionario recebe email com link, cria conta e ja entra com seu copiloto IA configurado.</p>
+
+<!-- DADOS -->
+<div class="card">
+  <div class="card-label">Dados do funcionario</div>
+  <div class="form-group"><label>Nome completo</label><input type="text" class="form-input" id="invName" placeholder="Ex: Maria Silva"></div>
+  <div class="form-group"><label>Email</label><input type="email" class="form-input" id="invEmail" placeholder="Ex: maria@gruposilva.com"></div>
+</div>
+
+<!-- CARGO -->
+<div class="card">
+  <div class="card-label">Cargo na empresa</div>
+  <div class="role-grid">
+    <div class="role-opt selected" onclick="selectRole(this,'gestor')"><div class="r-name">Gestor CS</div><div class="r-desc">Acompanha clientes, aprova, CS</div></div>
+    <div class="role-opt" onclick="selectRole(this,'sm')"><div class="r-name">Social Media</div><div class="r-desc">Cria roteiros, revisa conteudo</div></div>
+    <div class="role-opt" onclick="selectRole(this,'designer')"><div class="r-name">Designer</div><div class="r-desc">Cria designs, templates Figma</div></div>
+    <div class="role-opt" onclick="selectRole(this,'redator')"><div class="r-name">Redator</div><div class="r-desc">Escreve artigos, copies</div></div>
+  </div>
+</div>
+
+<!-- COPILOTO SUGERIDO -->
+<div class="card">
+  <div class="card-label">Copiloto IA sugerido</div>
+  <p style="font-family:'Satoshi',sans-serif;font-size:13px;color:#86868B;margin-bottom:14px">Com base no cargo, o sistema sugere o melhor agente parceiro. Voce pode trocar.</p>
+
+  <div class="copilot-suggest matched" id="copilotCard">
+    <div class="cs-icon" id="copilotIcon" style="background:linear-gradient(135deg,#D70030,#8B0000)"><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+    <div class="cs-info">
+      <div class="cs-name" id="copilotName">Sensei</div>
+      <div class="cs-role" id="copilotRole">Orquestrador — coordena prioridades, consistencia, gestao</div>
+    </div>
+    <span class="cs-match">Ideal pra Gestor</span>
+  </div>
+
+  <div style="display:flex;gap:6px;margin-top:10px;flex-wrap:wrap" id="copilotOptions">
+    <button style="font-family:'Inter',sans-serif;font-size:11px;padding:6px 12px;border-radius:8px;border:1px solid rgba(0,0,0,0.06);background:#FFF;color:#86868B;cursor:pointer" onclick="setCopilot('Sensei','Orquestrador','#D70030','#8B0000')">Sensei</button>
+    <button style="font-family:'Inter',sans-serif;font-size:11px;padding:6px 12px;border-radius:8px;border:1px solid rgba(0,0,0,0.06);background:#FFF;color:#86868B;cursor:pointer" onclick="setCopilot('Quill','Copywriter','#5856D6','#3A38A0')">Quill</button>
+    <button style="font-family:'Inter',sans-serif;font-size:11px;padding:6px 12px;border-radius:8px;border:1px solid rgba(0,0,0,0.06);background:#FFF;color:#86868B;cursor:pointer" onclick="setCopilot('Canvas','Designer IA','#FF2D55','#CC0033')">Canvas</button>
+    <button style="font-family:'Inter',sans-serif;font-size:11px;padding:6px 12px;border-radius:8px;border:1px solid rgba(0,0,0,0.06);background:#FFF;color:#86868B;cursor:pointer" onclick="setCopilot('Scout','Pesquisador','#007AFF','#0055CC')">Scout</button>
+  </div>
+</div>
+
+<!-- EMAIL PREVIEW -->
+<div class="card">
+  <div class="card-label">Preview do convite</div>
+  <div class="email-preview">
+    <strong>Para:</strong> <span id="previewEmail">maria@gruposilva.com</span><br>
+    <strong>Assunto:</strong> Voce foi convidado pro Grupo Silva no KTANA Social<br><br>
+    Oi <span id="previewName">Maria</span>,<br><br>
+    O Grupo Silva te convidou como <strong id="previewRole">Gestor CS</strong>.<br>
+    Seu copiloto IA sera o <strong id="previewCopilot">Sensei</strong> — ele vai te ajudar no dia a dia com prioridades, gestao e consistencia.<br><br>
+    Clique abaixo pra criar seu acesso:
+    <div style="margin-top:8px;display:inline-block;padding:8px 16px;background:#D70030;color:#FFF;border-radius:8px;font-size:11px;font-weight:600">Criar meu acesso</div>
+  </div>
+</div>
+
+<button class="btn-send" onclick="sendInvite()">Enviar convite</button>
+</div>
+
+<!-- SENT STATE -->
+<div class="sent" id="sentView">
+  <div style="width:48px;height:48px;border-radius:50%;background:rgba(52,199,89,0.1);display:flex;align-items:center;justify-content:center;margin:0 auto 16px"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#34C759" stroke-width="2" stroke-linecap="round"><path d="M20 6L9 17l-5-5"/></svg></div>
+  <h2>Convite enviado!</h2>
+  <p>O funcionario vai receber o email e criar a conta com o copiloto ja configurado.</p>
+  <div style="display:flex;gap:8px;justify-content:center">
+    <a href="team-management.html" style="font-family:'Inter',sans-serif;padding:12px 20px;border-radius:10px;background:#FFF;border:1px solid rgba(0,0,0,0.06);color:#86868B;font-size:13px">Ver equipe</a>
+    <button onclick="document.getElementById('formView').style.display='block';document.getElementById('sentView').classList.remove('active')" style="font-family:'Inter',sans-serif;padding:12px 20px;border-radius:10px;background:#D70030;color:#FFF;border:none;font-size:13px;cursor:pointer">Convidar outro</button>
+  </div>
+</div>
+
+</main>
+
+<script>
+let currentRole = 'gestor';
+const copilots = {gestor:{name:'Sensei',role:'Orquestrador — coordena prioridades, consistencia, gestao',c1:'#D70030',c2:'#8B0000'},sm:{name:'Quill',role:'Copywriter — roteiros, legendas, tom de voz, score humanidade',c1:'#5856D6',c2:'#3A38A0'},designer:{name:'Canvas',role:'Designer IA — templates Figma, carrosseis, identidade visual',c1:'#FF2D55',c2:'#CC0033'},redator:{name:'Quill',role:'Copywriter — artigos longos, copies, roteiros',c1:'#5856D6',c2:'#3A38A0'}};
+
+function selectRole(el, role) {
+  document.querySelectorAll('.role-opt').forEach(r => r.classList.remove('selected'));
+  el.classList.add('selected');
+  currentRole = role;
+  const c = copilots[role];
+  setCopilot(c.name, c.role, c.c1, c.c2);
+  document.getElementById('previewRole').textContent = el.querySelector('.r-name').textContent;
+}
+
+function setCopilot(name, role, c1, c2) {
+  document.getElementById('copilotName').textContent = name;
+  document.getElementById('copilotRole').textContent = role;
+  document.getElementById('copilotIcon').style.background = 'linear-gradient(135deg,'+c1+','+c2+')';
+  document.getElementById('previewCopilot').textContent = name;
+}
+
+document.getElementById('invName').addEventListener('input', e => {
+  document.getElementById('previewName').textContent = e.target.value || 'Nome';
+});
+document.getElementById('invEmail').addEventListener('input', e => {
+  document.getElementById('previewEmail').textContent = e.target.value || 'email@empresa.com';
+});
+
+function sendInvite() {
+  document.getElementById('formView').style.display = 'none';
+  document.getElementById('sentView').classList.add('active');
+}
+</script>
+<script src="shared-nav-social.js"></script>
+</body></html>

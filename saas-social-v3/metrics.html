@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>KTANA Social — Metricas</title>
+  <link rel="stylesheet" href="../shared.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Zen+Dots&display=swap" rel="stylesheet">
+  <style>
+    body { min-height: 100vh; background: #F5F5F7; color: #1D1D1F; }
+    a { text-decoration: none; color: inherit; }
+    .main { max-width: 760px; margin: 0 auto; padding: 16px 20px 100px; }
+
+    /* CHAT */
+    .chat-hero { background: #FFF; border-radius: 20px; border: 1px solid rgba(0,0,0,0.04); margin-bottom: 20px; overflow: hidden; position: relative; }
+    .chat-hero::before { content: ''; position: absolute; inset: 0; border-radius: 20px; padding: 1.5px; background: linear-gradient(135deg, rgba(255,231,231,0.3) 0%, transparent 20%, rgba(215,0,48,0.2) 80%); -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0); -webkit-mask-composite: xor; mask-composite: exclude; pointer-events: none; }
+    .ch-top { display: flex; align-items: center; gap: 10px; padding: 14px 18px; border-bottom: 1px solid rgba(0,0,0,0.04); }
+    .ch-av { width: 28px; height: 28px; border-radius: 8px; background: linear-gradient(135deg, #FF9500, #CC7700); display: flex; align-items: center; justify-content: center; }
+    .ch-av svg { width: 14px; height: 14px; stroke: #FFF; fill: none; stroke-width: 1.5; }
+    .ch-nm { font-family: 'Zen Dots', cursive; font-size: 11px; color: #1D1D1F; }
+    .ch-ctx { font-family: 'Inter', sans-serif; font-size: 10px; color: #FF9500; }
+    .ch-body { padding: 18px; display: flex; flex-direction: column; gap: 10px; }
+    .msg { max-width: 88%; padding: 10px 14px; border-radius: 14px; font-family: 'Satoshi', sans-serif; font-size: 13px; line-height: 1.6; }
+    .msg-ai { background: #F0F0F2; color: #1D1D1F; border-bottom-left-radius: 4px; align-self: flex-start; }
+    .msg-user { background: #D70030; color: #FFF; border-bottom-right-radius: 4px; align-self: flex-end; }
+    .msg-ai strong { color: #D70030; }
+    .ch-input { display: flex; align-items: center; gap: 8px; padding: 12px 18px; border-top: 1px solid rgba(0,0,0,0.04); }
+    .ch-input input { flex: 1; font-family: 'Satoshi', sans-serif; font-size: 13px; background: #F5F5F7; border: 1px solid rgba(0,0,0,0.06); border-radius: 12px; padding: 10px 14px; outline: none; color: #1D1D1F; }
+    .ch-input input::placeholder { color: #AEAEB2; }
+    .ch-input input:focus { border-color: rgba(215,0,48,0.3); }
+    .ch-send { width: 32px; height: 32px; border-radius: 50%; background: #D70030; display: flex; align-items: center; justify-content: center; cursor: pointer; border: none; }
+    .ch-send svg { width: 12px; height: 12px; stroke: #FFF; fill: none; stroke-width: 2; }
+
+    .sec { font-family: 'Inter', sans-serif; font-size: 10px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: #D70030; margin-bottom: 10px; margin-top: 4px; }
+
+    /* SCORES */
+    .scores { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-bottom: 20px; }
+    .sc { background: #FFF; border: 1px solid rgba(0,0,0,0.04); border-radius: 14px; padding: 16px 10px; text-align: center; }
+    .sc-v { font-family: 'Zen Dots', cursive; font-size: 22px; color: #1D1D1F; }
+    .sc-v.brand { color: #D70030; }
+    .sc-l { font-family: 'Inter', sans-serif; font-size: 9px; color: #86868B; margin-top: 2px; text-transform: uppercase; letter-spacing: .04em; }
+    .sc-d { font-family: 'Inter', sans-serif; font-size: 10px; margin-top: 2px; color: #34C759; }
+
+    /* CHART */
+    .chart-card { background: #FFF; border-radius: 16px; border: 1px solid rgba(0,0,0,0.04); padding: 20px; margin-bottom: 14px; }
+    .chart-card h3 { font-family: 'Satoshi', sans-serif; font-size: 14px; font-weight: 600; color: #1D1D1F; margin-bottom: 4px; }
+    .chart-card p { font-family: 'Inter', sans-serif; font-size: 10px; color: #86868B; margin-bottom: 14px; }
+    .chart-bars { display: flex; align-items: flex-end; justify-content: space-around; height: 120px; padding: 0 8px; gap: 6px; }
+    .chart-bar { width: 100%; border-radius: 4px 4px 0 0; background: linear-gradient(180deg, #D70030, rgba(215,0,48,0.3)); transition: height 0.5s; }
+    .chart-labels { display: flex; justify-content: space-around; padding: 6px 8px 0; }
+    .chart-labels span { font-family: 'Inter', sans-serif; font-size: 9px; color: #AEAEB2; }
+
+    /* INSIGHTS */
+    .insight { background: #FFF; border-radius: 14px; border: 1px solid rgba(0,0,0,0.04); padding: 16px 18px; margin-bottom: 8px; display: flex; align-items: flex-start; gap: 12px; }
+    .insight-icon { width: 28px; height: 28px; border-radius: 8px; background: rgba(215,0,48,0.06); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .insight-icon svg { width: 14px; height: 14px; stroke: #D70030; fill: none; stroke-width: 1.5; }
+    .insight p { font-family: 'Satoshi', sans-serif; font-size: 12px; color: #1D1D1F; line-height: 1.5; }
+    .insight p strong { color: #D70030; }
+    .insight .source { font-family: 'Inter', sans-serif; font-size: 9px; color: #86868B; margin-top: 4px; }
+
+    /* TOP POSTS */
+    .post { display: flex; align-items: center; gap: 12px; padding: 12px 16px; background: #FFF; border: 1px solid rgba(0,0,0,0.04); border-radius: 12px; margin-bottom: 6px; }
+    .post-rank { font-family: 'Zen Dots', cursive; font-size: 14px; color: #D70030; min-width: 20px; }
+    .post-info { flex: 1; }
+    .post-title { font-family: 'Satoshi', sans-serif; font-size: 12px; font-weight: 500; color: #1D1D1F; }
+    .post-meta { font-family: 'Inter', sans-serif; font-size: 9px; color: #86868B; margin-top: 1px; }
+    .post-er { font-family: 'Zen Dots', cursive; font-size: 13px; color: #34C759; }
+
+    @media (max-width: 600px) { .scores { grid-template-columns: repeat(2, 1fr); } }
+  </style>
+</head>
+<body data-client="true" data-active="metrics">
+
+<main class="main">
+
+  <!-- CHAT: Metrics Agent analisa os dados -->
+<div class="ch-body">
+      <div class="msg msg-ai">
+        Resumo semanal: <strong>142 posts</strong> publicados, alcance total <strong>847K</strong>, ER medio <strong>4.2%</strong> (acima do nicho 3.2%).<br><br>
+        Destaque: carrosseis sobre <strong>"erros e aprendizados"</strong> tem 2.3x mais saves. Reels curtos (&lt;20s) tem 3x mais shares.<br><br>
+        Melhor horario: <strong>terca e quinta 10:00-10:30</strong> — ER 40% maior. Sugiro ajustar o scheduler.
+      </div>
+      <div class="msg msg-user">Mostra os numeros e os top posts</div>
+      <div class="msg msg-ai">Aqui estao os dados consolidados e os insights do motor:</div>
+    </div>
+    <div class="ch-input">
+      <input type="text" placeholder="Ex: mostra metricas do Joao, compara com semana anterior...">
+      <button class="ch-send"><svg viewBox="0 0 24 24"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+    </div>
+  </div>
+
+  <!-- SCORES -->
+  <div class="sec">Consolidado semanal</div>
+  <div class="scores">
+    <div class="sc"><div class="sc-v brand">142</div><div class="sc-l">Publicados</div><div class="sc-d">+18%</div></div>
+    <div class="sc"><div class="sc-v">847K</div><div class="sc-l">Alcance</div><div class="sc-d">+24%</div></div>
+    <div class="sc"><div class="sc-v">4.2%</div><div class="sc-l">ER medio</div><div class="sc-d">+0.3%</div></div>
+    <div class="sc"><div class="sc-v">23</div><div class="sc-l">Leads org.</div><div class="sc-d">+8</div></div>
+  </div>
+
+  <!-- CHARTS -->
+  <div class="chart-card">
+    <h3>Posts por dia</h3>
+    <p>Ultimos 7 dias — volume de publicacoes</p>
+    <div class="chart-bars">
+      <div class="chart-bar" style="height:55%"></div>
+      <div class="chart-bar" style="height:72%"></div>
+      <div class="chart-bar" style="height:88%"></div>
+      <div class="chart-bar" style="height:65%"></div>
+      <div class="chart-bar" style="height:95%"></div>
+      <div class="chart-bar" style="height:40%"></div>
+      <div class="chart-bar" style="height:30%"></div>
+    </div>
+    <div class="chart-labels"><span>Seg</span><span>Ter</span><span>Qua</span><span>Qui</span><span>Sex</span><span>Sab</span><span>Dom</span></div>
+  </div>
+
+  <!-- INSIGHTS DA IA -->
+  <div class="sec">Insights do motor</div>
+  <div class="insight">
+    <div class="insight-icon"><svg viewBox="0 0 24 24"><path d="M22 12h-4l-3 9L9 3l-3 9H2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+    <div><p>Carrosseis sobre <strong>erros e aprendizados</strong> tem 2.3x mais saves que posts informativos neste nicho.</p><div class="source">Baseado em 48 posts analisados</div></div>
+  </div>
+  <div class="insight">
+    <div class="insight-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+    <div><p>Melhor horario para <strong>Instagram</strong>: <strong>10:00-10:30 terca e quinta</strong>. ER 40% maior nesse slot.</p><div class="source">7 dias de metricas</div></div>
+  </div>
+  <div class="insight">
+    <div class="insight-icon"><svg viewBox="0 0 24 24"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg></div>
+    <div><p><strong>Reels curtos (&lt;20s)</strong> tem 3x mais compartilhamentos. Ajustar roteiros pra formatos mais curtos.</p><div class="source">23 reels publicados</div></div>
+  </div>
+
+  <!-- TOP POSTS -->
+  <div class="sec">Top posts da semana</div>
+  <div class="post"><div class="post-rank">1</div><div class="post-info"><div class="post-title">"Delegacao pra CEOs control freaks" — Joao Mendes</div><div class="post-meta">IG Carrossel · Ter 10:30 · 342 likes, 89 saves, 28 comments</div></div><div class="post-er">6.2%</div></div>
+  <div class="post"><div class="post-rank">2</div><div class="post-info"><div class="post-title">"Futuro do B2B nao e o que voce pensa" — Maria Fernandes</div><div class="post-meta">LI Artigo · Qua 09:00 · 187 likes, 43 comments, 67 shares</div></div><div class="post-er">5.8%</div></div>
+  <div class="post"><div class="post-rank">3</div><div class="post-info"><div class="post-title">"3 metricas que CEO bom olha todo dia" — Joao Mendes</div><div class="post-meta">TT Reel 22s · Qui 15:00 · 12.4K views, 1.2K likes</div></div><div class="post-er">8.3%</div></div>
+  <div class="post"><div class="post-rank">4</div><div class="post-info"><div class="post-title">"Reforma tributaria simplificada" — Ana Costa</div><div class="post-meta">IG Carrossel · Seg 10:00 · 256 likes, 67 saves</div></div><div class="post-er">4.9%</div></div>
+  <div class="post"><div class="post-rank">5</div><div class="post-info"><div class="post-title">"O mito do botox preventivo" — Pedro Souza</div><div class="post-meta">IG Reel 25s · Qui 11:00 · 8.7K views, 890 likes</div></div><div class="post-er">7.1%</div></div>
+
+</div>
+
+<script src="shared-nav-social.js"></script>
+</body>
+</html>

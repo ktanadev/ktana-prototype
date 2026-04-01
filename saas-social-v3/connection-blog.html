@@ -1,0 +1,185 @@
+<!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>KTANA Social — Blog (WordPress)</title><link rel="stylesheet" href="../shared.css"><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Zen+Dots&display=swap" rel="stylesheet">
+<style>
+body{min-height:100vh;background:#F5F5F7;color:#1D1D1F}
+a{text-decoration:none;color:inherit}
+.main{max-width:760px;margin:0 auto;padding:16px 20px 100px}
+.breadcrumb{font-family:'Inter',sans-serif;font-size:11px;color:#86868B;margin-bottom:20px}
+.breadcrumb a{color:#D70030}
+.section-card{background:#FFF;border-radius:20px;border:1px solid rgba(0,0,0,0.04);padding:24px;margin-bottom:14px;animation:fadeIn 0.4s ease both}
+.card-label{font-family:'Inter',sans-serif;font-size:11px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:#D70030;margin-bottom:14px}
+.card-desc{font-family:'Satoshi',sans-serif;font-size:13px;color:#86868B;margin-bottom:16px;line-height:1.5}
+.form-group{margin-bottom:16px}
+.form-group label{font-family:'Inter',sans-serif;display:block;font-size:12px;font-weight:500;color:#86868B;margin-bottom:6px}
+.form-input{font-family:'Satoshi',sans-serif;background:#F5F5F7;border:1px solid rgba(0,0,0,0.06);border-radius:12px;padding:12px 14px;font-size:14px;width:100%;outline:none;color:#1D1D1F;transition:border-color 0.2s;box-sizing:border-box}
+.form-input:focus{border-color:rgba(215,0,48,0.3)}
+.form-input.masked{color:#AEAEB2;letter-spacing:2px}
+.toggle{width:44px;height:26px;border-radius:13px;background:#D2D2D7;position:relative;cursor:pointer;transition:background 0.2s;flex-shrink:0}
+.toggle.on{background:#D70030}
+.toggle::after{content:'';position:absolute;top:3px;left:3px;width:20px;height:20px;border-radius:50%;background:#FFF;transition:transform 0.2s}
+.toggle.on::after{transform:translateX(18px)}
+.toggle-row{display:flex;align-items:center;justify-content:space-between;padding:12px 14px;background:#F5F5F7;border-radius:12px;min-height:44px;margin-bottom:8px}
+.toggle-left{display:flex;align-items:center;gap:10px}
+.toggle-left svg{width:18px;height:18px;stroke:#86868B;fill:none;stroke-width:1.5;flex-shrink:0}
+.toggle-text{font-family:'Satoshi',sans-serif;font-size:13px;color:#1D1D1F}
+.toggle-sub{font-family:'Inter',sans-serif;font-size:10px;color:#86868B}
+.profile-item{display:flex;align-items:center;gap:12px;padding:14px;background:#F5F5F7;border-radius:12px;margin-bottom:8px}
+.profile-avatar{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.profile-avatar svg{width:16px;height:16px;stroke:#FFF;fill:none;stroke-width:1.5}
+.profile-info{flex:1}
+.profile-name{font-family:'Satoshi',sans-serif;font-size:13px;font-weight:500;color:#1D1D1F}
+.profile-meta{font-family:'Inter',sans-serif;font-size:10px;color:#86868B}
+.status-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.status-dot.ok{background:#34C759}
+.status-dot.warn{background:#FF9500}
+.status-dot.off{background:#D2D2D7}
+.rate-bar{height:8px;background:#F0F0F2;border-radius:4px;overflow:hidden;margin-top:8px}
+.rate-fill{height:100%;border-radius:4px;transition:width 0.5s ease}
+.rate-info{display:flex;justify-content:space-between;font-family:'Inter',sans-serif;font-size:11px;color:#86868B;margin-top:6px}
+.btn-row{display:flex;gap:10px;margin-top:24px}
+.btn-action{flex:1;font-family:'Inter',sans-serif;padding:14px;border-radius:14px;font-size:14px;font-weight:600;border:none;cursor:pointer;transition:opacity 0.15s;text-align:center}
+.btn-primary{background:#D70030;color:#FFF}
+.btn-primary:hover{opacity:0.9}
+.btn-secondary{background:#F0F0F2;color:#1D1D1F;border:1px solid rgba(0,0,0,0.06)}
+.btn-ghost{background:transparent;color:#D70030;border:1px solid rgba(215,0,48,0.15)}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+</style>
+</head>
+<body data-client="true" data-active="connections">
+<main class="main">
+
+<div class="breadcrumb"><a href="dashboard.html">Dashboard</a> / <a href="connections.html">Conexoes</a> / Blog (WordPress REST API)</div>
+
+<!-- CHAT HERO -->
+<div style="background:#FFF;border-radius:20px;border:1px solid rgba(0,0,0,0.04);margin-bottom:20px;overflow:hidden">
+  <div style="display:flex;align-items:center;gap:10px;padding:14px 18px;border-bottom:1px solid rgba(0,0,0,0.04)">
+    <div style="width:28px;height:28px;border-radius:8px;background:linear-gradient(135deg,#D70030,#8B0000);display:flex;align-items:center;justify-content:center"><svg viewBox="0 0 24 24" style="width:14px;height:14px;stroke:#FFF;fill:none;stroke-width:1.5"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+    <div><div style="font-family:'Zen Dots',cursive;font-size:11px;color:#1D1D1F">Sensei</div><div style="font-family:'Inter',sans-serif;font-size:10px;color:#D70030">Blog — WordPress REST API</div></div>
+  </div>
+  <div style="padding:18px">
+    <div style="max-width:88%;padding:10px 14px;border-radius:14px;background:#F0F0F2;font-family:'Satoshi',sans-serif;font-size:13px;color:#1D1D1F;line-height:1.6">Blog conecta via <strong style="color:#D70030">WordPress REST API</strong>. Artigos longos (1.500-3.000 palavras) com SEO otimizado. Quill gera o conteudo, Canvas adapta imagens de capa. Publicacao automatica ou rascunho pra revisao.</div>
+  </div>
+</div>
+
+<!-- AUTENTICACAO -->
+<div class="section-card" style="animation-delay:0.05s">
+  <p class="card-label">Autenticacao WordPress</p>
+  <p class="card-desc">Credenciais do WordPress REST API. Usamos Application Password pra publicacao automatica.</p>
+  <div class="form-group">
+    <label>URL do WordPress</label>
+    <input type="text" class="form-input" value="https://blog.techflow.com/wp-json/wp/v2" readonly>
+  </div>
+  <div class="form-group">
+    <label>Usuario</label>
+    <input type="text" class="form-input" value="ktana-autopublish">
+  </div>
+  <div class="form-group">
+    <label>Application Password</label>
+    <input type="text" class="form-input masked" value="**** **** **** Xk9p" readonly>
+  </div>
+  <div style="display:flex;align-items:center;gap:8px;margin-top:12px;padding:10px 14px;background:rgba(52,199,89,0.06);border-radius:10px">
+    <div class="status-dot ok"></div>
+    <span style="font-family:'Inter',sans-serif;font-size:12px;color:#34C759;font-weight:500">Conectado — ultimo post publicado ha 3 dias</span>
+  </div>
+</div>
+
+<!-- BLOGS POR CLIENTE -->
+<div class="section-card" style="animation-delay:0.1s">
+  <p class="card-label">Blogs configurados por cliente</p>
+  <p class="card-desc">Cada founder pode ter seu proprio blog WordPress ou compartilhar o blog da agencia.</p>
+  <div class="profile-item">
+    <div class="profile-avatar" style="background:linear-gradient(135deg,#FF9500,#CC7700)"><svg viewBox="0 0 24 24"><path d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13"/></svg></div>
+    <div class="profile-info">
+      <div class="profile-name">blog.techflow.com (Joao Mendes)</div>
+      <div class="profile-meta">WordPress 6.5 · 12 artigos publicados · SEO Yoast</div>
+    </div>
+    <div class="status-dot ok"></div>
+  </div>
+  <div class="profile-item">
+    <div class="profile-avatar" style="background:linear-gradient(135deg,#5856D6,#3A38A0)"><svg viewBox="0 0 24 24"><path d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13"/></svg></div>
+    <div class="profile-info">
+      <div class="profile-name">anacosta.adv.br/blog (Ana Costa)</div>
+      <div class="profile-meta">WordPress 6.4 · 5 artigos publicados</div>
+    </div>
+    <div class="status-dot ok"></div>
+  </div>
+  <div class="profile-item">
+    <div class="profile-avatar" style="background:linear-gradient(135deg,#D2D2D7,#AEAEB2)"><svg viewBox="0 0 24 24"><path d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13"/></svg></div>
+    <div class="profile-info">
+      <div class="profile-name">Pedro Souza — nao configurado</div>
+      <div class="profile-meta">Precisa criar blog ou usar blog da agencia</div>
+    </div>
+    <div class="status-dot off"></div>
+  </div>
+  <button style="width:100%;margin-top:10px;font-family:'Inter',sans-serif;font-size:12px;font-weight:500;padding:10px;border-radius:10px;border:1.5px dashed rgba(0,0,0,0.08);background:#FFF;color:#86868B;cursor:pointer" onclick="alert('Adicionar novo blog WordPress')">+ Adicionar blog de cliente</button>
+</div>
+
+<!-- CONFIG PUBLICACAO -->
+<div class="section-card" style="animation-delay:0.15s">
+  <p class="card-label">Configuracao de publicacao</p>
+  <div class="toggle-row">
+    <div class="toggle-left">
+      <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+      <div><div class="toggle-text">Publicacao automatica</div><div class="toggle-sub">Artigos aprovados publicam direto. Desative pra publicar como rascunho.</div></div>
+    </div>
+    <div class="toggle" onclick="this.classList.toggle('on')"></div>
+  </div>
+  <div class="toggle-row">
+    <div class="toggle-left">
+      <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+      <div><div class="toggle-text">SEO automatico</div><div class="toggle-sub">Quill gera meta title, meta description, slug, e tags automaticamente.</div></div>
+    </div>
+    <div class="toggle on" onclick="this.classList.toggle('on')"></div>
+  </div>
+  <div class="toggle-row">
+    <div class="toggle-left">
+      <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+      <div><div class="toggle-text">Imagem de capa automatica</div><div class="toggle-sub">Canvas gera imagem de capa 1200x630 com template do cliente.</div></div>
+    </div>
+    <div class="toggle on" onclick="this.classList.toggle('on')"></div>
+  </div>
+  <div class="toggle-row">
+    <div class="toggle-left">
+      <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71"/></svg>
+      <div><div class="toggle-text">Internal linking</div><div class="toggle-sub">Insere links internos automaticamente entre artigos relacionados.</div></div>
+    </div>
+    <div class="toggle on" onclick="this.classList.toggle('on')"></div>
+  </div>
+</div>
+
+<!-- FORMATO -->
+<div class="section-card" style="animation-delay:0.2s">
+  <p class="card-label">Formato dos artigos</p>
+  <p class="card-desc">Configuracao padrao que Quill usa ao gerar artigos de blog.</p>
+  <div class="form-group">
+    <label>Tamanho ideal</label>
+    <input type="text" class="form-input" value="1.500 a 3.000 palavras">
+  </div>
+  <div class="form-group">
+    <label>Estrutura</label>
+    <input type="text" class="form-input" value="H2/H3 hierarquico, intro hook, CTA no final, bullet points">
+  </div>
+  <div class="form-group">
+    <label>Tom</label>
+    <input type="text" class="form-input" value="Herda do Brand Book do cliente (tom de voz + arquetipo)">
+  </div>
+  <div class="form-group">
+    <label>Meta description</label>
+    <input type="text" class="form-input" value="150-160 chars, gerado automaticamente com keyword principal">
+  </div>
+</div>
+
+<!-- RATE LIMIT -->
+<div class="section-card" style="animation-delay:0.25s">
+  <p class="card-label">Frequencia de publicacao</p>
+  <div class="rate-bar"><div class="rate-fill" style="width:40%;background:linear-gradient(90deg,#FF9500,#FFBA5C)"></div></div>
+  <div class="rate-info"><span>2 artigos/semana por cliente</span><span>8/20 esta semana</span></div>
+</div>
+
+<div class="btn-row">
+  <button class="btn-action btn-primary" onclick="this.textContent='Salvo!';this.style.background='#34C759'">Salvar configuracao</button>
+  <button class="btn-action btn-secondary" onclick="alert('Testando conexao... OK!')">Testar conexao</button>
+</div>
+
+</main>
+<script src="shared-nav-social.js"></script>
+</body></html>

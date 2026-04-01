@@ -1,0 +1,215 @@
+<!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>KTANA Social — Detalhe do Post</title><link rel="stylesheet" href="../shared.css"><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Zen+Dots&display=swap" rel="stylesheet">
+<style>
+body{min-height:100vh;background:#F5F5F7;color:#1D1D1F}
+a{text-decoration:none;color:inherit}
+.main{max-width:760px;margin:0 auto;padding:16px 20px 100px}
+.breadcrumb{font-family:'Inter',sans-serif;font-size:11px;color:#86868B;margin-bottom:16px}
+.breadcrumb a{color:#D70030}
+
+/* CHAT HERO */
+.chat-hero{background:#FFF;border-radius:20px;border:1px solid rgba(0,0,0,0.04);margin-bottom:20px;overflow:hidden;position:relative}
+.chat-hero::before{content:'';position:absolute;inset:0;border-radius:20px;padding:1.5px;background:linear-gradient(135deg,rgba(255,231,231,0.3) 0%,transparent 20%,rgba(215,0,48,0.2) 80%);-webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);-webkit-mask-composite:xor;mask-composite:exclude;pointer-events:none}
+.ch-top{display:flex;align-items:center;gap:10px;padding:14px 18px;border-bottom:1px solid rgba(0,0,0,0.04)}
+.ch-av{width:28px;height:28px;border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.ch-av svg{width:14px;height:14px;stroke:#FFF;fill:none;stroke-width:1.5}
+.ch-nm{font-family:'Zen Dots',cursive;font-size:11px;color:#1D1D1F}
+.ch-ctx{font-family:'Inter',sans-serif;font-size:10px;color:#D70030}
+.ch-body{padding:18px;display:flex;flex-direction:column;gap:10px}
+.msg{max-width:88%;padding:10px 14px;border-radius:14px;font-family:'Satoshi',sans-serif;font-size:13px;line-height:1.5}
+.msg-ai{background:#F0F0F2;color:#1D1D1F;border-bottom-left-radius:4px;align-self:flex-start}
+.msg-ai strong{color:#D70030}
+.ch-input{display:flex;align-items:center;gap:8px;padding:12px 18px;border-top:1px solid rgba(0,0,0,0.04)}
+.ch-input input{flex:1;font-family:'Satoshi',sans-serif;font-size:13px;background:#F5F5F7;border:1px solid rgba(0,0,0,0.06);border-radius:12px;padding:10px 14px;outline:none;color:#1D1D1F}
+.ch-input input::placeholder{color:#AEAEB2}
+.ch-input input:focus{border-color:rgba(215,0,48,0.3)}
+.ch-send{width:32px;height:32px;border-radius:50%;background:#D70030;display:flex;align-items:center;justify-content:center;cursor:pointer;border:none}
+.ch-send svg{width:12px;height:12px;stroke:#FFF;fill:none;stroke-width:2}
+
+.sec{font-family:'Inter',sans-serif;font-size:10px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:#D70030;margin-bottom:10px;margin-top:4px}
+.card{background:#FFF;border-radius:16px;border:1px solid rgba(0,0,0,0.04);padding:20px;margin-bottom:14px}
+
+/* POST HEADER */
+.post-header{display:flex;align-items:center;gap:14px;margin-bottom:16px}
+.ph-av{width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,#D70030,#A60028);display:flex;align-items:center;justify-content:center;font-family:'Inter',sans-serif;font-size:12px;font-weight:600;color:#FFF;flex-shrink:0}
+.ph-info h2{font-family:'Zen Dots',cursive;font-size:18px;color:#1D1D1F;margin-bottom:2px}
+.ph-info p{font-family:'Inter',sans-serif;font-size:11px;color:#86868B}
+.ph-net{margin-left:auto;font-family:'Inter',sans-serif;font-size:10px;font-weight:600;color:#D70030;text-transform:uppercase;padding:4px 10px;border-radius:6px;background:rgba(215,0,48,0.06)}
+.ph-stage{font-family:'Inter',sans-serif;font-size:10px;font-weight:600;padding:4px 10px;border-radius:6px;background:rgba(0,122,255,0.08);color:#007AFF;margin-left:8px}
+
+/* SCORES */
+.scores{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:20px}
+.sc{background:#FFF;border:1px solid rgba(0,0,0,0.04);border-radius:12px;padding:14px 10px;text-align:center}
+.sc-v{font-family:'Zen Dots',cursive;font-size:18px;color:#1D1D1F}
+.sc-v.green{color:#34C759}.sc-v.orange{color:#FF9500}.sc-v.red{color:#D70030}
+.sc-l{font-family:'Inter',sans-serif;font-size:9px;color:#86868B;margin-top:2px;text-transform:uppercase;letter-spacing:.04em}
+
+/* PREVIEW MOBILE */
+.preview{display:flex;gap:16px;margin-bottom:20px}
+.preview-phone{width:240px;min-height:400px;background:#FFF;border-radius:24px;border:2px solid #1D1D1F;overflow:hidden;flex-shrink:0;position:relative}
+.pp-notch{width:80px;height:20px;background:#1D1D1F;border-radius:0 0 12px 12px;margin:0 auto}
+.pp-header{display:flex;align-items:center;gap:8px;padding:10px 12px;border-bottom:1px solid rgba(0,0,0,0.06)}
+.pp-av{width:22px;height:22px;border-radius:50%;background:linear-gradient(135deg,#D70030,#A60028);display:flex;align-items:center;justify-content:center;font-family:'Inter',sans-serif;font-size:7px;font-weight:700;color:#FFF}
+.pp-name{font-family:'Inter',sans-serif;font-size:10px;font-weight:600;color:#1D1D1F}
+.pp-body{padding:12px}
+.pp-slide{background:linear-gradient(135deg,#F5F5F7,#E8E8ED);border-radius:8px;aspect-ratio:1;display:flex;align-items:center;justify-content:center;margin-bottom:8px}
+.pp-slide-text{font-family:'Zen Dots',cursive;font-size:14px;color:#D70030;text-align:center;padding:16px;line-height:1.3}
+.pp-caption{font-family:'Inter',sans-serif;font-size:9px;color:#6E6E73;line-height:1.4}
+.pp-dots{display:flex;gap:3px;justify-content:center;margin-bottom:8px}
+.pp-dot{width:5px;height:5px;border-radius:50%;background:#D2D2D7}
+.pp-dot.active{background:#D70030}
+.preview-content{flex:1}
+
+/* ROTEIRO */
+.roteiro{background:#FFF;border-radius:16px;border:1px solid rgba(0,0,0,0.04);padding:20px;margin-bottom:14px}
+.slide-item{padding:12px 14px;border-left:2px solid rgba(215,0,48,0.15);margin-bottom:8px;background:rgba(0,0,0,0.01);border-radius:0 8px 8px 0}
+.slide-num{font-family:'Inter',sans-serif;font-size:9px;font-weight:600;color:#D70030;text-transform:uppercase;letter-spacing:.05em;margin-bottom:4px}
+.slide-text{font-family:'Satoshi',sans-serif;font-size:13px;color:#1D1D1F;line-height:1.5}
+.slide-note{font-family:'Inter',sans-serif;font-size:10px;color:#86868B;margin-top:4px;font-style:italic}
+
+/* ACTIONS */
+.actions{display:flex;gap:8px;margin-top:20px;flex-wrap:wrap}
+.act-btn{font-family:'Inter',sans-serif;font-size:12px;font-weight:600;padding:12px 20px;border-radius:12px;border:none;cursor:pointer;transition:all 0.15s;display:flex;align-items:center;gap:6px}
+.act-btn svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:1.5}
+.act-approve{background:#34C759;color:#FFF}
+.act-approve:hover{opacity:0.9}
+.act-adjust{background:#FFF;color:#FF9500;border:1px solid rgba(255,149,0,0.2)}
+.act-reject{background:#FFF;color:#D70030;border:1px solid rgba(215,0,48,0.1)}
+.act-edit{background:rgba(0,122,255,0.06);color:#007AFF}
+.act-edit:hover{background:rgba(0,122,255,0.1)}
+
+/* COMPARATIVO */
+.compare{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px}
+.cmp-card{background:#FFF;border:1px solid rgba(0,0,0,0.04);border-radius:12px;padding:14px}
+.cmp-label{font-family:'Inter',sans-serif;font-size:9px;font-weight:600;color:#86868B;text-transform:uppercase;letter-spacing:.05em;margin-bottom:8px}
+.cmp-text{font-family:'Satoshi',sans-serif;font-size:12px;color:#6E6E73;line-height:1.4}
+.cmp-metric{font-family:'JetBrains Mono',monospace;font-size:11px;margin-top:6px}
+
+@media(max-width:600px){.preview{flex-direction:column}.preview-phone{width:100%}.scores{grid-template-columns:repeat(2,1fr)}.compare{grid-template-columns:1fr}}
+</style>
+</head>
+<body data-client="true" data-active="pipeline">
+<main class="main">
+
+<div class="breadcrumb"><a href="dashboard.html">Dashboard</a> / <a href="pipeline.html">Pipeline</a> / Detalhe do post</div>
+
+<!-- CHAT HERO -->
+<div class="chat-hero">
+  <div class="ch-top">
+    <div class="ch-av" style="background:linear-gradient(135deg,#5856D6,#3A38A0)"><svg viewBox="0 0 24 24"><path d="M12 20h9M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+    <div><div class="ch-nm">Quill</div><div class="ch-ctx">Carrossel: 5 erros de CEO no Instagram</div></div>
+  </div>
+  <div class="ch-body">
+    <div class="msg msg-ai">Esse carrossel tem <strong>score de humanidade 94%</strong>. Usei o tom provocador do Joao, referencias do Gary V e dados reais do Perplexity. O hook do slide 1 tem CTR estimado de 4.2% baseado no historico. <strong>3 pontos de atencao:</strong> slide 4 pode parecer generico — sugiro adicionar um caso real. Quer que eu ajuste?</div>
+  </div>
+  <div class="ch-input">
+    <input type="text" placeholder="Peca ajustes ao Quill...">
+    <button class="ch-send"><svg viewBox="0 0 24 24"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+  </div>
+</div>
+
+<!-- POST HEADER -->
+<div class="post-header">
+  <div class="ph-av">JM</div>
+  <div class="ph-info">
+    <h2>5 erros de CEO no Instagram</h2>
+    <p>Joao Mendes — CEO TechFlow — Carrossel 7 slides</p>
+  </div>
+  <span class="ph-net">IG</span>
+  <span class="ph-stage">Aprovacao SM</span>
+</div>
+
+<!-- SCORES -->
+<div class="scores">
+  <div class="sc"><div class="sc-v green">94%</div><div class="sc-l">Humanidade</div></div>
+  <div class="sc"><div class="sc-v green">91%</div><div class="sc-l">Tom de voz</div></div>
+  <div class="sc"><div class="sc-v green">88%</div><div class="sc-l">Originalidade</div></div>
+  <div class="sc"><div class="sc-v orange">6h</div><div class="sc-l">SLA SM</div></div>
+</div>
+
+<!-- PREVIEW + ROTEIRO -->
+<div class="sec">Preview</div>
+<div class="preview">
+  <div class="preview-phone">
+    <div class="pp-notch"></div>
+    <div class="pp-header">
+      <div class="pp-av">JM</div>
+      <div class="pp-name">joaomendes.ceo</div>
+    </div>
+    <div class="pp-body">
+      <div class="pp-slide">
+        <div class="pp-slide-text">5 erros que TODO CEO comete no Instagram</div>
+      </div>
+      <div class="pp-dots">
+        <div class="pp-dot active"></div><div class="pp-dot"></div><div class="pp-dot"></div><div class="pp-dot"></div><div class="pp-dot"></div><div class="pp-dot"></div><div class="pp-dot"></div>
+      </div>
+      <div class="pp-caption"><strong>joaomendes.ceo</strong> Voce contrata CMO, investe em trafego, mas seu Instagram parece perfil de estagiario. Aqui vao 5 erros que eu cometi (e que custaram caro)...</div>
+    </div>
+  </div>
+  <div class="preview-content">
+    <div class="sec">Roteiro completo</div>
+    <div class="slide-item">
+      <div class="slide-num">Slide 1 — Hook</div>
+      <div class="slide-text">5 erros que TODO CEO comete no Instagram</div>
+      <div class="slide-note">Visual: fundo gradiente, tipografia bold, emoji estrategico</div>
+    </div>
+    <div class="slide-item">
+      <div class="slide-num">Slide 2</div>
+      <div class="slide-text">Erro 1: Postar sobre a empresa, nao sobre voce. Ninguem segue CNPJ. Seguem pessoas. Seu perfil nao e da empresa — e seu.</div>
+    </div>
+    <div class="slide-item">
+      <div class="slide-num">Slide 3</div>
+      <div class="slide-text">Erro 2: Achar que precisa de fotos perfeitas. Conteudo real > producao cara. O celular no escritorio converte mais que estudio.</div>
+    </div>
+    <div class="slide-item">
+      <div class="slide-num">Slide 4</div>
+      <div class="slide-text">Erro 3: Copiar o concorrente ao inves de criar tese propria. Autoridade vem de ponto de vista unico, nao de repetir o que todo mundo fala.</div>
+    </div>
+    <div class="slide-item">
+      <div class="slide-num">Slide 5</div>
+      <div class="slide-text">Erro 4: Postar 1x por semana achando que e suficiente. Algoritmo recompensa frequencia. 3-5x/dia e o minimo pra escalar.</div>
+    </div>
+    <div class="slide-item">
+      <div class="slide-num">Slide 6</div>
+      <div class="slide-text">Erro 5: Medir likes ao inves de conversao. Vanity metrics nao pagam boleto. Metricas que importam: DMs, leads, calls agendadas.</div>
+    </div>
+    <div class="slide-item">
+      <div class="slide-num">Slide 7 — CTA</div>
+      <div class="slide-text">Quer parar de cometer esses erros? Me manda "POSICIONAMENTO" no DM e eu te mando o checklist completo. Link na bio.</div>
+      <div class="slide-note">CTA direto para DM — conversao estimada 3.8%</div>
+    </div>
+  </div>
+</div>
+
+<!-- LEGENDA + HASHTAGS -->
+<div class="card">
+  <div class="sec" style="margin-top:0">Legenda</div>
+  <p style="font-family:'Satoshi',sans-serif;font-size:13px;color:#1D1D1F;line-height:1.6;margin-bottom:12px">Voce contrata CMO, investe em trafego, mas seu Instagram parece perfil de estagiario. Aqui vao 5 erros que eu cometi (e que custaram caro). Salva esse carrossel e manda pro CEO que precisa ouvir isso.</p>
+  <p style="font-family:'Inter',sans-serif;font-size:11px;color:#007AFF">#ceo #posicionamento #marketingdigital #empreendedorismo #instagram #lideranca #founders</p>
+</div>
+
+<!-- COMPARATIVO COM CONCORRENTE -->
+<div class="sec">Comparativo</div>
+<div class="compare">
+  <div class="cmp-card">
+    <div class="cmp-label">Este post</div>
+    <div class="cmp-text">Hook provocador, dados reais, CTA claro para DM</div>
+    <div class="cmp-metric" style="color:#34C759">ER estimado: 4.8%</div>
+  </div>
+  <div class="cmp-card">
+    <div class="cmp-label">Concorrente @ceoinsights</div>
+    <div class="cmp-text">Post similar 2 dias atras — "7 erros de gestao" — formato lista, CTA generico</div>
+    <div class="cmp-metric" style="color:#86868B">ER real: 2.1%</div>
+  </div>
+</div>
+
+<!-- ACTIONS -->
+<div class="actions">
+  <button class="act-btn act-approve" onclick="this.innerHTML='Aprovado! → WhatsApp do founder';this.style.background='#34C759';this.style.color='#FFF'"><svg viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01" stroke-linecap="round" stroke-linejoin="round"/></svg> Aprovar e enviar pro pipeline</button>
+  <a href="post-editor.html" class="act-btn act-edit"><svg viewBox="0 0 24 24"><path d="M12 20h9M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z" stroke-linecap="round" stroke-linejoin="round"/></svg> Editar roteiro</a>
+  <button class="act-btn act-adjust" onclick="this.innerHTML='Ajuste solicitado ao Quill';this.style.background='#FF9500';this.style.color='#FFF'"><svg viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" stroke-linecap="round" stroke-linejoin="round"/><circle cx="12" cy="12" r="3"/></svg> Pedir ajuste</button>
+  <button class="act-btn act-reject" onclick="this.innerHTML='Rejeitado';this.style.opacity='0.4'"><svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18" stroke-linecap="round" stroke-linejoin="round"/><line x1="6" y1="6" x2="18" y2="18"/></svg> Rejeitar</button>
+</div>
+
+</div>
+<script src="shared-nav-social.js"></script>
+</body></html>

@@ -1,0 +1,109 @@
+<!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>Criar seu acesso — KTANA Social</title><link rel="stylesheet" href="../shared.css"><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Zen+Dots&display=swap" rel="stylesheet">
+<style>
+body{min-height:100vh;background:#000;color:#FFF;display:flex;align-items:center;justify-content:center}
+.container{width:100%;max-width:440px;padding:24px}
+.logo{font-family:'Zen Dots',cursive;font-size:18px;color:#D70030;text-align:center;margin-bottom:32px}
+.card{background:#1D1D1F;border-radius:24px;border:1px solid rgba(255,255,255,0.06);overflow:hidden;position:relative}
+.card::before{content:'';position:absolute;inset:0;border-radius:24px;padding:1px;background:linear-gradient(135deg,rgba(215,0,48,0.2) 0%,transparent 40%,rgba(215,0,48,0.1) 100%);-webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);-webkit-mask-composite:xor;mask-composite:exclude;pointer-events:none}
+
+/* WELCOME */
+.welcome{padding:28px 24px;text-align:center;border-bottom:1px solid rgba(255,255,255,0.06)}
+.welcome .agency{font-family:'Inter',sans-serif;font-size:11px;color:rgba(255,255,255,0.4);margin-bottom:8px}
+.welcome h1{font-family:'Zen Dots',cursive;font-size:20px;color:#FFF;margin-bottom:6px}
+.welcome p{font-family:'Satoshi',sans-serif;font-size:13px;color:rgba(255,255,255,0.6);line-height:1.5}
+
+/* BENEFITS */
+.benefits{padding:20px 24px;border-bottom:1px solid rgba(255,255,255,0.06);display:flex;flex-direction:column;gap:10px}
+.benefit{display:flex;align-items:center;gap:10px;font-family:'Inter',sans-serif;font-size:12px;color:rgba(255,255,255,0.7)}
+.benefit svg{width:16px;height:16px;stroke:#D70030;fill:none;stroke-width:1.5;flex-shrink:0}
+
+/* FORM */
+.form{padding:24px}
+.form label{display:block;font-family:'Inter',sans-serif;font-size:11px;font-weight:500;color:rgba(255,255,255,0.5);margin-bottom:6px;margin-top:14px}
+.form label:first-child{margin-top:0}
+.form input{width:100%;font-family:'Satoshi',sans-serif;font-size:14px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);border-radius:12px;padding:12px 16px;outline:none;color:#FFF;box-sizing:border-box;transition:border-color 0.2s}
+.form input:focus{border-color:rgba(215,0,48,0.4)}
+.form input::placeholder{color:rgba(255,255,255,0.25)}
+.form .prefilled{background:rgba(255,255,255,0.02);border-color:rgba(255,255,255,0.06);color:rgba(255,255,255,0.5)}
+
+.btn-create{font-family:'Inter',sans-serif;width:100%;padding:16px;border-radius:14px;background:#D70030;color:#FFF;font-size:15px;font-weight:600;border:none;cursor:pointer;margin-top:20px;transition:all 0.15s}
+.btn-create:hover{opacity:0.9;box-shadow:0 4px 20px rgba(215,0,48,0.3)}
+
+.terms{font-family:'Inter',sans-serif;font-size:10px;color:rgba(255,255,255,0.3);text-align:center;margin-top:12px;line-height:1.5}
+.terms a{color:#D70030}
+
+/* SUCCESS */
+.success{display:none;padding:40px 24px;text-align:center}
+.success.active{display:block}
+.success h2{font-family:'Zen Dots',cursive;font-size:20px;color:#FFF;margin-bottom:8px}
+.success p{font-family:'Satoshi',sans-serif;font-size:13px;color:rgba(255,255,255,0.6);margin-bottom:20px;line-height:1.5}
+.success .steps{text-align:left;margin-bottom:20px}
+.success .step-item{display:flex;align-items:center;gap:10px;padding:8px 0;font-family:'Inter',sans-serif;font-size:12px;color:rgba(255,255,255,0.7)}
+.success .step-num{width:24px;height:24px;border-radius:50%;background:rgba(215,0,48,0.15);display:flex;align-items:center;justify-content:center;font-family:'Zen Dots',cursive;font-size:10px;color:#D70030;flex-shrink:0}
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="logo">KTANA Social</div>
+  <div class="card">
+    <!-- WELCOME -->
+    <div class="welcome" id="welcomeSection">
+      <div class="agency">Convite de Grupo Silva Assessoria</div>
+      <h1>Bem-vindo, Joao.</h1>
+      <p>Sua assessoria preparou tudo pra posicionar voce como autoridade. Crie seu acesso pra comecar.</p>
+    </div>
+
+    <!-- BENEFITS -->
+    <div class="benefits" id="benefitsSection">
+      <div class="benefit"><svg viewBox="0 0 24 24"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>Aprovar posts antes de publicar</div>
+      <div class="benefit"><svg viewBox="0 0 24 24"><path d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14"/></svg>Enviar fotos e videos pro clone</div>
+      <div class="benefit"><svg viewBox="0 0 24 24"><path d="M12 6.253v13M7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>Responder o Brand Book</div>
+      <div class="benefit"><svg viewBox="0 0 24 24"><path d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6m6 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0h6m-6 0a2 2 0 002 2h2a2 2 0 002-2"/></svg>Acompanhar metricas e relatorios</div>
+    </div>
+
+    <!-- FORM -->
+    <div class="form" id="formSection">
+      <label>Nome completo</label>
+      <input type="text" value="Joao Mendes" class="prefilled" readonly>
+      <label>Email</label>
+      <input type="email" value="joao@techflow.com" class="prefilled" readonly>
+      <label>Criar senha</label>
+      <input type="password" id="passInput" placeholder="Minimo 8 caracteres">
+      <label>Confirmar senha</label>
+      <input type="password" id="passConfirm" placeholder="Repita a senha">
+      <button class="btn-create" onclick="createAccount()">Criar meu acesso</button>
+      <div class="terms">Ao criar sua conta, voce concorda com os <a href="legal/terms.html">Termos de Uso</a> e <a href="legal/terms.html">Politica de Privacidade</a></div>
+    </div>
+
+    <!-- SUCCESS -->
+    <div class="success" id="successSection">
+      <div style="width:48px;height:48px;border-radius:50%;background:rgba(52,199,89,0.15);display:flex;align-items:center;justify-content:center;margin:0 auto 16px">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#30D158" stroke-width="2" stroke-linecap="round"><path d="M20 6L9 17l-5-5"/></svg>
+      </div>
+      <h2>Acesso criado!</h2>
+      <p>Agora vou te guiar pelo setup do seu posicionamento. Sao 3 passos rapidos:</p>
+      <div class="steps">
+        <div class="step-item"><span class="step-num">1</span>Responder o Brand Book (5 perguntas via chat)</div>
+        <div class="step-item"><span class="step-num">2</span>Enviar fotos pro clone visual</div>
+        <div class="step-item"><span class="step-num">3</span>Gravar video de apresentacao</div>
+      </div>
+      <a href="client-onboarding.html" style="display:block;font-family:'Inter',sans-serif;width:100%;padding:16px;border-radius:14px;background:#D70030;color:#FFF;font-size:15px;font-weight:600;border:none;cursor:pointer;text-align:center;transition:all 0.15s;text-decoration:none">Comecar setup</a>
+      <a href="client-portal.html" style="display:block;font-family:'Inter',sans-serif;font-size:12px;color:rgba(255,255,255,0.4);text-align:center;margin-top:10px;cursor:pointer">Pular e ir direto pro portal</a>
+    </div>
+  </div>
+</div>
+
+<script>
+function createAccount() {
+  const pass = document.getElementById('passInput').value;
+  const confirm = document.getElementById('passConfirm').value;
+  if (pass.length < 4) { alert('Senha muito curta'); return; }
+  if (pass !== confirm) { alert('Senhas nao conferem'); return; }
+  // Hide form, show success
+  document.getElementById('welcomeSection').style.display = 'none';
+  document.getElementById('benefitsSection').style.display = 'none';
+  document.getElementById('formSection').style.display = 'none';
+  document.getElementById('successSection').classList.add('active');
+}
+</script>
+</body></html>

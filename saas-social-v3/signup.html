@@ -1,0 +1,131 @@
+<!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>KTANA Social — Comecar</title><link rel="stylesheet" href="../shared.css"><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Zen+Dots&display=swap" rel="stylesheet">
+<style>
+body{min-height:100vh;background:#F5F5F7;color:#1D1D1F;display:flex;align-items:center;justify-content:center;padding:24px}
+a{text-decoration:none;color:inherit}
+.chat-card{width:100%;max-width:480px;background:#FFF;border-radius:24px;border:1px solid rgba(0,0,0,0.04);box-shadow:0 4px 40px rgba(0,0,0,0.06);overflow:hidden;position:relative}
+.chat-card::before{content:'';position:absolute;inset:0;border-radius:24px;padding:1.5px;background:linear-gradient(135deg,rgba(255,231,231,0.3) 0%,transparent 20%,rgba(215,0,48,0.25) 80%,rgba(215,0,48,0.1) 100%);-webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);-webkit-mask-composite:xor;mask-composite:exclude;pointer-events:none}
+.cc-header{display:flex;align-items:center;gap:10px;padding:16px 20px;border-bottom:1px solid rgba(0,0,0,0.04)}
+.cc-av{width:32px;height:32px;border-radius:10px;background:linear-gradient(135deg,#D70030,#8B0000);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.cc-av svg{width:16px;height:16px;stroke:#FFF;fill:none;stroke-width:1.5}
+.cc-nm{font-family:'Zen Dots',cursive;font-size:12px;color:#1D1D1F}
+.cc-st{font-family:'Inter',sans-serif;font-size:10px;color:#34C759;display:flex;align-items:center;gap:4px}
+.cc-st::before{content:'';width:5px;height:5px;border-radius:50%;background:#34C759}
+.cc-body{padding:20px;display:flex;flex-direction:column;gap:12px;min-height:300px;max-height:60vh;overflow-y:auto}
+.msg{max-width:88%;padding:12px 16px;border-radius:16px;font-family:'Satoshi',sans-serif;font-size:14px;line-height:1.6;animation:fadeUp 0.3s ease}
+.msg-ai{background:#F0F0F2;color:#1D1D1F;border-bottom-left-radius:4px;align-self:flex-start}
+.msg-user{background:#D70030;color:#FFF;border-bottom-right-radius:4px;align-self:flex-end}
+.msg-ai strong{color:#D70030}
+.typing{display:flex;gap:4px;align-self:flex-start;padding:12px 16px}
+.typing span{width:6px;height:6px;border-radius:50%;background:#86868B;animation:bounce 1.4s infinite}
+.typing span:nth-child(2){animation-delay:0.2s}
+.typing span:nth-child(3){animation-delay:0.4s}
+@keyframes bounce{0%,60%,100%{transform:translateY(0)}30%{transform:translateY(-4px)}}
+.quick-btns{display:flex;flex-wrap:wrap;gap:6px;align-self:flex-start}
+.qb{font-family:'Inter',sans-serif;font-size:12px;font-weight:500;padding:8px 16px;border-radius:980px;border:1px solid rgba(0,0,0,0.08);background:#FFF;color:#1D1D1F;cursor:pointer;transition:all 0.15s}
+.qb:hover{border-color:rgba(215,0,48,0.2);color:#D70030}
+.cc-input{display:flex;align-items:center;gap:10px;padding:14px 20px;border-top:1px solid rgba(0,0,0,0.04)}
+.cc-input input{flex:1;font-family:'Satoshi',sans-serif;font-size:14px;background:#F5F5F7;border:1px solid rgba(0,0,0,0.06);border-radius:14px;padding:12px 16px;outline:none;color:#1D1D1F;transition:border-color 0.2s}
+.cc-input input::placeholder{color:#AEAEB2}
+.cc-input input:focus{border-color:rgba(215,0,48,0.3)}
+.cc-send{width:36px;height:36px;border-radius:50%;background:#D70030;display:flex;align-items:center;justify-content:center;cursor:pointer;border:none;flex-shrink:0;transition:all 0.2s}
+.cc-send:hover{box-shadow:0 4px 12px rgba(215,0,48,0.25)}
+.cc-send svg{width:14px;height:14px;stroke:#FFF;fill:none;stroke-width:2}
+.login-link{font-family:'Inter',sans-serif;font-size:12px;color:#86868B;text-align:center;padding:12px;border-top:1px solid rgba(0,0,0,0.04)}
+.login-link a{color:#D70030;font-weight:500}
+@keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+</style>
+</head>
+<body>
+<div class="chat-card">
+  <div class="cc-header">
+    <div class="cc-av"><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+    <div><div class="cc-nm">Sensei</div><div class="cc-st">Pronto pra configurar</div></div>
+  </div>
+  <div class="cc-body" id="chatBody">
+    <div class="msg msg-ai">Ola! Sou o <strong>Sensei</strong>, seu orquestrador de posicionamento. Vou configurar tudo pra voce em poucos minutos — sem formularios, so conversa.<br><br>Pra comecar: <strong>qual o nome da sua empresa de assessoria?</strong></div>
+  </div>
+  <div class="cc-input">
+    <input type="text" placeholder="Digite aqui..." id="userInput" autofocus>
+    <button class="cc-send" id="sendBtn"><svg viewBox="0 0 24 24"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+  </div>
+  <div class="login-link">Ja tem conta? <a href="login.html">Entrar</a></div>
+</div>
+
+<script>
+const body = document.getElementById('chatBody');
+const input = document.getElementById('userInput');
+let step = 0;
+const data = {};
+
+const flow = [
+  // Step 0: company name → step 1
+  {
+    process: (val) => { data.company = val; },
+    reply: (val) => `<strong>${val}</strong> — otimo nome! Agora me diz: <strong>quantos clientes voce gerencia hoje?</strong>`,
+  },
+  // Step 1: clients → step 2
+  {
+    process: (val) => { data.clients = val; },
+    reply: (val) => `${val} clientes, impressionante! E <strong>qual seu email corporativo?</strong> Vou criar sua conta.`,
+  },
+  // Step 2: email → step 3
+  {
+    process: (val) => { data.email = val; },
+    reply: (val) => `Perfeito. Ultimo: <strong>crie uma senha</strong> (minimo 8 caracteres).`,
+  },
+  // Step 3: password → redirect
+  {
+    process: (val) => { data.password = val; },
+    reply: (val) => `Conta criada! Agora vou montar sua empresa. Voce vai escolher os departamentos que precisa — um por vez, bem rapido.`,
+    action: () => { setTimeout(() => { location.href = 'setup-empresa.html'; }, 2000); }
+  }
+];
+
+function addMsg(text, type) {
+  const div = document.createElement('div');
+  div.className = 'msg ' + (type === 'user' ? 'msg-user' : 'msg-ai');
+  div.innerHTML = text;
+  body.appendChild(div);
+  body.scrollTop = body.scrollHeight;
+}
+
+function addTyping() {
+  const div = document.createElement('div');
+  div.className = 'typing';
+  div.id = 'typing';
+  div.innerHTML = '<span></span><span></span><span></span>';
+  body.appendChild(div);
+  body.scrollTop = body.scrollHeight;
+}
+
+function removeTyping() {
+  const el = document.getElementById('typing');
+  if (el) el.remove();
+}
+
+function send() {
+  const val = input.value.trim();
+  if (!val || step >= flow.length) return;
+
+  addMsg(val, 'user');
+  input.value = '';
+
+  const current = flow[step];
+  current.process(val);
+
+  addTyping();
+
+  setTimeout(() => {
+    removeTyping();
+    addMsg(current.reply(val), 'ai');
+    if (current.action) current.action();
+    step++;
+    body.scrollTop = body.scrollHeight;
+  }, 800);
+}
+
+input.addEventListener('keypress', (e) => { if (e.key === 'Enter') send(); });
+document.getElementById('sendBtn').addEventListener('click', send);
+</script>
+</body>
+</html>

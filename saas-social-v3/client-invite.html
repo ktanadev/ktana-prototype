@@ -1,0 +1,166 @@
+<!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>KTANA Social — Enviar Convite</title><link rel="stylesheet" href="../shared.css"><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Zen+Dots&display=swap" rel="stylesheet">
+<style>
+body{min-height:100vh;background:#F5F5F7;color:#1D1D1F}
+a{text-decoration:none;color:inherit}
+.main{max-width:640px;margin:0 auto;padding:16px 20px 100px}
+
+.back{display:inline-flex;align-items:center;gap:4px;font-family:'Inter',sans-serif;font-size:12px;color:#D70030;margin-bottom:16px;cursor:pointer}
+.back svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:1.5}
+
+/* CLIENT BAR */
+.client-bar{background:#FFF;border-radius:16px;border:1px solid rgba(0,0,0,0.04);padding:16px 20px;margin-bottom:20px;display:flex;align-items:center;gap:14px;position:relative;overflow:hidden}
+.client-bar::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:#D70030;border-radius:0 2px 2px 0}
+.cb-av{width:40px;height:40px;border-radius:12px;background:linear-gradient(135deg,#D70030,#A60028);display:flex;align-items:center;justify-content:center;font-family:'Inter',sans-serif;font-size:12px;font-weight:700;color:#FFF;flex-shrink:0}
+.cb-info{flex:1}
+.cb-name{font-family:'Satoshi',sans-serif;font-size:15px;font-weight:600;color:#1D1D1F}
+.cb-meta{font-family:'Inter',sans-serif;font-size:11px;color:#86868B;margin-top:2px}
+.cb-status{font-family:'Inter',sans-serif;font-size:10px;font-weight:600;padding:4px 10px;border-radius:6px;background:rgba(255,149,0,0.08);color:#FF9500}
+
+.sec{font-family:'Inter',sans-serif;font-size:10px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:#D70030;margin-bottom:10px;margin-top:24px}
+
+/* INVITE CHANNELS */
+.channel{background:#FFF;border-radius:16px;border:1px solid rgba(0,0,0,0.04);padding:20px;margin-bottom:12px;transition:all 0.2s}
+.channel:hover{border-color:rgba(215,0,48,0.08);box-shadow:0 2px 12px rgba(0,0,0,0.03)}
+.ch-top{display:flex;align-items:center;gap:12px;margin-bottom:14px}
+.ch-icon{width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.ch-icon svg{width:16px;height:16px;stroke:#FFF;fill:none;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
+.ch-icon.email{background:linear-gradient(135deg,#007AFF,#0055CC)}
+.ch-icon.whatsapp{background:linear-gradient(135deg,#25D366,#128C7E)}
+.ch-title{font-family:'Satoshi',sans-serif;font-size:14px;font-weight:600;color:#1D1D1F}
+.ch-desc{font-family:'Inter',sans-serif;font-size:11px;color:#86868B}
+
+/* EMAIL PREVIEW */
+.email-preview{background:#F5F5F7;border-radius:12px;padding:16px;margin-bottom:14px;font-family:'Inter',sans-serif;font-size:12px;color:#6E6E73;line-height:1.6}
+.email-preview .ep-subject{font-family:'Satoshi',sans-serif;font-size:13px;font-weight:600;color:#1D1D1F;margin-bottom:8px}
+.email-preview .ep-from{font-size:11px;color:#86868B;margin-bottom:10px}
+.email-preview .ep-body{font-size:12px;color:#6E6E73}
+.email-preview .ep-btn{display:inline-block;margin-top:10px;padding:8px 20px;background:#D70030;color:#FFF;border-radius:8px;font-family:'Inter',sans-serif;font-size:11px;font-weight:600}
+.email-preview .ep-link{font-size:10px;color:#86868B;margin-top:8px;word-break:break-all}
+
+/* WA PREVIEW */
+.wa-preview{background:#E5DDD5;border-radius:12px;padding:14px;margin-bottom:14px}
+.wa-msg{max-width:85%;padding:8px 12px;border-radius:8px 8px 8px 0;background:#DCF8C6;font-family:'Satoshi',sans-serif;font-size:12px;color:#1D1D1F;line-height:1.5}
+.wa-msg strong{color:#075E54}
+
+/* INPUT */
+.input-row{display:flex;gap:8px;margin-bottom:10px}
+.input-row input{flex:1;font-family:'Satoshi',sans-serif;font-size:13px;background:#F5F5F7;border:1px solid rgba(0,0,0,0.06);border-radius:10px;padding:10px 14px;outline:none;color:#1D1D1F}
+.input-row input:focus{border-color:rgba(215,0,48,0.3)}
+.input-row input::placeholder{color:#AEAEB2}
+
+/* BUTTONS */
+.btn-send{font-family:'Inter',sans-serif;width:100%;padding:14px;border-radius:12px;font-size:13px;font-weight:600;border:none;cursor:pointer;transition:all 0.15s;display:flex;align-items:center;justify-content:center;gap:8px}
+.btn-send.email-btn{background:#007AFF;color:#FFF}
+.btn-send.email-btn:hover{background:#0066DD}
+.btn-send.wa-btn{background:#25D366;color:#FFF}
+.btn-send.wa-btn:hover{background:#1EBE5A}
+.btn-send svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:1.5}
+
+.sent-badge{display:none;padding:10px 16px;background:rgba(52,199,89,0.06);border:1px solid rgba(52,199,89,0.12);border-radius:10px;font-family:'Inter',sans-serif;font-size:12px;color:#34C759;text-align:center;margin-top:8px}
+
+.hint{font-family:'Inter',sans-serif;font-size:11px;color:#AEAEB2;text-align:center;margin-top:16px}
+</style>
+</head>
+<body data-active="clients">
+<main class="main">
+
+<a href="client-onboarding-wizard.html" class="back"><svg viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg> Voltar ao cadastro</a>
+
+<!-- CLIENT BAR -->
+<div class="client-bar">
+  <div class="cb-av">JM</div>
+  <div class="cb-info">
+    <div class="cb-name">Joao Mendes</div>
+    <div class="cb-meta">CEO TechFlow · SaaS B2B · SM: Maria Silva</div>
+  </div>
+  <span class="cb-status">Aguardando convite</span>
+</div>
+
+<!-- EMAIL INVITE -->
+<div class="sec">Convite por Email</div>
+<div class="channel">
+  <div class="ch-top">
+    <div class="ch-icon email"><svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></div>
+    <div>
+      <div class="ch-title">Email com link de acesso</div>
+      <div class="ch-desc">O founder recebe email, clica no link, cria usuario/senha e acessa o portal</div>
+    </div>
+  </div>
+  <div class="input-row">
+    <input type="email" id="founderEmail" placeholder="Email do founder" value="joao@techflow.com">
+  </div>
+  <div class="email-preview">
+    <div class="ep-from">De: noreply@ktana.ai · Para: joao@techflow.com</div>
+    <div class="ep-subject">Joao, seu posicionamento digital esta pronto pra comecar</div>
+    <div class="ep-body">
+      Oi Joao,<br><br>
+      A equipe da <strong>Grupo Silva</strong> configurou tudo pra comecar seu posicionamento digital. Voce vai ter:<br>
+      - Aprovacao de posts via portal ou WhatsApp<br>
+      - Brand Book com sua identidade<br>
+      - Relatorios semanais de performance<br><br>
+      Clique abaixo pra criar seu acesso:
+    </div>
+    <span class="ep-btn">Criar meu acesso</span>
+    <div class="ep-link">https://app.ktana.social/invite/gs-jm-2026-x8k2</div>
+  </div>
+  <button class="btn-send email-btn" onclick="sendInvite('email',this)">
+    <svg viewBox="0 0 24 24"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg>
+    Enviar convite por email
+  </button>
+  <div class="sent-badge" id="emailSent">Convite enviado para joao@techflow.com</div>
+</div>
+
+<!-- WHATSAPP INVITE -->
+<div class="sec">Convite por WhatsApp</div>
+<div class="channel">
+  <div class="ch-top">
+    <div class="ch-icon whatsapp"><svg viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z"/></svg></div>
+    <div>
+      <div class="ch-title">WhatsApp com link + instrucoes</div>
+      <div class="ch-desc">Mensagem automatica com link do portal e checklist da semana</div>
+    </div>
+  </div>
+  <div class="input-row">
+    <input type="tel" id="founderPhone" placeholder="WhatsApp do founder" value="11 99999-1234">
+  </div>
+  <div class="wa-preview">
+    <div class="wa-msg">
+      Oi <strong>Joao</strong>! Sou o assistente da Grupo Silva.<br><br>
+      Seu posicionamento digital esta ativo. Acesse seu portal:<br>
+      https://app.ktana.social/portal/jm<br><br>
+      Essa semana preciso que voce:<br>
+      1. Grave um video de 1min sobre sua tese<br>
+      2. Envie 5 fotos profissionais<br>
+      3. Responda o Brand Book (3 perguntas)<br><br>
+      Responda 1 pra comecar!
+    </div>
+  </div>
+  <button class="btn-send wa-btn" onclick="sendInvite('wa',this)">
+    <svg viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z"/></svg>
+    Enviar convite por WhatsApp
+  </button>
+  <div class="sent-badge" id="waSent">Convite enviado para 11 99999-1234</div>
+</div>
+
+<p class="hint">O founder pode acessar por qualquer um dos canais. Ambos levam ao mesmo portal.</p>
+
+<div style="display:flex;gap:8px;margin-top:20px">
+  <a href="client-workspace.html" style="flex:1;font-family:'Inter',sans-serif;font-size:12px;font-weight:500;padding:12px;border-radius:10px;border:1px solid rgba(0,0,0,0.06);background:#FFF;color:#86868B;text-align:center;transition:all 0.15s">Ir pro workspace</a>
+  <a href="brandbook.html" style="flex:1;font-family:'Inter',sans-serif;font-size:12px;font-weight:500;padding:12px;border-radius:10px;border:1px solid rgba(215,0,48,0.12);background:rgba(215,0,48,0.03);color:#D70030;text-align:center;transition:all 0.15s">Montar Brand Book</a>
+</div>
+
+</main>
+
+<script>
+function sendInvite(type, btn) {
+  btn.style.display = 'none';
+  const badge = document.getElementById(type === 'email' ? 'emailSent' : 'waSent');
+  badge.style.display = 'block';
+  // Update client status
+  document.querySelector('.cb-status').textContent = type === 'email' ? 'Convite enviado (email)' : 'Convite enviado (WhatsApp)';
+  document.querySelector('.cb-status').style.background = 'rgba(52,199,89,0.08)';
+  document.querySelector('.cb-status').style.color = '#34C759';
+}
+</script>
+<script src="shared-nav-social.js"></script>
+</body></html>

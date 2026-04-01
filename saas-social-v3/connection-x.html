@@ -1,0 +1,157 @@
+<!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>KTANA Social — X / Twitter</title><link rel="stylesheet" href="../shared.css"><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Zen+Dots&display=swap" rel="stylesheet">
+<style>
+body{min-height:100vh;background:#F5F5F7;color:#1D1D1F}
+a{text-decoration:none;color:inherit}
+.main{max-width:760px;margin:0 auto;padding:16px 20px 100px}
+.breadcrumb{font-family:'Inter',sans-serif;font-size:11px;color:#86868B;margin-bottom:20px}
+.breadcrumb a{color:#D70030}
+.section-card{background:#FFF;border-radius:20px;border:1px solid rgba(0,0,0,0.04);padding:24px;margin-bottom:14px;animation:fadeIn 0.4s ease both}
+.card-label{font-family:'Inter',sans-serif;font-size:11px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:#D70030;margin-bottom:14px}
+.card-desc{font-family:'Satoshi',sans-serif;font-size:13px;color:#86868B;margin-bottom:16px;line-height:1.5}
+.form-group{margin-bottom:16px}
+.form-group:last-child{margin-bottom:0}
+.form-group label{font-family:'Inter',sans-serif;display:block;font-size:12px;font-weight:500;color:#86868B;margin-bottom:6px}
+.form-input{font-family:'Satoshi',sans-serif;background:#F5F5F7;border:1px solid rgba(0,0,0,0.06);border-radius:12px;padding:12px 14px;font-size:14px;width:100%;outline:none;color:#1D1D1F;transition:border-color 0.2s;box-sizing:border-box}
+.form-input:focus{border-color:rgba(215,0,48,0.3)}
+.off-banner{display:flex;align-items:center;gap:10px;padding:14px 16px;background:rgba(174,174,178,0.08);border:1px solid rgba(174,174,178,0.15);border-radius:14px;margin-bottom:14px}
+.off-banner svg{width:20px;height:20px;stroke:#AEAEB2;fill:none;stroke-width:1.5;flex-shrink:0}
+.off-text{font-family:'Satoshi',sans-serif;font-size:13px;color:#86868B;line-height:1.5}
+.wizard-steps{display:flex;flex-direction:column;gap:0;margin-bottom:8px}
+.wizard-step{display:flex;gap:14px;padding:16px 0;border-bottom:1px solid rgba(0,0,0,0.04)}
+.wizard-step:last-child{border-bottom:none}
+.step-num{width:32px;height:32px;border-radius:50%;background:#F0F0F2;display:flex;align-items:center;justify-content:center;font-family:'Zen Dots',cursive;font-size:13px;color:#86868B;flex-shrink:0}
+.step-content{flex:1}
+.step-title{font-family:'Satoshi',sans-serif;font-size:14px;font-weight:600;color:#1D1D1F;margin-bottom:4px}
+.step-desc{font-family:'Inter',sans-serif;font-size:12px;color:#86868B;line-height:1.5}
+.step-link{font-family:'Inter',sans-serif;font-size:12px;color:#D70030;margin-top:6px;display:inline-block}
+.plan-selector{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:12px}
+.plan-card{padding:16px;border-radius:14px;border:1.5px solid rgba(0,0,0,0.06);cursor:pointer;transition:all 0.2s;text-align:center}
+.plan-card:hover{border-color:rgba(0,0,0,0.12)}
+.plan-card.selected{border-color:rgba(215,0,48,0.4);background:rgba(215,0,48,0.02)}
+.plan-name{font-family:'Satoshi',sans-serif;font-size:14px;font-weight:600;color:#1D1D1F;margin-bottom:2px}
+.plan-price{font-family:'Inter',sans-serif;font-size:11px;color:#86868B;margin-bottom:8px}
+.plan-features{font-family:'Inter',sans-serif;font-size:11px;color:#86868B;line-height:1.6}
+.plan-badge{font-family:'Inter',sans-serif;font-size:10px;font-weight:600;color:#D70030;background:rgba(215,0,48,0.08);padding:2px 8px;border-radius:4px;display:inline-block;margin-bottom:8px}
+.btn-row{display:flex;gap:10px;margin-top:24px}
+.btn-action{flex:1;font-family:'Inter',sans-serif;padding:14px;border-radius:14px;font-size:14px;font-weight:600;border:none;cursor:pointer;transition:opacity 0.15s;text-align:center}
+.btn-primary{background:#D70030;color:#FFF}
+.btn-primary:hover{opacity:0.9}
+.btn-secondary{background:#F0F0F2;color:#1D1D1F;border:1px solid rgba(0,0,0,0.06)}
+.btn-secondary:hover{background:#E8E8EA}
+.btn-back{display:inline-flex;align-items:center;gap:6px;font-family:'Inter',sans-serif;font-size:13px;color:#86868B;padding:10px 0;cursor:pointer;transition:color 0.15s}
+.btn-back:hover{color:#D70030}
+.btn-back svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:1.5}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+</style>
+</head>
+<body data-client="true" data-active="connections">
+<main class="main">
+
+<div class="breadcrumb"><a href="dashboard.html">Dashboard</a> / <a href="connections.html">Conexoes</a> / X / Twitter</div>
+
+<!-- CHAT HERO -->
+<div style="background:#FFF;border-radius:20px;border:1px solid rgba(0,0,0,0.04);margin-bottom:20px;overflow:hidden">
+  <div style="display:flex;align-items:center;gap:10px;padding:14px 18px;border-bottom:1px solid rgba(0,0,0,0.04)">
+    <div style="width:28px;height:28px;border-radius:8px;background:linear-gradient(135deg,#D70030,#8B0000);display:flex;align-items:center;justify-content:center"><svg viewBox="0 0 24 24" style="width:14px;height:14px;stroke:#FFF;fill:none;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg></div>
+    <div><div style="font-family:'Zen Dots',cursive;font-size:11px;color:#1D1D1F">Sensei</div><div style="font-family:'Inter',sans-serif;font-size:10px;color:#AEAEB2">X / Twitter — Nao conectado</div></div>
+  </div>
+
+<!-- STATUS BANNER -->
+<div class="off-banner">
+  <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>
+  <div class="off-text">Nenhuma API key configurada. Siga os passos abaixo para conectar.</div>
+</div>
+
+<!-- WIZARD -->
+<div class="section-card" style="animation-delay:0.05s">
+  <p class="card-label">Como conectar — 3 passos</p>
+  <p class="card-desc">Guia rapido para configurar a API do X/Twitter e comecar a publicar.</p>
+  <div class="wizard-steps">
+    <div class="wizard-step">
+      <div class="step-num">1</div>
+      <div class="step-content">
+        <div class="step-title">Criar App no Developer Portal</div>
+        <div class="step-desc">Acesse o X Developer Portal, crie um novo projeto e um app dentro dele. Selecione o nivel de acesso desejado (Free, Basic ou Pro).</div>
+        <a href="https://developer.twitter.com/en/portal/dashboard" target="_blank" class="step-link">Abrir X Developer Portal</a>
+      </div>
+    </div>
+    <div class="wizard-step">
+      <div class="step-num">2</div>
+      <div class="step-content">
+        <div class="step-title">Gerar Keys & Tokens</div>
+        <div class="step-desc">Dentro do app, va em "Keys and Tokens". Gere: API Key, API Secret, Access Token e Access Token Secret. Ative OAuth 2.0 com PKCE.</div>
+      </div>
+    </div>
+    <div class="wizard-step">
+      <div class="step-num">3</div>
+      <div class="step-content">
+        <div class="step-title">Colar aqui</div>
+        <div class="step-desc">Copie as 4 chaves e cole nos campos abaixo. O sistema valida automaticamente.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- PLANO -->
+<div class="section-card" style="animation-delay:0.1s">
+  <p class="card-label">Selecionar plano</p>
+  <p class="card-desc">O plano determina limites de publicacao e acesso a endpoints. Escolha antes de gerar as keys.</p>
+  <div class="plan-selector">
+    <div class="plan-card" onclick="document.querySelectorAll('.plan-card').forEach(c=>c.classList.remove('selected'));this.classList.add('selected')">
+      <div class="plan-name">Free</div>
+      <div class="plan-price">$0/mes</div>
+      <div class="plan-features">1.500 tweets/mes<br>Apenas escrita<br>1 App ID</div>
+    </div>
+    <div class="plan-card selected" onclick="document.querySelectorAll('.plan-card').forEach(c=>c.classList.remove('selected'));this.classList.add('selected')">
+      <div class="plan-badge">Recomendado</div>
+      <div class="plan-name">Basic</div>
+      <div class="plan-price">$100/mes</div>
+      <div class="plan-features">3.000 tweets/mes<br>Leitura + escrita<br>2 App IDs</div>
+    </div>
+    <div class="plan-card" onclick="document.querySelectorAll('.plan-card').forEach(c=>c.classList.remove('selected'));this.classList.add('selected')">
+      <div class="plan-name">Pro</div>
+      <div class="plan-price">$5.000/mes</div>
+      <div class="plan-features">300.000 tweets/mes<br>Full access<br>3 App IDs</div>
+    </div>
+  </div>
+</div>
+
+<!-- CREDENCIAIS -->
+<div class="section-card" style="animation-delay:0.15s">
+  <p class="card-label">Credenciais da API</p>
+  <p class="card-desc">Cole as chaves geradas no Developer Portal. Todos os campos sao obrigatorios.</p>
+  <div class="form-group">
+    <label>API Key (Consumer Key)</label>
+    <input type="text" class="form-input" placeholder="Colar API Key aqui...">
+  </div>
+  <div class="form-group">
+    <label>API Secret (Consumer Secret)</label>
+    <input type="password" class="form-input" placeholder="Colar API Secret aqui...">
+  </div>
+  <div class="form-group">
+    <label>Access Token</label>
+    <input type="text" class="form-input" placeholder="Colar Access Token aqui...">
+  </div>
+  <div class="form-group">
+    <label>Access Token Secret</label>
+    <input type="password" class="form-input" placeholder="Colar Access Token Secret aqui...">
+  </div>
+  <div class="form-group">
+    <label>Bearer Token (OAuth 2.0)</label>
+    <input type="password" class="form-input" placeholder="Colar Bearer Token aqui...">
+  </div>
+</div>
+
+<!-- ACOES -->
+<div class="btn-row">
+  <button class="btn-action btn-secondary" onclick="this.textContent='Keys validas!';this.style.background='#34C759';this.style.color='#FFF'">Validar Keys</button>
+  <button class="btn-action btn-primary" onclick="this.textContent='Conectado!';this.style.background='#34C759';this.style.color='#FFF'">Conectar</button>
+</div>
+
+<a href="connections.html" class="btn-back" style="margin-top:20px">
+  <svg viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  Voltar para Conexoes
+</a>
+
+</div>
+<script src="shared-nav-social.js"></script></body></html>

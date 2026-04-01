@@ -1,0 +1,164 @@
+<!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>KTANA Admin — SaaS Social</title><link rel="stylesheet" href="../shared.css"><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Zen+Dots&display=swap" rel="stylesheet">
+<style>
+body{min-height:100vh;background:#0A0A0A;color:#F5F5F7;display:flex}
+a{text-decoration:none;color:inherit}
+
+/* SIDEBAR DARK */
+.sidebar{width:220px;position:fixed;left:0;top:0;bottom:0;background:#111;border-right:0.5px solid rgba(255,255,255,0.04);padding:16px 0;overflow-y:auto;z-index:10;display:flex;flex-direction:column}
+.sidebar-logo{padding:0 16px;margin-bottom:16px;font-family:'Zen Dots',cursive;font-size:14px;color:#D70030;display:flex;align-items:center;gap:6px;border-bottom:0.5px solid rgba(255,255,255,0.04);padding-bottom:16px}
+.sidebar-logo span{font-family:'Inter',sans-serif;font-size:9px;color:#AEAEB2}
+.nav-item{display:flex;align-items:center;gap:10px;padding:8px 16px;font-family:'Inter',sans-serif;font-size:12px;color:#8E8E93;transition:all 0.15s;cursor:pointer}
+.nav-item:hover,.nav-item.active{color:#F5F5F7;background:rgba(255,255,255,0.04)}
+.nav-item svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:1.5;flex-shrink:0}
+.nav-label{font-family:'Inter',sans-serif;font-size:9px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:#48484A;padding:14px 16px 6px}
+
+.main{margin-left:220px;flex:1;padding:24px;max-width:1100px}
+h1{font-family:'Zen Dots',cursive;font-size:20px;color:#F5F5F7;margin-bottom:6px}
+.sub{font-family:'Satoshi',sans-serif;font-size:13px;color:#8E8E93;margin-bottom:24px}
+
+/* STATS */
+.stats-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-bottom:24px}
+.stat-card{background:#1C1C1E;border:1px solid rgba(255,255,255,0.04);border-radius:14px;padding:18px;text-align:center}
+.stat-val{font-family:'Zen Dots',cursive;font-size:24px;color:#F5F5F7}
+.stat-val.brand{color:#D70030}
+.stat-lab{font-family:'Inter',sans-serif;font-size:9px;color:#8E8E93;text-transform:uppercase;letter-spacing:0.05em;margin-top:4px}
+
+/* TENANTS TABLE */
+.section-label{font-family:'Inter',sans-serif;font-size:10px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:#D70030;margin-bottom:12px;margin-top:28px}
+.tenant-table{width:100%;border-collapse:collapse}
+.tenant-table th{font-family:'Inter',sans-serif;font-size:10px;font-weight:600;color:#48484A;text-transform:uppercase;letter-spacing:0.05em;text-align:left;padding:8px 12px;border-bottom:1px solid rgba(255,255,255,0.04)}
+.tenant-table td{font-family:'Inter',sans-serif;font-size:12px;color:#D2D2D7;padding:12px;border-bottom:0.5px solid rgba(255,255,255,0.03);vertical-align:middle}
+.tenant-table tr:hover{background:rgba(255,255,255,0.02)}
+.t-name{display:flex;align-items:center;gap:10px}
+.t-avatar{width:28px;height:28px;border-radius:8px;background:linear-gradient(135deg,#D70030,#8B0000);display:flex;align-items:center;justify-content:center;font-family:'Inter',sans-serif;font-size:9px;font-weight:600;color:#FFF;flex-shrink:0}
+.t-company{font-family:'Satoshi',sans-serif;font-size:13px;font-weight:500;color:#F5F5F7}
+.t-sub{font-size:10px;color:#8E8E93}
+.t-badge{font-family:'Inter',sans-serif;font-size:10px;font-weight:600;padding:3px 8px;border-radius:6px}
+.tb-active{background:rgba(52,199,89,0.12);color:#34C759}
+.tb-trial{background:rgba(255,159,10,0.12);color:#FF9F0A}
+.tb-churned{background:rgba(215,0,48,0.12);color:#D70030}
+.t-bar{width:60px;height:4px;border-radius:2px;background:rgba(255,255,255,0.06);overflow:hidden}
+.t-fill{height:100%;border-radius:2px;background:#34C759}
+.t-actions{display:flex;gap:6px}
+.t-btn{font-family:'Inter',sans-serif;font-size:10px;padding:4px 10px;border-radius:6px;border:1px solid rgba(255,255,255,0.06);color:#8E8E93;background:transparent;cursor:pointer;transition:all 0.15s}
+.t-btn:hover{border-color:rgba(215,0,48,0.2);color:#D70030}
+
+/* HEALTH */
+.health-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:24px}
+.health-card{background:#1C1C1E;border:1px solid rgba(255,255,255,0.04);border-radius:14px;padding:18px}
+.health-card h3{font-family:'Satoshi',sans-serif;font-size:14px;font-weight:600;color:#F5F5F7;margin-bottom:10px}
+.health-row{display:flex;align-items:center;justify-content:space-between;padding:6px 0;font-family:'Inter',sans-serif;font-size:11px;border-bottom:0.5px solid rgba(255,255,255,0.03)}
+.health-row:last-child{border-bottom:none}
+.health-row .label{color:#8E8E93}
+.health-row .value{color:#D2D2D7}
+.health-row .value.green{color:#34C759}
+.health-row .value.red{color:#D70030}
+
+@media(max-width:768px){.sidebar{display:none}.main{margin-left:0}.stats-grid{grid-template-columns:repeat(2,1fr)}.health-grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<nav class="sidebar">
+  <div class="sidebar-logo">KTANA <span>ADMIN</span></div>
+  <div class="nav-label">Plataforma</div>
+  <a class="nav-item active" href="admin.html"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg> Visao Geral</a>
+  <a class="nav-item" href="admin-tenant-detail.html"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg> Tenants</a>
+  <a class="nav-item" href="admin-agents.html"><svg viewBox="0 0 24 24"><path d="M14.5 17.5L3 6V3h3l11.5 11.5M13 19l6-6"/></svg> Agentes</a>
+  <a class="nav-item"><svg viewBox="0 0 24 24"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg> Saude</a>
+  <div class="nav-label">Financeiro</div>
+  <a class="nav-item" href="admin-billing.html"><svg viewBox="0 0 24 24"><path d="M12 1v22M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg> Billing</a>
+  <a class="nav-item"><svg viewBox="0 0 24 24"><path d="M12 20V10M18 20V4M6 20v-4"/></svg> Revenue</a>
+  <div class="nav-label">Sistema</div>
+  <a class="nav-item"><svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg> Compliance</a>
+  <a class="nav-item"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 1v6M12 17v6M4.22 4.22l4.24 4.24M15.54 15.54l4.24 4.24"/></svg> Config</a>
+</nav>
+
+<main class="main">
+<h1>KTANA Admin.</h1>
+<p class="sub">Visao geral da plataforma SaaS Social. 8 tenants ativos, 1.247 clientes gerenciados.</p>
+
+<div class="stats-grid">
+  <div class="stat-card"><div class="stat-val brand">8</div><div class="stat-lab">Tenants ativos</div></div>
+  <div class="stat-card"><div class="stat-val">1.247</div><div class="stat-lab">Clientes totais</div></div>
+  <div class="stat-card"><div class="stat-val">47</div><div class="stat-lab">Agentes rodando</div></div>
+  <div class="stat-card"><div class="stat-val">342K</div><div class="stat-lab">Tokens/dia</div></div>
+  <div class="stat-card"><div class="stat-val">R$1.24M</div><div class="stat-lab">MRR (1.247 x R$1K)</div></div>
+</div>
+
+<div class="section-label">Tenants (empresas clientes)</div>
+<table class="tenant-table">
+  <thead><tr><th>Empresa</th><th>MRR</th><th>Clientes</th><th>Tokens</th><th>Status</th><th>Acoes</th></tr></thead>
+  <tbody>
+    <tr>
+      <td><div class="t-name"><div class="t-avatar">GS</div><div><div class="t-company">Grupo Silva</div><div class="t-sub">ogruposilva.com.br</div></div></div></td>
+      <td>R$400K</td>
+      <td>400</td>
+      <td><div class="t-bar"><div class="t-fill" style="width:68%"></div></div> 68%</td>
+      <td><span class="t-badge tb-active">Ativo</span></td>
+      <td><div class="t-actions"><button class="t-btn" onclick="location.href='admin-tenant-detail.html'">Detalhes</button><button class="t-btn" onclick="location.href='settings.html'">Config</button></div></td>
+    </tr>
+    <tr>
+      <td><div class="t-name"><div class="t-avatar">EB</div><div><div class="t-company">Empire Business</div><div class="t-sub">empirebusiness.br</div></div></div></td>
+      <td>R$300K</td>
+      <td>300</td>
+      <td><div class="t-bar"><div class="t-fill" style="width:45%"></div></div> 45%</td>
+      <td><span class="t-badge tb-active">Ativo</span></td>
+      <td><div class="t-actions"><button class="t-btn" onclick="location.href='admin-tenant-detail.html'">Detalhes</button><button class="t-btn" onclick="location.href='settings.html'">Config</button></div></td>
+    </tr>
+    <tr>
+      <td><div class="t-name"><div class="t-avatar">BL</div><div><div class="t-company">Blank School</div><div class="t-sub">blankschool.com.br</div></div></div></td>
+      <td>R$180K</td>
+      <td>180</td>
+      <td><div class="t-bar"><div class="t-fill" style="width:82%"></div></div> 82%</td>
+      <td><span class="t-badge tb-active">Ativo</span></td>
+      <td><div class="t-actions"><button class="t-btn" onclick="location.href='admin-tenant-detail.html'">Detalhes</button><button class="t-btn" onclick="location.href='settings.html'">Config</button></div></td>
+    </tr>
+    <tr>
+      <td><div class="t-name"><div class="t-avatar">AA</div><div><div class="t-company">Aceleradora Alpha</div><div class="t-sub">alpha.com.br</div></div></div></td>
+      <td>R$42K</td>
+      <td>42</td>
+      <td><div class="t-bar"><div class="t-fill" style="width:25%"></div></div> 25%</td>
+      <td><span class="t-badge tb-trial">Trial</span></td>
+      <td><div class="t-actions"><button class="t-btn" onclick="location.href='admin-tenant-detail.html'">Detalhes</button><button class="t-btn" onclick="location.href='settings.html'">Config</button></div></td>
+    </tr>
+    <tr>
+      <td><div class="t-name"><div class="t-avatar">MK</div><div><div class="t-company">MK Social</div><div class="t-sub">mksocial.com.br</div></div></div></td>
+      <td>R$35K</td>
+      <td>35</td>
+      <td><div class="t-bar"><div class="t-fill" style="width:12%"></div></div> 12%</td>
+      <td><span class="t-badge tb-active">Ativo</span></td>
+      <td><div class="t-actions"><button class="t-btn" onclick="location.href='admin-tenant-detail.html'">Detalhes</button></div></td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="section-label">Saude do sistema</div>
+<div class="health-grid">
+  <div class="health-card">
+    <h3>Infraestrutura</h3>
+    <div class="health-row"><span class="label">VPS Principal</span><span class="value green">Online</span></div>
+    <div class="health-row"><span class="label">CPU</span><span class="value">42%</span></div>
+    <div class="health-row"><span class="label">RAM</span><span class="value">68%</span></div>
+    <div class="health-row"><span class="label">Disco</span><span class="value">55%</span></div>
+    <div class="health-row"><span class="label">Ultimo backup</span><span class="value green">03:00 UTC</span></div>
+  </div>
+  <div class="health-card">
+    <h3>Agentes IA</h3>
+    <div class="health-row"><span class="label">Ativos</span><span class="value green">47</span></div>
+    <div class="health-row"><span class="label">Idle</span><span class="value">8</span></div>
+    <div class="health-row"><span class="label">Erro</span><span class="value red">2</span></div>
+    <div class="health-row"><span class="label">Tokens hoje</span><span class="value">342K</span></div>
+    <div class="health-row"><span class="label">Custo LLM hoje</span><span class="value">$12.40</span></div>
+  </div>
+  <div class="health-card">
+    <h3>Filas de publicacao</h3>
+    <div class="health-row"><span class="label">queue:instagram</span><span class="value green">OK (3 pendentes)</span></div>
+    <div class="health-row"><span class="label">queue:linkedin</span><span class="value green">OK (1 pendente)</span></div>
+    <div class="health-row"><span class="label">queue:tiktok</span><span class="value green">OK</span></div>
+    <div class="health-row"><span class="label">queue:x-twitter</span><span class="value">Pausado (rate limit)</span></div>
+    <div class="health-row"><span class="label">queue:whatsapp</span><span class="value green">OK</span></div>
+  </div>
+</div>
+
+</main>
+</body></html>

@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>KTANA Social — Aprovacoes</title>
+  <link rel="stylesheet" href="../shared.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Zen+Dots&display=swap" rel="stylesheet">
+  <style>
+    body { min-height: 100vh; background: #F5F5F7; color: #1D1D1F; }
+    a { text-decoration: none; color: inherit; }
+    .main { max-width: 760px; margin: 0 auto; padding: 16px 20px 100px; }
+
+    /* ═══ CHAT HERO ═══ */
+    .chat-hero { background: #FFF; border-radius: 20px; border: 1px solid rgba(0,0,0,0.04); margin-bottom: 20px; overflow: hidden; position: relative; }
+    .chat-hero::before { content: ''; position: absolute; inset: 0; border-radius: 20px; padding: 1.5px; background: linear-gradient(135deg, rgba(255,231,231,0.3) 0%, transparent 20%, rgba(215,0,48,0.2) 80%); -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0); -webkit-mask-composite: xor; mask-composite: exclude; pointer-events: none; }
+    .ch-top { display: flex; align-items: center; gap: 10px; padding: 14px 18px; border-bottom: 1px solid rgba(0,0,0,0.04); }
+    .ch-av { width: 28px; height: 28px; border-radius: 8px; background: linear-gradient(135deg, #D70030, #8B0000); display: flex; align-items: center; justify-content: center; }
+    .ch-av svg { width: 14px; height: 14px; stroke: #FFF; fill: none; stroke-width: 1.5; }
+    .ch-nm { font-family: 'Zen Dots', cursive; font-size: 11px; color: #1D1D1F; }
+    .ch-ctx { font-family: 'Inter', sans-serif; font-size: 10px; color: #D70030; }
+    .ch-body { padding: 18px; display: flex; flex-direction: column; gap: 10px; }
+    .msg { max-width: 88%; padding: 10px 14px; border-radius: 14px; font-family: 'Satoshi', sans-serif; font-size: 13px; line-height: 1.6; }
+    .msg-ai { background: #F0F0F2; color: #1D1D1F; border-bottom-left-radius: 4px; align-self: flex-start; }
+    .msg-user { background: #D70030; color: #FFF; border-bottom-right-radius: 4px; align-self: flex-end; }
+    .msg-ai strong { color: #D70030; }
+    .ch-input { display: flex; align-items: center; gap: 8px; padding: 12px 18px; border-top: 1px solid rgba(0,0,0,0.04); }
+    .ch-input input { flex: 1; font-family: 'Satoshi', sans-serif; font-size: 13px; background: #F5F5F7; border: 1px solid rgba(0,0,0,0.06); border-radius: 12px; padding: 10px 14px; outline: none; color: #1D1D1F; }
+    .ch-input input::placeholder { color: #AEAEB2; }
+    .ch-input input:focus { border-color: rgba(215,0,48,0.3); }
+    .ch-send { width: 32px; height: 32px; border-radius: 50%; background: #D70030; display: flex; align-items: center; justify-content: center; cursor: pointer; border: none; }
+    .ch-send svg { width: 12px; height: 12px; stroke: #FFF; fill: none; stroke-width: 2; }
+
+    .sec { font-family: 'Inter', sans-serif; font-size: 10px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: #D70030; margin-bottom: 10px; margin-top: 4px; }
+
+    /* ═══ APPROVAL CARD ═══ */
+    .ap {
+      background: #FFF; border-radius: 16px; border: 1px solid rgba(0,0,0,0.04);
+      margin-bottom: 12px; overflow: hidden; transition: all 0.2s;
+    }
+    .ap:hover { box-shadow: 0 4px 16px rgba(0,0,0,0.04); }
+
+    .ap-top { display: flex; align-items: center; gap: 12px; padding: 16px 18px; }
+    .ap-av {
+      width: 36px; height: 36px; border-radius: 50%;
+      background: linear-gradient(135deg, #D70030, #A60028);
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 600; color: #FFF; flex-shrink: 0;
+    }
+    .ap-info { flex: 1; }
+    .ap-title { font-family: 'Satoshi', sans-serif; font-size: 14px; font-weight: 500; color: #1D1D1F; }
+    .ap-meta { font-family: 'Inter', sans-serif; font-size: 10px; color: #86868B; margin-top: 2px; }
+    .ap-sla {
+      font-family: 'Inter', sans-serif; font-size: 9px; font-weight: 600;
+      padding: 3px 8px; border-radius: 6px;
+    }
+    .sla-late { background: rgba(215,0,48,0.06); color: #D70030; }
+    .sla-warn { background: rgba(255,149,0,0.06); color: #FF9500; }
+    .sla-ok { background: rgba(52,199,89,0.06); color: #34C759; }
+
+    /* Preview do conteúdo */
+    .ap-preview { padding: 0 18px 12px; }
+    .ap-preview-box {
+      background: #F5F5F7; border-radius: 12px; padding: 14px;
+      font-family: 'Satoshi', sans-serif; font-size: 12px; color: #6E6E73; line-height: 1.6;
+    }
+    .ap-preview-box strong { color: #1D1D1F; }
+
+    /* Scores de qualidade */
+    .ap-scores { display: flex; gap: 8px; padding: 0 18px 12px; }
+    .ap-sc {
+      flex: 1; background: #F5F5F7; border-radius: 8px; padding: 8px; text-align: center;
+    }
+    .ap-sc-val { font-family: 'Zen Dots', cursive; font-size: 16px; color: #34C759; }
+    .ap-sc-val.warn { color: #FF9500; }
+    .ap-sc-lab {
+      font-family: 'Inter', sans-serif; font-size: 8px; color: #86868B;
+      text-transform: uppercase; letter-spacing: .04em; margin-top: 2px;
+    }
+
+    /* Botões de ação */
+    .ap-actions { display: flex; gap: 6px; padding: 0 18px 16px; }
+    .ap-btn {
+      flex: 1; font-family: 'Inter', sans-serif; font-size: 12px; font-weight: 600;
+      padding: 10px; border-radius: 10px; border: none; cursor: pointer;
+      transition: all 0.15s; text-align: center;
+    }
+    .ap-approve { background: #34C759; color: #FFF; }
+    .ap-approve:hover { opacity: 0.9; box-shadow: 0 4px 12px rgba(52,199,89,0.25); }
+    .ap-adjust { background: rgba(255,149,0,0.06); color: #FF9500; border: 1px solid rgba(255,149,0,0.12); }
+    .ap-adjust:hover { background: rgba(255,149,0,0.1); }
+    .ap-redo { background: rgba(0,122,255,0.06); color: #007AFF; border: 1px solid rgba(0,122,255,0.1); }
+    .ap-redo:hover { background: rgba(0,122,255,0.1); }
+    .ap-reject { background: rgba(215,0,48,0.04); color: #D70030; border: 1px solid rgba(215,0,48,0.08); }
+    .ap-reject:hover { background: rgba(215,0,48,0.08); }
+
+    @media (max-width: 600px) { .ap-scores { flex-direction: column; } }
+  </style>
+</head>
+<body data-client="true" data-active="approvals">
+
+<main class="main">
+
+  <!-- APPROVAL FLOW TRACKER -->
+  <div style="display:flex;gap:8px;margin-bottom:20px">
+    <div style="flex:1;background:#FFF;border-radius:14px;border:1px solid rgba(0,0,0,0.04);padding:14px;text-align:center;position:relative;overflow:hidden">
+      <div style="position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,#5856D6,#8E8CE6)"></div>
+      <div style="font-family:'Zen Dots',cursive;font-size:20px;color:#5856D6">3</div>
+      <div style="font-family:'Inter',sans-serif;font-size:9px;color:#86868B;text-transform:uppercase;letter-spacing:.04em;margin-top:2px">Nivel 1 — SM</div>
+      <div style="font-family:'Inter',sans-serif;font-size:10px;color:#5856D6;margin-top:4px">IA produziu, SM revisa</div>
+    </div>
+    <div style="display:flex;align-items:center;color:#D2D2D7"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div>
+    <div style="flex:1;background:#FFF;border-radius:14px;border:1px solid rgba(0,0,0,0.04);padding:14px;text-align:center;position:relative;overflow:hidden">
+      <div style="position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,#FF9500,#FFBA5C)"></div>
+      <div style="font-family:'Zen Dots',cursive;font-size:20px;color:#FF9500">2</div>
+      <div style="font-family:'Inter',sans-serif;font-size:9px;color:#86868B;text-transform:uppercase;letter-spacing:.04em;margin-top:2px">Nivel 2 — Founder</div>
+      <div style="font-family:'Inter',sans-serif;font-size:10px;color:#FF9500;margin-top:4px">SM aprovou, founder decide</div>
+    </div>
+    <div style="display:flex;align-items:center;color:#D2D2D7"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div>
+    <div style="flex:1;background:#FFF;border-radius:14px;border:1px solid rgba(0,0,0,0.04);padding:14px;text-align:center;position:relative;overflow:hidden">
+      <div style="position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,#34C759,#6BDE8A)"></div>
+      <div style="font-family:'Zen Dots',cursive;font-size:20px;color:#34C759">5</div>
+      <div style="font-family:'Inter',sans-serif;font-size:9px;color:#86868B;text-transform:uppercase;letter-spacing:.04em;margin-top:2px">Aprovados</div>
+      <div style="font-family:'Inter',sans-serif;font-size:10px;color:#34C759;margin-top:4px">Prontos pra publicar</div>
+    </div>
+  </div>
+
+  <!-- NIVEL 1: SM PRECISA REVISAR -->
+  <div class="sec" style="display:flex;align-items:center;gap:8px"><span style="width:8px;height:8px;border-radius:50%;background:#5856D6;display:inline-block"></span> Nivel 1 — Pendente revisao SM <span style="font-weight:400;color:#86868B">(3)</span></div>
+
+  <div class="ap">
+    <div class="ap-top">
+      <div class="ap-av">JM</div>
+      <div class="ap-info">
+        <a href="post-detail.html" class="ap-title" style="color:#1D1D1F;text-decoration:none">"5 erros que CEOs cometem no Instagram"</a>
+        <div class="ap-meta">Joao Mendes — Carrossel IG 7 slides — Agendado Ter 10:30</div>
+      </div>
+      <span class="ap-sla sla-late">6h atrasado</span>
+    </div>
+    <div class="ap-preview">
+      <div class="ap-preview-box">
+        <strong>Slide 1:</strong> "Todo CEO acha que sabe tudo. Eu tambem achava. Ate perder R$2M por orgulho."<br>
+        <strong>Slide 2:</strong> "Erro #1 — Postar so quando lembra"<br>
+        <strong>Slide 3:</strong> "Erro #2 — Copiar o que concorrente faz"<br>
+        <strong>...</strong><br>
+        <strong>Legenda:</strong> "5 erros que eu mesmo cometi e como parei. Salva esse post pra nao esquecer."
+      </div>
+    </div>
+    <div class="ap-scores">
+      <div class="ap-sc"><div class="ap-sc-val">92%</div><div class="ap-sc-lab">Humanidade</div></div>
+      <div class="ap-sc"><div class="ap-sc-val">87%</div><div class="ap-sc-lab">Tom de voz</div></div>
+      <div class="ap-sc"><div class="ap-sc-val">97%</div><div class="ap-sc-lab">Originalidade</div></div>
+    </div>
+    <div class="ap-actions">
+      <button class="ap-btn ap-approve" onclick="this.textContent='Aprovado!';this.style.opacity='0.5'">Aprovar</button>
+      <button class="ap-btn ap-adjust" onclick="this.textContent='Ajuste enviado';this.style.opacity='0.5'">Ajustar</button>
+      <button class="ap-btn ap-redo" onclick="this.textContent='Refazendo...';this.style.opacity='0.5'">Refazer</button>
+      <button class="ap-btn ap-reject" onclick="this.closest('.ap').style.opacity='0.3';this.textContent='Rejeitado'">Rejeitar</button>
+    </div>
+  </div>
+
+  <!-- CONTEÚDO 2: Ana Costa — Reel TikTok -->
+  <div class="ap">
+    <div class="ap-top">
+      <div class="ap-av">AC</div>
+      <div class="ap-info">
+        <a href="post-detail.html" class="ap-title" style="color:#1D1D1F;text-decoration:none">"Reforma tributaria: o que muda pra PME"</a>
+        <div class="ap-meta">Ana Costa — Reel TikTok 28s — Agendado Qua 15:00</div>
+      </div>
+      <span class="ap-sla sla-warn">5h</span>
+    </div>
+    <div class="ap-preview">
+      <div class="ap-preview-box">
+        <strong>Roteiro (28s):</strong> "Se voce tem empresa no Simples, presta atencao. A reforma tributaria muda TUDO. Primeiro: o IBS substitui PIS/Cofins. Segundo: cashback pra empresas pequenas. Terceiro: a transicao leva 7 anos. O que fazer agora? Me segue que eu explico."
+      </div>
+    </div>
+    <div class="ap-scores">
+      <div class="ap-sc"><div class="ap-sc-val">89%</div><div class="ap-sc-lab">Humanidade</div></div>
+      <div class="ap-sc"><div class="ap-sc-val">91%</div><div class="ap-sc-lab">Tom</div></div>
+      <div class="ap-sc"><div class="ap-sc-val">94%</div><div class="ap-sc-lab">Original</div></div>
+    </div>
+    <div class="ap-actions">
+      <button class="ap-btn ap-approve" onclick="this.textContent='Aprovado!';this.style.opacity='0.5'">Aprovar</button>
+      <button class="ap-btn ap-adjust" onclick="this.textContent='Ajuste enviado';this.style.opacity='0.5'">Ajustar</button>
+      <button class="ap-btn ap-redo" onclick="this.textContent='Refazendo...';this.style.opacity='0.5'">Refazer</button>
+      <button class="ap-btn ap-reject" onclick="this.closest('.ap').style.opacity='0.3';this.textContent='Rejeitado'">Rejeitar</button>
+    </div>
+  </div>
+
+  <!-- CONTEÚDO 3: Pedro Souza — Thread X -->
+  <div class="ap">
+    <div class="ap-top">
+      <div class="ap-av">PS</div>
+      <div class="ap-info">
+        <a href="post-detail.html" class="ap-title" style="color:#1D1D1F;text-decoration:none">"Por que recusei revenue share"</a>
+        <div class="ap-meta">Pedro Souza — Thread X 5 tweets — Agendado Qua 12:00</div>
+      </div>
+      <span class="ap-sla sla-warn">4h</span>
+    </div>
+    <div class="ap-preview">
+      <div class="ap-preview-box">
+        <strong>Tweet 1:</strong> "Todo mundo fala em levantar rodada. Eu fiz diferente. Thread:"<br>
+        <strong>Tweet 2:</strong> "Recebi 3 propostas de revenue share no ultimo ano. Recusei todas. Motivo:"
+      </div>
+    </div>
+    <div class="ap-scores">
+      <div class="ap-sc"><div class="ap-sc-val warn">78%</div><div class="ap-sc-lab">Humanidade</div></div>
+      <div class="ap-sc"><div class="ap-sc-val">85%</div><div class="ap-sc-lab">Tom</div></div>
+      <div class="ap-sc"><div class="ap-sc-val">91%</div><div class="ap-sc-lab">Original</div></div>
+    </div>
+    <div class="ap-actions">
+      <button class="ap-btn ap-approve" onclick="this.textContent='Aprovado!';this.style.background='#34C759';this.style.color='#FFF'">Aprovar</button>
+      <button class="ap-btn ap-adjust" onclick="this.textContent='Ajuste enviado';this.style.opacity='0.5'">Ajustar</button>
+      <button class="ap-btn ap-redo" onclick="this.textContent='Refazendo...';this.style.opacity='0.5'">Refazer</button>
+      <button class="ap-btn ap-reject" onclick="this.closest('.ap').style.opacity='0.3';this.textContent='Rejeitado'">Rejeitar</button>
+    </div>
+  </div>
+
+  <!-- NIVEL 2: FOUNDER PRECISA APROVAR -->
+  <div class="sec" style="display:flex;align-items:center;gap:8px;margin-top:28px"><span style="width:8px;height:8px;border-radius:50%;background:#FF9500;display:inline-block"></span> Nivel 2 — Aguardando founder <span style="font-weight:400;color:#86868B">(2)</span></div>
+
+  <div class="ap">
+    <div class="ap-top">
+      <div class="ap-av">JM</div>
+      <div class="ap-info">
+        <a href="post-detail.html" class="ap-title" style="color:#1D1D1F;text-decoration:none">"Mercado B2B 2026: o que muda"</a>
+        <div class="ap-meta">Joao Mendes — Artigo LinkedIn — SM aprovou, aguardando Joao</div>
+      </div>
+      <span class="ap-sla sla-ok">Enviado 2h</span>
+    </div>
+    <div class="ap-preview">
+      <div class="ap-preview-box">
+        <strong>Status:</strong> Enviado pro WhatsApp do Joao as 10:05. Mensagem lida. Aguardando resposta. Se nao responder em 2h, vou enviar lembrete.
+      </div>
+    </div>
+  </div>
+
+  <div class="ap">
+    <div class="ap-top">
+      <div class="ap-av">MF</div>
+      <div class="ap-info">
+        <a href="post-detail.html" class="ap-title" style="color:#1D1D1F;text-decoration:none">"Lideranca feminina em tech: dados"</a>
+        <div class="ap-meta">Maria Fernandes — Artigo LinkedIn — SM aprovou, aguardando Maria</div>
+      </div>
+      <span class="ap-sla sla-ok">Enviado 1h</span>
+    </div>
+    <div class="ap-preview">
+      <div class="ap-preview-box">
+        <strong>Status:</strong> Enviado pro WhatsApp da Maria as 11:15. Mensagem entregue, nao lida ainda.
+      </div>
+    </div>
+  </div>
+
+  <!-- NIVEL 3: APROVADOS — PRONTOS PRA PUBLICAR -->
+  <div class="sec" style="display:flex;align-items:center;gap:8px;margin-top:28px"><span style="width:8px;height:8px;border-radius:50%;background:#34C759;display:inline-block"></span> Aprovados hoje — prontos pra publicar <span style="font-weight:400;color:#86868B">(5)</span></div>
+
+  <div class="ap" style="border-left:3px solid #34C759;opacity:0.7">
+    <div class="ap-top">
+      <div class="ap-av">JM</div>
+      <div class="ap-info">
+        <div class="ap-title">"Escale sem queimar caixa" — Carrossel IG</div>
+        <div class="ap-meta">SM Maria aprovou 08:15 · Joao aprovou via WA 09:22 · Agendado Ter 10:30</div>
+      </div>
+      <span class="ap-sla sla-ok">Pronto</span>
+    </div>
+  </div>
+
+  <div class="ap" style="border-left:3px solid #34C759;opacity:0.7">
+    <div class="ap-top">
+      <div class="ap-av">JM</div>
+      <div class="ap-info">
+        <div class="ap-title">"Futuro do B2B" — Artigo LinkedIn</div>
+        <div class="ap-meta">SM Maria aprovou 08:20 · Joao aprovou via WA 09:22 · Agendado Qua 09:00</div>
+      </div>
+      <span class="ap-sla sla-ok">Pronto</span>
+    </div>
+  </div>
+
+  <div class="ap" style="border-left:3px solid #34C759;opacity:0.7">
+    <div class="ap-top">
+      <div class="ap-av">JM</div>
+      <div class="ap-info">
+        <div class="ap-title">"3 metricas de CEO" — Reel TikTok</div>
+        <div class="ap-meta">SM Maria aprovou 07:45 · Joao aprovou via WA 09:22 · Agendado Ter 15:00</div>
+      </div>
+      <span class="ap-sla sla-ok">Pronto</span>
+    </div>
+  </div>
+
+  <div class="ap" style="border-left:3px solid #34C759;opacity:0.7">
+    <div class="ap-top">
+      <div class="ap-av">MF</div>
+      <div class="ap-info">
+        <div class="ap-title">"Citacao lideranca feminina" — Post IG</div>
+        <div class="ap-meta">SM Carlos aprovou 09:00 · Maria F. aprovou portal 10:15 · Agendado Qua 10:00</div>
+      </div>
+      <span class="ap-sla sla-ok">Pronto</span>
+    </div>
+  </div>
+
+  <div class="ap" style="border-left:3px solid #34C759;opacity:0.7">
+    <div class="ap-top">
+      <div class="ap-av">JM</div>
+      <div class="ap-info">
+        <div class="ap-title">"Thread revenue share" — X</div>
+        <div class="ap-meta">SM Maria aprovou 08:30 · Joao aprovou via WA 09:22 · Agendado Qua 12:00</div>
+      </div>
+      <span class="ap-sla sla-ok">Pronto</span>
+    </div>
+  </div>
+
+</div>
+
+<script src="shared-nav-social.js"></script>
+</body>
+</html>
