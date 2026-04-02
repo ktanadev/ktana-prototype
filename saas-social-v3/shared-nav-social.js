@@ -686,25 +686,12 @@
 
   // Inject client context bar on per-client pages
   if (isClientView) {
-    const mainEl = document.querySelector('main, .main, [class*="main"]');
+    var mainEl = document.querySelector('main') || document.querySelector('.main');
     if (mainEl) {
-      const ctxBar = document.createElement('div');
+      var ctxBar = document.createElement('div');
+      ctxBar.id = 'client-ctx-bar';
       ctxBar.style.cssText = 'display:flex;align-items:center;gap:12px;padding:12px 0 16px;margin-bottom:8px;border-bottom:1px solid rgba(0,0,0,0.06);';
-      ctxBar.innerHTML = `
-        <a href="dashboard.html" style="font-family:Inter,sans-serif;font-size:13px;color:#D70030;font-weight:500;text-decoration:none;display:flex;align-items:center;gap:4px;flex-shrink:0;">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
-          Todos clientes
-        </a>
-        <div style="width:1px;height:20px;background:rgba(0,0,0,0.08);flex-shrink:0"></div>
-        <div style="width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#D70030,#A60028);display:flex;align-items:center;justify-content:center;font-family:Inter,sans-serif;font-size:12px;font-weight:700;color:#FFF;flex-shrink:0">JM</div>
-        <div style="flex:1;min-width:0">
-          <div style="font-family:Satoshi,sans-serif;font-size:15px;font-weight:600;color:#1D1D1F">Joao Mendes</div>
-          <div style="font-family:Inter,sans-serif;font-size:12px;color:#86868B">CEO TechFlow — SaaS B2B — Fase 4 — Autopilot</div>
-        </div>
-        <div style="display:flex;gap:8px;flex-shrink:0">
-          <span style="font-family:Inter,sans-serif;font-size:12px;font-weight:600;padding:4px 10px;border-radius:8px;background:rgba(52,199,89,0.08);color:#34C759">Ativo</span>
-        </div>
-      `;
+      ctxBar.innerHTML = '<a href="dashboard.html" style="font-family:Inter,sans-serif;font-size:13px;color:#D70030;font-weight:500;text-decoration:none;display:flex;align-items:center;gap:4px;flex-shrink:0"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg> Todos clientes</a><div style="width:1px;height:20px;background:rgba(0,0,0,0.08);flex-shrink:0"></div><div style="width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#D70030,#A60028);display:flex;align-items:center;justify-content:center;font-family:Inter,sans-serif;font-size:12px;font-weight:700;color:#FFF;flex-shrink:0">JM</div><div style="flex:1;min-width:0"><div style="font-family:Satoshi,sans-serif;font-size:15px;font-weight:600;color:#1D1D1F">Joao Mendes</div><div style="font-family:Inter,sans-serif;font-size:12px;color:#86868B">CEO TechFlow — SaaS B2B — Fase 4</div></div><span style="font-family:Inter,sans-serif;font-size:12px;font-weight:600;padding:4px 10px;border-radius:8px;background:rgba(52,199,89,0.08);color:#34C759">Ativo</span>';
       mainEl.insertBefore(ctxBar, mainEl.firstChild);
     }
   }
