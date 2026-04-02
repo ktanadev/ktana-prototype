@@ -1,0 +1,215 @@
+<!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>KTANA Social — Modo Sintetico</title><link rel="stylesheet" href="../shared.css"><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Satoshi:wght@400;500;600;700&family=Zen+Dots&display=swap" rel="stylesheet">
+<style>
+body{min-height:100vh;background:#F5F5F7;color:#1D1D1F}
+a{text-decoration:none;color:inherit}
+.main{max-width:760px;padding:24px 24px 100px}
+.page-title{font-family:'Satoshi',sans-serif;font-size:22px;font-weight:700;color:#1D1D1F;margin-bottom:4px}
+.page-sub{font-family:'Inter',sans-serif;font-size:12px;color:#86868B;margin-bottom:24px}
+.section-label{font-family:'Inter',sans-serif;font-size:10px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:#86868B;margin-bottom:12px;margin-top:28px}
+
+/* SYNTHETIC BANNER */
+.synth-banner{background:linear-gradient(135deg,rgba(255,149,0,0.06),rgba(255,149,0,0.02));border:1px solid rgba(255,149,0,0.15);border-radius:16px;padding:20px;margin-bottom:24px;display:flex;gap:16px;align-items:flex-start}
+.synth-icon{width:40px;height:40px;border-radius:12px;background:rgba(255,149,0,0.1);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.synth-icon svg{width:20px;height:20px;stroke:#FF9500;fill:none;stroke-width:2}
+.synth-body{flex:1}
+.synth-body h3{font-family:'Satoshi',sans-serif;font-size:15px;font-weight:600;color:#CC7700;margin-bottom:4px}
+.synth-body p{font-family:'Inter',sans-serif;font-size:12px;color:#6E6E73;line-height:1.6}
+.synth-stats{display:flex;gap:16px;margin-top:10px;font-family:'Inter',sans-serif;font-size:11px;color:#86868B}
+.synth-stats strong{color:#1D1D1F}
+
+/* TOGGLE */
+.toggle-row{display:flex;align-items:center;justify-content:space-between;background:#FFF;border-radius:14px;border:1px solid rgba(0,0,0,0.04);padding:16px 20px;margin-bottom:16px}
+.toggle-info{flex:1}
+.toggle-title{font-family:'Satoshi',sans-serif;font-size:14px;font-weight:600;color:#1D1D1F;margin-bottom:2px}
+.toggle-desc{font-family:'Inter',sans-serif;font-size:11px;color:#86868B}
+.toggle{position:relative;width:46px;height:26px;cursor:pointer;flex-shrink:0}
+.toggle input{opacity:0;width:0;height:0}
+.toggle-slider{position:absolute;top:0;left:0;right:0;bottom:0;background:#E5E5EA;border-radius:13px;transition:.3s}
+.toggle-slider::before{content:'';position:absolute;height:22px;width:22px;left:2px;bottom:2px;background:#FFF;border-radius:50%;transition:.3s;box-shadow:0 1px 3px rgba(0,0,0,0.15)}
+.toggle input:checked+.toggle-slider{background:#FF9500}
+.toggle input:checked+.toggle-slider::before{transform:translateX(20px)}
+
+/* ESCALATION TIMELINE */
+.esc{background:#FFF;border-radius:16px;border:1px solid rgba(0,0,0,0.04);padding:20px;margin-bottom:16px}
+.esc-title{font-family:'Satoshi',sans-serif;font-size:14px;font-weight:600;color:#1D1D1F;margin-bottom:14px}
+.esc-row{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:0.5px solid rgba(0,0,0,0.04);font-family:'Inter',sans-serif;font-size:12px}
+.esc-row:last-child{border-bottom:none}
+.esc-day{width:60px;font-family:'Inter',sans-serif;font-size:11px;font-weight:600;color:#1D1D1F;flex-shrink:0}
+.esc-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
+.esc-action{flex:1;color:#6E6E73}
+.esc-action strong{color:#1D1D1F}
+.esc-status{font-size:10px;font-weight:600;padding:2px 8px;border-radius:4px}
+.st-done{background:rgba(52,199,89,0.1);color:#34C759}
+.st-active{background:rgba(255,149,0,0.1);color:#FF9500}
+.st-pending{background:rgba(174,174,178,0.1);color:#AEAEB2}
+
+/* PRODUCTION LOG */
+.prod-card{background:#FFF;border-radius:14px;border:1px solid rgba(0,0,0,0.04);padding:16px;margin-bottom:10px;display:flex;align-items:center;gap:14px}
+.prod-agent{width:30px;height:30px;border-radius:8px;background:rgba(215,0,48,0.06);display:flex;align-items:center;justify-content:center;font-family:'Zen Dots',cursive;font-size:9px;color:#D70030;flex-shrink:0}
+.prod-info{flex:1}
+.prod-title{font-family:'Satoshi',sans-serif;font-size:13px;font-weight:500;color:#1D1D1F}
+.prod-sub{font-family:'Inter',sans-serif;font-size:10px;color:#86868B;margin-top:2px}
+.prod-badge{font-family:'Inter',sans-serif;font-size:9px;font-weight:600;padding:2px 8px;border-radius:4px;background:rgba(255,149,0,0.08);color:#FF9500}
+
+/* RETURN MESSAGE */
+.return-box{background:linear-gradient(135deg,rgba(52,199,89,0.04),rgba(52,199,89,0.01));border:1px solid rgba(52,199,89,0.12);border-radius:16px;padding:20px;margin-top:24px}
+.return-box h3{font-family:'Satoshi',sans-serif;font-size:14px;font-weight:600;color:#248A3D;margin-bottom:8px}
+.return-box p{font-family:'Inter',sans-serif;font-size:12px;color:#6E6E73;line-height:1.7}
+.return-box .msg{background:#FFF;border-radius:12px;padding:14px;margin-top:12px;font-family:'Inter',sans-serif;font-size:12px;color:#3A3A3C;line-height:1.7;border:1px solid rgba(0,0,0,0.04)}
+
+.btn-primary{font-family:'Inter',sans-serif;padding:10px 24px;border-radius:12px;background:#1D1D1F;color:#F5F5F7;font-size:13px;font-weight:500;border:none;cursor:pointer;min-height:42px;transition:all .15s;margin-top:12px}
+.btn-primary:hover{background:#000}
+.btn-ghost{font-family:'Inter',sans-serif;padding:10px 24px;border-radius:12px;background:transparent;color:#86868B;font-size:13px;border:1px solid rgba(0,0,0,0.08);cursor:pointer;min-height:42px;margin-top:12px;margin-left:8px}
+</style>
+</head>
+<body data-client="true" data-active="clients">
+<main class="main">
+
+<div class="page-title">Modo Sintetico</div>
+<p class="page-sub">Joao Mendes — TechFlow · Conteudo autonomo quando o founder esta inativo</p>
+
+<!-- SYNTHETIC MODE ACTIVE BANNER -->
+<div class="synth-banner">
+  <div class="synth-icon"><svg viewBox="0 0 24 24"><path d="M12 2a6 6 0 016 6c0 3-2 5-3 6h-6c-1-1-3-3-3-6a6 6 0 016-6z"/><path d="M9 18h6"/><path d="M10 22h4"/></svg></div>
+  <div class="synth-body">
+    <h3>Modo sintetico ativo — founder inativo ha 12 dias</h3>
+    <p>A IA esta produzindo conteudo automaticamente usando o Brand Book e avatar do Joao. O SM Carlos revisa e aprova sem input do founder. Posicionamento continua sem interrupcao.</p>
+    <div class="synth-stats">
+      <span><strong>14</strong> posts publicados</span>
+      <span><strong>4.2%</strong> ER medio</span>
+      <span><strong>+180</strong> seguidores ganhos</span>
+      <span><strong>92%</strong> score humanidade</span>
+    </div>
+  </div>
+</div>
+
+<!-- TOGGLE -->
+<div class="toggle-row">
+  <div class="toggle-info">
+    <div class="toggle-title">Modo sintetico</div>
+    <div class="toggle-desc">Quando ativo, Director gera conteudo visual com avatar, Quill escreve com Brand Book, SM aprova sem founder</div>
+  </div>
+  <label class="toggle"><input type="checkbox" checked><span class="toggle-slider"></span></label>
+</div>
+
+<div class="toggle-row">
+  <div class="toggle-info">
+    <div class="toggle-title">Usar avatar para fotos</div>
+    <div class="toggle-desc">Director gera fotos com clone visual do founder. Se desativado, usa fotos do banco existente.</div>
+  </div>
+  <label class="toggle"><input type="checkbox" checked><span class="toggle-slider"></span></label>
+</div>
+
+<div class="toggle-row">
+  <div class="toggle-info">
+    <div class="toggle-title">Score minimo elevado (90%+)</div>
+    <div class="toggle-desc">Em modo sintetico, exigir score humanidade 90%+ (em vez de 85%). Mais cauteloso sem o founder validando.</div>
+  </div>
+  <label class="toggle"><input type="checkbox" checked><span class="toggle-slider"></span></label>
+</div>
+
+<div class="toggle-row">
+  <div class="toggle-info">
+    <div class="toggle-title">Evitar posicoes novas</div>
+    <div class="toggle-desc">Quill so usa temas que o founder ja abordou. Nao inventa posicoes novas sem validacao.</div>
+  </div>
+  <label class="toggle"><input type="checkbox" checked><span class="toggle-slider"></span></label>
+</div>
+
+<!-- ESCALATION TIMELINE -->
+<div class="esc">
+  <div class="esc-title">Timeline de escalacao</div>
+  <div class="esc-row">
+    <div class="esc-day">Dia 1-3</div>
+    <div class="esc-dot" style="background:#34C759"></div>
+    <div class="esc-action"><strong>Pulse</strong> envia lembretes no WhatsApp. "Joao, falta gravar stories."</div>
+    <span class="esc-status st-done">Feito</span>
+  </div>
+  <div class="esc-row">
+    <div class="esc-day">Dia 4-5</div>
+    <div class="esc-dot" style="background:#34C759"></div>
+    <div class="esc-action"><strong>Pulse</strong> escala pro SM: "Joao nao responde ha 4 dias."</div>
+    <span class="esc-status st-done">Feito</span>
+  </div>
+  <div class="esc-row">
+    <div class="esc-day">Dia 6-7</div>
+    <div class="esc-dot" style="background:#34C759"></div>
+    <div class="esc-action"><strong>SM</strong> escala pro Gestor: "Joao inativo, sem resposta."</div>
+    <span class="esc-status st-done">Feito</span>
+  </div>
+  <div class="esc-row">
+    <div class="esc-day">Dia 8</div>
+    <div class="esc-dot" style="background:#FF9500"></div>
+    <div class="esc-action"><strong>Gestor</strong> ativa modo sintetico. Director + Quill + SM operam sem founder.</div>
+    <span class="esc-status st-active">Ativo</span>
+  </div>
+  <div class="esc-row">
+    <div class="esc-day">Dia 14+</div>
+    <div class="esc-dot" style="background:#D2D2D7"></div>
+    <div class="esc-action"><strong>Sensei</strong> sugere contato comercial: "Joao pode estar considerando cancelar."</div>
+    <span class="esc-status st-pending">Pendente</span>
+  </div>
+  <div class="esc-row">
+    <div class="esc-day">Retorno</div>
+    <div class="esc-dot" style="background:#D2D2D7"></div>
+    <div class="esc-action"><strong>Pulse</strong> envia resumo: "Publicamos 14 posts enquanto voce estava fora."</div>
+    <span class="esc-status st-pending">Quando voltar</span>
+  </div>
+</div>
+
+<!-- SYNTHETIC PRODUCTION LOG -->
+<div class="section-label">Producao sintetica (ultimos 12 dias)</div>
+
+<div class="prod-card">
+  <div class="prod-agent">Q</div>
+  <div class="prod-info">
+    <div class="prod-title">Carrossel IG "3 metricas que todo CEO mede errado"</div>
+    <div class="prod-sub">Quill · Score 93% · Publicado 01/Abr · ER 5.1%</div>
+  </div>
+  <div class="prod-badge">Sintetico</div>
+</div>
+
+<div class="prod-card">
+  <div class="prod-agent">Q</div>
+  <div class="prod-info">
+    <div class="prod-title">Artigo LI "O futuro do SaaS brasileiro"</div>
+    <div class="prod-sub">Quill · Score 91% · Publicado 31/Mar · ER 3.8%</div>
+  </div>
+  <div class="prod-badge">Sintetico</div>
+</div>
+
+<div class="prod-card">
+  <div class="prod-agent">D</div>
+  <div class="prod-info">
+    <div class="prod-title">Reel TT "Minha mesa as 6h da manha"</div>
+    <div class="prod-sub">Director (avatar) · Score 90% · Publicado 30/Mar · ER 4.5%</div>
+  </div>
+  <div class="prod-badge">Sintetico</div>
+</div>
+
+<div class="prod-card">
+  <div class="prod-agent">Q</div>
+  <div class="prod-info">
+    <div class="prod-title">Thread X "5 licoes de quem queimou R$500K em MKT"</div>
+    <div class="prod-sub">Quill · Score 92% · Publicado 29/Mar · ER 6.2%</div>
+  </div>
+  <div class="prod-badge">Sintetico</div>
+</div>
+
+<div style="font-family:'Inter',sans-serif;font-size:11px;color:#86868B;text-align:center;margin:12px 0">+ 10 posts anteriores · <a href="#" style="color:#D70030">ver todos</a></div>
+
+<!-- RETURN MESSAGE PREVIEW -->
+<div class="return-box">
+  <h3>Quando Joao voltar, ele recebe:</h3>
+  <p>Pulse envia resumo automaticamente no WhatsApp assim que detectar resposta do founder.</p>
+  <div class="msg">
+    "Oi Joao! Enquanto voce esteve fora (12 dias), publicamos <strong>14 posts</strong> nas suas redes. Seus seguidores cresceram <strong>+180</strong> e o engagement medio foi <strong>4.2%</strong>. Aqui o resumo do que foi publicado — quer revisar? Responda 1 pra ver os posts ou 2 pra aprovar tudo retroativamente."
+  </div>
+</div>
+
+<button class="btn-primary" onclick="this.innerHTML='Modo sintetico desativado';this.style.background='#34C759'">Desativar modo sintetico</button>
+<button class="btn-ghost" onclick="alert('Abrir checklist do Joao')">Ver checklist do founder</button>
+
+</main>
+<script src="shared-nav-social.js"></script>
+</body></html>

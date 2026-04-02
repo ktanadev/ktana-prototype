@@ -67,7 +67,7 @@ Per-client: workspace, pipeline, calendar, aprovações, brand book, métricas, 
 
 ---
 
-## 66 TELAS (58 V2 + 8 novas V3)
+## 69 TELAS (58 V2 + 8 V3 + 3 V4)
 
 ### Novas V3
 | Tela | Fase | Função |
@@ -81,22 +81,77 @@ Per-client: workspace, pipeline, calendar, aprovações, brand book, métricas, 
 | `agents-client.html` | 3+4 | Config agentes PER-CLIENT |
 | Sidebar dinâmica | 4 | shared-nav-social.js reage ao data-client |
 
-### Docs V3
+### Novas V4 (Sessão 4)
+| Tela | Fase | Função |
+|------|------|--------|
+| `crisis-management.html` | 4 | Gestão de crise viral: detectar → pausar → analisar → opções → executar → notificar |
+| `synthetic-mode.html` | 4 | Modo sintético: toggle, timeline escalação, produção sem founder, mensagem retorno |
+| `connection-health.html` | 4 | Saúde tokens/APIs, rate limits, backup GoLogin, alertas 401/403 |
+
+### Mudanças V4 (Sessão 4)
+| Tela | O que mudou |
+|------|-------------|
+| `pipeline.html` | Toggle "Por Cliente" (resumo global) / "Kanban" (detalhado). Badge sintético. Badge urgente. |
+| `admin.html` | 12 agências (antes 5). Coluna Saúde (verde/amarelo/vermelho). Nomes donos. MRR corrigidos. |
+| `dashboard.html` | Pedro Souza com badge "Sintético — 12 dias". Feed com links: crise, saúde, modo sintético. |
+| `shared-nav-social.js` | 3 links novos no menu per-client: Modo Sintético, Gestão de Crise, Saúde Conexões |
+
+### Docs V3/V4
 | Doc | Conteúdo | Status |
 |-----|----------|--------|
 | `docs/product-deep-dive.html` | Dores reais, 7 agentes detalhados, jornadas minuto a minuto, edge cases, modelo negócio | OK |
-| `docs/user-stories.html` | 15 histórias 5 atores | RASO — REFAZER |
+| `docs/user-stories.html` | 21 histórias, 5 atores, 9 camadas (cenário, emoção, motivação, frustração, falha, edge, critérios, antes/depois) | REFEITO V4 |
 | `docs/user-flow.html` | Fluxo visual 4 fases light | OK |
 
 ---
 
-## PENDENTE CRÍTICO (PRÓXIMA SESSÃO)
+## CONCLUÍDO SESSÃO 4 (01/Abr/2026)
 
-### 1. HISTÓRIAS DE USUÁRIO — REFAZER COM PROFUNDIDADE ABSURDA
-Framework de detalhamento por história:
-- **Cenário real** minuto a minuto (7:15 Maria abre notebook com café...)
-- **Emoção** em cada momento (empolgação, frustração, alívio, orgulho, medo)
-- **Motivação** real (ganhar dinheiro, escalar, controlar qualidade)
+### 1. HISTÓRIAS DE USUÁRIO — REFEITAS COM PROFUNDIDADE ABSURDA ✅
+21 histórias, 5 atores, framework 9 camadas por história:
+- Contexto (dia, hora, estado emocional de entrada)
+- Cenário real minuto a minuto com timestamps
+- Arco emocional (esperança, frustração, alívio, orgulho)
+- Motivação real (margem, controle, escala)
+- Frustração atual (detalhes do processo manual)
+- Quando dá errado (cenário de falha com resolução)
+- Edge cases com tratamento
+- Tela + critérios de aceite detalhados
+- Antes vs depois (contraste brutal)
+
+### 2. PIPELINE GLOBAL = RESUMO POR CLIENTE ✅
+- Vista "Por Cliente": cards por founder com contagem por estágio (João: 12, Ana: 3, Pedro: 1)
+- Vista "Kanban": board detalhado com drag&drop e filtro
+- Toggle no topo: "Por Cliente | Kanban"
+- Badge "Sintético — X dias" nos founders inativos
+- Badge "SLA atrasado" nos urgentes
+
+### 3. SIDEBAR DINÂMICA — AUDITADA EM 69 TELAS ✅
+- 27 telas per-client com data-client="true"
+- 23 telas global sem data-client
+- 19 telas com nav skip (auth, admin, founder portal, setup)
+- 3 links novos no menu per-client: Modo Sintético, Gestão de Crise, Saúde Conexões
+- Nenhuma inconsistência encontrada
+
+### 4. ADMIN MULTI-TENANT ✅
+- 12 agências (Grupo Silva, Empire, Blank, Posicione-se Now, Líder Digital, Voz & Estratégia, MK Social, Rise Authority, CEO Posicionado, Aceleradora Alpha, Next Growth, Poder & Presença)
+- Coluna "Saúde": verde (OK), amarelo (tokens altos), vermelho (erros agente), cinza (setup)
+- 3 em Trial, 9 ativos, 1 em setup
+- Nome do dono em cada agência
+
+### 5. CENÁRIOS CRÍTICOS COMO TELAS ✅
+- crisis-management.html: framework 6 passos (detectar → pausar → analisar → escolher → executar → notificar), 4 opções (apagar, retratar, monitorar, jurídico), templates pré-aprovados
+- synthetic-mode.html: toggle ativação, 4 configurações (avatar, score 90%+, evitar posições novas), timeline escalação (dia 1-14+), log produção, mensagem retorno
+- connection-health.html: status 5 conexões, rate limits, alertas (token expirado, expirando), backup GoLogin com IP/fingerprint/status
+
+### 6. INDICADOR MODO SINTÉTICO ✅
+- Dashboard: Pedro Souza com badge laranja "Sintético — 12 dias", fase SYN, barra laranja
+- Pipeline: badge "Sintético — 12 dias" no card do Pedro na vista por cliente
+- Feed autopilot: links diretos pra crise, saúde e modo sintético
+
+---
+
+## PENDENTE PRÓXIMA SESSÃO
 - **Frustração** com o processo atual (manual, caótico, sem controle)
 - **O que acontece quando dá errado** (founder some, crise, token cai, SM sai)
 - **Edge cases** com resolução completa

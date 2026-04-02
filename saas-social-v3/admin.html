@@ -75,58 +75,126 @@ h1{font-family:'Zen Dots',cursive;font-size:20px;color:#F5F5F7;margin-bottom:6px
 
 <main class="main">
 <h1>KTANA Admin.</h1>
-<p class="sub">Visao geral da plataforma SaaS Social. 8 tenants ativos, 1.247 clientes gerenciados.</p>
+<p class="sub">Visao geral da plataforma SaaS Social. 12 tenants ativos, 1.847 clientes gerenciados. 3 agencias em trial.</p>
 
 <div class="stats-grid">
-  <div class="stat-card"><div class="stat-val brand">8</div><div class="stat-lab">Tenants ativos</div></div>
-  <div class="stat-card"><div class="stat-val">1.247</div><div class="stat-lab">Clientes totais</div></div>
-  <div class="stat-card"><div class="stat-val">47</div><div class="stat-lab">Agentes rodando</div></div>
-  <div class="stat-card"><div class="stat-val">342K</div><div class="stat-lab">Tokens/dia</div></div>
-  <div class="stat-card"><div class="stat-val">R$1.24M</div><div class="stat-lab">MRR (1.247 x R$1K)</div></div>
+  <div class="stat-card"><div class="stat-val brand">12</div><div class="stat-lab">Tenants ativos</div></div>
+  <div class="stat-card"><div class="stat-val">1.847</div><div class="stat-lab">Clientes totais</div></div>
+  <div class="stat-card"><div class="stat-val">72</div><div class="stat-lab">Agentes rodando</div></div>
+  <div class="stat-card"><div class="stat-val">892K</div><div class="stat-lab">Tokens/dia</div></div>
+  <div class="stat-card"><div class="stat-val">R$186K</div><div class="stat-lab">MRR plataforma</div></div>
 </div>
 
 <div class="section-label">Tenants (empresas clientes)</div>
 <table class="tenant-table">
-  <thead><tr><th>Empresa</th><th>MRR</th><th>Clientes</th><th>Tokens</th><th>Status</th><th>Acoes</th></tr></thead>
+  <thead><tr><th>Empresa</th><th>MRR</th><th>Clientes</th><th>Tokens</th><th>Saude</th><th>Status</th><th>Acoes</th></tr></thead>
   <tbody>
     <tr>
-      <td><div class="t-name"><div class="t-avatar">GS</div><div><div class="t-company">Grupo Silva</div><div class="t-sub">ogruposilva.com.br</div></div></div></td>
-      <td>R$400K</td>
+      <td><div class="t-name"><div class="t-avatar">GS</div><div><div class="t-company">Grupo Silva</div><div class="t-sub">ogruposilva.com.br · Antonio Silva</div></div></div></td>
+      <td>R$48K</td>
       <td>400</td>
       <td><div class="t-bar"><div class="t-fill" style="width:68%"></div></div> 68%</td>
+      <td><span style="display:inline-flex;align-items:center;gap:4px"><span style="width:8px;height:8px;border-radius:50%;background:#34C759;display:inline-block"></span><span style="font-size:10px;color:#34C759">OK</span></span></td>
       <td><span class="t-badge tb-active">Ativo</span></td>
-      <td><div class="t-actions"><button class="t-btn" onclick="location.href='admin-tenant-detail.html'">Detalhes</button><button class="t-btn" onclick="location.href='settings.html'">Config</button></div></td>
+      <td><div class="t-actions"><button class="t-btn" onclick="location.href='admin-tenant-detail.html'">Detalhes</button></div></td>
     </tr>
     <tr>
-      <td><div class="t-name"><div class="t-avatar">EB</div><div><div class="t-company">Empire Business</div><div class="t-sub">empirebusiness.br</div></div></div></td>
-      <td>R$300K</td>
+      <td><div class="t-name"><div class="t-avatar" style="background:linear-gradient(135deg,#5856D6,#3A38A0)">EB</div><div><div class="t-company">Empire Business</div><div class="t-sub">empirebusiness.br · Ricardo Almeida</div></div></div></td>
+      <td>R$36K</td>
       <td>300</td>
-      <td><div class="t-bar"><div class="t-fill" style="width:45%"></div></div> 45%</td>
+      <td><div class="t-bar"><div class="t-fill" style="width:92%;background:#FF9500"></div></div> <span style="color:#FF9500">92%</span></td>
+      <td><span style="display:inline-flex;align-items:center;gap:4px"><span style="width:8px;height:8px;border-radius:50%;background:#FF9500;display:inline-block"></span><span style="font-size:10px;color:#FF9500">Tokens altos</span></span></td>
       <td><span class="t-badge tb-active">Ativo</span></td>
-      <td><div class="t-actions"><button class="t-btn" onclick="location.href='admin-tenant-detail.html'">Detalhes</button><button class="t-btn" onclick="location.href='settings.html'">Config</button></div></td>
+      <td><div class="t-actions"><button class="t-btn" onclick="location.href='admin-tenant-detail.html'">Detalhes</button></div></td>
     </tr>
     <tr>
-      <td><div class="t-name"><div class="t-avatar">BL</div><div><div class="t-company">Blank School</div><div class="t-sub">blankschool.com.br</div></div></div></td>
-      <td>R$180K</td>
-      <td>180</td>
-      <td><div class="t-bar"><div class="t-fill" style="width:82%"></div></div> 82%</td>
+      <td><div class="t-name"><div class="t-avatar" style="background:linear-gradient(135deg,#007AFF,#0055CC)">BL</div><div><div class="t-company">Blank School</div><div class="t-sub">blankschool.com.br · Laura Menezes</div></div></div></td>
+      <td>R$24K</td>
+      <td>200</td>
+      <td><div class="t-bar"><div class="t-fill" style="width:55%"></div></div> 55%</td>
+      <td><span style="display:inline-flex;align-items:center;gap:4px"><span style="width:8px;height:8px;border-radius:50%;background:#34C759;display:inline-block"></span><span style="font-size:10px;color:#34C759">OK</span></span></td>
       <td><span class="t-badge tb-active">Ativo</span></td>
-      <td><div class="t-actions"><button class="t-btn" onclick="location.href='admin-tenant-detail.html'">Detalhes</button><button class="t-btn" onclick="location.href='settings.html'">Config</button></div></td>
+      <td><div class="t-actions"><button class="t-btn" onclick="location.href='admin-tenant-detail.html'">Detalhes</button></div></td>
     </tr>
     <tr>
-      <td><div class="t-name"><div class="t-avatar">AA</div><div><div class="t-company">Aceleradora Alpha</div><div class="t-sub">alpha.com.br</div></div></div></td>
-      <td>R$42K</td>
+      <td><div class="t-name"><div class="t-avatar" style="background:linear-gradient(135deg,#FF9500,#CC7700)">PN</div><div><div class="t-company">Posicione-se Now</div><div class="t-sub">posicionese.com.br · Fernanda Dias</div></div></div></td>
+      <td>R$18K</td>
+      <td>150</td>
+      <td><div class="t-bar"><div class="t-fill" style="width:42%"></div></div> 42%</td>
+      <td><span style="display:inline-flex;align-items:center;gap:4px"><span style="width:8px;height:8px;border-radius:50%;background:#34C759;display:inline-block"></span><span style="font-size:10px;color:#34C759">OK</span></span></td>
+      <td><span class="t-badge tb-active">Ativo</span></td>
+      <td><div class="t-actions"><button class="t-btn" onclick="location.href='admin-tenant-detail.html'">Detalhes</button></div></td>
+    </tr>
+    <tr>
+      <td><div class="t-name"><div class="t-avatar" style="background:linear-gradient(135deg,#34C759,#248A3D)">LD</div><div><div class="t-company">Lider Digital</div><div class="t-sub">liderdigital.com.br · Marcos Pinto</div></div></div></td>
+      <td>R$15K</td>
+      <td>120</td>
+      <td><div class="t-bar"><div class="t-fill" style="width:38%"></div></div> 38%</td>
+      <td><span style="display:inline-flex;align-items:center;gap:4px"><span style="width:8px;height:8px;border-radius:50%;background:#34C759;display:inline-block"></span><span style="font-size:10px;color:#34C759">OK</span></span></td>
+      <td><span class="t-badge tb-active">Ativo</span></td>
+      <td><div class="t-actions"><button class="t-btn" onclick="location.href='admin-tenant-detail.html'">Detalhes</button></div></td>
+    </tr>
+    <tr>
+      <td><div class="t-name"><div class="t-avatar" style="background:linear-gradient(135deg,#FF2D55,#B8002E)">VS</div><div><div class="t-company">Voz & Estrategia</div><div class="t-sub">vozestrategia.com · Paula Ribeiro</div></div></div></td>
+      <td>R$12K</td>
+      <td>100</td>
+      <td><div class="t-bar"><div class="t-fill" style="width:30%"></div></div> 30%</td>
+      <td><span style="display:inline-flex;align-items:center;gap:4px"><span style="width:8px;height:8px;border-radius:50%;background:#34C759;display:inline-block"></span><span style="font-size:10px;color:#34C759">OK</span></span></td>
+      <td><span class="t-badge tb-active">Ativo</span></td>
+      <td><div class="t-actions"><button class="t-btn" onclick="location.href='admin-tenant-detail.html'">Detalhes</button></div></td>
+    </tr>
+    <tr>
+      <td><div class="t-name"><div class="t-avatar">MK</div><div><div class="t-company">MK Social</div><div class="t-sub">mksocial.com.br · Diego Santos</div></div></div></td>
+      <td>R$10.5K</td>
+      <td>85</td>
+      <td><div class="t-bar"><div class="t-fill" style="width:22%"></div></div> 22%</td>
+      <td><span style="display:inline-flex;align-items:center;gap:4px"><span style="width:8px;height:8px;border-radius:50%;background:#34C759;display:inline-block"></span><span style="font-size:10px;color:#34C759">OK</span></span></td>
+      <td><span class="t-badge tb-active">Ativo</span></td>
+      <td><div class="t-actions"><button class="t-btn" onclick="location.href='admin-tenant-detail.html'">Detalhes</button></div></td>
+    </tr>
+    <tr>
+      <td><div class="t-name"><div class="t-avatar" style="background:linear-gradient(135deg,#AF52DE,#7A1FA3)">RA</div><div><div class="t-company">Rise Authority</div><div class="t-sub">riseauthority.com · Camila Nogueira</div></div></div></td>
+      <td>R$9K</td>
+      <td>72</td>
+      <td><div class="t-bar"><div class="t-fill" style="width:18%"></div></div> 18%</td>
+      <td><span style="display:inline-flex;align-items:center;gap:4px"><span style="width:8px;height:8px;border-radius:50%;background:#D70030;display:inline-block"></span><span style="font-size:10px;color:#D70030">2 erros agente</span></span></td>
+      <td><span class="t-badge tb-active">Ativo</span></td>
+      <td><div class="t-actions"><button class="t-btn" onclick="location.href='admin-tenant-detail.html'">Detalhes</button></div></td>
+    </tr>
+    <tr>
+      <td><div class="t-name"><div class="t-avatar" style="background:linear-gradient(135deg,#8E8E93,#636366)">CP</div><div><div class="t-company">CEO Positionado</div><div class="t-sub">ceoposicionado.com · Thiago Costa</div></div></div></td>
+      <td>R$6K</td>
+      <td>50</td>
+      <td><div class="t-bar"><div class="t-fill" style="width:14%"></div></div> 14%</td>
+      <td><span style="display:inline-flex;align-items:center;gap:4px"><span style="width:8px;height:8px;border-radius:50%;background:#34C759;display:inline-block"></span><span style="font-size:10px;color:#34C759">OK</span></span></td>
+      <td><span class="t-badge tb-active">Ativo</span></td>
+      <td><div class="t-actions"><button class="t-btn" onclick="location.href='admin-tenant-detail.html'">Detalhes</button></div></td>
+    </tr>
+    <tr>
+      <td><div class="t-name"><div class="t-avatar" style="background:linear-gradient(135deg,#FF9500,#CC7700)">AA</div><div><div class="t-company">Aceleradora Alpha</div><div class="t-sub">alpha.com.br · Bruno Ferreira</div></div></div></td>
+      <td>R$4.2K</td>
       <td>42</td>
       <td><div class="t-bar"><div class="t-fill" style="width:25%"></div></div> 25%</td>
+      <td><span style="display:inline-flex;align-items:center;gap:4px"><span style="width:8px;height:8px;border-radius:50%;background:#34C759;display:inline-block"></span><span style="font-size:10px;color:#34C759">OK</span></span></td>
       <td><span class="t-badge tb-trial">Trial</span></td>
-      <td><div class="t-actions"><button class="t-btn" onclick="location.href='admin-tenant-detail.html'">Detalhes</button><button class="t-btn" onclick="location.href='settings.html'">Config</button></div></td>
+      <td><div class="t-actions"><button class="t-btn" onclick="location.href='admin-tenant-detail.html'">Detalhes</button></div></td>
     </tr>
     <tr>
-      <td><div class="t-name"><div class="t-avatar">MK</div><div><div class="t-company">MK Social</div><div class="t-sub">mksocial.com.br</div></div></div></td>
-      <td>R$35K</td>
-      <td>35</td>
-      <td><div class="t-bar"><div class="t-fill" style="width:12%"></div></div> 12%</td>
-      <td><span class="t-badge tb-active">Ativo</span></td>
+      <td><div class="t-name"><div class="t-avatar" style="background:linear-gradient(135deg,#007AFF,#0055CC)">NG</div><div><div class="t-company">Next Growth</div><div class="t-sub">nextgrowth.io · Ana Lopes</div></div></div></td>
+      <td>R$2.1K</td>
+      <td>28</td>
+      <td><div class="t-bar"><div class="t-fill" style="width:8%"></div></div> 8%</td>
+      <td><span style="display:inline-flex;align-items:center;gap:4px"><span style="width:8px;height:8px;border-radius:50%;background:#34C759;display:inline-block"></span><span style="font-size:10px;color:#34C759">OK</span></span></td>
+      <td><span class="t-badge tb-trial">Trial</span></td>
+      <td><div class="t-actions"><button class="t-btn" onclick="location.href='admin-tenant-detail.html'">Detalhes</button></div></td>
+    </tr>
+    <tr>
+      <td><div class="t-name"><div class="t-avatar" style="background:linear-gradient(135deg,#8E8E93,#636366)">PP</div><div><div class="t-company">Poder & Presenca</div><div class="t-sub">poderpresenca.com · Juliana Martins</div></div></div></td>
+      <td>—</td>
+      <td>0</td>
+      <td><div class="t-bar"><div class="t-fill" style="width:0%"></div></div> 0%</td>
+      <td><span style="display:inline-flex;align-items:center;gap:4px"><span style="width:8px;height:8px;border-radius:50%;background:#8E8E93;display:inline-block"></span><span style="font-size:10px;color:#8E8E93">Setup</span></span></td>
+      <td><span class="t-badge tb-trial">Trial</span></td>
       <td><div class="t-actions"><button class="t-btn" onclick="location.href='admin-tenant-detail.html'">Detalhes</button></div></td>
     </tr>
   </tbody>

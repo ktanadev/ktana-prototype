@@ -144,6 +144,9 @@
       { label: 'Equipe (Joao)', href: t('client-team-assign.html'), icon: 'M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1z' },
       { label: 'Checklist', href: t('client-checklist.html'), icon: 'M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z' },
       { label: 'Atividade', href: t('client-activity.html'), icon: 'M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z' },
+      { label: 'Modo Sintetico', href: t('synthetic-mode.html'), icon: 'M12 2a6 6 0 016 6c0 3-2 5-3 6h-6c-1-1-3-3-3-6a6 6 0 016-6z' },
+      { label: 'Gestao de Crise', href: t('crisis-management.html'), icon: 'M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z' },
+      { label: 'Saude Conexoes', href: t('connection-health.html'), icon: 'M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z' },
     ]},
   ];
 

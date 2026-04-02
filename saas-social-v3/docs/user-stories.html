@@ -1,393 +1,1237 @@
-<!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>SaaS Social V3 — Historias de Usuario</title>
+<!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>SaaS Social V3 — Historias de Usuario (Profundidade Absurda)</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-body{background:#FAFAFA;color:#1D1D1F;font-family:-apple-system,'Inter',sans-serif;padding:40px;min-height:100vh;max-width:860px;margin:0 auto}
+body{background:#FAFAFA;color:#1D1D1F;font-family:-apple-system,'Inter',sans-serif;padding:40px;min-height:100vh;max-width:900px;margin:0 auto;line-height:1.7}
 h1{font-size:28px;font-weight:800;color:#D70030;margin-bottom:4px}
 .sub{font-size:13px;color:#86868B;margin-bottom:40px}
-.actor{margin-bottom:48px}
-.actor-header{display:flex;align-items:center;gap:14px;margin-bottom:20px}
-.actor-badge{width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:16px;color:#FFF;flex-shrink:0}
-.actor-name{font-size:20px;font-weight:700}
+.actor{margin-bottom:56px}
+.actor-header{display:flex;align-items:center;gap:14px;margin-bottom:24px}
+.actor-badge{width:48px;height:48px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:18px;color:#FFF;flex-shrink:0}
+.actor-name{font-size:22px;font-weight:700}
 .actor-desc{font-size:12px;color:#86868B;margin-top:2px}
-.story{background:#FFF;border:1px solid rgba(0,0,0,0.06);border-radius:14px;padding:20px;margin-bottom:12px;position:relative}
-.story-id{font-family:monospace;font-size:10px;color:#D70030;margin-bottom:6px}
-.story-title{font-size:15px;font-weight:600;color:#1D1D1F;margin-bottom:8px}
-.story-narrative{font-size:13px;color:#6E6E73;line-height:1.7;margin-bottom:12px}
-.story-narrative strong{color:#1D1D1F}
-.story-narrative em{font-style:normal;color:#D70030}
+.actor-profile{background:#FFF;border:1px solid rgba(0,0,0,0.06);border-radius:16px;padding:20px;margin-bottom:24px;font-size:13px;color:#6E6E73;line-height:1.8}
+.actor-profile strong{color:#1D1D1F}
+.actor-profile em{font-style:normal;color:#D70030}
+
+/* Story card */
+.story{background:#FFF;border:1px solid rgba(0,0,0,0.06);border-radius:16px;padding:24px;margin-bottom:20px;position:relative}
+.story-id{font-family:monospace;font-size:10px;color:#D70030;margin-bottom:6px;letter-spacing:.04em}
+.story-title{font-size:17px;font-weight:700;color:#1D1D1F;margin-bottom:12px}
+
+/* Context box */
+.ctx{background:rgba(0,0,0,0.02);border-radius:10px;padding:14px 16px;margin-bottom:16px;font-size:12px;color:#6E6E73;line-height:1.7;border-left:3px solid #AEAEB2}
+.ctx strong{color:#1D1D1F}
+.ctx em{font-style:italic;color:#86868B}
+
+/* Scenario timeline */
+.timeline{margin:16px 0;padding-left:20px;position:relative}
+.timeline::before{content:'';position:absolute;left:6px;top:8px;bottom:8px;width:1.5px;background:rgba(0,0,0,0.06)}
+.beat{position:relative;padding:8px 0 16px 20px}
+.beat:last-child{padding-bottom:0}
+.beat::before{content:'';position:absolute;left:-17px;top:12px;width:10px;height:10px;border-radius:50%;border:2px solid #FFF;box-shadow:0 0 0 1.5px rgba(0,0,0,0.12)}
+.beat.b-hope::before{background:#34C759;box-shadow:0 0 0 1.5px #34C759}
+.beat.b-fear::before{background:#FF3B30;box-shadow:0 0 0 1.5px #FF3B30}
+.beat.b-neutral::before{background:#AEAEB2;box-shadow:0 0 0 1.5px #AEAEB2}
+.beat.b-power::before{background:#5856D6;box-shadow:0 0 0 1.5px #5856D6}
+.beat.b-relief::before{background:#007AFF;box-shadow:0 0 0 1.5px #007AFF}
+.beat.b-pride::before{background:#FF9500;box-shadow:0 0 0 1.5px #FF9500}
+.beat.b-frustration::before{background:#FF2D55;box-shadow:0 0 0 1.5px #FF2D55}
+.beat-time{font-family:monospace;font-size:10px;color:#D70030;font-weight:700}
+.beat-action{font-size:13px;font-weight:600;color:#1D1D1F;margin:2px 0}
+.beat-detail{font-size:12px;color:#6E6E73;line-height:1.6}
+.beat-emotion{font-size:10px;font-weight:600;margin-top:4px;padding:2px 8px;border-radius:4px;display:inline-block}
+.emo-hope{background:rgba(52,199,89,0.08);color:#248A3D}
+.emo-fear{background:rgba(255,59,48,0.08);color:#D70030}
+.emo-neutral{background:rgba(174,174,178,0.15);color:#636366}
+.emo-power{background:rgba(88,86,214,0.08);color:#5856D6}
+.emo-relief{background:rgba(0,122,255,0.08);color:#0055CC}
+.emo-pride{background:rgba(255,149,0,0.08);color:#CC7700}
+.emo-frustration{background:rgba(255,45,85,0.08);color:#D70030}
+
+/* Motivation box */
+.motive{background:rgba(52,199,89,0.03);border:1px solid rgba(52,199,89,0.12);border-radius:10px;padding:14px 16px;margin:12px 0;font-size:12px;color:#3A3A3C;line-height:1.7}
+.motive strong{color:#248A3D}
+.motive::before{content:'MOTIVACAO REAL';display:block;font-size:9px;font-weight:700;color:#248A3D;letter-spacing:.08em;margin-bottom:6px}
+
+/* Frustration box */
+.frust{background:rgba(255,149,0,0.03);border:1px solid rgba(255,149,0,0.12);border-radius:10px;padding:14px 16px;margin:12px 0;font-size:12px;color:#3A3A3C;line-height:1.7}
+.frust strong{color:#CC7700}
+.frust::before{content:'FRUSTRACAO ATUAL';display:block;font-size:9px;font-weight:700;color:#CC7700;letter-spacing:.08em;margin-bottom:6px}
+
+/* Failure box */
+.fail{background:rgba(215,0,48,0.02);border:1px solid rgba(215,0,48,0.1);border-radius:10px;padding:14px 16px;margin:12px 0;font-size:12px;color:#3A3A3C;line-height:1.7}
+.fail strong{color:#D70030}
+.fail::before{content:'QUANDO DA ERRADO';display:block;font-size:9px;font-weight:700;color:#D70030;letter-spacing:.08em;margin-bottom:6px}
+
+/* Edge cases */
+.edge{background:rgba(255,149,0,0.02);border:1px dashed rgba(255,149,0,0.2);border-radius:10px;padding:14px 16px;margin:12px 0;font-size:12px;color:#6E6E73;line-height:1.7}
+.edge strong{color:#1D1D1F}
+.edge::before{content:'EDGE CASES';display:block;font-size:9px;font-weight:700;color:#CC7700;letter-spacing:.08em;margin-bottom:6px}
+.edge li{margin-bottom:4px}
+
+/* Before vs After */
+.contrast{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:12px 0}
+.contrast-col{border-radius:10px;padding:14px 16px;font-size:11px;line-height:1.6}
+.contrast-before{background:rgba(255,59,48,0.03);border:1px solid rgba(255,59,48,0.1);color:#6E6E73}
+.contrast-before::before{content:'ANTES (SEM SISTEMA)';display:block;font-size:9px;font-weight:700;color:#D70030;letter-spacing:.08em;margin-bottom:6px}
+.contrast-after{background:rgba(52,199,89,0.03);border:1px solid rgba(52,199,89,0.1);color:#6E6E73}
+.contrast-after::before{content:'DEPOIS (COM SISTEMA)';display:block;font-size:9px;font-weight:700;color:#248A3D;letter-spacing:.08em;margin-bottom:6px}
+.contrast-col strong{color:#1D1D1F}
+
+/* Screen + criteria */
 .story-screen{display:inline-flex;align-items:center;gap:4px;font-family:monospace;font-size:10px;color:#D70030;background:rgba(215,0,48,0.04);padding:3px 8px;border-radius:4px;margin:2px}
-.story-criteria{margin-top:10px;padding-top:10px;border-top:1px solid rgba(0,0,0,0.04)}
-.story-criteria h4{font-size:10px;font-weight:700;color:#86868B;text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px}
-.criteria-item{font-size:11px;color:#6E6E73;padding:3px 0 3px 16px;position:relative;line-height:1.4}
+.story-criteria{margin-top:14px;padding-top:14px;border-top:1px solid rgba(0,0,0,0.04)}
+.story-criteria h4{font-size:10px;font-weight:700;color:#86868B;text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px}
+.criteria-item{font-size:11px;color:#6E6E73;padding:3px 0 3px 16px;position:relative;line-height:1.5}
 .criteria-item::before{content:'';position:absolute;left:0;top:8px;width:8px;height:8px;border-radius:2px;border:1.5px solid #34C759}
-.divider{height:1px;background:rgba(0,0,0,0.06);margin:40px 0}
+
+.divider{height:1px;background:rgba(0,0,0,0.06);margin:48px 0}
 .tag{display:inline-block;font-size:9px;font-weight:600;padding:2px 6px;border-radius:3px;margin-left:4px}
 .tag-new{background:rgba(52,199,89,0.1);color:#34C759}
 .tag-exists{background:rgba(0,122,255,0.1);color:#0055CC}
+
+/* Framework section */
+.framework{background:#FFF;border:1px solid rgba(215,0,48,0.1);border-radius:16px;padding:24px;margin-bottom:48px}
+.framework h2{font-size:18px;font-weight:700;color:#D70030;margin-bottom:12px;border:none;padding:0}
+.framework p{font-size:13px;color:#6E6E73;margin-bottom:10px}
+.layer{display:flex;gap:10px;align-items:flex-start;padding:6px 0;font-size:12px}
+.layer-num{width:22px;height:22px;border-radius:6px;background:#D70030;color:#FFF;font-size:10px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.layer-name{font-weight:700;color:#1D1D1F}
+.layer-desc{color:#6E6E73}
 </style>
 </head>
 <body>
 
 <h1>Historias de Usuario</h1>
-<p class="sub">Cada historia descreve o que o ator faz, por que, e qual tela resolve. Criterios de aceite validam se a tela atende.</p>
+<p class="sub">21 historias · 5 atores · profundidade absurda: cenario real, emocao, motivacao, frustracao, falhas, edge cases, antes vs depois</p>
 
-<!-- ═══════════ DONO ═══════════ -->
+<!-- ═══════════ FRAMEWORK ═══════════ -->
+<div class="framework">
+  <h2>Framework de Detalhamento</h2>
+  <p>Cada historia neste documento foi escrita como se estivessemos sentados ao lado do ator, observando o que faz, sente e pensa. Nao e uma lista de features — e a vida real de quem usa o sistema.</p>
+  <div class="layer"><div class="layer-num">1</div><div><span class="layer-name">Contexto</span> — <span class="layer-desc">Dia, hora, onde esta, o que aconteceu antes, estado emocional de entrada</span></div></div>
+  <div class="layer"><div class="layer-num">2</div><div><span class="layer-name">Cenario Real</span> — <span class="layer-desc">Minuto a minuto com timestamps, o que ve, clica, pensa, decide</span></div></div>
+  <div class="layer"><div class="layer-num">3</div><div><span class="layer-name">Arco Emocional</span> — <span class="layer-desc">Emocao em cada beat (esperanca, frustracao, alivio, orgulho, medo)</span></div></div>
+  <div class="layer"><div class="layer-num">4</div><div><span class="layer-name">Motivacao Real</span> — <span class="layer-desc">Dinheiro? Controle? Escala? Medo de perder clientes? Status?</span></div></div>
+  <div class="layer"><div class="layer-num">5</div><div><span class="layer-name">Frustracao Atual</span> — <span class="layer-desc">O que e horrivel hoje sem o sistema, com detalhes reais</span></div></div>
+  <div class="layer"><div class="layer-num">6</div><div><span class="layer-name">Quando Da Errado</span> — <span class="layer-desc">Cenario de falha com resolucao completa, nao so happy path</span></div></div>
+  <div class="layer"><div class="layer-num">7</div><div><span class="layer-name">Edge Cases</span> — <span class="layer-desc">Situacoes incomuns com tratamento especifico</span></div></div>
+  <div class="layer"><div class="layer-num">8</div><div><span class="layer-name">Tela + Criterios</span> — <span class="layer-desc">Qual tela resolve e criterios de aceite detalhados</span></div></div>
+  <div class="layer"><div class="layer-num">9</div><div><span class="layer-name">Antes vs Depois</span> — <span class="layer-desc">Contraste brutal entre o processo manual e o sistema</span></div></div>
+</div>
+
+
+<!-- ══════════════════════════════════════════════════════════ -->
+<!--                        DONO                               -->
+<!-- ══════════════════════════════════════════════════════════ -->
 <div class="actor">
   <div class="actor-header">
     <div class="actor-badge" style="background:linear-gradient(135deg,#D70030,#8B0000)">D</div>
-    <div><div class="actor-name">Dono da Agencia</div><div class="actor-desc">Ex: Antonio Silva · Contrata o sistema, configura empresa, delega pro gestor</div></div>
+    <div><div class="actor-name">Dono da Agencia</div><div class="actor-desc">Antonio Silva · 47 anos · Fundou o Grupo Silva ha 6 anos</div></div>
   </div>
 
+  <div class="actor-profile">
+    <strong>Quem e Antonio:</strong> Dono do Grupo Silva, agencia de posicionamento founder-led growth. 400 clientes ativos, 6 SMs, 1 designer, 2 gestores. Faturamento R$400K MRR. Margem bruta 62% — mas caindo porque a folha cresce mais rapido que a receita. Antonio nao e tecnico — e comercial. Vende posicionamento como ninguem, mas sofre pra entregar em escala. <em>Perdeu 3 SMs em 2025.</em> Cada saida custou ~R$45K entre treinamento perdido, clientes insatisfeitos e transicao. Antonio esta no limite: ou automatiza ou para de crescer.<br><br>
+    <strong>O que Antonio imagina quando pensa em IA:</strong> Nao e um chatbot respondendo pergunta. E uma <em>fabrica de conteudo que funciona de madrugada</em> — pesquisando, escrevendo, desenhando — e quando ele abre o notebook de manha, tudo esta pronto. Ele imagina os cerebros dos founders dele sendo transformados em <em>agentes sinteticos de copilot</em> que produzem conteudo mesmo quando o founder some. Essa visao e o que o faz clicar "Comecar agora".
+  </div>
+
+  <!-- ═══ US-D01 ═══ -->
   <div class="story">
     <div class="story-id">US-D01 — Conhecer o produto</div>
-    <div class="story-title">Antonio ve a LP e entende o que o sistema faz</div>
-    <div class="story-narrative">Antonio e dono de uma agencia de posicionamento com 400 clientes. Ele viu um anuncio, clicou, e caiu na <em>landing page</em>. Precisa entender em 30 segundos: <strong>o que e, pra quem e, e como funciona</strong>. Ve as dores, o framework de 5 fases, o motor de 12 etapas, e um chat demo mostrando a IA em acao. Convencido, clica em <strong>"Comecar agora"</strong>.</div>
+    <div class="story-title">Antonio ve a landing page e decide que precisa disso</div>
+
+    <div class="ctx">
+      <strong>Terca-feira, 22:47.</strong> Antonio esta no escritorio. Acabou de mandar mensagem pra Juliana (SM) que pediu demissao — a terceira este ano. 400 clientes, agora 5 SMs. Cada um vai ter que cobrir 80 clientes. <em>A qualidade vai cair. Ele sabe.</em> Abre o Instagram pra desligar a cabeca. Ve um anuncio: <strong>"7 funcionarios IA que nunca pedem demissao. Sua agencia rodando 24/7."</strong> Ele nao confia — ja viu promessas assim 4 vezes. Mas a dor de agora e grande demais. Clica.
+    </div>
+
+    <div class="timeline">
+      <div class="beat b-neutral">
+        <div class="beat-time">22:47 — Clica no anuncio, LP carrega</div>
+        <div class="beat-action">Primeiros 5 segundos: headline + subheadline</div>
+        <div class="beat-detail">"Sistema operacional de posicionamento digital." Antonio pensa: "Hmm, nao e mais um agendador." Ve abaixo: "Pra agencias que posicionam founders como autoridade." Isso e EXATAMENTE o que ele faz. Nao e generico.</div>
+        <div class="beat-emotion emo-neutral">Curiosidade cautelosa</div>
+      </div>
+      <div class="beat b-hope">
+        <div class="beat-time">22:48 — Rola pra secao de dores</div>
+        <div class="beat-action">Le as 6 dores e se reconhece em cada uma</div>
+        <div class="beat-detail">"SM que cuida de 120 clientes e posta generico" — isso e a Maria. "Founder some depois do primeiro mes" — isso e 60% dos clientes dele. "Pesquisa manual de concorrentes rasa" — isso e todos os SMs dele. Antonio para de rolar. <strong>Pela primeira vez em 4 ferramentas, alguem entende o problema dele.</strong></div>
+        <div class="beat-emotion emo-hope">Reconhecimento — "isso sou eu"</div>
+      </div>
+      <div class="beat b-hope">
+        <div class="beat-time">22:49 — Framework de 5 fases + motor de 12 etapas</div>
+        <div class="beat-action">Entende que e um MOTOR DE PRODUCAO, nao um chatbot</div>
+        <div class="beat-detail">Diagnostico → Identidade → Estrategia → Producao → Metricas. E o que ele faz manualmente, mas automatizado. O motor mostra: pesquisa → pauta → roteiro → design → aprovacao SM → aprovacao founder → agendamento → publicacao → monitoramento → analise → feedback → otimizacao. Antonio conta: <strong>12 etapas que hoje custam 2h por cliente por dia. Com 400 clientes = 800 horas/dia. Impossivel sem IA.</strong></div>
+        <div class="beat-emotion emo-hope">Esperanca crescente — "isso faz sentido matematicamente"</div>
+      </div>
+      <div class="beat b-power">
+        <div class="beat-time">22:50 — Chat demo interativo</div>
+        <div class="beat-action">Clica no chat. Sensei responde com inteligencia do NICHO dele.</div>
+        <div class="beat-detail">Antonio digita "SaaS B2B" como nicho. Sensei responde: "Achei 3 brechas no mercado SaaS B2B: ninguem fala de unit economics com dados reais, bastidores de fundraising sao raros, e artigos tecnicos com storytelling viral sao inexistentes. Quer que eu monte uma pauta?" Antonio pensa: <strong>"Isso normalmente leva 2 horas pro SM fazer. E faz mal. O bot fez em 3 segundos."</strong></div>
+        <div class="beat-emotion emo-power">Empolgacao — "se isso funcionar, eu escalo pra 800"</div>
+      </div>
+      <div class="beat b-pride">
+        <div class="beat-time">22:51 — Secao "7 Colaboradores Digitais"</div>
+        <div class="beat-action">Ve os 7 agentes como funcionarios com nome, funcao, copiloto humano</div>
+        <div class="beat-detail">Scout pesquisa. Quill escreve. Canvas desenha. Pulse cobra no WhatsApp. Director faz video. Sensei orquestra. Metrics analisa. Antonio imagina: <strong>"Maria + Quill = Maria revisando o que o Quill escreveu de madrugada. Nao escrevendo do zero. 120 clientes viram possiveis."</strong> Ele ja esta fazendo conta: se o Quill escreve 80% do conteudo, Maria so revisa 20%. 1 SM pra 120 clientes vira sustentavel.</div>
+        <div class="beat-emotion emo-pride">Visao — "minha agencia pode ser 3x maior com o mesmo time"</div>
+      </div>
+      <div class="beat b-hope">
+        <div class="beat-time">22:52 — Clica "Comecar agora"</div>
+        <div class="beat-action">Decisao tomada. O calculo convenceu.</div>
+        <div class="beat-detail">Antonio fez a conta: 400→800 clientes. Hoje precisaria de 12 SMs (R$96K folha). Com o sistema: 9 SMs (R$72K). Economia de R$24K/mes + margem por cliente AUMENTA. O custo da plataforma se pagar em 30 dias. Clica.</div>
+        <div class="beat-emotion emo-hope">Decisao racional com emocao — "vou testar, o risco e baixo"</div>
+      </div>
+    </div>
+
+    <div class="motive">
+      <strong>Margem.</strong> Hoje: 400 clientes × R$1.000 = R$400K MRR. Custos de time: ~R$110K. Margem operacional: ~R$290K. Se escalar pra 800 clientes sem IA: custo sobe pra R$220K (12 SMs). Margem: R$580K mas % cai. Com IA: custo sobe pra R$155K (9 SMs + plataforma). Margem: R$645K e % SOBE. A motivacao nao e "automatizar" — e <strong>escalar com margem crescente</strong>.
+    </div>
+
+    <div class="frust">
+      Antonio passou 2025 tentando escalar. Contratou 3 SMs — 2 sairam em 4 meses. Treinamento de 3 meses perdido cada vez. Tentou Hootsuite (so agenda, nao cria), Jasper (escreve generico sem personalizacao por cliente), MLabs (brasileiro mas igual). <strong>Nenhuma ferramenta entendeu que o problema e PRODUCAO PER-CLIENT em escala, nao agendamento.</strong> Antonio gastou R$12K em ferramentas que nao resolveram nada.
+    </div>
+
+    <div class="fail">
+      <strong>Cenario:</strong> Antonio clica no anuncio no celular (80% do trafego pago vem de mobile). A LP carrega mas o chat demo nao funciona — JavaScript falhou no Safari 16. Antonio ve um espaco vazio onde deveria ter o chat. "Mais do mesmo. Promete e nao entrega." Fecha a aba. <strong>Perdemos um lead de R$400K MRR/ano.</strong><br><br>
+      <strong>Resolucao:</strong> Chat demo precisa de fallback: se JS falhar, mostrar screenshots do chat com texto estatico. Testar em Safari 15+, Chrome, Firefox mobile. Lazy load com placeholder visual. Nunca tela vazia.
+    </div>
+
+    <div class="edge">
+      <ul>
+        <li><strong>Antonio abre no tablet 11" horizontal:</strong> LP precisa funcionar em viewport 1024px. Grid de 7 agentes nao pode quebrar.</li>
+        <li><strong>Antonio mostra pro socio:</strong> Socio pergunta "quanto custa?" — pricing precisa estar visivel sem scroll infinito. Se nao tem pricing na LP, pelo menos "Agende uma demo com valores".</li>
+        <li><strong>Antonio e daltônico (8% dos homens):</strong> Contraste vermelho/verde nos scores nao pode ser a unica distincao. Usar icones + texto alem de cor.</li>
+        <li><strong>LP em portugues mas Antonio tem clientes gringos:</strong> Toggle EN/PT ou detectar idioma? V1 = so PT-BR.</li>
+      </ul>
+    </div>
+
+    <div class="contrast">
+      <div class="contrast-col contrast-before">
+        <strong>Antonio busca ferramenta:</strong> Googla "ferramenta social media agencia". Acha 15 opcoes. Todas prometem "agendar posts". Nenhuma fala de producao per-client. Nenhuma entende founder-led growth. Antonio fecha todas as abas frustrado. Tempo perdido: 2 horas.
+      </div>
+      <div class="contrast-col contrast-after">
+        <strong>Antonio ve a LP:</strong> Em 4 minutos entende: motor de producao 24/7, 7 agentes IA como funcionarios, modelo hibrido IA+humano, escala com margem. Chat demo provou com o nicho dele. Decisao tomada. Tempo: 4 minutos. Zero duvida sobre o que faz.
+      </div>
+    </div>
+
     <span class="story-screen">landing.html</span> <span class="tag tag-exists">existe</span>
     <div class="story-criteria">
       <h4>Criterios de aceite</h4>
-      <div class="criteria-item">LP explica o produto sem jargao tecnico</div>
-      <div class="criteria-item">Chat demo mostra interacao real com IA</div>
-      <div class="criteria-item">CTA "Comecar agora" leva pro signup</div>
-      <div class="criteria-item">LP funciona no mobile</div>
+      <div class="criteria-item">LP explica em 30s: o que e (motor de producao), pra quem (agencias de posicionamento), como funciona (7 agentes + modelo hibrido)</div>
+      <div class="criteria-item">6 dores especificas de agencias de posicionamento (nao genericas "aumente vendas")</div>
+      <div class="criteria-item">Chat demo interativo que responde ao nicho digitado — com brechas de mercado reais</div>
+      <div class="criteria-item">7 agentes apresentados como funcionarios (nome, funcao, copiloto humano)</div>
+      <div class="criteria-item">CTA "Comecar agora" visivel sem scroll no mobile (above the fold)</div>
+      <div class="criteria-item">Funciona 100% em mobile Safari/Chrome, tablet, desktop</div>
+      <div class="criteria-item">Chat demo tem fallback visual se JS falhar (nunca espaco vazio)</div>
+      <div class="criteria-item">Tempo de carregamento < 3s em 4G (LCP < 2.5s)</div>
     </div>
   </div>
 
+  <!-- ═══ US-D02 ═══ -->
   <div class="story">
     <div class="story-id">US-D02 — Criar conta</div>
-    <div class="story-title">Antonio cria a conta conversando com o Sensei</div>
-    <div class="story-narrative">Antonio clica "Comecar agora" e o <em>Sensei</em> aparece num chat. Pergunta: nome, email, empresa, nicho. <strong>Nao tem formulario</strong> — e uma conversa. Ao final, Antonio cria email e senha e ja entra no setup da empresa.</div>
+    <div class="story-title">Antonio cria a conta conversando com o Sensei — zero formulario</div>
+
+    <div class="ctx">
+      <strong>22:52, mesmo dia.</strong> Antonio clicou "Comecar agora". Esta empolgado mas desconfiado. Ja se cadastrou em 4 plataformas que nao usou. Se aparecer um formulario de 15 campos, ele vai fechar. <em>Precisa sentir que o sistema e inteligente desde o primeiro segundo.</em>
+    </div>
+
+    <div class="timeline">
+      <div class="beat b-relief">
+        <div class="beat-time">22:52 — Tela de signup carrega</div>
+        <div class="beat-action">Nao tem formulario. Tem um chat. Sensei se apresenta.</div>
+        <div class="beat-detail">"Ola! Sou o Sensei, vou ser seu copiloto. Me conta: qual o nome da sua agencia?" Antonio digita "Grupo Silva". Sensei: "Grupo Silva — quantos clientes vocês atendem hoje?" "400". Sensei: "400 clientes e volume serio. Vou configurar pra escala desde o inicio."</div>
+        <div class="beat-emotion emo-relief">Surpresa positiva — "nao e formulario, e conversa"</div>
+      </div>
+      <div class="beat b-power">
+        <div class="beat-time">22:53 — Sensei faz perguntas inteligentes</div>
+        <div class="beat-action">Nicho, principal dor, quantos SMs, meta de crescimento</div>
+        <div class="beat-detail">"Qual o nicho dos seus clientes?" "Founders de SaaS, medicos, advogados, consultores." Sensei: "Nicho diverso — vou ativar modelos de tom de voz por segmento. SaaS e provocador com dados. Medico e autoridade com evidencia. Advogado e institucional com case." <strong>Antonio sente que o sistema ENTENDE segmentacao.</strong></div>
+        <div class="beat-emotion emo-power">Confianca — "esse sistema sabe o que esta fazendo"</div>
+      </div>
+      <div class="beat b-neutral">
+        <div class="beat-time">22:54 — Email e senha</div>
+        <div class="beat-action">Sensei pede email e sugere criar senha forte</div>
+        <div class="beat-detail">"Agora preciso do seu email e uma senha pra proteger os dados dos 400 clientes." Antonio digita. Sensei: "Perfeito. Conta criada. Vou te levar pro setup da empresa — leva 5 minutos."</div>
+        <div class="beat-emotion emo-neutral">Rotina — rapido, sem friccao</div>
+      </div>
+    </div>
+
+    <div class="motive">
+      Antonio quer <strong>velocidade com inteligencia</strong>. Ele NAO quer preencher 20 campos. Quer conversar e sentir que o sistema esta aprendendo sobre a agencia dele enquanto conversa. O chat de onboarding e a primeira demonstracao de que a IA funciona — se o Sensei for burro aqui, Antonio desiste.
+    </div>
+
+    <div class="fail">
+      <strong>Cenario:</strong> Antonio digita "teste" como nome de empresa e "aaa@aaa.com" como email — so quer ver o sistema por dentro. O Sensei aceita tudo e cria uma conta lixo. 3 dias depois Antonio volta pra usar de verdade mas a conta "teste" ja existe. Tem que criar outra ou pedir reset.<br><br>
+      <strong>Resolucao:</strong> Sensei detecta nomes suspeitos ("teste", "test", "asdf") e pergunta: "Esse e o nome real da empresa ou voce quer explorar antes de configurar? Posso te dar um tour sem criar conta." Opcao de sandbox.
+    </div>
+
+    <div class="edge">
+      <ul>
+        <li><strong>Google OAuth falha:</strong> Fallback pra email/senha manual. Nunca tela de erro sem alternativa.</li>
+        <li><strong>Antonio volta no dia seguinte:</strong> O progresso do chat precisa estar salvo. Se ele digitou nome e nicho, nao pode ter que repetir.</li>
+        <li><strong>Antonio compartilha o link com o socio:</strong> Cada link de signup e unico? Ou o socio cria conta separada? R: Mesma empresa, papeis diferentes (Owner + Co-Owner).</li>
+      </ul>
+    </div>
+
     <span class="story-screen">signup.html</span> <span class="tag tag-exists">existe</span>
     <div class="story-criteria">
       <h4>Criterios de aceite</h4>
-      <div class="criteria-item">Onboarding e 100% via chat (zero formulario)</div>
-      <div class="criteria-item">Pede email e senha pra criar conta</div>
-      <div class="criteria-item">Sensei se apresenta e conduz</div>
-      <div class="criteria-item">Ao finalizar, redireciona pro setup-empresa</div>
+      <div class="criteria-item">Onboarding 100% via chat — zero formulario HTML</div>
+      <div class="criteria-item">Sensei se apresenta, faz perguntas na ordem: nome, clientes, nicho, email, senha</div>
+      <div class="criteria-item">Resposta inteligente ao nicho (nao generica) — mostra que entende segmentacao</div>
+      <div class="criteria-item">Email + senha ao final. Google OAuth como atalho.</div>
+      <div class="criteria-item">Progresso salvo — se fechar e voltar, continua de onde parou</div>
+      <div class="criteria-item">Ao finalizar: redirect automatico pro setup-empresa</div>
     </div>
   </div>
 
+  <!-- ═══ US-D03 ═══ -->
   <div class="story">
     <div class="story-id">US-D03 — Configurar a empresa</div>
-    <div class="story-title">Antonio configura essencia, metodologia, departamentos e agentes</div>
-    <div class="story-narrative">Antonio passa por <strong>5 passos</strong>: (1) <em>Essencia</em> via chat — nome, nicho, proposta de valor. (2) <em>Metodologia</em> — monta o framework da agencia arrastando blocos (Diagnostico → Identidade → Estrategia → Producao → Metricas). (3) <em>Departamentos</em> — Marketing, Comercial, CS, Financeiro — Sim ou Nao. (4) <em>Agentes IA</em> — seleciona quais dos 7 vai usar. (5) <em>Resumo</em> — confirma tudo.</div>
+    <div class="story-title">Antonio configura essencia, metodologia, departamentos e agentes em 5 passos</div>
+
+    <div class="ctx">
+      <strong>22:55, continua a mesma noite.</strong> Antonio acabou de criar a conta. O sistema o levou direto pro setup. Ele quer ver valor rapido — se demorar mais de 10 minutos sem mostrar resultado, fecha e "vejo amanha" (e nao volta). <em>O setup precisa ser rapido E mostrar valor a cada passo.</em>
+    </div>
+
+    <div class="timeline">
+      <div class="beat b-relief">
+        <div class="beat-time">Passo 1 — Essencia (via chat, 2 min)</div>
+        <div class="beat-action">Sensei pergunta: nome, proposta de valor, tom da agencia</div>
+        <div class="beat-detail">"Grupo Silva posiciona founders como autoridade. Qual o tom da comunicacao?" Antonio: "Provocador com dados." Sensei: "Entendi. Tom provocador com dados — vou configurar o Quill pra escrever assim. Seus SMs vao revisar, nao reescrever."</div>
+        <div class="beat-emotion emo-relief">Fluido — "parece que esta aprendendo sobre mim"</div>
+      </div>
+      <div class="beat b-pride">
+        <div class="beat-time">Passo 2 — Metodologia (builder drag&drop, 3 min)</div>
+        <div class="beat-action">Antonio monta o framework da agencia arrastando blocos</div>
+        <div class="beat-detail">5 blocos disponiveis: Diagnostico, Identidade, Estrategia, Producao, Metricas. Antonio arrasta na ordem dele. Pode renomear: "Producao" → "Motor Editorial". Sensei: "Metodologia montada com 5 fases. Vou usar isso como estrutura dos agentes — Scout faz Diagnostico, Quill faz Motor Editorial." <strong>Antonio ve que a metodologia DELE vira a logica da IA. Nao e generica.</strong></div>
+        <div class="beat-emotion emo-pride">Orgulho — "a IA vai trabalhar do JEITO que eu trabalho"</div>
+      </div>
+      <div class="beat b-neutral">
+        <div class="beat-time">Passo 3 — Departamentos (Sim/Nao, 30s)</div>
+        <div class="beat-action">Marketing? Sim. Comercial? Sim. CS? Sim. Financeiro? Nao.</div>
+        <div class="beat-detail">Cada departamento ativado cria contexto pros agentes. Marketing ativo = Quill escreve, Canvas desenha. Comercial ativo = Sensei prioriza leads quentes. CS ativo = Pulse monitora satisfacao. Financeiro? Antonio nao quer — "meu financeiro e no ERP, nao aqui."</div>
+        <div class="beat-emotion emo-neutral">Rapido e claro</div>
+      </div>
+      <div class="beat b-power">
+        <div class="beat-time">Passo 4 — Agentes IA (selecao, 1 min)</div>
+        <div class="beat-action">7 agentes apresentados. Antonio ativa todos.</div>
+        <div class="beat-detail">Cada agente com: nome, icone, funcao, exemplo de output real. Antonio clica em cada: Scout ("Pesquisei 3 brechas do @concorrente_joao"), Quill ("Escrevi roteiro '5 erros de CEO' score 92%"), Canvas ("Gerei 3 opcoes de carrossel"), Pulse ("Enviei 47 mensagens no WA, 12 aprovacoes"), Director ("Criei 4 fotos com avatar do Joao"), Sensei ("Redistribui 20 clientes da Maria pro Carlos"), Metrics ("ER medio 4.2%, trending: threads no LI"). <strong>Antonio ativa TODOS — quer o pacote completo.</strong></div>
+        <div class="beat-emotion emo-power">Empolgacao — "7 funcionarios que nunca dormem"</div>
+      </div>
+      <div class="beat b-pride">
+        <div class="beat-time">Passo 5 — Resumo (confirmacao, 30s)</div>
+        <div class="beat-action">Ve tudo que configurou antes de confirmar</div>
+        <div class="beat-detail">Grupo Silva · Tom provocador com dados · 5 fases (Diagnostico→Identidade→Estrategia→Motor Editorial→Metricas) · 3 departamentos · 7 agentes ativos. Sensei: "Sua empresa inteligente esta pronta. Vou criar os 7 colaboradores digitais agora." Botao: "Ativar empresa". Antonio clica.</div>
+        <div class="beat-emotion emo-pride">Realizacao — "configurei minha empresa IA em 7 minutos"</div>
+      </div>
+    </div>
+
+    <div class="fail">
+      <strong>Cenario:</strong> Antonio monta a metodologia no passo 2, mas no passo 4 muda de ideia — quer tirar "CS" dos departamentos. O wizard nao permite voltar. Antonio tem que cancelar e recomeca do zero.<br><br>
+      <strong>Resolucao:</strong> Steps indicator clicavel. Pode voltar pra qualquer passo sem perder dados dos passos ja completos. Cada passo salva automaticamente.
+    </div>
+
     <span class="story-screen">setup-empresa.html</span> <span class="tag tag-exists">existe</span>
     <div class="story-criteria">
       <h4>Criterios de aceite</h4>
-      <div class="criteria-item">Passo 1 e via chat (nao formulario)</div>
-      <div class="criteria-item">Passo 2 tem builder drag&drop funcional</div>
-      <div class="criteria-item">Passo 3 e Sim/Nao por departamento</div>
-      <div class="criteria-item">Passo 4 mostra os 7 agentes com descricao</div>
-      <div class="criteria-item">Passo 5 resume tudo antes de confirmar</div>
+      <div class="criteria-item">5 passos com progress bar clicavel (pode voltar sem perder dados)</div>
+      <div class="criteria-item">Passo 1 via chat (nao formulario) — Sensei conduz</div>
+      <div class="criteria-item">Passo 2 builder drag&drop funcional com rename de blocos</div>
+      <div class="criteria-item">Passo 3 toggles Sim/Nao por departamento com descricao do impacto</div>
+      <div class="criteria-item">Passo 4 cada agente com exemplo de output real, nao descricao generica</div>
+      <div class="criteria-item">Passo 5 resumo completo com botao "Ativar empresa"</div>
+      <div class="criteria-item">Tempo total < 10 minutos</div>
     </div>
   </div>
 
+  <!-- ═══ US-D04 ═══ -->
   <div class="story">
     <div class="story-id">US-D04 — Ver a Empresa Inteligente</div>
-    <div class="story-title">Antonio ve os 7 colaboradores digitais que acabou de criar</div>
-    <div class="story-narrative">Depois do setup, Antonio ve a tela <em>Empresa Inteligente</em> — seus 7 agentes como funcionarios digitais. Cada um mostra: <strong>o que fez hoje</strong> (producao), <strong>score de performance</strong>, e <strong>qual funcionario real e o copiloto</strong>. Antonio entende que o Scout pesquisa, o Quill escreve, o Canvas desenha — e que eles trabalham 24/7.</div>
+    <div class="story-title">Antonio abre a tela e sente EMPOLGACAO — ve os 7 agentes como sua equipe IA</div>
+
+    <div class="ctx">
+      <strong>22:57, logo apos o setup.</strong> Antonio acabou de configurar a empresa. O sistema o leva automaticamente pra tela "Empresa Inteligente". Este e o momento mais importante do onboarding — e quando Antonio SENTE o valor. Ele precisa olhar e pensar: <em>"Minha empresa agora tem 7 funcionarios que nunca dormem."</em> Se essa tela for uma lista generica de cards, o momento magico morre.
+    </div>
+
+    <div class="timeline">
+      <div class="beat b-pride">
+        <div class="beat-time">22:57 — Tela carrega. 7 agentes como organograma</div>
+        <div class="beat-action">Antonio ve a Empresa Inteligente como um CEO ve seu board</div>
+        <div class="beat-detail">Nao e uma lista de cards. E um <strong>organograma vivo</strong>: Sensei no centro (CEO IA), Scout e Metrics embaixo (Inteligencia), Quill e Canvas ao lado (Producao), Pulse e Director na base (Distribuicao). Cada agente mostra: nome, icone, funcao, status (online/offline), producao de hoje, score de performance, e <strong>qual funcionario real e o copiloto</strong>. Scout: "12 pesquisas hoje, 8 brechas". Quill: "34 roteiros, score medio 89%. Copiloto: Maria Silva". <strong>Antonio imagina o cerebro dos founders sendo transformado em agentes sinteticos — cada Brand Book vira uma instancia do Quill personalizada.</strong></div>
+        <div class="beat-emotion emo-pride">EMPOLGACAO — o momento "minha empresa funciona sozinha"</div>
+      </div>
+      <div class="beat b-power">
+        <div class="beat-time">22:58 — Clica no Scout pra ver detalhe</div>
+        <div class="beat-action">Ve o que o Scout esta fazendo AGORA por cada cliente</div>
+        <div class="beat-detail">Scout: "Monitorando 47 concorrentes em 12 nichos. Ultima brecha encontrada: @techlead_br nao publica sobre unit economics — pauta sugerida pro Joao Mendes com score de oportunidade 92%." Antonio entende: <strong>cada agente trabalha PER-CLIENT, nao generico.</strong> O Scout do Joao e diferente do Scout da Ana — cada um com concorrentes e brechas especificas.</div>
+        <div class="beat-emotion emo-power">Controle — "sei exatamente o que cada agente faz"</div>
+      </div>
+    </div>
+
+    <div class="motive">
+      Antonio precisa sentir que nao esta "usando mais uma ferramenta" — esta <strong>gerenciando uma empresa paralela</strong>. Os 7 agentes sao FUNCIONARIOS DELE. Ele quer olhar pro organograma e sentir que, pela primeira vez, nao depende 100% de humanos que podem pedir demissao amanha. A motivacao aqui e <strong>independencia operacional</strong>.
+    </div>
+
+    <div class="frust">
+      Hoje Antonio gerencia via planilha + WhatsApp. Nao sabe quantos posts cada SM fez hoje. Descobre que a Maria nao postou pro Joao quando o Joao reclama. Nao tem visao consolidada de NADA. A "empresa" dele e um grupo de WhatsApp com 8 pessoas onde tudo se perde. <strong>A tela Empresa Inteligente e a primeira vez que ele ve TUDO em um lugar so.</strong>
+    </div>
+
+    <div class="contrast">
+      <div class="contrast-col contrast-before">
+        <strong>Visao de Antonio hoje:</strong> Grupo WhatsApp com 8 pessoas. Mensagens se perdem. "Maria, postou pro Joao?" Silencio. "Felipe, quantos posts essa semana?" "Vou contar..." 2 horas depois: "142, eu acho." Nenhum dado real-time. Nenhuma visao consolidada. Zero controle.
+      </div>
+      <div class="contrast-col contrast-after">
+        <strong>Empresa Inteligente:</strong> 7 agentes com producao real-time. Scout: 12 pesquisas. Quill: 34 roteiros (score 89%). Canvas: 18 designs. Pulse: 47 mensagens. Metrics: ER 4.2%. Tudo atualizado. Tudo per-client. Tudo clicavel. Antonio toma cafe e VE a empresa funcionando.
+      </div>
+    </div>
+
     <span class="story-screen">agents-overview.html</span> <span class="tag tag-new">NOVA V3</span>
     <div class="story-criteria">
       <h4>Criterios de aceite</h4>
-      <div class="criteria-item">7 agentes listados com icone, nome, funcao</div>
-      <div class="criteria-item">Producao de hoje (quantidade de acoes)</div>
-      <div class="criteria-item">Score de performance por agente</div>
-      <div class="criteria-item">Mostra qual funcionario e copiloto de cada agente</div>
-      <div class="criteria-item">Clica no agente → vai pro detalhe</div>
+      <div class="criteria-item">Organograma visual (nao lista) dos 7 agentes com hierarquia: Sensei (centro) → Producao/Inteligencia/Distribuicao</div>
+      <div class="criteria-item">Cada agente: icone, nome, funcao, status, producao hoje (numero), score, copiloto humano vinculado</div>
+      <div class="criteria-item">Clica no agente → detalhe com acoes per-client e historico</div>
+      <div class="criteria-item">Indicador visual quando agente esta processando algo (animacao sutil)</div>
+      <div class="criteria-item">Producao total consolidada no topo: "Hoje: 147 acoes, 34 roteiros, 18 designs"</div>
+      <div class="criteria-item">Se nenhum agente tem producao (empresa recem-criada): mensagem "Seus agentes estao calibrando. Em 24h voce vera producao aqui." — nao tela vazia</div>
     </div>
   </div>
 
+  <!-- ═══ US-D05 ═══ -->
   <div class="story">
     <div class="story-id">US-D05 — Convidar funcionarios</div>
-    <div class="story-title">Antonio convida Maria, Felipe, Rafaela pra equipe</div>
-    <div class="story-narrative">Antonio vai em <em>Equipe</em> e clica <strong>"Convidar"</strong>. Preenche: nome, email, cargo (SM, Gestor, Designer). O sistema <strong>sugere automaticamente</strong> o agente copiloto ideal: SM → Quill, Designer → Canvas, Gestor → Sensei. Antonio confirma e o email vai. O funcionario recebe, cria senha, e ja entra sabendo quem e seu copiloto IA.</div>
+    <div class="story-title">Antonio convida Maria, Felipe e Rafaela — cada um com copiloto IA sugerido</div>
+
+    <div class="ctx">
+      <strong>Quarta-feira, 09:15.</strong> Antonio dormiu empolgado. Primeira coisa de manha: convidar a equipe. Ele PRECISA que os 6 SMs, 1 designer e 2 gestores entrem no sistema rapido — sem treinamento de 2 dias. <em>Se o convite for complicado ou o funcionario nao entender o que e o copiloto, a adocao morre.</em>
+    </div>
+
+    <div class="timeline">
+      <div class="beat b-neutral">
+        <div class="beat-time">09:15 — Abre Equipe, clica "Convidar"</div>
+        <div class="beat-action">Preenche: Maria Silva, maria@gruposilva.com, Social Media</div>
+        <div class="beat-detail">O campo "Cargo" tem opcoes: Social Media, Gestor, Designer, Outro. Ao selecionar "Social Media", o sistema <strong>sugere automaticamente</strong>: "Copiloto recomendado: Quill (Copywriter IA) — match ideal pra Social Media. O Quill escreve roteiros de madrugada e a Maria revisa de manha." Antonio pode aceitar ou trocar.</div>
+        <div class="beat-emotion emo-neutral">Fluido — "o sistema ja sabe quem e o par ideal"</div>
+      </div>
+      <div class="beat b-hope">
+        <div class="beat-time">09:16 — Preview do email de convite</div>
+        <div class="beat-action">Ve exatamente o que Maria vai receber</div>
+        <div class="beat-detail">"Maria, voce foi convidada pro Grupo Silva no KTANA Social. Seu copiloto IA e o Quill — ele vai escrever roteiros pra voce revisar. Clique aqui pra criar sua conta." Antonio gosta: <strong>o email ja explica o papel do copiloto. Maria nao vai chegar perdida.</strong></div>
+        <div class="beat-emotion emo-hope">Tranquilidade — "Maria vai entender na hora"</div>
+      </div>
+      <div class="beat b-relief">
+        <div class="beat-time">09:20 — Convidou todos: 6 SMs, 2 gestores, 1 designer</div>
+        <div class="beat-action">Lista de convites enviados com status</div>
+        <div class="beat-detail">Maria ↔ Quill (enviado). Carlos ↔ Quill (enviado). Felipe ↔ Sensei (enviado). Rafaela ↔ Canvas (enviado). Todos com status: "Convite enviado — aguardando aceite." Antonio ve a lista e pensa: "Em 1 hora todos estarao dentro."</div>
+        <div class="beat-emotion emo-relief">Eficiencia — "9 convites em 5 minutos"</div>
+      </div>
+    </div>
+
+    <div class="fail">
+      <strong>Cenario:</strong> Maria recebe o email mas cai no spam (Gmail classifica como promotional). Ela nao ve. Antonio nao sabe. 3 dias depois: "Maria, voce nao aceitou?" "Nao recebi nada."<br><br>
+      <strong>Resolucao:</strong> (1) Dashboard mostra "Convite nao aceito ha 24h" com botao "Reenviar". (2) Opcao de enviar link via WhatsApp alem do email. (3) Link de convite copiavel pra enviar manualmente.
+    </div>
+
+    <div class="edge">
+      <ul>
+        <li><strong>Convidar alguem que ja tem conta:</strong> "Maria ja tem conta KTANA. Vincular ao Grupo Silva?" — nao criar duplicata.</li>
+        <li><strong>2 SMs com mesmo copiloto:</strong> Quill pode ser copiloto de Maria E Carlos. E uma instancia compartilhada? Nao — cada par SM+Quill e independente. O Quill da Maria conhece os clientes dela.</li>
+        <li><strong>Funcionario recusa o convite:</strong> Status muda pra "Recusado". Antonio ve e pode reenviar ou remover.</li>
+      </ul>
+    </div>
+
     <span class="story-screen">team-invite.html</span> <span class="tag tag-new">NOVA V3</span>
     <span class="story-screen">team-accept-invite.html</span> <span class="tag tag-new">NOVA V3</span>
     <div class="story-criteria">
       <h4>Criterios de aceite</h4>
-      <div class="criteria-item">Formulario pede nome, email, cargo</div>
-      <div class="criteria-item">Sistema sugere copiloto IA automaticamente pelo cargo</div>
-      <div class="criteria-item">Dono pode trocar o copiloto sugerido</div>
-      <div class="criteria-item">Preview do email antes de enviar</div>
-      <div class="criteria-item">Funcionario recebe email, ve copiloto, cria senha</div>
+      <div class="criteria-item">Campos: nome, email, cargo (dropdown: SM, Gestor, Designer, Outro)</div>
+      <div class="criteria-item">Sistema sugere copiloto IA automaticamente pelo cargo com explicacao</div>
+      <div class="criteria-item">Dono pode trocar copiloto sugerido (dropdown com 7 opcoes)</div>
+      <div class="criteria-item">Preview do email antes de enviar (editavel? V1: nao)</div>
+      <div class="criteria-item">Status de convites: enviado, aceito, expirado, recusado, com botao reenviar</div>
+      <div class="criteria-item">Funcionario aceita: cria senha, ve tela "Seu copiloto e o Quill", entra no sistema</div>
+      <div class="criteria-item">Fallback: link copiavel + envio via WhatsApp se email falhar</div>
     </div>
   </div>
 
+  <!-- ═══ US-D06 ═══ -->
   <div class="story">
     <div class="story-id">US-D06 — Vincular copilotos</div>
-    <div class="story-title">Antonio ve a lista visual de funcionario ↔ copiloto IA</div>
-    <div class="story-narrative">Antonio abre <em>Copilotos IA</em> e ve todos os pares: Maria ↔ Quill, Carlos ↔ Quill, Rafaela ↔ Canvas, Felipe ↔ Sensei. Pode <strong>trocar</strong> o copiloto de qualquer um clicando "Trocar". Entende que cada funcionario tem um parceiro IA que trabalha junto no dia a dia.</div>
+    <div class="story-title">Antonio ve todos os pares funcionario ↔ copiloto IA e ajusta quando necessario</div>
+
+    <div class="ctx">
+      <strong>Quinta-feira, 10:00.</strong> Todos os 9 funcionarios aceitaram. Antonio quer revisar quem esta com quem. Rafaela (Designer) esta com Canvas, mas Antonio quer que ela tambem use o Director (videos). <em>Precisa ser visual e simples de trocar.</em>
+    </div>
+
+    <div class="timeline">
+      <div class="beat b-neutral">
+        <div class="beat-time">10:00 — Abre tela Copilotos IA</div>
+        <div class="beat-action">Ve a grade visual: cada funcionario linkado ao seu agente</div>
+        <div class="beat-detail">Cards pareados: [Maria] ↔ [Quill] — "Match ideal pra SM". [Carlos] ↔ [Quill]. [Rafaela] ↔ [Canvas] — "Match ideal pra Designer". [Felipe] ↔ [Sensei] — "Match ideal pra Gestor". Agrupado por departamento. Cada par mostra metricas: "Maria+Quill: 847 roteiros revisados, tempo medio 45s por revisao."</div>
+        <div class="beat-emotion emo-neutral">Clareza — "sei exatamente quem trabalha com quem"</div>
+      </div>
+      <div class="beat b-power">
+        <div class="beat-time">10:02 — Troca copiloto da Rafaela</div>
+        <div class="beat-action">Rafaela vai ter Canvas + Director (2 copilotos)</div>
+        <div class="beat-detail">Antonio clica "Trocar" na Rafaela. Ve opcoes: Scout, Quill, Canvas (atual), Pulse, Director, Sensei, Metrics. Seleciona Director como SEGUNDO copiloto. O sistema aceita: "Rafaela agora tem 2 copilotos: Canvas (designs) e Director (videos). Ela vai ver as filas de ambos." <strong>Copiloto nao e 1:1 rigido — um funcionario pode ter 2.</strong></div>
+        <div class="beat-emotion emo-power">Flexibilidade — "posso montar a equipe como eu quiser"</div>
+      </div>
+    </div>
+
+    <div class="edge">
+      <ul>
+        <li><strong>Agente sem nenhum copiloto humano:</strong> Metrics nao tem copiloto? OK — Metrics roda autonomo, so gera relatorios. Mas sistema alerta: "Metrics esta sem supervisor humano. Relatorios serao enviados pro Gestor."</li>
+        <li><strong>Todos os SMs vinculados ao Quill:</strong> Normal. O Quill tem instancias separadas por SM. A Maria+Quill nao ve os roteiros do Carlos+Quill.</li>
+      </ul>
+    </div>
+
     <span class="story-screen">team-copilot.html</span> <span class="tag tag-new">NOVA V3</span>
     <div class="story-criteria">
       <h4>Criterios de aceite</h4>
-      <div class="criteria-item">Lista visual: funcionario [link] agente</div>
-      <div class="criteria-item">Mostra "Match ideal pra [cargo]"</div>
-      <div class="criteria-item">Botao "Trocar" abre opcoes de outros agentes</div>
-      <div class="criteria-item">Agrupado por departamento</div>
+      <div class="criteria-item">Grade visual: funcionario [link] agente, agrupado por departamento</div>
+      <div class="criteria-item">Cada par mostra metricas de produtividade conjunta</div>
+      <div class="criteria-item">Botao "Trocar" abre lista dos 7 agentes com descricao</div>
+      <div class="criteria-item">Suporta 2+ copilotos por funcionario (multi-select)</div>
+      <div class="criteria-item">Alerta visual se agente nao tem supervisor humano</div>
     </div>
   </div>
 
+  <!-- ═══ US-D07 ═══ -->
   <div class="story">
     <div class="story-id">US-D07 — Configurar permissoes</div>
-    <div class="story-title">Antonio define o que cada cargo pode fazer</div>
-    <div class="story-narrative">Antonio abre <em>Permissoes</em>, seleciona um membro, e configura toggle por toggle: ver clientes, aprovar conteudo, editar roteiros, configurar agentes, ver billing. <strong>Master ve tudo. SM so ve seus clientes e roteiros. Designer so ve designs.</strong></div>
+    <div class="story-title">Antonio define que Maria ve so seus clientes e Carlos nao acessa billing</div>
+
+    <div class="ctx">
+      <strong>Mesmo dia, 10:10.</strong> Antonio e paranoico com acesso a dados financeiros. Nao quer que SMs vejam MRR, billing ou configuracoes de conta. Quer que cada SM so veja OS CLIENTES DELE. <em>Se nao tiver controle granular, Antonio nao confia.</em>
+    </div>
+
+    <div class="timeline">
+      <div class="beat b-neutral">
+        <div class="beat-time">10:10 — Seleciona Maria na tela de permissoes</div>
+        <div class="beat-action">Lista de toggles: cada permissao com on/off</div>
+        <div class="beat-detail">Ver clientes (ON — so os dela). Aprovar conteudo (ON). Editar roteiros (ON). Configurar agentes (OFF). Ver billing (OFF). Ver equipe (OFF). Convidar membros (OFF). Admin (OFF). O sistema mostrou um preset "Social Media" que ja veio com essa configuracao. Antonio so confirmou.</div>
+        <div class="beat-emotion emo-neutral">Seguranca — "cada um ve so o que precisa"</div>
+      </div>
+    </div>
+
+    <div class="fail">
+      <strong>Cenario:</strong> Antonio configura Maria sem acesso a billing. Mas Maria e promovida a gestora 3 meses depois. Antonio esquece de mudar as permissoes. Maria nao consegue ver relatorios financeiros dos clientes dela.<br><br>
+      <strong>Resolucao:</strong> Ao mudar o cargo de um membro (SM → Gestor), sistema sugere: "Maria agora e Gestora. Aplicar permissoes de Gestor?" com preview do que muda.
+    </div>
+
     <span class="story-screen">team-permissions.html</span> <span class="tag tag-new">NOVA V3</span>
     <div class="story-criteria">
       <h4>Criterios de aceite</h4>
-      <div class="criteria-item">Selecionar membro no topo (tabs por pessoa)</div>
-      <div class="criteria-item">Toggles por permissao (on/off)</div>
-      <div class="criteria-item">Presets automaticos por cargo (Master=tudo, SM=parcial)</div>
-      <div class="criteria-item">Salvar persiste</div>
+      <div class="criteria-item">Tabs por membro no topo (selecionar quem configurar)</div>
+      <div class="criteria-item">Toggles on/off por permissao com descricao clara</div>
+      <div class="criteria-item">Presets por cargo: Master (tudo), Gestor (quase tudo), SM (operacional), Designer (criativo)</div>
+      <div class="criteria-item">Preview: "Com essas permissoes, Maria PODE: revisar roteiros, aprovar posts. NAO PODE: ver billing, convidar membros."</div>
+      <div class="criteria-item">Salvar persiste imediatamente (nao precisa de botao "Salvar")</div>
     </div>
   </div>
 </div>
 
 <div class="divider"></div>
 
-<!-- ═══════════ GESTOR ═══════════ -->
+<!-- ══════════════════════════════════════════════════════════ -->
+<!--                       GESTOR                              -->
+<!-- ══════════════════════════════════════════════════════════ -->
 <div class="actor">
   <div class="actor-header">
     <div class="actor-badge" style="background:linear-gradient(135deg,#5856D6,#3A38A0)">G</div>
-    <div><div class="actor-name">Gestor</div><div class="actor-desc">Ex: Felipe Rodrigues · Opera o dia a dia, cadastra clientes, gerencia SMs</div></div>
+    <div><div class="actor-name">Gestor</div><div class="actor-desc">Felipe Rodrigues · 34 anos · Head de Operacoes do Grupo Silva</div></div>
   </div>
 
+  <div class="actor-profile">
+    <strong>Quem e Felipe:</strong> Gerencia o dia a dia de 400 clientes. 6 SMs reportam pra ele. Ele decide quem cuida de quem, resolve escalacoes, e e o ponto de contato dos founders insatisfeitos. Trabalha 10h/dia. 60% do tempo e apagando incendio no WhatsApp. Copiloto IA: <em>Sensei</em> — o orquestrador que prioriza, redistribui e detecta problemas antes de virarem crise.<br><br>
+    <strong>O que Felipe mais precisa:</strong> Visao consolidada. Hoje ele nao sabe quem esta atrasado ate alguem reclamar. Nao sabe a carga de cada SM ate perguntar. Nao sabe se o founder esta colaborando ate ver o resultado cair. <strong>Felipe quer ver problemas ANTES de virarem crise.</strong>
+  </div>
+
+  <!-- ═══ US-G01 ═══ -->
   <div class="story">
-    <div class="story-id">US-G01 — Cadastrar novo cliente (tenant)</div>
-    <div class="story-title">Felipe cadastra Joao Mendes como novo cliente</div>
-    <div class="story-narrative">Felipe clica <strong>"Cadastrar novo cliente"</strong> no org switcher. O Sensei conduz um chat de <strong>10 passos</strong>: nome do founder, empresa, nicho, seguidores, tipo posicionamento, redes, WhatsApp. Depois Felipe <strong>atribui equipe</strong>: Maria (SM), Rafaela (Designer), ele mesmo (Gestor CS). Depois <strong>configura os agentes</strong> pro Joao: tom do Quill, concorrentes do Scout, template do Canvas. Por fim, <strong>convida o founder</strong> por email e WhatsApp.</div>
+    <div class="story-id">US-G01 — Cadastrar novo cliente</div>
+    <div class="story-title">Felipe cadastra Joao Mendes como novo founder — do onboarding ao convite</div>
+
+    <div class="ctx">
+      <strong>Segunda-feira, 14:30.</strong> Felipe acabou de receber ligacao: Joao Mendes, CEO da TechFlow (SaaS B2B), fechou contrato R$1.000/mes. Precisa configurar tudo HOJE porque Joao quer ver os primeiros posts na quarta. <em>Felipe tem 2 horas — nesse tempo precisa: criar o tenant, atribuir equipe, configurar agentes e convidar o Joao.</em>
+    </div>
+
+    <div class="timeline">
+      <div class="beat b-neutral">
+        <div class="beat-time">14:30 — Abre o wizard de novo cliente</div>
+        <div class="beat-action">Sensei conduz um chat de 10 passos</div>
+        <div class="beat-detail">"Novo cliente! Me conta: nome do founder?" "Joao Mendes." "Empresa?" "TechFlow." "Nicho?" "SaaS B2B, foca em unit economics e crescimento." "Seguidores?" "IG 2.400, LI 8.900." "Tipo de posicionamento?" "CEO visionario com dados." "Redes ativas?" "IG, LI, TT." "WhatsApp do Joao?" "+55 11 99999-1234." O Sensei acumula tudo e cria o Brand Book inicial automaticamente.</div>
+        <div class="beat-emotion emo-neutral">Rotina eficiente — "10 passos mas e conversa, nao formulario"</div>
+      </div>
+      <div class="beat b-hope">
+        <div class="beat-time">14:38 — Atribuir equipe ao Joao</div>
+        <div class="beat-action">Escolhe quem cuida: SM, Designer, Gestor CS</div>
+        <div class="beat-detail">Tela mostra a equipe com carga de cada um. Maria: 120 clientes (<strong style="color:#D70030">ALTA</strong>). Carlos: 80 clientes (NORMAL). Julia: 65 clientes (BAIXA). Felipe escolhe <strong>Carlos</strong> — carga equilibrada. Designer: Rafaela (unica). Gestor CS: ele mesmo. Sistema confirma: "Carlos (SM) + Rafaela (Designer) + Felipe (Gestor) atribuidos ao Joao Mendes."</div>
+        <div class="beat-emotion emo-hope">Decisao informada — "vejo a carga antes de atribuir"</div>
+      </div>
+      <div class="beat b-power">
+        <div class="beat-time">14:42 — Configurar agentes PER-CLIENT</div>
+        <div class="beat-action">Como o Quill escreve PRO JOAO. Como o Scout pesquisa PRO JOAO.</div>
+        <div class="beat-detail">Quill: tom "provocador com dados", frequencia 3 posts/dia (IG 1, LI 1, TT 1). Scout: concorrentes a monitorar — @techlead_br, @ceo_dados, @saasgrowth. Canvas: estilo "Clean tech com gradients escuros". Tudo herda do Brand Book que o Sensei criou no passo anterior, mas Felipe pode ajustar. <strong>Cada agente e configurado por cliente. O Quill do Joao e diferente do Quill da Ana.</strong></div>
+        <div class="beat-emotion emo-power">Personalizacao — "cada cliente tem sua propria IA"</div>
+      </div>
+      <div class="beat b-relief">
+        <div class="beat-time">14:48 — Convida o Joao por email + WhatsApp</div>
+        <div class="beat-action">Preview do convite. Joao vai receber nos dois canais.</div>
+        <div class="beat-detail">Email: "Joao, seu posicionamento digital esta pronto pra comecar. Clique pra criar seu acesso." WhatsApp (via Pulse): "Oi Joao, aqui e o Pulse, seu assistente de posicionamento. Felipe do Grupo Silva te cadastrou. Vou te guiar pelos proximos passos." O founder recebe nos 2 canais — o que ele abrir primeiro funciona.</div>
+        <div class="beat-emotion emo-relief">Completo — "18 minutos do zero ao convite enviado"</div>
+      </div>
+    </div>
+
+    <div class="motive">
+      Felipe quer <strong>velocidade de cadastro SEM perder profundidade</strong>. Hoje ele demora 2 horas pra configurar um cliente (criar pastas, briefing manual, apresentar pro SM). Com o sistema: 18 minutos. Isso significa que pode cadastrar 5 clientes novos por dia sem atrasar a operacao.
+    </div>
+
+    <div class="frust">
+      Hoje: Felipe recebe o contrato fechado pelo Antonio, abre uma planilha, cria uma pasta no Drive, escreve o briefing manualmente ("Joao, SaaS, provocador, IG+LI+TT, 2.400 seg IG"), manda no grupo de WhatsApp do SM. O SM le 3 horas depois. Pergunta: "Qual o concorrente principal?" Felipe nao sabe — tem que perguntar pro Joao. Joao responde no dia seguinte. <strong>Total: 2-3 dias pra configurar UM cliente.</strong>
+    </div>
+
+    <div class="fail">
+      <strong>Cenario:</strong> Felipe atribui Maria ao Joao sem ver que ela ja tem 120 clientes. Maria nao da conta. Quality cai. Joao reclama na segunda semana. Antonio briga com Felipe.<br><br>
+      <strong>Resolucao:</strong> Sistema mostra carga de cada SM com alerta visual: VERDE (< 70), AMARELO (70-100), VERMELHO (> 100). Se Felipe seleciona Maria (120 = vermelho): "Maria esta sobrecarregada. Recomendamos Carlos (80) ou Julia (65). Continuar mesmo assim?" — e uma confirmacao, nao um bloqueio.
+    </div>
+
+    <div class="contrast">
+      <div class="contrast-col contrast-before">
+        <strong>Cadastro manual:</strong> Planilha → pasta Drive → briefing texto → grupo WA → SM pergunta → founder responde → SM configura → 2-3 dias.
+      </div>
+      <div class="contrast-col contrast-after">
+        <strong>Com sistema:</strong> Wizard chat 10 passos → Brand Book auto → atribuir equipe (com carga) → config agentes per-client → convite email+WA → <strong>18 minutos</strong>.
+      </div>
+    </div>
+
     <span class="story-screen">client-onboarding-wizard.html</span> <span class="tag tag-exists">existe</span>
     <span class="story-screen">client-team-assign.html</span> <span class="tag tag-new">NOVA V3</span>
     <span class="story-screen">agents-client.html</span> <span class="tag tag-new">NOVA V3</span>
     <span class="story-screen">client-invite.html</span> <span class="tag tag-exists">existe</span>
     <div class="story-criteria">
       <h4>Criterios de aceite</h4>
-      <div class="criteria-item">Wizard 10 passos via chat</div>
-      <div class="criteria-item">Atribuir SM + Designer + Gestor CS ao tenant</div>
-      <div class="criteria-item">Mostra carga de trabalho de cada funcionario</div>
-      <div class="criteria-item">Configurar agentes per-client (tom, frequencia, redes)</div>
-      <div class="criteria-item">Convite por email E WhatsApp com preview</div>
+      <div class="criteria-item">Wizard 10 passos via chat com Sensei (nao formulario)</div>
+      <div class="criteria-item">Brand Book gerado automaticamente a partir das respostas</div>
+      <div class="criteria-item">Tela atribuir equipe mostra carga atual de cada funcionario com alerta visual</div>
+      <div class="criteria-item">Config agentes per-client: tom, frequencia, concorrentes, estilo, redes — herda do Brand Book</div>
+      <div class="criteria-item">Convite dual: email + WhatsApp com preview de ambos</div>
+      <div class="criteria-item">Tempo total < 20 minutos (do zero ao convite enviado)</div>
     </div>
   </div>
 
+  <!-- ═══ US-G02 ═══ -->
   <div class="story">
     <div class="story-id">US-G02 — Visao global do dia</div>
-    <div class="story-title">Felipe abre o dashboard e ve o resumo de tudo</div>
-    <div class="story-narrative">Felipe abre o <em>dashboard</em>. Ve: <strong>400 clientes, 142 posts semana, 7 aprovacoes pendentes, 3 atrasadas</strong>. O Sensei no chat diz: "Motor publicou 18 posts e gerou 12 pautas esta noite. 3 aprovacoes atrasadas." Felipe ve quais clientes tem pendencia e pode clicar pra entrar no tenant de cada um.</div>
+    <div class="story-title">Felipe abre o dashboard e ve a orquestra funcionando — ou os incendios a apagar</div>
+
+    <div class="ctx">
+      <strong>Terca-feira, 08:15.</strong> Felipe chega no escritorio. Antes de abrir qualquer coisa, precisa saber: <em>o que aconteceu de madrugada? Quem esta atrasado? Qual founder nao esta colaborando? Tem crise?</em> Se levar mais de 2 minutos pra ter essa visao, o dia ja comecou errado.
+    </div>
+
+    <div class="timeline">
+      <div class="beat b-relief">
+        <div class="beat-time">08:15 — Dashboard carrega</div>
+        <div class="beat-action">Sensei no chat: "Bom dia Felipe. Resumo da noite:"</div>
+        <div class="beat-detail">"Motor publicou 18 posts. 7 aprovacoes pendentes (3 urgentes — SLA vencendo). Maria esta com carga alta (120 clientes, 14 itens na fila). Pedro Souza inativo ha 5 dias — modo sintetico recomendado. Nenhuma crise." KPIs no topo: 400 clientes, 142 posts semana, R$400K MRR, 34% tokens usados.</div>
+        <div class="beat-emotion emo-relief">Controle imediato — "sei tudo em 30 segundos"</div>
+      </div>
+      <div class="beat b-frustration">
+        <div class="beat-time">08:16 — Ve Pedro Souza em vermelho</div>
+        <div class="beat-action">"Pedro inativo ha 5 dias. 0/5 tarefas. Pulse: 3 mensagens sem resposta."</div>
+        <div class="beat-detail">Felipe clica no card do Pedro. Ve: ultima mensagem no WA foi "to viajando, semana que vem" — ha 8 dias. Felipe decide: ativar modo sintetico. Sensei confirma: "Modo sintetico ativado pro Pedro. Director vai gerar conteudo com avatar. Carlos (SM) vai aprovar sem input do founder."</div>
+        <div class="beat-emotion emo-frustration">Frustracao controlada — "pelo menos tenho plano B"</div>
+      </div>
+    </div>
+
+    <div class="motive">
+      Felipe quer <strong>zero surpresas</strong>. O pior cenario e descobrir que um founder esta insatisfeito DEPOIS que ele reclama pro Antonio. O dashboard precisa mostrar problemas ANTES de virarem crise. Se o Pedro nao responde ha 3 dias, Felipe quer saber no dia 3, nao no dia 15.
+    </div>
+
     <span class="story-screen">dashboard.html</span> <span class="tag tag-exists">existe</span>
     <div class="story-criteria">
       <h4>Criterios de aceite</h4>
-      <div class="criteria-item">KPIs globais no topo (posts, clientes, tokens, MRR)</div>
-      <div class="criteria-item">Aprovacoes urgentes com botao aprovar direto</div>
-      <div class="criteria-item">Lista de clientes com pendencia linkando pro workspace</div>
-      <div class="criteria-item">Chat Sensei com resumo contextual</div>
+      <div class="criteria-item">Sensei com resumo contextual no chat (nao generico, baseado nos dados reais do dia)</div>
+      <div class="criteria-item">KPIs globais: clientes, posts semana, MRR, tokens %, aprovacoes pendentes</div>
+      <div class="criteria-item">Alertas priorizados: crise (vermelho) > inatividade (laranja) > SLA (amarelo)</div>
+      <div class="criteria-item">Card de cada alerta e clicavel → vai direto pro tenant do cliente</div>
+      <div class="criteria-item">Indicador de carga por SM: verde/amarelo/vermelho</div>
+      <div class="criteria-item">Botao "Ativar modo sintetico" direto do dashboard pra clients inativos</div>
     </div>
   </div>
 
+  <!-- ═══ US-G03 ═══ -->
   <div class="story">
     <div class="story-id">US-G03 — Trabalhar DENTRO de um tenant</div>
-    <div class="story-title">Felipe seleciona Joao Mendes e ve SO as coisas do Joao</div>
-    <div class="story-narrative">Felipe clica em "Joao Mendes" no org switcher. A <strong>sidebar muda</strong>: em vez de ver Pipeline de todos, ve Pipeline SO do Joao. Calendar SO do Joao. Aprovacoes SO do Joao. Brand Book do Joao. Metricas do Joao. Agentes configurados pro Joao. Checklist semanal do Joao. Se quiser voltar pro global, clica "← Todos clientes".</div>
-    <span class="story-screen">shared-nav-social.js (sidebar dinamica)</span> <span class="tag tag-new">PENDENTE V3</span>
+    <div class="story-title">Felipe seleciona Joao Mendes e a sidebar inteira muda pra mostrar SO o Joao</div>
+
+    <div class="ctx">
+      <strong>08:20, continua.</strong> Felipe clicou no card do Joao no dashboard. O sistema entrou no "modo per-client" — tudo que Felipe ve agora e SO do Joao. Se misturar dados de outros clientes, a experiencia quebra. <em>A sidebar e a ancora de navegacao — ela precisa mudar completamente quando um cliente e selecionado.</em>
+    </div>
+
+    <div class="timeline">
+      <div class="beat b-power">
+        <div class="beat-time">08:20 — Sidebar muda instantaneamente</div>
+        <div class="beat-action">Menu global some. Menu per-client aparece.</div>
+        <div class="beat-detail"><strong>ANTES (global):</strong> Dashboard, Clientes, Minha Fila, Pipeline (todos), Empresa Inteligente, Equipe, Config. <strong>DEPOIS (Joao selecionado):</strong> ← Voltar, [JM] Joao Mendes — TechFlow, Workspace, Pipeline (SO Joao), Calendario (SO Joao), Aprovacoes, Brand Book, Metricas, Insights, Agentes (config), Equipe (quem cuida), Checklist, Atividade. <strong>TUDO filtrado pro Joao. Zero dados de outros clientes.</strong></div>
+        <div class="beat-emotion emo-power">Foco — "estou DENTRO do cliente. Zero distracoes."</div>
+      </div>
+      <div class="beat b-neutral">
+        <div class="beat-time">08:22 — Navega entre telas do Joao</div>
+        <div class="beat-action">Pipeline → Calendario → Aprovacoes → Brand Book — tudo do Joao</div>
+        <div class="beat-detail">Felipe ve o pipeline do Joao: 2 roteiros em revisao, 1 design pronto, 3 agendados essa semana. Calendario: seg (carrossel IG), qua (artigo LI), sex (reel TT). Aprovacoes: 1 pendente do Joao (enviada ontem as 16h). Brand Book: tom provocador, concorrentes, estilo visual. <strong>Tudo coerente, tudo do Joao, zero poluicao.</strong></div>
+        <div class="beat-emotion emo-neutral">Fluido — "navego como se tivesse um app SO do Joao"</div>
+      </div>
+      <div class="beat b-relief">
+        <div class="beat-time">08:25 — Clica "← Voltar"</div>
+        <div class="beat-action">Sidebar volta pro menu global. De volta ao modo 400 clientes.</div>
+        <div class="beat-detail">O estado anterior e restaurado. Se Felipe estava no Dashboard antes, volta pro Dashboard. Se estava na lista de clientes, volta pra lista. Transicao suave, sem reload.</div>
+        <div class="beat-emotion emo-relief">Controle — "entro e saio de qualquer cliente em 1 clique"</div>
+      </div>
+    </div>
+
+    <div class="fail">
+      <strong>Cenario:</strong> Felipe esta dentro do tenant do Joao, abre uma nova aba do browser e cola a URL pipeline.html. A sidebar mostra menu per-client mas <strong>sem cliente selecionado</strong> (nao tem data-client no URL). Ve dados de TODOS os clientes misturados no pipeline do Joao.<br><br>
+      <strong>Resolucao:</strong> Se a URL nao tem parametro de cliente, sidebar fica no modo GLOBAL. Se tem (?client=joao), fica no modo per-client. Nunca estado ambiguo. Deep links precisam funcionar.
+    </div>
+
+    <span class="story-screen">shared-nav-social.js</span> <span class="tag tag-new">NOVA V3</span>
     <div class="story-criteria">
       <h4>Criterios de aceite</h4>
-      <div class="criteria-item">Org switcher seleciona tenant</div>
-      <div class="criteria-item">Sidebar muda pra mostrar menu per-client</div>
-      <div class="criteria-item">Barra no topo mostra QUAL cliente esta selecionado</div>
-      <div class="criteria-item">Todas as telas filtram pro tenant selecionado</div>
-      <div class="criteria-item">"← Voltar" retorna pra visao global</div>
+      <div class="criteria-item">Org switcher: clicar no cliente → sidebar muda inteiramente (global → per-client)</div>
+      <div class="criteria-item">Barra no topo mostra QUAL cliente esta selecionado: "[JM] Joao Mendes — TechFlow"</div>
+      <div class="criteria-item">"← Voltar" retorna pro contexto anterior (nao sempre pro dashboard)</div>
+      <div class="criteria-item">data-client="true" nas telas per-client, ausente nas telas globais</div>
+      <div class="criteria-item">Deep links com ?client=id funcionam (bookmarkavel)</div>
+      <div class="criteria-item">Todas 66 telas testadas: nenhuma com sidebar ambigua</div>
     </div>
   </div>
 
+  <!-- ═══ US-G04 ═══ -->
   <div class="story">
     <div class="story-id">US-G04 — Acompanhar founder</div>
-    <div class="story-title">Felipe ve se Joao esta cumprindo as tarefas</div>
-    <div class="story-narrative">Dentro do tenant do Joao, Felipe abre <em>Checklist</em>. Ve: semana 01-07 Abr, <strong>3/7 tarefas feitas</strong>. Video entregue. Stories atrasado 1 dia (Joao disse "gravo depois do almoco" e nao gravou). Fotos pendente. Brand Book pendente. Felipe ve o <strong>log do WhatsApp</strong> inline — o que o Pulse mandou e o que o Joao respondeu. Se precisa, clica "Cobrar via WA".</div>
+    <div class="story-title">Felipe ve se Joao esta cumprindo tarefas — e o log do WhatsApp inline</div>
+
+    <div class="ctx">
+      <strong>08:28, dentro do tenant do Joao.</strong> Felipe abriu o Checklist. Quer saber: Joao esta colaborando? Gravou o video? Mandou as fotos? Respondeu o Brand Book? Se nao, quanto tempo de atraso? E o mais importante: <em>o que o Pulse ja cobrou e o que o Joao respondeu?</em>
+    </div>
+
+    <div class="timeline">
+      <div class="beat b-frustration">
+        <div class="beat-time">08:28 — Checklist semanal do Joao: 3/7 tarefas</div>
+        <div class="beat-action">Video entregue. Stories ATRASADO 1 dia. Fotos PENDENTE. Brand Book PENDENTE.</div>
+        <div class="beat-detail">Cada tarefa mostra: status (entregue/atrasado/pendente), data limite, e o <strong>log do WhatsApp inline</strong>. Na tarefa "Stories bastidores": Pulse perguntou "Joao, falta gravar 3 stories. Consegue hoje?" — Joao respondeu "Gravo depois do almoco" (ontem 11:30). Nao gravou. Pulse cobrou novamente as 17h. Joao nao respondeu. <strong>Felipe ve TUDO sem sair da tela.</strong></div>
+        <div class="beat-emotion emo-frustration">Frustracao com dados — "sei que ele nao fez E sei que o Pulse cobrou"</div>
+      </div>
+      <div class="beat b-power">
+        <div class="beat-time">08:30 — Clica "Cobrar via WA"</div>
+        <div class="beat-action">Felipe manda cobranca pessoal pelo sistema</div>
+        <div class="beat-detail">Opcoes: enviar mensagem pre-definida ("Joao, Felipe aqui. Preciso dos stories essa semana pra manter o ritmo.") ou custom. Felipe edita e envia. Aparece no log inline. Joao recebe no WhatsApp como mensagem do Felipe, nao do bot.</div>
+        <div class="beat-emotion emo-power">Acao direta — "cobrei sem sair do sistema"</div>
+      </div>
+    </div>
+
+    <div class="motive">
+      Felipe precisa saber SE o founder esta colaborando E O QUE ja foi feito pra cobrar. Se o Pulse ja mandou 3 mensagens sem resposta, Felipe precisa ver isso ANTES de mandar a quarta. Se o founder disse "gravo amanha" ha 3 dias, Felipe precisa ver isso pra calibrar o nivel de pressao.
+    </div>
+
     <span class="story-screen">client-checklist.html</span> <span class="tag tag-exists">existe</span>
     <span class="story-screen">client-activity.html</span> <span class="tag tag-exists">existe</span>
     <div class="story-criteria">
       <h4>Criterios de aceite</h4>
-      <div class="criteria-item">Checklist por semana com status (entregue/atrasado/pendente)</div>
-      <div class="criteria-item">Log WA inline em cada tarefa (o que Pulse cobrou, o que founder respondeu)</div>
-      <div class="criteria-item">Botao "Cobrar via WA"</div>
-      <div class="criteria-item">Timeline cronologica com IA + SM + Founder + Sistema</div>
+      <div class="criteria-item">Checklist semanal com status visual: entregue (verde), atrasado (vermelho), pendente (cinza), parcial (amarelo)</div>
+      <div class="criteria-item">Log WA inline em cada tarefa: o que Pulse mandou, o que founder respondeu, timestamps</div>
+      <div class="criteria-item">Botao "Cobrar via WA" com opcoes de mensagem pre-definida ou custom</div>
+      <div class="criteria-item">Timeline cronologica: IA + SM + Founder + Sistema em ordem temporal</div>
+      <div class="criteria-item">Indicador de dias de inatividade: "Ultimo contato: 3 dias atras"</div>
     </div>
   </div>
 </div>
 
 <div class="divider"></div>
 
-<!-- ═══════════ SM ═══════════ -->
+<!-- ══════════════════════════════════════════════════════════ -->
+<!--                     SOCIAL MEDIA                          -->
+<!-- ══════════════════════════════════════════════════════════ -->
 <div class="actor">
   <div class="actor-header">
     <div class="actor-badge" style="background:linear-gradient(135deg,#34C759,#248A3D)">S</div>
-    <div><div class="actor-name">Social Media</div><div class="actor-desc">Ex: Maria Silva · Revisa conteudo da IA, aprova, envia pro founder</div></div>
+    <div><div class="actor-name">Social Media</div><div class="actor-desc">Maria Silva · 28 anos · SM Senior, 120 clientes, Copiloto: Quill</div></div>
   </div>
 
+  <div class="actor-profile">
+    <strong>Quem e Maria:</strong> SM Senior do Grupo Silva. Cuida de 120 clientes. Deveria cuidar de no maximo 50, mas a agencia cresceu e ninguem foi contratado. Acorda 6:50, abre notebook 7:15 com cafe. Trabalha ate 20h. Fim de semana: revisa emergencias. <em>Esta pensando em sair.</em> O que a mantem: salario acima da media (R$8K) e o Antonio que e um bom chefe.<br><br>
+    <strong>O que muda com o sistema:</strong> Maria deixa de ser <em>criadora de conteudo</em> e vira <em>curadora de conteudo</em>. O Quill escreve. O Canvas desenha. Maria revisa, ajusta o tom, aprova. <strong>De 2h por cliente pra 15 minutos por cliente.</strong> Os 120 clientes viram sustentaveis. Maria para de pensar em sair.
+  </div>
+
+  <!-- ═══ US-S01 ═══ -->
   <div class="story">
     <div class="story-id">US-S01 — Abrir Minha Fila de manha</div>
-    <div class="story-title">Maria abre o sistema e ve o que a IA produziu de madrugada</div>
-    <div class="story-narrative">Maria faz login e vai pra <em>Minha Fila</em>. Ve: <strong>14 tarefas pra revisar</strong>. 3 urgentes (SLA vencendo). 8 roteiros que o Quill escreveu as 3h. 3 designs do Canvas. 1 feedback do founder ("muito formal"). Sensei no chat: "Bom dia Maria! De madrugada produzi 8 roteiros e 3 designs. 3 com SLA vencendo." Maria comeca pelos urgentes.</div>
+    <div class="story-title">Maria abre o notebook e a IA ja trabalhou a noite toda pra ela</div>
+
+    <div class="ctx">
+      <strong>Terca-feira, 07:15.</strong> Maria esta na cozinha, notebook na bancada, cafe na maquina. Antes do sistema: ela abria 14 abas (IG, LI, TT de cada cliente prioritario), pesquisava trending, escrevia 3 roteiros do zero, formatava, postava. Levava ate 11h pra sair da "rotina de manha". <em>Agora ela abre UMA tela e tudo esta pronto.</em>
+    </div>
+
+    <div class="timeline">
+      <div class="beat b-relief">
+        <div class="beat-time">07:15 — Abre Minha Fila. 14 itens esperando.</div>
+        <div class="beat-action">Quill trabalhou das 3h as 5h. 8 roteiros prontos. 3 designs do Canvas. 3 escalacoes.</div>
+        <div class="beat-detail">No topo: "Bom dia Maria! De madrugada: 8 roteiros (score medio 89%), 3 designs, 3 escalacoes. 3 urgentes com SLA vencendo." A fila esta ordenada: <strong>urgentes no topo (vermelho)</strong>, roteiros novos (azul), designs (roxo), feedback do founder (laranja). Cada card: agente que produziu, cliente, rede, score de humanidade, preview de 2 linhas.</div>
+        <div class="beat-emotion emo-relief">Alivio — "nao preciso escrever do zero. So revisar."</div>
+      </div>
+      <div class="beat b-hope">
+        <div class="beat-time">07:16 — Pega o primeiro urgente: carrossel do Joao</div>
+        <div class="beat-action">Carrossel IG "5 erros de CEO" — score 94%, tom alinhado</div>
+        <div class="beat-detail">Maria le o roteiro em 30 segundos. 9 slides. Cada slide com headline provocadora + dado. Tom: provocador com dados — exatamente o Brand Book do Joao. Score 94% humanidade. Maria pensa: "Ta melhor do que eu escreveria as 3h da manha." Clica <strong>"Aprovar → WhatsApp do founder"</strong>. Card some da fila com animacao verde. Joao vai receber no WA.</div>
+        <div class="beat-emotion emo-hope">Parceria — "o Quill e meu braco direito"</div>
+      </div>
+      <div class="beat b-pride">
+        <div class="beat-time">07:45 — 10 de 14 itens resolvidos</div>
+        <div class="beat-action">30 minutos de trabalho. Antes levava 4 horas.</div>
+        <div class="beat-detail">8 roteiros revisados e aprovados (media 45s cada). 2 designs aprovados. Faltam: 1 roteiro com score 78% (precisa editar), 1 feedback do founder, 2 designs com ajuste. Maria ja fez 70% do trabalho do dia. Sao 7:45. Antes, as 7:45 ela estava na segunda aba do Instagram.</div>
+        <div class="beat-emotion emo-pride">Produtividade — "fiz em 30 min o que levava 4 horas"</div>
+      </div>
+    </div>
+
+    <div class="motive">
+      Maria quer <strong>sair do trabalho as 18h</strong>. Isso. Ela nao quer revolucionar o mundo — quer entregar com qualidade e ter vida depois do trabalho. Antes: impossivel com 120 clientes. Agora: possivel porque o Quill faz 80% e ela faz 20%.
+    </div>
+
+    <div class="frust">
+      <strong>Manha de Maria ANTES do sistema:</strong> 07:15 abre notebook. 07:20 abre Instagram do Joao — ve o que o concorrente postou. 07:35 pesquisa trending "SaaS B2B". 07:50 escreve roteiro "5 erros de CEO". 08:20 formata carrossel 9 slides. 08:40 abre LinkedIn do Joao — escreve artigo. 09:30 abre TikTok — adapta pro reel. 10:00 repete pra proximos 2 clientes. 12:00 almoco atrasado. 13:00 continua. 15:00 comeca a postar manualmente. 18:00 deveria ir embora mas faltam 3 clientes. 20:00 termina. <strong>13 horas de trabalho. Todo dia.</strong>
+    </div>
+
+    <div class="contrast">
+      <div class="contrast-col contrast-before">
+        <strong>07:15-11:00 (4 horas):</strong> Pesquisa trending manual, escreve 3 roteiros do zero, formata, posta. Qualidade: media (nao personaliza, copia o que viralizou, adapta generico). Resultado: 3 clientes atendidos.
+      </div>
+      <div class="contrast-col contrast-after">
+        <strong>07:15-07:45 (30 minutos):</strong> Revisa 10 itens que IA produziu de madrugada. Aprova 8, edita 1, escala 1. Qualidade: alta (personalizado por cliente, score 89%+). Resultado: 10 clientes atendidos. <strong>3.3x mais rapido, qualidade superior.</strong>
+      </div>
+    </div>
+
+    <div class="fail">
+      <strong>Cenario:</strong> Maria abre a fila e ve 47 itens — Quill gerou conteudo pra TODOS os 120 clientes de uma vez. Overload. Nao sabe por onde comecar. Fecha a tela e vai fazer outra coisa.<br><br>
+      <strong>Resolucao:</strong> Fila limitada a HOJE + URGENTES. Quill prioriza: SLA vencendo > agendados pra hoje > agendados pra amanha. Nunca mais de 20 itens por vez. Paginacao: "Ver mais (27 restantes)". Filtro por cliente, rede, tipo.
+    </div>
+
     <span class="story-screen">sm-inbox.html</span> <span class="tag tag-exists">existe</span>
     <div class="story-criteria">
       <h4>Criterios de aceite</h4>
-      <div class="criteria-item">Profile bar com nome, cargo, stats (pra revisar, SLA, aprovados)</div>
-      <div class="criteria-item">Tabs filtrando por tipo (roteiros, designs, escalacoes, feedback)</div>
-      <div class="criteria-item">Urgentes no topo com SLA vermelho</div>
-      <div class="criteria-item">Cada card mostra: agente que produziu, cliente, rede, score, preview</div>
-      <div class="criteria-item">Botoes: Aprovar (→WA founder), Editar, Rejeitar</div>
+      <div class="criteria-item">Profile bar: nome, cargo, stats (pra revisar, SLA vencendo, aprovados hoje)</div>
+      <div class="criteria-item">Fila ordenada: urgentes (vermelho) > novos > feedback > designs</div>
+      <div class="criteria-item">Cada card: agente que produziu, cliente, rede, score humanidade, preview 2 linhas</div>
+      <div class="criteria-item">Botoes: Aprovar (→ WA founder), Editar (→ post-editor), Rejeitar (→ Quill reescreve)</div>
+      <div class="criteria-item">Limite: max 20 itens por pagina, paginacao com contagem total</div>
+      <div class="criteria-item">Sensei no chat com resumo contextual da manha</div>
+      <div class="criteria-item">Filtro por: cliente, rede (IG/LI/TT/X), tipo (roteiro/design/feedback), score</div>
     </div>
   </div>
 
+  <!-- ═══ US-S02 ═══ -->
   <div class="story">
-    <div class="story-id">US-S02 — Aprovar roteiro → vai pro founder</div>
-    <div class="story-title">Maria aprova e o founder recebe no WhatsApp</div>
-    <div class="story-narrative">Maria le o roteiro "5 erros de CEO" — <strong>score 94% humanidade</strong>, tom alinhado. Clica <em>"Aprovar → WhatsApp do founder"</em>. O card some da fila. O Pulse envia automaticamente pro WhatsApp do Joao: "Novo post pra aprovar: carrossel IG '5 erros de CEO'. Responda 1 pra aprovar." <strong>Aprovacao nivel 1 feita.</strong></div>
-    <span class="story-screen">sm-inbox.html</span> → <span class="story-screen">approvals.html (nivel 2)</span>
+    <div class="story-id">US-S02 — Aprovar roteiro e enviar pro founder</div>
+    <div class="story-title">Maria aprova em 1 clique e Joao recebe no WhatsApp em 3 segundos</div>
+
+    <div class="ctx">
+      <strong>07:16, continua.</strong> Maria esta na fila, primeiro item urgente. Carrossel "5 erros de CEO" pro Joao. Score 94%. Ela precisa decidir: aprovar, editar ou rejeitar. <em>Se o fluxo de aprovacao demorar mais de 1 minuto, a fila de 14 itens vira uma montanha.</em>
+    </div>
+
+    <div class="timeline">
+      <div class="beat b-neutral">
+        <div class="beat-time">07:16 — Le o roteiro em 30 segundos</div>
+        <div class="beat-action">9 slides. Cada um com headline + texto. Preview visual.</div>
+        <div class="beat-detail">Slide 1: "5 erros que todo CEO de SaaS comete (e eu cometi 3 deles)". Slide 2: "Erro 1: Nao medir CAC por canal — R$240K queimados em 2024". Ate Slide 9: CTA "Salva pra revisar domingo". Tom provocador com dados. Brand Book do Joao respeitado. Score 94%.</div>
+        <div class="beat-emotion emo-neutral">Avaliacao rapida — "ta bom, tom alinhado, dados corretos"</div>
+      </div>
+      <div class="beat b-relief">
+        <div class="beat-time">07:16:30 — Clica "Aprovar → WhatsApp"</div>
+        <div class="beat-action">Card some com animacao verde. Contagem atualiza: 13 restantes.</div>
+        <div class="beat-detail">O Pulse envia automaticamente pro Joao no WA: "Joao, 1 post pra aprovar: Carrossel IG '5 erros de CEO' — score 94%. Responda 1 pra aprovar ou 'ajustar' com seu feedback." <strong>Maria nao precisa abrir WhatsApp, copiar texto, enviar link. Zero manualdade.</strong></div>
+        <div class="beat-emotion emo-relief">Velocidade — "30 segundos do ver ao aprovar"</div>
+      </div>
+    </div>
+
+    <span class="story-screen">sm-inbox.html</span> → <span class="story-screen">approvals.html</span>
     <div class="story-criteria">
       <h4>Criterios de aceite</h4>
-      <div class="criteria-item">Botao "Aprovar" com feedback visual (verde, some)</div>
-      <div class="criteria-item">Card indica pra onde foi (→ WhatsApp do founder)</div>
-      <div class="criteria-item">Contagem da fila atualiza</div>
+      <div class="criteria-item">Botao "Aprovar" com feedback visual (verde, animacao de saida)</div>
+      <div class="criteria-item">Card indica pra onde foi: "→ WhatsApp do Joao Mendes"</div>
+      <div class="criteria-item">Contagem da fila atualiza instantaneamente</div>
+      <div class="criteria-item">Pulse envia mensagem formatada com preview do post + score</div>
+      <div class="criteria-item">Se founder ja aprovou (nivel 2 ja OK): post vai direto pro agendamento</div>
     </div>
   </div>
 
+  <!-- ═══ US-S03 ═══ -->
   <div class="story">
     <div class="story-id">US-S03 — Editar roteiro com score baixo</div>
-    <div class="story-title">Maria edita um reel com 78% humanidade</div>
-    <div class="story-narrative">Maria ve roteiro "Rotina de CEO" — <strong>score 78%</strong> (abaixo de 85%). Clica "Editar". Abre o <em>editor</em> com o texto, botoes de IA: "Reescrever", "Mais provocador", "Adicionar dados", "Encurtar". Maria clica "Mais provocador", o Quill ajusta, score sobe pra 91%. Maria aprova.</div>
+    <div class="story-title">Maria edita um reel com 78% humanidade — Quill ajusta em 6 segundos</div>
+
+    <div class="ctx">
+      <strong>07:25.</strong> Maria chegou no item 11: reel TikTok "Rotina de CEO" pro Joao. Score 78% — abaixo do threshold de 85%. O texto ta generico: "Se voce e CEO e ainda faz isso..." Precisa ser mais provocador, mais Joao. <em>Maria nao vai reescrever do zero — vai pedir pro Quill ajustar.</em>
+    </div>
+
+    <div class="timeline">
+      <div class="beat b-frustration">
+        <div class="beat-time">07:25 — Ve score 78% e sabe que precisa editar</div>
+        <div class="beat-action">Clica "Editar". Abre o editor com texto + botoes IA.</div>
+        <div class="beat-detail">Editor mostra: texto do reel, score 78%, e 4 botoes IA: "Reescrever", "Mais provocador", "Adicionar dados", "Encurtar". Maria sabe que o problema e tom — generico demais. Clica <strong>"Mais provocador"</strong>.</div>
+        <div class="beat-emotion emo-frustration">Leve frustracao — "Quill errou o tom, normal, 20% das vezes"</div>
+      </div>
+      <div class="beat b-relief">
+        <div class="beat-time">07:25:06 — Quill reescreve em 6 segundos</div>
+        <div class="beat-action">Novo texto: "Eu perdi R$2M por fazer isso. Todo CEO faz." Score: 91%.</div>
+        <div class="beat-detail">Maria le. Melhor. Tom provocador, dado real (R$2M), gancho emocional. Score subiu de 78% pra 91%. Ela pode aceitar ou editar manualmente. Aceita. Clica "Aprovar → WA". Total do ajuste: 15 segundos. <strong>Antes: Maria reescreveria do zero em 20 minutos.</strong></div>
+        <div class="beat-emotion emo-relief">Parceria — "eu direciono, Quill executa"</div>
+      </div>
+    </div>
+
+    <div class="contrast">
+      <div class="contrast-col contrast-before">
+        <strong>Editar manualmente:</strong> Maria para, pensa, escreve, revisa, confere Brand Book, ajusta tom. 15-20 minutos por roteiro.
+      </div>
+      <div class="contrast-col contrast-after">
+        <strong>Com IA:</strong> Clica "Mais provocador". Quill reescreve em 6 segundos. Maria revisa em 10 segundos. Total: <strong>16 segundos</strong>. 75x mais rapido.
+      </div>
+    </div>
+
     <span class="story-screen">post-editor.html</span> <span class="tag tag-exists">existe</span>
     <div class="story-criteria">
       <h4>Criterios de aceite</h4>
-      <div class="criteria-item">Editor com texto editavel</div>
-      <div class="criteria-item">Botoes de IA funcionais (reescrever, tom, dados, encurtar)</div>
-      <div class="criteria-item">Score atualiza apos ajuste</div>
-      <div class="criteria-item">"Salvar e enviar pra aprovacao" volta pra fila</div>
+      <div class="criteria-item">Editor com texto editavel (contenteditable) + preview lateral</div>
+      <div class="criteria-item">4 botoes IA funcionais: Reescrever, Mais provocador, Adicionar dados, Encurtar</div>
+      <div class="criteria-item">Score atualiza em tempo real apos ajuste (< 3 segundos)</div>
+      <div class="criteria-item">Historico de versoes: v1 (original 78%), v2 (ajuste 91%) — pode reverter</div>
+      <div class="criteria-item">"Salvar e aprovar" → volta pra fila com card atualizado</div>
     </div>
   </div>
 
+  <!-- ═══ US-S04 ═══ -->
   <div class="story">
     <div class="story-id">US-S04 — Lidar com feedback do founder</div>
-    <div class="story-title">Joao pediu ajuste — Maria ve o feedback e resolve</div>
-    <div class="story-narrative">Na fila de Maria aparece: <strong>"Joao pediu ajuste: muito formal, quer mais provocador"</strong>. E uma mensagem que o Joao mandou no WhatsApp em resposta ao post. O Quill <strong>ja reescreveu automaticamente</strong> com o feedback — score 91%. Maria pode aprovar a versao reescrita ou editar manualmente.</div>
+    <div class="story-title">Joao pediu "mais provocador" no WhatsApp — Quill ja reescreveu antes da Maria ver</div>
+
+    <div class="ctx">
+      <strong>09:45.</strong> Joao recebeu o artigo do LinkedIn. Respondeu no WA: "Muito formal. Quero tipo aquele post que viralizou." O Pulse capturou o feedback, mandou pro Quill, Quill reescreveu. <em>Quando Maria ve o card na fila, a versao nova ja esta pronta.</em>
+    </div>
+
+    <div class="timeline">
+      <div class="beat b-neutral">
+        <div class="beat-time">09:45 — Card "Feedback founder" aparece na fila de Maria</div>
+        <div class="beat-action">Feedback original em destaque + versao reescrita pelo Quill</div>
+        <div class="beat-detail">Card mostra: "Joao pediu ajuste: 'Muito formal. Quero tipo aquele post que viralizou.'" Abaixo: "Quill ja reescreveu automaticamente — score 91%. Tom ajustado pra provocador." Maria le a versao nova. Ta melhor. Pode: (1) Aprovar reescrita, (2) Editar manualmente, (3) Pedir outra versao ao Quill.</div>
+        <div class="beat-emotion emo-neutral">Velocidade — "Quill resolveu antes de eu ver"</div>
+      </div>
+    </div>
+
+    <div class="motive">
+      Maria quer que feedback do founder <strong>nao vire trabalho extra</strong>. Antes: recebia "muda o tom", gastava 30 min reescrevendo. Agora: Quill reescreve automaticamente, Maria so valida. <strong>Feedback virou 30 segundos, nao 30 minutos.</strong>
+    </div>
+
     <span class="story-screen">sm-inbox.html (secao feedback)</span>
     <div class="story-criteria">
       <h4>Criterios de aceite</h4>
-      <div class="criteria-item">Card mostra feedback original do founder em destaque</div>
-      <div class="criteria-item">Indica que Quill ja reescreveu automaticamente</div>
-      <div class="criteria-item">Opcao de aprovar reescrita OU editar manualmente</div>
+      <div class="criteria-item">Card mostra feedback original do founder em destaque (quote block)</div>
+      <div class="criteria-item">Indica que Quill ja reescreveu automaticamente com novo score</div>
+      <div class="criteria-item">3 opcoes: Aprovar reescrita, Editar manualmente, Pedir outra versao</div>
+      <div class="criteria-item">Historico: versao original → feedback → versao ajustada (timeline)</div>
     </div>
   </div>
 </div>
 
 <div class="divider"></div>
 
-<!-- ═══════════ FOUNDER ═══════════ -->
+<!-- ══════════════════════════════════════════════════════════ -->
+<!--                      FOUNDER                              -->
+<!-- ══════════════════════════════════════════════════════════ -->
 <div class="actor">
   <div class="actor-header">
     <div class="actor-badge" style="background:linear-gradient(135deg,#FF9500,#CC7700)">F</div>
-    <div><div class="actor-name">Founder</div><div class="actor-desc">Ex: Joao Mendes · Cliente da agencia. Aprova posts, envia material, ve resultados</div></div>
+    <div><div class="actor-name">Founder</div><div class="actor-desc">Joao Mendes · 39 anos · CEO TechFlow (SaaS B2B) · Paga R$1.000/mes</div></div>
   </div>
 
+  <div class="actor-profile">
+    <strong>Quem e Joao:</strong> CEO de um SaaS B2B com 120 funcionarios. Fatura R$8M ARR. Contratou o Grupo Silva pra ser posicionado como autoridade em tecnologia e empreendedorismo. Nao tem tempo pra redes sociais — quer delegar 100%. Paga R$1.000/mes e espera resultado sem trabalho. <em>Interacao ideal: 5 minutos por dia no WhatsApp.</em><br><br>
+    <strong>O que Joao ODEIA:</strong> Login em sistema. Preencher formulario. Reuniao de "alinhamento". Email longo. Grupo de WhatsApp barulhento. Joao quer: <strong>aprovacao via WhatsApp (responde "1"), resultados no portal quando quiser ver, e ser lembrado de gravar video sem ser chatice.</strong>
+  </div>
+
+  <!-- ═══ US-F01 ═══ -->
   <div class="story">
     <div class="story-id">US-F01 — Receber convite e criar conta</div>
-    <div class="story-title">Joao recebe email da agencia e cria seu acesso</div>
-    <div class="story-narrative">Joao recebe email: <strong>"Seu posicionamento digital esta pronto pra comecar"</strong>. Clica no link. Ve tela dark com: "Bem-vindo, Joao. Convite de Grupo Silva." Lista de beneficios (aprovar posts, enviar fotos, brand book, metricas). Cria senha. Ve: <strong>"Acesso criado! 3 passos: Brand Book, fotos, video."</strong> Clica "Comecar setup".</div>
+    <div class="story-title">Joao recebe email + WhatsApp da agencia e cria acesso em 2 minutos</div>
+
+    <div class="ctx">
+      <strong>Segunda-feira, 15:00.</strong> Joao acabou de fechar com o Grupo Silva. Esta no meio de uma reuniao de board. Celular vibra: email do Grupo Silva + mensagem no WhatsApp. <em>Se o processo de aceite demorar mais de 3 minutos, Joao vai fazer "depois" e depois vira "nunca".</em>
+    </div>
+
+    <div class="timeline">
+      <div class="beat b-neutral">
+        <div class="beat-time">15:00 — WhatsApp vibra</div>
+        <div class="beat-action">Pulse: "Oi Joao, aqui e o Pulse. Felipe do Grupo Silva te cadastrou. Seu posicionamento comeca agora."</div>
+        <div class="beat-detail">Joao le rápido no WA. Link: "Criar seu acesso (2 min)". Ele pode fazer pelo WA OU pelo email que chegou ao mesmo tempo. Clica no link do WA — abre no browser mobile.</div>
+        <div class="beat-emotion emo-neutral">Curiosidade rapida — "vou ver o que e isso"</div>
+      </div>
+      <div class="beat b-relief">
+        <div class="beat-time">15:01 — Tela de aceite: dark, clean, 3 coisas pra fazer</div>
+        <div class="beat-action">"Bem-vindo, Joao. Convite de Grupo Silva." Nome e email ja preenchidos.</div>
+        <div class="beat-detail">Tela mostra: logo Grupo Silva, nome do Joao ja preenchido (veio do cadastro do Felipe), lista de beneficios (aprovar posts no WA, enviar fotos, brand book, metricas). Joao so precisa criar SENHA. Cria. "Acesso criado! 3 proximos passos: Brand Book, fotos, video. Pode fazer agora ou depois." Joao clica "Fazer depois — me lembrar no WA." Perfeito.</div>
+        <div class="beat-emotion emo-relief">Rapido — "2 minutos, sem chatice"</div>
+      </div>
+    </div>
+
+    <div class="motive">
+      Joao quer <strong>zero friccao</strong>. Ele paga R$1.000/mes pra alguem cuidar. Se o sistema criar mais trabalho do que resolver, ele cancela no mes 2. O aceite de convite precisa ser <strong>mais facil do que responder um email</strong>.
+    </div>
+
+    <div class="fail">
+      <strong>Cenario:</strong> Joao clica no link do WA mas o browser abre a versao desktop do site (mobile detection falhou). Tela nao e responsiva. Botao "Criar senha" ta cortado. Joao fecha e nao volta.<br><br>
+      <strong>Resolucao:</strong> Tela de aceite 100% mobile-first. Touch targets >= 44px. Input senha com show/hide. Botao full-width. Funciona offline? Nao — mas carrega em < 2s no 4G.
+    </div>
+
     <span class="story-screen">client-accept-invite.html</span> <span class="tag tag-exists">existe</span>
-    <span class="story-screen">client-onboarding.html</span> <span class="tag tag-exists">existe</span>
     <div class="story-criteria">
       <h4>Criterios de aceite</h4>
-      <div class="criteria-item">Email com preview do que vai ter</div>
-      <div class="criteria-item">Nome e email preenchidos (vem do cadastro do gestor)</div>
-      <div class="criteria-item">Criar senha → tela de sucesso com 3 proximos passos</div>
-      <div class="criteria-item">"Comecar setup" → onboarding 6 passos guiados</div>
+      <div class="criteria-item">Nome e email ja preenchidos (vem do cadastro do gestor)</div>
+      <div class="criteria-item">Unica acao: criar senha (1 campo + confirmacao)</div>
+      <div class="criteria-item">Lista de beneficios visual (3-4 itens com icone)</div>
+      <div class="criteria-item">Opcao "Fazer onboarding agora" OU "Fazer depois — me lembrar no WA"</div>
+      <div class="criteria-item">100% mobile-first, < 2s carregamento, touch targets >= 44px</div>
     </div>
   </div>
 
+  <!-- ═══ US-F02 ═══ -->
   <div class="story">
     <div class="story-id">US-F02 — Fazer onboarding guiado</div>
-    <div class="story-title">Joao responde brand book, envia fotos, grava video</div>
-    <div class="story-narrative">O <em>assistente</em> guia Joao por <strong>6 passos</strong>: (1) Brand Book via chat — empresa, nicho. (2) Nicho especifico. (3) Upload de fotos pro clone visual — "arraste 40-50 fotos". (4) Escolher estilo fotografico — Corporate Premium, Casual, Tech CEO. (5) Gravar video de 2min pra avatar. (6) Conectar redes (ou deixar pro SM). Joao pode pular e voltar depois.</div>
+    <div class="story-title">Joao responde Brand Book, manda fotos e grava video — no ritmo dele</div>
+
+    <div class="ctx">
+      <strong>Quarta-feira, 21:00.</strong> Joao ta no sofa, TV ligada, celular na mao. Pulse mandou lembrete: "Joao, falta completar 3 passos do seu setup. Leva 10 min. Quer fazer agora?" Joao responde "Sim". Pulse manda o link. <em>Joao faz quando QUER, nao quando a agencia exige.</em>
+    </div>
+
+    <div class="timeline">
+      <div class="beat b-neutral">
+        <div class="beat-time">21:00 — Abre onboarding. 6 passos, 2 ja feitos.</div>
+        <div class="beat-action">Passo 1 (Brand Book via chat) e 2 (nicho) ja completos. Faltam 4.</div>
+        <div class="beat-detail">Passo 3: Upload de 40-50 fotos pro clone visual. Joao abre a galeria, seleciona 43 fotos de eventos, escritorio, dia a dia. Arrasta. Upload com progress bar. Passo 4: Estilo fotografico — "Corporate Premium", "Casual Urbano", "Tech CEO". Joao escolhe "Tech CEO". Passo 5: Gravar video de 2min. Joao pula — "faco amanha no escritorio". Passo 6: Conectar redes. Joao conecta IG e LI. TT e X: "o SM faz."</div>
+        <div class="beat-emotion emo-neutral">Preguica produtiva — "fiz o que dava, pulei o que nao dava"</div>
+      </div>
+    </div>
+
+    <div class="motive">
+      Joao quer completar o onboarding NO RITMO DELE. Pode ser tudo em 1 sessao ou espalhado em 5 dias. <strong>O sistema nao pode travar se um passo nao for feito.</strong> Se Joao nao gravou o video, o sistema continua sem video — Director usa fotos enquanto espera. Tudo e opcional exceto Brand Book.
+    </div>
+
+    <div class="edge">
+      <ul>
+        <li><strong>Joao nunca grava o video:</strong> Director usa fotos pra tudo. Qualidade cai mas nao para. Pulse lembra 1x por semana: "Video ainda pendente. Com video, engagement sobe ~40%."</li>
+        <li><strong>Joao manda 3 fotos em vez de 40:</strong> Clone visual fica limitado. Sistema avisa: "Com 3 fotos, a variedade visual sera baixa. Recomendamos 40+." Nao bloqueia.</li>
+        <li><strong>Joao nao conecta nenhuma rede:</strong> SM pode conectar por ele (com permissao). Pulse pergunta no WA: "Joao, posso pedir pro Carlos conectar suas redes? Sim/Nao."</li>
+      </ul>
+    </div>
+
     <span class="story-screen">client-onboarding.html</span> <span class="tag tag-exists">existe</span>
     <div class="story-criteria">
       <h4>Criterios de aceite</h4>
-      <div class="criteria-item">6 passos com progress indicator</div>
-      <div class="criteria-item">Chat guiado pelo assistente</div>
-      <div class="criteria-item">Upload drag&drop pra fotos e video</div>
-      <div class="criteria-item">Opcao "Enviar depois" em cada passo</div>
-      <div class="criteria-item">Ao final → portal do founder</div>
+      <div class="criteria-item">6 passos com progress indicator (pode pular qualquer um exceto Brand Book)</div>
+      <div class="criteria-item">Cada passo mostra: status (feito/pendente/pulado), tempo estimado</div>
+      <div class="criteria-item">Upload drag&drop pra fotos e video com progress bar</div>
+      <div class="criteria-item">Opcao "Enviar depois" em cada passo (nao bloqueia fluxo)</div>
+      <div class="criteria-item">Retomavel: se fechar e voltar, continua de onde parou</div>
+      <div class="criteria-item">Ao final → portal do founder com welcome message</div>
     </div>
   </div>
 
+  <!-- ═══ US-F03 ═══ -->
   <div class="story">
     <div class="story-id">US-F03 — Aprovar posts via WhatsApp</div>
-    <div class="story-title">Joao recebe "3 posts pra aprovar" e responde 1/2/3</div>
-    <div class="story-narrative">As 9h, Joao recebe WA do Pulse: <strong>"3 posts pra aprovar. 1. Carrossel IG '5 erros de CEO' — score 94%. 2. Artigo LI 'Futuro do B2B'. 3. Reel TT 'Rotina de CEO'. Responda o numero pra aprovar ou 'ajustar X' pra pedir mudanca."</strong> Joao responde "1" (aprova tudo) ou "ajustar 2, muito formal" (pede mudanca no 2). E rapido, <strong>nao precisa abrir nenhum sistema</strong>.</div>
+    <div class="story-title">Joao recebe "3 posts pra aprovar" e resolve em 5 segundos sem abrir nenhum app</div>
+
+    <div class="ctx">
+      <strong>Quinta-feira, 08:02.</strong> Joao esta fazendo cafe. Celular vibra no bolso. WhatsApp do Pulse. <em>Este e o momento que define o produto inteiro. Se a aprovacao via WA for confusa, longa ou chata, o sistema inteiro falha — porque o founder e o gargalo.</em> Joao precisa resolver em MENOS TEMPO do que leva pra abrir o email.
+    </div>
+
+    <div class="timeline">
+      <div class="beat b-neutral">
+        <div class="beat-time">08:02 — Mensagem do Pulse no WhatsApp</div>
+        <div class="beat-action">"Bom dia Joao! 18 posts publicados, ER 4.8%. 3 pra aprovar:"</div>
+        <div class="beat-detail">"1. Carrossel IG '5 erros de CEO' — score 94%<br>2. Artigo LI 'Futuro do B2B' — score 88%<br>3. Reel TT 'Rotina de CEO' — score 91%<br><br>Responda o NUMERO pra aprovar ou 'ajustar X' com seu feedback."<br><br>Joao le os titulos. Confia no score. Responde: <strong>"1"</strong>. Pronto. Os 3 posts vao pro agendamento.</div>
+        <div class="beat-emotion emo-neutral">Zero esforco — "5 segundos, cafe na mao, resolvido"</div>
+      </div>
+      <div class="beat b-power">
+        <div class="beat-time">08:07 — Joao nao gostou do artigo do LinkedIn</div>
+        <div class="beat-action">"Ajustar 2, muito formal. Quero tipo aquele que viralizou."</div>
+        <div class="beat-detail">Joao manda audio: "Esse texto ta muito seco. Quero tipo aquele post sobre unit economics. Provocador, com dados." <strong>Pulse transcreve o audio automaticamente.</strong> Envia pro Quill. Quill reescreve. Maria revisa. 20 minutos depois, Joao recebe: "Versao ajustada do artigo LI. Score 91%. Aprovar?" Joao: "1". Resolvido.</div>
+        <div class="beat-emotion emo-power">Poder — "falo e a maquina obedece. Sem reuniao."</div>
+      </div>
+    </div>
+
+    <div class="motive">
+      Joao paga R$1.000/mes pra <strong>NAO PENSAR em redes sociais</strong>. O WhatsApp e o unico canal que ele aceita. Se precisar abrir dashboard, login, email — ele nao faz. O Pulse no WA e o UNICO ponto de contato. <strong>Se o Pulse for bom, Joao nunca cancela. Se for chato, cancela no mes 2.</strong>
+    </div>
+
+    <div class="fail">
+      <strong>Cenario:</strong> Pulse manda 12 posts pra aprovar de uma vez (acumulou 4 dias). Joao ve uma parede de texto no WA. "Nao tenho tempo pra ler isso tudo." Ignora. 3 dias depois, mais 15 posts. Joao: "Cancela, isso ta me dando MAIS trabalho."<br><br>
+      <strong>Resolucao:</strong> Maximo 5 posts por mensagem. Se tem mais de 5: "Voce tem 12 posts. Vou mandar os 5 mais urgentes agora. Os outros 7 estao no portal." Respeitar o tempo do founder.
+    </div>
+
+    <div class="edge">
+      <ul>
+        <li><strong>Joao responde com emoji (thumbsup):</strong> Pulse interpreta como aprovacao. "Entendi como aprovacao dos 3 posts. Correto?" Confirmacao implicita mas nao cega.</li>
+        <li><strong>Joao manda audio de 3 minutos:</strong> Pulse transcreve, extrai feedback por post, confirma: "Entendi: post 1 OK, post 2 mais provocador, post 3 tirar a parte de fundraising. Correto?"</li>
+        <li><strong>Joao nao responde ha 24h:</strong> Pulse escala pro SM: "Maria, Joao nao respondeu 3 aprovacoes em 24h. Posts estao atrasando o agendamento." SM decide: publicar sem aprovacao (se permitido) ou cobrar pessoalmente.</li>
+        <li><strong>WhatsApp do Joao ta offline (viagem internacional):</strong> Fallback pra email + SMS. Portal mostra aprovacoes pendentes quando ele voltar.</li>
+      </ul>
+    </div>
+
+    <div class="contrast">
+      <div class="contrast-col contrast-before">
+        <strong>Aprovacao manual:</strong> SM manda no grupo WA: "Joao, ve esse carrossel". Grupo tem 15 pessoas. Mensagem se perde. Joao nao ve. SM cobra 2 dias depois. Joao: "Manda de novo?" SM manda. Joao: "Ta bom." 4 dias pra aprovar 1 post.
+      </div>
+      <div class="contrast-col contrast-after">
+        <strong>Via Pulse:</strong> Mensagem individual, formatada, com scores. Joao responde "1" em 5 segundos. Pronto. <strong>De 4 dias pra 5 segundos.</strong>
+      </div>
+    </div>
+
     <span class="story-screen">client-portal.html (WA preview)</span> <span class="tag tag-exists">existe</span>
     <div class="story-criteria">
       <h4>Criterios de aceite</h4>
-      <div class="criteria-item">Portal mostra preview da conversa WhatsApp</div>
-      <div class="criteria-item">WA preview mostra posts numerados com score</div>
-      <div class="criteria-item">Resposta "1" = aprovar, "2" = ajustar, "3" = rejeitar</div>
-      <div class="criteria-item">Feedback volta pro SM automaticamente</div>
+      <div class="criteria-item">Portal mostra preview da conversa WA (historico de aprovacoes)</div>
+      <div class="criteria-item">WA: posts numerados com titulo, rede, score. Max 5 por mensagem.</div>
+      <div class="criteria-item">Resposta "1" = aprovar todos. "ajustar X" = feedback especifico. "nao" = rejeitar.</div>
+      <div class="criteria-item">Audio transcrito automaticamente com confirmacao</div>
+      <div class="criteria-item">Escalacao automatica se sem resposta: 4h (lembrete) → 8h (SM) → 24h (Gestor)</div>
+      <div class="criteria-item">Feedback volta pro SM via fila automaticamente</div>
     </div>
   </div>
 
+  <!-- ═══ US-F04 ═══ -->
   <div class="story">
     <div class="story-id">US-F04 — Ver checklist e cumprir tarefas</div>
-    <div class="story-title">Joao ve o que precisa entregar essa semana</div>
-    <div class="story-narrative">Joao abre o portal e ve: <strong>"Suas tarefas da semana"</strong>. Gravar video 1h (entregue). 3 stories bastidores (ATRASADO). 5 fotos novas (qua). Brand Book perguntas (qui). Roteiro podcast (sex). O Pulse ja cobrou no WA: "Falta gravar stories, consegue hoje?" Joao sabe exatamente o que precisa fazer.</div>
+    <div class="story-title">Joao abre o portal e ve o que precisa entregar — sem surpresas</div>
+
+    <div class="ctx">
+      <strong>Domingo, 10:00.</strong> Joao tem 1 hora livre. Quer ver se tem algo pendente pra semana. Abre o portal. <em>Se precisar de login complexo ou navegar 5 telas, ele fecha e vai jogar golf.</em>
+    </div>
+
+    <div class="timeline">
+      <div class="beat b-neutral">
+        <div class="beat-time">10:00 — Portal carrega. Checklist da semana no topo.</div>
+        <div class="beat-action">5 tarefas: 2 feitas, 1 atrasada, 2 pendentes.</div>
+        <div class="beat-detail">Video 1h (ENTREGUE sab). 3 stories bastidores (ATRASADO 1 dia — Pulse ja cobrou). 5 fotos novas (qua). Brand Book perguntas (qui). Roteiro podcast (sex). Joao ve que stories esta atrasado. Pensa: "Gravo agora." Marca "vou fazer" — Pulse nao cobra ate ele entregar. <strong>Nenhuma surpresa. Tudo que ele precisa fazer ta ali.</strong></div>
+        <div class="beat-emotion emo-neutral">Clareza — "sei o que falta sem perguntar pra ninguem"</div>
+      </div>
+    </div>
+
     <span class="story-screen">client-portal.html</span> <span class="tag tag-exists">existe</span>
     <div class="story-criteria">
       <h4>Criterios de aceite</h4>
-      <div class="criteria-item">Checklist com status visual (feito/atrasado/pendente)</div>
-      <div class="criteria-item">Dates por tarefa</div>
-      <div class="criteria-item">Alerta vermelho em atrasados</div>
-      <div class="criteria-item">Check clicavel pra marcar feito</div>
+      <div class="criteria-item">Checklist semanal com status visual: feito (verde), atrasado (vermelho), pendente (cinza)</div>
+      <div class="criteria-item">Data limite por tarefa</div>
+      <div class="criteria-item">Botao "Vou fazer" pausa lembretes ate entrega ou nova data</div>
+      <div class="criteria-item">Metricas resumidas: seguidores, ER, posts semana (sem dashboard complexo)</div>
+      <div class="criteria-item">Login rapido: magic link via WA ou email, zero senha complexa</div>
     </div>
   </div>
 </div>
 
 <div class="divider"></div>
 
-<!-- ═══════════ ADMIN ═══════════ -->
+<!-- ══════════════════════════════════════════════════════════ -->
+<!--                        ADMIN                              -->
+<!-- ══════════════════════════════════════════════════════════ -->
 <div class="actor">
   <div class="actor-header">
     <div class="actor-badge" style="background:linear-gradient(135deg,#007AFF,#0055CC)">A</div>
-    <div><div class="actor-name">Admin KTANA</div><div class="actor-desc">Dono da plataforma · Ve todas as agencias (tenants), billing global, agentes</div></div>
+    <div><div class="actor-name">Admin KTANA</div><div class="actor-desc">Dono da plataforma · Ve TODAS as agencias, billing global, agentes, saude</div></div>
   </div>
 
+  <div class="actor-profile">
+    <strong>Quem e o Admin:</strong> E quem opera a plataforma KTANA Social. Ve TODAS as agencias (Grupo Silva, Blank, Empire, etc). Cada agencia e um <em>tenant de nivel 1</em>. Dentro de cada agencia: clientes sao <em>tenants de nivel 2</em>. O admin cuida de: billing, consumo de tokens, saude dos agentes, onboarding de novas agencias. <strong>Nao gerencia clientes individuais — isso e responsabilidade de cada agencia.</strong>
+  </div>
+
+  <!-- ═══ US-A01 ═══ -->
   <div class="story">
     <div class="story-id">US-A01 — Ver todas as agencias</div>
-    <div class="story-title">Admin ve Grupo Silva, Agencia X, Agencia Y — todas as empresas</div>
-    <div class="story-narrative">O admin abre o <em>painel</em> e ve: <strong>12 agencias usando o sistema</strong>. Grupo Silva: 400 clientes, R$48K MRR. Agencia X: 80 clientes, R$12K MRR. Ve tokens consumidos, agentes ativos, erros. Pode clicar em qualquer tenant pra ver detalhe: quantos clientes, membros, quais agentes usam, consumo.</div>
-    <span class="story-screen">admin.html</span> <span class="tag tag-exists">existe</span>
+    <div class="story-title">Admin abre o painel e ve 12 agencias com MRR, clientes e saude de cada uma</div>
+
+    <div class="ctx">
+      <strong>Segunda-feira, 09:00.</strong> O admin precisa saber: quantas agencias ativas? Qual o MRR total? Alguma agencia com problema? Tokens estourando? Agente com erro? <em>Visao de CEO da plataforma — nao de gestor de agencia.</em>
+    </div>
+
+    <div class="timeline">
+      <div class="beat b-power">
+        <div class="beat-time">09:00 — Dashboard admin: 12 agencias, R$186K MRR plataforma</div>
+        <div class="beat-action">Lista de agencias ordenada por MRR</div>
+        <div class="beat-detail">Grupo Silva: 400 clientes, R$48K MRR, 7 agentes, 340K tokens/dia, saude VERDE. Blank Agency: 200 clientes, R$32K MRR, 5 agentes, 180K tokens/dia, saude VERDE. Empire Digital: 150 clientes, R$24K MRR, 7 agentes, 420K tokens/dia, saude AMARELA (tokens altos). Mais 9 agencias menores. <strong>Admin ve o ecossistema inteiro em 1 tela.</strong></div>
+        <div class="beat-emotion emo-power">Visao total — "sei exatamente como cada agencia esta"</div>
+      </div>
+      <div class="beat b-neutral">
+        <div class="beat-time">09:02 — Clica na Empire Digital (saude amarela)</div>
+        <div class="beat-action">Detalhe: tokens 40% acima da media, Scout rodando demais</div>
+        <div class="beat-detail">Empire tem 150 clientes mas consome tokens como se tivesse 400. Motivo: Scout configurado pra pesquisar a cada 2h (em vez de 6h). Admin pode: notificar a Empire, ajustar rate limit, ou subir o plano.</div>
+        <div class="beat-emotion emo-neutral">Diagnostico rapido — "identifiquei e resolvi em 2 minutos"</div>
+      </div>
+    </div>
+
+    <div class="fail">
+      <strong>Cenario:</strong> Admin abre o painel e ve "Grupo Silva" — so 1 agencia. Nao mostra as outras 11. Porque? O admin.html atual so mostra 1 tenant. <strong>Precisa ser redesenhado pra mostrar LISTA DE AGENCIAS.</strong><br><br>
+      <strong>Resolucao:</strong> admin.html vira lista de agencias (tenants nivel 1) com cards. Clica na agencia → admin-tenant-detail.html com dados dessa agencia (clientes, membros, agentes, tokens, billing).
+    </div>
+
+    <span class="story-screen">admin.html</span> <span class="tag tag-exists">PRECISA MUDAR</span>
     <span class="story-screen">admin-tenant-detail.html</span> <span class="tag tag-exists">existe</span>
     <div class="story-criteria">
       <h4>Criterios de aceite</h4>
-      <div class="criteria-item">Lista de TODAS as agencias (tenants de nivel 1)</div>
-      <div class="criteria-item">MRR, clientes, tokens por agencia</div>
-      <div class="criteria-item">Clica na agencia → detalhe com membros, agentes, top clientes</div>
-      <div class="criteria-item">Billing global: total MRR, consumo tokens, faturas</div>
+      <div class="criteria-item">Lista de TODAS as agencias (tenants nivel 1) com: nome, clientes, MRR, tokens, saude</div>
+      <div class="criteria-item">Ordenacao por MRR (padrao), clientes, tokens, saude</div>
+      <div class="criteria-item">Indicador saude: VERDE (normal), AMARELO (tokens altos/alertas), VERMELHO (erro critico)</div>
+      <div class="criteria-item">KPIs globais no topo: total agencias, total clientes, MRR total, tokens totais</div>
+      <div class="criteria-item">Clica na agencia → detalhe com: membros, agentes, top clientes, billing, tokens breakdown</div>
+      <div class="criteria-item">Busca/filtro por nome de agencia</div>
     </div>
   </div>
 
+  <!-- ═══ US-A02 ═══ -->
   <div class="story">
     <div class="story-id">US-A02 — Gerenciar agentes globais</div>
-    <div class="story-title">Admin ve quantas instancias de cada agente estao rodando</div>
-    <div class="story-narrative">O admin abre <em>Agentes Globais</em> e ve: Scout tem <strong>12 instancias</strong> (uma por agencia ativa). Quill: 12 instancias, 340K tokens hoje. Canvas: 8 instancias. Pode ver qual modelo LLM cada agente usa, custo por token, e se algum agente esta com erro.</div>
+    <div class="story-title">Admin ve quantas instancias de cada agente estao rodando e quanto custam</div>
+
+    <div class="ctx">
+      <strong>09:05, continua.</strong> Admin quer saber: os 7 agentes estao saudaveis? Quanto cada um custa? Algum modelo LLM precisa ser trocado? Tem agente com taxa de erro alta?
+    </div>
+
+    <div class="timeline">
+      <div class="beat b-neutral">
+        <div class="beat-time">09:05 — Tela Agentes Globais</div>
+        <div class="beat-action">7 agentes com metricas agregadas de TODAS as agencias</div>
+        <div class="beat-detail">Scout: 12 instancias (1 por agencia), 89K tokens/dia, modelo GPT-4o, custo R$12/dia, erro 0.2%. Quill: 12 instancias, 340K tokens/dia, modelo Claude Sonnet, custo R$45/dia, erro 0.8%. Canvas: 8 instancias, 120K tokens/dia, modelo DALL-E 3, custo R$28/dia, erro 1.2% (AMARELO). Admin clica no Canvas: erro e "timeout ao gerar design pra templates complexos". Solucao: aumentar timeout ou trocar modelo.</div>
+        <div class="beat-emotion emo-neutral">Operacional — "monitoramento de frota de agentes"</div>
+      </div>
+    </div>
+
     <span class="story-screen">admin-agents.html</span> <span class="tag tag-exists">existe</span>
     <div class="story-criteria">
       <h4>Criterios de aceite</h4>
-      <div class="criteria-item">7 agentes com instancias por tenant</div>
-      <div class="criteria-item">Consumo de tokens por agente</div>
-      <div class="criteria-item">Modelo LLM configuravel</div>
-      <div class="criteria-item">Status: ativo/erro/pausado</div>
+      <div class="criteria-item">7 agentes com: instancias por agencia, tokens/dia, modelo LLM, custo/dia, taxa erro</div>
+      <div class="criteria-item">Status: ativo (verde), alerta (amarelo), erro (vermelho), pausado (cinza)</div>
+      <div class="criteria-item">Clica no agente → log de erros recentes, metricas temporais, config modelo</div>
+      <div class="criteria-item">Trocar modelo LLM: dropdown com opcoes + estimativa de custo</div>
+      <div class="criteria-item">Grafico de custo por agente nos ultimos 30 dias</div>
     </div>
   </div>
 </div>
 
-<div style="text-align:center;padding:40px 0;font-size:11px;color:#AEAEB2">
-  15 historias de usuario · 5 atores · cada historia mapeia pra 1+ tela do prototipo<br>
-  <a href="user-flow.html" style="color:#D70030">Ver fluxo visual →</a>
+<!-- ═══ FOOTER ═══ -->
+<div style="text-align:center;padding:48px 0 20px;font-size:11px;color:#AEAEB2;line-height:1.8">
+  21 historias de usuario · 5 atores · 9 camadas de profundidade por historia<br>
+  Framework: Contexto → Cenario Real → Emocao → Motivacao → Frustracao → Falha → Edge Cases → Tela + Criterios → Antes vs Depois<br><br>
+  <a href="product-deep-dive.html" style="color:#D70030">Product Deep Dive →</a> · <a href="user-flow.html" style="color:#D70030">Fluxo Visual →</a><br><br>
+  <span style="font-size:10px">V3 Sessao 4 · SaaS Social Media · KTANA</span>
 </div>
 
 </body></html>

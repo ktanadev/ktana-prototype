@@ -1,0 +1,185 @@
+<!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>KTANA Social — Gestao de Crise</title><link rel="stylesheet" href="../shared.css"><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Satoshi:wght@400;500;600;700&family=Zen+Dots&display=swap" rel="stylesheet">
+<style>
+body{min-height:100vh;background:#F5F5F7;color:#1D1D1F}
+a{text-decoration:none;color:inherit}
+.main{max-width:760px;padding:24px 24px 100px}
+.page-title{font-family:'Satoshi',sans-serif;font-size:22px;font-weight:700;color:#1D1D1F;margin-bottom:4px}
+.page-sub{font-family:'Inter',sans-serif;font-size:12px;color:#86868B;margin-bottom:24px}
+.section-label{font-family:'Inter',sans-serif;font-size:10px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:#86868B;margin-bottom:12px;margin-top:28px}
+
+/* ALERT BANNER */
+.alert-banner{background:linear-gradient(135deg,rgba(215,0,48,0.06),rgba(215,0,48,0.02));border:1px solid rgba(215,0,48,0.15);border-radius:16px;padding:20px;margin-bottom:24px;display:flex;gap:16px;align-items:flex-start}
+.alert-icon{width:40px;height:40px;border-radius:12px;background:rgba(215,0,48,0.1);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.alert-icon svg{width:20px;height:20px;stroke:#D70030;fill:none;stroke-width:2}
+.alert-body h3{font-family:'Satoshi',sans-serif;font-size:15px;font-weight:600;color:#D70030;margin-bottom:4px}
+.alert-body p{font-family:'Inter',sans-serif;font-size:12px;color:#6E6E73;line-height:1.6}
+.alert-body .alert-time{font-family:'Inter',sans-serif;font-size:10px;color:#AEAEB2;margin-top:6px}
+
+/* CRISIS CARD */
+.crisis{background:#FFF;border-radius:16px;border:1px solid rgba(0,0,0,0.04);padding:20px;margin-bottom:12px}
+.crisis-header{display:flex;align-items:center;gap:12px;margin-bottom:14px}
+.crisis-av{width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#D70030,#A60028);display:flex;align-items:center;justify-content:center;font-family:'Inter',sans-serif;font-size:10px;font-weight:700;color:#FFF;flex-shrink:0}
+.crisis-info{flex:1}
+.crisis-name{font-family:'Satoshi',sans-serif;font-size:14px;font-weight:600;color:#1D1D1F}
+.crisis-sub{font-family:'Inter',sans-serif;font-size:11px;color:#86868B}
+.crisis-severity{font-family:'Inter',sans-serif;font-size:10px;font-weight:600;padding:3px 10px;border-radius:6px}
+.sev-critical{background:rgba(215,0,48,0.1);color:#D70030}
+.sev-high{background:rgba(255,149,0,0.1);color:#CC7700}
+.sev-medium{background:rgba(255,204,0,0.1);color:#996600}
+
+/* TIMELINE */
+.cr-timeline{border-left:2px solid rgba(0,0,0,0.06);margin-left:18px;padding-left:20px}
+.cr-step{position:relative;padding:10px 0 18px}
+.cr-step::before{content:'';position:absolute;left:-27px;top:14px;width:12px;height:12px;border-radius:50%;background:#FFF;border:2px solid #AEAEB2}
+.cr-step.done::before{background:#34C759;border-color:#34C759}
+.cr-step.active::before{background:#D70030;border-color:#D70030;box-shadow:0 0 0 4px rgba(215,0,48,0.15)}
+.cr-step.pending::before{background:#F5F5F7;border-color:#D2D2D7}
+.cr-step-title{font-family:'Inter',sans-serif;font-size:12px;font-weight:600;color:#1D1D1F;margin-bottom:2px}
+.cr-step-detail{font-family:'Inter',sans-serif;font-size:11px;color:#86868B;line-height:1.6}
+.cr-step-time{font-family:'Inter',sans-serif;font-size:10px;color:#AEAEB2;margin-top:4px}
+
+/* OPTIONS */
+.options{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px}
+.option{padding:14px;border-radius:12px;border:1.5px solid rgba(0,0,0,0.06);cursor:pointer;transition:all .15s}
+.option:hover{border-color:rgba(215,0,48,0.2);background:rgba(215,0,48,0.02)}
+.option.selected{border-color:#D70030;background:rgba(215,0,48,0.04)}
+.option-title{font-family:'Satoshi',sans-serif;font-size:13px;font-weight:600;color:#1D1D1F;margin-bottom:4px}
+.option-desc{font-family:'Inter',sans-serif;font-size:10px;color:#86868B;line-height:1.5}
+
+/* ACTIONS */
+.actions{display:flex;gap:10px;margin-top:16px}
+.btn-primary{font-family:'Inter',sans-serif;padding:10px 24px;border-radius:12px;background:#1D1D1F;color:#F5F5F7;font-size:13px;font-weight:500;border:none;cursor:pointer;min-height:42px;transition:all .15s}
+.btn-primary:hover{background:#000}
+.btn-secondary{font-family:'Inter',sans-serif;padding:10px 24px;border-radius:12px;background:transparent;color:#86868B;font-size:13px;border:1px solid rgba(0,0,0,0.08);cursor:pointer;min-height:42px}
+
+/* NO CRISIS */
+.no-crisis{text-align:center;padding:60px 20px;background:#FFF;border-radius:20px;border:1px solid rgba(0,0,0,0.04)}
+.no-crisis svg{width:48px;height:48px;stroke:#34C759;fill:none;stroke-width:1.5;margin-bottom:12px}
+.no-crisis h3{font-family:'Satoshi',sans-serif;font-size:16px;font-weight:600;color:#1D1D1F;margin-bottom:6px}
+.no-crisis p{font-family:'Inter',sans-serif;font-size:12px;color:#86868B;max-width:300px;margin:0 auto}
+
+/* TEMPLATES */
+.template{background:#FFF;border-radius:14px;border:1px solid rgba(0,0,0,0.04);padding:16px;margin-bottom:10px;cursor:pointer;transition:all .15s}
+.template:hover{border-color:rgba(215,0,48,0.1);box-shadow:0 2px 12px rgba(0,0,0,0.04)}
+.template-title{font-family:'Satoshi',sans-serif;font-size:13px;font-weight:600;color:#1D1D1F;margin-bottom:4px}
+.template-desc{font-family:'Inter',sans-serif;font-size:11px;color:#86868B}
+.template-tag{display:inline-block;font-family:'Inter',sans-serif;font-size:9px;font-weight:600;padding:2px 6px;border-radius:4px;background:rgba(0,122,255,0.08);color:#007AFF;margin-top:6px}
+</style>
+</head>
+<body data-client="true" data-active="clients">
+<main class="main">
+
+<div class="page-title">Gestao de Crise</div>
+<p class="page-sub">Joao Mendes — TechFlow · Framework de resposta a crises de reputacao</p>
+
+<!-- ACTIVE CRISIS ALERT -->
+<div class="alert-banner">
+  <div class="alert-icon"><svg viewBox="0 0 24 24"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></div>
+  <div class="alert-body">
+    <h3>Crise ativa: comentario viral negativo</h3>
+    <p>Post "Rotina de CEO" recebeu 47 comentarios negativos em 2h. ER negativo 8.2%. Metrics detectou automaticamente. Agendamentos pausados.</p>
+    <div class="alert-time">Detectado ha 1h23min · Metrics alertou SM + Gestor</div>
+  </div>
+</div>
+
+<!-- CRISIS DETAIL -->
+<div class="crisis">
+  <div class="crisis-header">
+    <div class="crisis-av">JM</div>
+    <div class="crisis-info">
+      <div class="crisis-name">Post: "Rotina de CEO" — Reel TikTok</div>
+      <div class="crisis-sub">Publicado ontem 15:00 · 12.400 views · 47 comentarios negativos</div>
+    </div>
+    <span class="crisis-severity sev-critical">Critica</span>
+  </div>
+
+  <div class="section-label">Timeline de resposta</div>
+  <div class="cr-timeline">
+    <div class="cr-step done">
+      <div class="cr-step-title">1. Detectar</div>
+      <div class="cr-step-detail">Metrics identificou ER negativo > 5% e volume de comentarios negativos > 20%. Alerta automatico enviado pra Maria (SM) e Felipe (Gestor).</div>
+      <div class="cr-step-time">Hoje 07:32 — automatico (Metrics)</div>
+    </div>
+    <div class="cr-step done">
+      <div class="cr-step-title">2. Pausar agendamentos</div>
+      <div class="cr-step-detail">Todos os agendamentos do Joao foram pausados automaticamente. Nenhum post novo sera publicado ate a crise ser resolvida.</div>
+      <div class="cr-step-time">Hoje 07:32 — automatico (Sensei)</div>
+    </div>
+    <div class="cr-step done">
+      <div class="cr-step-title">3. Analisar causa</div>
+      <div class="cr-step-detail">Sensei analisou: Joao usou dado incorreto sobre salarios de CEOs. 3 jornalistas compartilharam com critica. Tema sensivel: desigualdade salarial.</div>
+      <div class="cr-step-time">Hoje 07:35 — Sensei + Scout</div>
+    </div>
+    <div class="cr-step active">
+      <div class="cr-step-title">4. Escolher acao</div>
+      <div class="cr-step-detail">Gestor precisa decidir entre as opcoes abaixo. Founder sera notificado DEPOIS da acao (nao antes, pra nao entrar em panico).</div>
+    </div>
+    <div class="cr-step pending">
+      <div class="cr-step-title">5. Executar</div>
+      <div class="cr-step-detail">Aplicar acao escolhida. Monitorar repercussao por 24h.</div>
+    </div>
+    <div class="cr-step pending">
+      <div class="cr-step-title">6. Notificar founder</div>
+      <div class="cr-step-detail">Pulse envia resumo pro Joao: o que aconteceu, o que foi feito, resultado.</div>
+    </div>
+  </div>
+
+  <div class="section-label">Opcoes de resposta</div>
+  <div class="options">
+    <div class="option" onclick="this.classList.toggle('selected')">
+      <div class="option-title">Apagar post</div>
+      <div class="option-desc">Remove o reel do TikTok. Comentarios somem. Risco: screenshots ja circulam — apagar pode parecer censura.</div>
+    </div>
+    <div class="option selected" onclick="this.classList.toggle('selected')">
+      <div class="option-title">Publicar retratacao</div>
+      <div class="option-desc">Quill gera texto de retratacao baseado no template juridico. Reconhece o erro, corrige o dado, mantem posicao. Recomendado pelo Sensei.</div>
+    </div>
+    <div class="option" onclick="this.classList.toggle('selected')">
+      <div class="option-title">Monitorar sem agir</div>
+      <div class="option-desc">Manter post no ar. Nao responder. Monitorar por 48h. Se acalmar sozinho, nenhuma acao. Risco: pode escalar.</div>
+    </div>
+    <div class="option" onclick="this.classList.toggle('selected')">
+      <div class="option-title">Escalar pra juridico</div>
+      <div class="option-desc">Se envolve difamacao, informacao falsa com dano, ou ameaca legal. Sistema sugere texto juridicamente seguro e recomenda consultar advogado.</div>
+    </div>
+  </div>
+
+  <div class="actions">
+    <button class="btn-primary" onclick="this.innerHTML='Acao executada';this.style.background='#34C759'">Executar acao selecionada</button>
+    <button class="btn-secondary" onclick="alert('Chat com Sensei pra discutir opcoes')">Consultar Sensei</button>
+  </div>
+</div>
+
+<!-- PREVIOUS CRISES (RESOLVED) -->
+<div class="section-label">Crises anteriores (resolvidas)</div>
+<div class="no-crisis" style="padding:30px">
+  <div style="display:flex;align-items:center;gap:12px;text-align:left;margin-bottom:12px">
+    <div style="width:8px;height:8px;border-radius:50%;background:#34C759;flex-shrink:0"></div>
+    <div>
+      <div style="font-family:'Satoshi',sans-serif;font-size:13px;font-weight:500;color:#1D1D1F">Comentario ofensivo no IG — 15/Mar</div>
+      <div style="font-family:'Inter',sans-serif;font-size:11px;color:#86868B">Acao: monitorar. Acalmou em 12h. Nenhum impacto.</div>
+    </div>
+  </div>
+</div>
+
+<!-- CRISIS TEMPLATES -->
+<div class="section-label">Templates de resposta</div>
+<div class="template">
+  <div class="template-title">Retratacao profissional</div>
+  <div class="template-desc">"Publicamos uma informacao incorreta sobre [TEMA]. Pedimos desculpas. O dado correto e [DADO]. Estamos comprometidos com a precisao."</div>
+  <div class="template-tag">Pre-aprovado juridico</div>
+</div>
+<div class="template">
+  <div class="template-title">Posicionamento firme</div>
+  <div class="template-desc">"Recebemos criticas sobre nossa posicao em [TEMA]. Mantemos nossa perspectiva baseada em [EVIDENCIA]. Estamos abertos ao dialogo."</div>
+  <div class="template-tag">Opiniao controversa</div>
+</div>
+<div class="template">
+  <div class="template-title">Silencio monitorado</div>
+  <div class="template-desc">Nenhuma publicacao. Monitorar sentimento por 48h. Se acalmar: retomar. Se escalar: retratacao.</div>
+  <div class="template-tag">Baixo risco</div>
+</div>
+
+</main>
+<script src="shared-nav-social.js"></script>
+</body></html>
