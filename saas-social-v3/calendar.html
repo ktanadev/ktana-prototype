@@ -1,168 +1,442 @@
-<!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>KTANA Social — Calendario Editorial</title><link rel="stylesheet" href="../shared.css"><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Zen+Dots&display=swap" rel="stylesheet">
+<!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>KTANA Social — Calendario Editorial</title><link rel="stylesheet" href="../shared.css"><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Satoshi:wght@400;500;600;700&family=Zen+Dots&display=swap" rel="stylesheet">
 <style>
 body{min-height:100vh;background:#F5F5F7;color:#1D1D1F}
 a{text-decoration:none;color:inherit}
-/* nav comes from shared-nav-social.js */
-.top-bar{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px}
-.top-bar h1{font-family:'Zen Dots',cursive;font-size:22px;color:#1D1D1F}
-.top-controls{display:flex;align-items:center;gap:10px}
-.view-toggle{display:flex;background:#FFF;border:1px solid rgba(0,0,0,0.06);border-radius:10px;overflow:hidden}
-.vt-btn{font-family:'Inter',sans-serif;font-size:11px;font-weight:500;padding:7px 14px;cursor:pointer;transition:all 0.15s;color:#86868B}
-.vt-btn.active{background:rgba(215,0,48,0.06);color:#D70030}
-.vt-btn:hover{color:#1D1D1F}
-.month-nav{display:flex;align-items:center;gap:10px}
-.month-nav button{width:28px;height:28px;border-radius:50%;border:1px solid rgba(0,0,0,0.06);background:#FFF;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all 0.15s}
-.month-nav button:hover{border-color:rgba(215,0,48,0.15)}
-.month-nav button svg{width:12px;height:12px;stroke:#86868B;fill:none;stroke-width:2}
-.month-name{font-family:'Satoshi',sans-serif;font-size:14px;font-weight:600;color:#1D1D1F;min-width:120px;text-align:center}
+.main{max-width:820px;padding:24px 24px 100px}
+.page-title{font-family:'Satoshi',sans-serif;font-size:22px;font-weight:700;color:#1D1D1F;margin-bottom:4px}
+.page-sub{font-family:'Inter',sans-serif;font-size:12px;color:#86868B;margin-bottom:20px}
 
-/* FILTERS */
-.filters{display:flex;gap:6px;margin-bottom:16px;flex-wrap:wrap}
-.filter-chip{font-family:'Inter',sans-serif;font-size:10px;font-weight:500;padding:5px 12px;border-radius:980px;border:1px solid rgba(0,0,0,0.06);background:#FFF;color:#86868B;cursor:pointer;transition:all 0.15s}
-.filter-chip:hover{border-color:rgba(215,0,48,0.12);color:#D70030}
-.filter-chip.active{background:rgba(215,0,48,0.06);border-color:rgba(215,0,48,0.12);color:#D70030}
+/* STRATEGY BANNER */
+.strategy{background:linear-gradient(135deg,rgba(215,0,48,0.04),rgba(215,0,48,0.01));border:1px solid rgba(215,0,48,0.1);border-radius:16px;padding:18px 20px;margin-bottom:20px}
+.strategy-title{font-family:'Satoshi',sans-serif;font-size:14px;font-weight:600;color:#D70030;margin-bottom:8px}
+.strategy-desc{font-family:'Inter',sans-serif;font-size:12px;color:#3A3A3C;line-height:1.7}
+.strategy-pillars{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
+.pillar{font-family:'Inter',sans-serif;font-size:10px;font-weight:600;padding:4px 10px;border-radius:6px;background:#FFF;border:1px solid rgba(0,0,0,0.06)}
+.pillar strong{color:#D70030}
 
-/* CALENDAR GRID */
-.cal-header{display:grid;grid-template-columns:repeat(7,1fr);gap:2px;margin-bottom:2px}
-.cal-header-cell{font-family:'Inter',sans-serif;font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:0.05em;color:#AEAEB2;text-align:center;padding:8px 0}
-.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:2px}
-.cal-cell{background:#FFF;border:1px solid rgba(0,0,0,0.04);border-radius:10px;min-height:120px;padding:8px;transition:all 0.2s;cursor:pointer}
-.cal-cell:hover{border-color:rgba(215,0,48,0.1);box-shadow:0 2px 8px rgba(0,0,0,0.04)}
-.cal-cell.today{border-color:rgba(215,0,48,0.2);background:rgba(215,0,48,0.01)}
-.cal-cell.other-month{opacity:0.35}
-.cal-date{font-family:'Inter',sans-serif;font-size:11px;font-weight:600;color:#1D1D1F;margin-bottom:6px;display:flex;align-items:center;justify-content:space-between}
-.cal-date .today-dot{width:5px;height:5px;border-radius:50%;background:#D70030}
-.cal-events{display:flex;flex-direction:column;gap:3px}
-.cal-event{font-family:'Inter',sans-serif;font-size:9px;font-weight:500;padding:3px 6px;border-radius:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;cursor:grab}
-.ce-ig{background:rgba(215,0,48,0.06);color:#D70030}
-.ce-li{background:rgba(0,122,255,0.06);color:#007AFF}
-.ce-tt{background:rgba(29,29,31,0.06);color:#1D1D1F}
-.ce-x{background:rgba(29,29,31,0.06);color:#3A3A3C}
-.ce-blog{background:rgba(255,149,0,0.06);color:#FF9500}
-.ce-published{opacity:0.5;text-decoration:line-through}
-.ce-empty{border:1px dashed rgba(0,0,0,0.06);color:#AEAEB2;background:transparent;text-align:center;font-style:italic}
+/* CONTENT MIX */
+.mix{display:flex;gap:4px;margin-bottom:20px;height:6px;border-radius:3px;overflow:hidden}
+.mix-bar{height:100%;border-radius:3px;transition:width .5s}
+.mix-legend{display:flex;gap:14px;font-family:'Inter',sans-serif;font-size:10px;color:#86868B;margin-bottom:20px}
+.mix-legend span{display:flex;align-items:center;gap:4px}
+.mix-legend .dot{width:6px;height:6px;border-radius:50%}
 
-/* SUMMARY BAR */
-.summary{display:flex;gap:16px;padding:16px 20px;background:#FFF;border-radius:14px;border:1px solid rgba(0,0,0,0.04);margin-bottom:20px}
-.summary-item{display:flex;align-items:center;gap:6px;font-family:'Inter',sans-serif;font-size:11px}
-.summary-dot{width:8px;height:8px;border-radius:50%}
-.sd-published{background:#34C759}
-.sd-scheduled{background:#007AFF}
-.sd-producing{background:#FF9500}
-.sd-empty{background:#D2D2D7}
-.summary-count{font-weight:600;color:#1D1D1F}
-.summary-label{color:#86868B}
-.summary-fill{margin-left:auto;font-family:'Zen Dots',cursive;font-size:16px;color:#D70030}
+/* TOOLBAR */
+.toolbar{display:flex;align-items:center;gap:12px;margin-bottom:16px;flex-wrap:wrap}
+.toolbar-left{display:flex;align-items:center;gap:10px}
+.nav-btn{width:30px;height:30px;border-radius:8px;border:1px solid rgba(0,0,0,0.06);background:#FFF;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .15s}
+.nav-btn:hover{border-color:rgba(215,0,48,0.15)}
+.nav-btn svg{width:14px;height:14px;stroke:#86868B;fill:none;stroke-width:2}
+.period{font-family:'Satoshi',sans-serif;font-size:15px;font-weight:600;color:#1D1D1F;min-width:160px;text-align:center}
+.view-toggle{display:flex;background:rgba(0,0,0,0.04);border-radius:10px;padding:3px;margin-left:auto}
+.vt-btn{font-family:'Inter',sans-serif;font-size:11px;font-weight:500;padding:6px 14px;border-radius:8px;color:#86868B;cursor:pointer;transition:all .15s;border:none;background:transparent}
+.vt-btn.on{background:#FFF;color:#1D1D1F;box-shadow:0 1px 4px rgba(0,0,0,0.06)}
 
-@media(max-width:768px){.cal-grid,.cal-header{grid-template-columns:repeat(3,1fr)}.summary{flex-wrap:wrap}}
+/* STATS */
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:20px}
+.stat{background:#FFF;border-radius:12px;border:1px solid rgba(0,0,0,0.04);padding:14px;text-align:center}
+.stat-val{font-family:'Satoshi',sans-serif;font-size:20px;font-weight:700}
+.stat-val.green{color:#34C759}.stat-val.blue{color:#007AFF}.stat-val.orange{color:#FF9500}.stat-val.gray{color:#AEAEB2}
+.stat-lab{font-family:'Inter',sans-serif;font-size:9px;color:#86868B;text-transform:uppercase;letter-spacing:.04em;margin-top:2px}
+
+/* DAY SECTION */
+.day{margin-bottom:20px}
+.day-header{display:flex;align-items:center;gap:10px;margin-bottom:10px;padding-bottom:8px;border-bottom:1px solid rgba(0,0,0,0.04)}
+.day-name{font-family:'Satoshi',sans-serif;font-size:14px;font-weight:600;color:#1D1D1F}
+.day-date{font-family:'Inter',sans-serif;font-size:12px;color:#86868B}
+.day-count{font-family:'Inter',sans-serif;font-size:10px;font-weight:600;padding:2px 8px;border-radius:4px;background:rgba(0,0,0,0.04);color:#86868B;margin-left:auto}
+.day-today{color:#D70030}
+.day-today .day-count{background:rgba(215,0,48,0.06);color:#D70030}
+
+/* EVENT CARD */
+.event{display:flex;align-items:flex-start;gap:14px;padding:14px 16px;background:#FFF;border-radius:14px;border:1px solid rgba(0,0,0,0.04);margin-bottom:8px;cursor:pointer;transition:all .15s}
+.event:hover{border-color:rgba(215,0,48,0.12);box-shadow:0 2px 12px rgba(0,0,0,0.04)}
+.event.expanded{border-color:rgba(215,0,48,0.2);box-shadow:0 4px 20px rgba(0,0,0,0.06)}
+.event-time{font-family:'Inter',sans-serif;font-size:12px;font-weight:600;color:#1D1D1F;min-width:44px;flex-shrink:0;padding-top:2px}
+.event-net{width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-family:'Inter',sans-serif;font-size:9px;font-weight:700;color:#FFF}
+.en-ig{background:linear-gradient(135deg,#D70030,#C13584)}
+.en-li{background:linear-gradient(135deg,#0A66C2,#004182)}
+.en-tt{background:linear-gradient(135deg,#1D1D1F,#3A3A3C)}
+.en-x{background:linear-gradient(135deg,#1D1D1F,#3A3A3C)}
+.en-blog{background:linear-gradient(135deg,#FF9500,#CC7700)}
+.event-body{flex:1;min-width:0}
+.event-title{font-family:'Satoshi',sans-serif;font-size:14px;font-weight:600;color:#1D1D1F;margin-bottom:3px}
+.event-meta{display:flex;align-items:center;gap:8px;font-family:'Inter',sans-serif;font-size:11px;color:#86868B;flex-wrap:wrap}
+.event-type{font-weight:600;color:#6E6E73}
+.event-client{display:flex;align-items:center;gap:4px}
+.event-client-av{width:16px;height:16px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:6px;font-weight:700;color:#FFF;background:linear-gradient(135deg,#D70030,#A60028)}
+.event-right{display:flex;flex-direction:column;align-items:flex-end;gap:6px;flex-shrink:0}
+.event-score{font-family:'Inter',sans-serif;font-size:13px;font-weight:700}
+.sc-high{color:#34C759}
+.sc-med{color:#FF9500}
+.sc-low{color:#D70030}
+.event-status{font-family:'Inter',sans-serif;font-size:9px;font-weight:600;padding:2px 8px;border-radius:4px}
+.es-scheduled{background:rgba(0,122,255,0.08);color:#007AFF}
+.es-producing{background:rgba(255,149,0,0.08);color:#FF9500}
+.es-approval{background:rgba(215,0,48,0.08);color:#D70030}
+.es-published{background:rgba(52,199,89,0.08);color:#34C759}
+
+/* EXPANDED DETAIL */
+.event-detail{display:none;margin-top:12px;padding-top:12px;border-top:1px solid rgba(0,0,0,0.04)}
+.event.expanded .event-detail{display:block}
+.ed-preview{font-family:'Inter',sans-serif;font-size:12px;color:#6E6E73;line-height:1.7;margin-bottom:12px;padding:12px;background:rgba(0,0,0,0.02);border-radius:10px}
+.ed-row{display:flex;justify-content:space-between;padding:6px 0;font-family:'Inter',sans-serif;font-size:11px;border-bottom:0.5px solid rgba(0,0,0,0.03)}
+.ed-row:last-child{border-bottom:none}
+.ed-label{color:#86868B}
+.ed-value{color:#1D1D1F;font-weight:500}
+.ed-actions{display:flex;gap:8px;margin-top:12px}
+.ed-btn{font-family:'Inter',sans-serif;font-size:12px;font-weight:500;padding:8px 18px;border-radius:10px;cursor:pointer;transition:all .15s;border:none}
+.ed-btn-primary{background:#1D1D1F;color:#F5F5F7}
+.ed-btn-primary:hover{background:#000}
+.ed-btn-ghost{background:transparent;border:1px solid rgba(0,0,0,0.08);color:#86868B}
+.ed-strategy{font-family:'Inter',sans-serif;font-size:10px;color:#D70030;background:rgba(215,0,48,0.04);padding:6px 10px;border-radius:6px;margin-top:8px;display:inline-block}
+
+/* EMPTY SLOT */
+.slot-empty{display:flex;align-items:center;gap:12px;padding:12px 16px;border:1.5px dashed rgba(0,0,0,0.08);border-radius:14px;margin-bottom:8px;cursor:pointer;transition:all .15s}
+.slot-empty:hover{border-color:rgba(215,0,48,0.2);background:rgba(215,0,48,0.02)}
+.slot-time{font-family:'Inter',sans-serif;font-size:12px;font-weight:600;color:#AEAEB2;min-width:44px}
+.slot-text{font-family:'Inter',sans-serif;font-size:12px;color:#AEAEB2}
+.slot-action{font-family:'Inter',sans-serif;font-size:10px;font-weight:600;color:#D70030;margin-left:auto}
 </style>
 </head>
 <body data-client="true" data-active="calendar">
-<main class="main" style="max-width:900px;padding:24px">
+<main class="main">
 
-<div class="top-bar">
-  <h1>Calendario editorial.</h1>
-  <div class="top-controls">
-    <div class="view-toggle">
-      <div class="vt-btn">Mensal</div>
-      <div class="vt-btn active">Semanal</div>
-      <div class="vt-btn">Lista</div>
+<div class="page-title">Calendario Editorial</div>
+<p class="page-sub">Joao Mendes — TechFlow · Planejamento e agendamento de conteudo</p>
+
+<!-- STRATEGY BANNER -->
+<div class="strategy">
+  <div class="strategy-title">Estrategia da quinzena: Autoridade com dados</div>
+  <div class="strategy-desc">Objetivo: posicionar Joao como referencia em unit economics e crescimento SaaS. Mix: 40% provocativo com dados, 30% educacional, 20% bastidores, 10% opiniao polemica. Sensei definiu com base no Brand Book + performance da quinzena anterior (ER 4.2%, melhor post foi provocativo).</div>
+  <div class="strategy-pillars">
+    <div class="pillar"><strong>5</strong> Provocativo c/ dados</div>
+    <div class="pillar"><strong>3</strong> Educacional</div>
+    <div class="pillar"><strong>2</strong> Bastidores</div>
+    <div class="pillar"><strong>1</strong> Opiniao</div>
+    <div class="pillar"><strong>1</strong> Case study</div>
+  </div>
+</div>
+
+<!-- CONTENT MIX -->
+<div class="mix">
+  <div class="mix-bar" style="width:35%;background:#D70030"></div>
+  <div class="mix-bar" style="width:25%;background:#0A66C2"></div>
+  <div class="mix-bar" style="width:20%;background:#1D1D1F"></div>
+  <div class="mix-bar" style="width:10%;background:#1D9BF0"></div>
+  <div class="mix-bar" style="width:10%;background:#FF9500"></div>
+</div>
+<div class="mix-legend">
+  <span><span class="dot" style="background:#D70030"></span>Instagram 35%</span>
+  <span><span class="dot" style="background:#0A66C2"></span>LinkedIn 25%</span>
+  <span><span class="dot" style="background:#1D1D1F"></span>TikTok 20%</span>
+  <span><span class="dot" style="background:#1D9BF0"></span>X/Twitter 10%</span>
+  <span><span class="dot" style="background:#FF9500"></span>Blog 10%</span>
+</div>
+
+<!-- TOOLBAR -->
+<div class="toolbar">
+  <div class="toolbar-left">
+    <button class="nav-btn"><svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+    <div class="period">01 — 13 Abr 2026</div>
+    <button class="nav-btn"><svg viewBox="0 0 24 24"><path d="M9 18l6-6-6-6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+  </div>
+  <div class="view-toggle">
+    <button class="vt-btn on">Agenda</button>
+    <button class="vt-btn">Grid</button>
+  </div>
+</div>
+
+<!-- STATS -->
+<div class="stats">
+  <div class="stat"><div class="stat-val green">6</div><div class="stat-lab">Publicados</div></div>
+  <div class="stat"><div class="stat-val blue">8</div><div class="stat-lab">Agendados</div></div>
+  <div class="stat"><div class="stat-val orange">3</div><div class="stat-lab">Em producao</div></div>
+  <div class="stat"><div class="stat-val gray">2</div><div class="stat-lab">Slots vazios</div></div>
+</div>
+
+<!-- ═══ AGENDA VIEW ═══ -->
+
+<!-- TERÇA 1 ABR (HOJE) -->
+<div class="day day-today">
+  <div class="day-header"><div class="day-name" style="color:#D70030">Hoje — Terca-feira</div><div class="day-date">01 Abr</div><div class="day-count">3 posts</div></div>
+
+  <div class="event" onclick="this.classList.toggle('expanded')">
+    <div class="event-time">10:30</div>
+    <div class="event-net en-ig">IG</div>
+    <div class="event-body">
+      <div class="event-title">5 erros de CEO que queimam caixa</div>
+      <div class="event-meta">
+        <span class="event-type">Carrossel 9 slides</span>
+        <span>·</span>
+        <span class="event-client"><span class="event-client-av">JM</span> Joao Mendes</span>
+        <span>·</span>
+        <span>Quill escreveu · Carlos revisou</span>
+      </div>
+      <div class="event-detail">
+        <div class="ed-preview">"Todo CEO de SaaS ja queimou dinheiro com isso. Eu perdi R$240K em 2024 por nao medir CAC por canal. Slide 2: O erro mais caro..." — 9 slides provocativos com dados reais do Joao. Tom alinhado com Brand Book (provocador + dados).</div>
+        <div class="ed-row"><span class="ed-label">Pilar estrategico</span><span class="ed-value" style="color:#D70030">Provocativo com dados</span></div>
+        <div class="ed-row"><span class="ed-label">Score humanidade</span><span class="ed-value" style="color:#34C759">94%</span></div>
+        <div class="ed-row"><span class="ed-label">Agente</span><span class="ed-value">Quill (copywriter)</span></div>
+        <div class="ed-row"><span class="ed-label">SM responsavel</span><span class="ed-value">Carlos Ribeiro</span></div>
+        <div class="ed-row"><span class="ed-label">Aprovacao SM</span><span class="ed-value" style="color:#34C759">Aprovado 31/Mar 08:12</span></div>
+        <div class="ed-row"><span class="ed-label">Aprovacao founder</span><span class="ed-value" style="color:#34C759">Aprovado via WA 31/Mar 09:05</span></div>
+        <div class="ed-row"><span class="ed-label">Hashtags</span><span class="ed-value">#CEO #SaaS #Growth #UnitEconomics</span></div>
+        <div class="ed-strategy">Pilar: Provocativo com dados — 1 de 5 planejados na quinzena</div>
+        <div class="ed-actions">
+          <button class="ed-btn ed-btn-primary" onclick="event.stopPropagation();location.href='post-detail.html'">Ver post completo</button>
+          <button class="ed-btn ed-btn-ghost" onclick="event.stopPropagation();alert('Reagendar')">Reagendar</button>
+          <button class="ed-btn ed-btn-ghost" onclick="event.stopPropagation();alert('Cancelar publicacao')">Cancelar</button>
+        </div>
+      </div>
     </div>
-    <div class="month-nav">
-      <button><svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
-      <span class="month-name">Abr 2026</span>
-      <button><svg viewBox="0 0 24 24"><path d="M9 18l6-6-6-6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+    <div class="event-right">
+      <div class="event-score sc-high">94%</div>
+      <span class="event-status es-scheduled">Agendado</span>
+    </div>
+  </div>
+
+  <div class="event" onclick="this.classList.toggle('expanded')">
+    <div class="event-time">15:00</div>
+    <div class="event-net en-tt">TT</div>
+    <div class="event-body">
+      <div class="event-title">Rotina de CEO as 6h — bastidores</div>
+      <div class="event-meta">
+        <span class="event-type">Reel 28s</span>
+        <span>·</span>
+        <span class="event-client"><span class="event-client-av">JM</span> Joao Mendes</span>
+        <span>·</span>
+        <span>Director gerou avatar</span>
+      </div>
+      <div class="event-detail">
+        <div class="ed-preview">"Acordo as 6h. Cafe sem acucar. Primeira coisa: revisar metricas do dia anterior. Se CAC subiu, investigo antes de qualquer reuniao..." — video com avatar HeyGen, estilo bastidores, 28 segundos.</div>
+        <div class="ed-row"><span class="ed-label">Pilar estrategico</span><span class="ed-value">Bastidores</span></div>
+        <div class="ed-row"><span class="ed-label">Score humanidade</span><span class="ed-value" style="color:#34C759">91%</span></div>
+        <div class="ed-row"><span class="ed-label">Agente</span><span class="ed-value">Director (video) + Quill (roteiro)</span></div>
+        <div class="ed-row"><span class="ed-label">Aprovacao SM</span><span class="ed-value" style="color:#34C759">Carlos aprovou</span></div>
+        <div class="ed-row"><span class="ed-label">Aprovacao founder</span><span class="ed-value" style="color:#007AFF">Aguardando resposta WA</span></div>
+        <div class="ed-strategy">Pilar: Bastidores — 1 de 2 planejados na quinzena</div>
+        <div class="ed-actions">
+          <button class="ed-btn ed-btn-primary" onclick="event.stopPropagation();location.href='post-detail.html'">Ver post</button>
+          <button class="ed-btn ed-btn-ghost" onclick="event.stopPropagation();alert('Cobrar aprovacao via WA')">Cobrar WA</button>
+        </div>
+      </div>
+    </div>
+    <div class="event-right">
+      <div class="event-score sc-high">91%</div>
+      <span class="event-status es-approval">Aguardando founder</span>
+    </div>
+  </div>
+
+  <div class="event" onclick="this.classList.toggle('expanded')">
+    <div class="event-time">18:00</div>
+    <div class="event-net en-li">LI</div>
+    <div class="event-body">
+      <div class="event-title">O futuro do B2B brasileiro em 2026</div>
+      <div class="event-meta">
+        <span class="event-type">Artigo 1800 palavras</span>
+        <span>·</span>
+        <span class="event-client"><span class="event-client-av">JM</span> Joao Mendes</span>
+        <span>·</span>
+        <span>Quill escreveu</span>
+      </div>
+      <div class="event-detail">
+        <div class="ed-preview">"O mercado B2B brasileiro vai movimentar R$2.1 trilhoes em 2026. Mas 73% das empresas ainda vendem como em 2018. Aqui esta o que os 5% do topo fazem diferente..." — artigo longo, formato thought leadership, dados de mercado reais.</div>
+        <div class="ed-row"><span class="ed-label">Pilar estrategico</span><span class="ed-value">Educacional</span></div>
+        <div class="ed-row"><span class="ed-label">Score humanidade</span><span class="ed-value" style="color:#FF9500">88%</span></div>
+        <div class="ed-row"><span class="ed-label">Feedback</span><span class="ed-value" style="color:#FF9500">Joao pediu: "mais provocador, tipo aquele que viralizou"</span></div>
+        <div class="ed-strategy">Pilar: Educacional — 1 de 3 planejados na quinzena</div>
+        <div class="ed-actions">
+          <button class="ed-btn ed-btn-primary" onclick="event.stopPropagation();location.href='post-editor.html'">Editar roteiro</button>
+          <button class="ed-btn ed-btn-ghost" onclick="event.stopPropagation()">Reagendar</button>
+        </div>
+      </div>
+    </div>
+    <div class="event-right">
+      <div class="event-score sc-med">88%</div>
+      <span class="event-status es-approval">Feedback founder</span>
     </div>
   </div>
 </div>
 
-<div class="filters">
-  <div class="filter-chip active">Todos os clientes</div>
-  <div class="filter-chip">Joao Mendes</div>
-  <div class="filter-chip">Ana Costa</div>
-  <div class="filter-chip">Pedro Souza</div>
-  <div class="filter-chip">Maria Fernandes</div>
+<!-- QUARTA 2 ABR -->
+<div class="day">
+  <div class="day-header"><div class="day-name">Quarta-feira</div><div class="day-date">02 Abr</div><div class="day-count">2 posts + 1 slot</div></div>
+
+  <div class="event" onclick="this.classList.toggle('expanded')">
+    <div class="event-time">09:00</div>
+    <div class="event-net en-x">X</div>
+    <div class="event-body">
+      <div class="event-title">Thread: 5 licoes de quem queimou R$500K em marketing</div>
+      <div class="event-meta">
+        <span class="event-type">Thread 5 tweets</span>
+        <span>·</span>
+        <span class="event-client"><span class="event-client-av">JM</span> Joao Mendes</span>
+      </div>
+      <div class="event-detail">
+        <div class="ed-preview">"1/ Gastei R$500K em marketing em 2024. R$340K foi jogado fora. Aqui estao 5 licoes que salvaram minha empresa: 2/ Licao 1: CAC por canal, nao CAC medio..." — thread provocativa, dados reais, storytelling pessoal.</div>
+        <div class="ed-row"><span class="ed-label">Pilar</span><span class="ed-value" style="color:#D70030">Provocativo com dados</span></div>
+        <div class="ed-row"><span class="ed-label">Score</span><span class="ed-value" style="color:#34C759">92%</span></div>
+        <div class="ed-strategy">Pilar: Provocativo com dados — 2 de 5</div>
+        <div class="ed-actions"><button class="ed-btn ed-btn-primary" onclick="event.stopPropagation();location.href='post-detail.html'">Ver post</button></div>
+      </div>
+    </div>
+    <div class="event-right">
+      <div class="event-score sc-high">92%</div>
+      <span class="event-status es-scheduled">Agendado</span>
+    </div>
+  </div>
+
+  <div class="event" onclick="this.classList.toggle('expanded')">
+    <div class="event-time">12:00</div>
+    <div class="event-net en-ig">IG</div>
+    <div class="event-body">
+      <div class="event-title">Minha mesa as 6h — foto bastidores escritorio</div>
+      <div class="event-meta">
+        <span class="event-type">Post foto</span>
+        <span>·</span>
+        <span class="event-client"><span class="event-client-av">JM</span> Joao Mendes</span>
+        <span>·</span>
+        <span>Director gerou com avatar</span>
+      </div>
+      <div class="event-detail">
+        <div class="ed-preview">Foto gerada pelo Director com clone visual do Joao. Mesa com notebook, cafe, metricas na tela. Caption: "6h da manha. Antes de qualquer reuniao, eu olho isso. Se voce nao mede, voce nao gerencia."</div>
+        <div class="ed-row"><span class="ed-label">Pilar</span><span class="ed-value">Bastidores</span></div>
+        <div class="ed-row"><span class="ed-label">Score</span><span class="ed-value" style="color:#34C759">90%</span></div>
+        <div class="ed-strategy">Pilar: Bastidores — 2 de 2</div>
+      </div>
+    </div>
+    <div class="event-right">
+      <div class="event-score sc-high">90%</div>
+      <span class="event-status es-scheduled">Agendado</span>
+    </div>
+  </div>
+
+  <div class="slot-empty" onclick="this.innerHTML='<div style=\'font-family:Inter;font-size:12px;color:#D70030\'>Sensei gerando pauta...</div>';setTimeout(()=>{this.outerHTML='<div class=\'event\' onclick=\'this.classList.toggle(\"expanded\")\'><div class=\'event-time\'>17:00</div><div class=\'event-net en-ig\'>IG</div><div class=\'event-body\'><div class=\'event-title\'>Pauta gerada: Como medir ROI de conteudo</div><div class=\'event-meta\'><span class=\'event-type\'>Carrossel sugerido</span><span>·</span><span>Sensei gerou agora</span></div></div><div class=\'event-right\'><span class=\'event-status es-producing\'>Gerando roteiro</span></div></div>'},1500)">
+    <div class="slot-time">17:00</div>
+    <div class="slot-text">Slot vazio — Instagram</div>
+    <div class="slot-action">Gerar pauta automatica</div>
+  </div>
 </div>
 
-<!-- SUMMARY -->
-<div class="summary">
-  <div class="summary-item"><div class="summary-dot sd-published"></div><span class="summary-count">34</span><span class="summary-label">Publicados</span></div>
-  <div class="summary-item"><div class="summary-dot sd-scheduled"></div><span class="summary-count">18</span><span class="summary-label">Agendados</span></div>
-  <div class="summary-item"><div class="summary-dot sd-producing"></div><span class="summary-count">12</span><span class="summary-label">Em producao</span></div>
-  <div class="summary-item"><div class="summary-dot sd-empty"></div><span class="summary-count">8</span><span class="summary-label">Slots vazios</span></div>
-  <div class="summary-fill">78%</div>
+<!-- QUINTA 3 ABR -->
+<div class="day">
+  <div class="day-header"><div class="day-name">Quinta-feira</div><div class="day-date">03 Abr</div><div class="day-count">2 posts</div></div>
+
+  <div class="event" onclick="this.classList.toggle('expanded')">
+    <div class="event-time">10:00</div>
+    <div class="event-net en-ig">IG</div>
+    <div class="event-body">
+      <div class="event-title">3 metricas que todo CEO de SaaS mede errado</div>
+      <div class="event-meta">
+        <span class="event-type">Carrossel 7 slides</span>
+        <span>·</span>
+        <span class="event-client"><span class="event-client-av">JM</span> Joao Mendes</span>
+      </div>
+      <div class="event-detail">
+        <div class="ed-preview">"MRR nao e receita. CAC nao e custo de aquisicao. Churn nao e cancelamento. A maioria dos CEOs de SaaS mede essas 3 metricas ERRADO..." — carrossel educacional com dados, formato "mito vs realidade".</div>
+        <div class="ed-row"><span class="ed-label">Pilar</span><span class="ed-value">Educacional</span></div>
+        <div class="ed-row"><span class="ed-label">Score</span><span class="ed-value" style="color:#34C759">93%</span></div>
+        <div class="ed-strategy">Pilar: Educacional — 2 de 3</div>
+      </div>
+    </div>
+    <div class="event-right">
+      <div class="event-score sc-high">93%</div>
+      <span class="event-status es-producing">Em producao</span>
+    </div>
+  </div>
+
+  <div class="event" onclick="this.classList.toggle('expanded')">
+    <div class="event-time">16:00</div>
+    <div class="event-net en-tt">TT</div>
+    <div class="event-body">
+      <div class="event-title">Reacao: "SaaS brasileiro nao escala" — ERRADO</div>
+      <div class="event-meta">
+        <span class="event-type">Reel 35s reacao</span>
+        <span>·</span>
+        <span class="event-client"><span class="event-client-av">JM</span> Joao Mendes</span>
+      </div>
+      <div class="event-detail">
+        <div class="ed-preview">"Vi esse tweet dizendo que SaaS brasileiro nao escala. Vou mostrar 3 dados que provam o contrario..." — formato reacao a post viral, tom opiniao provocativa.</div>
+        <div class="ed-row"><span class="ed-label">Pilar</span><span class="ed-value" style="color:#D70030">Opiniao polemica</span></div>
+        <div class="ed-strategy">Pilar: Opiniao — 1 de 1 (unico da quinzena)</div>
+      </div>
+    </div>
+    <div class="event-right">
+      <div class="event-score sc-med">—</div>
+      <span class="event-status es-producing">Scout pesquisando</span>
+    </div>
+  </div>
 </div>
 
-<!-- CALENDAR -->
-<div class="cal-header">
-  <div class="cal-header-cell">Seg</div>
-  <div class="cal-header-cell">Ter</div>
-  <div class="cal-header-cell">Qua</div>
-  <div class="cal-header-cell">Qui</div>
-  <div class="cal-header-cell">Sex</div>
-  <div class="cal-header-cell">Sab</div>
-  <div class="cal-header-cell">Dom</div>
+<!-- SEXTA 4 ABR -->
+<div class="day">
+  <div class="day-header"><div class="day-name">Sexta-feira</div><div class="day-date">04 Abr</div><div class="day-count">2 posts + 1 slot</div></div>
+
+  <div class="event" onclick="this.classList.toggle('expanded')">
+    <div class="event-time">09:00</div>
+    <div class="event-net en-li">LI</div>
+    <div class="event-body">
+      <div class="event-title">Case: como a TechFlow reduziu churn de 8% pra 2.1%</div>
+      <div class="event-meta">
+        <span class="event-type">Artigo 2000 palavras</span>
+        <span>·</span>
+        <span class="event-client"><span class="event-client-av">JM</span> Joao Mendes</span>
+      </div>
+      <div class="event-detail">
+        <div class="ed-preview">"Em 2024, nosso churn era 8%. Hoje e 2.1%. Nao foi magica — foram 3 mudancas estruturais que qualquer SaaS pode implementar em 60 dias..." — case study real com dados, formato storytelling.</div>
+        <div class="ed-row"><span class="ed-label">Pilar</span><span class="ed-value">Case study</span></div>
+        <div class="ed-strategy">Pilar: Case study — 1 de 1</div>
+      </div>
+    </div>
+    <div class="event-right">
+      <div class="event-score sc-med">—</div>
+      <span class="event-status es-producing">Quill escrevendo</span>
+    </div>
+  </div>
+
+  <div class="event" onclick="this.classList.toggle('expanded')">
+    <div class="event-time">14:00</div>
+    <div class="event-net en-ig">IG</div>
+    <div class="event-body">
+      <div class="event-title">Meu setup de trabalho — equipamento CEO tech</div>
+      <div class="event-meta">
+        <span class="event-type">Post foto carrossel</span>
+        <span>·</span>
+        <span class="event-client"><span class="event-client-av">JM</span> Joao Mendes</span>
+      </div>
+    </div>
+    <div class="event-right">
+      <div class="event-score sc-med">—</div>
+      <span class="event-status es-producing">Canvas desenhando</span>
+    </div>
+  </div>
+
+  <div class="slot-empty" onclick="this.innerHTML='<div style=\'font-family:Inter;font-size:12px;color:#D70030\'>Gerando...</div>';setTimeout(()=>{this.style.borderStyle='solid';this.style.borderColor='rgba(215,0,48,0.1)';this.innerHTML='<div style=\'font-family:Inter;font-size:12px;color:#D70030;font-weight:600\'>Pauta sugerida: Revenue Share — Thread X · 18:00</div>'},1500)">
+    <div class="slot-time">18:00</div>
+    <div class="slot-text">Slot vazio — X/Twitter</div>
+    <div class="slot-action">Gerar pauta</div>
+  </div>
 </div>
 
-<div class="cal-grid">
-  <!-- Week 1 -->
-  <div class="cal-cell other-month"><div class="cal-date">31</div><div class="cal-events"><div class="cal-event ce-ig ce-published">JM Carrossel</div><div class="cal-event ce-tt ce-published">JM Reel</div><div class="cal-event ce-li ce-published">JM Post</div></div></div>
-  <div class="cal-cell today"><div class="cal-date">1<span class="today-dot"></span></div><div class="cal-events"><div class="cal-event ce-ig">JM 10:30 Carrossel</div><div class="cal-event ce-tt">JM 15:00 Reel</div><div class="cal-event ce-li">AC 09:00 Artigo</div></div></div>
-  <div class="cal-cell"><div class="cal-date">2</div><div class="cal-events"><div class="cal-event ce-li">JM 09:00 Post</div><div class="cal-event ce-x">JM 12:00 Thread</div><div class="cal-event ce-ig">AC 10:30 Carrossel</div></div></div>
-  <div class="cal-cell"><div class="cal-date">3</div><div class="cal-events"><div class="cal-event ce-ig" style="background:rgba(255,149,0,0.06);color:#FF9500">JM Reel (produzindo)</div><div class="cal-event ce-li">MF 10:00 Artigo</div><div class="cal-event ce-tt">PS 16:00 Video</div></div></div>
-  <div class="cal-cell"><div class="cal-date">4</div><div class="cal-events"><div class="cal-event ce-ig">MF 10:00 Post</div><div class="cal-event ce-blog">JM Blog SEO</div><div class="cal-event ce-empty">+ IG slot vazio</div></div></div>
-  <div class="cal-cell"><div class="cal-date">5</div><div class="cal-events"><div class="cal-event ce-ig">JM 11:00 Reel</div><div class="cal-event ce-empty">+ slot vazio</div></div></div>
-  <div class="cal-cell"><div class="cal-date">6</div><div class="cal-events"><div class="cal-event ce-ig">MF Story</div><div class="cal-event ce-empty">+ slot vazio</div></div></div>
+<!-- WEEKEND -->
+<div class="day">
+  <div class="day-header"><div class="day-name">Sabado</div><div class="day-date">05 Abr</div><div class="day-count">1 post</div></div>
+  <div class="event" onclick="this.classList.toggle('expanded')">
+    <div class="event-time">11:00</div>
+    <div class="event-net en-ig">IG</div>
+    <div class="event-body">
+      <div class="event-title">Escale sem queimar caixa — dados reais 2025</div>
+      <div class="event-meta"><span class="event-type">Reel 30s</span><span>·</span><span class="event-client"><span class="event-client-av">JM</span> Joao Mendes</span></div>
+    </div>
+    <div class="event-right"><div class="event-score sc-high">92%</div><span class="event-status es-scheduled">Agendado</span></div>
+  </div>
+</div>
 
-  <!-- Week 2 -->
-  <div class="cal-cell"><div class="cal-date">7</div><div class="cal-events"><div class="cal-event ce-ig">JM Carrossel</div><div class="cal-event ce-tt">JM Reel</div><div class="cal-event ce-li">AC Post</div></div></div>
-  <div class="cal-cell"><div class="cal-date">8</div><div class="cal-events"><div class="cal-event ce-ig">AC 10:30</div><div class="cal-event ce-x">JM Thread</div><div class="cal-event ce-ig">MF Carrossel</div></div></div>
-  <div class="cal-cell"><div class="cal-date">9</div><div class="cal-events"><div class="cal-event ce-li">JM Artigo</div><div class="cal-event ce-tt">PS Video</div><div class="cal-event ce-empty">+ LI slot vazio</div></div></div>
-  <div class="cal-cell"><div class="cal-date">10</div><div class="cal-events"><div class="cal-event ce-ig">JM Reel</div><div class="cal-event ce-li">MF 10:00</div></div></div>
-  <div class="cal-cell"><div class="cal-date">11</div><div class="cal-events"><div class="cal-event ce-blog">AC Blog SEO</div><div class="cal-event ce-ig">JM Post</div></div></div>
-  <div class="cal-cell"><div class="cal-date">12</div><div class="cal-events"><div class="cal-event ce-ig">MF Reel</div></div></div>
-  <div class="cal-cell"><div class="cal-date">13</div><div class="cal-events"><div class="cal-event ce-empty">+ slot vazio</div></div></div>
+<div style="text-align:center;padding:16px;font-family:'Inter',sans-serif;font-size:12px;color:#86868B">
+  Semana seguinte: 07-13 Abr · <span style="color:#D70030;cursor:pointer">ver proxima semana →</span>
 </div>
 
 </main>
-
-<script>
-// Make events clickable
-document.querySelectorAll('.cal-event:not(.ce-empty)').forEach(e => {
-  e.style.cursor = 'pointer';
-  e.addEventListener('click', () => location.href = 'post-detail.html');
-});
-// Make empty slots clickable
-document.querySelectorAll('.cal-event.ce-empty').forEach(e => {
-  e.addEventListener('click', () => {
-    e.textContent = 'Gerando pauta...';
-    e.style.color = '#D70030';
-    e.style.borderColor = 'rgba(215,0,48,0.15)';
-    setTimeout(() => {
-      e.textContent = 'JM Carrossel (novo)';
-      e.className = 'cal-event ce-ig';
-      e.style.cursor = 'pointer';
-      e.onclick = () => location.href = 'post-detail.html';
-    }, 1500);
-  });
-});
-// Week navigation
-document.querySelectorAll('.month-nav button').forEach(btn => {
-  btn.addEventListener('click', () => {
-    const name = document.querySelector('.month-name');
-    const months = ['Mar 2026','Abr 2026','Mai 2026'];
-    let idx = months.indexOf(name.textContent);
-    if (btn.querySelector('path[d*="15"]')) idx = Math.max(0, idx-1);
-    else idx = Math.min(months.length-1, idx+1);
-    name.textContent = months[idx];
-  });
-});
-// Filter chips
-document.querySelectorAll('.filter-chip').forEach(f => {
-  f.addEventListener('click', () => {
-    document.querySelectorAll('.filter-chip').forEach(x => x.classList.remove('active'));
-    f.classList.add('active');
-  });
-});
-</script>
-<script src="shared-nav-social.js"></script></body></html>
+<script src="shared-nav-social.js"></script>
+</body></html>
