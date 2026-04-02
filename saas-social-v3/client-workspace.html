@@ -1,70 +1,109 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>KTANA Social — Joao Mendes</title>
-  <link rel="stylesheet" href="../shared.css">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Zen+Dots&display=swap" rel="stylesheet">
-  <style>
-    body{min-height:100vh;background:#F5F5F7;color:#1D1D1F}
-    a{text-decoration:none;color:inherit}
-    .main{max-width:760px;margin:0 auto;padding:0 20px 100px}
+<!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>KTANA Social — Joao Mendes</title><link rel="stylesheet" href="../shared.css"><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Satoshi:wght@400;500;600;700&family=Zen+Dots&display=swap" rel="stylesheet">
+<style>
+body{min-height:100vh;background:#F5F5F7;color:#1D1D1F}
+a{text-decoration:none;color:inherit}
+.main{max-width:760px;margin:0 auto;padding:0 20px 100px}
 
-    /* CLIENT HEADER */
-    .client-header{display:flex;align-items:center;gap:14px;padding:16px 0 20px}
-    .ch-avatar{width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,#D70030,#A60028);display:flex;align-items:center;justify-content:center;font-family:'Inter',sans-serif;font-size:14px;font-weight:600;color:#FFF;flex-shrink:0}
-    .ch-info h1{font-family:'Zen Dots',cursive;font-size:20px;color:#1D1D1F;margin-bottom:2px}
-    .ch-info p{font-family:'Inter',sans-serif;font-size:11px;color:#86868B}
-    .ch-phase{margin-left:auto;font-family:'Inter',sans-serif;font-size:10px;font-weight:600;padding:4px 10px;border-radius:6px;background:rgba(52,199,89,0.08);color:#34C759}
-    .ch-auto{font-family:'Inter',sans-serif;font-size:10px;color:#34C759;display:flex;align-items:center;gap:4px;margin-left:12px}
-    .ch-auto::before{content:'';width:5px;height:5px;border-radius:50%;background:#34C759}
+/* CLIENT HEADER */
+.client-header{display:flex;align-items:center;gap:14px;padding:16px 0 20px}
+.ch-avatar{width:48px;height:48px;border-radius:50%;background:linear-gradient(135deg,#D70030,#A60028);display:flex;align-items:center;justify-content:center;font-family:'Inter',sans-serif;font-size:15px;font-weight:700;color:#FFF;flex-shrink:0}
+.ch-info h1{font-family:'Satoshi',sans-serif;font-size:22px;font-weight:700;color:#1D1D1F;margin-bottom:2px}
+.ch-info p{font-family:'Inter',sans-serif;font-size:12px;color:#86868B}
+.ch-badges{margin-left:auto;display:flex;gap:8px;align-items:center;flex-shrink:0}
+.ch-phase{font-family:'Inter',sans-serif;font-size:10px;font-weight:600;padding:4px 10px;border-radius:6px;background:rgba(52,199,89,0.08);color:#34C759}
+.ch-auto{font-family:'Inter',sans-serif;font-size:10px;font-weight:600;color:#34C759;display:flex;align-items:center;gap:4px}
+.ch-auto::before{content:'';width:6px;height:6px;border-radius:50%;background:#34C759}
 
+/* QUICK NAV */
+.qa{display:flex;gap:6px;margin-bottom:24px;flex-wrap:wrap}
+.qa-btn{font-family:'Inter',sans-serif;font-size:12px;font-weight:500;padding:8px 14px;border-radius:10px;border:1px solid rgba(0,0,0,0.06);background:#FFF;color:#6E6E73;cursor:pointer;transition:all .15s;display:flex;align-items:center;gap:6px;min-height:38px}
+.qa-btn:hover{border-color:rgba(215,0,48,0.12);color:#D70030}
+.qa-btn svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:1.5}
 
-    /* QUICK NAV */
-    .qa{display:flex;gap:6px;margin-bottom:20px;flex-wrap:wrap}
-    .qa-btn{font-family:'Inter',sans-serif;font-size:11px;font-weight:500;padding:7px 12px;border-radius:8px;border:1px solid rgba(0,0,0,0.06);background:#FFF;color:#6E6E73;cursor:pointer;transition:all 0.15s;display:flex;align-items:center;gap:5px}
-    .qa-btn:hover{border-color:rgba(215,0,48,0.12);color:#D70030}
-    .qa-btn svg{width:12px;height:12px;stroke:currentColor;fill:none;stroke-width:1.5}
+/* SECTION */
+.sec{font-family:'Inter',sans-serif;font-size:10px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:#86868B;margin-bottom:10px;margin-top:28px;display:flex;align-items:center;justify-content:space-between}
+.sec-link{font-family:'Inter',sans-serif;font-size:11px;font-weight:500;color:#D70030;cursor:pointer;text-transform:none;letter-spacing:0}
 
-    /* SECTIONS */
-    .sec{font-family:'Inter',sans-serif;font-size:10px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:#D70030;margin-bottom:10px;margin-top:4px}
+/* SCORES */
+.scores{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:4px}
+.sc{background:#FFF;border:1px solid rgba(0,0,0,0.04);border-radius:16px;padding:18px 16px;text-align:center}
+.sc-label{font-family:'Inter',sans-serif;font-size:10px;color:#86868B;text-transform:uppercase;letter-spacing:.04em;margin-bottom:8px}
+.sc-value{font-family:'Satoshi',sans-serif;font-size:28px;font-weight:700}
+.sc-value.brand{color:#D70030}
+.sc-sub{font-family:'Inter',sans-serif;font-size:11px;color:#86868B;margin-top:4px}
+.sc-delta{font-family:'Inter',sans-serif;font-size:11px;color:#34C759;font-weight:600}
+.net-breakdown{display:flex;gap:16px;justify-content:center;margin-top:8px}
+.net-item{text-align:center}
+.net-item .label{font-family:'Inter',sans-serif;font-size:10px;color:#86868B}
+.net-item .value{font-family:'Satoshi',sans-serif;font-size:15px;font-weight:600;color:#1D1D1F}
+.net-item .delta{font-family:'Inter',sans-serif;font-size:10px;color:#34C759}
 
-    /* SCORES */
-    .scores{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:20px}
-    .sc{background:#FFF;border:1px solid rgba(0,0,0,0.04);border-radius:14px;padding:16px 12px;text-align:center}
-    .sc-v{font-family:'Zen Dots',cursive;font-size:20px;color:#1D1D1F}.sc-v.brand{color:#D70030}
-    .sc-l{font-family:'Inter',sans-serif;font-size:9px;color:#86868B;margin-top:2px;text-transform:uppercase;letter-spacing:.04em}
-    .net-row{display:flex;gap:10px;justify-content:center;margin-top:6px}
-    .net-item{text-align:center}
-    .net-item .nm{font-family:'Inter',sans-serif;font-size:9px;color:#86868B}
-    .net-item .vl{font-family:'JetBrains Mono',monospace;font-size:11px;color:#1D1D1F;font-weight:600}
-    .net-item .dt{font-family:'Inter',sans-serif;font-size:9px;color:#34C759}
+/* ATTENTION CARDS */
+.attn{background:#FFF;border-radius:16px;border:1px solid rgba(0,0,0,0.04);margin-bottom:8px;overflow:hidden}
+.attn-row{display:flex;align-items:center;gap:14px;padding:14px 18px;transition:background .15s;cursor:pointer}
+.attn-row:hover{background:rgba(0,0,0,0.01)}
+.attn-row+.attn-row{border-top:0.5px solid rgba(0,0,0,0.04)}
+.attn-icon{width:34px;height:34px;border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.attn-icon svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:1.5}
+.attn-icon.red{background:rgba(215,0,48,0.06);color:#D70030}
+.attn-icon.orange{background:rgba(255,149,0,0.06);color:#FF9500}
+.attn-icon.blue{background:rgba(0,122,255,0.06);color:#007AFF}
+.attn-body{flex:1;min-width:0}
+.attn-title{font-family:'Satoshi',sans-serif;font-size:14px;font-weight:600;color:#1D1D1F;margin-bottom:2px}
+.attn-sub{font-family:'Inter',sans-serif;font-size:11px;color:#86868B}
+.attn-action{font-family:'Inter',sans-serif;font-size:11px;font-weight:600;padding:6px 14px;border-radius:8px;border:none;cursor:pointer;flex-shrink:0;min-height:32px;transition:all .15s}
+.attn-action.primary{background:#1D1D1F;color:#F5F5F7}
+.attn-action.primary:hover{background:#000}
+.attn-action.ghost{background:transparent;border:1px solid rgba(0,0,0,0.08);color:#86868B}
+.attn-badge{font-family:'Inter',sans-serif;font-size:9px;font-weight:600;padding:2px 8px;border-radius:4px;flex-shrink:0}
+.attn-badge.urgent{background:rgba(215,0,48,0.08);color:#D70030}
+.attn-badge.warn{background:rgba(255,149,0,0.08);color:#FF9500}
 
-    /* PIPELINE MINI */
-    .pipe{display:flex;gap:8px;overflow-x:auto;margin-bottom:20px;padding-bottom:4px}
-    .pipe-col{min-width:140px;flex:1}
-    .pipe-col-h{font-family:'Inter',sans-serif;font-size:9px;font-weight:600;letter-spacing:.05em;text-transform:uppercase;color:#86868B;margin-bottom:6px;display:flex;align-items:center;gap:4px}
-    .pipe-col-h span{font-family:'JetBrains Mono',monospace;font-size:9px;color:#AEAEB2}
-    .pipe-item{background:#FFF;border:1px solid rgba(0,0,0,0.04);border-radius:8px;padding:8px 10px;margin-bottom:4px;cursor:pointer;transition:all 0.15s}
-    .pipe-item:hover{border-color:rgba(215,0,48,0.1)}
-    .pipe-item .net{font-family:'Inter',sans-serif;font-size:8px;font-weight:600;color:#D70030;text-transform:uppercase}
-    .pipe-item .title{font-family:'Satoshi',sans-serif;font-size:11px;color:#1D1D1F;margin-top:2px}
-    .pipe-item .score{font-family:'JetBrains Mono',monospace;font-size:9px;color:#34C759;margin-top:2px}
+/* UPCOMING POSTS */
+.post-row{display:flex;align-items:center;gap:12px;padding:14px 18px;background:#FFF;border-radius:14px;border:1px solid rgba(0,0,0,0.04);margin-bottom:8px;cursor:pointer;transition:all .15s}
+.post-row:hover{border-color:rgba(215,0,48,0.1);box-shadow:0 2px 10px rgba(0,0,0,0.03)}
+.post-time{font-family:'Inter',sans-serif;font-size:12px;font-weight:600;color:#1D1D1F;min-width:64px;flex-shrink:0}
+.post-net{width:28px;height:28px;border-radius:7px;display:flex;align-items:center;justify-content:center;font-family:'Inter',sans-serif;font-size:8px;font-weight:700;color:#FFF;flex-shrink:0}
+.pn-ig{background:linear-gradient(135deg,#D70030,#C13584)}
+.pn-li{background:linear-gradient(135deg,#0A66C2,#004182)}
+.pn-tt{background:linear-gradient(135deg,#1D1D1F,#3A3A3C)}
+.pn-x{background:linear-gradient(135deg,#1D1D1F,#3A3A3C)}
+.post-info{flex:1;min-width:0}
+.post-title{font-family:'Satoshi',sans-serif;font-size:14px;font-weight:600;color:#1D1D1F;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.post-meta{font-family:'Inter',sans-serif;font-size:11px;color:#86868B;margin-top:1px}
+.post-score{font-family:'Inter',sans-serif;font-size:14px;font-weight:700;flex-shrink:0}
+.post-score.high{color:#34C759}
+.post-score.med{color:#FF9500}
+.post-status{font-family:'Inter',sans-serif;font-size:9px;font-weight:600;padding:3px 8px;border-radius:4px;flex-shrink:0}
+.ps-scheduled{background:rgba(0,122,255,0.08);color:#007AFF}
+.ps-approval{background:rgba(215,0,48,0.08);color:#D70030}
+.ps-producing{background:rgba(255,149,0,0.08);color:#FF9500}
+.ps-published{background:rgba(52,199,89,0.08);color:#34C759}
 
-    /* CALENDAR MINI */
-    .cal{display:flex;gap:4px;margin-bottom:20px}
-    .cal-day{flex:1;background:#FFF;border:1px solid rgba(0,0,0,0.04);border-radius:8px;padding:8px 4px;text-align:center;min-height:70px}
-    .cal-day.today{border-color:rgba(215,0,48,0.15)}
-    .cal-dn{font-family:'Inter',sans-serif;font-size:8px;font-weight:600;color:#86868B;text-transform:uppercase;margin-bottom:4px}
-    .cal-slot{font-family:'Inter',sans-serif;font-size:8px;padding:2px 4px;border-radius:3px;margin-bottom:2px}
-    .cal-pub{background:rgba(52,199,89,0.08);color:#34C759}
-    .cal-sch{background:rgba(0,122,255,0.08);color:#007AFF}
-    .cal-prod{background:rgba(255,149,0,0.08);color:#FF9500}
-    .cal-empty{background:rgba(0,0,0,0.02);color:#AEAEB2;border:1px dashed rgba(0,0,0,0.06)}
+/* PIPELINE SUMMARY */
+.pipe-summary{background:#FFF;border-radius:16px;border:1px solid rgba(0,0,0,0.04);padding:18px 20px;display:flex;align-items:center;gap:12px}
+.pipe-stages{display:flex;gap:4px;flex:1}
+.pipe-stage{display:flex;align-items:center;gap:4px;font-family:'Inter',sans-serif;font-size:12px;color:#6E6E73}
+.pipe-stage .num{font-weight:700;color:#1D1D1F;font-size:14px}
+.pipe-stage .dot{width:6px;height:6px;border-radius:50%}
+.pipe-arrow{color:#D2D2D7;font-size:10px}
+.pipe-total{font-family:'Satoshi',sans-serif;font-size:22px;font-weight:700;color:#D70030;flex-shrink:0;min-width:40px;text-align:center}
+.pipe-link{font-family:'Inter',sans-serif;font-size:12px;color:#D70030;font-weight:500;flex-shrink:0}
 
-    @media(max-width:600px){.scores{grid-template-columns:1fr 1fr}.cal{flex-wrap:wrap}.cal-day{min-width:80px}}
-  </style>
+/* FOUNDER STATUS */
+.founder{background:#FFF;border-radius:16px;border:1px solid rgba(0,0,0,0.04);padding:18px 20px}
+.founder-header{display:flex;align-items:center;gap:10px;margin-bottom:12px}
+.founder-av{width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,#FF9500,#CC7700);display:flex;align-items:center;justify-content:center;font-family:'Inter',sans-serif;font-size:8px;font-weight:700;color:#FFF;flex-shrink:0}
+.founder-name{font-family:'Satoshi',sans-serif;font-size:14px;font-weight:600;color:#1D1D1F}
+.founder-role{font-family:'Inter',sans-serif;font-size:11px;color:#86868B}
+.founder-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px}
+.founder-stat{text-align:center}
+.founder-val{font-family:'Satoshi',sans-serif;font-size:18px;font-weight:700;color:#1D1D1F}
+.founder-val.warn{color:#FF9500}
+.founder-label{font-family:'Inter',sans-serif;font-size:10px;color:#86868B;margin-top:2px}
+
+@media(max-width:600px){.scores{grid-template-columns:1fr}.pipe-stages{flex-wrap:wrap}.founder-grid{grid-template-columns:1fr 1fr}}
+</style>
 </head>
 <body data-client="true" data-active="workspace">
 
@@ -77,10 +116,13 @@
       <h1>Joao Mendes</h1>
       <p>CEO TechFlow — SaaS B2B — Heroi — Tom direto e provocador</p>
     </div>
-    <div class="ch-phase">Fase 4</div>
-    <div class="ch-auto">Autopilot</div>
+    <div class="ch-badges">
+      <div class="ch-phase">Fase 4</div>
+      <div class="ch-auto">Autopilot</div>
+    </div>
   </div>
-<!-- QUICK NAV -->
+
+  <!-- QUICK NAV -->
   <div class="qa">
     <a class="qa-btn" href="brandbook.html"><svg viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg> Brand Book</a>
     <a class="qa-btn" href="pipeline.html"><svg viewBox="0 0 24 24"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg> Pipeline</a>
@@ -89,48 +131,155 @@
     <a class="qa-btn" href="webinar.html"><svg viewBox="0 0 24 24"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg> Webinars</a>
     <a class="qa-btn" href="avatar-clone.html"><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg> Avatar</a>
     <a class="qa-btn" href="metrics.html"><svg viewBox="0 0 24 24"><path d="M12 20V10M18 20V4M6 20v-4"/></svg> Metricas</a>
-    <a class="qa-btn" href="connections.html"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0"/></svg> Conexoes</a>
+    <a class="qa-btn" href="connections.html"><svg viewBox="0 0 24 24"><path d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101"/></svg> Conexoes</a>
   </div>
 
-  <!-- SCORES -->
-  <div class="sec">Numeros</div>
+  <!-- NUMBERS -->
+  <div class="sec"><span>Numeros</span></div>
   <div class="scores">
     <div class="sc">
-      <div class="sc-l">Seguidores</div>
-      <div class="net-row">
-        <div class="net-item"><div class="nm">IG</div><div class="vl">12.4K</div><div class="dt">+340</div></div>
-        <div class="net-item"><div class="nm">LI</div><div class="vl">8.2K</div><div class="dt">+120</div></div>
-        <div class="net-item"><div class="nm">TT</div><div class="vl">3.1K</div><div class="dt">+89</div></div>
+      <div class="sc-label">Seguidores</div>
+      <div class="net-breakdown">
+        <div class="net-item"><div class="label">IG</div><div class="value">12.4K</div><div class="delta">+340</div></div>
+        <div class="net-item"><div class="label">LI</div><div class="value">8.2K</div><div class="delta">+120</div></div>
+        <div class="net-item"><div class="label">TT</div><div class="value">3.1K</div><div class="delta">+89</div></div>
       </div>
     </div>
-    <div class="sc"><div class="sc-v">18<span style="font-family:Inter;font-size:12px;color:#86868B">/21</span></div><div class="sc-l">Posts semana (86%)</div></div>
-    <div class="sc"><div class="sc-v brand">4.8%</div><div class="sc-l">Engagement Rate</div></div>
+    <div class="sc">
+      <div class="sc-label">Posts Semana</div>
+      <div class="sc-value">18<span style="font-family:'Inter';font-size:14px;color:#86868B;font-weight:400">/21</span></div>
+      <div class="sc-sub">86% da meta</div>
+    </div>
+    <div class="sc">
+      <div class="sc-label">Engagement Rate</div>
+      <div class="sc-value brand">4.8%</div>
+      <div class="sc-delta">+0.6% vs semana anterior</div>
+    </div>
   </div>
 
-  <!-- PIPELINE MINI -->
-  <div class="sec">Pipeline</div>
-  <div class="pipe">
-    <div class="pipe-col"><div class="pipe-col-h">Pesquisa <span>2</span></div><div class="pipe-item"><div class="net">IG</div><div class="title">Concorrentes SaaS</div></div><div class="pipe-item"><div class="net">LI</div><div class="title">Trending B2B</div></div></div>
-    <div class="pipe-col"><div class="pipe-col-h">Pauta <span>3</span></div><div class="pipe-item"><div class="net">IG</div><div class="title">5 erros de CEO</div><div class="score">87%</div></div><div class="pipe-item"><div class="net">LI</div><div class="title">Futuro B2B</div><div class="score">94%</div></div><div class="pipe-item"><div class="net">X</div><div class="title">Revenue vs equity</div><div class="score">91%</div></div></div>
-    <div class="pipe-col"><div class="pipe-col-h">Roteiro <span>2</span></div><div class="pipe-item"><div class="net">IG</div><div class="title">Escale sem caixa</div><div class="score">92%</div></div><div class="pipe-item"><div class="net">TT</div><div class="title">Rotina CEO</div><div class="score" style="color:#FF9500">78%</div></div></div>
-    <div class="pipe-col"><div class="pipe-col-h">Aprovacao <span>2</span></div><div class="pipe-item" style="border-color:rgba(215,0,48,0.15)"><div class="net">IG</div><div class="title">5 erros CEO</div><div class="score" style="color:#D70030">SM: 6h</div></div><div class="pipe-item"><div class="net">LI</div><div class="title">Mercado 2026</div><div class="score" style="color:#007AFF">Cliente</div></div></div>
-    <div class="pipe-col"><div class="pipe-col-h">Agendado <span>4</span></div><div class="pipe-item"><div class="net">IG</div><div class="title">Escale</div><div class="score">Ter 10:30</div></div><div class="pipe-item"><div class="net">LI</div><div class="title">Futuro B2B</div><div class="score">Qua 09:00</div></div></div>
+  <!-- ATTENTION -->
+  <div class="sec"><span>Precisa de atencao</span><span class="sec-link" style="color:#D70030">3 itens</span></div>
+  <div class="attn">
+    <a class="attn-row" href="approvals.html">
+      <div class="attn-icon red"><svg viewBox="0 0 24 24"><path d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg></div>
+      <div class="attn-body">
+        <div class="attn-title">Aprovacao "5 erros de CEO" atrasada 6h</div>
+        <div class="attn-sub">Carrossel IG 9 slides · Score 94% · Quill escreveu · SM nao revisou</div>
+      </div>
+      <span class="attn-badge urgent">SLA</span>
+      <button class="attn-action primary" onclick="event.preventDefault();event.stopPropagation();this.textContent='Aprovado';this.style.background='#34C759'">Aprovar</button>
+    </a>
+    <a class="attn-row" href="post-editor.html">
+      <div class="attn-icon orange"><svg viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></div>
+      <div class="attn-body">
+        <div class="attn-title">Reel "Rotina CEO" com score 78%</div>
+        <div class="attn-sub">TikTok 28s · Abaixo do threshold (85%) · Quill pode reescrever</div>
+      </div>
+      <span class="attn-badge warn">Score baixo</span>
+      <button class="attn-action ghost" onclick="event.preventDefault();event.stopPropagation();alert('Abrindo editor com opcao Mais provocador')">Editar</button>
+    </a>
+    <a class="attn-row" href="client-checklist.html">
+      <div class="attn-icon blue"><svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg></div>
+      <div class="attn-body">
+        <div class="attn-title">Joao sem resposta WA ha 8 horas</div>
+        <div class="attn-sub">3 posts aguardando aprovacao do founder · Pulse enviou lembrete 14:00</div>
+      </div>
+      <button class="attn-action ghost" onclick="event.preventDefault();event.stopPropagation();alert('Cobranca enviada via WhatsApp')">Cobrar WA</button>
+    </a>
   </div>
 
-  <!-- CALENDAR MINI -->
-  <div class="sec">Calendario</div>
-  <div class="cal">
-    <div class="cal-day"><div class="cal-dn">Seg 31</div><div class="cal-slot cal-pub">IG</div><div class="cal-slot cal-pub">TT</div><div class="cal-slot cal-pub">LI</div></div>
-    <div class="cal-day today"><div class="cal-dn">Ter 1</div><div class="cal-slot cal-sch">IG 10:30</div><div class="cal-slot cal-sch">TT 15:00</div></div>
-    <div class="cal-day"><div class="cal-dn">Qua 2</div><div class="cal-slot cal-sch">LI 09:00</div><div class="cal-slot cal-sch">X 12:00</div></div>
-    <div class="cal-day"><div class="cal-dn">Qui 3</div><div class="cal-slot cal-prod">IG Reel</div><div class="cal-slot cal-prod">LI</div></div>
-    <div class="cal-day"><div class="cal-dn">Sex 4</div><div class="cal-slot cal-empty">IG</div><div class="cal-slot cal-empty">TT</div></div>
-    <div class="cal-day"><div class="cal-dn">Sab 5</div><div class="cal-slot cal-empty">IG</div></div>
-    <div class="cal-day"><div class="cal-dn">Dom 6</div><div class="cal-slot cal-empty">IG</div></div>
+  <!-- UPCOMING POSTS -->
+  <div class="sec"><span>Proximos posts</span><a class="sec-link" href="calendar.html">Ver calendario</a></div>
+
+  <a class="post-row" href="post-detail.html">
+    <div class="post-time">Hoje 10:30</div>
+    <div class="post-net pn-ig">IG</div>
+    <div class="post-info">
+      <div class="post-title">5 erros de CEO que queimam caixa</div>
+      <div class="post-meta">Carrossel 9 slides · Quill escreveu</div>
+    </div>
+    <div class="post-score high">94%</div>
+    <span class="post-status ps-scheduled">Agendado</span>
+  </a>
+
+  <a class="post-row" href="post-detail.html">
+    <div class="post-time">Hoje 15:00</div>
+    <div class="post-net pn-tt">TT</div>
+    <div class="post-info">
+      <div class="post-title">Rotina de CEO as 6h — bastidores</div>
+      <div class="post-meta">Reel 28s · Director gerou avatar</div>
+    </div>
+    <div class="post-score high">91%</div>
+    <span class="post-status ps-approval">Aguardando</span>
+  </a>
+
+  <a class="post-row" href="post-detail.html">
+    <div class="post-time">Qua 09:00</div>
+    <div class="post-net pn-x">X</div>
+    <div class="post-info">
+      <div class="post-title">Thread: 5 licoes de quem queimou R$500K</div>
+      <div class="post-meta">Thread 5 tweets · Quill escreveu</div>
+    </div>
+    <div class="post-score high">92%</div>
+    <span class="post-status ps-scheduled">Agendado</span>
+  </a>
+
+  <a class="post-row" href="post-detail.html">
+    <div class="post-time">Qua 12:00</div>
+    <div class="post-net pn-ig">IG</div>
+    <div class="post-info">
+      <div class="post-title">Minha mesa as 6h — foto bastidores</div>
+      <div class="post-meta">Post foto · Director avatar</div>
+    </div>
+    <div class="post-score high">90%</div>
+    <span class="post-status ps-scheduled">Agendado</span>
+  </a>
+
+  <!-- PIPELINE SUMMARY -->
+  <div class="sec"><span>Pipeline</span><a class="sec-link" href="pipeline.html">Ver completo</a></div>
+  <div class="pipe-summary">
+    <div class="pipe-stages">
+      <div class="pipe-stage"><div class="dot" style="background:#007AFF"></div><span class="num">1</span> pesq</div>
+      <div class="pipe-arrow">›</div>
+      <div class="pipe-stage"><div class="dot" style="background:#5856D6"></div><span class="num">2</span> pauta</div>
+      <div class="pipe-arrow">›</div>
+      <div class="pipe-stage"><div class="dot" style="background:#FF9500"></div><span class="num">2</span> rot</div>
+      <div class="pipe-arrow">›</div>
+      <div class="pipe-stage"><div class="dot" style="background:#FF2D55"></div><span class="num">1</span> design</div>
+      <div class="pipe-arrow">›</div>
+      <div class="pipe-stage"><div class="dot" style="background:#D70030"></div><span class="num">2</span> aprov</div>
+      <div class="pipe-arrow">›</div>
+      <div class="pipe-stage"><div class="dot" style="background:#34C759"></div><span class="num">4</span> agend</div>
+    </div>
+    <div class="pipe-total">12</div>
   </div>
 
-</div>
+  <!-- FOUNDER STATUS -->
+  <div class="sec"><span>Status do founder</span><a class="sec-link" href="client-checklist.html">Ver checklist</a></div>
+  <div class="founder">
+    <div class="founder-header">
+      <div class="founder-av">JM</div>
+      <div>
+        <div class="founder-name">Joao Mendes</div>
+        <div class="founder-role">CEO TechFlow · Contato via WhatsApp</div>
+      </div>
+    </div>
+    <div class="founder-grid">
+      <div class="founder-stat">
+        <div class="founder-val warn">8h</div>
+        <div class="founder-label">Sem resposta WA</div>
+      </div>
+      <div class="founder-stat">
+        <div class="founder-val">3<span style="font-size:12px;color:#86868B">/7</span></div>
+        <div class="founder-label">Tarefas semana</div>
+      </div>
+      <div class="founder-stat">
+        <div class="founder-val" style="color:#34C759">Ativo</div>
+        <div class="founder-label">Modo</div>
+      </div>
+    </div>
+  </div>
 
+</main>
 <script src="shared-nav-social.js"></script>
-</body>
-</html>
+</body></html>
