@@ -36,18 +36,18 @@ body{min-height:100vh;background:#F5F5F7}
 .builder-block{display:flex;align-items:center;gap:10px;padding:16px;background:#F5F5F7;border-radius:14px;border:1.5px solid rgba(0,0,0,0.04);cursor:grab;transition:all 0.2s;position:relative}
 .builder-block:hover{border-color:rgba(215,0,48,0.12);box-shadow:0 2px 12px rgba(0,0,0,0.04)}
 .builder-block.dragging{opacity:0.4;transform:scale(0.97)}
-.builder-num{width:28px;height:28px;border-radius:50%;background:#D70030;display:flex;align-items:center;justify-content:center;font-family:'Zen Dots',cursive;font-size:11px;color:#FFF;flex-shrink:0}
+.builder-num{width:28px;height:28px;border-radius:50%;background:#D70030;display:flex;align-items:center;justify-content:center;font-family:'Zen Dots',cursive;font-size:13px;color:#FFF;flex-shrink:0}
 .builder-block-content{flex:1}
 .builder-block-name{font-family:'Satoshi',sans-serif;font-size:14px;font-weight:600;color:#1D1D1F;margin-bottom:2px;outline:none;border:none;background:transparent;width:100%;cursor:text}
 .builder-block-name:focus{border-bottom:1px solid rgba(215,0,48,0.3)}
-.builder-block-desc{font-family:'Inter',sans-serif;font-size:11px;color:#86868B;outline:none;border:none;background:transparent;width:100%;cursor:text}
+.builder-block-desc{font-family:'Inter',sans-serif;font-size:13px;color:#86868B;outline:none;border:none;background:transparent;width:100%;cursor:text}
 .builder-block-desc:focus{border-bottom:1px solid rgba(0,0,0,0.1)}
 .builder-block-remove{width:24px;height:24px;border-radius:50%;border:none;background:rgba(0,0,0,0.04);cursor:pointer;display:flex;align-items:center;justify-content:center;color:#86868B;flex-shrink:0;transition:all 0.15s}
 .builder-block-remove:hover{background:rgba(215,0,48,0.08);color:#D70030}
 .builder-block-remove svg{width:12px;height:12px;stroke:currentColor;fill:none;stroke-width:2}
 .builder-connector{display:flex;align-items:center;justify-content:center;height:20px;color:#D2D2D7}
 .builder-connector svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:1.5}
-.builder-hint{font-family:'Inter',sans-serif;font-size:11px;color:#AEAEB2;text-align:center;margin-top:12px}
+.builder-hint{font-family:'Inter',sans-serif;font-size:13px;color:#AEAEB2;text-align:center;margin-top:12px}
 
 /* DEPT CARD (same as before) */
 .dept-card{background:#FFF;border-radius:20px;border:1px solid rgba(0,0,0,0.04);padding:40px 28px;text-align:center;margin-bottom:16px}
@@ -56,7 +56,7 @@ body{min-height:100vh;background:#F5F5F7}
 .dept-name{font-family:'Zen Dots',cursive;font-size:22px;color:#1D1D1F;margin-bottom:6px}
 .dept-desc{font-family:'Satoshi',sans-serif;font-size:14px;color:#86868B;line-height:1.6;max-width:400px;margin:0 auto}
 .dept-roles{margin-top:14px;display:flex;flex-wrap:wrap;gap:6px;justify-content:center}
-.dept-role{font-family:'Inter',sans-serif;padding:5px 14px;border-radius:980px;border:0.5px solid rgba(0,0,0,0.06);font-size:11px;color:#86868B}
+.dept-role{font-family:'Inter',sans-serif;padding:5px 14px;border-radius:980px;border:0.5px solid rgba(0,0,0,0.06);font-size:13px;color:#86868B}
 
 /* AGENT CARD */
 .agent-card{display:flex;align-items:center;gap:14px;padding:18px;background:#FFF;border-radius:16px;border:1px solid rgba(0,0,0,0.04);margin-bottom:8px;cursor:pointer;transition:all 0.2s;user-select:none}
@@ -66,7 +66,7 @@ body{min-height:100vh;background:#F5F5F7}
 .agent-av svg{width:16px;height:16px;stroke:#FFF;fill:none;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
 .agent-info{flex:1}
 .agent-name{font-family:'Zen Dots',cursive;font-size:13px;color:#1D1D1F}
-.agent-role{font-family:'Inter',sans-serif;font-size:11px;color:#86868B}
+.agent-role{font-family:'Inter',sans-serif;font-size:13px;color:#86868B}
 .agent-check{width:22px;height:22px;border-radius:50%;border:1.5px solid #D2D2D7;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all 0.15s}
 .agent-card.selected .agent-check{border-color:#D70030;background:#D70030}
 .agent-card.selected .agent-check::after{content:'';width:6px;height:6px;border-radius:50%;background:#FFF}
@@ -80,9 +80,9 @@ body{min-height:100vh;background:#F5F5F7}
 .btn-next{font-family:'Inter',sans-serif;width:100%;padding:18px;border-radius:14px;background:#D70030;color:#FFF;font-size:16px;font-weight:600;border:none;cursor:pointer;min-height:56px;transition:opacity 0.15s}
 .btn-next:hover{opacity:0.9}
 .btn-back{font-family:'Inter',sans-serif;font-size:13px;color:#86868B;background:none;border:none;cursor:pointer;margin-top:12px;display:block;margin-left:auto;margin-right:auto}
-.hint{font-family:'Inter',sans-serif;font-size:11px;color:#AEAEB2;text-align:center;margin-top:12px}
+.hint{font-family:'Inter',sans-serif;font-size:13px;color:#AEAEB2;text-align:center;margin-top:12px}
 .selected-bar{display:flex;gap:6px;justify-content:center;flex-wrap:wrap;margin-bottom:20px;min-height:24px}
-.selected-tag{font-family:'Inter',sans-serif;padding:4px 12px;border-radius:980px;background:rgba(215,0,48,0.06);color:#D70030;font-size:11px;font-weight:500}
+.selected-tag{font-family:'Inter',sans-serif;padding:4px 12px;border-radius:980px;background:rgba(215,0,48,0.06);color:#D70030;font-size:13px;font-weight:500}
 
 /* FINAL */
 .final{display:none;text-align:center}
@@ -114,7 +114,7 @@ body{min-height:100vh;background:#F5F5F7}
         <div style="width:28px;height:28px;border-radius:8px;background:linear-gradient(135deg,#D70030,#8B0000);display:flex;align-items:center;justify-content:center">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#FFF" stroke-width="1.5"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </div>
-        <div><div style="font-family:'Zen Dots',cursive;font-size:11px;color:#FFF">Sensei</div><div style="font-family:'Inter',sans-serif;font-size:10px;color:rgba(255,255,255,0.5)">Configurando sua empresa</div></div>
+        <div><div style="font-family:'Zen Dots',cursive;font-size:13px;color:#FFF">Sensei</div><div style="font-family:'Inter',sans-serif;font-size:12px;color:rgba(255,255,255,0.5)">Configurando sua empresa</div></div>
       </div>
       <div id="essChat" style="padding:18px;display:flex;flex-direction:column;gap:10px;max-height:360px;overflow-y:auto">
         <div style="max-width:85%;padding:10px 14px;border-radius:14px 14px 14px 4px;background:rgba(255,255,255,0.08);font-family:'Satoshi',sans-serif;font-size:13px;color:rgba(255,255,255,0.9);line-height:1.5">Vamos comecar! Qual o <strong style="color:#D70030">nome da sua empresa</strong> de assessoria?</div>
