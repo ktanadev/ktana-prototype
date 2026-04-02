@@ -7,9 +7,9 @@ a{text-decoration:none;color:inherit}
 .sidebar{width:220px;position:fixed;left:0;top:0;bottom:0;background:#111;border-right:0.5px solid rgba(255,255,255,0.04);padding:16px 0;overflow-y:auto;z-index:10;display:flex;flex-direction:column}
 .sidebar-logo{padding:0 16px;margin-bottom:16px;font-family:'Zen Dots',cursive;font-size:14px;color:#D70030;display:flex;align-items:center;gap:6px;border-bottom:0.5px solid rgba(255,255,255,0.04);padding-bottom:16px}
 .sidebar-logo span{font-family:'Inter',sans-serif;font-size:12px;color:#AEAEB2}
-.nav-item{display:flex;align-items:center;gap:10px;padding:8px 16px;font-family:'Inter',sans-serif;font-size:12px;color:#8E8E93;transition:all 0.15s;cursor:pointer}
+.nav-item{display:flex;align-items:center;gap:10px;padding:14px 16px;font-family:'Inter',sans-serif;font-size:12px;color:#8E8E93;transition:all 0.15s;cursor:pointer}
 .nav-item:hover,.nav-item.active{color:#F5F5F7;background:rgba(255,255,255,0.04)}
-.nav-item svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:1.5;flex-shrink:0}
+.nav-item svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2;flex-shrink:0}
 .nav-label{font-family:'Inter',sans-serif;font-size:12px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:#48484A;padding:14px 16px 6px}
 
 .main{margin-left:220px;flex:1;padding:24px;max-width:1100px}
@@ -21,12 +21,12 @@ h1{font-family:'Zen Dots',cursive;font-size:20px;color:#F5F5F7;margin-bottom:6px
 .stat-card{background:#1C1C1E;border:1px solid rgba(255,255,255,0.04);border-radius:14px;padding:18px;text-align:center}
 .stat-val{font-family:'Zen Dots',cursive;font-size:24px;color:#F5F5F7}
 .stat-val.brand{color:#D70030}
-.stat-lab{font-family:'Inter',sans-serif;font-size:12px;color:#8E8E93;text-transform:uppercase;letter-spacing:0.05em;margin-top:4px}
+.stat-lab{font-family:'Inter',sans-serif;font-size:12px;color:#8E8E93;text-transform:uppercase;letter-spacing:0.05em;margin-top:12px}
 
 /* TENANTS TABLE */
 .section-label{font-family:'Inter',sans-serif;font-size:12px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:#D70030;margin-bottom:12px;margin-top:28px}
 .tenant-table{width:100%;border-collapse:collapse}
-.tenant-table th{font-family:'Inter',sans-serif;font-size:12px;font-weight:600;color:#48484A;text-transform:uppercase;letter-spacing:0.05em;text-align:left;padding:8px 12px;border-bottom:1px solid rgba(255,255,255,0.04)}
+.tenant-table th{font-family:'Inter',sans-serif;font-size:12px;font-weight:600;color:#48484A;text-transform:uppercase;letter-spacing:0.05em;text-align:left;padding:14px 12px;border-bottom:1px solid rgba(255,255,255,0.04)}
 .tenant-table td{font-family:'Inter',sans-serif;font-size:12px;color:#D2D2D7;padding:12px;border-bottom:0.5px solid rgba(255,255,255,0.03);vertical-align:middle}
 .tenant-table tr:hover{background:rgba(255,255,255,0.02)}
 .t-name{display:flex;align-items:center;gap:10px}
@@ -37,7 +37,7 @@ h1{font-family:'Zen Dots',cursive;font-size:20px;color:#F5F5F7;margin-bottom:6px
 .tb-active{background:rgba(52,199,89,0.12);color:#34C759}
 .tb-trial{background:rgba(255,159,10,0.12);color:#FF9F0A}
 .tb-churned{background:rgba(215,0,48,0.12);color:#D70030}
-.t-bar{width:60px;height:4px;border-radius:2px;background:rgba(255,255,255,0.06);overflow:hidden}
+.t-bar{width:60px;height:6px;border-radius:2px;background:rgba(255,255,255,0.06);overflow:hidden}
 .t-fill{height:100%;border-radius:2px;background:#34C759}
 .t-actions{display:flex;gap:6px}
 .t-btn{font-family:'Inter',sans-serif;font-size:12px;padding:4px 10px;border-radius:6px;border:1px solid rgba(255,255,255,0.06);color:#8E8E93;background:transparent;cursor:pointer;transition:all 0.15s}
@@ -94,7 +94,7 @@ h1{font-family:'Zen Dots',cursive;font-size:20px;color:#F5F5F7;margin-bottom:6px
       <td>R$48K</td>
       <td>400</td>
       <td><div class="t-bar"><div class="t-fill" style="width:68%"></div></div> 68%</td>
-      <td><span style="display:inline-flex;align-items:center;gap:4px"><span style="width:8px;height:8px;border-radius:50%;background:#34C759;display:inline-block"></span><span style="font-size:12px;color:#34C759">OK</span></span></td>
+      <td><span style="display:inline-flex;align-items:center;gap:8px"><span style="width:8px;height:8px;border-radius:50%;background:#34C759;display:inline-block"></span><span style="font-size:12px;color:#34C759">OK</span></span></td>
       <td><span class="t-badge tb-active">Ativo</span></td>
       <td><div class="t-actions"><button class="t-btn" onclick="location.href='admin-tenant-detail.html'">Detalhes</button></div></td>
     </tr>
@@ -103,7 +103,7 @@ h1{font-family:'Zen Dots',cursive;font-size:20px;color:#F5F5F7;margin-bottom:6px
       <td>R$36K</td>
       <td>300</td>
       <td><div class="t-bar"><div class="t-fill" style="width:92%;background:#FF9500"></div></div> <span style="color:#FF9500">92%</span></td>
-      <td><span style="display:inline-flex;align-items:center;gap:4px"><span style="width:8px;height:8px;border-radius:50%;background:#FF9500;display:inline-block"></span><span style="font-size:12px;color:#FF9500">Tokens altos</span></span></td>
+      <td><span style="display:inline-flex;align-items:center;gap:8px"><span style="width:8px;height:8px;border-radius:50%;background:#FF9500;display:inline-block"></span><span style="font-size:12px;color:#FF9500">Tokens altos</span></span></td>
       <td><span class="t-badge tb-active">Ativo</span></td>
       <td><div class="t-actions"><button class="t-btn" onclick="location.href='admin-tenant-detail.html'">Detalhes</button></div></td>
     </tr>
@@ -112,7 +112,7 @@ h1{font-family:'Zen Dots',cursive;font-size:20px;color:#F5F5F7;margin-bottom:6px
       <td>R$24K</td>
       <td>200</td>
       <td><div class="t-bar"><div class="t-fill" style="width:55%"></div></div> 55%</td>
-      <td><span style="display:inline-flex;align-items:center;gap:4px"><span style="width:8px;height:8px;border-radius:50%;background:#34C759;display:inline-block"></span><span style="font-size:12px;color:#34C759">OK</span></span></td>
+      <td><span style="display:inline-flex;align-items:center;gap:8px"><span style="width:8px;height:8px;border-radius:50%;background:#34C759;display:inline-block"></span><span style="font-size:12px;color:#34C759">OK</span></span></td>
       <td><span class="t-badge tb-active">Ativo</span></td>
       <td><div class="t-actions"><button class="t-btn" onclick="location.href='admin-tenant-detail.html'">Detalhes</button></div></td>
     </tr>
@@ -121,7 +121,7 @@ h1{font-family:'Zen Dots',cursive;font-size:20px;color:#F5F5F7;margin-bottom:6px
       <td>R$18K</td>
       <td>150</td>
       <td><div class="t-bar"><div class="t-fill" style="width:42%"></div></div> 42%</td>
-      <td><span style="display:inline-flex;align-items:center;gap:4px"><span style="width:8px;height:8px;border-radius:50%;background:#34C759;display:inline-block"></span><span style="font-size:12px;color:#34C759">OK</span></span></td>
+      <td><span style="display:inline-flex;align-items:center;gap:8px"><span style="width:8px;height:8px;border-radius:50%;background:#34C759;display:inline-block"></span><span style="font-size:12px;color:#34C759">OK</span></span></td>
       <td><span class="t-badge tb-active">Ativo</span></td>
       <td><div class="t-actions"><button class="t-btn" onclick="location.href='admin-tenant-detail.html'">Detalhes</button></div></td>
     </tr>
@@ -130,7 +130,7 @@ h1{font-family:'Zen Dots',cursive;font-size:20px;color:#F5F5F7;margin-bottom:6px
       <td>R$15K</td>
       <td>120</td>
       <td><div class="t-bar"><div class="t-fill" style="width:38%"></div></div> 38%</td>
-      <td><span style="display:inline-flex;align-items:center;gap:4px"><span style="width:8px;height:8px;border-radius:50%;background:#34C759;display:inline-block"></span><span style="font-size:12px;color:#34C759">OK</span></span></td>
+      <td><span style="display:inline-flex;align-items:center;gap:8px"><span style="width:8px;height:8px;border-radius:50%;background:#34C759;display:inline-block"></span><span style="font-size:12px;color:#34C759">OK</span></span></td>
       <td><span class="t-badge tb-active">Ativo</span></td>
       <td><div class="t-actions"><button class="t-btn" onclick="location.href='admin-tenant-detail.html'">Detalhes</button></div></td>
     </tr>
@@ -139,7 +139,7 @@ h1{font-family:'Zen Dots',cursive;font-size:20px;color:#F5F5F7;margin-bottom:6px
       <td>R$12K</td>
       <td>100</td>
       <td><div class="t-bar"><div class="t-fill" style="width:30%"></div></div> 30%</td>
-      <td><span style="display:inline-flex;align-items:center;gap:4px"><span style="width:8px;height:8px;border-radius:50%;background:#34C759;display:inline-block"></span><span style="font-size:12px;color:#34C759">OK</span></span></td>
+      <td><span style="display:inline-flex;align-items:center;gap:8px"><span style="width:8px;height:8px;border-radius:50%;background:#34C759;display:inline-block"></span><span style="font-size:12px;color:#34C759">OK</span></span></td>
       <td><span class="t-badge tb-active">Ativo</span></td>
       <td><div class="t-actions"><button class="t-btn" onclick="location.href='admin-tenant-detail.html'">Detalhes</button></div></td>
     </tr>
@@ -148,7 +148,7 @@ h1{font-family:'Zen Dots',cursive;font-size:20px;color:#F5F5F7;margin-bottom:6px
       <td>R$10.5K</td>
       <td>85</td>
       <td><div class="t-bar"><div class="t-fill" style="width:22%"></div></div> 22%</td>
-      <td><span style="display:inline-flex;align-items:center;gap:4px"><span style="width:8px;height:8px;border-radius:50%;background:#34C759;display:inline-block"></span><span style="font-size:12px;color:#34C759">OK</span></span></td>
+      <td><span style="display:inline-flex;align-items:center;gap:8px"><span style="width:8px;height:8px;border-radius:50%;background:#34C759;display:inline-block"></span><span style="font-size:12px;color:#34C759">OK</span></span></td>
       <td><span class="t-badge tb-active">Ativo</span></td>
       <td><div class="t-actions"><button class="t-btn" onclick="location.href='admin-tenant-detail.html'">Detalhes</button></div></td>
     </tr>
@@ -157,7 +157,7 @@ h1{font-family:'Zen Dots',cursive;font-size:20px;color:#F5F5F7;margin-bottom:6px
       <td>R$9K</td>
       <td>72</td>
       <td><div class="t-bar"><div class="t-fill" style="width:18%"></div></div> 18%</td>
-      <td><span style="display:inline-flex;align-items:center;gap:4px"><span style="width:8px;height:8px;border-radius:50%;background:#D70030;display:inline-block"></span><span style="font-size:12px;color:#D70030">2 erros agente</span></span></td>
+      <td><span style="display:inline-flex;align-items:center;gap:8px"><span style="width:8px;height:8px;border-radius:50%;background:#D70030;display:inline-block"></span><span style="font-size:12px;color:#D70030">2 erros agente</span></span></td>
       <td><span class="t-badge tb-active">Ativo</span></td>
       <td><div class="t-actions"><button class="t-btn" onclick="location.href='admin-tenant-detail.html'">Detalhes</button></div></td>
     </tr>
@@ -166,7 +166,7 @@ h1{font-family:'Zen Dots',cursive;font-size:20px;color:#F5F5F7;margin-bottom:6px
       <td>R$6K</td>
       <td>50</td>
       <td><div class="t-bar"><div class="t-fill" style="width:14%"></div></div> 14%</td>
-      <td><span style="display:inline-flex;align-items:center;gap:4px"><span style="width:8px;height:8px;border-radius:50%;background:#34C759;display:inline-block"></span><span style="font-size:12px;color:#34C759">OK</span></span></td>
+      <td><span style="display:inline-flex;align-items:center;gap:8px"><span style="width:8px;height:8px;border-radius:50%;background:#34C759;display:inline-block"></span><span style="font-size:12px;color:#34C759">OK</span></span></td>
       <td><span class="t-badge tb-active">Ativo</span></td>
       <td><div class="t-actions"><button class="t-btn" onclick="location.href='admin-tenant-detail.html'">Detalhes</button></div></td>
     </tr>
@@ -175,7 +175,7 @@ h1{font-family:'Zen Dots',cursive;font-size:20px;color:#F5F5F7;margin-bottom:6px
       <td>R$4.2K</td>
       <td>42</td>
       <td><div class="t-bar"><div class="t-fill" style="width:25%"></div></div> 25%</td>
-      <td><span style="display:inline-flex;align-items:center;gap:4px"><span style="width:8px;height:8px;border-radius:50%;background:#34C759;display:inline-block"></span><span style="font-size:12px;color:#34C759">OK</span></span></td>
+      <td><span style="display:inline-flex;align-items:center;gap:8px"><span style="width:8px;height:8px;border-radius:50%;background:#34C759;display:inline-block"></span><span style="font-size:12px;color:#34C759">OK</span></span></td>
       <td><span class="t-badge tb-trial">Trial</span></td>
       <td><div class="t-actions"><button class="t-btn" onclick="location.href='admin-tenant-detail.html'">Detalhes</button></div></td>
     </tr>
@@ -184,7 +184,7 @@ h1{font-family:'Zen Dots',cursive;font-size:20px;color:#F5F5F7;margin-bottom:6px
       <td>R$2.1K</td>
       <td>28</td>
       <td><div class="t-bar"><div class="t-fill" style="width:8%"></div></div> 8%</td>
-      <td><span style="display:inline-flex;align-items:center;gap:4px"><span style="width:8px;height:8px;border-radius:50%;background:#34C759;display:inline-block"></span><span style="font-size:12px;color:#34C759">OK</span></span></td>
+      <td><span style="display:inline-flex;align-items:center;gap:8px"><span style="width:8px;height:8px;border-radius:50%;background:#34C759;display:inline-block"></span><span style="font-size:12px;color:#34C759">OK</span></span></td>
       <td><span class="t-badge tb-trial">Trial</span></td>
       <td><div class="t-actions"><button class="t-btn" onclick="location.href='admin-tenant-detail.html'">Detalhes</button></div></td>
     </tr>
@@ -193,7 +193,7 @@ h1{font-family:'Zen Dots',cursive;font-size:20px;color:#F5F5F7;margin-bottom:6px
       <td>—</td>
       <td>0</td>
       <td><div class="t-bar"><div class="t-fill" style="width:0%"></div></div> 0%</td>
-      <td><span style="display:inline-flex;align-items:center;gap:4px"><span style="width:8px;height:8px;border-radius:50%;background:#8E8E93;display:inline-block"></span><span style="font-size:12px;color:#8E8E93">Setup</span></span></td>
+      <td><span style="display:inline-flex;align-items:center;gap:8px"><span style="width:8px;height:8px;border-radius:50%;background:#8E8E93;display:inline-block"></span><span style="font-size:12px;color:#8E8E93">Setup</span></span></td>
       <td><span class="t-badge tb-trial">Trial</span></td>
       <td><div class="t-actions"><button class="t-btn" onclick="location.href='admin-tenant-detail.html'">Detalhes</button></div></td>
     </tr>

@@ -11,26 +11,26 @@ a{text-decoration:none;color:inherit}
 .chat-hero::before{content:'';position:absolute;inset:0;border-radius:20px;padding:1.5px;background:linear-gradient(135deg,rgba(255,231,231,0.3) 0%,transparent 20%,rgba(215,0,48,0.2) 80%);-webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);-webkit-mask-composite:xor;mask-composite:exclude;pointer-events:none}
 .ch-top{display:flex;align-items:center;gap:10px;padding:14px 18px;border-bottom:1px solid rgba(0,0,0,0.04)}
 .ch-av{width:28px;height:28px;border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
-.ch-av svg{width:14px;height:14px;stroke:#FFF;fill:none;stroke-width:1.5}
+.ch-av svg{width:14px;height:14px;stroke:#FFF;fill:none;stroke-width:2}
 .ch-nm{font-family:'Zen Dots',cursive;font-size:13px;color:#1D1D1F}
 .ch-ctx{font-family:'Inter',sans-serif;font-size:12px;color:#5856D6}
 .ch-body{padding:18px;display:flex;flex-direction:column;gap:10px}
-.msg{max-width:88%;padding:10px 14px;border-radius:14px;font-family:'Satoshi',sans-serif;font-size:13px;line-height:1.5}
+.msg{max-width:88%;padding:16px 14px;border-radius:14px;font-family:'Satoshi',sans-serif;font-size:13px;line-height:1.5}
 .msg-ai{background:#F0F0F2;color:#1D1D1F;border-bottom-left-radius:4px;align-self:flex-start}
 .msg-ai strong{color:#D70030}
 .ch-input{display:flex;align-items:center;gap:8px;padding:12px 18px;border-top:1px solid rgba(0,0,0,0.04)}
-.ch-input input{flex:1;font-family:'Satoshi',sans-serif;font-size:13px;background:#F5F5F7;border:1px solid rgba(0,0,0,0.06);border-radius:12px;padding:10px 14px;outline:none;color:#1D1D1F}
+.ch-input input{flex:1;font-family:'Satoshi',sans-serif;font-size:13px;background:#F5F5F7;border:1px solid rgba(0,0,0,0.06);border-radius:12px;padding:16px 14px;outline:none;color:#1D1D1F}
 .ch-input input::placeholder{color:#AEAEB2}
 .ch-input input:focus{border-color:rgba(215,0,48,0.3)}
 .ch-send{width:32px;height:32px;border-radius:50%;background:#D70030;display:flex;align-items:center;justify-content:center;cursor:pointer;border:none}
 .ch-send svg{width:12px;height:12px;stroke:#FFF;fill:none;stroke-width:2}
 
-.sec{font-family:'Inter',sans-serif;font-size:12px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:#D70030;margin-bottom:10px;margin-top:4px}
+.sec{font-family:'Inter',sans-serif;font-size:12px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:#D70030;margin-bottom:10px;margin-top:12px}
 .card{background:#FFF;border-radius:16px;border:1px solid rgba(0,0,0,0.04);padding:20px;margin-bottom:14px}
 
 /* TABS REDE */
-.net-tabs{display:flex;gap:4px;margin-bottom:16px;background:#FFF;border-radius:12px;border:1px solid rgba(0,0,0,0.04);padding:4px;width:fit-content}
-.nt{font-family:'Inter',sans-serif;font-size:13px;font-weight:500;padding:6px 14px;border-radius:8px;cursor:pointer;transition:all 0.15s;color:#86868B}
+.net-tabs{display:flex;gap:8px;margin-bottom:16px;background:#FFF;border-radius:12px;border:1px solid rgba(0,0,0,0.04);padding:4px;width:fit-content}
+.nt{font-family:'Inter',sans-serif;font-size:13px;font-weight:500;padding:10px 16px;border-radius:8px;cursor:pointer;transition:all 0.15s;color:#86868B}
 .nt:hover{color:#1D1D1F}
 .nt.active{background:rgba(215,0,48,0.06);color:#D70030}
 
@@ -39,27 +39,27 @@ a{text-decoration:none;color:inherit}
 .editor textarea{font-family:'Satoshi',sans-serif;width:100%;min-height:200px;background:#F5F5F7;border:1px solid rgba(0,0,0,0.06);border-radius:12px;padding:14px;font-size:14px;line-height:1.6;outline:none;color:#1D1D1F;resize:vertical;box-sizing:border-box}
 .editor textarea:focus{border-color:rgba(215,0,48,0.3)}
 .editor-tools{display:flex;gap:6px;margin-top:10px;flex-wrap:wrap}
-.et{font-family:'Inter',sans-serif;font-size:12px;font-weight:500;padding:5px 10px;border-radius:6px;border:1px solid rgba(0,0,0,0.06);background:#FFF;color:#86868B;cursor:pointer;display:flex;align-items:center;gap:4px;transition:all 0.15s}
+.et{font-family:'Inter',sans-serif;font-size:12px;font-weight:500;padding:5px 10px;border-radius:6px;border:1px solid rgba(0,0,0,0.06);background:#FFF;color:#86868B;cursor:pointer;display:flex;align-items:center;gap:8px;transition:all 0.15s}
 .et:hover{border-color:rgba(215,0,48,0.12);color:#D70030}
-.et svg{width:12px;height:12px;stroke:currentColor;fill:none;stroke-width:1.5}
+.et svg{width:12px;height:12px;stroke:currentColor;fill:none;stroke-width:2}
 
 /* SCORE BAR */
 .score-bar{display:flex;align-items:center;gap:12px;padding:14px 16px;background:#FFF;border-radius:12px;border:1px solid rgba(0,0,0,0.04);margin-bottom:14px}
 .sb-label{font-family:'Inter',sans-serif;font-size:13px;color:#86868B;flex-shrink:0}
-.sb-track{flex:1;height:6px;background:#E8E8ED;border-radius:3px;overflow:hidden}
-.sb-fill{height:100%;border-radius:3px;transition:width 0.3s}
+.sb-track{flex:1;height:6px;background:#E8E8ED;border-radius:6px;overflow:hidden}
+.sb-fill{height:100%;border-radius:6px;transition:width 0.3s}
 .sb-fill.green{background:#34C759}
 .sb-fill.orange{background:#FF9500}
 .sb-val{font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:600;color:#34C759}
 
 /* HASHTAGS */
-.tag-input{display:flex;flex-wrap:wrap;gap:6px;padding:10px 14px;background:#F5F5F7;border:1px solid rgba(0,0,0,0.06);border-radius:12px;min-height:40px;align-items:center}
-.tag{font-family:'Inter',sans-serif;font-size:13px;padding:4px 10px;border-radius:980px;background:rgba(0,122,255,0.06);color:#007AFF;display:flex;align-items:center;gap:4px}
+.tag-input{display:flex;flex-wrap:wrap;gap:6px;padding:16px 14px;background:#F5F5F7;border:1px solid rgba(0,0,0,0.06);border-radius:12px;min-height:44px;align-items:center}
+.tag{font-family:'Inter',sans-serif;font-size:13px;padding:4px 10px;border-radius:980px;background:rgba(0,122,255,0.06);color:#007AFF;display:flex;align-items:center;gap:8px}
 .tag-x{cursor:pointer;font-size:14px;color:#86868B}
 
 .actions{display:flex;gap:8px;margin-top:20px}
 .act-btn{font-family:'Inter',sans-serif;font-size:12px;font-weight:600;padding:12px 20px;border-radius:12px;border:none;cursor:pointer;transition:all 0.15s;display:flex;align-items:center;gap:6px}
-.act-btn svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:1.5}
+.act-btn svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2}
 .act-save{background:#D70030;color:#FFF}
 .act-save:hover{opacity:0.9}
 .act-preview{background:rgba(0,122,255,0.06);color:#007AFF}

@@ -5,9 +5,9 @@ body{min-height:100vh;background:#F5F5F7}
 
 /* PROGRESS */
 .progress{display:flex;justify-content:center;gap:6px;margin-bottom:32px}
-.dot{width:6px;height:6px;border-radius:50%;background:#D2D2D7;transition:all 0.3s}
+.dot{width:8px;height:8px;border-radius:50%;background:#D2D2D7;transition:all 0.3s}
 .dot.done{background:#86868B}
-.dot.active{background:#D70030;width:24px;border-radius:3px}
+.dot.active{background:#D70030;width:24px;border-radius:6px}
 .header{text-align:center;margin-bottom:28px}
 .header h1{font-family:'Zen Dots',cursive;font-size:26px;color:#1D1D1F;margin-bottom:6px}
 .header .sub{font-family:'Satoshi',sans-serif;font-size:15px;color:#86868B;line-height:1.5}
@@ -30,7 +30,7 @@ body{min-height:100vh;background:#F5F5F7}
 .builder{background:#FFF;border-radius:20px;border:1px solid rgba(0,0,0,0.04);padding:20px;margin-bottom:16px;min-height:300px}
 .builder-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
 .builder-title{font-family:'Satoshi',sans-serif;font-size:16px;font-weight:600;color:#1D1D1F}
-.builder-add{font-family:'Inter',sans-serif;font-size:12px;font-weight:500;color:#D70030;cursor:pointer;display:flex;align-items:center;gap:4px}
+.builder-add{font-family:'Inter',sans-serif;font-size:12px;font-weight:500;color:#D70030;cursor:pointer;display:flex;align-items:center;gap:8px}
 .builder-add svg{width:14px;height:14px;stroke:#D70030;fill:none;stroke-width:2}
 .builder-canvas{display:flex;flex-direction:column;gap:10px;min-height:200px}
 .builder-block{display:flex;align-items:center;gap:10px;padding:16px;background:#F5F5F7;border-radius:14px;border:1.5px solid rgba(0,0,0,0.04);cursor:grab;transition:all 0.2s;position:relative}
@@ -42,17 +42,17 @@ body{min-height:100vh;background:#F5F5F7}
 .builder-block-name:focus{border-bottom:1px solid rgba(215,0,48,0.3)}
 .builder-block-desc{font-family:'Inter',sans-serif;font-size:13px;color:#86868B;outline:none;border:none;background:transparent;width:100%;cursor:text}
 .builder-block-desc:focus{border-bottom:1px solid rgba(0,0,0,0.1)}
-.builder-block-remove{width:24px;height:24px;border-radius:50%;border:none;background:rgba(0,0,0,0.04);cursor:pointer;display:flex;align-items:center;justify-content:center;color:#86868B;flex-shrink:0;transition:all 0.15s}
+.builder-block-remove{width:32px;height:32px;border-radius:50%;border:none;background:rgba(0,0,0,0.04);cursor:pointer;display:flex;align-items:center;justify-content:center;color:#86868B;flex-shrink:0;transition:all 0.15s}
 .builder-block-remove:hover{background:rgba(215,0,48,0.08);color:#D70030}
 .builder-block-remove svg{width:12px;height:12px;stroke:currentColor;fill:none;stroke-width:2}
 .builder-connector{display:flex;align-items:center;justify-content:center;height:20px;color:#D2D2D7}
-.builder-connector svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:1.5}
+.builder-connector svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2}
 .builder-hint{font-family:'Inter',sans-serif;font-size:13px;color:#AEAEB2;text-align:center;margin-top:12px}
 
 /* DEPT CARD (same as before) */
 .dept-card{background:#FFF;border-radius:20px;border:1px solid rgba(0,0,0,0.04);padding:40px 28px;text-align:center;margin-bottom:16px}
 .dept-icon{margin-bottom:16px}
-.dept-icon svg{width:28px;height:28px;stroke:#D70030;fill:none;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
+.dept-icon svg{width:28px;height:28px;stroke:#D70030;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
 .dept-name{font-family:'Zen Dots',cursive;font-size:22px;color:#1D1D1F;margin-bottom:6px}
 .dept-desc{font-family:'Satoshi',sans-serif;font-size:14px;color:#86868B;line-height:1.6;max-width:400px;margin:0 auto}
 .dept-roles{margin-top:14px;display:flex;flex-wrap:wrap;gap:6px;justify-content:center}
@@ -63,13 +63,13 @@ body{min-height:100vh;background:#F5F5F7}
 .agent-card:hover{border-color:rgba(215,0,48,0.1)}
 .agent-card.selected{border-color:rgba(215,0,48,0.25);background:rgba(215,0,48,0.015)}
 .agent-av{width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
-.agent-av svg{width:16px;height:16px;stroke:#FFF;fill:none;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
+.agent-av svg{width:16px;height:16px;stroke:#FFF;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
 .agent-info{flex:1}
 .agent-name{font-family:'Zen Dots',cursive;font-size:13px;color:#1D1D1F}
 .agent-role{font-family:'Inter',sans-serif;font-size:13px;color:#86868B}
-.agent-check{width:22px;height:22px;border-radius:50%;border:1.5px solid #D2D2D7;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all 0.15s}
+.agent-check{width:32px;height:32px;border-radius:50%;border:1.5px solid #D2D2D7;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all 0.15s}
 .agent-card.selected .agent-check{border-color:#D70030;background:#D70030}
-.agent-card.selected .agent-check::after{content:'';width:6px;height:6px;border-radius:50%;background:#FFF}
+.agent-card.selected .agent-check::after{content:'';width:8px;height:8px;border-radius:50%;background:#FFF}
 
 /* BUTTONS */
 .actions{display:flex;gap:12px}
@@ -90,7 +90,7 @@ body{min-height:100vh;background:#F5F5F7}
 .final h2{font-family:'Zen Dots',cursive;font-size:24px;color:#1D1D1F;margin-bottom:8px}
 .final .sub{font-family:'Satoshi',sans-serif;font-size:14px;color:#86868B;margin-bottom:20px}
 .final-list{text-align:left;max-width:440px;margin:0 auto 20px}
-.final-item{display:flex;align-items:center;gap:10px;padding:10px 14px;background:#FFF;border-radius:12px;border:1px solid rgba(0,0,0,0.04);margin-bottom:6px;font-family:'Satoshi',sans-serif;font-size:14px;color:#1D1D1F;font-weight:500}
+.final-item{display:flex;align-items:center;gap:10px;padding:16px 14px;background:#FFF;border-radius:12px;border:1px solid rgba(0,0,0,0.04);margin-bottom:6px;font-family:'Satoshi',sans-serif;font-size:14px;color:#1D1D1F;font-weight:500}
 .final-check{width:20px;height:20px;border-radius:50%;background:#D70030;display:flex;align-items:center;justify-content:center;flex-shrink:0}
 .final-check::after{content:'';width:5px;height:8px;border:solid #FFF;border-width:0 2px 2px 0;transform:rotate(45deg) translate(-0.5px,-0.5px)}
 </style>
@@ -112,15 +112,15 @@ body{min-height:100vh;background:#F5F5F7}
     <div style="background:#1D1D1F;border-radius:20px;overflow:hidden;margin-bottom:16px">
       <div style="display:flex;align-items:center;gap:10px;padding:14px 18px;border-bottom:1px solid rgba(255,255,255,0.06)">
         <div style="width:28px;height:28px;border-radius:8px;background:linear-gradient(135deg,#D70030,#8B0000);display:flex;align-items:center;justify-content:center">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#FFF" stroke-width="1.5"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#FFF" stroke-width="2"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </div>
         <div><div style="font-family:'Zen Dots',cursive;font-size:13px;color:#FFF">Sensei</div><div style="font-family:'Inter',sans-serif;font-size:12px;color:rgba(255,255,255,0.5)">Configurando sua empresa</div></div>
       </div>
       <div id="essChat" style="padding:18px;display:flex;flex-direction:column;gap:10px;max-height:360px;overflow-y:auto">
-        <div style="max-width:85%;padding:10px 14px;border-radius:14px 14px 14px 4px;background:rgba(255,255,255,0.08);font-family:'Satoshi',sans-serif;font-size:13px;color:rgba(255,255,255,0.9);line-height:1.5">Vamos comecar! Qual o <strong style="color:#D70030">nome da sua empresa</strong> de assessoria?</div>
+        <div style="max-width:85%;padding:16px 14px;border-radius:14px 14px 14px 4px;background:rgba(255,255,255,0.08);font-family:'Satoshi',sans-serif;font-size:13px;color:rgba(255,255,255,0.9);line-height:1.5">Vamos comecar! Qual o <strong style="color:#D70030">nome da sua empresa</strong> de assessoria?</div>
       </div>
       <div style="display:flex;align-items:center;gap:8px;padding:12px 18px;border-top:1px solid rgba(255,255,255,0.06)">
-        <input type="text" id="essInput" placeholder="Digite aqui..." style="flex:1;font-family:'Satoshi',sans-serif;font-size:13px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);border-radius:12px;padding:10px 14px;outline:none;color:#FFF" onkeydown="if(event.key==='Enter')essNext()">
+        <input type="text" id="essInput" placeholder="Digite aqui..." style="flex:1;font-family:'Satoshi',sans-serif;font-size:13px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);border-radius:12px;padding:16px 14px;outline:none;color:#FFF" onkeydown="if(event.key==='Enter')essNext()">
         <button onclick="essNext()" style="width:32px;height:32px;border-radius:50%;background:#D70030;display:flex;align-items:center;justify-content:center;cursor:pointer;border:none;flex-shrink:0"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#FFF" stroke-width="2"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
       </div>
     </div>
@@ -217,7 +217,7 @@ function showDept() {
   if(deptIdx >= depts.length) { deptsDone(); return; }
   const d = depts[deptIdx];
   document.getElementById('deptContainer').innerHTML = `
-    <div class="dept-card"><div class="dept-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">${d.icon}</svg></div><p class="dept-name">${d.name}</p><p class="dept-desc">${d.desc}</p><div class="dept-roles">${d.roles.map(r=>'<span class="dept-role">'+r+'</span>').join('')}</div></div>
+    <div class="dept-card"><div class="dept-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${d.icon}</svg></div><p class="dept-name">${d.name}</p><p class="dept-desc">${d.desc}</p><div class="dept-roles">${d.roles.map(r=>'<span class="dept-role">'+r+'</span>').join('')}</div></div>
     <div class="actions"><button class="btn-no" onclick="deptNext(false)">Nao preciso</button><button class="btn-yes" onclick="deptNext(true)">Preciso desse</button></div>`;
 }
 function deptNext(yes) {
@@ -300,7 +300,7 @@ function essNext() {
   if(!val) return;
   const chat = document.getElementById('essChat');
   // User msg
-  chat.innerHTML += '<div style="max-width:85%;padding:10px 14px;border-radius:14px 14px 4px 14px;background:#D70030;font-family:Satoshi,sans-serif;font-size:13px;color:#FFF;align-self:flex-end;margin-left:auto">'+val+'</div>';
+  chat.innerHTML += '<div style="max-width:85%;padding:16px 14px;border-radius:14px 14px 4px 14px;background:#D70030;font-family:Satoshi,sans-serif;font-size:13px;color:#FFF;align-self:flex-end;margin-left:auto">'+val+'</div>';
   // Save value
   if(essStep===0) document.getElementById('essNome').value = val;
   else if(essStep===1) document.getElementById('essNicho').value = val;
@@ -309,14 +309,14 @@ function essNext() {
   essStep++;
   if(essStep < 3) {
     setTimeout(()=>{
-      chat.innerHTML += '<div style="max-width:85%;padding:10px 14px;border-radius:14px 14px 14px 4px;background:rgba(255,255,255,0.08);font-family:Satoshi,sans-serif;font-size:13px;color:rgba(255,255,255,0.9);line-height:1.5">'+essQuestions[essStep-1].q+'</div>';
+      chat.innerHTML += '<div style="max-width:85%;padding:16px 14px;border-radius:14px 14px 14px 4px;background:rgba(255,255,255,0.08);font-family:Satoshi,sans-serif;font-size:13px;color:rgba(255,255,255,0.9);line-height:1.5">'+essQuestions[essStep-1].q+'</div>';
       chat.scrollTop = chat.scrollHeight;
       input.focus();
     }, 400);
   } else {
     const nome = document.getElementById('essNome').value;
     setTimeout(()=>{
-      chat.innerHTML += '<div style="max-width:85%;padding:10px 14px;border-radius:14px 14px 14px 4px;background:rgba(255,255,255,0.08);font-family:Satoshi,sans-serif;font-size:13px;color:rgba(255,255,255,0.9);line-height:1.5">Perfeito! <strong style="color:#D70030">'+nome+'</strong> esta configurada. Agora vamos montar sua metodologia.</div>';
+      chat.innerHTML += '<div style="max-width:85%;padding:16px 14px;border-radius:14px 14px 14px 4px;background:rgba(255,255,255,0.08);font-family:Satoshi,sans-serif;font-size:13px;color:rgba(255,255,255,0.9);line-height:1.5">Perfeito! <strong style="color:#D70030">'+nome+'</strong> esta configurada. Agora vamos montar sua metodologia.</div>';
       chat.scrollTop = chat.scrollHeight;
       document.getElementById('essNextBtn').style.display = 'block';
       input.disabled = true;

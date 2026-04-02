@@ -3,8 +3,8 @@
 body{min-height:100vh;background:#F5F5F7;color:#1D1D1F}
 a{text-decoration:none;color:inherit}
 .main{max-width:640px;margin:0 auto;padding:16px 20px 100px}
-.back{display:inline-flex;align-items:center;gap:4px;font-family:'Inter',sans-serif;font-size:12px;color:#D70030;margin-bottom:16px;cursor:pointer}
-.back svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:1.5}
+.back{display:inline-flex;align-items:center;gap:8px;font-family:'Inter',sans-serif;font-size:12px;color:#D70030;margin-bottom:16px;cursor:pointer}
+.back svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2}
 .title{font-family:'Zen Dots',cursive;font-size:22px;color:#1D1D1F;margin-bottom:4px}
 .subtitle{font-family:'Satoshi',sans-serif;font-size:14px;color:#86868B;margin-bottom:24px}
 .card{background:#FFF;border-radius:20px;border:1px solid rgba(0,0,0,0.04);padding:24px;margin-bottom:14px}
@@ -26,7 +26,7 @@ a{text-decoration:none;color:inherit}
 .copilot-suggest{display:flex;align-items:center;gap:14px;padding:16px;background:#F5F5F7;border-radius:14px;border:1.5px solid rgba(0,0,0,0.04);margin-bottom:16px}
 .copilot-suggest.matched{border-color:rgba(52,199,89,0.2);background:rgba(52,199,89,0.02)}
 .cs-icon{width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
-.cs-icon svg{width:18px;height:18px;stroke:#FFF;fill:none;stroke-width:1.5}
+.cs-icon svg{width:18px;height:18px;stroke:#FFF;fill:none;stroke-width:2}
 .cs-info{flex:1}
 .cs-name{font-family:'Zen Dots',cursive;font-size:13px;color:#1D1D1F}
 .cs-role{font-family:'Inter',sans-serif;font-size:13px;color:#86868B}
@@ -86,10 +86,10 @@ a{text-decoration:none;color:inherit}
   </div>
 
   <div style="display:flex;gap:6px;margin-top:10px;flex-wrap:wrap" id="copilotOptions">
-    <button style="font-family:'Inter',sans-serif;font-size:13px;padding:6px 12px;border-radius:8px;border:1px solid rgba(0,0,0,0.06);background:#FFF;color:#86868B;cursor:pointer" onclick="setCopilot('Sensei','Orquestrador','#D70030','#8B0000')">Sensei</button>
-    <button style="font-family:'Inter',sans-serif;font-size:13px;padding:6px 12px;border-radius:8px;border:1px solid rgba(0,0,0,0.06);background:#FFF;color:#86868B;cursor:pointer" onclick="setCopilot('Quill','Copywriter','#5856D6','#3A38A0')">Quill</button>
-    <button style="font-family:'Inter',sans-serif;font-size:13px;padding:6px 12px;border-radius:8px;border:1px solid rgba(0,0,0,0.06);background:#FFF;color:#86868B;cursor:pointer" onclick="setCopilot('Canvas','Designer IA','#FF2D55','#CC0033')">Canvas</button>
-    <button style="font-family:'Inter',sans-serif;font-size:13px;padding:6px 12px;border-radius:8px;border:1px solid rgba(0,0,0,0.06);background:#FFF;color:#86868B;cursor:pointer" onclick="setCopilot('Scout','Pesquisador','#007AFF','#0055CC')">Scout</button>
+    <button style="font-family:'Inter',sans-serif;font-size:13px;padding:10px 14px;border-radius:8px;border:1px solid rgba(0,0,0,0.06);background:#FFF;color:#86868B;cursor:pointer" onclick="setCopilot('Sensei','Orquestrador','#D70030','#8B0000')">Sensei</button>
+    <button style="font-family:'Inter',sans-serif;font-size:13px;padding:10px 14px;border-radius:8px;border:1px solid rgba(0,0,0,0.06);background:#FFF;color:#86868B;cursor:pointer" onclick="setCopilot('Quill','Copywriter','#5856D6','#3A38A0')">Quill</button>
+    <button style="font-family:'Inter',sans-serif;font-size:13px;padding:10px 14px;border-radius:8px;border:1px solid rgba(0,0,0,0.06);background:#FFF;color:#86868B;cursor:pointer" onclick="setCopilot('Canvas','Designer IA','#FF2D55','#CC0033')">Canvas</button>
+    <button style="font-family:'Inter',sans-serif;font-size:13px;padding:10px 14px;border-radius:8px;border:1px solid rgba(0,0,0,0.06);background:#FFF;color:#86868B;cursor:pointer" onclick="setCopilot('Scout','Pesquisador','#007AFF','#0055CC')">Scout</button>
   </div>
 </div>
 
@@ -103,7 +103,7 @@ a{text-decoration:none;color:inherit}
     O Grupo Silva te convidou como <strong id="previewRole">Gestor CS</strong>.<br>
     Seu copiloto IA sera o <strong id="previewCopilot">Sensei</strong> — ele vai te ajudar no dia a dia com prioridades, gestao e consistencia.<br><br>
     Clique abaixo pra criar seu acesso:
-    <div style="margin-top:8px;display:inline-block;padding:8px 16px;background:#D70030;color:#FFF;border-radius:8px;font-size:13px;font-weight:600">Criar meu acesso</div>
+    <div style="margin-top:8px;display:inline-block;padding:14px 16px;background:#D70030;color:#FFF;border-radius:8px;font-size:13px;font-weight:600">Criar meu acesso</div>
   </div>
 </div>
 
