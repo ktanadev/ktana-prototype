@@ -1,501 +1,146 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>KTANA Assistant — Mapa de Prototipos V1</title>
-  <link rel="stylesheet" href="shared.css">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Zen+Dots&display=swap" rel="stylesheet">
-  <style>
-    body { min-height: 100vh; }
-    .section { margin-bottom: 48px; }
-    .section-title { font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: #86868B; margin-bottom: 12px; }
-    .link-item { display: flex; align-items: center; gap: 12px; padding: 10px 16px; background: #FFF; border: 1px solid rgba(0,0,0,0.04); border-radius: 12px; margin-bottom: 6px; font-size: 13px; transition: border-color 0.15s; }
-    .link-item:hover { border-color: #D2D2D7; }
-    .link-item .dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
-    .dot-done { background: #30D158; }
-    .dot-wip { background: #FF9F0A; }
-    .dot-todo { background: #D2D2D7; }
-    .link-item .url { margin-left: auto; font-size: 11px; color: #AEAEB2; }
-    .progress { height: 4px; background: #E8E8ED; border-radius: 2px; margin-top: 8px; }
-    .progress-fill { height: 100%; border-radius: 2px; }
-
-    /* OVERRIDE: Chat horizontal integrado no topo */
-    .kc {
-      position: relative !important;
-      top: auto !important;
-      left: auto !important;
-      width: 100% !important;
-      height: auto !important;
-      border-right: none !important;
-      border-radius: 0 !important;
-      margin-top: 0 !important;
-      border-bottom: 0.5px solid rgba(255,255,255,0.06) !important;
-      overflow: visible !important;
-    }
-    body.kc-open {
-      margin: 0 !important;
-      max-width: none !important;
-      background: #0A0A0A !important;
-      padding-top: 52px !important;
-    }
-    .kc-glow { display: none !important; }
-    .kc-msgs {
-      max-height: none !important;
-      flex: none !important;
-      padding: 16px 48px 8px !important;
-      overflow: visible !important;
-    }
-    .kc-chips {
-      padding: 4px 0 0 !important;
-    }
-    .kc-input-area { padding: 10px 48px 16px !important; }
-    .kc-head { padding: 16px 48px 12px !important; }
-
-    /* Zona dark integrada (header + design system) */
-    .inv-dark-zone {
-      background: #111111;
-      padding: 24px 48px 28px;
-      border-top: 0.5px solid rgba(255,255,255,0.06);
-      border-bottom: 0.5px solid rgba(255,255,255,0.06);
-    }
-    .inv-dark-zone .inv-row {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      max-width: 1100px;
-      margin: 0 auto;
-    }
-    .inv-dark-zone .inv-left {
-      display: flex;
-      align-items: center;
-      gap: 20px;
-    }
-    .inv-dark-zone .inv-desc {
-      font-family: 'Inter', sans-serif;
-      font-size: 13px;
-      color: rgba(255,255,255,0.45);
-      line-height: 1.5;
-    }
-    .inv-dark-zone .inv-legends {
-      display: flex;
-      gap: 18px;
-      font-size: 11px;
-      font-family: 'Inter', sans-serif;
-    }
-    .inv-dark-zone .inv-legends span {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      color: rgba(255,255,255,0.4);
-    }
-    .inv-ds-btn {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-      width: 100%;
-      max-width: 480px;
-      margin: 0 auto;
-      padding: 16px 32px;
-      background: rgba(215,0,48,0.08);
-      border: 1px solid rgba(215,0,48,0.2);
-      color: #D70030;
-      border-radius: 14px;
-      font-family: 'Inter', sans-serif;
-      font-size: 14px;
-      font-weight: 600;
-      text-decoration: none;
-      transition: all 0.3s;
-      letter-spacing: 0.02em;
-    }
-    .inv-ds-btn:hover {
-      background: rgba(215,0,48,0.15);
-      border-color: rgba(215,0,48,0.4);
-      box-shadow: 0 0 32px rgba(215,0,48,0.15);
-    }
-
-    /* Inventario com max-width e fundo proprio */
-    .inv-content {
-      max-width: 1100px;
-      margin: 0 auto;
-      padding: 40px 48px 80px;
-      background: #F5F5F7;
-      min-height: 100vh;
-    }
-    /* Fundo branco full-width atras do inventario */
-    .inv-bg {
-      background: #F5F5F7;
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KTANA — Central de Protótipos</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Inter', sans-serif; background: #000; color: #fff; min-height: 100vh; }
+  header { padding: 40px 48px 0; display: flex; align-items: center; gap: 16px; }
+  header img { width: 32px; height: 32px; }
+  header span { font-size: 14px; color: #555; letter-spacing: 0.1em; text-transform: uppercase; font-weight: 600; }
+  .hero { padding: 64px 48px 48px; }
+  .hero h1 { font-size: 48px; font-weight: 700; line-height: 1.1; margin-bottom: 12px; }
+  .hero h1 span { color: #D70030; }
+  .hero p { color: #666; font-size: 16px; }
+  .grid { padding: 0 48px 80px; display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 20px; }
+  .card { background: #0d0d0d; border: 1px solid #1a1a1a; border-radius: 16px; padding: 28px; transition: border-color 0.2s; position: relative; overflow: hidden; }
+  .card:hover { border-color: #D70030; }
+  .card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, #D70030, transparent); opacity: 0; transition: opacity 0.2s; }
+  .card:hover::before { opacity: 1; }
+  .badge { display: inline-flex; align-items: center; gap: 6px; font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; padding: 4px 10px; border-radius: 20px; margin-bottom: 16px; }
+  .badge.ktana { background: #D7003015; color: #D70030; border: 1px solid #D7003030; }
+  .badge.saas { background: #7FB1BD15; color: #7FB1BD; border: 1px solid #7FB1BD30; }
+  .badge.cook { background: #F59E0B15; color: #F59E0B; border: 1px solid #F59E0B30; }
+  .badge.csb { background: #7FB1BD15; color: #7FB1BD; border: 1px solid #7FB1BD30; }
+  .card h2 { font-size: 22px; font-weight: 700; margin-bottom: 6px; }
+  .card .desc { color: #555; font-size: 14px; line-height: 1.5; margin-bottom: 20px; }
+  .screens-list { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 24px; }
+  .screen-tag { font-size: 11px; color: #444; background: #111; border: 1px solid #1e1e1e; padding: 3px 8px; border-radius: 6px; }
+  .actions { display: flex; gap: 10px; }
+  .btn { font-size: 13px; font-weight: 600; padding: 10px 18px; border-radius: 10px; text-decoration: none; transition: all 0.15s; }
+  .btn-primary { background: #D70030; color: #fff; }
+  .btn-primary:hover { background: #b5002a; }
+  .btn-secondary { background: #111; color: #fff; border: 1px solid #222; }
+  .btn-secondary:hover { border-color: #444; }
+  .count { position: absolute; top: 28px; right: 28px; font-size: 28px; font-weight: 800; color: #111; }
+  .section-title { padding: 0 48px 24px; font-size: 11px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: #333; }
+</style>
 </head>
-<body class="light">
+<body>
 
-  <!-- ZONA DARK INTEGRADA: Header + Design System (abaixo do chat) -->
-  <div class="inv-dark-zone" id="invDarkZone">
-    <!-- Linha 1: KTANA + legendas -->
-    <div class="inv-row">
-      <div class="inv-left">
-        <span style="font-family:'Zen Dots',cursive;font-size:16px;color:#D70030;letter-spacing:2px;">KTANA</span>
-        <span style="font-family:'Inter',sans-serif;font-size:11px;color:rgba(255,255,255,0.3);">Assistant · Mapa de Prototipos V1</span>
-      </div>
-      <div class="inv-legends">
-        <span><span class="dot dot-done" style="width:7px;height:7px;border-radius:50%;display:inline-block;"></span> Pronto</span>
-        <span><span class="dot dot-wip" style="width:7px;height:7px;border-radius:50%;display:inline-block;"></span> Em progresso</span>
-        <span><span class="dot dot-todo" style="width:7px;height:7px;border-radius:50%;display:inline-block;"></span> Pendente</span>
-      </div>
+<header>
+  <svg width="32" height="32" viewBox="0 0 32 32" fill="none"><rect width="32" height="32" rx="8" fill="#D70030"/><path d="M8 8L16 4L24 8V16L16 28L8 16V8Z" fill="white" fill-opacity="0.9"/></svg>
+  <span>KTANA · Protótipos</span>
+</header>
+
+<div class="hero">
+  <h1>Central de <span>Produtos</span></h1>
+  <p>Todos os sistemas KTANA — protótipos e fluxos organizados por produto</p>
+</div>
+
+<div class="section-title">Produtos KTANA</div>
+<div class="grid">
+
+  <div class="card">
+    <div class="count">160</div>
+    <div class="badge ktana">● Principal</div>
+    <h2>KTANA Assistant</h2>
+    <div class="desc">Plataforma de funcionários IA autônomos — samurais digitais para empresas e pessoas</div>
+    <div class="screens-list">
+      <span class="screen-tag">Tenant · 80 telas</span>
+      <span class="screen-tag">Admin · 29 telas</span>
+      <span class="screen-tag">PJ · 18 telas</span>
+      <span class="screen-tag">PF · 33 telas</span>
     </div>
-    <!-- Linha 2: Design System centralizado -->
-    <div style="text-align:center;margin-top:20px;">
-      <a href="design-system.html" class="inv-ds-btn">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-        Design System
-      </a>
-    </div>
-  </div>
-
-  <!-- INVENTARIO -->
-  <div class="inv-bg">
-  <div class="inv-content">
-  <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 48px;">
-
-    <!-- COLUNA ESQUERDA: TENANT -->
-    <div>
-      <h2 style="font-size: 16px; font-weight: 700; margin-bottom: 32px;">Tenant <span class="text-3" style="font-weight:400; font-size:12px;">· Light mode</span></h2>
-
-      <div class="section">
-        <p class="section-title">1. Publico</p>
-        <a href="tenant/landing.html" class="link-item"><span class="dot dot-done"></span> Landing Page <span class="url">/</span></a>
-        <a href="pj/landing.html" class="link-item"><span class="dot dot-done"></span> Landing PJ <span class="url">/pj</span></a>
-        <a href="pf/landing.html" class="link-item"><span class="dot dot-done"></span> Landing PF <span class="url">/pf</span></a>
-      </div>
-
-      <div class="section">
-        <p class="section-title">2. Auth</p>
-        <a href="tenant/auth/signup.html" class="link-item"><span class="dot dot-done"></span> Signup <span class="url">/signup</span></a>
-        <a href="tenant/auth/verify.html" class="link-item"><span class="dot dot-done"></span> Verificar email <span class="url">/signup/verify</span></a>
-        <a href="tenant/auth/login.html" class="link-item"><span class="dot dot-done"></span> Login <span class="url">/login</span></a>
-        <a href="tenant/auth/twofa.html" class="link-item"><span class="dot dot-done"></span> 2FA <span class="url">/login/2fa</span></a>
-        <a href="tenant/auth/forgot.html" class="link-item"><span class="dot dot-done"></span> Esqueci senha <span class="url">/forgot</span></a>
-        <a href="tenant/auth/reset.html" class="link-item"><span class="dot dot-done"></span> Redefinir senha <span class="url">/reset</span></a>
-        <a href="tenant/auth/kyc.html" class="link-item"><span class="dot dot-done"></span> KYC Facial (6 estados) <span class="url">/kyc</span></a>
-      </div>
-
-      <div class="section">
-        <p class="section-title">3. Onboarding</p>
-        <a href="tenant/onboarding/plans.html" class="link-item"><span class="dot dot-done"></span> Escolha de plano <span class="url">/plans</span></a>
-        <a href="tenant/onboarding/checkout.html" class="link-item"><span class="dot dot-done"></span> Checkout <span class="url">/plans/checkout</span></a>
-        <a href="tenant/onboarding/yumi.html" class="link-item"><span class="dot dot-done"></span> Conversa Yumi <span class="url">/onboarding</span></a>
-        <a href="tenant/onboarding/team.html" class="link-item"><span class="dot dot-done"></span> Equipe sugerida <span class="url">/onboarding/team</span></a>
-        <a href="tenant/onboarding/agent-config.html" class="link-item"><span class="dot dot-done"></span> Config agente (9 campos) <span class="url">/onboarding/agent/:id</span></a>
-        <a href="tenant/onboarding/connect.html" class="link-item"><span class="dot dot-done"></span> Conectar ferramentas <span class="url">/onboarding/connect</span></a>
-        <a href="tenant/onboarding/connect-gmail.html" class="link-item"><span class="dot dot-done"></span> OAuth Gmail <span class="url">/onboarding/connect/gmail</span></a>
-        <a href="tenant/onboarding/connect-whatsapp.html" class="link-item"><span class="dot dot-done"></span> QR WhatsApp <span class="url">/onboarding/connect/whatsapp</span></a>
-        <a href="tenant/onboarding/review.html" class="link-item"><span class="dot dot-done"></span> Revisao + LGPD <span class="url">/onboarding/review</span></a>
-        <a href="tenant/onboarding/activate.html" class="link-item"><span class="dot dot-done"></span> Ativacao (animacao) <span class="url">/onboarding/activate</span></a>
-      </div>
-
-      <div class="section">
-        <p class="section-title">4. Dashboard</p>
-        <a href="tenant/dashboard/home.html" class="link-item"><span class="dot dot-done"></span> Home (briefing CEO) <span class="url">/dashboard</span></a>
-        <a href="tenant/dashboard/empty.html" class="link-item"><span class="dot dot-done"></span> Empty state <span class="url">/dashboard (vazio)</span></a>
-        <a href="tenant/dashboard/urgent.html" class="link-item"><span class="dot dot-done"></span> Com urgencia <span class="url">/dashboard (urgente)</span></a>
-      </div>
-
-      <div class="section">
-        <p class="section-title">5. Escritorio Virtual</p>
-        <a href="tenant/office/index.html" class="link-item"><span class="dot dot-done"></span> Escritorio (samurais) <span class="url">/office</span></a>
-        <a href="tenant/office/tooltip.html" class="link-item"><span class="dot dot-done"></span> Hover tooltip <span class="url">/office (hover)</span></a>
-        <a href="tenant/office/panel.html" class="link-item"><span class="dot dot-done"></span> Painel lateral <span class="url">/office (click)</span></a>
-      </div>
-
-      <div class="section">
-        <p class="section-title">6. Equipe</p>
-        <a href="tenant/team/list.html" class="link-item"><span class="dot dot-done"></span> Lista equipe <span class="url">/team</span></a>
-        <a href="tenant/team/org.html" class="link-item"><span class="dot dot-done"></span> Organograma <span class="url">/team/org</span></a>
-        <a href="tenant/team/hire-level.html" class="link-item"><span class="dot dot-done"></span> Contratar: nivel <span class="url">/team/hire</span></a>
-        <a href="tenant/team/hire-role.html" class="link-item"><span class="dot dot-done"></span> Contratar: cargo <span class="url">/team/hire/role</span></a>
-        <a href="tenant/team/hire-config.html" class="link-item"><span class="dot dot-done"></span> Contratar: config <span class="url">/team/hire/config</span></a>
-        <a href="tenant/team/hire-review.html" class="link-item"><span class="dot dot-done"></span> Contratar: revisao <span class="url">/team/hire/review</span></a>
-      </div>
-
-      <div class="section">
-        <p class="section-title">7. Agente</p>
-        <a href="tenant/agent/chat.html" class="link-item"><span class="dot dot-done"></span> Chat com agente <span class="url">/agent/:id/chat</span></a>
-        <a href="tenant/agent/activity.html" class="link-item"><span class="dot dot-done"></span> Feed atividade <span class="url">/agent/:id/activity</span></a>
-        <a href="tenant/agent/profile.html" class="link-item"><span class="dot dot-done"></span> Perfil detalhado <span class="url">/agent/:id/profile</span></a>
-        <a href="tenant/agent/memory.html" class="link-item"><span class="dot dot-done"></span> Memoria <span class="url">/agent/:id/memory</span></a>
-        <a href="tenant/agent/metrics.html" class="link-item"><span class="dot dot-done"></span> Metricas <span class="url">/agent/:id/metrics</span></a>
-        <a href="tenant/agent/config.html" class="link-item"><span class="dot dot-done"></span> Configuracoes <span class="url">/agent/:id/config</span></a>
-        <a href="tenant/agent/metacog.html" class="link-item"><span class="dot dot-done"></span> Metacognicao <span class="url">/agent/:id/metacog</span></a>
-        <a href="tenant/agent/paused.html" class="link-item"><span class="dot dot-done"></span> Agente pausado <span class="url">/agent/:id/paused</span></a>
-        <a href="tenant/agent/demit-confirm.html" class="link-item"><span class="dot dot-done"></span> Demissao confirmacao <span class="url">/agent/:id/demit</span></a>
-      </div>
-
-      <div class="section">
-        <p class="section-title">8. Aprovacoes</p>
-        <a href="tenant/approvals/list.html" class="link-item"><span class="dot dot-done"></span> Lista pendentes <span class="url">/approvals</span></a>
-        <a href="tenant/approvals/detail.html" class="link-item"><span class="dot dot-done"></span> Detalhe aprovacao <span class="url">/approvals/:id</span></a>
-        <a href="tenant/approvals/edit.html" class="link-item"><span class="dot dot-done"></span> Editar rascunho <span class="url">/approvals/:id/edit</span></a>
-        <a href="tenant/approvals/empty.html" class="link-item"><span class="dot dot-done"></span> Empty state <span class="url">/approvals (vazio)</span></a>
-        <a href="tenant/approvals/resolved.html" class="link-item"><span class="dot dot-done"></span> Resolvidas (historico) <span class="url">/approvals/resolved</span></a>
-      </div>
-
-      <div class="section">
-        <p class="section-title">9. Perfil Cognitivo</p>
-        <a href="tenant/profile/index.html" class="link-item"><span class="dot dot-done"></span> Meu perfil (Jung) <span class="url">/profile</span></a>
-        <a href="tenant/profile/patterns.html" class="link-item"><span class="dot dot-done"></span> Padroes detectados <span class="url">/profile/patterns</span></a>
-        <a href="tenant/profile/graph.html" class="link-item"><span class="dot dot-done"></span> Knowledge graph <span class="url">/profile/graph</span></a>
-      </div>
-
-      <div class="section">
-        <p class="section-title">Extras Tenant</p>
-        <a href="tenant/terminal.html" class="link-item"><span class="dot dot-done"></span> Terminal Claude Code <span class="url">/terminal</span></a>
-        <a href="tenant/support.html" class="link-item"><span class="dot dot-done"></span> Suporte IA <span class="url">/support</span></a>
-        <a href="tenant/whatsapp.html" class="link-item"><span class="dot dot-done"></span> WhatsApp embedded <span class="url">/whatsapp</span></a>
-      </div>
-
-      <div class="section">
-        <p class="section-title">10. Configuracoes</p>
-        <a href="tenant/settings/general.html" class="link-item"><span class="dot dot-done"></span> Geral <span class="url">/settings</span></a>
-        <a href="tenant/settings/models.html" class="link-item"><span class="dot dot-done"></span> Inteligencia <span class="url">/settings/models</span></a>
-        <a href="tenant/settings/connections.html" class="link-item"><span class="dot dot-done"></span> Conexoes <span class="url">/settings/connections</span></a>
-        <a href="tenant/settings/brain.html" class="link-item"><span class="dot dot-done"></span> Cerebro/Memoria <span class="url">/settings/brain</span></a>
-        <a href="tenant/settings/security.html" class="link-item"><span class="dot dot-done"></span> Seguranca <span class="url">/settings/security</span></a>
-        <a href="tenant/settings/privacy.html" class="link-item"><span class="dot dot-done"></span> LGPD/Privacidade <span class="url">/settings/privacy</span></a>
-        <a href="tenant/settings/notifications.html" class="link-item"><span class="dot dot-done"></span> Notificacoes <span class="url">/settings/notifications</span></a>
-        <a href="tenant/settings/billing.html" class="link-item"><span class="dot dot-done"></span> Plano & Uso <span class="url">/settings/billing</span></a>
-        <a href="tenant/settings/api.html" class="link-item"><span class="dot dot-done"></span> API & Webhooks <span class="url">/settings/api</span></a>
-        <a href="tenant/settings/ethics.html" class="link-item"><span class="dot dot-done"></span> Etica & Regras <span class="url">/settings/ethics</span></a>
-      </div>
-    </div>
-
-    <!-- COLUNA DIREITA: ADMIN + PF/PJ -->
-    <div>
-      <h2 style="font-size: 16px; font-weight: 700; margin-bottom: 32px;">Admin Master <span class="text-3" style="font-weight:400; font-size:12px;">· Dark mode</span></h2>
-
-      <div class="section">
-        <p class="section-title">11. Admin</p>
-        <a href="admin/overview.html" class="link-item"><span class="dot dot-done"></span> Overview <span class="url">/admin</span></a>
-        <a href="admin/flow.html" class="link-item"><span class="dot dot-done"></span> Agent Flow (canvas) <span class="url">/admin/flow</span></a>
-        <a href="admin/tenants.html" class="link-item"><span class="dot dot-done"></span> Lista tenants <span class="url">/admin/tenants</span></a>
-        <a href="admin/tenant-detail.html" class="link-item"><span class="dot dot-done"></span> Tenant detail <span class="url">/admin/tenants/:id</span></a>
-        <a href="admin/tenant-agents.html" class="link-item"><span class="dot dot-done"></span> Agentes do tenant <span class="url">/admin/tenants/:id/agents</span></a>
-        <a href="admin/tenant-activity.html" class="link-item"><span class="dot dot-done"></span> Atividade do tenant <span class="url">/admin/tenants/:id/activity</span></a>
-        <a href="admin/tenant-brain.html" class="link-item"><span class="dot dot-done"></span> Cerebro do tenant <span class="url">/admin/tenants/:id/brain</span></a>
-        <a href="admin/agents.html" class="link-item"><span class="dot dot-done"></span> Agentes global <span class="url">/admin/agents</span></a>
-        <a href="admin/agent-detail.html" class="link-item"><span class="dot dot-done"></span> Agente detail <span class="url">/admin/agents/:id</span></a>
-        <a href="admin/health.html" class="link-item"><span class="dot dot-done"></span> System health <span class="url">/admin/health</span></a>
-        <a href="admin/health-workers.html" class="link-item"><span class="dot dot-done"></span> Workers detail <span class="url">/admin/health/workers</span></a>
-        <a href="admin/health-memory.html" class="link-item"><span class="dot dot-done"></span> Memory API detail <span class="url">/admin/health/memory</span></a>
-        <a href="admin/billing.html" class="link-item"><span class="dot dot-done"></span> Billing consolidado <span class="url">/admin/billing</span></a>
-        <a href="admin/billing-revenue.html" class="link-item"><span class="dot dot-done"></span> Receita por plano <span class="url">/admin/billing/revenue</span></a>
-        <a href="admin/billing-costs.html" class="link-item"><span class="dot dot-done"></span> Custos (tokens) <span class="url">/admin/billing/costs</span></a>
-        <a href="admin/compliance.html" class="link-item"><span class="dot dot-done"></span> Compliance <span class="url">/admin/compliance</span></a>
-        <a href="admin/compliance-lgpd.html" class="link-item"><span class="dot dot-done"></span> LGPD requests <span class="url">/admin/compliance/lgpd</span></a>
-        <a href="admin/compliance-audit.html" class="link-item"><span class="dot dot-done"></span> Audit logs <span class="url">/admin/compliance/audit</span></a>
-        <a href="admin/catalog.html" class="link-item"><span class="dot dot-done"></span> Catalogo cargos <span class="url">/admin/catalog</span></a>
-        <a href="admin/catalog-edit.html" class="link-item"><span class="dot dot-done"></span> Editar cargo <span class="url">/admin/catalog/:id</span></a>
-        <a href="admin/catalog-attributions.html" class="link-item"><span class="dot dot-done"></span> Atribuicoes do cargo <span class="url">/admin/catalog/:id/attributions</span></a>
-        <a href="admin/settings.html" class="link-item"><span class="dot dot-done"></span> Config sistema <span class="url">/admin/settings</span></a>
-        <a href="admin/settings-environments.html" class="link-item"><span class="dot dot-done"></span> Ambientes <span class="url">/admin/settings/environments</span></a>
-        <a href="admin/settings-constitution.html" class="link-item"><span class="dot dot-done"></span> Constitution <span class="url">/admin/settings/constitution</span></a>
-        <a href="admin/settings-llm.html" class="link-item"><span class="dot dot-done"></span> LLM defaults <span class="url">/admin/settings/llm</span></a>
-        <a href="admin/settings-admins.html" class="link-item"><span class="dot dot-done"></span> Admin users <span class="url">/admin/settings/admins</span></a>
-        <a href="admin/impersonate.html" class="link-item"><span class="dot dot-done"></span> Impersonar tenant <span class="url">/admin/impersonate</span></a>
-        <a href="admin/support.html" class="link-item"><span class="dot dot-done"></span> Suporte admin <span class="url">/admin/support</span></a>
-      </div>
-
-      <div class="section">
-        <p class="section-title">Extras Tenant</p>
-        <a href="tenant/solutions/index.html" class="link-item"><span class="dot dot-done"></span> Marketplace Solucoes (42 modulos) <span class="url">/solutions</span></a>
-        <a href="tenant/solutions/builder.html" class="link-item"><span class="dot dot-done"></span> Builder visual (chat + drag & drop) <span class="url">/solutions/builder</span></a>
-        <a href="tenant/dashboard/roi.html" class="link-item"><span class="dot dot-done"></span> Lucro & ROI (extrato bancario) <span class="url">/dashboard/roi</span></a>
-        <a href="tenant/dashboard/insights.html" class="link-item"><span class="dot dot-done"></span> Insights do Conselho <span class="url">/dashboard/insights</span></a>
-        <a href="tenant/frameworks/index.html" class="link-item"><span class="dot dot-done"></span> Frameworks do segmento <span class="url">/frameworks</span></a>
-        <a href="tenant/frameworks/processes.html" class="link-item"><span class="dot dot-done"></span> Processos mapeados <span class="url">/frameworks/processes</span></a>
-        <a href="tenant/frameworks/kpis.html" class="link-item"><span class="dot dot-done"></span> KPIs monitorados <span class="url">/frameworks/kpis</span></a>
-        <a href="tenant/frameworks/expert-chat.html" class="link-item"><span class="dot dot-done"></span> Especialista do setor <span class="url">/frameworks/expert</span></a>
-        <a href="tenant/terminal.html" class="link-item"><span class="dot dot-done"></span> Terminal Claude Code <span class="url">/terminal</span></a>
-        <a href="tenant/whatsapp.html" class="link-item"><span class="dot dot-done"></span> WhatsApp embedded <span class="url">/whatsapp</span></a>
-        <a href="tenant/organizations/index.html" class="link-item"><span class="dot dot-done"></span> Organizacoes (multi-empresa) <span class="url">/organizations</span></a>
-        <a href="tenant/organizations/members.html" class="link-item"><span class="dot dot-done"></span> Membros e permissoes <span class="url">/organizations/members</span></a>
-        <a href="tenant/organizations/invite-accept.html" class="link-item"><span class="dot dot-done"></span> Aceitar convite (invited) <span class="url">/organizations/invite-accept</span></a>
-        <a href="tenant/organizations/invite-setup.html" class="link-item"><span class="dot dot-done"></span> Configurar perfil (invited) <span class="url">/organizations/invite-setup</span></a>
-        <a href="tenant/organizations/invite-welcome.html" class="link-item"><span class="dot dot-done"></span> Bem-vindo (invited) <span class="url">/organizations/invite-welcome</span></a>
-        <a href="tenant/settings/whatsapp-setup.html" class="link-item"><span class="dot dot-done"></span> WhatsApp Setup (5 steps) <span class="url">/settings/whatsapp-setup</span></a>
-        <a href="tenant/settings/spirit.html" class="link-item"><span class="dot dot-done"></span> Espirito da organizacao <span class="url">/settings/spirit</span></a>
-      </div>
-
-      <div class="section">
-        <p class="section-title">Solution Details (8)</p>
-        <a href="tenant/solutions/sdr-auto.html" class="link-item"><span class="dot dot-done"></span> SDR Automatico <span class="url">/solutions/sdr-auto</span></a>
-        <a href="tenant/solutions/social-posting.html" class="link-item"><span class="dot dot-done"></span> Postagem Redes Sociais <span class="url">/solutions/social-posting</span></a>
-        <a href="tenant/solutions/sac-whatsapp.html" class="link-item"><span class="dot dot-done"></span> SAC WhatsApp <span class="url">/solutions/sac-whatsapp</span></a>
-        <a href="tenant/solutions/smart-billing.html" class="link-item"><span class="dot dot-done"></span> Cobranca Inteligente <span class="url">/solutions/smart-billing</span></a>
-        <a href="tenant/solutions/email-marketing.html" class="link-item"><span class="dot dot-done"></span> Email Marketing IA <span class="url">/solutions/email-marketing</span></a>
-        <a href="tenant/solutions/seo-auto.html" class="link-item"><span class="dot dot-done"></span> SEO Automatico <span class="url">/solutions/seo-auto</span></a>
-        <a href="tenant/solutions/dre-auto.html" class="link-item"><span class="dot dot-done"></span> DRE e Fluxo de Caixa <span class="url">/solutions/dre-auto</span></a>
-        <a href="tenant/solutions/objection-breaker.html" class="link-item"><span class="dot dot-done"></span> Quebra de Objecoes <span class="url">/solutions/objection-breaker</span></a>
-      </div>
+    <div class="actions">
+      <a href="/ktana-prototype/mapa.html" class="btn btn-primary">Ver mapa completo</a>
+      <a href="https://github.com/ktanadev/ktana-assistant" class="btn btn-secondary">GitHub</a>
     </div>
   </div>
 
-  <!-- ═══════════════════════════════════════════════════ -->
-  <!-- PJ + PF — Secoes separadas, full-width, lado a lado -->
-  <!-- ═══════════════════════════════════════════════════ -->
-  <div style="padding: 0 48px;">
-    <div style="height:1px;background:linear-gradient(90deg,transparent,rgba(215,0,48,0.15),transparent);margin:24px 0 48px;"></div>
-
-    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 48px;">
-
-      <!-- ==================== PJ — EMPRESA ==================== -->
-      <div>
-        <h2 style="font-size: 16px; font-weight: 700; margin-bottom: 32px;">PJ — Empresa <span class="text-3" style="font-weight:400; font-size:12px;">· 18 telas</span></h2>
-
-        <div class="section">
-          <p class="section-title">12. Publico & Onboarding PJ</p>
-          <a href="pj/landing.html" class="link-item"><span class="dot dot-done"></span> Landing PJ <span class="url">/pj</span></a>
-          <a href="pj/onboarding.html" class="link-item"><span class="dot dot-done"></span> Onboarding PJ (departamentos) <span class="url">/pj/onboarding</span></a>
-          <a href="pj/solutions.html" class="link-item"><span class="dot dot-done"></span> Solucoes por departamento (42+ samurais) <span class="url">/pj/solutions</span></a>
-          <a href="pj/org-chart.html" class="link-item"><span class="dot dot-done"></span> Organograma PJ <span class="url">/pj/org</span></a>
-        </div>
-
-        <div class="section">
-          <p class="section-title">13. Contratacao PJ</p>
-          <a href="pj/hire-ceo.html" class="link-item"><span class="dot dot-done"></span> Config CEO <span class="url">/pj/hire/ceo</span></a>
-          <a href="pj/hire-clevel.html" class="link-item"><span class="dot dot-done"></span> Config C-Level <span class="url">/pj/hire/clevel</span></a>
-          <a href="pj/hire-leader.html" class="link-item"><span class="dot dot-done"></span> Config Lider <span class="url">/pj/hire/leader</span></a>
-          <a href="pj/hire-worker.html" class="link-item"><span class="dot dot-done"></span> Config Colaborador <span class="url">/pj/hire/worker</span></a>
-        </div>
-
-        <div class="section">
-          <p class="section-title">14. Departamentos PJ (10)</p>
-          <a href="pj/dept-finance.html" class="link-item"><span class="dot dot-done"></span> Financeiro <span class="url">/pj/dept/finance</span></a>
-          <a href="pj/dept-sales.html" class="link-item"><span class="dot dot-done"></span> Vendas <span class="url">/pj/dept/sales</span></a>
-          <a href="pj/dept-marketing.html" class="link-item"><span class="dot dot-done"></span> Marketing <span class="url">/pj/dept/marketing</span></a>
-          <a href="pj/dept-hr.html" class="link-item"><span class="dot dot-done"></span> RH <span class="url">/pj/dept/hr</span></a>
-          <a href="pj/dept-support.html" class="link-item"><span class="dot dot-done"></span> Atendimento <span class="url">/pj/dept/support</span></a>
-          <a href="pj/dept-legal.html" class="link-item"><span class="dot dot-done"></span> Juridico <span class="url">/pj/dept/legal</span></a>
-          <a href="pj/dept-ops.html" class="link-item"><span class="dot dot-done"></span> Operacoes <span class="url">/pj/dept/ops</span></a>
-          <a href="pj/dept-tech.html" class="link-item"><span class="dot dot-done"></span> Tecnologia <span class="url">/pj/dept/tech</span></a>
-          <a href="pj/dept-product.html" class="link-item"><span class="dot dot-done"></span> Produto <span class="url">/pj/dept/product</span></a>
-          <a href="pj/dept-data.html" class="link-item"><span class="dot dot-done"></span> Dados & BI <span class="url">/pj/dept/data</span></a>
-        </div>
-      </div>
-
-      <!-- ==================== PF — PESSOA FISICA ==================== -->
-      <div>
-        <h2 style="font-size: 16px; font-weight: 700; margin-bottom: 32px;">PF — Pessoa Fisica <span class="text-3" style="font-weight:400; font-size:12px;">· 33 telas</span></h2>
-
-        <div class="section">
-          <p class="section-title">15. Onboarding PF</p>
-          <a href="pf/landing.html" class="link-item"><span class="dot dot-done"></span> Landing PF <span class="url">/pf</span></a>
-          <a href="pf/onboarding.html" class="link-item"><span class="dot dot-done"></span> Onboarding (areas da vida) <span class="url">/pf/onboarding</span></a>
-          <a href="pf/yumi.html" class="link-item"><span class="dot dot-done"></span> Conversa com Yumi <span class="url">/pf/yumi</span></a>
-          <a href="pf/connect.html" class="link-item"><span class="dot dot-done"></span> Conectar ferramentas <span class="url">/pf/connect</span></a>
-          <a href="pf/review.html" class="link-item"><span class="dot dot-done"></span> Revisao + LGPD <span class="url">/pf/review</span></a>
-          <a href="pf/mentor-config.html" class="link-item"><span class="dot dot-done"></span> Config mentor (refs) <span class="url">/pf/mentor/:id</span></a>
-          <a href="pf/specialist-config.html" class="link-item"><span class="dot dot-done"></span> Config especialista <span class="url">/pf/specialist/:id</span></a>
-        </div>
-
-        <div class="section">
-          <p class="section-title">16. Areas da vida (8 mentores)</p>
-          <a href="pf/area-saude.html" class="link-item"><span class="dot dot-done"></span> Saude (mentor + specs) <span class="url">/pf/area/saude</span></a>
-          <a href="pf/area-mente.html" class="link-item"><span class="dot dot-done"></span> Mente & Emocional <span class="url">/pf/area/mente</span></a>
-          <a href="pf/area-carreira.html" class="link-item"><span class="dot dot-done"></span> Carreira <span class="url">/pf/area/carreira</span></a>
-          <a href="pf/area-financas.html" class="link-item"><span class="dot dot-done"></span> Financas Pessoais <span class="url">/pf/area/financas</span></a>
-          <a href="pf/area-proposito.html" class="link-item"><span class="dot dot-done"></span> Proposito <span class="url">/pf/area/proposito</span></a>
-          <a href="pf/area-produtividade.html" class="link-item"><span class="dot dot-done"></span> Produtividade <span class="url">/pf/area/produtividade</span></a>
-          <a href="pf/area-relacionamentos.html" class="link-item"><span class="dot dot-done"></span> Relacionamentos <span class="url">/pf/area/relacionamentos</span></a>
-          <a href="pf/area-casa.html" class="link-item"><span class="dot dot-done"></span> Casa & Ambiente <span class="url">/pf/area/casa</span></a>
-        </div>
-
-        <div class="section">
-          <p class="section-title">17. Dashboard & App PF</p>
-          <a href="pf/dashboard.html" class="link-item"><span class="dot dot-done"></span> Home (Meu Dia) <span class="url">/pf/dashboard</span></a>
-          <a href="pf/chat.html" class="link-item"><span class="dot dot-done"></span> Chat com mentor <span class="url">/pf/chat</span></a>
-          <a href="pf/habits.html" class="link-item"><span class="dot dot-done"></span> Habitos <span class="url">/pf/habits</span></a>
-          <a href="pf/goals.html" class="link-item"><span class="dot dot-done"></span> Metas <span class="url">/pf/goals</span></a>
-          <a href="pf/insights.html" class="link-item"><span class="dot dot-done"></span> Insights <span class="url">/pf/insights</span></a>
-          <a href="pf/activity.html" class="link-item"><span class="dot dot-done"></span> Feed de atividade <span class="url">/pf/activity</span></a>
-          <a href="pf/approvals.html" class="link-item"><span class="dot dot-done"></span> Aprovacoes <span class="url">/pf/approvals</span></a>
-          <a href="pf/wearables.html" class="link-item"><span class="dot dot-done"></span> Wearables & Dispositivos <span class="url">/pf/wearables</span></a>
-        </div>
-
-        <div class="section">
-          <p class="section-title">18. Cerebro & Evolucao PF</p>
-          <a href="pf/brain.html" class="link-item"><span class="dot dot-done"></span> Cerebro pessoal <span class="url">/pf/brain</span></a>
-          <a href="pf/evolution.html" class="link-item"><span class="dot dot-done"></span> Evolucao <span class="url">/pf/evolution</span></a>
-          <a href="pf/psychology.html" class="link-item"><span class="dot dot-done"></span> Psicologia (perfil Jung) <span class="url">/pf/psychology</span></a>
-          <a href="pf/profile.html" class="link-item"><span class="dot dot-done"></span> Perfil pessoal <span class="url">/pf/profile</span></a>
-          <a href="pf/frameworks.html" class="link-item"><span class="dot dot-done"></span> Frameworks pessoais <span class="url">/pf/frameworks</span></a>
-          <a href="pf/spirit.html" class="link-item"><span class="dot dot-done"></span> Espirito pessoal (Ikigai) <span class="url">/pf/spirit</span></a>
-        </div>
-
-        <div class="section">
-          <p class="section-title">19. Solucoes & Builder PF</p>
-          <a href="pf/solutions.html" class="link-item"><span class="dot dot-done"></span> Solucoes (micro-solucoes) <span class="url">/pf/solutions</span></a>
-          <a href="pf/builder.html" class="link-item"><span class="dot dot-done"></span> Builder (rotinas) <span class="url">/pf/builder</span></a>
-          <a href="pf/builder-workflows.html" class="link-item"><span class="dot dot-done"></span> Workflows (automacoes) <span class="url">/pf/builder/workflows</span></a>
-          <a href="pf/settings.html" class="link-item"><span class="dot dot-done"></span> Configuracoes PF <span class="url">/pf/settings</span></a>
-        </div>
-      </div>
+  <div class="card">
+    <div class="count">130</div>
+    <div class="badge saas">● SaaS</div>
+    <h2>SaaS Social Media</h2>
+    <div class="desc">Sistema de gestão de redes sociais para agências — Grupo Silva. Agentes IA por rede social.</div>
+    <div class="screens-list">
+      <span class="screen-tag">V1 · 59 telas</span>
+      <span class="screen-tag">V3 · 71 telas</span>
+      <span class="screen-tag">Multi-tenant</span>
     </div>
-
-  <!-- Progresso -->
-    <div style="height:1px;background:linear-gradient(90deg,transparent,rgba(215,0,48,0.15),transparent);margin:48px 0 32px;"></div>
-    <div class="card" style="padding: 24px; max-width: 560px;">
-      <p class="section-title">Progresso V1</p>
-      <div style="margin-top: 16px;">
-        <div style="display:flex; justify-content:space-between; font-size:13px; margin-bottom:4px;">
-          <span>Tenant (80 telas)</span><span class="text-3">80/80</span>
-        </div>
-        <div class="progress"><div class="progress-fill" style="width:100%; background:#30D158;"></div></div>
-      </div>
-      <div style="margin-top: 16px;">
-        <div style="display:flex; justify-content:space-between; font-size:13px; margin-bottom:4px;">
-          <span>Admin (29 telas)</span><span class="text-3">29/29</span>
-        </div>
-        <div class="progress"><div class="progress-fill" style="width:100%; background:#30D158;"></div></div>
-      </div>
-      <div style="margin-top: 16px;">
-        <div style="display:flex; justify-content:space-between; font-size:13px; margin-bottom:4px;">
-          <span>PJ — Empresa (18 telas)</span><span class="text-3">18/18</span>
-        </div>
-        <div class="progress"><div class="progress-fill" style="width:100%; background:#30D158;"></div></div>
-      </div>
-      <div style="margin-top: 16px;">
-        <div style="display:flex; justify-content:space-between; font-size:13px; margin-bottom:4px;">
-          <span>PF — Pessoa Fisica (33 telas)</span><span class="text-3">33/33</span>
-        </div>
-        <div class="progress"><div class="progress-fill" style="width:100%; background:#30D158;"></div></div>
-      </div>
-      <div style="margin-top: 24px; padding-top: 16px; border-top: 1px solid rgba(0,0,0,0.04);">
-        <div style="display:flex; justify-content:space-between; font-size:14px; font-weight:600; margin-bottom:4px;">
-          <span style="color:#30D158;">&#10003; Total completo</span><span>160/160 telas</span>
-        </div>
-        <div class="progress"><div class="progress-fill" style="width:100%; background:#30D158;"></div></div>
-      </div>
+    <div class="actions">
+      <a href="https://ktanadev.github.io/saas-social-media/" class="btn btn-primary">Ver protótipos</a>
+      <a href="https://github.com/ktanadev/saas-social-media" class="btn btn-secondary">GitHub</a>
     </div>
-
-  <div style="margin-top: 64px; padding-top: 24px; border-top: 1px solid rgba(0,0,0,0.04); text-align: center; font-size: 11px; color: #AEAEB2;">
-    KTANA Assistant — Product Spec V2.0 · 145+ telas · Design System Ive Edition · Zero placeholders · Zero broken links
   </div>
-  </div><!-- /inv-content -->
-  </div><!-- /inv-bg -->
+
+  <div class="card">
+    <div class="count">1</div>
+    <div class="badge cook">● Food</div>
+    <h2>KTANA Cook</h2>
+    <div class="desc">Plataforma de IA para gastronomia e food service — gestão com samurais especializados</div>
+    <div class="screens-list">
+      <span class="screen-tag">Dashboard</span>
+      <span class="screen-tag">Em desenvolvimento</span>
+    </div>
+    <div class="actions">
+      <a href="https://ktanadev.github.io/ktana-cook/" class="btn btn-primary">Ver protótipo</a>
+      <a href="https://github.com/ktanadev/ktana-cook" class="btn btn-secondary">GitHub</a>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="badge ktana">● Empresa Inteligente</div>
+    <h2>Funcionário IA</h2>
+    <div class="desc">Contrate funcionários IA via WhatsApp — Evolution API + Letta. LP + painel admin.</div>
+    <div class="screens-list">
+      <span class="screen-tag">Landing Page</span>
+      <span class="screen-tag">Admin Panel</span>
+      <span class="screen-tag">Tenant Dashboard</span>
+    </div>
+    <div class="actions">
+      <a href="https://empresainteligente.ai" class="btn btn-primary">Ver site</a>
+      <a href="https://github.com/ktanadev/empresa-inteligente" class="btn btn-secondary">GitHub</a>
+    </div>
+  </div>
+
+</div>
+
+<div class="section-title">Design System & Infra</div>
+<div class="grid">
+
+  <div class="card">
+    <div class="badge ktana">● Design</div>
+    <h2>Design System KTANA</h2>
+    <div class="desc">Brand toolkit tokenizado — #000 #D70030 Zen Dots. Base para todos os produtos.</div>
+    <div class="actions">
+      <a href="design-system.html" class="btn btn-primary">Ver tokens</a>
+      <a href="https://github.com/ktanadev/ktana-design-system" class="btn btn-secondary">GitHub</a>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="badge ktana">● Legal</div>
+    <h2>Documentos Legais</h2>
+    <div class="desc">Termos de uso, política de privacidade e documentação regulatória KTANA.</div>
+    <div class="actions">
+      <a href="legal/" class="btn btn-primary">Ver docs</a>
+    </div>
+  </div>
+
+</div>
+
 </body>
 </html>
-<script src="shared-nav.js?v=1774999999"></script>
-<script>
-// Move chat para o topo e posicionar dark zone abaixo
-(function() {
-  var chat = document.getElementById('ktChat');
-  var darkZone = document.getElementById('invDarkZone');
-  if (chat && darkZone) {
-    // Chat vai primeiro (topo), dark zone logo abaixo
-    document.body.insertBefore(darkZone, document.body.firstElementChild);
-    document.body.insertBefore(chat, darkZone);
-  }
-})();
-</script>
