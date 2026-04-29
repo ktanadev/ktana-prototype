@@ -1,0 +1,1428 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Design System — KTANA · Katana Way v1.0</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Zen+Dots&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* ── Tokens ── */
+:root{
+  /* Light (default — Ive Edition) */
+  --bg:#F5F5F7;
+  --surface:#FFFFFF;
+  --surface-2:#FAFAFA;
+  --text:#1D1D1F;
+  --text-2:#6E6E73;
+  --text-3:#AEAEB2;
+  --border:rgba(0,0,0,0.07);
+  --border-md:rgba(0,0,0,0.12);
+  --brand:#D70030;
+  --brand-dark:#9B0A2A;
+  --brand-a04:rgba(215,0,48,0.04);
+  --brand-a08:rgba(215,0,48,0.08);
+  --brand-a14:rgba(215,0,48,0.14);
+  --brand-a20:rgba(215,0,48,0.20);
+  --brand-a35:rgba(215,0,48,0.35);
+  /* Shadows */
+  --shadow-sm:0 1px 8px rgba(0,0,0,0.06);
+  --shadow-md:0 4px 24px rgba(0,0,0,0.08);
+  --shadow-lg:0 8px 40px rgba(0,0,0,0.10);
+  --shadow-btn:0 4px 14px rgba(215,0,48,0.22);
+  --shadow-btn-lg:0 8px 24px rgba(215,0,48,0.30);
+  /* Radii */
+  --r6:6px;--r8:8px;--r12:12px;--r14:14px;
+  --r16:16px;--r20:20px;--r24:24px;--r980:980px;
+  /* Spacing */
+  --sp4:4px;--sp8:8px;--sp12:12px;--sp16:16px;
+  --sp20:20px;--sp24:24px;--sp32:32px;--sp40:40px;--sp48:48px;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{
+  font-family:'Inter',sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  line-height:1.5;
+  min-height:100vh;
+}
+
+/* ── Demo nav ── */
+.demo-nav{
+  background:rgba(245,245,247,0.86);
+  backdrop-filter:saturate(180%) blur(20px);
+  -webkit-backdrop-filter:saturate(180%) blur(20px);
+  border-bottom:0.5px solid rgba(0,0,0,0.08);
+  padding:8px 16px;
+  display:flex;gap:6px;flex-wrap:wrap;justify-content:center;
+  position:sticky;top:0;z-index:100;
+}
+.demo-nav a{
+  font-size:11px;font-weight:500;color:var(--text-2);text-decoration:none;
+  padding:5px 10px;border-radius:var(--r980);
+  border:1px solid var(--border-md);background:var(--surface);
+  transition:all .15s;
+}
+.demo-nav a:hover{color:var(--brand);border-color:var(--brand-a20);}
+.demo-nav a.active{background:var(--brand);color:#fff;border-color:transparent;box-shadow:var(--shadow-btn);}
+
+/* ── Layout ── */
+.page{display:flex;}
+.sidebar{
+  width:220px;min-width:220px;
+  background:var(--surface);
+  border-right:0.5px solid var(--border);
+  height:calc(100vh - 40px);
+  position:sticky;top:40px;
+  overflow-y:auto;
+  padding:24px 0 40px;
+}
+.sidebar::-webkit-scrollbar{width:4px;}
+.sidebar::-webkit-scrollbar-track{background:transparent;}
+.sidebar::-webkit-scrollbar-thumb{background:var(--border-md);border-radius:2px;}
+.sb-logo{padding:0 20px 20px;border-bottom:0.5px solid var(--border);margin-bottom:16px;}
+.sb-logo-text{font-family:'Zen Dots',sans-serif;font-size:16px;color:var(--brand);}
+.sb-logo-sub{font-size:10px;color:var(--text-3);margin-top:2px;}
+.sb-section{padding:4px 12px 2px;}
+.sb-section-label{font-size:9px;font-weight:600;text-transform:uppercase;letter-spacing:.1em;color:var(--text-3);padding:4px 8px;}
+.sb-link{
+  display:flex;align-items:center;gap:8px;
+  padding:7px 8px;border-radius:var(--r8);
+  font-size:12px;color:var(--text-2);
+  text-decoration:none;cursor:pointer;
+  transition:all .15s;
+  white-space:nowrap;
+}
+.sb-link:hover{background:var(--brand-a04);color:var(--text);}
+.sb-link.active{background:var(--brand-a08);color:var(--brand);}
+.sb-link svg{min-width:14px;}
+
+.content{
+  flex:1;
+  padding:40px 48px 80px;
+  max-width:1100px;
+}
+@media(max-width:860px){
+  .sidebar{display:none;}
+  .content{padding:24px 20px 60px;}
+}
+
+/* ── Section ── */
+.ds-section{margin-bottom:64px;scroll-margin-top:60px;}
+.ds-section-title{
+  font-family:'Zen Dots',sans-serif;
+  font-size:28px;
+  color:var(--text);
+  margin-bottom:6px;
+  letter-spacing:.01em;
+}
+.ds-section-sub{font-size:14px;color:var(--text-2);margin-bottom:32px;line-height:1.6;}
+
+/* ── Token grid ── */
+.token-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px;}
+.token-card{
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:var(--r16);
+  overflow:hidden;
+}
+.token-swatch{height:72px;position:relative;display:flex;align-items:flex-end;padding:8px 12px;}
+.swatch-hex{font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:500;}
+.token-info{padding:10px 12px 12px;border-top:0.5px solid var(--border);}
+.token-name{font-size:12px;font-weight:600;color:var(--text);margin-bottom:1px;}
+.token-var{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--text-3);}
+
+/* ── Type scale ── */
+.type-row{
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:var(--r12);
+  padding:20px 24px;
+  margin-bottom:8px;
+  display:flex;align-items:baseline;justify-content:space-between;gap:16px;
+}
+.type-label{font-size:11px;font-weight:500;color:var(--text-3);min-width:130px;font-family:'JetBrains Mono',monospace;}
+.type-sample{flex:1;}
+.type-meta{font-size:11px;color:var(--text-3);text-align:right;min-width:120px;font-family:'JetBrains Mono',monospace;line-height:1.6;}
+
+/* ── Spacing ── */
+.space-grid{display:flex;flex-wrap:wrap;gap:16px;}
+.space-item{text-align:center;}
+.space-block{
+  background:var(--brand-a08);
+  border:1.5px solid var(--brand-a35);
+  border-radius:var(--r6);
+  margin:0 auto 6px;
+}
+.space-val{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--text-2);}
+
+/* ── Radius ── */
+.radius-grid{display:flex;flex-wrap:wrap;gap:16px;}
+.radius-item{text-align:center;}
+.radius-block{
+  width:64px;height:64px;
+  background:var(--brand-a08);
+  border:1.5px solid var(--brand-a35);
+  margin:0 auto 6px;
+}
+.radius-val{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--text-2);}
+
+/* ── Shadow ── */
+.shadow-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:16px;}
+.shadow-card{
+  background:var(--surface);
+  border-radius:var(--r16);
+  padding:24px 20px 18px;
+  text-align:center;
+}
+.shadow-label{font-size:11px;color:var(--text-2);font-weight:500;margin-bottom:4px;}
+.shadow-var{font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--text-3);}
+
+/* ── Buttons ── */
+.btn-row{display:flex;flex-wrap:wrap;align-items:center;gap:12px;margin-bottom:16px;}
+/* Primary */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;font-family:'Inter',sans-serif;font-size:14px;font-weight:600;cursor:pointer;border:none;transition:all .2s;user-select:none;white-space:nowrap;}
+.btn-primary{
+  background:var(--brand);color:#fff;
+  padding:12px 24px;border-radius:var(--r980);
+  box-shadow:var(--shadow-btn);
+}
+.btn-primary:hover{background:var(--brand-dark);transform:translateY(-1px);box-shadow:var(--shadow-btn-lg);}
+.btn-primary:active{transform:scale(.97);}
+/* Secondary */
+.btn-secondary{
+  background:var(--surface);color:var(--text);
+  padding:12px 24px;border-radius:var(--r980);
+  border:1px solid var(--border-md);
+  box-shadow:var(--shadow-sm);
+}
+.btn-secondary:hover{border-color:var(--brand-a20);color:var(--brand);}
+/* Ghost */
+.btn-ghost{
+  background:transparent;color:var(--text-2);
+  padding:12px 20px;border-radius:var(--r980);
+  border:1px solid transparent;
+}
+.btn-ghost:hover{background:var(--brand-a04);color:var(--brand);}
+/* Danger */
+.btn-danger{
+  background:rgba(215,0,48,0.06);color:var(--brand);
+  padding:12px 24px;border-radius:var(--r980);
+  border:1px solid var(--brand-a14);
+}
+.btn-danger:hover{background:var(--brand-a14);}
+/* Icon-only */
+.btn-icon{
+  width:44px;height:44px;padding:0;
+  border-radius:50%;
+  background:var(--surface);color:var(--text-2);
+  border:1px solid var(--border-md);
+  box-shadow:var(--shadow-sm);
+}
+.btn-icon:hover{border-color:var(--brand-a20);color:var(--brand);}
+/* SM */
+.btn-sm{font-size:12px;padding:8px 16px;}
+/* Loading state */
+.btn-loading{opacity:.7;pointer-events:none;}
+.spinner{
+  width:14px;height:14px;
+  border:2px solid rgba(255,255,255,.3);
+  border-top-color:#fff;
+  border-radius:50%;
+  animation:spin .7s linear infinite;
+}
+@keyframes spin{to{transform:rotate(360deg);}}
+
+/* ── Inputs ── */
+.input-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+@media(max-width:640px){.input-grid{grid-template-columns:1fr;}}
+.field{display:flex;flex-direction:column;gap:5px;}
+.field-label{font-size:12px;font-weight:500;color:var(--text-2);}
+.input{
+  width:100%;padding:11px 14px;
+  border:1px solid var(--border-md);
+  border-radius:var(--r12);
+  font-family:'Inter',sans-serif;font-size:14px;color:var(--text);
+  background:var(--surface);
+  outline:none;transition:border-color .15s,box-shadow .15s;
+}
+.input::placeholder{color:var(--text-3);}
+.input:focus{border-color:var(--brand);box-shadow:0 0 0 3px var(--brand-a08);}
+.input.error{border-color:var(--brand);background:#fff8f8;}
+.input.success{border-color:rgba(0,0,0,0.15);}
+.input:disabled{background:var(--surface-2);color:var(--text-3);cursor:not-allowed;}
+.field-hint{font-size:11px;color:var(--text-3);}
+.field-error{font-size:11px;color:var(--brand);}
+.input-wrap{position:relative;}
+.input-wrap .input{padding-right:42px;}
+.input-suffix{
+  position:absolute;right:12px;top:50%;transform:translateY(-50%);
+  color:var(--text-3);cursor:pointer;
+}
+/* Textarea */
+.textarea{
+  width:100%;padding:12px 14px;min-height:100px;
+  border:1px solid var(--border-md);border-radius:var(--r12);
+  font-family:'Inter',sans-serif;font-size:14px;color:var(--text);
+  background:var(--surface);outline:none;resize:vertical;
+  transition:border-color .15s;
+}
+.textarea:focus{border-color:var(--brand);box-shadow:0 0 0 3px var(--brand-a08);}
+
+/* ── OTP ── */
+.otp-wrap{display:flex;align-items:center;gap:8px;}
+.otp-input{
+  width:48px;height:56px;
+  text-align:center;
+  font-family:'Zen Dots',sans-serif;font-size:22px;
+  border:1.5px solid var(--border-md);border-radius:var(--r12);
+  background:var(--surface);color:var(--text);outline:none;
+  transition:border-color .15s,box-shadow .15s;
+}
+.otp-input:focus{border-color:var(--brand);box-shadow:0 0 0 3px var(--brand-a08);}
+.otp-input.filled{border-color:var(--brand);background:var(--brand-a04);}
+.otp-sep{font-size:20px;color:var(--text-3);font-weight:300;padding:0 2px;}
+
+/* ── Badges ── */
+.badge-row{display:flex;flex-wrap:wrap;gap:8px;}
+.badge{
+  display:inline-flex;align-items:center;gap:5px;
+  padding:4px 10px;border-radius:var(--r980);
+  font-size:11px;font-weight:500;
+}
+.badge-default{background:rgba(0,0,0,0.06);color:var(--text-2);}
+.badge-brand{background:var(--brand-a08);color:var(--brand);}
+.badge-brand-filled{background:var(--brand);color:#fff;}
+.badge-neutral{background:var(--bg);border:1px solid var(--border-md);color:var(--text-2);}
+.badge-dot::before{content:'';display:inline-block;width:6px;height:6px;border-radius:50%;background:currentColor;margin-right:2px;}
+.badge-live{background:var(--brand-a08);color:var(--brand);}
+.badge-live::before{background:var(--brand);animation:pulse-dot 2s ease-in-out infinite;}
+.badge-done{background:rgba(0,0,0,0.05);color:var(--text-3);}
+@keyframes pulse-dot{0%,100%{opacity:1;}50%{opacity:.4;}}
+
+/* ── Cards ── */
+.card-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:16px;}
+.card{
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:var(--r20);
+  padding:24px;
+  transition:box-shadow .2s;
+  cursor:pointer;
+}
+.card:hover{box-shadow:var(--shadow-md);}
+.card-sm{border-radius:var(--r16);padding:16px;}
+.card-kpi{border-radius:var(--r16);}
+.card-kpi .kpi-label{font-size:11px;color:var(--text-3);text-transform:uppercase;letter-spacing:.07em;margin-bottom:8px;}
+.card-kpi .kpi-val{font-family:'Zen Dots',sans-serif;font-size:28px;color:var(--text);margin-bottom:4px;}
+.card-kpi .kpi-val.brand{color:var(--brand);}
+.card-kpi .kpi-delta{font-size:12px;color:var(--brand);font-weight:500;}
+.card-feature{border-left:3px solid var(--brand);}
+.card-feature .card-icon{
+  width:40px;height:40px;background:var(--brand-a08);
+  border-radius:var(--r12);display:flex;align-items:center;justify-content:center;
+  color:var(--brand);margin-bottom:14px;
+}
+.card-feature .card-title{font-size:14px;font-weight:600;color:var(--text);margin-bottom:4px;}
+.card-feature .card-desc{font-size:12px;color:var(--text-2);line-height:1.5;}
+
+/* ── Toggle ── */
+.toggle-wrap{display:flex;align-items:center;gap:12px;}
+.toggle{
+  position:relative;width:44px;height:26px;
+  background:var(--border-md);border-radius:var(--r980);
+  cursor:pointer;transition:background .2s;
+  flex-shrink:0;
+}
+.toggle.on{background:var(--brand);}
+.toggle-knob{
+  position:absolute;left:3px;top:3px;
+  width:20px;height:20px;border-radius:50%;
+  background:#fff;box-shadow:0 1px 4px rgba(0,0,0,0.2);
+  transition:transform .2s;
+}
+.toggle.on .toggle-knob{transform:translateX(18px);}
+.toggle-label{font-size:14px;color:var(--text);}
+
+/* ── Progress bars ── */
+.progress-list{display:flex;flex-direction:column;gap:14px;}
+.progress-item{}
+.progress-header{display:flex;justify-content:space-between;margin-bottom:5px;}
+.progress-name{font-size:12px;color:var(--text-2);}
+.progress-pct{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--text-3);}
+.progress-track{height:6px;background:rgba(0,0,0,0.06);border-radius:3px;overflow:hidden;}
+.progress-fill{height:100%;background:linear-gradient(90deg,var(--brand),var(--brand-dark));border-radius:3px;transition:width 1s ease;}
+
+/* ── Icons ── */
+.icon-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(80px,1fr));gap:10px;}
+.icon-item{
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:var(--r12);padding:14px 10px;
+  display:flex;flex-direction:column;align-items:center;gap:7px;
+  cursor:pointer;transition:all .15s;
+}
+.icon-item:hover{border-color:var(--brand-a20);background:var(--brand-a04);}
+.icon-item:hover svg{color:var(--brand);}
+.icon-item svg{color:var(--text-2);transition:color .15s;}
+.icon-name{font-size:9px;color:var(--text-3);text-align:center;font-weight:500;}
+
+/* ── Nav pattern ── */
+.nav-preview{
+  background:rgba(245,245,247,0.92);
+  backdrop-filter:saturate(180%) blur(20px);
+  -webkit-backdrop-filter:saturate(180%) blur(20px);
+  border:0.5px solid rgba(0,0,0,0.06);
+  border-radius:var(--r16);
+  padding:14px 20px;
+  display:flex;align-items:center;justify-content:space-between;
+  margin-bottom:12px;
+  box-shadow:var(--shadow-sm);
+}
+.nav-preview-logo{font-family:'Zen Dots',sans-serif;font-size:16px;color:var(--brand);}
+.nav-preview-links{display:flex;gap:6px;}
+.nav-link{
+  font-size:13px;color:var(--text-2);
+  padding:6px 12px;border-radius:var(--r980);
+  cursor:pointer;transition:all .15s;
+}
+.nav-link:hover{background:var(--brand-a04);color:var(--text);}
+.nav-link.active{background:var(--brand-a08);color:var(--brand);}
+
+/* ── Sidebar pattern ── */
+.sidebar-preview{
+  background:var(--surface);border:0.5px solid var(--border);
+  border-radius:var(--r16);padding:16px 0;
+  width:200px;box-shadow:var(--shadow-sm);
+}
+.sbp-link{
+  display:flex;align-items:center;gap:8px;
+  padding:8px 16px;font-size:13px;color:var(--text-2);
+  cursor:pointer;transition:all .15s;position:relative;
+}
+.sbp-link:hover{background:var(--brand-a04);color:var(--text);}
+.sbp-link.active{background:var(--brand-a08);color:var(--brand);}
+.sbp-link.active::before{
+  content:'';position:absolute;left:0;top:4px;bottom:4px;
+  width:3px;border-radius:0 3px 3px 0;background:var(--brand);
+}
+
+/* ── Animations ── */
+.anim-preview{
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:var(--r16);padding:24px;
+  display:flex;flex-direction:column;gap:20px;
+}
+.glow-demo{
+  width:48px;height:48px;border-radius:50%;
+  background:var(--brand);
+  box-shadow:0 0 0 0 var(--brand-a35);
+  animation:glow-pulse 2s ease-in-out infinite;
+}
+@keyframes glow-pulse{
+  0%{box-shadow:0 0 0 0 var(--brand-a35);}
+  70%{box-shadow:0 0 0 12px rgba(215,0,48,0);}
+  100%{box-shadow:0 0 0 0 rgba(215,0,48,0);}
+}
+.shimmer-demo{
+  height:16px;border-radius:var(--r980);
+  background:linear-gradient(90deg,var(--bg) 25%,rgba(0,0,0,0.04) 50%,var(--bg) 75%);
+  background-size:200% 100%;
+  animation:shimmer 1.4s infinite;
+}
+@keyframes shimmer{from{background-position:200% 0;}to{background-position:-200% 0;}}
+.fade-demo{animation:fade-in .8s ease-out;}
+@keyframes fade-in{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:translateY(0);}}
+.ring-demo{
+  width:48px;height:48px;border-radius:50%;
+  border:2px solid var(--brand);
+  animation:ring-expand 1.5s ease-in-out infinite;
+}
+@keyframes ring-expand{
+  0%{transform:scale(1);opacity:1;}
+  100%{transform:scale(2);opacity:0;}
+}
+
+/* ── Skeleton loaders ── */
+.skeleton{background:linear-gradient(90deg,rgba(0,0,0,0.04) 25%,rgba(0,0,0,0.07) 50%,rgba(0,0,0,0.04) 75%);background-size:200% 100%;animation:shimmer 1.4s infinite;border-radius:var(--r8);}
+.sk-row{display:flex;align-items:center;gap:12px;margin-bottom:12px;}
+.sk-avatar{width:40px;height:40px;min-width:40px;border-radius:50%;}
+.sk-lines{flex:1;display:flex;flex-direction:column;gap:6px;}
+.sk-line{height:10px;border-radius:var(--r980);}
+
+/* ── Code block ── */
+.code-block{
+  background:var(--text);
+  border-radius:var(--r12);
+  padding:20px 24px;
+  overflow-x:auto;
+  margin-top:16px;
+}
+.code-block pre{
+  font-family:'JetBrains Mono',monospace;
+  font-size:12px;color:var(--bg);
+  line-height:1.8;
+  white-space:pre;
+}
+.code-block .c-comment{color:var(--text-2);}
+.code-block .c-prop{color:#FFD57E;}
+.code-block .c-val{color:var(--brand-a35);}
+.code-block .c-str{color:rgba(215,100,100,1);}
+
+/* ── Section divider ── */
+.divider{height:0.5px;background:var(--border);margin:40px 0;}
+
+/* ── Copy toast ── */
+#copy-toast{
+  position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(20px);
+  background:var(--text);color:#fff;
+  padding:8px 18px;border-radius:var(--r980);
+  font-size:12px;font-weight:500;
+  opacity:0;transition:all .3s;
+  pointer-events:none;z-index:1000;
+}
+#copy-toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+</style>
+</head>
+<body>
+
+<!-- Demo nav -->
+<nav class="demo-nav">
+  <a href="auth.html">Auth</a>
+  <a href="dashboard.html">Dashboard</a>
+  <a href="fila-aprovacao.html">Fila Aprovação</a>
+  <a href="onboarding-founder.html">Onboarding</a>
+  <a href="area-founder.html">Área Founder</a>
+  <a href="design-system.html" class="active">Design System</a>
+</nav>
+
+<div class="page">
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div class="sb-logo">
+      <div class="sb-logo-text">KTANA</div>
+      <div class="sb-logo-sub">Katana Way v1.0 · Ive Edition</div>
+    </div>
+
+    <div class="sb-section">
+      <div class="sb-section-label">Fundação</div>
+      <a class="sb-link active" onclick="scrollTo('tokens')">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="3"/></svg>
+        Tokens de Cor
+      </a>
+      <a class="sb-link" onclick="scrollTo('typography')">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 7 4 4 20 4 20 7"/><line x1="9" y1="20" x2="15" y2="20"/><line x1="12" y1="4" x2="12" y2="20"/></svg>
+        Tipografia
+      </a>
+      <a class="sb-link" onclick="scrollTo('spacing')">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="21" y1="6" x2="3" y2="6"/><line x1="21" y1="12" x2="9" y2="12"/><line x1="21" y1="18" x2="7" y2="18"/></svg>
+        Espaçamento
+      </a>
+      <a class="sb-link" onclick="scrollTo('shadows')">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="6" width="20" height="14" rx="3"/><path d="M6 2h12"/></svg>
+        Sombras
+      </a>
+    </div>
+
+    <div class="sb-section" style="margin-top:8px;">
+      <div class="sb-section-label">Componentes</div>
+      <a class="sb-link" onclick="scrollTo('buttons')">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="10" rx="3"/></svg>
+        Botões
+      </a>
+      <a class="sb-link" onclick="scrollTo('inputs')">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="6" width="18" height="12" rx="2"/><path d="M7 10h2m0 4h2"/></svg>
+        Inputs
+      </a>
+      <a class="sb-link" onclick="scrollTo('badges')">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+        Badges
+      </a>
+      <a class="sb-link" onclick="scrollTo('cards')">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+        Cards
+      </a>
+      <a class="sb-link" onclick="scrollTo('controls')">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M4.93 4.93a10 10 0 0 0 0 14.14"/></svg>
+        Controles
+      </a>
+      <a class="sb-link" onclick="scrollTo('icons')">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        Ícones
+      </a>
+    </div>
+
+    <div class="sb-section" style="margin-top:8px;">
+      <div class="sb-section-label">Padrões</div>
+      <a class="sb-link" onclick="scrollTo('navigation')">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+        Navegação
+      </a>
+      <a class="sb-link" onclick="scrollTo('animations')">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+        Animações
+      </a>
+      <a class="sb-link" onclick="scrollTo('skeleton')">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 9h6m-6 3h4m-4 3h6"/></svg>
+        Skeleton
+      </a>
+    </div>
+  </aside>
+
+  <!-- Main content -->
+  <main class="content">
+    <div style="margin-bottom:40px;">
+      <h1 style="font-family:'Zen Dots',sans-serif;font-size:36px;color:var(--text);margin-bottom:8px;letter-spacing:.01em;">Design System</h1>
+      <p style="font-size:15px;color:var(--text-2);max-width:560px;line-height:1.6;">Katana Way v1.0 · Ive Edition. Light by default. Monotonal — vermelho KTANA + neutros. Fonte de verdade para todos os protótipos v2.</p>
+      <div style="display:flex;gap:8px;margin-top:14px;flex-wrap:wrap;">
+        <span class="badge badge-brand">Ive Edition</span>
+        <span class="badge badge-brand-filled">Light Mode</span>
+        <span class="badge badge-neutral">Monotonal</span>
+        <span class="badge badge-dot badge-live">v1.0 ativo</span>
+      </div>
+    </div>
+
+    <!-- ── TOKENS ── -->
+    <section class="ds-section" id="tokens">
+      <h2 class="ds-section-title">Tokens de Cor</h2>
+      <p class="ds-section-sub">Paleta monotonal. Apenas vermelho KTANA + neutros. Nunca azul, verde, roxo, laranja. Dual Zone: conteúdo em light, widget IA em dark.</p>
+
+      <h3 style="font-size:13px;font-weight:600;color:var(--text-2);text-transform:uppercase;letter-spacing:.08em;margin-bottom:14px;">Marca</h3>
+      <div class="token-grid" style="margin-bottom:28px;">
+        <div class="token-card">
+          <div class="token-swatch" style="background:#D70030;">
+            <span class="swatch-hex" style="color:rgba(255,255,255,0.7);">#D70030</span>
+          </div>
+          <div class="token-info">
+            <div class="token-name">Brand</div>
+            <div class="token-var">--brand</div>
+          </div>
+        </div>
+        <div class="token-card">
+          <div class="token-swatch" style="background:#9B0A2A;">
+            <span class="swatch-hex" style="color:rgba(255,255,255,0.7);">#9B0A2A</span>
+          </div>
+          <div class="token-info">
+            <div class="token-name">Brand Dark</div>
+            <div class="token-var">--brand-dark</div>
+          </div>
+        </div>
+        <div class="token-card">
+          <div class="token-swatch" style="background:rgba(215,0,48,0.08);border-bottom:1px solid var(--border);">
+            <span class="swatch-hex" style="color:var(--text-2);">rgba(215,0,48,0.08)</span>
+          </div>
+          <div class="token-info">
+            <div class="token-name">Brand / 8%</div>
+            <div class="token-var">--brand-a08</div>
+          </div>
+        </div>
+        <div class="token-card">
+          <div class="token-swatch" style="background:rgba(215,0,48,0.14);border-bottom:1px solid var(--border);">
+            <span class="swatch-hex" style="color:var(--text-2);">rgba(215,0,48,0.14)</span>
+          </div>
+          <div class="token-info">
+            <div class="token-name">Brand / 14%</div>
+            <div class="token-var">--brand-a14</div>
+          </div>
+        </div>
+      </div>
+
+      <h3 style="font-size:13px;font-weight:600;color:var(--text-2);text-transform:uppercase;letter-spacing:.08em;margin-bottom:14px;">Superfícies (Light)</h3>
+      <div class="token-grid" style="margin-bottom:28px;">
+        <div class="token-card">
+          <div class="token-swatch" style="background:#F5F5F7;border-bottom:1px solid var(--border);">
+            <span class="swatch-hex" style="color:var(--text-2);">#F5F5F7</span>
+          </div>
+          <div class="token-info">
+            <div class="token-name">Background</div>
+            <div class="token-var">--bg</div>
+          </div>
+        </div>
+        <div class="token-card">
+          <div class="token-swatch" style="background:#FFFFFF;border-bottom:1px solid var(--border);">
+            <span class="swatch-hex" style="color:var(--text-2);">#FFFFFF</span>
+          </div>
+          <div class="token-info">
+            <div class="token-name">Surface</div>
+            <div class="token-var">--surface</div>
+          </div>
+        </div>
+        <div class="token-card">
+          <div class="token-swatch" style="background:#FAFAFA;border-bottom:1px solid var(--border);">
+            <span class="swatch-hex" style="color:var(--text-2);">#FAFAFA</span>
+          </div>
+          <div class="token-info">
+            <div class="token-name">Surface 2</div>
+            <div class="token-var">--surface-2</div>
+          </div>
+        </div>
+        <div class="token-card">
+          <div class="token-swatch" style="background:#0A0A0A;">
+            <span class="swatch-hex" style="color:rgba(255,255,255,0.5);">#0A0A0A</span>
+          </div>
+          <div class="token-info">
+            <div class="token-name">Dark Zone</div>
+            <div class="token-var">Chat/IA widget apenas</div>
+          </div>
+        </div>
+      </div>
+
+      <h3 style="font-size:13px;font-weight:600;color:var(--text-2);text-transform:uppercase;letter-spacing:.08em;margin-bottom:14px;">Texto & Bordas</h3>
+      <div class="token-grid">
+        <div class="token-card">
+          <div class="token-swatch" style="background:#1D1D1F;display:flex;align-items:flex-end;padding:8px 12px;">
+            <span class="swatch-hex" style="color:rgba(255,255,255,0.6);">#1D1D1F</span>
+          </div>
+          <div class="token-info">
+            <div class="token-name">Text Primary</div>
+            <div class="token-var">--text</div>
+          </div>
+        </div>
+        <div class="token-card">
+          <div class="token-swatch" style="background:#6E6E73;display:flex;align-items:flex-end;padding:8px 12px;">
+            <span class="swatch-hex" style="color:rgba(255,255,255,0.7);">#6E6E73</span>
+          </div>
+          <div class="token-info">
+            <div class="token-name">Text Secondary</div>
+            <div class="token-var">--text-2</div>
+          </div>
+        </div>
+        <div class="token-card">
+          <div class="token-swatch" style="background:#AEAEB2;border-bottom:1px solid var(--border);">
+            <span class="swatch-hex" style="color:var(--text-2);">#AEAEB2</span>
+          </div>
+          <div class="token-info">
+            <div class="token-name">Text Tertiary</div>
+            <div class="token-var">--text-3</div>
+          </div>
+        </div>
+        <div class="token-card">
+          <div class="token-swatch" style="background:rgba(0,0,0,0.07);border-bottom:1px solid var(--border);">
+            <span class="swatch-hex" style="color:var(--text-2);">rgba(0,0,0,0.07)</span>
+          </div>
+          <div class="token-info">
+            <div class="token-name">Border</div>
+            <div class="token-var">--border</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- ── TYPOGRAPHY ── -->
+    <section class="ds-section" id="typography">
+      <h2 class="ds-section-title">Tipografia</h2>
+      <p class="ds-section-sub">Três famílias com papéis rígidos. Zen Dots = display/títulos/labels de seção. Inter = UI/body/labels. JetBrains Mono = timestamps/código/números técnicos.</p>
+
+      <div class="type-row">
+        <span class="type-label">display-xl</span>
+        <span class="type-sample" style="font-family:'Zen Dots',sans-serif;font-size:48px;line-height:1.1;color:var(--text);">Katana</span>
+        <span class="type-meta">Zen Dots<br>48px · lh 1.1</span>
+      </div>
+      <div class="type-row">
+        <span class="type-label">display-lg</span>
+        <span class="type-sample" style="font-family:'Zen Dots',sans-serif;font-size:36px;line-height:1.1;color:var(--text);">Marketing OS</span>
+        <span class="type-meta">Zen Dots<br>36px · lh 1.1</span>
+      </div>
+      <div class="type-row">
+        <span class="type-label">display-md</span>
+        <span class="type-sample" style="font-family:'Zen Dots',sans-serif;font-size:28px;color:var(--text);">Aprovações</span>
+        <span class="type-meta">Zen Dots<br>28px · lh 1.2</span>
+      </div>
+      <div class="type-row">
+        <span class="type-label">heading-lg</span>
+        <span class="type-sample" style="font-family:'Zen Dots',sans-serif;font-size:22px;color:var(--text);">KPI Dashboard</span>
+        <span class="type-meta">Zen Dots<br>22px</span>
+      </div>
+      <div class="type-row">
+        <span class="type-label">heading-sm</span>
+        <span class="type-sample" style="font-family:'Zen Dots',sans-serif;font-size:16px;color:var(--text);">Área do Founder</span>
+        <span class="type-meta">Zen Dots<br>16px</span>
+      </div>
+      <div class="type-row">
+        <span class="type-label">body-lg</span>
+        <span class="type-sample" style="font-size:16px;color:var(--text);font-weight:400;">Texto de body principal, descrições, legendas.</span>
+        <span class="type-meta">Inter 400<br>16px · lh 1.5</span>
+      </div>
+      <div class="type-row">
+        <span class="type-label">body-md</span>
+        <span class="type-sample" style="font-size:14px;color:var(--text);">Posts, captions, conteúdo de cards.</span>
+        <span class="type-meta">Inter 400<br>14px · lh 1.5</span>
+      </div>
+      <div class="type-row">
+        <span class="type-label">label-md</span>
+        <span class="type-sample" style="font-size:13px;font-weight:500;color:var(--text);">Labels de input, nav items, CTAs secundários.</span>
+        <span class="type-meta">Inter 500<br>13px</span>
+      </div>
+      <div class="type-row">
+        <span class="type-label">label-sm</span>
+        <span class="type-sample" style="font-size:12px;font-weight:600;color:var(--text-2);text-transform:uppercase;letter-spacing:.07em;">SEÇÃO · FILTRO · META</span>
+        <span class="type-meta">Inter 600<br>12px · UC · ls .07em</span>
+      </div>
+      <div class="type-row">
+        <span class="type-label">caption</span>
+        <span class="type-sample" style="font-size:11px;color:var(--text-3);">Metadata, timestamps, notas auxiliares.</span>
+        <span class="type-meta">Inter 400<br>11px</span>
+      </div>
+      <div class="type-row">
+        <span class="type-label">mono-timestamp</span>
+        <span class="type-sample" style="font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--text-2);">2026-04-25 · 14:32:07</span>
+        <span class="type-meta">JetBrains Mono<br>11px</span>
+      </div>
+      <div class="type-row">
+        <span class="type-label">mono-code</span>
+        <span class="type-sample" style="font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--text);">--brand: #D70030;</span>
+        <span class="type-meta">JetBrains Mono<br>12px</span>
+      </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- ── SPACING ── -->
+    <section class="ds-section" id="spacing">
+      <h2 class="ds-section-title">Espaçamento</h2>
+      <p class="ds-section-sub">Base 4px. Tokens de sp4 a sp48.</p>
+      <div class="space-grid">
+        <div class="space-item">
+          <div class="space-block" style="width:4px;height:4px;"></div>
+          <div class="space-val">sp4</div>
+        </div>
+        <div class="space-item">
+          <div class="space-block" style="width:8px;height:8px;"></div>
+          <div class="space-val">sp8</div>
+        </div>
+        <div class="space-item">
+          <div class="space-block" style="width:12px;height:12px;"></div>
+          <div class="space-val">sp12</div>
+        </div>
+        <div class="space-item">
+          <div class="space-block" style="width:16px;height:16px;"></div>
+          <div class="space-val">sp16</div>
+        </div>
+        <div class="space-item">
+          <div class="space-block" style="width:20px;height:20px;"></div>
+          <div class="space-val">sp20</div>
+        </div>
+        <div class="space-item">
+          <div class="space-block" style="width:24px;height:24px;"></div>
+          <div class="space-val">sp24</div>
+        </div>
+        <div class="space-item">
+          <div class="space-block" style="width:32px;height:32px;"></div>
+          <div class="space-val">sp32</div>
+        </div>
+        <div class="space-item">
+          <div class="space-block" style="width:40px;height:40px;"></div>
+          <div class="space-val">sp40</div>
+        </div>
+        <div class="space-item">
+          <div class="space-block" style="width:48px;height:48px;"></div>
+          <div class="space-val">sp48</div>
+        </div>
+      </div>
+      <div style="height:24px;"></div>
+      <h3 style="font-size:13px;font-weight:600;color:var(--text-2);text-transform:uppercase;letter-spacing:.08em;margin-bottom:14px;">Border Radius</h3>
+      <div class="radius-grid">
+        <div class="radius-item"><div class="radius-block" style="border-radius:6px;"></div><div class="radius-val">r6</div></div>
+        <div class="radius-item"><div class="radius-block" style="border-radius:8px;"></div><div class="radius-val">r8</div></div>
+        <div class="radius-item"><div class="radius-block" style="border-radius:12px;"></div><div class="radius-val">r12</div></div>
+        <div class="radius-item"><div class="radius-block" style="border-radius:16px;"></div><div class="radius-val">r16</div></div>
+        <div class="radius-item"><div class="radius-block" style="border-radius:20px;"></div><div class="radius-val">r20</div></div>
+        <div class="radius-item"><div class="radius-block" style="border-radius:24px;"></div><div class="radius-val">r24</div></div>
+        <div class="radius-item"><div class="radius-block" style="border-radius:980px;"></div><div class="radius-val">r980 (pill)</div></div>
+      </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- ── SHADOWS ── -->
+    <section class="ds-section" id="shadows">
+      <h2 class="ds-section-title">Sombras</h2>
+      <p class="ds-section-sub">Quatro levels de elevação. Mínimas — o design fala pela forma, não pela sombra.</p>
+      <div class="shadow-grid">
+        <div class="shadow-card" style="box-shadow:0 1px 8px rgba(0,0,0,0.06);">
+          <div class="shadow-label">Shadow SM</div>
+          <div class="shadow-var">0 1px 8px rgba(0,0,0,.06)</div>
+        </div>
+        <div class="shadow-card" style="box-shadow:0 4px 24px rgba(0,0,0,0.08);">
+          <div class="shadow-label">Shadow MD</div>
+          <div class="shadow-var">0 4px 24px rgba(0,0,0,.08)</div>
+        </div>
+        <div class="shadow-card" style="box-shadow:0 8px 40px rgba(0,0,0,0.10);">
+          <div class="shadow-label">Shadow LG</div>
+          <div class="shadow-var">0 8px 40px rgba(0,0,0,.10)</div>
+        </div>
+        <div class="shadow-card" style="box-shadow:0 4px 14px rgba(215,0,48,0.22);">
+          <div class="shadow-label">Shadow BTN</div>
+          <div class="shadow-var">0 4px 14px rgba(215,0,48,.22)</div>
+        </div>
+      </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- ── BUTTONS ── -->
+    <section class="ds-section" id="buttons">
+      <h2 class="ds-section-title">Botões</h2>
+      <p class="ds-section-sub">5 variantes. Sempre border-radius pill (--r980). Touch target mínimo 44px. Nunca botão fake — toda ação tem feedback.</p>
+
+      <h3 style="font-size:12px;font-weight:600;color:var(--text-3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:12px;">Variantes</h3>
+      <div class="btn-row">
+        <button class="btn btn-primary" onclick="copySnippet('btn-primary')">Primário</button>
+        <button class="btn btn-secondary" onclick="copySnippet('btn-secondary')">Secundário</button>
+        <button class="btn btn-ghost" onclick="copySnippet('btn-ghost')">Ghost</button>
+        <button class="btn btn-danger" onclick="copySnippet('btn-danger')">Danger</button>
+        <button class="btn btn-icon btn-secondary" onclick="copySnippet('btn-icon')">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        </button>
+      </div>
+
+      <h3 style="font-size:12px;font-weight:600;color:var(--text-3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:12px;margin-top:20px;">Tamanhos</h3>
+      <div class="btn-row">
+        <button class="btn btn-primary btn-sm">Small</button>
+        <button class="btn btn-primary">Default</button>
+        <button class="btn btn-primary" style="font-size:16px;padding:14px 32px;">Large</button>
+      </div>
+
+      <h3 style="font-size:12px;font-weight:600;color:var(--text-3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:12px;margin-top:20px;">Estados</h3>
+      <div class="btn-row">
+        <button class="btn btn-primary">Default</button>
+        <button class="btn btn-primary" style="background:var(--brand-dark);">Hover</button>
+        <button class="btn btn-primary btn-loading">
+          <div class="spinner"></div>
+          Carregando
+        </button>
+        <button class="btn btn-primary" disabled style="opacity:.4;cursor:not-allowed;">Disabled</button>
+      </div>
+
+      <h3 style="font-size:12px;font-weight:600;color:var(--text-3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:12px;margin-top:20px;">Com ícone</h3>
+      <div class="btn-row">
+        <button class="btn btn-primary">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+          Aprovar
+        </button>
+        <button class="btn btn-secondary">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+          Enviar
+        </button>
+        <button class="btn btn-ghost">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+          Editar
+        </button>
+      </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- ── INPUTS ── -->
+    <section class="ds-section" id="inputs">
+      <h2 class="ds-section-title">Inputs</h2>
+      <p class="ds-section-sub">4 estados. Foco em brand red. Erro em brand red + tint de fundo. Sem estado "sucesso" em verde — monotonal.</p>
+
+      <div class="input-grid" style="margin-bottom:20px;">
+        <div class="field">
+          <label class="field-label">Email</label>
+          <div class="input-wrap">
+            <input class="input" type="email" placeholder="rafael@ktana.ai">
+            <span class="input-suffix">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+            </span>
+          </div>
+          <span class="field-hint">Usado para login e notificações.</span>
+        </div>
+        <div class="field">
+          <label class="field-label">Senha <span style="color:var(--brand);">*</span></label>
+          <div class="input-wrap">
+            <input class="input" type="password" value="senha123" placeholder="••••••••">
+            <span class="input-suffix" onclick="this.previousElementSibling.type=this.previousElementSibling.type==='password'?'text':'password'">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+            </span>
+          </div>
+        </div>
+        <div class="field">
+          <label class="field-label">Estado de erro</label>
+          <input class="input error" type="text" value="email_invalido" placeholder="">
+          <span class="field-error">Email inválido. Verifique e tente novamente.</span>
+        </div>
+        <div class="field">
+          <label class="field-label">Desabilitado</label>
+          <input class="input" type="text" value="Campo bloqueado" disabled>
+          <span class="field-hint">Não editável neste contexto.</span>
+        </div>
+      </div>
+
+      <div class="field" style="margin-bottom:20px;">
+        <label class="field-label">Textarea</label>
+        <textarea class="textarea" placeholder="Descreva o ajuste que deseja no post..."></textarea>
+        <span class="field-hint">Resize vertical permitido.</span>
+      </div>
+
+      <div class="field">
+        <label class="field-label">OTP — 2FA (6 dígitos, auto-avançar)</label>
+        <div class="otp-wrap" style="margin-top:4px;">
+          <input class="otp-input filled" type="text" maxlength="1" value="1" readonly>
+          <input class="otp-input filled" type="text" maxlength="1" value="2" readonly>
+          <input class="otp-input filled" type="text" maxlength="1" value="3" readonly>
+          <span class="otp-sep">—</span>
+          <input class="otp-input" type="text" maxlength="1" placeholder="·" id="otp4" onclick="this.focus()">
+          <input class="otp-input" type="text" maxlength="1" placeholder="·">
+          <input class="otp-input" type="text" maxlength="1" placeholder="·">
+        </div>
+        <span class="field-hint">3 primeiros preenchidos = demonstração de estado intermediário.</span>
+      </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- ── BADGES ── -->
+    <section class="ds-section" id="badges">
+      <h2 class="ds-section-title">Badges</h2>
+      <p class="ds-section-sub">6 variantes. Todas dentro da paleta monotonal — apenas vermelho e neutros.</p>
+      <div class="badge-row">
+        <span class="badge badge-default">Padrão</span>
+        <span class="badge badge-brand">Ativo</span>
+        <span class="badge badge-brand-filled">Aprovado</span>
+        <span class="badge badge-neutral">Neutro</span>
+        <span class="badge badge-dot badge-live">Ao vivo</span>
+        <span class="badge badge-dot badge-done">Encerrado</span>
+      </div>
+      <div style="margin-top:14px;">
+        <div class="badge-row">
+          <span class="badge badge-default" style="font-size:10px;padding:2px 7px;">SM</span>
+          <span class="badge badge-brand" style="font-size:10px;padding:2px 7px;">Score 92</span>
+          <span class="badge badge-brand-filled" style="font-size:10px;padding:2px 7px;">A+</span>
+          <span class="badge badge-neutral" style="font-size:10px;padding:2px 7px;">F3 / Onboarding</span>
+          <span class="badge badge-default" style="font-size:10px;padding:2px 7px;">SLA 4h</span>
+          <span class="badge badge-brand" style="font-size:10px;padding:2px 7px;">+28%</span>
+        </div>
+      </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- ── CARDS ── -->
+    <section class="ds-section" id="cards">
+      <h2 class="ds-section-title">Cards</h2>
+      <p class="ds-section-sub">3 variantes base. Fundo branco, borda sutil, raio 16–20px. Hover = shadow-md.</p>
+      <div class="card-grid">
+        <!-- Base card -->
+        <div class="card">
+          <div style="font-size:13px;font-weight:600;color:var(--text);margin-bottom:6px;">Card Base</div>
+          <div style="font-size:12px;color:var(--text-2);line-height:1.5;">Surface branca, borda rgba(0,0,0,0.07), r20, hover shadow-md.</div>
+        </div>
+        <!-- KPI card -->
+        <div class="card card-sm card-kpi">
+          <div class="kpi-label">Posts aprovados</div>
+          <div class="kpi-val brand">42</div>
+          <div class="kpi-delta">+18% esta semana</div>
+        </div>
+        <!-- Feature card -->
+        <div class="card card-sm card-feature">
+          <div class="card-icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+          </div>
+          <div class="card-title">Autopilot ativo</div>
+          <div class="card-desc">IA gerando e aprovando automaticamente em modo autônomo.</div>
+        </div>
+      </div>
+
+      <div style="margin-top:20px;">
+        <h3 style="font-size:12px;font-weight:600;color:var(--text-3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:12px;">Progress bars (monotonal)</h3>
+        <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--r16);padding:20px 24px;">
+          <div class="progress-list">
+            <div class="progress-item">
+              <div class="progress-header"><span class="progress-name">F1 — Onboarding</span><span class="progress-pct">100%</span></div>
+              <div class="progress-track"><div class="progress-fill" style="width:100%;"></div></div>
+            </div>
+            <div class="progress-item">
+              <div class="progress-header"><span class="progress-name">F2 — Brand Book</span><span class="progress-pct">80%</span></div>
+              <div class="progress-track"><div class="progress-fill" style="width:80%;"></div></div>
+            </div>
+            <div class="progress-item">
+              <div class="progress-header"><span class="progress-name">F3 — Conteúdo</span><span class="progress-pct">55%</span></div>
+              <div class="progress-track"><div class="progress-fill" style="width:55%;"></div></div>
+            </div>
+            <div class="progress-item">
+              <div class="progress-header"><span class="progress-name">F4 — Distribuição</span><span class="progress-pct">30%</span></div>
+              <div class="progress-track"><div class="progress-fill" style="width:30%;"></div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- ── CONTROLS ── -->
+    <section class="ds-section" id="controls">
+      <h2 class="ds-section-title">Controles</h2>
+      <p class="ds-section-sub">Toggle switch. Knob branco sobre track. Off = neutro, On = brand red.</p>
+      <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--r16);padding:24px;display:flex;flex-direction:column;gap:16px;max-width:400px;">
+        <div class="toggle-wrap">
+          <div class="toggle on" onclick="this.classList.toggle('on')">
+            <div class="toggle-knob"></div>
+          </div>
+          <span class="toggle-label">Modo Autônomo</span>
+        </div>
+        <div class="toggle-wrap">
+          <div class="toggle" onclick="this.classList.toggle('on')">
+            <div class="toggle-knob"></div>
+          </div>
+          <span class="toggle-label">Notificações WhatsApp</span>
+        </div>
+        <div class="toggle-wrap">
+          <div class="toggle on" onclick="this.classList.toggle('on')">
+            <div class="toggle-knob"></div>
+          </div>
+          <span class="toggle-label">Aprovação em lote</span>
+        </div>
+      </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- ── ICONS ── -->
+    <section class="ds-section" id="icons">
+      <h2 class="ds-section-title">Ícones</h2>
+      <p class="ds-section-sub">42 SVGs inline do design system. viewBox 0 0 24 24 · stroke-width 1.5 · stroke-linecap round. Nunca emojis. Nunca bibliotecas externas.</p>
+      <div class="icon-grid">
+        <div class="icon-item" onclick="copyIcon('home')">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+          <span class="icon-name">home</span>
+        </div>
+        <div class="icon-item" onclick="copyIcon('chart')">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+          <span class="icon-name">chart</span>
+        </div>
+        <div class="icon-item" onclick="copyIcon('user')">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          <span class="icon-name">user</span>
+        </div>
+        <div class="icon-item" onclick="copyIcon('check')">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+          <span class="icon-name">check</span>
+        </div>
+        <div class="icon-item" onclick="copyIcon('search')">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          <span class="icon-name">search</span>
+        </div>
+        <div class="icon-item" onclick="copyIcon('bell')">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+          <span class="icon-name">bell</span>
+        </div>
+        <div class="icon-item" onclick="copyIcon('settings')">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M4.93 4.93a10 10 0 0 0 0 14.14"/></svg>
+          <span class="icon-name">settings</span>
+        </div>
+        <div class="icon-item" onclick="copyIcon('calendar')">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+          <span class="icon-name">calendar</span>
+        </div>
+        <div class="icon-item" onclick="copyIcon('star')">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          <span class="icon-name">star</span>
+        </div>
+        <div class="icon-item" onclick="copyIcon('send')">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+          <span class="icon-name">send</span>
+        </div>
+        <div class="icon-item" onclick="copyIcon('edit')">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+          <span class="icon-name">edit</span>
+        </div>
+        <div class="icon-item" onclick="copyIcon('clock')">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          <span class="icon-name">clock</span>
+        </div>
+        <div class="icon-item" onclick="copyIcon('bolt')">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+          <span class="icon-name">bolt</span>
+        </div>
+        <div class="icon-item" onclick="copyIcon('image')">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+          <span class="icon-name">image</span>
+        </div>
+        <div class="icon-item" onclick="copyIcon('link')">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+          <span class="icon-name">link</span>
+        </div>
+        <div class="icon-item" onclick="copyIcon('trash')">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg>
+          <span class="icon-name">trash</span>
+        </div>
+        <div class="icon-item" onclick="copyIcon('copy')">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+          <span class="icon-name">copy</span>
+        </div>
+        <div class="icon-item" onclick="copyIcon('arrow-right')">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          <span class="icon-name">arrow-right</span>
+        </div>
+        <div class="icon-item" onclick="copyIcon('instagram')">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1.5" fill="currentColor"/></svg>
+          <span class="icon-name">instagram</span>
+        </div>
+        <div class="icon-item" onclick="copyIcon('linkedin')">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+          <span class="icon-name">linkedin</span>
+        </div>
+        <div class="icon-item" onclick="copyIcon('heart')">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+          <span class="icon-name">heart</span>
+        </div>
+        <div class="icon-item" onclick="copyIcon('chat')">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+          <span class="icon-name">chat</span>
+        </div>
+        <div class="icon-item" onclick="copyIcon('shield')">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          <span class="icon-name">shield</span>
+        </div>
+        <div class="icon-item" onclick="copyIcon('layout')">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg>
+          <span class="icon-name">layout</span>
+        </div>
+        <div class="icon-item" onclick="copyIcon('logout')">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+          <span class="icon-name">logout</span>
+        </div>
+        <div class="icon-item" onclick="copyIcon('plus')">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          <span class="icon-name">plus</span>
+        </div>
+        <div class="icon-item" onclick="copyIcon('mic')">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
+          <span class="icon-name">mic</span>
+        </div>
+        <div class="icon-item" onclick="copyIcon('upload')">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 16 12 12 8 16"/><line x1="12" y1="12" x2="12" y2="21"/><path d="M20.39 18.39A5 5 0 0 0 18 9h-1.26A8 8 0 1 0 3 16.3"/></svg>
+          <span class="icon-name">upload</span>
+        </div>
+        <div class="icon-item" onclick="copyIcon('menu')">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+          <span class="icon-name">menu</span>
+        </div>
+        <div class="icon-item" onclick="copyIcon('close')">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+          <span class="icon-name">close</span>
+        </div>
+      </div>
+      <div style="margin-top:14px;padding:12px 16px;background:var(--surface);border:1px solid var(--border);border-radius:var(--r12);">
+        <span style="font-size:12px;color:var(--text-3);">Clique em qualquer ícone para copiar o SVG. Padrão: </span>
+        <span style="font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--text-2);">viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"</span>
+      </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- ── NAVIGATION ── -->
+    <section class="ds-section" id="navigation">
+      <h2 class="ds-section-title">Navegação</h2>
+      <p class="ds-section-sub">Dois padrões: Top nav frosted glass para desktop + mobile web. Sidebar com active indicator bar para apps com sidebar.</p>
+
+      <h3 style="font-size:12px;font-weight:600;color:var(--text-3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:12px;">Top Nav (frosted glass)</h3>
+      <div class="nav-preview">
+        <span class="nav-preview-logo">KTANA</span>
+        <div class="nav-preview-links">
+          <span class="nav-link active" onclick="this.parentElement.querySelectorAll('.nav-link').forEach(l=>l.classList.remove('active'));this.classList.add('active')">Dashboard</span>
+          <span class="nav-link" onclick="this.parentElement.querySelectorAll('.nav-link').forEach(l=>l.classList.remove('active'));this.classList.add('active')">Founders</span>
+          <span class="nav-link" onclick="this.parentElement.querySelectorAll('.nav-link').forEach(l=>l.classList.remove('active'));this.classList.add('active')">Aprovações</span>
+          <span class="nav-link" onclick="this.parentElement.querySelectorAll('.nav-link').forEach(l=>l.classList.remove('active'));this.classList.add('active')">Agentes</span>
+        </div>
+      </div>
+
+      <div class="code-block" style="margin-bottom:28px;">
+        <pre><span class="c-comment">/* Top nav — frosted glass */</span>
+<span class="c-prop">background</span>: <span class="c-str">rgba(245,245,247,0.92)</span>;
+<span class="c-prop">backdrop-filter</span>: <span class="c-str">saturate(180%) blur(20px)</span>;
+<span class="c-prop">border-bottom</span>: <span class="c-str">0.5px solid rgba(0,0,0,0.06)</span>;
+<span class="c-prop">position</span>: <span class="c-str">sticky</span>; <span class="c-prop">top</span>: <span class="c-str">0</span>; <span class="c-prop">z-index</span>: <span class="c-str">50</span>;</pre>
+      </div>
+
+      <h3 style="font-size:12px;font-weight:600;color:var(--text-3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:12px;">Sidebar (desktop)</h3>
+      <div style="display:flex;gap:20px;">
+        <div class="sidebar-preview">
+          <div class="sbp-link active">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+            Dashboard
+          </div>
+          <div class="sbp-link">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+            Founders
+          </div>
+          <div class="sbp-link">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/></svg>
+            Aprovações
+          </div>
+          <div class="sbp-link">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+            Calendário
+          </div>
+        </div>
+        <div class="code-block" style="flex:1;margin-top:0;">
+          <pre><span class="c-comment">/* Sidebar active item */</span>
+<span class="c-prop">background</span>: <span class="c-str">rgba(215,0,48,0.08)</span>;
+<span class="c-prop">color</span>: <span class="c-str">#D70030</span>;
+<span class="c-comment">/* ::before = bar indicator */</span>
+<span class="c-prop">left</span>: <span class="c-str">0</span>; <span class="c-prop">width</span>: <span class="c-str">3px</span>;
+<span class="c-prop">background</span>: <span class="c-str">var(--brand)</span>;
+<span class="c-prop">border-radius</span>: <span class="c-str">0 3px 3px 0</span>;</pre>
+        </div>
+      </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- ── ANIMATIONS ── -->
+    <section class="ds-section" id="animations">
+      <h2 class="ds-section-title">Animações</h2>
+      <p class="ds-section-sub">4 animações do sistema. Todas em CSS puro. Discretas — o produto fala, não as animações.</p>
+      <div class="anim-preview">
+        <div style="display:flex;align-items:center;gap:20px;flex-wrap:wrap;">
+          <div style="text-align:center;">
+            <div class="glow-demo" style="margin:0 auto 8px;"></div>
+            <div style="font-size:11px;color:var(--text-2);font-weight:500;">glow-pulse</div>
+            <div style="font-size:10px;color:var(--text-3);">Live dot, record btn</div>
+          </div>
+          <div style="text-align:center;width:120px;">
+            <div class="shimmer-demo" style="margin-bottom:6px;width:100%;"></div>
+            <div class="shimmer-demo" style="margin-bottom:8px;width:70%;"></div>
+            <div style="font-size:11px;color:var(--text-2);font-weight:500;">shimmer</div>
+            <div style="font-size:10px;color:var(--text-3);">Skeleton loader</div>
+          </div>
+          <div style="text-align:center;">
+            <div style="position:relative;width:48px;height:48px;margin:0 auto 8px;">
+              <div class="ring-demo" style="position:absolute;inset:0;"></div>
+              <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;">
+                <div style="width:24px;height:24px;border-radius:50%;background:var(--brand);"></div>
+              </div>
+            </div>
+            <div style="font-size:11px;color:var(--text-2);font-weight:500;">ring-expand</div>
+            <div style="font-size:10px;color:var(--text-3);">Record, AI thinking</div>
+          </div>
+          <div style="text-align:center;">
+            <div class="fade-demo" style="margin-bottom:8px;">
+              <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--r12);padding:12px 16px;font-size:12px;color:var(--text-2);">fade-in card</div>
+            </div>
+            <div style="font-size:11px;color:var(--text-2);font-weight:500;">fade-in</div>
+            <div style="font-size:10px;color:var(--text-3);">Cards, modais</div>
+          </div>
+        </div>
+
+        <div class="code-block" style="margin-top:16px;margin-bottom:0;">
+          <pre><span class="c-comment">/* glow-pulse */</span>
+<span class="c-prop">@keyframes</span> glow-pulse {
+  <span class="c-val">0%</span>  { box-shadow: <span class="c-str">0 0 0 0 rgba(215,0,48,.35)</span>; }
+  <span class="c-val">70%</span> { box-shadow: <span class="c-str">0 0 0 12px rgba(215,0,48,0)</span>; }
+  <span class="c-val">100%</span>{ box-shadow: <span class="c-str">0 0 0 0 rgba(215,0,48,0)</span>; }
+}
+<span class="c-comment">/* shimmer */</span>
+<span class="c-prop">@keyframes</span> shimmer {
+  <span class="c-val">from</span>{ background-position: <span class="c-str">200% 0</span>; }
+  <span class="c-val">to</span>  { background-position: <span class="c-str">-200% 0</span>; }
+}
+<span class="c-comment">/* fade-in */</span>
+<span class="c-prop">@keyframes</span> fade-in {
+  <span class="c-val">from</span>{ opacity: <span class="c-str">0</span>; transform: <span class="c-str">translateY(10px)</span>; }
+  <span class="c-val">to</span>  { opacity: <span class="c-str">1</span>; transform: <span class="c-str">translateY(0)</span>; }
+}</pre>
+        </div>
+      </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- ── SKELETON ── -->
+    <section class="ds-section" id="skeleton">
+      <h2 class="ds-section-title">Skeleton Loaders</h2>
+      <p class="ds-section-sub">Mostrado enquanto conteúdo carrega. Shimmer horizontal sobre fundo neutro. Nunca spinners isolados em cards de conteúdo.</p>
+      <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--r20);padding:24px;max-width:400px;">
+        <!-- Post skeleton -->
+        <div class="sk-row">
+          <div class="skeleton sk-avatar"></div>
+          <div class="sk-lines">
+            <div class="skeleton sk-line" style="width:70%;"></div>
+            <div class="skeleton sk-line" style="width:40%;"></div>
+          </div>
+        </div>
+        <div class="skeleton sk-line" style="height:140px;border-radius:var(--r12);margin-bottom:12px;"></div>
+        <div class="skeleton sk-line" style="width:100%;margin-bottom:6px;"></div>
+        <div class="skeleton sk-line" style="width:75%;margin-bottom:6px;"></div>
+        <div class="skeleton sk-line" style="width:50%;"></div>
+      </div>
+
+      <div class="code-block" style="max-width:500px;">
+        <pre><span class="c-comment">/* Skeleton base */</span>
+<span class="c-prop">.skeleton</span> {
+  <span class="c-prop">background</span>: <span class="c-str">linear-gradient(90deg,
+    rgba(0,0,0,.04) 25%,
+    rgba(0,0,0,.07) 50%,
+    rgba(0,0,0,.04) 75%)</span>;
+  <span class="c-prop">background-size</span>: <span class="c-str">200% 100%</span>;
+  <span class="c-prop">animation</span>: <span class="c-str">shimmer 1.4s infinite</span>;
+}</pre>
+      </div>
+    </section>
+  </main>
+</div>
+
+<!-- Copy toast -->
+<div id="copy-toast">Copiado!</div>
+
+<script>
+function scrollTo(id){
+  document.querySelectorAll('.sb-link').forEach(l=>l.classList.remove('active'));
+  event.currentTarget.classList.add('active');
+  document.getElementById(id).scrollIntoView({behavior:'smooth'});
+}
+
+function showToast(msg){
+  const t=document.getElementById('copy-toast');
+  t.textContent=msg;
+  t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),1800);
+}
+
+function copySnippet(type){
+  const snippets={
+    'btn-primary':'<button class="btn btn-primary">Primário</button>',
+    'btn-secondary':'<button class="btn btn-secondary">Secundário</button>',
+    'btn-ghost':'<button class="btn btn-ghost">Ghost</button>',
+    'btn-danger':'<button class="btn btn-danger">Danger</button>',
+    'btn-icon':'<button class="btn btn-icon"><!-- svg --></button>'
+  };
+  const text=snippets[type]||type;
+  navigator.clipboard.writeText(text).then(()=>showToast('HTML copiado!'));
+}
+
+const iconSVGs={
+  home:'<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>',
+  chart:'<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>',
+  check:'<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>',
+  bolt:'<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>',
+};
+function copyIcon(name){
+  const svg=iconSVGs[name]||`<!-- ${name} svg -->`;
+  navigator.clipboard.writeText(svg).then(()=>showToast('SVG copiado!'));
+}
+
+/* Sidebar scroll spy */
+const sections=['tokens','typography','spacing','shadows','buttons','inputs','badges','cards','controls','icons','navigation','animations','skeleton'];
+const observer=new IntersectionObserver(entries=>{
+  entries.forEach(entry=>{
+    if(entry.isIntersecting){
+      document.querySelectorAll('.sb-link').forEach(l=>l.classList.remove('active'));
+      const match=document.querySelector(`.sb-link[onclick*="${entry.target.id}"]`);
+      if(match)match.classList.add('active');
+    }
+  });
+},{rootMargin:'-30% 0px -60% 0px'});
+sections.forEach(id=>{
+  const el=document.getElementById(id);
+  if(el)observer.observe(el);
+});
+</script>
+</body>
+</html>

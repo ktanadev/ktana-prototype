@@ -1,0 +1,870 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>KTANA — Design System</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Zen+Dots&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+
+    :root {
+      --brand:        #D70030;
+      --brand-dark:   #A60028;
+      --brand-deep:   #73071F;
+      --black:        #0A0A0A;
+      --dark:         #1D1D1F;
+      --gray:         #6E6E73;
+      --gray-mid:     #86868B;
+      --gray-light:   #AEAEB2;
+      --white:        #FFFFFF;
+      --success:      #30D158;
+      --warning:      #FF9F0A;
+      --error:        #FF3B30;
+      --info:         #007AFF;
+
+      --radius-sm:    8px;
+      --radius-md:    10px;
+      --radius-lg:    16px;
+      --radius-xl:    20px;
+      --radius-2xl:   24px;
+      --radius-full:  100px;
+
+      --shadow-sm:    0 2px 8px rgba(0,0,0,0.2);
+      --shadow-md:    0 4px 16px rgba(0,0,0,0.25);
+      --shadow-lg:    0 8px 24px rgba(0,0,0,0.3);
+      --shadow-brand: 0 0 24px rgba(215,0,48,0.3);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--black);
+      color: var(--white);
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    .font-zen    { font-family: 'Zen Dots', sans-serif; }
+    .font-mono   { font-family: 'JetBrains Mono', monospace; }
+    .font-inter  { font-family: 'Inter', sans-serif; }
+
+    /* Animations */
+    @keyframes glow-pulse {
+      0%, 100% { box-shadow: 0 0 24px rgba(215,0,48,0.4); }
+      50%       { box-shadow: 0 0 32px rgba(215,0,48,0.8); }
+    }
+    @keyframes shimmer {
+      0%   { background-position: 200% 0; }
+      100% { background-position: -200% 0; }
+    }
+    @keyframes fade-in {
+      from { opacity: 0; transform: translateY(8px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .animate-fade-in   { animation: fade-in 0.6s ease forwards; }
+    .animate-glow      { animation: glow-pulse 2s ease-in-out infinite; }
+    .animate-spin      { animation: spin 0.8s linear infinite; }
+
+    /* Sidebar */
+    .sidebar {
+      position: fixed; top: 0; left: 0;
+      width: 240px; height: 100vh;
+      background: #111111;
+      border-right: 1px solid #1F1F1F;
+      overflow-y: auto;
+      z-index: 100;
+      padding: 24px 0;
+    }
+    .sidebar-logo {
+      font-family: 'Zen Dots', sans-serif;
+      color: var(--brand);
+      font-size: 20px;
+      padding: 0 20px 24px;
+      border-bottom: 1px solid #1F1F1F;
+    }
+    .sidebar-section { padding: 16px 20px 4px; }
+    .sidebar-label {
+      font-size: 10px; font-weight: 600;
+      text-transform: uppercase; letter-spacing: 0.08em;
+      color: var(--gray);
+    }
+    .nav-item {
+      display: flex; align-items: center;
+      height: 40px; padding: 0 16px; margin: 2px 0;
+      border-radius: 8px; cursor: pointer;
+      font-size: 13px; color: var(--gray-light);
+      text-decoration: none;
+      transition: all 0.2s cubic-bezier(.32,.72,0,1);
+      position: relative;
+    }
+    .nav-item:hover { background: rgba(255,255,255,0.04); color: var(--white); }
+    .nav-item.active { background: rgba(215,0,48,0.1); color: var(--white); }
+    .nav-item.active::before {
+      content: '';
+      position: absolute; left: 0; top: 50%;
+      transform: translateY(-50%);
+      width: 3px; height: 20px;
+      background: var(--brand);
+      border-radius: 0 2px 2px 0;
+    }
+
+    /* Main content */
+    .main { margin-left: 240px; padding: 48px; max-width: 960px; }
+
+    /* Section */
+    .ds-section { margin-bottom: 64px; scroll-margin-top: 24px; }
+    .ds-section-title {
+      font-family: 'Zen Dots', sans-serif;
+      font-size: 20px; color: var(--white);
+      margin-bottom: 8px;
+    }
+    .ds-section-label {
+      font-size: 10px; font-weight: 600;
+      text-transform: uppercase; letter-spacing: 0.08em;
+      color: var(--gray); margin-bottom: 24px;
+    }
+    .ds-row {
+      display: flex; flex-wrap: wrap; gap: 16px; align-items: flex-start;
+    }
+
+    /* Color swatches */
+    .swatch {
+      width: 100px; text-align: center;
+    }
+    .swatch-color {
+      width: 100px; height: 64px; border-radius: var(--radius-md);
+      margin-bottom: 8px;
+      border: 1px solid rgba(255,255,255,0.06);
+    }
+    .swatch-name  { font-size: 11px; font-weight: 600; color: var(--white); }
+    .swatch-hex   { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--gray); }
+
+    /* Buttons */
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center;
+      gap: 8px; padding: 0 20px; height: 48px;
+      border-radius: var(--radius-lg); border: none;
+      font-family: 'Inter', sans-serif; font-size: 14px; font-weight: 600;
+      cursor: pointer; transition: all 0.3s cubic-bezier(.32,.72,0,1);
+      white-space: nowrap;
+    }
+    .btn-primary {
+      background: linear-gradient(135deg, var(--brand), var(--brand-dark));
+      color: var(--white);
+    }
+    .btn-primary:hover { transform: scale(1.02); box-shadow: var(--shadow-brand); }
+    .btn-primary:active { transform: scale(0.98); }
+    .btn-cta {
+      background: linear-gradient(135deg, var(--brand), var(--brand-dark));
+      color: var(--white);
+      animation: glow-pulse 2s ease-in-out infinite;
+    }
+    .btn-ghost {
+      background: transparent; color: var(--gray-light);
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+    .btn-ghost:hover { background: rgba(255,255,255,0.06); color: var(--white); border-color: rgba(255,255,255,0.2); }
+    .btn-danger {
+      background: linear-gradient(135deg, var(--error), #cc2200);
+      color: var(--white);
+    }
+    .btn-danger:hover { transform: scale(1.02); }
+    .btn-disabled { opacity: 0.4; cursor: not-allowed; }
+    .btn-sm { height: 36px; font-size: 12px; padding: 0 14px; }
+    .btn-lg { height: 56px; font-size: 16px; padding: 0 28px; }
+
+    /* Inputs */
+    .input-wrap { position: relative; }
+    .input {
+      width: 280px; height: 48px;
+      padding: 0 16px; border-radius: var(--radius-lg);
+      background: #0A0A0A; color: var(--white);
+      border: 1px solid #2D2D2D;
+      font-family: 'Inter', sans-serif; font-size: 14px;
+      outline: none;
+      transition: all 0.2s ease;
+    }
+    .input::placeholder { color: #5D5D5D; }
+    .input:focus {
+      border-color: var(--brand);
+      box-shadow: 0 0 0 3px rgba(215,0,48,0.15);
+    }
+    .input.error { border-color: var(--error); }
+    .input.error:focus { box-shadow: 0 0 0 3px rgba(255,59,48,0.15); }
+    .input:disabled { opacity: 0.4; cursor: not-allowed; }
+    .input-label {
+      font-size: 12px; font-weight: 500;
+      color: var(--gray-mid); margin-bottom: 6px;
+    }
+    .input-error-msg {
+      font-size: 11px; color: var(--error); margin-top: 4px;
+    }
+
+    /* Badges */
+    .badge {
+      display: inline-flex; align-items: center; gap: 5px;
+      padding: 4px 10px; border-radius: var(--radius-full);
+      font-family: 'Inter', sans-serif; font-size: 10px; font-weight: 600;
+      text-transform: uppercase; letter-spacing: 0.08em;
+      white-space: nowrap;
+    }
+    .badge-dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
+    .badge-success  { background: rgba(48,209,88,0.15);  color: var(--success); }
+    .badge-warning  { background: rgba(255,159,10,0.15); color: var(--warning); }
+    .badge-error    { background: rgba(255,59,48,0.15);  color: var(--error); }
+    .badge-info     { background: rgba(0,122,255,0.15);  color: var(--info); }
+    .badge-brand    { background: rgba(215,0,48,0.15);   color: var(--brand); }
+    .badge-gray     { background: rgba(110,110,115,0.15);color: var(--gray-mid); }
+
+    /* Cards */
+    .card {
+      background: var(--dark);
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: var(--radius-xl);
+      padding: 20px;
+      transition: all 0.3s cubic-bezier(.32,.72,0,1);
+    }
+    .card:hover {
+      border-color: rgba(215,0,48,0.3);
+      box-shadow: var(--shadow-lg);
+      transform: translateY(-2px);
+    }
+    .card-heading {
+      font-family: 'Zen Dots', sans-serif;
+      font-size: 16px; margin-bottom: 12px; color: var(--white);
+    }
+    .card-body { font-size: 14px; color: var(--gray-mid); line-height: 1.6; }
+
+    /* Gradient border card */
+    .card-gradient-wrap {
+      padding: 1px; border-radius: var(--radius-xl);
+      background: linear-gradient(135deg, rgba(215,0,48,0.6), rgba(215,0,48,0.1), transparent);
+    }
+    .card-gradient-inner {
+      background: var(--dark); border-radius: calc(var(--radius-xl) - 1px);
+      padding: 20px;
+    }
+
+    /* Metric card */
+    .card-metric { text-align: center; min-width: 160px; }
+    .metric-value {
+      font-family: 'Zen Dots', sans-serif; font-size: 32px;
+      color: var(--white); display: block;
+    }
+    .metric-label { font-size: 12px; color: var(--gray); margin-top: 4px; }
+    .metric-delta { font-size: 11px; margin-top: 6px; }
+    .delta-up   { color: var(--success); }
+    .delta-down { color: var(--error); }
+
+    /* Skeleton */
+    .skeleton {
+      border-radius: var(--radius-md);
+      background: linear-gradient(90deg, #1D1D1F 25%, #2D2D2D 50%, #1D1D1F 75%);
+      background-size: 200% 100%;
+      animation: shimmer 1.5s linear infinite;
+    }
+
+    /* Toggle */
+    .toggle-wrap { display: flex; align-items: center; gap: 12px; }
+    .toggle {
+      position: relative; width: 51px; height: 31px;
+      cursor: pointer; flex-shrink: 0;
+    }
+    .toggle input { opacity: 0; width: 0; height: 0; }
+    .toggle-track {
+      position: absolute; inset: 0;
+      background: #3A3A3C; border-radius: 100px;
+      transition: 0.3s;
+    }
+    .toggle input:checked + .toggle-track { background: var(--success); }
+    .toggle-thumb {
+      position: absolute; width: 27px; height: 27px;
+      background: white; border-radius: 50%;
+      top: 2px; left: 2px;
+      transition: 0.3s cubic-bezier(.32,.72,0,1);
+      box-shadow: 0 1px 4px rgba(0,0,0,0.3);
+    }
+    .toggle input:checked ~ .toggle-thumb { transform: translateX(20px); }
+    .toggle-label { font-size: 14px; color: var(--gray-light); }
+
+    /* Code block */
+    .code-block {
+      background: #111; border: 1px solid #2D2D2D;
+      border-radius: var(--radius-md);
+      padding: 16px; overflow-x: auto;
+    }
+    .code-block code {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px; color: #cdd6f4; white-space: pre;
+    }
+
+    /* Spacing/radius grid */
+    .token-row {
+      display: flex; align-items: center; gap: 16px; margin-bottom: 12px;
+    }
+    .token-name {
+      font-family: 'JetBrains Mono', monospace; font-size: 11px;
+      color: var(--brand); width: 100px;
+    }
+    .token-value {
+      font-size: 11px; color: var(--gray-mid); width: 60px;
+    }
+    .token-preview-space {
+      background: rgba(215,0,48,0.2); height: 16px; border-radius: 3px;
+    }
+    .token-preview-radius {
+      width: 48px; height: 48px;
+      background: rgba(215,0,48,0.15);
+      border: 1px solid rgba(215,0,48,0.4);
+    }
+
+    /* Divider */
+    .ds-divider { border: none; border-top: 1px solid #1F1F1F; margin: 32px 0; }
+
+    /* Typography samples */
+    .type-row { margin-bottom: 20px; padding-bottom: 20px; border-bottom: 1px solid #1F1F1F; }
+    .type-meta { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--gray); margin-top: 6px; }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation: none !important;
+        transition: none !important;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Sidebar -->
+<nav class="sidebar">
+  <div class="sidebar-logo">KTANA</div>
+  <div style="padding: 8px 12px;">
+    <div class="sidebar-section"><span class="sidebar-label">Fundamentos</span></div>
+    <a class="nav-item active" href="#colors">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="margin-right:10px"><circle cx="12" cy="12" r="10"/><path d="M12 2a10 10 0 0110 10"/></svg>
+      Cores
+    </a>
+    <a class="nav-item" href="#typography">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="margin-right:10px"><path d="M4 7V4h16v3M9 20h6M12 4v16"/></svg>
+      Tipografia
+    </a>
+    <a class="nav-item" href="#spacing">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="margin-right:10px"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
+      Espaçamento
+    </a>
+    <div class="sidebar-section" style="margin-top:8px"><span class="sidebar-label">Componentes</span></div>
+    <a class="nav-item" href="#buttons">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="margin-right:10px"><rect x="2" y="7" width="20" height="10" rx="5"/></svg>
+      Botões
+    </a>
+    <a class="nav-item" href="#inputs">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="margin-right:10px"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M8 12h8M8 16h4"/></svg>
+      Inputs
+    </a>
+    <a class="nav-item" href="#badges">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="margin-right:10px"><circle cx="12" cy="12" r="2"/><path d="M12 2v3M12 19v3M4.22 4.22l2.12 2.12M17.66 17.66l2.12 2.12"/></svg>
+      Badges
+    </a>
+    <a class="nav-item" href="#cards">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="margin-right:10px"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M2 10h20"/></svg>
+      Cards
+    </a>
+    <div class="sidebar-section" style="margin-top:8px"><span class="sidebar-label">Utilidades</span></div>
+    <a class="nav-item" href="#toggle">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="margin-right:10px"><path d="M12 20h9M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+      Toggle
+    </a>
+    <a class="nav-item" href="#animations">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="margin-right:10px"><path d="M5 3l14 9-14 9V3z"/></svg>
+      Animações
+    </a>
+    <a class="nav-item" href="#skeleton">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="margin-right:10px"><rect x="2" y="4" width="20" height="4" rx="1"/><rect x="2" y="12" width="14" height="4" rx="1"/><rect x="2" y="20" width="10" height="4" rx="1"/></svg>
+      Skeleton
+    </a>
+  </div>
+</nav>
+
+<!-- Main Content -->
+<main class="main">
+
+  <div style="margin-bottom:48px;" class="animate-fade-in">
+    <h1 class="font-zen" style="font-size:28px; color: var(--white); margin-bottom:8px;">KTANA Design System</h1>
+    <p style="color: var(--gray); font-size:14px;">Source of truth visual — tokens, componentes e regras para todos os agentes de frontend.</p>
+    <div style="display:flex; gap:12px; margin-top:16px;">
+      <span class="badge badge-success"><span class="badge-dot" style="background:var(--success)"></span>v1.0 estável</span>
+      <span class="badge badge-info"><span class="badge-dot" style="background:var(--info)"></span>Dark-first</span>
+      <span class="badge badge-brand"><span class="badge-dot" style="background:var(--brand)"></span>KTANA</span>
+    </div>
+  </div>
+
+  <!-- COLORS -->
+  <section class="ds-section" id="colors">
+    <h2 class="ds-section-title">Cores</h2>
+    <p class="ds-section-label">Paleta completa · 13 tokens</p>
+
+    <div style="margin-bottom:20px;">
+      <p class="sidebar-label" style="margin-bottom:12px;">Brand</p>
+      <div class="ds-row">
+        <div class="swatch"><div class="swatch-color" style="background:#D70030"></div><div class="swatch-name">Brand</div><div class="swatch-hex">#D70030</div></div>
+        <div class="swatch"><div class="swatch-color" style="background:#A60028"></div><div class="swatch-name">Brand Dark</div><div class="swatch-hex">#A60028</div></div>
+        <div class="swatch"><div class="swatch-color" style="background:#73071F"></div><div class="swatch-name">Brand Deep</div><div class="swatch-hex">#73071F</div></div>
+      </div>
+    </div>
+
+    <div style="margin-bottom:20px;">
+      <p class="sidebar-label" style="margin-bottom:12px;">Neutros</p>
+      <div class="ds-row">
+        <div class="swatch"><div class="swatch-color" style="background:#0A0A0A; border: 1px solid #333;"></div><div class="swatch-name">Black</div><div class="swatch-hex">#0A0A0A</div></div>
+        <div class="swatch"><div class="swatch-color" style="background:#1D1D1F"></div><div class="swatch-name">Dark</div><div class="swatch-hex">#1D1D1F</div></div>
+        <div class="swatch"><div class="swatch-color" style="background:#6E6E73"></div><div class="swatch-name">Gray</div><div class="swatch-hex">#6E6E73</div></div>
+        <div class="swatch"><div class="swatch-color" style="background:#86868B"></div><div class="swatch-name">Gray Mid</div><div class="swatch-hex">#86868B</div></div>
+        <div class="swatch"><div class="swatch-color" style="background:#AEAEB2"></div><div class="swatch-name">Gray Light</div><div class="swatch-hex">#AEAEB2</div></div>
+        <div class="swatch"><div class="swatch-color" style="background:#FFFFFF"></div><div class="swatch-name">White</div><div class="swatch-hex">#FFFFFF</div></div>
+      </div>
+    </div>
+
+    <div>
+      <p class="sidebar-label" style="margin-bottom:12px;">Semânticas</p>
+      <div class="ds-row">
+        <div class="swatch"><div class="swatch-color" style="background:#30D158"></div><div class="swatch-name">Success</div><div class="swatch-hex">#30D158</div></div>
+        <div class="swatch"><div class="swatch-color" style="background:#FF9F0A"></div><div class="swatch-name">Warning</div><div class="swatch-hex">#FF9F0A</div></div>
+        <div class="swatch"><div class="swatch-color" style="background:#FF3B30"></div><div class="swatch-name">Error</div><div class="swatch-hex">#FF3B30</div></div>
+        <div class="swatch"><div class="swatch-color" style="background:#007AFF"></div><div class="swatch-name">Info</div><div class="swatch-hex">#007AFF</div></div>
+      </div>
+    </div>
+
+    <hr class="ds-divider" />
+    <p class="sidebar-label" style="margin-bottom:12px;">Gradientes</p>
+    <div class="ds-row">
+      <div class="swatch" style="width:160px;">
+        <div class="swatch-color" style="background:linear-gradient(135deg,#D70030,#A60028); width:160px;"></div>
+        <div class="swatch-name">Primário</div>
+        <div class="swatch-hex">D70030 → A60028</div>
+      </div>
+      <div class="swatch" style="width:160px;">
+        <div class="swatch-color" style="background:linear-gradient(135deg,#D70030,#73071F); width:160px;"></div>
+        <div class="swatch-name">Profundo</div>
+        <div class="swatch-hex">D70030 → 73071F</div>
+      </div>
+      <div class="swatch" style="width:160px;">
+        <div class="swatch-color" style="background:linear-gradient(135deg,#1D1D1F,#3A3A3C); width:160px;"></div>
+        <div class="swatch-name">Surface Dark</div>
+        <div class="swatch-hex">1D1D1F → 3A3A3C</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TYPOGRAPHY -->
+  <section class="ds-section" id="typography">
+    <h2 class="ds-section-title">Tipografia</h2>
+    <p class="ds-section-label">Zen Dots · Inter · JetBrains Mono</p>
+
+    <div class="type-row">
+      <div class="font-zen" style="font-size:28px; color:var(--white);">Display — Zen Dots 28px</div>
+      <div class="type-meta">font: Zen Dots · size: 28px · uso: Headlines hero</div>
+    </div>
+    <div class="type-row">
+      <div class="font-zen" style="font-size:20px; color:var(--white);">Section Title — Zen Dots 20px</div>
+      <div class="type-meta">font: Zen Dots · size: 20px · uso: Títulos de seção</div>
+    </div>
+    <div class="type-row">
+      <div class="font-zen" style="font-size:16px; color:var(--white);">Card Heading — Zen Dots 16px</div>
+      <div class="type-meta">font: Zen Dots · size: 16px · uso: Títulos de cards</div>
+    </div>
+    <div class="type-row">
+      <div style="font-size:14px; color:var(--white);">Body — Inter 14px / 400 · Conteúdo de leitura legível e confortável.</div>
+      <div class="type-meta">font: Inter · size: 14px · weight: 400 · uso: Texto de leitura</div>
+    </div>
+    <div class="type-row">
+      <div style="font-size:12px; font-weight:500; color:var(--gray-light);">UI Label — Inter 12px / 500</div>
+      <div class="type-meta">font: Inter · size: 12px · weight: 500 · uso: Nav items, labels</div>
+    </div>
+    <div class="type-row">
+      <div style="font-size:10px; font-weight:600; text-transform:uppercase; letter-spacing:0.08em; color:var(--gray);">SECTION LABEL — INTER 10PX / 600</div>
+      <div class="type-meta">font: Inter · size: 10px · weight: 600 · uppercase · letter-spacing: 0.08em</div>
+    </div>
+    <div class="type-row">
+      <div class="font-mono" style="font-size:12px; color: #cdd6f4;">code_block_mono = "JetBrains Mono 12px"</div>
+      <div class="type-meta">font: JetBrains Mono · size: 12px · uso: Código, IDs, timestamps</div>
+    </div>
+    <div class="type-row" style="border:none; padding:0;">
+      <div class="font-mono" style="font-size:9px; color:var(--gray);">2026-04-24T09:47:32Z · specs · timestamps técnicos</div>
+      <div class="type-meta">font: JetBrains Mono · size: 9px · uso: Timestamps técnicos</div>
+    </div>
+  </section>
+
+  <!-- SPACING -->
+  <section class="ds-section" id="spacing">
+    <h2 class="ds-section-title">Espaçamento & Radii</h2>
+    <p class="ds-section-label">Sistema base 8px · 8 tokens de espaço · 6 tokens de raio</p>
+
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:48px;">
+      <div>
+        <p class="sidebar-label" style="margin-bottom:16px;">Espaçamento</p>
+        <div class="token-row"><span class="token-name">space-1</span><span class="token-value">4px</span><div class="token-preview-space" style="width:4px"></div></div>
+        <div class="token-row"><span class="token-name">space-2</span><span class="token-value">8px</span><div class="token-preview-space" style="width:8px"></div></div>
+        <div class="token-row"><span class="token-name">space-4</span><span class="token-value">16px</span><div class="token-preview-space" style="width:16px"></div></div>
+        <div class="token-row"><span class="token-name">space-6</span><span class="token-value">24px</span><div class="token-preview-space" style="width:24px"></div></div>
+        <div class="token-row"><span class="token-name">space-8</span><span class="token-value">32px</span><div class="token-preview-space" style="width:32px"></div></div>
+        <div class="token-row"><span class="token-name">space-12</span><span class="token-value">48px</span><div class="token-preview-space" style="width:48px"></div></div>
+        <div class="token-row"><span class="token-name">space-16</span><span class="token-value">64px</span><div class="token-preview-space" style="width:64px"></div></div>
+      </div>
+      <div>
+        <p class="sidebar-label" style="margin-bottom:16px;">Border Radius</p>
+        <div class="token-row"><span class="token-name">radius-sm</span><span class="token-value">8px</span><div class="token-preview-radius" style="border-radius:8px"></div></div>
+        <div class="token-row"><span class="token-name">radius-md</span><span class="token-value">10px</span><div class="token-preview-radius" style="border-radius:10px"></div></div>
+        <div class="token-row"><span class="token-name">radius-lg</span><span class="token-value">16px</span><div class="token-preview-radius" style="border-radius:16px"></div></div>
+        <div class="token-row"><span class="token-name">radius-xl</span><span class="token-value">20px</span><div class="token-preview-radius" style="border-radius:20px"></div></div>
+        <div class="token-row"><span class="token-name">radius-2xl</span><span class="token-value">24px</span><div class="token-preview-radius" style="border-radius:24px"></div></div>
+        <div class="token-row"><span class="token-name">radius-full</span><span class="token-value">100px</span><div class="token-preview-radius" style="border-radius:100px; width:80px; height:32px;"></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- BUTTONS -->
+  <section class="ds-section" id="buttons">
+    <h2 class="ds-section-title">Botões</h2>
+    <p class="ds-section-label">5 variantes · 3 tamanhos · estados interativos</p>
+
+    <div style="margin-bottom:24px;">
+      <p class="sidebar-label" style="margin-bottom:12px;">Variantes</p>
+      <div class="ds-row">
+        <button class="btn btn-primary">Entrar →</button>
+        <button class="btn btn-cta">✦ Ativar Autopilot</button>
+        <button class="btn btn-ghost">Cancelar</button>
+        <button class="btn btn-danger">Excluir</button>
+        <button class="btn btn-primary btn-disabled" disabled>Desabilitado</button>
+      </div>
+    </div>
+
+    <div style="margin-bottom:24px;">
+      <p class="sidebar-label" style="margin-bottom:12px;">Tamanhos</p>
+      <div class="ds-row" style="align-items:center;">
+        <button class="btn btn-primary btn-sm">Pequeno</button>
+        <button class="btn btn-primary">Padrão 48px</button>
+        <button class="btn btn-primary btn-lg">Grande</button>
+      </div>
+    </div>
+
+    <div>
+      <p class="sidebar-label" style="margin-bottom:12px;">Estado de Loading</p>
+      <div class="ds-row">
+        <button class="btn btn-primary btn-disabled" id="btn-loading">
+          <svg class="animate-spin" width="16" height="16" viewBox="0 0 24 24" fill="none">
+            <circle cx="12" cy="12" r="10" stroke="rgba(255,255,255,0.3)" stroke-width="4"/>
+            <path fill="white" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"/>
+          </svg>
+          Processando...
+        </button>
+        <button class="btn btn-ghost" onclick="document.getElementById('btn-loading').click()">
+          Simular Loading
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- INPUTS -->
+  <section class="ds-section" id="inputs">
+    <h2 class="ds-section-title">Inputs</h2>
+    <p class="ds-section-label">4 estados · focus ring vermelho · validação</p>
+
+    <div class="ds-row" style="align-items:flex-start;">
+      <div>
+        <p class="input-label">Padrão</p>
+        <input class="input" type="text" placeholder="Placeholder texto" />
+      </div>
+      <div>
+        <p class="input-label">Foco (clique aqui)</p>
+        <input class="input" type="text" placeholder="Focus ring vermelho" autofocus />
+      </div>
+      <div>
+        <p class="input-label">Erro</p>
+        <input class="input error" type="email" value="email-invalido" />
+        <p class="input-error-msg">Formato de email inválido</p>
+      </div>
+      <div>
+        <p class="input-label">Desabilitado</p>
+        <input class="input" type="text" placeholder="Não editável" disabled />
+      </div>
+    </div>
+
+    <div style="margin-top:24px;">
+      <p class="input-label">Senha com toggle</p>
+      <div class="input-wrap" style="position:relative; display:inline-block;">
+        <input class="input" id="pwd-input" type="password" placeholder="Senha secreta" />
+        <button
+          onclick="var i=document.getElementById('pwd-input'); i.type=i.type==='password'?'text':'password'"
+          style="position:absolute; right:14px; top:50%; transform:translateY(-50%); background:none; border:none; color:var(--gray); cursor:pointer; padding:0;"
+        >
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- BADGES -->
+  <section class="ds-section" id="badges">
+    <h2 class="ds-section-title">Badges</h2>
+    <p class="ds-section-label">5 variantes semânticas + 1 neutral</p>
+
+    <div class="ds-row" style="gap:12px; margin-bottom:16px;">
+      <span class="badge badge-success"><span class="badge-dot" style="background:var(--success)"></span>ATIVO</span>
+      <span class="badge badge-warning"><span class="badge-dot" style="background:var(--warning)"></span>PENDENTE</span>
+      <span class="badge badge-error"><span class="badge-dot" style="background:var(--error)"></span>ERRO</span>
+      <span class="badge badge-info"><span class="badge-dot" style="background:var(--info)"></span>INFO</span>
+      <span class="badge badge-brand"><span class="badge-dot" style="background:var(--brand)"></span>KTANA</span>
+      <span class="badge badge-gray"><span class="badge-dot" style="background:var(--gray)"></span>NEUTRO</span>
+    </div>
+
+    <div class="ds-row" style="gap:12px;">
+      <span class="badge badge-success">● Conectado</span>
+      <span class="badge badge-warning">⚡ Aguardando</span>
+      <span class="badge badge-error">✕ Expirado</span>
+      <span class="badge badge-info">ℹ Informação</span>
+      <span class="badge badge-success">✓ Publicado</span>
+      <span class="badge badge-warning">93 Humanidade</span>
+    </div>
+  </section>
+
+  <!-- CARDS -->
+  <section class="ds-section" id="cards">
+    <h2 class="ds-section-title">Cards</h2>
+    <p class="ds-section-label">3 variantes · hover translateY(-2px) · gradient border</p>
+
+    <div class="ds-row" style="align-items:flex-start; flex-wrap:wrap;">
+
+      <!-- Card padrão -->
+      <div class="card" style="width:240px;">
+        <div class="card-heading">Card Padrão</div>
+        <div class="card-body">Conteúdo do card com texto Inter 14px. Hover eleva com borda vermelha suave.</div>
+        <div style="margin-top:16px; display:flex; justify-content:space-between; align-items:center;">
+          <span class="badge badge-success">● Ativo</span>
+          <button class="btn btn-ghost btn-sm">Ver →</button>
+        </div>
+      </div>
+
+      <!-- Card gradient border -->
+      <div class="card-gradient-wrap" style="width:240px;">
+        <div class="card-gradient-inner">
+          <div class="card-heading">Gradient Border</div>
+          <div class="card-body">Borda via wrapper com gradiente. Interior com `bg-dark` preservado.</div>
+          <div style="margin-top:16px;">
+            <span class="badge badge-brand">◆ KTANA</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card métrica -->
+      <div class="card card-metric" style="width:200px;">
+        <span class="metric-value" id="counter-val">142</span>
+        <div class="metric-label">Posts esta semana</div>
+        <div class="metric-delta delta-up">↑ 12% vs semana ant.</div>
+      </div>
+
+      <!-- Card métrica 2 -->
+      <div class="card card-metric" style="width:200px;">
+        <span class="metric-value" style="color:var(--brand);">18</span>
+        <div class="metric-label">Founders ativos</div>
+        <div class="metric-delta delta-up">↑ +3 este mês</div>
+      </div>
+
+      <!-- Card vazio (skeleton) -->
+      <div class="card" style="width:240px;">
+        <div class="card-heading" style="color:var(--gray);">Empty State</div>
+        <div style="margin:16px 0; text-align:center;">
+          <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="var(--gray)" stroke-width="1.5" style="margin:0 auto 8px;display:block;"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M8 10h8M8 14h4"/></svg>
+          <p style="font-size:13px; color:var(--gray);">Nenhum dado disponível</p>
+          <p style="font-size:12px; color:var(--gray); margin-top:4px;">Adicione conteúdo para começar</p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- TOGGLE -->
+  <section class="ds-section" id="toggle">
+    <h2 class="ds-section-title">Toggle</h2>
+    <p class="ds-section-label">51×31px · animação 0.3s · verde quando ativo</p>
+
+    <div style="display:flex; flex-direction:column; gap:20px;">
+      <div class="toggle-wrap">
+        <label class="toggle">
+          <input type="checkbox" checked />
+          <div class="toggle-track"></div>
+          <div class="toggle-thumb"></div>
+        </label>
+        <span class="toggle-label">Autopilot ativado</span>
+      </div>
+      <div class="toggle-wrap">
+        <label class="toggle">
+          <input type="checkbox" />
+          <div class="toggle-track"></div>
+          <div class="toggle-thumb"></div>
+        </label>
+        <span class="toggle-label">Notificações WhatsApp</span>
+      </div>
+      <div class="toggle-wrap">
+        <label class="toggle">
+          <input type="checkbox" checked />
+          <div class="toggle-track"></div>
+          <div class="toggle-thumb"></div>
+        </label>
+        <span class="toggle-label">Aprovação automática ≥95%</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ANIMATIONS -->
+  <section class="ds-section" id="animations">
+    <h2 class="ds-section-title">Animações</h2>
+    <p class="ds-section-label">Timings e keyframes · prefers-reduced-motion compatível</p>
+
+    <div class="ds-row" style="gap:24px; flex-wrap:wrap;">
+      <div style="text-align:center;">
+        <button class="btn btn-cta" style="margin-bottom:8px;">✦ Glow Pulse</button>
+        <p style="font-size:11px; color:var(--gray);">2s infinite ease-in-out</p>
+      </div>
+      <div style="text-align:center;">
+        <button class="btn btn-primary" id="fade-btn" onclick="this.nextElementSibling.classList.remove('animate-fade-in'); void this.nextElementSibling.offsetWidth; this.nextElementSibling.classList.add('animate-fade-in');" style="margin-bottom:8px;">Replay Fade In</button>
+        <div class="animate-fade-in" style="margin-top:8px;">
+          <div class="card" style="width:120px; text-align:center; padding:12px;">
+            <div class="font-zen" style="font-size:14px; color:var(--brand);">Fade In</div>
+            <div style="font-size:11px; color:var(--gray);">0.6s ease</div>
+          </div>
+        </div>
+      </div>
+      <div style="text-align:center;">
+        <div style="width:32px; height:32px; border-radius:50%; border:3px solid rgba(215,0,48,0.3); border-top-color:var(--brand); animation:spin 0.8s linear infinite; margin:0 auto 8px;"></div>
+        <p style="font-size:11px; color:var(--gray);">Spinner 0.8s linear</p>
+      </div>
+    </div>
+
+    <hr class="ds-divider" />
+    <p class="sidebar-label" style="margin-bottom:16px;">Tabela de Timings</p>
+    <table style="width:100%; border-collapse:collapse;">
+      <thead>
+        <tr style="border-bottom: 1px solid #1F1F1F;">
+          <th style="text-align:left; padding:8px; font-size:11px; font-weight:600; color:var(--gray); text-transform:uppercase; letter-spacing:0.08em;">Animação</th>
+          <th style="text-align:left; padding:8px; font-size:11px; font-weight:600; color:var(--gray); text-transform:uppercase; letter-spacing:0.08em;">Duration</th>
+          <th style="text-align:left; padding:8px; font-size:11px; font-weight:600; color:var(--gray); text-transform:uppercase; letter-spacing:0.08em;">Easing</th>
+        </tr>
+      </thead>
+      <tbody style="font-size:13px; color:var(--gray-light);">
+        <tr style="border-bottom:1px solid #111;"><td style="padding:10px 8px;">Fade In (mount)</td><td style="padding:10px 8px; font-family:'JetBrains Mono',monospace; font-size:12px;">0.6s</td><td style="padding:10px 8px; font-family:'JetBrains Mono',monospace; font-size:12px;">ease</td></tr>
+        <tr style="border-bottom:1px solid #111;"><td style="padding:10px 8px;">Spring (hover)</td><td style="padding:10px 8px; font-family:'JetBrains Mono',monospace; font-size:12px;">0.3s</td><td style="padding:10px 8px; font-family:'JetBrains Mono',monospace; font-size:12px;">cubic-bezier(.32,.72,0,1)</td></tr>
+        <tr style="border-bottom:1px solid #111;"><td style="padding:10px 8px;">Press / active</td><td style="padding:10px 8px; font-family:'JetBrains Mono',monospace; font-size:12px;">0.15s</td><td style="padding:10px 8px; font-family:'JetBrains Mono',monospace; font-size:12px;">linear</td></tr>
+        <tr style="border-bottom:1px solid #111;"><td style="padding:10px 8px;">Glow Pulse</td><td style="padding:10px 8px; font-family:'JetBrains Mono',monospace; font-size:12px;">2s ∞</td><td style="padding:10px 8px; font-family:'JetBrains Mono',monospace; font-size:12px;">ease-in-out</td></tr>
+        <tr style="border-bottom:1px solid #111;"><td style="padding:10px 8px;">Shimmer loader</td><td style="padding:10px 8px; font-family:'JetBrains Mono',monospace; font-size:12px;">1.5s ∞</td><td style="padding:10px 8px; font-family:'JetBrains Mono',monospace; font-size:12px;">linear</td></tr>
+        <tr><td style="padding:10px 8px;">Counter animado</td><td style="padding:10px 8px; font-family:'JetBrains Mono',monospace; font-size:12px;">0.6s</td><td style="padding:10px 8px; font-family:'JetBrains Mono',monospace; font-size:12px;">easeOutCubic</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- SKELETON -->
+  <section class="ds-section" id="skeleton">
+    <h2 class="ds-section-title">Skeleton Loaders</h2>
+    <p class="ds-section-label">Shimmer 1.5s · loading states para dados assíncronos</p>
+
+    <div class="ds-row" style="align-items:flex-start; flex-wrap:wrap;">
+      <!-- Card skeleton -->
+      <div class="card" style="width:240px; pointer-events:none;">
+        <div class="skeleton" style="height:16px; width:60%; margin-bottom:12px;"></div>
+        <div class="skeleton" style="height:12px; width:100%; margin-bottom:6px;"></div>
+        <div class="skeleton" style="height:12px; width:85%; margin-bottom:6px;"></div>
+        <div class="skeleton" style="height:12px; width:70%; margin-bottom:16px;"></div>
+        <div style="display:flex; justify-content:space-between;">
+          <div class="skeleton" style="height:24px; width:60px; border-radius:100px;"></div>
+          <div class="skeleton" style="height:28px; width:64px; border-radius:8px;"></div>
+        </div>
+      </div>
+      <!-- KPI skeleton -->
+      <div class="card" style="width:160px; text-align:center; pointer-events:none;">
+        <div class="skeleton" style="height:36px; width:80px; margin:0 auto 8px; border-radius:8px;"></div>
+        <div class="skeleton" style="height:12px; width:100%; margin-bottom:6px;"></div>
+        <div class="skeleton" style="height:10px; width:70%; margin:0 auto;"></div>
+      </div>
+      <!-- List skeleton -->
+      <div class="card" style="width:280px; pointer-events:none;">
+        <div class="skeleton" style="height:14px; width:40%; margin-bottom:16px;"></div>
+        <div style="display:flex; align-items:center; gap:12px; margin-bottom:12px;">
+          <div class="skeleton" style="width:36px; height:36px; border-radius:50%; flex-shrink:0;"></div>
+          <div style="flex:1;"><div class="skeleton" style="height:12px; margin-bottom:6px;"></div><div class="skeleton" style="height:10px; width:60%;"></div></div>
+        </div>
+        <div style="display:flex; align-items:center; gap:12px; margin-bottom:12px;">
+          <div class="skeleton" style="width:36px; height:36px; border-radius:50%; flex-shrink:0;"></div>
+          <div style="flex:1;"><div class="skeleton" style="height:12px; margin-bottom:6px;"></div><div class="skeleton" style="height:10px; width:75%;"></div></div>
+        </div>
+        <div style="display:flex; align-items:center; gap:12px;">
+          <div class="skeleton" style="width:36px; height:36px; border-radius:50%; flex-shrink:0;"></div>
+          <div style="flex:1;"><div class="skeleton" style="height:12px; margin-bottom:6px;"></div><div class="skeleton" style="height:10px; width:50%;"></div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Sombras -->
+  <section class="ds-section">
+    <h2 class="ds-section-title">Sombras</h2>
+    <p class="ds-section-label">4 tokens · shadow-brand com vermelho</p>
+    <div class="ds-row" style="flex-wrap:wrap;">
+      <div class="card" style="width:160px; text-align:center; box-shadow: 0 2px 8px rgba(0,0,0,0.2); border:none;">
+        <div class="font-zen" style="font-size:13px;">shadow-sm</div>
+        <div style="font-size:11px; font-family:'JetBrains Mono',monospace; color:var(--gray); margin-top:4px;">0 2px 8px</div>
+      </div>
+      <div class="card" style="width:160px; text-align:center; box-shadow: 0 4px 16px rgba(0,0,0,0.25); border:none;">
+        <div class="font-zen" style="font-size:13px;">shadow-md</div>
+        <div style="font-size:11px; font-family:'JetBrains Mono',monospace; color:var(--gray); margin-top:4px;">0 4px 16px</div>
+      </div>
+      <div class="card" style="width:160px; text-align:center; box-shadow: 0 8px 24px rgba(0,0,0,0.3); border:none;">
+        <div class="font-zen" style="font-size:13px;">shadow-lg</div>
+        <div style="font-size:11px; font-family:'JetBrains Mono',monospace; color:var(--gray); margin-top:4px;">0 8px 24px</div>
+      </div>
+      <div class="card" style="width:160px; text-align:center; box-shadow: 0 0 24px rgba(215,0,48,0.3); border:none;">
+        <div class="font-zen" style="font-size:13px; color:var(--brand);">shadow-brand</div>
+        <div style="font-size:11px; font-family:'JetBrains Mono',monospace; color:var(--gray); margin-top:4px;">0 0 24px brand</div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<script>
+  // Counter animation demo
+  function animateCounter(el, from, to, duration) {
+    const start = performance.now();
+    function easeOutCubic(t) { return 1 - Math.pow(1 - t, 3); }
+    function tick(now) {
+      const elapsed = now - start;
+      const t = Math.min(elapsed / duration, 1);
+      el.textContent = Math.round(from + (to - from) * easeOutCubic(t));
+      if (t < 1) requestAnimationFrame(tick);
+    }
+    requestAnimationFrame(tick);
+  }
+
+  const counterEl = document.getElementById('counter-val');
+  if (counterEl) {
+    setInterval(() => animateCounter(counterEl, 0, 142, 600), 3000);
+  }
+
+  // Sidebar active state on scroll
+  const sections = document.querySelectorAll('.ds-section[id]');
+  const navLinks = document.querySelectorAll('.nav-item[href^="#"]');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        navLinks.forEach(l => l.classList.remove('active'));
+        const link = document.querySelector(`.nav-item[href="#${e.target.id}"]`);
+        if (link) link.classList.add('active');
+      }
+    });
+  }, { threshold: 0.3 });
+  sections.forEach(s => observer.observe(s));
+</script>
+</body>
+</html>

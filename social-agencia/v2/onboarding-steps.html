@@ -1,0 +1,1145 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Onboarding Etapas 3-6 · KTANA</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Zen+Dots&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:      #0A0A0A;
+    --surface: #1D1D1F;
+    --s2:      #2A2A2D;
+    --s3:      #3A3A3C;
+    --brand:   #D70030;
+    --brand-d: #9B0A2A;
+    --success: #22C55E;
+    --warn:    #FBBF24;
+    --text:    #F5F5F7;
+    --text-2:  #AEAEB2;
+    --text-3:  #6E6E73;
+    --border:  rgba(255,255,255,0.08);
+    --r:       16px;
+    --r-sm:    12px;
+  }
+
+  * { box-sizing:border-box; margin:0; padding:0; -webkit-tap-highlight-color:transparent; }
+
+  body {
+    background: var(--bg);
+    font-family: 'Inter', sans-serif;
+    color: var(--text);
+    min-height: 100dvh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .phone-wrap {
+    width: 100%;
+    max-width: 430px;
+    min-height: 100dvh;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+  }
+
+  @media (min-width: 480px) {
+    body { justify-content: center; padding: 24px 0; }
+    .phone-wrap {
+      min-height: 844px;
+      max-height: 844px;
+      border-radius: 40px;
+      box-shadow: 0 0 0 1px rgba(255,255,255,0.1), 0 8px 32px rgba(0,0,0,0.6);
+      overflow: hidden;
+    }
+  }
+
+  /* ── SCREEN MANAGER ── */
+  .screen { display:none; flex-direction:column; flex:1; min-height:0; }
+  .screen.active { display:flex; }
+
+  /* ── TOP BAR (shared) ── */
+  .top-bar {
+    background: rgba(10,10,10,.95);
+    backdrop-filter: saturate(180%) blur(20px);
+    -webkit-backdrop-filter: saturate(180%) blur(20px);
+    border-bottom: 1px solid var(--border);
+    padding: 44px 16px 14px;
+    flex-shrink: 0;
+  }
+  .bar-row {
+    display: flex; align-items: center; gap: 10px;
+    margin-bottom: 14px;
+  }
+  .back-btn {
+    width: 32px; height: 32px;
+    background: var(--s2); border: none; border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer; color: var(--text-2); flex-shrink: 0;
+  }
+  .back-btn:active { background: var(--s3); }
+  .bar-title {
+    flex: 1;
+    font-family: 'Zen Dots', sans-serif;
+    font-size: 14px;
+    color: var(--text);
+  }
+
+  /* Mini stepper */
+  .mini-stepper { display:flex; align-items:center; }
+  .mn { width:20px; height:20px; border-radius:50%; font-size:9px; font-weight:600;
+    display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+  .mn-done { background:var(--success); color:#fff; }
+  .mn-act  { background:var(--brand); color:#fff; box-shadow:0 0 8px rgba(215,0,48,.4); }
+  .mn-pend { background:var(--s3); color:var(--text-3); }
+  .mc { height:2px; flex:1; min-width:10px; }
+  .mc-done { background:var(--success); }
+  .mc-pend { background:var(--s3); }
+  .mc-act  { background:linear-gradient(90deg,var(--success),var(--brand)); }
+
+  /* ── SCROLL BODY ── */
+  .body-scroll {
+    flex:1; overflow-y:auto;
+    padding: 16px 16px 100px;
+    display:flex; flex-direction:column; gap:16px;
+  }
+  .body-scroll::-webkit-scrollbar { width:3px; }
+  .body-scroll::-webkit-scrollbar-thumb { background:var(--s3); border-radius:3px; }
+
+  /* ── SECTION HEADER ── */
+  .section-hdr { text-align:center; padding:8px 0 4px; }
+  .section-hdr h2 { font-family:'Zen Dots',sans-serif; font-size:20px; color:var(--text); margin-bottom:6px; }
+  .section-hdr p  { font-size:13px; color:var(--text-2); line-height:1.6; max-width:280px; margin:0 auto; }
+
+  /* ── STYLE CARDS GRID ── */
+  .style-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+
+  .style-card {
+    background: var(--surface);
+    border: 2px solid var(--border);
+    border-radius: 14px;
+    padding: 0;
+    cursor: pointer;
+    transition: border-color .2s, background .2s, transform .15s;
+    overflow: hidden;
+    position: relative;
+  }
+  .style-card:active { transform: scale(.97); }
+  .style-card.selected {
+    border-color: var(--brand);
+    background: rgba(215,0,48,0.06);
+  }
+  .style-card.selected .style-check { opacity:1; }
+
+  .style-preview {
+    height: 90px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 28px;
+    border-bottom: 1px solid var(--border);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .style-preview-bg {
+    position: absolute; inset:0;
+    opacity: .35;
+  }
+
+  .style-preview-icon {
+    position: relative; z-index: 1;
+    width: 44px; height: 44px;
+    background: rgba(255,255,255,0.08);
+    border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    color: var(--text-2);
+  }
+  .style-card.selected .style-preview-icon {
+    background: rgba(215,0,48,0.2);
+    color: var(--brand);
+  }
+
+  .style-info { padding: 10px 12px; }
+  .style-name { font-size: 13px; font-weight: 600; margin-bottom: 3px; }
+  .style-desc { font-size: 11px; color: var(--text-3); line-height: 1.4; }
+
+  .style-check {
+    position: absolute; top: 8px; right: 8px;
+    width: 20px; height: 20px; border-radius: 50%;
+    background: var(--brand);
+    display: flex; align-items: center; justify-content: center;
+    opacity: 0; transition: opacity .2s;
+  }
+
+  /* ── UPLOAD ZONE ── */
+  .upload-zone {
+    border: 2px dashed var(--s3);
+    border-radius: var(--r);
+    padding: 28px 16px;
+    text-align: center;
+    cursor: pointer;
+    transition: border-color .25s, background .25s;
+  }
+  .upload-zone:hover {
+    border-color: var(--brand);
+    background: rgba(215,0,48,0.04);
+  }
+  .upload-zone .uz-icon {
+    width: 44px; height: 44px;
+    background: var(--s2);
+    border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    margin: 0 auto 12px;
+    color: var(--text-3);
+    transition: background .2s, color .2s;
+  }
+  .upload-zone:hover .uz-icon { background: rgba(215,0,48,0.12); color: var(--brand); }
+  .uz-title { font-size: 14px; font-weight: 600; margin-bottom: 4px; }
+  .uz-sub   { font-size: 12px; color: var(--text-3); line-height: 1.5; }
+  .uz-sub span { color: var(--text-2); font-weight: 500; }
+
+  /* Success state */
+  .upload-success {
+    border-color: rgba(34,197,94,0.4);
+    background: rgba(34,197,94,0.04);
+  }
+  .upload-success .uz-icon { background: rgba(34,197,94,0.12); color: var(--success); }
+
+  /* ── REQUIREMENTS LIST ── */
+  .req-list { display:flex; flex-direction:column; gap:0; }
+  .req-item {
+    display:flex; gap:12px; align-items:flex-start;
+    padding: 12px 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .req-item:last-child { border-bottom:none; }
+  .req-bullet { width:20px; height:20px; border-radius:50%; flex-shrink:0; display:flex; align-items:center; justify-content:center; margin-top:1px; }
+  .rb-ok   { background:rgba(34,197,94,.12); color:var(--success); }
+  .rb-info { background:rgba(215,0,48,.1);  color:var(--brand); }
+  .req-text { font-size:13px; color:var(--text-2); line-height:1.5; }
+  .req-text strong { color:var(--text); }
+
+  /* ── VOICE RECORD ── */
+  .record-btn {
+    width: 100%;
+    padding: 22px;
+    background: var(--surface);
+    border: 2px solid var(--border);
+    border-radius: var(--r);
+    display: flex; align-items: center; gap: 14px;
+    cursor: pointer;
+    transition: border-color .2s, background .2s;
+    text-align: left;
+  }
+  .record-btn:hover { border-color: rgba(215,0,48,.4); background: rgba(215,0,48,.04); }
+  .record-btn.recording {
+    border-color: var(--brand);
+    background: rgba(215,0,48,.06);
+    animation: pulse-border 1.5s infinite;
+  }
+  @keyframes pulse-border {
+    0%,100% { border-color: var(--brand); }
+    50%      { border-color: rgba(215,0,48,.4); }
+  }
+
+  .rec-icon-wrap {
+    width: 48px; height: 48px;
+    background: rgba(215,0,48,0.12);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    color: var(--brand);
+    flex-shrink: 0;
+    transition: background .2s;
+  }
+  .recording .rec-icon-wrap { background: var(--brand); color: #fff; }
+
+  .rec-info { flex:1; }
+  .rec-title { font-size:14px; font-weight:600; margin-bottom:3px; }
+  .rec-sub   { font-size:12px; color:var(--text-3); }
+  .rec-timer {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--brand);
+    min-width: 48px; text-align: right;
+  }
+
+  /* Wave canvas */
+  .wave-wrap {
+    background: var(--surface);
+    border-radius: var(--r);
+    border: 1px solid var(--border);
+    padding: 16px;
+    height: 70px;
+    display: none; align-items: center; justify-content: center;
+  }
+  .wave-wrap.show { display:flex; }
+  .wave-bars { display:flex; align-items:center; gap:3px; height:40px; }
+  .wave-bar {
+    width: 4px;
+    background: var(--brand);
+    border-radius: 2px;
+    animation: wave-anim 0.8s infinite ease-in-out;
+    opacity: .7;
+  }
+  @keyframes wave-anim {
+    0%,100% { transform:scaleY(.3); }
+    50%      { transform:scaleY(1); }
+  }
+
+  /* ── SOCIAL GRID ── */
+  .social-grid { display:flex; flex-direction:column; gap:8px; }
+  .social-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--r-sm);
+    padding: 14px 16px;
+    display: flex; align-items: center; gap: 12px;
+    transition: border-color .2s;
+  }
+  .social-card.connected { border-color: rgba(34,197,94,.3); background:rgba(34,197,94,.03); }
+  .social-card.deferred  { border-color: rgba(251,191,36,.2); }
+
+  .social-logo {
+    width: 40px; height: 40px;
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+    font-size: 14px;
+  }
+
+  .social-info { flex:1; }
+  .social-name { font-size:14px; font-weight:600; }
+  .social-desc { font-size:11px; color:var(--text-3); margin-top:2px; }
+
+  .social-action { display:flex; flex-direction:column; align-items:flex-end; gap:4px; }
+
+  .btn-connect {
+    padding: 8px 14px;
+    background: rgba(215,0,48,0.12);
+    border: 1px solid rgba(215,0,48,0.3);
+    border-radius: 8px;
+    color: var(--brand);
+    font-size: 12px; font-weight:600;
+    cursor: pointer; white-space:nowrap;
+    transition: background .2s;
+  }
+  .btn-connect:hover { background: rgba(215,0,48,0.2); }
+
+  .btn-skip-social {
+    padding: 6px 10px;
+    background: transparent;
+    border: none;
+    color: var(--text-3);
+    font-size: 11px;
+    cursor: pointer;
+  }
+  .btn-skip-social:hover { color: var(--text-2); }
+
+  .badge-connected {
+    padding: 5px 10px;
+    background: rgba(34,197,94,.1);
+    border: 1px solid rgba(34,197,94,.3);
+    border-radius: 8px;
+    color: var(--success);
+    font-size: 11px; font-weight:600;
+    display:flex; align-items:center; gap:4px;
+  }
+  .badge-deferred {
+    padding: 5px 10px;
+    background: rgba(251,191,36,.08);
+    border: 1px solid rgba(251,191,36,.25);
+    border-radius: 8px;
+    color: var(--warn);
+    font-size: 11px; font-weight:500;
+  }
+
+  /* ── COMPLETION ── */
+  .complete-wrap {
+    flex:1; display:flex; flex-direction:column;
+    align-items:center; justify-content:center;
+    padding: 40px 24px;
+    text-align:center;
+  }
+  .complete-ring {
+    width: 88px; height: 88px;
+    background: rgba(34,197,94,.08);
+    border: 2.5px solid var(--success);
+    border-radius: 50%;
+    display:flex; align-items:center; justify-content:center;
+    margin: 0 auto 24px;
+    animation: pop-in .5s cubic-bezier(.34,1.56,.64,1);
+  }
+  @keyframes pop-in { from { transform:scale(0); opacity:0; } to { transform:scale(1); opacity:1; } }
+  .complete-title { font-family:'Zen Dots',sans-serif; font-size:22px; margin-bottom:10px; }
+  .complete-sub   { font-size:14px; color:var(--text-2); line-height:1.6; max-width:300px; margin:0 auto 28px; }
+
+  .what-next {
+    width:100%;
+    background: var(--surface);
+    border-radius: var(--r);
+    border: 1px solid var(--border);
+    padding: 16px;
+    text-align:left; margin-bottom:20px;
+  }
+  .wn-title { font-size:12px; font-weight:600; color:var(--text-3); text-transform:uppercase; letter-spacing:.06em; margin-bottom:12px; }
+  .wn-item { display:flex; gap:12px; align-items:flex-start; margin-bottom:12px; }
+  .wn-item:last-child { margin-bottom:0; }
+  .wn-num {
+    width:24px; height:24px; border-radius:50%;
+    background:rgba(215,0,48,.12); color:var(--brand);
+    font-size:11px; font-weight:700;
+    display:flex; align-items:center; justify-content:center;
+    flex-shrink:0;
+  }
+  .wn-text { font-size:13px; color:var(--text-2); line-height:1.5; }
+  .wn-text strong { color:var(--text); }
+
+  /* ── FOOTER BAR ── */
+  .footer-bar {
+    position:fixed; bottom:0; left:50%; transform:translateX(-50%);
+    width:100%; max-width:430px;
+    background:rgba(10,10,10,.97);
+    border-top:1px solid var(--border);
+    padding:12px 16px 24px;
+    display:flex; flex-direction:column; gap:8px;
+    backdrop-filter:blur(20px);
+    -webkit-backdrop-filter:blur(20px);
+    z-index:10;
+  }
+
+  .btn-primary {
+    width:100%; padding:15px;
+    background:linear-gradient(135deg,var(--brand),var(--brand-d));
+    border:none; border-radius:var(--r-sm);
+    color:#fff; font-family:'Zen Dots',sans-serif; font-size:13px;
+    letter-spacing:.02em; cursor:pointer;
+    transition:opacity .2s, transform .1s;
+    display:flex; align-items:center; justify-content:center; gap:8px;
+  }
+  .btn-primary:active { transform:scale(.98); }
+  .btn-primary:disabled { background:var(--s3); opacity:.6; cursor:not-allowed; }
+
+  .btn-ghost-row { display:flex; gap:8px; }
+  .btn-ghost {
+    flex:1; padding:13px;
+    background:transparent;
+    border:1px solid var(--border);
+    border-radius:var(--r-sm);
+    color:var(--text-2); font-size:13px; cursor:pointer;
+    transition:border-color .2s, color .2s;
+    display:flex; align-items:center; justify-content:center; gap:6px;
+  }
+  .btn-ghost:hover { border-color:rgba(215,0,48,.3); color:var(--text); }
+
+  /* ── TOAST ── */
+  .toast {
+    position:fixed; top:20px; left:50%;
+    transform:translateX(-50%) translateY(-80px);
+    background:var(--s2); border:1px solid var(--border); border-radius:var(--r-sm);
+    padding:12px 16px; font-size:13px; color:var(--text);
+    display:flex; align-items:center; gap:10px;
+    z-index:100; transition:transform .35s cubic-bezier(.34,1.56,.64,1);
+    box-shadow:0 8px 32px rgba(0,0,0,.5); white-space:nowrap;
+  }
+  .toast.show { transform:translateX(-50%) translateY(0); }
+</style>
+</head>
+<body>
+<div class="phone-wrap">
+
+<!-- ════════════════════════════════
+     SCREEN 3 — ESTILO VISUAL
+════════════════════════════════ -->
+<div class="screen active" id="s3">
+  <div class="top-bar">
+    <div class="bar-row">
+      <button class="back-btn" onclick="noop()" title="Voltar">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+      </button>
+      <div class="bar-title">Etapa 3 — Estilo visual</div>
+    </div>
+    <div class="mini-stepper">
+      <div class="mn mn-done"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+      <div class="mc mc-done"></div>
+      <div class="mn mn-done"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+      <div class="mc mc-act"></div>
+      <div class="mn mn-act">3</div>
+      <div class="mc mc-pend"></div>
+      <div class="mn mn-pend">4</div>
+      <div class="mc mc-pend"></div>
+      <div class="mn mn-pend">5</div>
+      <div class="mc mc-pend"></div>
+      <div class="mn mn-pend">6</div>
+    </div>
+  </div>
+
+  <div class="body-scroll">
+    <div class="section-hdr">
+      <h2>Como você quer ser visto?</h2>
+      <p>Escolha 1 estilo visual. Ele guia fotos, vídeos e a identidade do seu conteúdo.</p>
+    </div>
+
+    <div class="style-grid" id="style-grid">
+      <!-- 8 cards -->
+      <div class="style-card selected" onclick="selectStyle(this,'corporate_premium')" data-style="corporate_premium">
+        <div class="style-preview" style="background:linear-gradient(135deg,#1a1a2e,#16213e)">
+          <div class="style-preview-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/></svg>
+          </div>
+        </div>
+        <div class="style-info">
+          <div class="style-name">Corporate Premium</div>
+          <div class="style-desc">Autoridade, elegância, tomada de decisão</div>
+        </div>
+        <div class="style-check">
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+        </div>
+      </div>
+
+      <div class="style-card" onclick="selectStyle(this,'corporate')" data-style="corporate">
+        <div class="style-preview" style="background:linear-gradient(135deg,#1e1e2e,#2a2a3e)">
+          <div class="style-preview-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+          </div>
+        </div>
+        <div class="style-info">
+          <div class="style-name">Corporate</div>
+          <div class="style-desc">Profissional, confiável, consistente</div>
+        </div>
+        <div class="style-check">
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+        </div>
+      </div>
+
+      <div class="style-card" onclick="selectStyle(this,'lifestyle_casual')" data-style="lifestyle_casual">
+        <div class="style-preview" style="background:linear-gradient(135deg,#1a2e1a,#1e3a1e)">
+          <div class="style-preview-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg>
+          </div>
+        </div>
+        <div class="style-info">
+          <div class="style-name">Lifestyle Casual</div>
+          <div class="style-desc">Humanizado, próximo, cotidiano autêntico</div>
+        </div>
+        <div class="style-check">
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+        </div>
+      </div>
+
+      <div class="style-card" onclick="selectStyle(this,'tech_ceo')" data-style="tech_ceo">
+        <div class="style-preview" style="background:linear-gradient(135deg,#0a1628,#0f2040)">
+          <div class="style-preview-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+          </div>
+        </div>
+        <div class="style-info">
+          <div class="style-name">Tech CEO</div>
+          <div class="style-desc">Inovação, disruption, visão de futuro</div>
+        </div>
+        <div class="style-check">
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+        </div>
+      </div>
+
+      <div class="style-card" onclick="selectStyle(this,'speaker')" data-style="speaker">
+        <div class="style-preview" style="background:linear-gradient(135deg,#2e1a1a,#3e1e1e)">
+          <div class="style-preview-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+          </div>
+        </div>
+        <div class="style-info">
+          <div class="style-name">Speaker</div>
+          <div class="style-desc">Palco, palestras, influência e persuasão</div>
+        </div>
+        <div class="style-check">
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+        </div>
+      </div>
+
+      <div class="style-card" onclick="selectStyle(this,'editorial')" data-style="editorial">
+        <div class="style-preview" style="background:linear-gradient(135deg,#1a1a1a,#2a2a2a)">
+          <div class="style-preview-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+          </div>
+        </div>
+        <div class="style-info">
+          <div class="style-name">Editorial</div>
+          <div class="style-desc">Sofisticado, artístico, composições únicas</div>
+        </div>
+        <div class="style-check">
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+        </div>
+      </div>
+
+      <div class="style-card" onclick="selectStyle(this,'casual')" data-style="casual">
+        <div class="style-preview" style="background:linear-gradient(135deg,#1e2a1e,#243024)">
+          <div class="style-preview-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M8.56 2.75c4.37 6.03 6.02 9.42 8.03 17.72m2.54-15.38c-3.72 4.35-8.94 5.66-16.88 5.85m19.5 1.9c-3.5-.93-6.63-.82-8.94 0-2.58.92-5.01 2.86-7.44 6.32"/></svg>
+          </div>
+        </div>
+        <div class="style-info">
+          <div class="style-name">Casual</div>
+          <div class="style-desc">Despojado, acessível, autenticidade direta</div>
+        </div>
+        <div class="style-check">
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+        </div>
+      </div>
+
+      <div class="style-card" onclick="selectStyle(this,'creative')" data-style="creative">
+        <div class="style-preview" style="background:linear-gradient(135deg,#2e1a2e,#3a1e3a)">
+          <div class="style-preview-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="13.5" cy="6.5" r=".5"/><circle cx="17.5" cy="10.5" r=".5"/><circle cx="8.5" cy="7.5" r=".5"/><circle cx="6.5" cy="12.5" r=".5"/><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.688 0-.437-.18-.835-.437-1.125..."/></svg>
+          </div>
+        </div>
+        <div class="style-info">
+          <div class="style-name">Criativo</div>
+          <div class="style-desc">Ousado, colorido, identidade marcante</div>
+        </div>
+        <div class="style-check">
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+        </div>
+      </div>
+    </div><!-- /style-grid -->
+  </div>
+
+  <div class="footer-bar">
+    <button class="btn-primary" id="s3-btn" onclick="goStep('s4')">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+      Confirmar: Corporate Premium
+    </button>
+  </div>
+</div><!-- /s3 -->
+
+
+<!-- ════════════════════════════════
+     SCREEN 4 — VÍDEO
+════════════════════════════════ -->
+<div class="screen" id="s4">
+  <div class="top-bar">
+    <div class="bar-row">
+      <button class="back-btn" onclick="goStep('s3')" title="Voltar">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+      </button>
+      <div class="bar-title">Etapa 4 — Vídeo</div>
+    </div>
+    <div class="mini-stepper">
+      <div class="mn mn-done"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+      <div class="mc mc-done"></div>
+      <div class="mn mn-done"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+      <div class="mc mc-done"></div>
+      <div class="mn mn-done"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+      <div class="mc mc-act"></div>
+      <div class="mn mn-act">4</div>
+      <div class="mc mc-pend"></div>
+      <div class="mn mn-pend">5</div>
+      <div class="mc mc-pend"></div>
+      <div class="mn mn-pend">6</div>
+    </div>
+  </div>
+
+  <div class="body-scroll">
+    <div class="section-hdr">
+      <h2>Vídeo de treinamento</h2>
+      <p>Um vídeo seu falando por pelo menos 2 minutos. O clone aprende seu ritmo, pausas e entonação.</p>
+    </div>
+
+    <!-- Upload zone -->
+    <div class="upload-zone" id="video-upload-zone" onclick="simulateVideoUpload()">
+      <div class="uz-icon">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/>
+        </svg>
+      </div>
+      <div class="uz-title">Selecionar vídeo</div>
+      <div class="uz-sub">
+        MP4 · MOV · <span>Mínimo 2 minutos</span><br>
+        Grave no ambiente com boa iluminação e falando naturalmente
+      </div>
+    </div>
+
+    <!-- Requirements -->
+    <div class="req-list">
+      <div class="req-item">
+        <div class="req-bullet rb-ok">
+          <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+        </div>
+        <div class="req-text"><strong>Duração mínima:</strong> 2 minutos de fala contínua</div>
+      </div>
+      <div class="req-item">
+        <div class="req-bullet rb-info">
+          <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        </div>
+        <div class="req-text"><strong>Conteúdo sugerido:</strong> Conte sua trajetória, seu método ou sua proposta de valor — qualquer assunto que você domina</div>
+      </div>
+      <div class="req-item">
+        <div class="req-bullet rb-ok">
+          <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+        </div>
+        <div class="req-text"><strong>Resolução:</strong> HD 1080p ou superior. Rosto visível e bem iluminado.</div>
+      </div>
+      <div class="req-item">
+        <div class="req-bullet rb-info">
+          <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        </div>
+        <div class="req-text"><strong>Sem vídeo?</strong> Você pode pular esta etapa — usaremos mais fotos para compensar. Qualidade do clone será levemente menor.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer-bar">
+    <button class="btn-primary" id="s4-btn" onclick="goStep('s5')">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+      Continuar — Etapa 5
+    </button>
+    <div class="btn-ghost-row">
+      <button class="btn-ghost" onclick="goStep('s5')">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        Enviar depois
+      </button>
+      <button class="btn-ghost" onclick="goStep('s5')">
+        Pular esta etapa
+      </button>
+    </div>
+  </div>
+</div><!-- /s4 -->
+
+
+<!-- ════════════════════════════════
+     SCREEN 5 — VOZ
+════════════════════════════════ -->
+<div class="screen" id="s5">
+  <div class="top-bar">
+    <div class="bar-row">
+      <button class="back-btn" onclick="goStep('s4')" title="Voltar">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+      </button>
+      <div class="bar-title">Etapa 5 — Clone de voz</div>
+    </div>
+    <div class="mini-stepper">
+      <div class="mn mn-done"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+      <div class="mc mc-done"></div>
+      <div class="mn mn-done"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+      <div class="mc mc-done"></div>
+      <div class="mn mn-done"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+      <div class="mc mc-done"></div>
+      <div class="mn mn-done"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+      <div class="mc mc-act"></div>
+      <div class="mn mn-act">5</div>
+      <div class="mc mc-pend"></div>
+      <div class="mn mn-pend">6</div>
+    </div>
+  </div>
+
+  <div class="body-scroll">
+    <div class="section-hdr">
+      <h2>Clone de voz</h2>
+      <p>Grave 3+ minutos lendo em voz alta. O clone vai reproduzir seu tom, cadência e sotaque.</p>
+    </div>
+
+    <!-- Record button -->
+    <button class="record-btn" id="rec-btn" onclick="toggleRecord()">
+      <div class="rec-icon-wrap" id="rec-icon">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/>
+          <path d="M19 10v2a7 7 0 0 1-14 0v-2"/>
+          <line x1="12" y1="19" x2="12" y2="23"/>
+          <line x1="8" y1="23" x2="16" y2="23"/>
+        </svg>
+      </div>
+      <div class="rec-info">
+        <div class="rec-title" id="rec-title">Toque para gravar</div>
+        <div class="rec-sub" id="rec-sub">Mínimo 3 minutos de fala contínua</div>
+      </div>
+      <div class="rec-timer" id="rec-timer">0:00</div>
+    </button>
+
+    <!-- Wave visualizer -->
+    <div class="wave-wrap" id="wave-wrap">
+      <div class="wave-bars" id="wave-bars"></div>
+    </div>
+
+    <!-- Upload alternative -->
+    <div style="text-align:center;color:var(--text-3);font-size:12px;padding:4px 0">— ou —</div>
+
+    <div class="upload-zone" onclick="simulateAudioUpload()">
+      <div class="uz-icon">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/>
+          <path d="M19 10v2a7 7 0 0 1-14 0v-2"/>
+        </svg>
+      </div>
+      <div class="uz-title">Fazer upload de áudio</div>
+      <div class="uz-sub">MP3 · M4A · WAV · <span>Mínimo 3 minutos</span></div>
+    </div>
+
+    <!-- Requirements -->
+    <div class="req-list">
+      <div class="req-item">
+        <div class="req-bullet rb-info">
+          <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        </div>
+        <div class="req-text"><strong>O que ler:</strong> Artigos do seu blog, textos do seu site, capítulos de livro — qualquer conteúdo em que você fale de forma natural e fluida</div>
+      </div>
+      <div class="req-item">
+        <div class="req-bullet rb-ok">
+          <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+        </div>
+        <div class="req-text"><strong>Ambiente:</strong> Lugar silencioso, sem eco. Microfone do celular já funciona bem.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer-bar">
+    <button class="btn-primary" id="s5-btn" onclick="goStep('s6')">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+      Continuar — Etapa 6
+    </button>
+    <div class="btn-ghost-row">
+      <button class="btn-ghost" onclick="goStep('s6')">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        Enviar depois
+      </button>
+      <button class="btn-ghost" onclick="goStep('s6')">Pular</button>
+    </div>
+  </div>
+</div><!-- /s5 -->
+
+
+<!-- ════════════════════════════════
+     SCREEN 6 — REDES SOCIAIS
+════════════════════════════════ -->
+<div class="screen" id="s6">
+  <div class="top-bar">
+    <div class="bar-row">
+      <button class="back-btn" onclick="goStep('s5')" title="Voltar">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+      </button>
+      <div class="bar-title">Etapa 6 — Redes sociais</div>
+    </div>
+    <div class="mini-stepper">
+      <div class="mn mn-done"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+      <div class="mc mc-done"></div>
+      <div class="mn mn-done"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+      <div class="mc mc-done"></div>
+      <div class="mn mn-done"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+      <div class="mc mc-done"></div>
+      <div class="mn mn-done"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+      <div class="mc mc-done"></div>
+      <div class="mn mn-done"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+      <div class="mc mc-act"></div>
+      <div class="mn mn-act">6</div>
+    </div>
+  </div>
+
+  <div class="body-scroll">
+    <div class="section-hdr" style="margin-bottom:4px">
+      <h2>Conectar perfis</h2>
+      <p>Conecte onde você quer publicar. Seu SM pode configurar depois, se preferir.</p>
+    </div>
+
+    <div class="social-grid">
+
+      <!-- Instagram — connected -->
+      <div class="social-card connected" id="sc-instagram">
+        <div class="social-logo" style="background:linear-gradient(135deg,#833ab4,#fd1d1d,#fcb045)">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/>
+          </svg>
+        </div>
+        <div class="social-info">
+          <div class="social-name">Instagram</div>
+          <div class="social-desc">@marcelooliveira</div>
+        </div>
+        <div class="social-action">
+          <div class="badge-connected">
+            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+            Conectado
+          </div>
+        </div>
+      </div>
+
+      <!-- LinkedIn -->
+      <div class="social-card" id="sc-linkedin">
+        <div class="social-logo" style="background:#0077B5">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/>
+          </svg>
+        </div>
+        <div class="social-info">
+          <div class="social-name">LinkedIn</div>
+          <div class="social-desc">Rede profissional</div>
+        </div>
+        <div class="social-action">
+          <button class="btn-connect" onclick="connectSocial('linkedin')">Conectar</button>
+          <button class="btn-skip-social" onclick="deferSocial('linkedin')">SM configura</button>
+        </div>
+      </div>
+
+      <!-- TikTok — deferred -->
+      <div class="social-card deferred" id="sc-tiktok">
+        <div class="social-logo" style="background:#010101">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5"/>
+          </svg>
+        </div>
+        <div class="social-info">
+          <div class="social-name">TikTok</div>
+          <div class="social-desc">Vídeos curtos</div>
+        </div>
+        <div class="social-action">
+          <div class="badge-deferred">SM configura</div>
+        </div>
+      </div>
+
+      <!-- YouTube -->
+      <div class="social-card" id="sc-youtube">
+        <div class="social-logo" style="background:#FF0000">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-1.96C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 1.96A29 29 0 0 0 1 12a29 29 0 0 0 .46 5.58A2.78 2.78 0 0 0 3.4 19.54C5.12 20 12 20 12 20s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-1.96A29 29 0 0 0 23 12a29 29 0 0 0-.46-5.58z"/>
+            <polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02"/>
+          </svg>
+        </div>
+        <div class="social-info">
+          <div class="social-name">YouTube</div>
+          <div class="social-desc">Vídeos longos</div>
+        </div>
+        <div class="social-action">
+          <button class="btn-connect" onclick="connectSocial('youtube')">Conectar</button>
+          <button class="btn-skip-social" onclick="deferSocial('youtube')">SM configura</button>
+        </div>
+      </div>
+
+      <!-- X (Twitter) -->
+      <div class="social-card" id="sc-x">
+        <div class="social-logo" style="background:#000">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="#fff" stroke="none">
+            <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.748l7.73-8.835L1.254 2.25H8.08l4.26 5.632L18.244 2.25zm-1.161 17.52h1.833L7.084 4.126H5.117L17.083 19.77z"/>
+          </svg>
+        </div>
+        <div class="social-info">
+          <div class="social-name">X (Twitter)</div>
+          <div class="social-desc">Microblog em tempo real</div>
+        </div>
+        <div class="social-action">
+          <button class="btn-connect" onclick="connectSocial('x')">Conectar</button>
+          <button class="btn-skip-social" onclick="deferSocial('x')">SM configura</button>
+        </div>
+      </div>
+
+      <!-- Blog -->
+      <div class="social-card" id="sc-blog">
+        <div class="social-logo" style="background:var(--s2)">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--text-2)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+          </svg>
+        </div>
+        <div class="social-info">
+          <div class="social-name">Blog / Site</div>
+          <div class="social-desc">WordPress ou domínio próprio</div>
+        </div>
+        <div class="social-action">
+          <button class="btn-connect" onclick="connectSocial('blog')">Conectar</button>
+          <button class="btn-skip-social" onclick="deferSocial('blog')">SM configura</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="footer-bar">
+    <button class="btn-primary" onclick="goStep('s-done')">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+      Finalizar onboarding
+    </button>
+    <button class="btn-ghost" onclick="goStep('s-done')">Configurar depois com meu SM</button>
+  </div>
+</div><!-- /s6 -->
+
+
+<!-- ════════════════════════════════
+     SCREEN DONE — COMPLETION
+════════════════════════════════ -->
+<div class="screen" id="s-done">
+  <div class="complete-wrap">
+    <div class="complete-ring">
+      <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#22C55E" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="20 6 9 17 4 12"/>
+      </svg>
+    </div>
+
+    <div class="complete-title">Tudo pronto, Marcelo!</div>
+    <p class="complete-sub">Onboarding completo. Seu Brand Book está sendo gerado e chegará no seu WhatsApp em breve.</p>
+
+    <div class="what-next">
+      <div class="wn-title">O que acontece agora</div>
+      <div class="wn-item">
+        <div class="wn-num">1</div>
+        <div class="wn-text"><strong>Brand Book gerado em até 48h.</strong> Inteligência + posicionamento baseado em tudo que você enviou.</div>
+      </div>
+      <div class="wn-item">
+        <div class="wn-num">2</div>
+        <div class="wn-text"><strong>Análise de concorrentes automática.</strong> Os 5 principais já estão sendo monitorados.</div>
+      </div>
+      <div class="wn-item">
+        <div class="wn-num">3</div>
+        <div class="wn-text"><strong>Calendário editorial criado.</strong> Primeiro lote de 30 posts para aprovação.</div>
+      </div>
+      <div class="wn-item">
+        <div class="wn-num">4</div>
+        <div class="wn-text"><strong>Sua SM recebeu a notificação.</strong> Ela vai revisar e ativar o modo produção.</div>
+      </div>
+    </div>
+
+    <button class="btn-primary" onclick="goStep('s3')" style="width:100%">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 .49-3.51"/></svg>
+      Recomeçar demonstração
+    </button>
+  </div>
+</div><!-- /s-done -->
+
+</div><!-- /phone-wrap -->
+
+<!-- TOAST -->
+<div class="toast" id="toast">
+  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#22C55E" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+  <span id="toast-text">OK</span>
+</div>
+
+<script>
+  /* ── NAVIGATION ── */
+  function goStep(id) {
+    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+    window.scrollTo(0,0);
+  }
+  function noop() {}
+
+  /* ── STYLE SELECTION ── */
+  function selectStyle(card, style) {
+    document.querySelectorAll('.style-card').forEach(c => c.classList.remove('selected'));
+    card.classList.add('selected');
+    const name = card.querySelector('.style-name').textContent;
+    const btn = document.getElementById('s3-btn');
+    btn.innerHTML = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg> Confirmar: ${name}`;
+  }
+
+  /* ── VIDEO UPLOAD SIMULATION ── */
+  function simulateVideoUpload() {
+    const zone = document.getElementById('video-upload-zone');
+    zone.innerHTML = `
+      <div class="uz-icon">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 11.08 22 12 12 22 6.09 16 2 12 12 2z"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+      </div>
+      <div class="uz-title" style="color:var(--success)">Vídeo recebido</div>
+      <div class="uz-sub">treinamento_pessoal.mp4 · 3:24 min · HD 1080p</div>`;
+    zone.classList.add('upload-success');
+    const btn = document.getElementById('s4-btn');
+    btn.innerHTML = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Confirmar e continuar`;
+    showToast('Vídeo validado! 3 min 24 seg de fala.');
+  }
+
+  /* ── AUDIO UPLOAD SIMULATION ── */
+  function simulateAudioUpload() {
+    showToast('Áudio de 4min recebido com sucesso');
+    const btn = document.getElementById('s5-btn');
+    btn.innerHTML = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Confirmar e continuar`;
+  }
+
+  /* ── RECORD SIMULATION ── */
+  let recInterval = null;
+  let recSecs = 0;
+  let isRecording = false;
+
+  function toggleRecord() {
+    const btn  = document.getElementById('rec-btn');
+    const icon = document.getElementById('rec-icon');
+    const title = document.getElementById('rec-title');
+    const sub   = document.getElementById('rec-sub');
+    const timer = document.getElementById('rec-timer');
+    const wave  = document.getElementById('wave-wrap');
+
+    if (!isRecording) {
+      isRecording = true;
+      btn.classList.add('recording');
+      title.textContent = 'Gravando… Toque para parar';
+      sub.textContent   = 'Fale de forma natural';
+      icon.innerHTML = `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>`;
+      wave.classList.add('show');
+      /* Build wave bars */
+      const wb = document.getElementById('wave-bars');
+      wb.innerHTML = '';
+      for (let i = 0; i < 24; i++) {
+        const b = document.createElement('div');
+        b.className = 'wave-bar';
+        b.style.animationDelay = (i * 0.06) + 's';
+        b.style.height = (20 + Math.random() * 20) + 'px';
+        wb.appendChild(b);
+      }
+      /* Timer */
+      recInterval = setInterval(() => {
+        recSecs++;
+        const m = Math.floor(recSecs / 60);
+        const s = recSecs % 60;
+        timer.textContent = m + ':' + s.toString().padStart(2,'0');
+      }, 1000);
+    } else {
+      isRecording = false;
+      clearInterval(recInterval);
+      btn.classList.remove('recording');
+      wave.classList.remove('show');
+      const mins = Math.floor(recSecs / 60);
+      const secs = recSecs % 60;
+      if (recSecs < 10) {
+        title.textContent = 'Gravação muito curta';
+        sub.textContent   = 'Mínimo 3 minutos de fala';
+        showToast('Gravação muito curta. Mínimo 3 minutos.');
+      } else {
+        title.textContent = `Gravação salva — ${mins}m ${secs}s`;
+        sub.textContent   = recSecs >= 180 ? 'Duração suficiente ✓' : 'Ainda precisamos de mais ' + (180-recSecs) + 's';
+        showToast(recSecs >= 180 ? `Gravação de ${mins}m ${secs}s salva!` : `Gravando pausa — ${180-recSecs}s faltando`);
+      }
+      icon.innerHTML = `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>`;
+      recSecs = 0;
+    }
+  }
+
+  /* ── SOCIAL ── */
+  function connectSocial(id) {
+    const card = document.getElementById('sc-' + id);
+    if (!card) return;
+    const name = card.querySelector('.social-name').textContent;
+    card.classList.remove('deferred');
+    card.classList.add('connected');
+    const action = card.querySelector('.social-action');
+    action.innerHTML = `<div class="badge-connected"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Conectado</div>`;
+    showToast(name + ' conectado com sucesso!');
+  }
+
+  function deferSocial(id) {
+    const card = document.getElementById('sc-' + id);
+    if (!card) return;
+    const name = card.querySelector('.social-name').textContent;
+    card.classList.add('deferred');
+    const action = card.querySelector('.social-action');
+    action.innerHTML = `<div class="badge-deferred">SM configura</div>`;
+    showToast(name + ' — sua SM vai configurar depois');
+  }
+
+  /* ── TOAST ── */
+  function showToast(msg) {
+    const el = document.getElementById('toast');
+    document.getElementById('toast-text').textContent = msg;
+    el.classList.add('show');
+    clearTimeout(el._t);
+    el._t = setTimeout(() => el.classList.remove('show'), 3000);
+  }
+</script>
+</body>
+</html>

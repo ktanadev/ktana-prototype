@@ -1,0 +1,1181 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>KTANA — Dashboard Agência</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Zen+Dots&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+
+    :root {
+      --brand:      #D70030;
+      --brand-dark: #A60028;
+      --black:      #0A0A0A;
+      --dark:       #1D1D1F;
+      --sidebar:    #111111;
+      --gray:       #6E6E73;
+      --gray-mid:   #86868B;
+      --gray-light: #AEAEB2;
+      --success:    #30D158;
+      --warning:    #FF9F0A;
+      --error:      #FF3B30;
+      --info:       #007AFF;
+      --border:     #1F1F1F;
+      --border-mid: #2D2D2D;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html, body { height: 100%; overflow: hidden; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--black);
+      color: #fff;
+      font-size: 14px;
+      display: flex;
+    }
+
+    /* ======= SIDEBAR ======= */
+    .sidebar {
+      width: 240px;
+      min-width: 240px;
+      height: 100vh;
+      background: var(--sidebar);
+      border-right: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      overflow-y: auto;
+      flex-shrink: 0;
+    }
+
+    .sidebar-logo {
+      padding: 20px 20px 16px;
+      border-bottom: 1px solid var(--border);
+    }
+    .sidebar-logo-text {
+      font-family: 'Zen Dots', sans-serif;
+      font-size: 20px;
+      color: var(--brand);
+    }
+    .sidebar-logo-sub {
+      font-size: 10px;
+      color: var(--gray);
+      margin-top: 2px;
+      letter-spacing: 0.04em;
+    }
+
+    .sidebar-nav { flex: 1; padding: 12px 8px; }
+
+    .nav-group-label {
+      font-size: 10px; font-weight: 600;
+      text-transform: uppercase; letter-spacing: 0.08em;
+      color: var(--gray);
+      padding: 10px 12px 6px;
+    }
+
+    .nav-item {
+      display: flex; align-items: center; gap: 10px;
+      height: 44px; padding: 0 12px;
+      border-radius: 8px; margin: 1px 0;
+      cursor: pointer; text-decoration: none;
+      font-size: 13px; color: var(--gray-light);
+      transition: all 0.2s cubic-bezier(.32,.72,0,1);
+      position: relative; user-select: none;
+    }
+    .nav-item:hover { background: rgba(255,255,255,0.04); color: #fff; }
+    .nav-item.active { background: rgba(215,0,48,0.1); color: #fff; }
+    .nav-item.active::before {
+      content: '';
+      position: absolute; left: 0; top: 50%;
+      transform: translateY(-50%);
+      width: 3px; height: 20px;
+      background: var(--brand); border-radius: 0 2px 2px 0;
+    }
+    .nav-badge {
+      margin-left: auto;
+      background: var(--brand);
+      border-radius: 100px;
+      min-width: 20px; height: 18px;
+      font-size: 10px; font-weight: 700;
+      display: flex; align-items: center; justify-content: center;
+      padding: 0 5px; color: #fff;
+    }
+    .nav-sub { padding-left: 28px; }
+
+    .sidebar-footer {
+      padding: 16px 12px;
+      border-top: 1px solid var(--border);
+    }
+    .user-row {
+      display: flex; align-items: center; gap: 10px;
+      padding: 8px; border-radius: 8px; cursor: pointer;
+      transition: background 0.2s;
+    }
+    .user-row:hover { background: rgba(255,255,255,0.04); }
+    .user-avatar {
+      width: 32px; height: 32px; border-radius: 50%;
+      background: linear-gradient(135deg, var(--brand), var(--brand-dark));
+      display: flex; align-items: center; justify-content: center;
+      font-size: 12px; font-weight: 700; flex-shrink: 0;
+    }
+    .user-name { font-size: 13px; font-weight: 500; color: #fff; }
+    .user-role { font-size: 11px; color: var(--gray); }
+
+    /* ======= MAIN ======= */
+    .main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      min-width: 0;
+    }
+
+    /* ======= TOP BAR (KPI BAR — Zona 1) ======= */
+    .kpi-bar {
+      background: var(--dark);
+      border-bottom: 1px solid var(--border-mid);
+      padding: 0 24px;
+      flex-shrink: 0;
+    }
+    .kpi-bar-header {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 12px 0 10px;
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+    }
+    .agency-name {
+      font-family: 'Zen Dots', sans-serif;
+      font-size: 14px; color: var(--gray-light);
+    }
+    .kpi-grid {
+      display: flex; gap: 0;
+      padding: 4px 0 0;
+    }
+    .kpi-card {
+      flex: 1; padding: 12px 20px 14px 0;
+      border-right: 1px solid var(--border-mid);
+      min-width: 0;
+    }
+    .kpi-card:last-child { border-right: none; padding-right: 0; }
+    .kpi-card:first-child { padding-left: 0; }
+    .kpi-card:not(:first-child) { padding-left: 20px; }
+
+    .kpi-value {
+      font-family: 'Zen Dots', sans-serif;
+      font-size: 24px; color: #fff;
+      line-height: 1;
+      white-space: nowrap;
+    }
+    .kpi-label { font-size: 11px; color: var(--gray); margin-top: 4px; white-space: nowrap; }
+    .kpi-delta { font-size: 10px; margin-top: 3px; }
+    .delta-up   { color: #16A34A; }
+    .delta-down { color: var(--brand); }
+    .delta-warn { color: var(--warning); }
+
+    /* ======= CONTENT AREA ======= */
+    .content {
+      flex: 1;
+      display: grid;
+      grid-template-columns: 5fr 7fr;
+      gap: 0;
+      overflow: hidden;
+    }
+
+    /* ======= ZONA 2 (esquerda) ======= */
+    .zone2 {
+      overflow-y: auto;
+      border-right: 1px solid var(--border);
+      padding: 20px 20px 20px 24px;
+      display: flex; flex-direction: column; gap: 16px;
+    }
+
+    /* ======= ZONA 3 (direita) ======= */
+    .zone3 {
+      overflow-y: auto;
+      padding: 20px 24px;
+    }
+
+    /* Scrollbar */
+    ::-webkit-scrollbar { width: 4px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: #2D2D2D; border-radius: 2px; }
+
+    /* ======= BLOCK CARD ======= */
+    .block {
+      background: var(--dark);
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: 16px;
+      overflow: hidden;
+    }
+    .block-header {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 14px 16px 12px;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+    }
+    .block-title {
+      font-size: 11px; font-weight: 600;
+      text-transform: uppercase; letter-spacing: 0.08em;
+      color: var(--gray);
+      display: flex; align-items: center; gap: 6px;
+    }
+    .block-count {
+      font-size: 10px; font-weight: 700;
+      background: rgba(215,0,48,0.15); color: var(--brand);
+      border-radius: 100px; padding: 2px 8px;
+    }
+    .block-action {
+      font-size: 11px; color: var(--gray);
+      cursor: pointer; text-decoration: none;
+      transition: color 0.2s;
+    }
+    .block-action:hover { color: var(--brand); }
+
+    /* ======= URGENCY ITEMS ======= */
+    .urgency-item {
+      display: flex; align-items: flex-start; gap: 10px;
+      padding: 12px 16px;
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+      transition: background 0.2s;
+    }
+    .urgency-item:last-child { border-bottom: none; }
+    .urgency-item:hover { background: rgba(255,255,255,0.02); }
+
+    .urgency-icon {
+      width: 28px; height: 28px; border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 13px; flex-shrink: 0; margin-top: 1px;
+    }
+    .urgency-icon.critical { background: rgba(215,0,48,0.15); }
+    .urgency-icon.high     { background: rgba(255,159,10,0.15); }
+    .urgency-icon.medium   { background: rgba(37,99,235,0.15); }
+
+    .urgency-body { flex: 1; min-width: 0; }
+    .urgency-founder { font-size: 13px; font-weight: 600; color: #fff; }
+    .urgency-desc { font-size: 12px; color: var(--gray-mid); margin-top: 2px; line-height: 1.4; }
+    .urgency-actions { display: flex; gap: 6px; margin-top: 8px; flex-wrap: wrap; }
+
+    .cta-btn {
+      padding: 4px 10px; border-radius: 6px; border: none;
+      font-size: 11px; font-weight: 600;
+      cursor: pointer; font-family: 'Inter', sans-serif;
+      transition: all 0.2s;
+    }
+    .cta-primary { background: var(--brand); color: #fff; }
+    .cta-primary:hover { background: var(--brand-dark); }
+    .cta-ghost { background: rgba(255,255,255,0.07); color: var(--gray-light); }
+    .cta-ghost:hover { background: rgba(255,255,255,0.12); color: #fff; }
+    .cta-whatsapp { background: rgba(37,211,102,0.15); color: #25D366; }
+    .cta-whatsapp:hover { background: rgba(37,211,102,0.25); }
+
+    /* ======= APPROVAL QUEUE ======= */
+    .approval-item {
+      display: flex; align-items: center; gap: 10px;
+      padding: 10px 16px;
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+      transition: background 0.2s;
+      cursor: pointer;
+    }
+    .approval-item:last-child { border-bottom: none; }
+    .approval-item:hover { background: rgba(255,255,255,0.02); }
+    .approval-item.selected { background: rgba(215,0,48,0.06); }
+
+    .approval-checkbox {
+      width: 16px; height: 16px; border-radius: 4px;
+      border: 1.5px solid #3D3D3D;
+      flex-shrink: 0; cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      transition: all 0.2s;
+    }
+    .approval-checkbox.checked {
+      background: var(--brand); border-color: var(--brand);
+    }
+
+    .content-badge {
+      padding: 2px 6px; border-radius: 4px;
+      font-size: 9px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.06em;
+      flex-shrink: 0;
+    }
+    .badge-reel  { background: rgba(215,0,48,0.15);  color: var(--brand); }
+    .badge-post  { background: rgba(0,122,255,0.15);  color: var(--info); }
+    .badge-carou { background: rgba(124,58,237,0.15); color: #7C3AED; }
+    .badge-story { background: rgba(255,159,10,0.15); color: var(--warning); }
+
+    .approval-info { flex: 1; min-width: 0; }
+    .approval-name { font-size: 12px; color: var(--gray-mid); }
+    .approval-title { font-size: 13px; font-weight: 500; color: #fff; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+    .humanity-badge {
+      font-size: 11px; font-weight: 700;
+      padding: 2px 8px; border-radius: 100px; flex-shrink: 0;
+    }
+    .hum-green { background: rgba(48,209,88,0.15);  color: var(--success); }
+    .hum-amber { background: rgba(255,159,10,0.15); color: var(--warning); }
+    .hum-red   { background: rgba(215,0,48,0.15);   color: var(--brand); }
+
+    .approval-btn-row { display: flex; gap: 4px; flex-shrink: 0; }
+    .icon-btn {
+      width: 28px; height: 28px; border-radius: 6px;
+      background: rgba(255,255,255,0.06); border: none;
+      color: var(--gray-light); cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      transition: all 0.2s;
+    }
+    .icon-btn:hover { background: rgba(255,255,255,0.12); color: #fff; }
+    .icon-btn.approve:hover { background: rgba(48,209,88,0.2); color: var(--success); }
+    .icon-btn.edit:hover { background: rgba(0,122,255,0.2); color: var(--info); }
+
+    /* Batch approve bar */
+    .batch-bar {
+      display: none; padding: 10px 16px;
+      background: rgba(215,0,48,0.08);
+      border-top: 1px solid rgba(215,0,48,0.2);
+      align-items: center; justify-content: space-between;
+    }
+    .batch-bar.show { display: flex; }
+    .batch-count { font-size: 13px; color: var(--brand); font-weight: 600; }
+    .batch-approve-btn {
+      background: var(--brand); color: #fff;
+      border: none; border-radius: 8px;
+      padding: 6px 14px; font-size: 12px; font-weight: 600;
+      cursor: pointer; font-family: 'Inter', sans-serif;
+      transition: background 0.2s;
+    }
+    .batch-approve-btn:hover { background: var(--brand-dark); }
+
+    /* ======= PHASES BLOCK ======= */
+    .phase-row {
+      display: flex; align-items: center; gap: 10px;
+      padding: 8px 16px;
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+    }
+    .phase-row:last-child { border-bottom: none; }
+    .phase-label { font-size: 11px; font-weight: 600; color: var(--gray-mid); width: 20px; flex-shrink: 0; }
+    .phase-bar-wrap { flex: 1; background: rgba(255,255,255,0.06); border-radius: 100px; height: 6px; overflow: hidden; }
+    .phase-bar { height: 100%; border-radius: 100px; transition: width 0.6s ease; }
+    .phase-count { font-size: 12px; color: var(--gray-mid); width: 30px; text-align: right; flex-shrink: 0; }
+
+    .autonomous-banner {
+      margin: 0 16px 12px;
+      padding: 10px 12px;
+      background: rgba(124,58,237,0.08);
+      border: 1px solid rgba(124,58,237,0.3);
+      border-radius: 10px;
+      display: flex; align-items: center; gap: 10px;
+    }
+    .autonomous-dot { width: 8px; height: 8px; border-radius: 50%; background: #7C3AED; flex-shrink: 0; }
+    .autonomous-text { font-size: 12px; color: var(--gray-light); flex: 1; }
+    .autonomous-link { font-size: 11px; color: #7C3AED; cursor: pointer; white-space: nowrap; }
+    .autonomous-link:hover { text-decoration: underline; }
+
+    /* ======= ZONA 3 — FEED ======= */
+    .feed-header {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 16px;
+    }
+    .feed-title {
+      font-family: 'Zen Dots', sans-serif;
+      font-size: 16px; color: #fff;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .live-dot {
+      width: 8px; height: 8px; border-radius: 50%; background: var(--success);
+      animation: pulse-dot 2s infinite;
+    }
+    @keyframes pulse-dot { 0%,100%{opacity:1;transform:scale(1);} 50%{opacity:0.6;transform:scale(1.3);} }
+
+    /* Tabs */
+    .tabs { display: flex; gap: 4px; margin-bottom: 16px; }
+    .tab {
+      padding: 6px 14px; border-radius: 8px;
+      font-size: 12px; font-weight: 500;
+      cursor: pointer; border: none;
+      background: transparent; color: var(--gray-mid);
+      font-family: 'Inter', sans-serif;
+      transition: all 0.2s;
+    }
+    .tab.active { background: rgba(255,255,255,0.08); color: #fff; }
+    .tab:hover:not(.active) { background: rgba(255,255,255,0.04); color: var(--gray-light); }
+
+    /* Feed items */
+    .feed-item {
+      display: flex; align-items: flex-start; gap: 10px;
+      padding: 12px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+      animation: slide-in 0.3s ease forwards;
+    }
+    .feed-item:last-child { border-bottom: none; }
+    @keyframes slide-in { from { opacity:0; transform:translateY(-8px); } to { opacity:1; transform:translateY(0); } }
+
+    .feed-time {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px; color: var(--gray);
+      min-width: 40px; margin-top: 2px; flex-shrink: 0;
+    }
+
+    .agent-badge {
+      padding: 2px 7px; border-radius: 6px;
+      font-size: 10px; font-weight: 700;
+      flex-shrink: 0; margin-top: 1px;
+    }
+    .agent-quill    { background: rgba(124,58,237,0.15); color: #7C3AED; }
+    .agent-scout    { background: rgba(37,99,235,0.15);  color: #2563EB; }
+    .agent-sentinela{ background: rgba(215,0,48,0.15);   color: var(--brand); }
+    .agent-pulse    { background: rgba(22,163,74,0.15);  color: #16A34A; }
+    .agent-director { background: rgba(234,219,98,0.15); color: #EADB62; }
+    .agent-canvas   { background: rgba(255,159,10,0.15); color: var(--warning); }
+    .agent-system   { background: rgba(110,110,115,0.15);color: var(--gray-mid); }
+
+    .feed-body { flex: 1; min-width: 0; }
+    .feed-founder { font-size: 12px; font-weight: 600; color: #fff; display: inline; }
+    .feed-summary { font-size: 12px; color: var(--gray-light); line-height: 1.4; margin-top: 2px; }
+
+    .severity-dot {
+      width: 6px; height: 6px; border-radius: 50%;
+      flex-shrink: 0; margin-top: 6px;
+    }
+    .sev-info     { background: var(--gray-mid); }
+    .sev-warning  { background: var(--warning); }
+    .sev-critical { background: var(--error); }
+
+    .feed-status-icon { flex-shrink: 0; margin-top: 2px; font-size: 13px; }
+
+    .load-more-btn {
+      width: 100%; padding: 10px; margin-top: 8px;
+      background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 10px; color: var(--gray-mid);
+      font-size: 12px; cursor: pointer; font-family: 'Inter', sans-serif;
+      transition: all 0.2s;
+    }
+    .load-more-btn:hover { background: rgba(255,255,255,0.07); color: var(--gray-light); }
+
+    /* Notification bell */
+    .notif-btn {
+      position: relative;
+      width: 36px; height: 36px; border-radius: 10px;
+      background: rgba(255,255,255,0.06); border: none;
+      color: var(--gray-light); cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      transition: all 0.2s;
+    }
+    .notif-btn:hover { background: rgba(255,255,255,0.1); color: #fff; }
+    .notif-badge {
+      position: absolute; top: -4px; right: -4px;
+      background: var(--brand); border-radius: 50%;
+      min-width: 18px; height: 18px;
+      font-size: 10px; font-weight: 700;
+      display: flex; align-items: center; justify-content: center;
+      color: #fff; padding: 0 4px;
+      border: 2px solid var(--sidebar);
+    }
+
+    /* ======= RESPONSIVE ======= */
+    @media (max-width: 768px) {
+      .sidebar { display: none; }
+      .content { grid-template-columns: 1fr; }
+      .zone3 { display: none; }
+      body { overflow: auto; }
+      .main { overflow: auto; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation: none !important; transition: none !important; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ======= SIDEBAR 240px ======= -->
+<aside class="sidebar">
+  <div class="sidebar-logo">
+    <div class="sidebar-logo-text">KTANA</div>
+    <div class="sidebar-logo-sub">Pipeline de Conteúdo IA</div>
+  </div>
+
+  <nav class="sidebar-nav">
+    <div class="nav-group-label">Principal</div>
+    <a class="nav-item active" href="#">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+      Dashboard
+    </a>
+    <a class="nav-item" href="#">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="8" r="4"/><path d="M6 20v-2a6 6 0 0112 0v2"/></svg>
+      Founders
+      <span class="nav-badge" style="margin-left:auto;">18</span>
+    </a>
+    <a class="nav-item" href="#">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+      Aprovações
+      <span class="nav-badge" style="margin-left:auto;">7</span>
+    </a>
+    <a class="nav-item" href="#">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+      Calendário
+    </a>
+    <a class="nav-item" href="#">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+      Métricas
+    </a>
+
+    <div class="nav-group-label" style="margin-top:8px;">Agentes IA</div>
+    <a class="nav-item" href="#">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+      Motor Autopilot
+    </a>
+    <a class="nav-item nav-sub" href="#">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#7C3AED" stroke-width="1.5"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+      <span style="color:#7C3AED;">Quill</span>
+    </a>
+    <a class="nav-item nav-sub" href="#">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#2563EB" stroke-width="1.5"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+      <span style="color:#2563EB;">Scout</span>
+    </a>
+    <a class="nav-item nav-sub" href="#">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--brand)" stroke-width="1.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+      <span style="color:var(--brand);">Sentinela</span>
+    </a>
+
+    <div class="nav-group-label" style="margin-top:8px;">Configurações</div>
+    <a class="nav-item" href="#">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+      Agência
+    </a>
+    <a class="nav-item" href="#">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93l-1.42 1.42M4.93 4.93l1.42 1.42M19.07 19.07l-1.42-1.42M4.93 19.07l1.42-1.42M21 12h-1M4 12H3M12 4V3M12 21v-1"/></svg>
+      Configurações
+    </a>
+    <a class="nav-item" href="#">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-2 2 2 2 0 01-2-2v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 01-2-2 2 2 0 012-2h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 010-2.83 2 2 0 012.83 0l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 012-2 2 2 0 012 2v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 0 2 2 0 010 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 012 2 2 2 0 01-2 2h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
+      Integrações
+    </a>
+    <a class="nav-item" href="#">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
+      API & Vault
+    </a>
+    <a class="nav-item" href="#">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+      Cérebro IA
+    </a>
+  </nav>
+
+  <div class="sidebar-footer">
+    <div class="user-row">
+      <div class="user-avatar">CM</div>
+      <div>
+        <div class="user-name">Camila Moraes</div>
+        <div class="user-role">Social Media Manager</div>
+      </div>
+    </div>
+  </div>
+</aside>
+
+<!-- ======= MAIN AREA ======= -->
+<div class="main">
+
+  <!-- ZONA 1 — KPI BAR -->
+  <div class="kpi-bar">
+    <div class="kpi-bar-header">
+      <div class="agency-name">Agência NovaMídia</div>
+      <div style="display:flex; align-items:center; gap:10px;">
+        <span style="font-size:10px; color:var(--gray); font-family:'JetBrains Mono',monospace;">24/abr · 09:47</span>
+        <button class="notif-btn" id="notif-btn" onclick="toggleNotifPanel()">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9M13.73 21a2 2 0 01-3.46 0"/></svg>
+          <span class="notif-badge">3</span>
+        </button>
+        <div class="user-avatar" style="width:32px; height:32px; font-size:11px; cursor:pointer;">CM</div>
+      </div>
+    </div>
+
+    <div class="kpi-grid">
+      <!-- KPI 1 -->
+      <div class="kpi-card">
+        <div class="kpi-value" id="kpi-founders">18</div>
+        <div class="kpi-label">founders ativos</div>
+        <div class="kpi-delta delta-up">↑ +3 este mês</div>
+      </div>
+      <!-- KPI 2 -->
+      <div class="kpi-card">
+        <div class="kpi-value" id="kpi-posts">142</div>
+        <div class="kpi-label">posts / semana</div>
+        <div class="kpi-delta delta-up">↑ 12% vs semana ant.</div>
+      </div>
+      <!-- KPI 3 -->
+      <div class="kpi-card">
+        <div class="kpi-value">7</div>
+        <div class="kpi-label">agentes rodando</div>
+        <div class="kpi-delta delta-warn">⚠ 1 em warning</div>
+      </div>
+      <!-- KPI 4 -->
+      <div class="kpi-card">
+        <div class="kpi-value">R$26,4k</div>
+        <div class="kpi-label">MRR</div>
+        <div class="kpi-delta delta-up">↑ +8% vs mês ant.</div>
+      </div>
+      <!-- KPI 5 -->
+      <div class="kpi-card">
+        <div class="kpi-value">4.2%</div>
+        <div class="kpi-label">engajamento médio</div>
+        <div class="kpi-delta delta-up">↑ +0.3pp</div>
+      </div>
+      <!-- KPI 6 -->
+      <div class="kpi-card">
+        <div class="kpi-value">93%</div>
+        <div class="kpi-label">score humanidade</div>
+        <div class="kpi-delta delta-up">↑ +2pp</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ZONAS 2+3 -->
+  <div class="content">
+
+    <!-- ZONA 2 — Urgências, Aprovações, Status -->
+    <div class="zone2">
+
+      <!-- 2A — URGÊNCIAS -->
+      <div class="block">
+        <div class="block-header">
+          <div class="block-title">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="var(--warning)" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+            URGÊNCIAS
+            <span class="block-count">4</span>
+          </div>
+        </div>
+
+        <!-- Urgência 1 — Critical -->
+        <div class="urgency-item">
+          <div class="urgency-icon critical">🔴</div>
+          <div class="urgency-body">
+            <div class="urgency-founder">Pedro Souza</div>
+            <div class="urgency-desc">Modo Autônomo ativo há <strong style="color:var(--brand);">12 dias</strong> sem interação</div>
+            <div class="urgency-actions">
+              <button class="cta-btn cta-whatsapp">📱 Cobrar via WA</button>
+              <button class="cta-btn cta-ghost">Ver workspace →</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Urgência 2 — High -->
+        <div class="urgency-item">
+          <div class="urgency-icon high">⚠️</div>
+          <div class="urgency-body">
+            <div class="urgency-founder">Ana Costa</div>
+            <div class="urgency-desc">3 posts aguardando aprovação há mais de 2h</div>
+            <div class="urgency-actions">
+              <button class="cta-btn cta-primary" onclick="scrollToApprovals()">Aprovar agora</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Urgência 3 — High -->
+        <div class="urgency-item">
+          <div class="urgency-icon high">📸</div>
+          <div class="urgency-body">
+            <div class="urgency-founder">Carla Mendonça</div>
+            <div class="urgency-desc">Fotos do feed pendentes há <strong style="color:var(--warning);">5 dias</strong></div>
+            <div class="urgency-actions">
+              <button class="cta-btn cta-whatsapp">📱 Cobrar via WA</button>
+              <button class="cta-btn cta-ghost">Ver founder</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Urgência 4 — Medium -->
+        <div class="urgency-item">
+          <div class="urgency-icon medium">💡</div>
+          <div class="urgency-body">
+            <div class="urgency-founder">João Martins</div>
+            <div class="urgency-desc">Battle Plan atualizado — revisão necessária</div>
+            <div class="urgency-actions">
+              <button class="cta-btn cta-ghost">Ver plano →</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 2B — APROVAÇÕES -->
+      <div class="block" id="approvals-block">
+        <div class="block-header">
+          <div class="block-title">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="var(--success)" stroke-width="2"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+            APROVAÇÕES
+            <span class="block-count">7</span>
+          </div>
+          <a href="#" class="block-action">Ver fila →</a>
+        </div>
+
+        <!-- Items de aprovação -->
+        <div id="approval-list">
+          <div class="approval-item" onclick="toggleSelect(this)">
+            <div class="approval-checkbox" onclick="toggleCheckbox(event, this)"></div>
+            <span class="content-badge badge-carou">Carrossel</span>
+            <div class="approval-info">
+              <div class="approval-name">João Martins</div>
+              <div class="approval-title">7 métricas que todo CEO precisa...</div>
+            </div>
+            <span class="humanity-badge hum-green">94%</span>
+            <div class="approval-btn-row">
+              <button class="icon-btn approve" title="Aprovar" onclick="approveItem(event, this)">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+              </button>
+              <button class="icon-btn edit" title="Ajustar">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+              </button>
+            </div>
+          </div>
+
+          <div class="approval-item" onclick="toggleSelect(this)">
+            <div class="approval-checkbox" onclick="toggleCheckbox(event, this)"></div>
+            <span class="content-badge badge-reel">Reel</span>
+            <div class="approval-info">
+              <div class="approval-name">Ana Costa</div>
+              <div class="approval-title">Protocolo de Vendas em 5 Passos</div>
+            </div>
+            <span class="humanity-badge hum-green">91%</span>
+            <div class="approval-btn-row">
+              <button class="icon-btn approve" title="Aprovar" onclick="approveItem(event, this)">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+              </button>
+              <button class="icon-btn edit" title="Ajustar">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+              </button>
+            </div>
+          </div>
+
+          <div class="approval-item" onclick="toggleSelect(this)">
+            <div class="approval-checkbox" onclick="toggleCheckbox(event, this)"></div>
+            <span class="content-badge badge-post">Post</span>
+            <div class="approval-info">
+              <div class="approval-name">Carlos Ferreira</div>
+              <div class="approval-title">Aos 28 anos aprendi que o CEO...</div>
+            </div>
+            <span class="humanity-badge hum-green">88%</span>
+            <div class="approval-btn-row">
+              <button class="icon-btn approve" title="Aprovar" onclick="approveItem(event, this)">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+              </button>
+              <button class="icon-btn edit" title="Ajustar">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+              </button>
+            </div>
+          </div>
+
+          <div class="approval-item" onclick="toggleSelect(this)">
+            <div class="approval-checkbox" onclick="toggleCheckbox(event, this)"></div>
+            <span class="content-badge badge-carou">Carrossel</span>
+            <div class="approval-info">
+              <div class="approval-name">Marcos Dias</div>
+              <div class="approval-title">Contratos que salvaram o meu negócio</div>
+            </div>
+            <span class="humanity-badge hum-green">96%</span>
+            <div class="approval-btn-row">
+              <button class="icon-btn approve" title="Aprovar" onclick="approveItem(event, this)">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+              </button>
+              <button class="icon-btn edit" title="Ajustar">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+              </button>
+            </div>
+          </div>
+
+          <div class="approval-item" onclick="toggleSelect(this)">
+            <div class="approval-checkbox" onclick="toggleCheckbox(event, this)"></div>
+            <span class="content-badge badge-story">Story</span>
+            <div class="approval-info">
+              <div class="approval-name">Letícia Rocha</div>
+              <div class="approval-title">Bastidores da reunião de board</div>
+            </div>
+            <span class="humanity-badge hum-amber">78%</span>
+            <div class="approval-btn-row">
+              <button class="icon-btn approve" title="Aprovar" onclick="approveItem(event, this)">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+              </button>
+              <button class="icon-btn edit" title="Ajustar">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+              </button>
+            </div>
+          </div>
+
+          <div class="approval-item" onclick="toggleSelect(this)">
+            <div class="approval-checkbox" onclick="toggleCheckbox(event, this)"></div>
+            <span class="content-badge badge-reel">Reel</span>
+            <div class="approval-info">
+              <div class="approval-name">Bruno Faria</div>
+              <div class="approval-title">O erro que quase acabou com a empresa</div>
+            </div>
+            <span class="humanity-badge hum-green">89%</span>
+            <div class="approval-btn-row">
+              <button class="icon-btn approve" title="Aprovar" onclick="approveItem(event, this)">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+              </button>
+              <button class="icon-btn edit" title="Ajustar">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+              </button>
+            </div>
+          </div>
+
+          <div class="approval-item" onclick="toggleSelect(this)">
+            <div class="approval-checkbox" onclick="toggleCheckbox(event, this)"></div>
+            <span class="content-badge badge-post">Post</span>
+            <div class="approval-info">
+              <div class="approval-name">Mariana Lima</div>
+              <div class="approval-title">Minha maior virada de chave em 2025</div>
+            </div>
+            <span class="humanity-badge hum-amber">82%</span>
+            <div class="approval-btn-row">
+              <button class="icon-btn approve" title="Aprovar" onclick="approveItem(event, this)">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+              </button>
+              <button class="icon-btn edit" title="Ajustar">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Batch bar -->
+        <div class="batch-bar" id="batch-bar">
+          <span class="batch-count" id="batch-count">0 selecionados</span>
+          <button class="batch-approve-btn" onclick="batchApprove()">Aprovar selecionados</button>
+        </div>
+      </div>
+
+      <!-- 2C — STATUS POR FASE -->
+      <div class="block">
+        <div class="block-header">
+          <div class="block-title">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="var(--info)" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+            STATUS POR FASE
+          </div>
+          <a href="#" class="block-action">Ver todos →</a>
+        </div>
+
+        <div class="autonomous-banner">
+          <div class="autonomous-dot"></div>
+          <div class="autonomous-text">Modo Autônomo: <strong>1 founder</strong> · Pedro Souza (12 dias)</div>
+          <span class="autonomous-link">Ver workspace →</span>
+        </div>
+
+        <div class="phase-row">
+          <span class="phase-label">F1</span>
+          <div class="phase-bar-wrap"><div class="phase-bar" style="width:22%; background:#4B5563;"></div></div>
+          <span class="phase-count" style="color:var(--gray);">4</span>
+        </div>
+        <div class="phase-row">
+          <span class="phase-label">F2</span>
+          <div class="phase-bar-wrap"><div class="phase-bar" style="width:28%; background:#2563EB;"></div></div>
+          <span class="phase-count" style="color:#2563EB;">5</span>
+        </div>
+        <div class="phase-row">
+          <span class="phase-label">F3</span>
+          <div class="phase-bar-wrap"><div class="phase-bar" style="width:39%; background:#7C3AED;"></div></div>
+          <span class="phase-count" style="color:#7C3AED;">7</span>
+        </div>
+        <div class="phase-row">
+          <span class="phase-label">F4</span>
+          <div class="phase-bar-wrap"><div class="phase-bar" style="width:6%; background:#16A34A;"></div></div>
+          <span class="phase-count" style="color:#16A34A;">1</span>
+        </div>
+        <div class="phase-row">
+          <span class="phase-label">F5</span>
+          <div class="phase-bar-wrap"><div class="phase-bar" style="width:6%; background:#EADB62;"></div></div>
+          <span class="phase-count" style="color:#EADB62;">1</span>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ZONA 3 — FEED EM TEMPO REAL -->
+    <div class="zone3">
+
+      <div class="feed-header">
+        <div class="feed-title">
+          🤖 Motor Autopilot
+          <div class="live-dot" title="Feed ao vivo"></div>
+        </div>
+        <span style="font-size:11px; color:var(--gray-mid); font-family:'JetBrains Mono',monospace;">WebSocket ativo</span>
+      </div>
+
+      <!-- Tabs de filtro temporal -->
+      <div class="tabs">
+        <button class="tab active" onclick="switchTab(this, 'today')">Hoje</button>
+        <button class="tab" onclick="switchTab(this, 'yesterday')">Ontem</button>
+        <button class="tab" onclick="switchTab(this, 'week')">Esta semana</button>
+      </div>
+
+      <!-- Feed items — 8 mockados com agentes variados -->
+      <div id="feed-list">
+        <div class="feed-item">
+          <div class="feed-time">09:47</div>
+          <span class="agent-badge agent-quill">Quill</span>
+          <div class="feed-body">
+            <span class="feed-founder">João Martins</span>
+            <div class="feed-summary">Gerou carrossel IG "7 métricas que todo CEO precisa" · Score humanidade: 94%</div>
+          </div>
+          <div class="severity-dot sev-info"></div>
+          <div class="feed-status-icon">✅</div>
+        </div>
+
+        <div class="feed-item">
+          <div class="feed-time">09:32</div>
+          <span class="agent-badge agent-scout">Scout</span>
+          <div class="feed-body">
+            <span class="feed-founder">Ana Costa</span>
+            <div class="feed-summary">Atualizou análise de concorrente · TechStartups.com.br · 3 novos posts detectados</div>
+          </div>
+          <div class="severity-dot sev-info"></div>
+          <div class="feed-status-icon">✅</div>
+        </div>
+
+        <div class="feed-item">
+          <div class="feed-time">09:18</div>
+          <span class="agent-badge agent-sentinela">Sentinela</span>
+          <div class="feed-body">
+            <span class="feed-founder">Ana Costa</span>
+            <div class="feed-summary">TechBR Blog publicou novo anúncio · Ameaça aumentou para <strong style="color:var(--warning);">72/100</strong></div>
+          </div>
+          <div class="severity-dot sev-warning"></div>
+          <div class="feed-status-icon">⚠️</div>
+        </div>
+
+        <div class="feed-item">
+          <div class="feed-time">09:05</div>
+          <span class="agent-badge agent-pulse">Pulse</span>
+          <div class="feed-body">
+            <span class="feed-founder">Pedro Souza</span>
+            <div class="feed-summary">Lembrete de retorno enviado via WhatsApp · Modo autônomo há 12 dias</div>
+          </div>
+          <div class="severity-dot sev-warning"></div>
+          <div class="feed-status-icon">✅</div>
+        </div>
+
+        <div class="feed-item">
+          <div class="feed-time">08:55</div>
+          <span class="agent-badge agent-director">Director</span>
+          <div class="feed-body">
+            <span class="feed-founder">Carlos Ferreira</span>
+            <div class="feed-summary">Avatar editorial atualizado · Novo estilo "executivo contemporâneo" aprovado</div>
+          </div>
+          <div class="severity-dot sev-info"></div>
+          <div class="feed-status-icon">✅</div>
+        </div>
+
+        <div class="feed-item">
+          <div class="feed-time">08:42</div>
+          <span class="agent-badge agent-quill">Quill</span>
+          <div class="feed-body">
+            <span class="feed-founder">Letícia Rocha</span>
+            <div class="feed-summary">Reel gerado "Bastidores do board" aguardando aprovação · Humanidade: 78%</div>
+          </div>
+          <div class="severity-dot sev-info"></div>
+          <div class="feed-status-icon">🕐</div>
+        </div>
+
+        <div class="feed-item">
+          <div class="feed-time">08:31</div>
+          <span class="agent-badge agent-canvas">Canvas</span>
+          <div class="feed-body">
+            <span class="feed-founder">Marcos Dias</span>
+            <div class="feed-summary">Gerou 4 templates visuais para campanha de contratos · Pronto para revisão</div>
+          </div>
+          <div class="severity-dot sev-info"></div>
+          <div class="feed-status-icon">✅</div>
+        </div>
+
+        <div class="feed-item">
+          <div class="feed-time">08:19</div>
+          <span class="agent-badge agent-system">Sistema</span>
+          <div class="feed-body">
+            <span class="feed-founder">Agência</span>
+            <div class="feed-summary">View materializada agency_dashboard_stats atualizada · 18 founders processados</div>
+          </div>
+          <div class="severity-dot sev-info"></div>
+          <div class="feed-status-icon">🔄</div>
+        </div>
+      </div>
+
+      <button class="load-more-btn" onclick="loadMore()">Carregar mais →</button>
+
+    </div>
+  </div>
+</div>
+
+<script>
+  // Approval checkboxes
+  let selectedCount = 0;
+
+  function toggleCheckbox(e, checkbox) {
+    e.stopPropagation();
+    checkbox.classList.toggle('checked');
+    if (checkbox.classList.contains('checked')) {
+      checkbox.innerHTML = '<svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>';
+    } else {
+      checkbox.innerHTML = '';
+    }
+    updateBatchBar();
+  }
+
+  function toggleSelect(item) {
+    item.classList.toggle('selected');
+    const checkbox = item.querySelector('.approval-checkbox');
+    if (item.classList.contains('selected')) {
+      checkbox.classList.add('checked');
+      checkbox.innerHTML = '<svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>';
+    } else {
+      checkbox.classList.remove('checked');
+      checkbox.innerHTML = '';
+    }
+    updateBatchBar();
+  }
+
+  function updateBatchBar() {
+    const checked = document.querySelectorAll('.approval-checkbox.checked').length;
+    selectedCount = checked;
+    const bar = document.getElementById('batch-bar');
+    const count = document.getElementById('batch-count');
+    if (checked > 0) {
+      bar.classList.add('show');
+      count.textContent = `${checked} selecionado${checked > 1 ? 's' : ''}`;
+    } else {
+      bar.classList.remove('show');
+    }
+  }
+
+  function approveItem(e, btn) {
+    e.stopPropagation();
+    const item = btn.closest('.approval-item');
+    item.style.animation = 'fade-out 0.3s ease forwards';
+    item.style.opacity = '0.5';
+    item.style.transform = 'translateX(20px)';
+    item.style.transition = 'all 0.3s ease';
+    setTimeout(() => { item.remove(); updateBatchBar(); updateCount(); }, 300);
+  }
+
+  function batchApprove() {
+    const selected = document.querySelectorAll('.approval-item.selected');
+    selected.forEach(item => {
+      item.style.opacity = '0';
+      item.style.transform = 'translateX(20px)';
+      item.style.transition = 'all 0.3s ease';
+      setTimeout(() => { item.remove(); }, 300);
+    });
+    setTimeout(() => { updateBatchBar(); updateCount(); }, 350);
+  }
+
+  function updateCount() {
+    const remaining = document.querySelectorAll('.approval-item').length;
+    document.querySelector('.block:nth-child(2) .block-count').textContent = remaining;
+    // Atualiza nav badge
+    const navBadge = document.querySelectorAll('.nav-badge')[1];
+    if (navBadge) navBadge.textContent = remaining;
+  }
+
+  // Scroll to approvals
+  function scrollToApprovals() {
+    document.getElementById('approvals-block').scrollIntoView({ behavior: 'smooth' });
+  }
+
+  // Tabs
+  function switchTab(btn, period) {
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    btn.classList.add('active');
+  }
+
+  // Notif panel (simples)
+  function toggleNotifPanel() {
+    const panel = document.getElementById('notif-panel');
+    if (!panel) {
+      const p = document.createElement('div');
+      p.id = 'notif-panel';
+      p.style.cssText = `
+        position: fixed; top: 56px; right: 12px;
+        width: 340px; background: #1D1D1F;
+        border: 1px solid #2D2D2D; border-radius: 16px;
+        box-shadow: 0 8px 40px rgba(0,0,0,0.5);
+        z-index: 1000; overflow: hidden;
+        animation: slide-in 0.2s ease;
+      `;
+      p.innerHTML = `
+        <div style="padding:14px 16px; border-bottom:1px solid #2D2D2D; display:flex; justify-content:space-between; align-items:center;">
+          <span style="font-family:'Zen Dots',sans-serif; font-size:13px; color:#fff;">🔔 Notificações</span>
+          <span style="font-size:11px; color:#D70030; cursor:pointer;" onclick="document.getElementById('notif-panel').remove()">Fechar</span>
+        </div>
+        ${[
+          { icon: '🔴', title: 'Pedro Souza — Modo Autônomo', body: 'Ativo há 12 dias sem retorno', time: 'agora', dot: '#D70030' },
+          { icon: '✅', title: '7 peças aguardando aprovação', body: 'Fila de aprovação com posts prontos', time: '2h', dot: '#30D158' },
+          { icon: '⚠️', title: 'TechBR Blog — ameaça detectada', body: 'Novo anúncio concorrente identificado', time: '3h', dot: '#FF9F0A' },
+          { icon: 'ℹ️', title: 'Ana Costa — Reel aprovado', body: 'Founder aprovou conteúdo via app', time: '5h', dot: '#007AFF' },
+          { icon: '🎯', title: 'Onboarding completo', body: 'Mariana Lima concluiu configuração', time: '7h', dot: '#30D158' },
+        ].map(n => `
+          <div style="padding:12px 16px; border-bottom:1px solid #1F1F1F; display:flex; gap:10px; cursor:pointer; transition:background 0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.03)'" onmouseout="this.style.background='transparent'">
+            <div style="width:8px; height:8px; border-radius:50%; background:${n.dot}; flex-shrink:0; margin-top:4px;"></div>
+            <div style="flex:1; min-width:0;">
+              <div style="font-size:12px; font-weight:600; color:#fff;">${n.title}</div>
+              <div style="font-size:11px; color:#86868B; margin-top:2px;">${n.body}</div>
+            </div>
+            <span style="font-size:10px; color:#5D5D5D; flex-shrink:0; margin-top:2px; font-family:'JetBrains Mono',monospace;">${n.time}</span>
+          </div>
+        `).join('')}
+        <div style="padding:12px 16px; display:flex; justify-content:space-between; background:#111;">
+          <button onclick="document.getElementById('notif-panel').remove()" style="font-size:11px; color:#86868B; background:none; border:none; cursor:pointer; font-family:'Inter',sans-serif;">Marcar todas lidas</button>
+          <a href="#" style="font-size:11px; color:#D70030; text-decoration:none;">Ver todas →</a>
+        </div>
+      `;
+      document.body.appendChild(p);
+      setTimeout(() => {
+        document.addEventListener('click', (e) => {
+          if (!p.contains(e.target) && e.target !== document.getElementById('notif-btn')) p.remove();
+        }, { once: true });
+      }, 100);
+    } else {
+      panel.remove();
+    }
+  }
+
+  // Load more
+  function loadMore() {
+    const list = document.getElementById('feed-list');
+    const newItems = [
+      { time: '08:03', agent: 'Quill', agentClass: 'agent-quill', founder: 'Bruno Faria', summary: 'Reel "O erro que quase acabou..." gerado · Aguardando aprovação', sev: 'sev-info', icon: '✅' },
+      { time: '07:55', agent: 'Scout', agentClass: 'agent-scout', founder: 'Mariana Lima', summary: 'Monitoramento semanal concluído · 12 concorrentes analisados', sev: 'sev-info', icon: '✅' },
+      { time: '07:48', agent: 'Sentinela', agentClass: 'agent-sentinela', founder: 'Carlos Ferreira', summary: 'Scan de segurança: nenhuma ameaça crítica detectada', sev: 'sev-info', icon: '🔒' },
+    ];
+    newItems.forEach((item, i) => {
+      const div = document.createElement('div');
+      div.className = 'feed-item';
+      div.style.animationDelay = `${i * 0.08}s`;
+      div.innerHTML = `
+        <div class="feed-time">${item.time}</div>
+        <span class="agent-badge ${item.agentClass}">${item.agent}</span>
+        <div class="feed-body">
+          <span class="feed-founder">${item.founder}</span>
+          <div class="feed-summary">${item.summary}</div>
+        </div>
+        <div class="severity-dot ${item.sev}"></div>
+        <div class="feed-status-icon">${item.icon}</div>
+      `;
+      list.appendChild(div);
+    });
+  }
+
+  // KPI counter animation
+  function animateCounter(el, to, duration) {
+    const start = performance.now();
+    const from = 0;
+    const easeOut = t => 1 - Math.pow(1 - t, 3);
+    const tick = now => {
+      const t = Math.min((now - start) / duration, 1);
+      el.textContent = Math.round(from + (to - from) * easeOut(t));
+      if (t < 1) requestAnimationFrame(tick);
+    };
+    requestAnimationFrame(tick);
+  }
+
+  window.addEventListener('load', () => {
+    setTimeout(() => animateCounter(document.getElementById('kpi-founders'), 18, 800), 200);
+    setTimeout(() => animateCounter(document.getElementById('kpi-posts'), 142, 1000), 400);
+  });
+</script>
+</body>
+</html>

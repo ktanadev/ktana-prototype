@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Protótipos — Meta Ads Pipeline</title>
+<link href="https://fonts.googleapis.com/css2?family=Zen+Dots&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: #000; color: #fff; font-family: 'Inter', sans-serif; min-height: 100vh; padding: 40px 24px; }
+  .header { margin-bottom: 40px; }
+  .logo { font-family: 'Zen Dots', cursive; color: #D70030; font-size: 28px; letter-spacing: 1px; }
+  .subtitle { color: #6B7280; font-size: 14px; margin-top: 6px; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 16px; }
+  .card {
+    background: #111; border: 1px solid rgba(215,0,48,0.25); border-radius: 10px;
+    padding: 20px; text-decoration: none; color: inherit; display: block;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+  .card:hover { border-color: rgba(215,0,48,0.6); box-shadow: 0 4px 24px rgba(215,0,48,0.1); }
+  .card-num { font-size: 11px; color: #6B7280; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; }
+  .card-title { font-size: 16px; font-weight: 600; margin-bottom: 6px; }
+  .card-desc { font-size: 13px; color: #A1A1A6; line-height: 1.5; }
+  .card-actor { display: inline-block; margin-top: 12px; font-size: 11px; background: rgba(215,0,48,0.12); color: #D70030; border: 1px solid rgba(215,0,48,0.25); border-radius: 20px; padding: 2px 10px; }
+  .card.wip { opacity: 0.5; pointer-events: none; }
+  .card.wip .card-num::after { content: ' · em breve'; }
+  .section-title { font-size: 11px; color: #6B7280; text-transform: uppercase; letter-spacing: 1px; margin: 32px 0 12px; }
+</style>
+</head>
+<body>
+<div class="header">
+  <div class="logo">META ADS PIPELINE</div>
+  <div class="subtitle">Protótipos HTML — Navegáveis e interativos</div>
+</div>
+
+<div class="section-title">Agência — Camada Core</div>
+<div class="grid">
+  <a href="07-dashboard-agencia.html" class="card">
+    <div class="card-num">07 — Dashboard Agência</div>
+    <div class="card-title">Dashboard Principal</div>
+    <div class="card-desc">KPI bar, urgências do dia, fila de aprovação, feed em tempo real do motor autopilot.</div>
+    <span class="card-actor">PO_SM · Camila</span>
+  </a>
+  <a href="21-area-aprovacao.html" class="card">
+    <div class="card-num">21 — Área de Aprovação</div>
+    <div class="card-title">Central de Aprovações</div>
+    <div class="card-desc">Fila completa de posts aguardando aprovação, visualização de peças, aprovação individual e em lote.</div>
+    <span class="card-actor">PO_SM · Camila</span>
+  </a>
+  <div class="card wip">
+    <div class="card-num">06 — Founders</div>
+    <div class="card-title">Gestão de Founders</div>
+    <div class="card-desc">Lista de founders, onboarding, status por fase, workspace individual.</div>
+    <span class="card-actor">PO_OW · Rafael</span>
+  </div>
+  <div class="card wip">
+    <div class="card-num">08 — Calendário Editorial</div>
+    <div class="card-title">Calendário</div>
+    <div class="card-desc">Visão semanal de posts agendados, publicados e em rascunho por founder.</div>
+    <span class="card-actor">PO_SM · Camila</span>
+  </div>
+  <div class="card wip">
+    <div class="card-num">09 — Relatórios</div>
+    <div class="card-title">Relatórios & Analytics</div>
+    <div class="card-desc">Engajamento, crescimento de seguidores, posts publicados, MRR por founder.</div>
+    <span class="card-actor">PO_OW · Rafael</span>
+  </div>
+  <div class="card wip">
+    <div class="card-num">10 — Configurações</div>
+    <div class="card-title">Configurações da Agência</div>
+    <div class="card-desc">Gestão de SMs, integrações, Evolution API, planos e billing.</div>
+    <span class="card-actor">PO_OW · Rafael</span>
+  </div>
+</div>
+
+<div class="section-title">Agentes IA</div>
+<div class="grid">
+  <div class="card wip">
+    <div class="card-num">30 — Quill</div>
+    <div class="card-title">Agente Quill — Geração</div>
+    <div class="card-desc">Interface de geração de conteúdo, prompts, score de humanidade, revisão.</div>
+    <span class="card-actor">Sistema interno</span>
+  </div>
+  <div class="card wip">
+    <div class="card-num">31 — Sentinela</div>
+    <div class="card-title">Agente Sentinela — Monitoramento</div>
+    <div class="card-desc">Dashboard de ameaças, score por concorrente, histórico de alertas.</div>
+    <span class="card-actor">Sistema interno</span>
+  </div>
+</div>
+</body>
+</html>

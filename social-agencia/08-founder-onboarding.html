@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=375px,initial-scale=1">
+<title>08 — Onboarding do Founder</title>
+<link href="https://fonts.googleapis.com/css2?family=Zen+Dots&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{--r:#D70030;--rb:rgba(215,0,48,.3);--rg:rgba(215,0,48,.1);--rd:rgba(215,0,48,.15);--bg:#000;--card:#1D1D1F;--sur:#0A0A0A;--mu:#3D3D3D;--sub:#9B9B9B;--gr:#22C55E;--br:rgba(255,255,255,.08)}
+body{background:var(--bg);color:#fff;font-family:'Inter',sans-serif;font-size:14px;display:flex;justify-content:center}
+.phone{width:375px;min-height:100vh;background:var(--sur);display:flex;flex-direction:column;overflow:hidden}
+/* topbar */
+.topbar{padding:14px 20px 10px;border-bottom:1px solid var(--br);font-family:'Zen Dots',sans-serif;font-size:16px;color:var(--r)}
+/* stepper */
+.stepper-wrap{padding:14px 20px 4px}
+.stepper-track{display:flex;align-items:center}
+.sc{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:600;flex-shrink:0;border:2px solid var(--mu);color:var(--sub);transition:all .2s}
+.sc.done{background:var(--gr);border-color:var(--gr);color:#fff}
+.sc.active{background:var(--r);border-color:var(--r);color:#fff;box-shadow:0 0 12px rgba(215,0,48,.4)}
+.sl{flex:1;height:2px;background:var(--mu)}.sl.done{background:var(--gr)}.sl.active{background:var(--r)}
+.step-labels{display:flex;justify-content:space-between;margin-top:6px;margin-bottom:10px}
+.sl-txt{font-size:9px;color:var(--sub);text-align:center;width:52px;line-height:1.2}
+.sl-txt.active{color:var(--r);font-weight:600}.sl-txt.done{color:var(--gr)}
+/* progress */
+.prog-wrap{padding:0 20px 10px}
+.prog-bg{background:var(--mu);height:3px;border-radius:2px;overflow:hidden}
+.prog-fill{background:var(--r);height:100%;width:20%;transition:width .4s ease}
+.prog-txt{font-size:11px;color:var(--sub);margin-top:5px}
+/* main */
+.main{flex:1;overflow-y:auto;padding:18px 20px 110px}
+.step-tag{font-size:11px;color:var(--sub);margin-bottom:12px;display:flex;align-items:center;gap:6px}
+.step-tag span{width:6px;height:6px;border-radius:50%;background:var(--r);display:inline-block}
+.step-title{font-family:'Zen Dots',sans-serif;font-size:18px;margin-bottom:4px}
+.step-sub{font-size:13px;color:var(--sub);margin-bottom:20px;line-height:1.5}
+/* done card */
+.done-card{background:var(--card);border:1px solid rgba(34,197,94,.3);border-radius:12px;padding:12px 14px;margin-bottom:16px;display:flex;gap:10px;align-items:flex-start}
+.chk{width:20px;height:20px;border-radius:50%;background:var(--gr);display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px}
+.chk svg{width:11px;height:11px}
+.done-title{font-size:12px;font-weight:600;color:var(--gr);margin-bottom:3px}
+.done-row{font-size:12px;color:var(--sub)}.done-row b{color:#fff;font-weight:500}
+/* form */
+.card{background:var(--card);border:1px solid var(--rb);border-radius:16px;padding:20px;transition:box-shadow .2s}
+.card:hover{box-shadow:0 0 20px var(--rg)}
+.fg{margin-bottom:18px}.fg:last-child{margin-bottom:0}
+label{display:block;font-size:12px;font-weight:600;color:var(--sub);margin-bottom:6px;letter-spacing:.03em;text-transform:uppercase}
+label .req{color:var(--r)}
+input,select,textarea{width:100%;background:#141414;border:1px solid rgba(255,255,255,.1);border-radius:10px;color:#fff;font-family:'Inter',sans-serif;font-size:15px;padding:12px 14px;outline:none;transition:border-color .2s,box-shadow .2s;-webkit-appearance:none;appearance:none;min-height:48px}
+input:focus,select:focus,textarea:focus{border-color:var(--r);box-shadow:0 0 0 3px rgba(215,0,48,.12)}
+input::placeholder,textarea::placeholder{color:var(--mu);font-size:14px}
+textarea{resize:none;min-height:88px;line-height:1.5}
+.sel-wrap{position:relative}.sel-wrap::after{content:'';pointer-events:none;position:absolute;right:14px;top:50%;transform:translateY(-50%);border:5px solid transparent;border-top-color:var(--sub)}
+select{cursor:pointer}select option{background:#1D1D1F}
+.hint{font-size:11px;color:var(--sub);margin-top:4px}
+.divider{height:1px;background:var(--br);margin:16px 0}
+/* chips */
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{background:#141414;border:1px solid rgba(255,255,255,.1);border-radius:20px;padding:8px 14px;font-size:13px;color:var(--sub);cursor:pointer;transition:all .15s;min-height:36px;display:flex;align-items:center;user-select:none}
+.chip.sel{background:var(--rd);border-color:var(--r);color:#fff;font-weight:500}
+.chip:active{transform:scale(.97)}
+/* info banner */
+.banner{background:rgba(215,0,48,.07);border:1px solid rgba(215,0,48,.2);border-left:3px solid var(--r);border-radius:10px;padding:12px 14px;font-size:12px;color:var(--sub);line-height:1.5;margin-bottom:16px}
+/* bottom nav */
+.bottom{position:fixed;bottom:0;width:375px;background:linear-gradient(to top,var(--sur) 70%,transparent);padding:14px 20px 20px;display:flex;flex-direction:column;gap:8px}
+.btn-row{display:flex;gap:10px}
+.btn-back{flex:1;min-height:48px;background:transparent;border:1px solid var(--br);border-radius:12px;color:var(--sub);font-family:'Inter',sans-serif;font-size:13px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px;transition:all .2s}
+.btn-back:hover{border-color:rgba(255,255,255,.2);color:#fff}
+.btn-next{flex:2;min-height:52px;background:var(--r);border:none;border-radius:12px;color:#fff;font-family:'Zen Dots',sans-serif;font-size:13px;letter-spacing:.04em;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;transition:all .15s}
+.btn-next:hover{background:#b5002a;box-shadow:0 4px 20px rgba(215,0,48,.4)}
+.btn-next:active{transform:scale(.98)}
+/* demo nav */
+.demo{background:#0A0A0A;border-top:1px solid var(--br);padding:8px 16px;display:flex;gap:6px}
+.db{flex:1;background:#141414;border:1px solid var(--br);border-radius:6px;color:var(--sub);font-size:10px;padding:6px 4px;cursor:pointer;text-align:center;transition:all .15s}
+.db:hover,.db.active{background:var(--rd);border-color:var(--r);color:#fff}
+/* screens */
+.screen{display:none}
+.screen.vis{display:block;animation:slide .25s ease}
+@keyframes slide{from{opacity:0;transform:translateX(16px)}to{opacity:1;transform:translateX(0)}}
+</style>
+</head>
+<body>
+<div class="phone">
+
+  <div class="topbar">KTANA</div>
+
+  <div class="stepper-wrap">
+    <div class="stepper-track">
+      <div class="sc done" id="c1"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-5" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      <div class="sl done" id="l1"></div>
+      <div class="sc active" id="c2">2</div>
+      <div class="sl" id="l2"></div>
+      <div class="sc" id="c3">3</div>
+      <div class="sl" id="l3"></div>
+      <div class="sc" id="c4">4</div>
+      <div class="sl" id="l4"></div>
+      <div class="sc" id="c5">5</div>
+    </div>
+    <div class="step-labels">
+      <div class="sl-txt done">Dados<br>Pessoais</div>
+      <div class="sl-txt active" id="lb2">Empresa</div>
+      <div class="sl-txt" id="lb3">Meta Ads</div>
+      <div class="sl-txt" id="lb4">Avatar</div>
+      <div class="sl-txt" id="lb5">Finalizar</div>
+    </div>
+  </div>
+
+  <div class="prog-wrap">
+    <div class="prog-bg"><div class="prog-fill" id="pf"></div></div>
+    <div class="prog-txt" id="pt">Etapa 2 de 5 — 20% concluido</div>
+  </div>
+
+  <div class="main">
+
+    <!-- S1: Dados Pessoais (concluido) -->
+    <div class="screen" id="s1">
+      <div class="step-tag"><span></span>Etapa 1 de 5</div>
+      <div class="step-title">Dados Pessoais</div>
+      <div class="step-sub">Informacoes do founder.</div>
+      <div class="done-card">
+        <div class="chk"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-5" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div>
+          <div class="done-title">Etapa concluida</div>
+          <div class="done-row">Nome: <b>Marcelo Silva</b></div>
+          <div class="done-row">E-mail: <b>marcelo@empresa.com.br</b></div>
+          <div class="done-row">Telefone: <b>(11) 99999-4321</b></div>
+        </div>
+      </div>
+      <div class="banner">Dados salvos. Clique em "Proximo" para continuar.</div>
+    </div>
+
+    <!-- S2: Empresa (ATIVA) -->
+    <div class="screen vis" id="s2">
+      <div class="step-tag"><span></span>Etapa 2 de 5</div>
+      <div class="step-title">Sua Empresa</div>
+      <div class="step-sub">Conte sobre seu negocio para personalizar sua estrategia.</div>
+
+      <div class="done-card" style="margin-bottom:18px">
+        <div class="chk"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-5" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div>
+          <div class="done-title">Etapa 1 concluida</div>
+          <div class="done-row">Marcelo Silva &nbsp;·&nbsp; marcelo@empresa.com.br</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="fg">
+          <label>Nome da Empresa <span class="req">*</span></label>
+          <input type="text" placeholder="Ex: Silva Consultorias Ltda">
+        </div>
+        <div class="fg">
+          <label>CNPJ <span class="req">*</span></label>
+          <input type="text" placeholder="00.000.000/0001-00">
+          <div class="hint">Sera validado automaticamente.</div>
+        </div>
+        <div class="fg">
+          <label>Segmento <span class="req">*</span></label>
+          <div class="chips" id="segs">
+            <div class="chip" onclick="sel1(this)">Consultoria</div>
+            <div class="chip" onclick="sel1(this)">Tecnologia</div>
+            <div class="chip" onclick="sel1(this)">Varejo</div>
+            <div class="chip" onclick="sel1(this)">Saude</div>
+            <div class="chip" onclick="sel1(this)">Educacao</div>
+            <div class="chip" onclick="sel1(this)">Financeiro</div>
+            <div class="chip" onclick="sel1(this)">Industria</div>
+            <div class="chip" onclick="sel1(this)">Outro</div>
+          </div>
+        </div>
+        <div class="divider"></div>
+        <div class="fg">
+          <label>Porte</label>
+          <div class="sel-wrap">
+            <select><option value="" disabled selected>Selecione o porte</option>
+              <option>MEI (ate R$81k/ano)</option><option>Micro (ate R$360k/ano)</option>
+              <option>Pequena (ate R$4,8M/ano)</option><option>Media (ate R$300M/ano)</option>
+              <option>Grande (+R$300M/ano)</option>
+            </select>
+          </div>
+        </div>
+        <div class="fg">
+          <label>Site / Link Principal</label>
+          <input type="url" placeholder="https://www.suaempresa.com.br">
+          <div class="hint">Instagram, LinkedIn ou site. Qualquer link publico.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- S3: Meta Ads -->
+    <div class="screen" id="s3">
+      <div class="step-tag"><span></span>Etapa 3 de 5</div>
+      <div class="step-title">Meta Ads Config</div>
+      <div class="step-sub">Configure sua conta de anuncios para as campanhas.</div>
+      <div class="card">
+        <div class="fg">
+          <label>ID da Conta de Anuncios <span class="req">*</span></label>
+          <input type="text" placeholder="act_XXXXXXXXXXXXXXXXX">
+          <div class="hint">Gerenciador de Anuncios → Configuracoes da Conta.</div>
+        </div>
+        <div class="fg">
+          <label>Pagina do Facebook <span class="req">*</span></label>
+          <input type="text" placeholder="Nome ou ID da pagina">
+        </div>
+        <div class="fg">
+          <label>Perfil do Instagram</label>
+          <input type="text" placeholder="@seuperfil">
+        </div>
+        <div class="divider"></div>
+        <div class="fg">
+          <label>Objetivo das Campanhas</label>
+          <div class="sel-wrap">
+            <select><option value="" disabled selected>Selecione o objetivo</option>
+              <option>Gerar Leads</option><option>Vendas / Conversoes</option>
+              <option>Trafego para o Site</option><option>Reconhecimento de Marca</option>
+            </select>
+          </div>
+        </div>
+        <div class="fg">
+          <label>Orcamento Mensal</label>
+          <div class="sel-wrap">
+            <select><option value="" disabled selected>Selecione a faixa</option>
+              <option>Ate R$1.000</option><option>R$1.000 – 5.000</option>
+              <option>R$5.000 – 15.000</option><option>Acima de R$15.000</option>
+            </select>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- S4: Avatar / Clone -->
+    <div class="screen" id="s4">
+      <div class="step-tag"><span></span>Etapa 4 de 5</div>
+      <div class="step-title">Avatar & Clone</div>
+      <div class="step-sub">Defina seu publico-alvo e posicionamento de marca.</div>
+      <div class="card">
+        <div class="fg">
+          <label>Descricao do Avatar Ideal <span class="req">*</span></label>
+          <textarea placeholder="Ex: Dono de PME, 35-50 anos, renda acima de R$15k, busca escalar o negocio..."></textarea>
+        </div>
+        <div class="fg">
+          <label>Tom de Voz</label>
+          <div class="chips">
+            <div class="chip" onclick="selM(this)">Profissional</div>
+            <div class="chip" onclick="selM(this)">Direto</div>
+            <div class="chip" onclick="selM(this)">Provocador</div>
+            <div class="chip" onclick="selM(this)">Amigavel</div>
+            <div class="chip" onclick="selM(this)">Tecnico</div>
+            <div class="chip" onclick="selM(this)">Inspirador</div>
+          </div>
+        </div>
+        <div class="divider"></div>
+        <div class="fg">
+          <label>Estilo Visual do Criativo</label>
+          <div class="sel-wrap">
+            <select><option value="" disabled selected>Selecione um estilo</option>
+              <option>Corporate Premium</option><option>Tech CEO</option>
+              <option>Lifestyle Casual</option><option>Speaker / Autoridade</option>
+              <option>Editorial</option><option>Criativo</option>
+            </select>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- S5: Finalizar -->
+    <div class="screen" id="s5">
+      <div class="step-tag"><span></span>Etapa 5 de 5</div>
+      <div class="step-title">Quase pronto!</div>
+      <div class="step-sub">Revise e finalize seu onboarding.</div>
+      <div class="card" style="margin-bottom:14px">
+        <div style="font-size:12px;font-weight:600;color:var(--sub);text-transform:uppercase;letter-spacing:.03em;margin-bottom:12px">Resumo</div>
+        <div style="display:flex;flex-direction:column;gap:10px">
+          <div style="display:flex;justify-content:space-between;padding-bottom:8px;border-bottom:1px solid var(--br)"><span style="color:var(--sub);font-size:13px">Founder</span><span style="font-size:13px;font-weight:500">Marcelo Silva</span></div>
+          <div style="display:flex;justify-content:space-between;padding-bottom:8px;border-bottom:1px solid var(--br)"><span style="color:var(--sub);font-size:13px">Empresa</span><span style="font-size:13px;font-weight:500">— a preencher</span></div>
+          <div style="display:flex;justify-content:space-between;padding-bottom:8px;border-bottom:1px solid var(--br)"><span style="color:var(--sub);font-size:13px">Segmento</span><span style="font-size:13px;font-weight:500" id="sumSeg">— a preencher</span></div>
+          <div style="display:flex;justify-content:space-between"><span style="color:var(--sub);font-size:13px">Meta Ads</span><span style="font-size:13px;font-weight:500">Configurar</span></div>
+        </div>
+      </div>
+      <div class="banner">Ao finalizar, sua SM sera notificada e o Brand Book entrara em producao em ate 7 dias.</div>
+      <div style="background:rgba(34,197,94,.06);border:1px solid rgba(34,197,94,.2);border-radius:10px;padding:12px 14px;font-size:12px;color:var(--sub);line-height:1.6">
+        <b style="color:var(--gr);display:block;margin-bottom:3px">O que acontece a seguir:</b>
+        Analise do perfil → Calendario editorial → Criativos para aprovacao → Campanhas no ar
+      </div>
+    </div>
+
+  </div><!-- /main -->
+
+  <!-- BOTTOM -->
+  <div class="bottom">
+    <div class="btn-row">
+      <button class="btn-back" id="bBack" onclick="goBack()">
+        <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M8 10L4 6.5 8 3" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        Voltar
+      </button>
+      <button class="btn-next" id="bNext" onclick="goNext()">
+        Salvar e continuar
+        <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M5 3l4 3.5L5 10" stroke="#fff" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- DEMO NAV -->
+  <div class="demo">
+    <div class="db" onclick="jump(1,this)">1</div>
+    <div class="db active" onclick="jump(2,this)">2 ●</div>
+    <div class="db" onclick="jump(3,this)">3</div>
+    <div class="db" onclick="jump(4,this)">4</div>
+    <div class="db" onclick="jump(5,this)">5</div>
+  </div>
+
+</div>
+<script>
+let cur=2;const T=5;
+const lbls=[,'Dados Pessoais','Empresa','Meta Ads Config','Avatar & Clone','Finalizar'];
+const pcts=[0,0,20,40,60,80];
+
+function render(s){
+  // screens
+  document.querySelectorAll('.screen').forEach(x=>x.classList.remove('vis'));
+  document.getElementById('s'+s).classList.add('vis');
+  // progress
+  const p=pcts[s];
+  document.getElementById('pf').style.width=p+'%';
+  document.getElementById('pt').textContent=`Etapa ${s} de ${T} — ${p}% concluido`;
+  // stepper circles
+  for(let i=1;i<=T;i++){
+    const c=document.getElementById('c'+i);
+    if(!c)continue;
+    c.className='sc';
+    if(i<s){c.classList.add('done');c.innerHTML='<svg viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-5" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>';}
+    else if(i===s){c.classList.add('active');c.textContent=i;}
+    else{c.textContent=i;}
+  }
+  // lines
+  for(let i=1;i<T;i++){
+    const l=document.getElementById('l'+i);
+    if(!l)continue;
+    l.className='sl';
+    if(i<s)l.classList.add('done');
+    else if(i===s)l.classList.add('active');
+  }
+  // labels
+  document.querySelectorAll('.sl-txt').forEach((el,i)=>{
+    el.className='sl-txt';
+    if(i+1<s)el.classList.add('done');
+    else if(i+1===s)el.classList.add('active');
+  });
+  // back btn
+  const bb=document.getElementById('bBack');
+  bb.style.opacity=s===1?'.3':'1';
+  bb.style.pointerEvents=s===1?'none':'auto';
+  // next btn label
+  const nb=document.getElementById('bNext');
+  nb.innerHTML=s===T
+    ?'Finalizar <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M5 3l4 3.5L5 10" stroke="#fff" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>'
+    :'Salvar e continuar <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M5 3l4 3.5L5 10" stroke="#fff" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+  // demo nav
+  document.querySelectorAll('.db').forEach((b,i)=>b.classList.toggle('active',i+1===s));
+}
+
+function goNext(){
+  if(cur<T){cur++;render(cur);}
+  else{
+    const nb=document.getElementById('bNext');
+    nb.textContent='Enviando...';nb.style.opacity='.7';
+    setTimeout(()=>{nb.innerHTML='Concluido ✓';nb.style.background='#22C55E';},1100);
+  }
+}
+function goBack(){if(cur>1){cur--;render(cur);}}
+function jump(s){cur=s;render(s);}
+function sel1(el){el.closest('.chips').querySelectorAll('.chip').forEach(c=>c.classList.remove('sel'));el.classList.add('sel');document.getElementById('sumSeg').textContent=el.textContent;}
+function selM(el){el.classList.toggle('sel');}
+
+render(2);
+</script>
+</body>
+</html>

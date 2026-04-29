@@ -1,0 +1,650 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Calendário Editorial — KTANA AI</title>
+<link href="https://fonts.googleapis.com/css2?family=Zen+Dots&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --brand:#D70030; --brand-dark:#9B0A2A; --brand-alpha:rgba(215,0,48,0.10);
+  --t1:#1D1D1F; --t2:#6E6E73; --t3:#AEAEB2;
+  --bg:#F5F5F7; --surface:#FFFFFF; --s2:#FAFAFA; --s3:#F0F0F5;
+  --border:#E8E8ED; --border-l:#F2F2F7;
+  --shadow:0 1px 3px rgba(0,0,0,0.06),0 4px 16px rgba(0,0,0,0.04);
+  --sbtn:0 2px 8px rgba(215,0,48,0.28);
+  --r8:8px; --r12:12px; --r16:16px; --rF:9999px;
+  /* Platform */
+  --lk:#0A66C2; --ig:#E1306C; --tk:#000000; --tw:#1DA1F2;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%;background:var(--bg);font-family:'Inter',sans-serif;color:var(--t1)}
+
+/* DEMO NAV */
+.demo-nav{position:fixed;top:0;left:0;right:0;z-index:9999;background:rgba(215,0,48,.96);backdrop-filter:blur(10px);padding:8px 16px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.demo-nav span{font-size:11px;font-weight:700;color:rgba(255,255,255,.6);letter-spacing:.05em;margin-right:4px}
+.demo-nav a{font-size:11px;color:#fff;text-decoration:none;padding:3px 10px;border-radius:20px;background:rgba(255,255,255,.15);white-space:nowrap}
+.demo-nav a:hover{background:rgba(255,255,255,.25)}
+.demo-nav a.cur{background:rgba(255,255,255,.3);font-weight:700}
+
+/* SHELL */
+.shell{display:flex;height:100vh;overflow:hidden;padding-top:36px}
+
+/* SIDEBAR */
+.sidebar{width:240px;background:var(--surface);border-right:.5px solid var(--border);display:flex;flex-direction:column;flex-shrink:0;overflow-y:auto}
+.sb-logo{padding:20px 20px 16px;border-bottom:.5px solid var(--border)}
+.sb-logo-name{font-family:'Zen Dots',sans-serif;font-size:16px;color:var(--brand)}
+.sb-logo-name span{color:var(--t1)}
+.sb-agency{font-size:11px;color:var(--t3);margin-top:2px}
+.sb-group{padding:16px 12px 8px}
+.sb-group-label{font-size:10px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--t3);padding:0 8px;margin-bottom:4px}
+.sb-item{display:flex;align-items:center;gap:10px;padding:9px 10px;border-radius:var(--r8);font-size:13px;color:var(--t2);cursor:pointer;transition:all .15s;text-decoration:none}
+.sb-item svg{flex-shrink:0;opacity:.6}
+.sb-item:hover{background:var(--s2);color:var(--t1)}
+.sb-item.active{background:var(--brand-alpha);color:var(--brand);font-weight:600}
+.sb-item.active svg{opacity:1;stroke:var(--brand)}
+.sb-badge{margin-left:auto;min-width:18px;height:18px;padding:0 5px;border-radius:var(--rF);background:var(--brand);color:#fff;font-size:10px;font-weight:700;display:flex;align-items:center;justify-content:center}
+.sb-avatar{margin-top:auto;padding:16px;border-top:.5px solid var(--border);display:flex;align-items:center;gap:10px}
+.sb-av-pic{width:32px;height:32px;border-radius:50%;background:var(--brand-alpha);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:var(--brand)}
+.sb-av-name{font-size:13px;font-weight:600}
+.sb-av-role{font-size:11px;color:var(--t3)}
+
+/* MAIN */
+.main{flex:1;display:flex;flex-direction:column;overflow:hidden}
+
+/* TOPBAR */
+.topbar{height:56px;background:var(--surface);border-bottom:.5px solid var(--border);display:flex;align-items:center;padding:0 20px;gap:12px;flex-shrink:0}
+.topbar-title{font-family:'Zen Dots',sans-serif;font-size:16px;color:var(--t1)}
+.tb-sep{width:1px;height:20px;background:var(--border)}
+.tb-actions{margin-left:auto;display:flex;align-items:center;gap:8px}
+.btn-outline{height:34px;padding:0 14px;border-radius:var(--r8);border:1px solid var(--border);background:var(--surface);font-size:13px;font-weight:500;color:var(--t1);cursor:pointer;font-family:'Inter',sans-serif;display:flex;align-items:center;gap:6px;transition:all .15s}
+.btn-outline:hover{border-color:var(--t3);background:var(--s2)}
+.btn-prim{height:34px;padding:0 14px;border-radius:var(--r8);background:linear-gradient(135deg,var(--brand),var(--brand-dark));color:#fff;font-size:13px;font-weight:600;border:none;cursor:pointer;font-family:'Inter',sans-serif;display:flex;align-items:center;gap:6px;box-shadow:var(--sbtn);transition:opacity .15s}
+.btn-prim:hover{opacity:.88}
+.btn-prim:disabled{opacity:.4;cursor:not-allowed}
+.select-founder{height:34px;padding:0 10px 0 12px;border-radius:var(--r8);border:1px solid var(--border);background:var(--surface);font-size:13px;color:var(--t1);font-family:'Inter',sans-serif;outline:none;cursor:pointer}
+.view-tabs{display:flex;border:1px solid var(--border);border-radius:var(--r8);overflow:hidden}
+.view-tab{height:32px;padding:0 12px;border:none;background:var(--surface);font-size:12px;font-weight:500;color:var(--t2);cursor:pointer;font-family:'Inter',sans-serif;transition:all .15s}
+.view-tab.active{background:var(--bg);color:var(--brand);font-weight:600}
+
+/* CAL HEADER */
+.cal-header{background:var(--surface);border-bottom:.5px solid var(--border);padding:12px 20px;display:flex;align-items:center;gap:16px;flex-shrink:0}
+.cal-nav{display:flex;align-items:center;gap:10px}
+.cal-nav button{width:28px;height:28px;border-radius:var(--r8);border:1px solid var(--border);background:var(--surface);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:background .1s}
+.cal-nav button:hover{background:var(--s2)}
+.cal-period{font-size:14px;font-weight:600;min-width:160px;text-align:center}
+.cal-alert{margin-left:auto;background:rgba(255,149,0,.08);border:1px solid rgba(255,149,0,.25);border-radius:var(--r8);padding:6px 12px;font-size:12px;color:#A05C00;display:flex;align-items:center;gap:6px}
+
+/* WEEKLY VIEW */
+#view-week{flex:1;overflow:hidden;display:flex;flex-direction:column}
+.cal-week-grid{flex:1;overflow:auto;display:grid;grid-template-columns:52px repeat(7,1fr)}
+
+/* Column headers */
+.col-hdr{position:sticky;top:0;z-index:10;background:var(--surface);border-bottom:.5px solid var(--border);padding:8px 4px;text-align:center;font-size:11px;font-weight:700;color:var(--t2);border-right:.5px solid var(--border-l)}
+.col-hdr .col-date{font-size:18px;font-weight:700;color:var(--t1);margin-top:2px}
+.col-hdr.today{background:var(--brand-alpha)}
+.col-hdr.today .col-date{color:var(--brand)}
+.time-col{position:sticky;left:0;background:var(--surface);border-right:.5px solid var(--border-l);z-index:5}
+.time-lbl{height:60px;display:flex;align-items:flex-start;padding:4px 8px 0;font-size:10px;color:var(--t3);font-family:'JetBrains Mono',monospace;border-bottom:.5px solid var(--border-l)}
+.cal-cell{height:60px;border-right:.5px solid var(--border-l);border-bottom:.5px solid var(--border-l);padding:3px;cursor:pointer;transition:background .1s;position:relative}
+.cal-cell:hover{background:rgba(215,0,48,.03)}
+
+/* CALENDAR CARDS */
+.cal-card{border-radius:var(--r8);padding:5px 7px;font-size:10px;cursor:grab;transition:all .15s;border-left:3px solid transparent;background:var(--surface);box-shadow:var(--shadow);position:relative;height:52px;overflow:hidden}
+.cal-card:hover{transform:translateY(-1px);box-shadow:0 4px 12px rgba(0,0,0,.12)}
+.cal-card:active{cursor:grabbing}
+.cal-card.lk{border-left-color:var(--lk);background:rgba(10,102,194,.05)}
+.cal-card.ig{border-left-color:var(--ig);background:rgba(225,48,108,.05)}
+.cal-card.tk{border-left-color:#555;background:rgba(0,0,0,.04)}
+.cal-card.tw{border-left-color:var(--tw);background:rgba(29,161,242,.05)}
+.cal-card.dragging{opacity:.5;transform:scale(.95)}
+.card-plat{display:flex;align-items:center;gap:4px;margin-bottom:3px}
+.plat-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0}
+.plat-dot.lk{background:var(--lk)}
+.plat-dot.ig{background:var(--ig)}
+.plat-dot.tk{background:#555}
+.plat-dot.tw{background:var(--tw)}
+.plat-name{font-size:9px;font-weight:700;color:var(--t2);text-transform:uppercase;letter-spacing:.04em}
+.card-title{font-size:10px;font-weight:500;color:var(--t1);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-bottom:2px}
+.card-meta{display:flex;align-items:center;justify-content:space-between}
+.card-time{font-size:9px;color:var(--t3);font-family:'JetBrains Mono',monospace}
+.card-status{width:14px;height:14px;border-radius:50%;display:flex;align-items:center;justify-content:center}
+.card-status.published{background:rgba(52,199,89,.15)}
+.card-status.scheduled{background:rgba(255,149,0,.12)}
+.card-status.review{background:rgba(255,214,10,.15)}
+.card-status.rejected{background:rgba(215,0,48,.12)}
+.card-status.draft{background:var(--s3)}
+
+/* MONTHLY VIEW */
+#view-month{flex:1;overflow:auto;display:none}
+.month-grid{padding:20px}
+.month-hdr{display:grid;grid-template-columns:repeat(7,1fr);gap:1px;margin-bottom:8px}
+.month-day-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--t3);text-align:center;padding:8px}
+.month-cells{display:grid;grid-template-columns:repeat(7,1fr);gap:6px}
+.month-cell{background:var(--surface);border-radius:var(--r8);padding:10px 8px;min-height:80px;border:.5px solid var(--border);cursor:pointer;transition:border-color .15s}
+.month-cell:hover{border-color:var(--t3)}
+.month-cell.empty{background:transparent;border-color:transparent;cursor:default}
+.month-cell.today{border-color:var(--brand)}
+.month-date{font-size:13px;font-weight:600;color:var(--t2);margin-bottom:6px}
+.month-cell.today .month-date{color:var(--brand)}
+.month-dots{display:flex;flex-wrap:wrap;gap:3px}
+.m-dot{width:8px;height:8px;border-radius:50%}
+.m-dot.lk{background:var(--lk)}
+.m-dot.ig{background:var(--ig)}
+.m-dot.tk{background:#888}
+.m-dot.tw{background:var(--tw)}
+.month-gap{background:rgba(255,149,0,.1);border:1px solid rgba(255,149,0,.3);border-radius:4px;padding:2px 4px;font-size:9px;color:#A05C00;margin-top:4px;display:flex;align-items:center;gap:3px}
+
+/* LEGEND BAR */
+.legend-bar{background:var(--surface);border-top:.5px solid var(--border);padding:8px 20px;display:flex;align-items:center;gap:16px;flex-shrink:0}
+.legend-item{display:flex;align-items:center;gap:6px;font-size:11px;color:var(--t2)}
+.legend-dot{width:8px;height:8px;border-radius:50%}
+.legend-dot.pub{background:#34C759}
+.legend-dot.sch{background:#FF9500}
+.legend-dot.rev{background:#FFD60A}
+.legend-dot.rej{background:var(--brand)}
+.legend-dot.dra{background:var(--t3)}
+
+/* MODAL */
+.overlay{position:fixed;inset:0;background:rgba(0,0,0,.4);backdrop-filter:blur(4px);z-index:2000;display:none;align-items:center;justify-content:center}
+.overlay.show{display:flex}
+.modal{background:var(--surface);border-radius:var(--r16);padding:24px;width:100%;max-width:380px;box-shadow:0 20px 60px rgba(0,0,0,.15)}
+.modal-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px}
+.modal-title{font-family:'Zen Dots',sans-serif;font-size:16px}
+.btn-close{width:28px;height:28px;border-radius:50%;background:var(--s2);border:none;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:16px;color:var(--t2)}
+.form-group{margin-bottom:16px}
+.form-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--t3);margin-bottom:6px;display:block}
+.form-select,.form-input{width:100%;height:40px;border-radius:var(--r8);border:1px solid var(--border);padding:0 12px;font-size:13px;color:var(--t1);font-family:'Inter',sans-serif;outline:none;background:var(--surface)}
+.form-select:focus,.form-input:focus{border-color:var(--brand)}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.modal-footer{display:flex;gap:10px;margin-top:20px}
+.modal-footer .btn-prim{flex:1;height:44px;border-radius:var(--r8)}
+.modal-footer .btn-outline{height:44px;padding:0 16px;border-radius:var(--r8)}
+.content-option{background:var(--brand-alpha);border:1px solid rgba(215,0,48,.2);border-radius:var(--r8);padding:8px 12px;font-size:12px;color:var(--brand);display:flex;align-items:center;justify-content:space-between;margin-top:6px}
+
+/* TOAST */
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:var(--t1);border-radius:var(--r12);padding:12px 20px;font-size:13px;color:#fff;box-shadow:0 8px 32px rgba(0,0,0,.2);opacity:0;transition:opacity .3s;pointer-events:none;z-index:9999;white-space:nowrap}
+.toast.show{opacity:1}
+</style>
+</head>
+<body>
+
+<div class="demo-nav">
+  <span>KTANA v2</span>
+  <a href="index.html">Index</a>
+  <a href="dashboard.html">Dashboard</a>
+  <a href="founders.html">Founders</a>
+  <a href="brand-book.html">Brand Book</a>
+  <a href="fila-aprovacao.html">Fila SM</a>
+  <a href="pipeline-kanban.html">Kanban</a>
+  <a href="calendario.html" class="cur">Calendário</a>
+  <a href="concorrentes.html">Concorrentes</a>
+  <a href="status-agentes.html">Agentes</a>
+</div>
+
+<div class="shell">
+  <!-- SIDEBAR -->
+  <div class="sidebar">
+    <div class="sb-logo">
+      <div class="sb-logo-name">KTANA<span> AI</span></div>
+      <div class="sb-agency">Agência Rafael</div>
+    </div>
+    <div class="sb-group">
+      <div class="sb-group-label">Principal</div>
+      <a class="sb-item" href="dashboard.html">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+        Dashboard
+      </a>
+      <a class="sb-item" href="founders.html">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+        Founders
+        <span class="sb-badge">18</span>
+      </a>
+      <a class="sb-item" href="pipeline-kanban.html">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="4" height="18" rx="1"/><rect x="10" y="3" width="4" height="12" rx="1"/><rect x="17" y="3" width="4" height="8" rx="1"/></svg>
+        Pipeline
+      </a>
+      <a class="sb-item" href="fila-aprovacao.html">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+        Aprovações
+        <span class="sb-badge">7</span>
+      </a>
+    </div>
+    <div class="sb-group">
+      <div class="sb-group-label">Ferramentas</div>
+      <a class="sb-item active">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+        Calendário
+      </a>
+      <a class="sb-item" href="concorrentes.html">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 20V10M12 20V4M6 20v-6"/></svg>
+        Concorrentes
+      </a>
+      <a class="sb-item" href="status-agentes.html">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M4.22 4.22l2.12 2.12M17.66 17.66l2.12 2.12M2 12h3M19 12h3M4.22 19.78l2.12-2.12M17.66 6.34l2.12-2.12"/></svg>
+        Agentes
+      </a>
+    </div>
+    <div class="sb-avatar">
+      <div class="sb-av-pic">C</div>
+      <div>
+        <div class="sb-av-name">Camila SM</div>
+        <div class="sb-av-role">Social Media</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MAIN -->
+  <div class="main">
+    <!-- TOPBAR -->
+    <div class="topbar">
+      <div class="topbar-title">Calendário Editorial</div>
+      <div class="tb-sep"></div>
+      <select class="select-founder" onchange="showToast('Founder: '+this.options[this.selectedIndex].text)">
+        <option>Marcelo Oliveira</option>
+        <option>João Mendes</option>
+        <option>Ana Costa</option>
+        <option>Pedro Souza</option>
+        <option>Todos os founders</option>
+      </select>
+      <div class="tb-actions">
+        <div class="view-tabs">
+          <button class="view-tab active" onclick="switchView('week',this)">Semana</button>
+          <button class="view-tab" onclick="switchView('month',this)">Mês</button>
+        </div>
+        <button class="btn-outline" onclick="showToast('Gerando semana automaticamente...')">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M4.22 4.22l2.12 2.12M17.66 17.66l2.12 2.12M2 12h3M19 12h3M4.22 19.78l2.12-2.12M17.66 6.34l2.12-2.12"/></svg>
+          Gerar semana
+        </button>
+        <button class="btn-prim" onclick="approveAll()">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+          Aprovar tudo
+        </button>
+      </div>
+    </div>
+
+    <!-- CAL NAV -->
+    <div class="cal-header">
+      <div class="cal-nav">
+        <button onclick="showToast('Semana anterior')">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--t2)" stroke-width="2"><path d="m15 18-6-6 6-6"/></svg>
+        </button>
+        <div class="cal-period" id="cal-period">21–27 Abr 2026</div>
+        <button onclick="showToast('Próxima semana')">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--t2)" stroke-width="2"><path d="m9 18 6-6-6-6"/></svg>
+        </button>
+      </div>
+      <div class="cal-alert" id="gap-alert">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#FF9500" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 22h16a2 2 0 0 0 1.73-4Z"/><path d="M12 9v4M12 17h.01"/></svg>
+        Gap detectado: Sex 25 sem publicação (LinkedIn)
+      </div>
+    </div>
+
+    <!-- WEEKLY VIEW -->
+    <div id="view-week">
+      <div class="cal-week-grid">
+
+        <!-- HEADERS -->
+        <div class="col-hdr time-col" style="border-bottom:.5px solid var(--border)"></div>
+        <div class="col-hdr"><div>SEG</div><div class="col-date">21</div></div>
+        <div class="col-hdr"><div>TER</div><div class="col-date">22</div></div>
+        <div class="col-hdr"><div>QUA</div><div class="col-date">23</div></div>
+        <div class="col-hdr today"><div>QUI</div><div class="col-date">24</div></div>
+        <div class="col-hdr"><div>SEX</div><div class="col-date">25</div></div>
+        <div class="col-hdr"><div>SÁB</div><div class="col-date">26</div></div>
+        <div class="col-hdr"><div>DOM</div><div class="col-date">27</div></div>
+
+        <!-- 07h -->
+        <div class="time-col"><div class="time-lbl">07h</div></div>
+        <div class="cal-cell" onclick="openModal(21,7)"></div>
+        <div class="cal-cell" onclick="openModal(22,7)"></div>
+        <div class="cal-cell" onclick="openModal(23,7)"></div>
+        <div class="cal-cell" onclick="openModal(24,7)"></div>
+        <div class="cal-cell" onclick="openModal(25,7)"></div>
+        <div class="cal-cell" onclick="openModal(26,7)"></div>
+        <div class="cal-cell" onclick="openModal(27,7)"></div>
+
+        <!-- 08h -->
+        <div class="time-col"><div class="time-lbl">08h</div></div>
+        <div class="cal-cell" onclick="openModal(21,8)">
+          <div class="cal-card lk" draggable="true" ondragstart="drag(this)" onclick="event.stopPropagation();openCardDetail('Protocolo de escala','linkedin','08:45','published')">
+            <div class="card-plat"><div class="plat-dot lk"></div><div class="plat-name">LinkedIn</div></div>
+            <div class="card-title">Protocolo de escala</div>
+            <div class="card-meta"><div class="card-time">08:45</div><div class="card-status published"><svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="#34C759" stroke-width="3"><path d="M20 6 9 17l-5-5"/></svg></div></div>
+          </div>
+        </div>
+        <div class="cal-cell" onclick="openModal(22,8)"></div>
+        <div class="cal-cell" onclick="openModal(23,8)"></div>
+        <div class="cal-cell" onclick="openModal(24,8)"></div>
+        <div class="cal-cell" onclick="openModal(25,8)"></div>
+        <div class="cal-cell" onclick="openModal(26,8)"></div>
+        <div class="cal-cell" onclick="openModal(27,8)"></div>
+
+        <!-- 09h -->
+        <div class="time-col"><div class="time-lbl">09h</div></div>
+        <div class="cal-cell" onclick="openModal(21,9)"></div>
+        <div class="cal-cell" onclick="openModal(22,9)"></div>
+        <div class="cal-cell" onclick="openModal(23,9)">
+          <div class="cal-card lk" draggable="true" ondragstart="drag(this)" onclick="event.stopPropagation();openCardDetail('Unit economics CEO','linkedin','09:12','scheduled')">
+            <div class="card-plat"><div class="plat-dot lk"></div><div class="plat-name">LinkedIn</div></div>
+            <div class="card-title">Unit economics CEO</div>
+            <div class="card-meta"><div class="card-time">09:12</div><div class="card-status scheduled"><svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="#FF9500" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></div></div>
+          </div>
+        </div>
+        <div class="cal-cell" onclick="openModal(24,9)"></div>
+        <div class="cal-cell" onclick="openModal(25,9)"></div>
+        <div class="cal-cell" onclick="openModal(26,9)"></div>
+        <div class="cal-cell" onclick="openModal(27,9)">
+          <div class="cal-card ig" draggable="true" ondragstart="drag(this)" onclick="event.stopPropagation();openCardDetail('Tour escritório','instagram','09:30','published')">
+            <div class="card-plat"><div class="plat-dot ig"></div><div class="plat-name">Instagram</div></div>
+            <div class="card-title">Tour escritório</div>
+            <div class="card-meta"><div class="card-time">09:30</div><div class="card-status published"><svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="#34C759" stroke-width="3"><path d="M20 6 9 17l-5-5"/></svg></div></div>
+          </div>
+        </div>
+
+        <!-- 10h -->
+        <div class="time-col"><div class="time-lbl">10h</div></div>
+        <div class="cal-cell" onclick="openModal(21,10)"></div>
+        <div class="cal-cell" onclick="openModal(22,10)"></div>
+        <div class="cal-cell" onclick="openModal(23,10)"></div>
+        <div class="cal-cell" onclick="openModal(24,10)"></div>
+        <div class="cal-cell" onclick="openModal(25,10)"></div>
+        <div class="cal-cell" onclick="openModal(26,10)"></div>
+        <div class="cal-cell" onclick="openModal(27,10)"></div>
+
+        <!-- 12h -->
+        <div class="time-col"><div class="time-lbl">12h</div></div>
+        <div class="cal-cell" onclick="openModal(21,12)"></div>
+        <div class="cal-cell" onclick="openModal(22,12)"></div>
+        <div class="cal-cell" onclick="openModal(23,12)"></div>
+        <div class="cal-cell" onclick="openModal(24,12)">
+          <div class="cal-card tw" draggable="true" ondragstart="drag(this)" onclick="event.stopPropagation();openCardDetail('Erro contratando CTO','twitter','12:40','review')">
+            <div class="card-plat"><div class="plat-dot tw"></div><div class="plat-name">X/Twitter</div></div>
+            <div class="card-title">Erro contratando CTO</div>
+            <div class="card-meta"><div class="card-time">12:40</div><div class="card-status review"><svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="#FFD60A" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 8v4M12 16h.01"/></svg></div></div>
+          </div>
+        </div>
+        <div class="cal-cell" onclick="openModal(25,12)"></div>
+        <div class="cal-cell" onclick="openModal(26,12)"></div>
+        <div class="cal-cell" onclick="openModal(27,12)"></div>
+
+        <!-- 18h -->
+        <div class="time-col"><div class="time-lbl">18h</div></div>
+        <div class="cal-cell" onclick="openModal(21,18)">
+          <div class="cal-card ig" draggable="true" ondragstart="drag(this)" onclick="event.stopPropagation();openCardDetail('CEO na prática','instagram','18:51','published')">
+            <div class="card-plat"><div class="plat-dot ig"></div><div class="plat-name">Instagram</div></div>
+            <div class="card-title">CEO na prática</div>
+            <div class="card-meta"><div class="card-time">18:51</div><div class="card-status published"><svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="#34C759" stroke-width="3"><path d="M20 6 9 17l-5-5"/></svg></div></div>
+          </div>
+        </div>
+        <div class="cal-cell" onclick="openModal(22,18)">
+          <div class="cal-card tk" draggable="true" ondragstart="drag(this)" onclick="event.stopPropagation();openCardDetail('Burnout founder','tiktok','19:07','scheduled')">
+            <div class="card-plat"><div class="plat-dot tk"></div><div class="plat-name">TikTok</div></div>
+            <div class="card-title">Burnout founder</div>
+            <div class="card-meta"><div class="card-time">19:07</div><div class="card-status scheduled"><svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="#FF9500" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></div></div>
+          </div>
+        </div>
+        <div class="cal-cell" onclick="openModal(23,18)">
+          <div class="cal-card ig" draggable="true" ondragstart="drag(this)" onclick="event.stopPropagation();openCardDetail('7 métricas CEO','instagram','18:33','rejected')">
+            <div class="card-plat"><div class="plat-dot ig"></div><div class="plat-name">Instagram</div></div>
+            <div class="card-title">7 métricas CEO</div>
+            <div class="card-meta"><div class="card-time">18:33</div><div class="card-status rejected"><svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="var(--brand)" stroke-width="3"><path d="M18 6 6 18M6 6l12 12"/></svg></div></div>
+          </div>
+        </div>
+        <div class="cal-cell" onclick="openModal(24,18)">
+          <div class="cal-card lk" draggable="true" ondragstart="drag(this)" onclick="event.stopPropagation();openCardDetail('Protocolo expansão','linkedin','18:45','scheduled')">
+            <div class="card-plat"><div class="plat-dot lk"></div><div class="plat-name">LinkedIn</div></div>
+            <div class="card-title">Protocolo expansão</div>
+            <div class="card-meta"><div class="card-time">18:45</div><div class="card-status scheduled"><svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="#FF9500" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></div></div>
+          </div>
+        </div>
+        <div class="cal-cell" onclick="openModal(25,18)"></div>
+        <div class="cal-cell" onclick="openModal(26,18)">
+          <div class="cal-card ig" draggable="true" ondragstart="drag(this)" onclick="event.stopPropagation();openCardDetail('Bastidores consultoria','instagram','18:00','draft')">
+            <div class="card-plat"><div class="plat-dot ig"></div><div class="plat-name">Instagram</div></div>
+            <div class="card-title">Bastidores consultoria</div>
+            <div class="card-meta"><div class="card-time">18:00</div><div class="card-status draft"><svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="var(--t3)" stroke-width="2" stroke-linecap="round"><path d="M12 20h9M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg></div></div>
+          </div>
+        </div>
+        <div class="cal-cell" onclick="openModal(27,18)"></div>
+
+        <!-- 19h -->
+        <div class="time-col"><div class="time-lbl">19h</div></div>
+        <div class="cal-cell" onclick="openModal(21,19)"></div>
+        <div class="cal-cell" onclick="openModal(22,19)"></div>
+        <div class="cal-cell" onclick="openModal(23,19)"></div>
+        <div class="cal-cell" onclick="openModal(24,19)"></div>
+        <div class="cal-cell" onclick="openModal(25,19)"></div>
+        <div class="cal-cell" onclick="openModal(26,19)"></div>
+        <div class="cal-cell" onclick="openModal(27,19)"></div>
+
+        <!-- 20h -->
+        <div class="time-col"><div class="time-lbl">20h</div></div>
+        <div class="cal-cell" onclick="openModal(21,20)"></div>
+        <div class="cal-cell" onclick="openModal(22,20)"></div>
+        <div class="cal-cell" onclick="openModal(23,20)"></div>
+        <div class="cal-cell" onclick="openModal(24,20)"></div>
+        <div class="cal-cell" onclick="openModal(25,20)"></div>
+        <div class="cal-cell" onclick="openModal(26,20)"></div>
+        <div class="cal-cell" onclick="openModal(27,20)"></div>
+
+      </div><!-- cal-week-grid -->
+
+      <!-- LEGEND -->
+      <div class="legend-bar">
+        <div class="legend-item"><div class="legend-dot pub"></div>Publicado</div>
+        <div class="legend-item"><div class="legend-dot sch"></div>Agendado</div>
+        <div class="legend-item"><div class="legend-dot rev"></div>Ag. revisão</div>
+        <div class="legend-item"><div class="legend-dot rej"></div>Rejeitado</div>
+        <div class="legend-item"><div class="legend-dot dra"></div>Rascunho</div>
+        <div style="margin-left:auto;font-size:11px;color:var(--t3)">Clique em célula vazia para criar slot · Arraste para reagendar</div>
+      </div>
+    </div><!-- view-week -->
+
+    <!-- MONTHLY VIEW -->
+    <div id="view-month">
+      <div class="month-grid">
+        <div class="month-hdr">
+          <div class="month-day-label">Seg</div>
+          <div class="month-day-label">Ter</div>
+          <div class="month-day-label">Qua</div>
+          <div class="month-day-label">Qui</div>
+          <div class="month-day-label">Sex</div>
+          <div class="month-day-label">Sáb</div>
+          <div class="month-day-label">Dom</div>
+        </div>
+        <div class="month-cells">
+          <!-- Semana 1: Apr 1–5 (começa na quarta) -->
+          <div class="month-cell empty"></div>
+          <div class="month-cell empty"></div>
+          <div class="month-cell"><div class="month-date">1</div><div class="month-dots"><div class="m-dot lk"></div><div class="m-dot ig"></div></div></div>
+          <div class="month-cell"><div class="month-date">2</div><div class="month-dots"><div class="m-dot ig"></div></div></div>
+          <div class="month-cell"><div class="month-date">3</div><div class="month-dots"><div class="m-dot lk"></div></div></div>
+          <div class="month-cell"><div class="month-date">4</div><div class="month-dots"><div class="m-dot ig"></div><div class="m-dot tw"></div></div></div>
+          <div class="month-cell"><div class="month-date">5</div></div>
+          <!-- Semana 2 -->
+          <div class="month-cell"><div class="month-date">6</div><div class="month-dots"><div class="m-dot lk"></div><div class="m-dot ig"></div></div></div>
+          <div class="month-cell"><div class="month-date">7</div><div class="month-dots"><div class="m-dot tk"></div></div></div>
+          <div class="month-cell"><div class="month-date">8</div><div class="month-dots"><div class="m-dot ig"></div></div></div>
+          <div class="month-cell"><div class="month-date">9</div><div class="month-dots"><div class="m-dot lk"></div></div></div>
+          <div class="month-cell"><div class="month-date">10</div><div class="month-dots"><div class="m-dot ig"></div><div class="m-dot ig"></div></div></div>
+          <div class="month-cell"><div class="month-date">11</div><div class="month-dots"><div class="m-dot ig"></div></div></div>
+          <div class="month-cell"><div class="month-date">12</div></div>
+          <!-- Semana 3 -->
+          <div class="month-cell"><div class="month-date">13</div><div class="month-dots"><div class="m-dot lk"></div></div></div>
+          <div class="month-cell"><div class="month-date">14</div><div class="month-dots"><div class="m-dot ig"></div><div class="m-dot tk"></div></div></div>
+          <div class="month-cell"><div class="month-date">15</div><div class="month-dots"><div class="m-dot ig"></div></div></div>
+          <div class="month-cell"><div class="month-date">16</div><div class="month-dots"><div class="m-dot lk"></div><div class="m-dot tk"></div></div></div>
+          <div class="month-cell"><div class="month-date">17</div><div class="month-dots"><div class="m-dot ig"></div></div></div>
+          <div class="month-cell"><div class="month-date">18</div></div>
+          <div class="month-cell"><div class="month-date">19</div><div class="month-gap"><svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="#A05C00" stroke-width="2"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 22h16a2 2 0 0 0 1.73-4Z"/><path d="M12 9v4M12 17h.01"/></svg>Gap</div></div>
+          <!-- Semana 4 -->
+          <div class="month-cell today"><div class="month-date" style="color:var(--brand)">21</div><div class="month-dots"><div class="m-dot lk"></div><div class="m-dot ig"></div></div></div>
+          <div class="month-cell"><div class="month-date">22</div><div class="month-dots"><div class="m-dot tk"></div></div></div>
+          <div class="month-cell"><div class="month-date">23</div><div class="month-dots"><div class="m-dot lk"></div><div class="m-dot ig"></div></div></div>
+          <div class="month-cell"><div class="month-date">24</div><div class="month-dots"><div class="m-dot tw"></div><div class="m-dot lk"></div></div></div>
+          <div class="month-cell"><div class="month-date">25</div><div class="month-gap"><svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="#A05C00" stroke-width="2"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 22h16a2 2 0 0 0 1.73-4Z"/><path d="M12 9v4M12 17h.01"/></svg>Sem LK</div></div>
+          <div class="month-cell"><div class="month-date">26</div><div class="month-dots"><div class="m-dot ig"></div></div></div>
+          <div class="month-cell"><div class="month-date">27</div><div class="month-dots"><div class="m-dot ig"></div></div></div>
+          <!-- Semana 5 -->
+          <div class="month-cell"><div class="month-date">28</div><div class="month-dots"><div class="m-dot lk"></div></div></div>
+          <div class="month-cell"><div class="month-date">29</div><div class="month-dots"><div class="m-dot ig"></div><div class="m-dot tk"></div></div></div>
+          <div class="month-cell"><div class="month-date">30</div><div class="month-dots"><div class="m-dot lk"></div></div></div>
+          <div class="month-cell empty"></div>
+          <div class="month-cell empty"></div>
+          <div class="month-cell empty"></div>
+          <div class="month-cell empty"></div>
+        </div>
+      </div>
+    </div><!-- view-month -->
+
+  </div><!-- main -->
+</div><!-- shell -->
+
+<!-- MODAL: NOVO SLOT -->
+<div class="overlay" id="modal-slot" onclick="closeModal()">
+  <div class="modal" onclick="event.stopPropagation()">
+    <div class="modal-hdr">
+      <div class="modal-title">Novo slot de publicação</div>
+      <button class="btn-close" onclick="closeModal()">×</button>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Plataforma</label>
+      <select class="form-select" id="modal-platform">
+        <option>Instagram</option>
+        <option>LinkedIn</option>
+        <option>TikTok</option>
+        <option>X/Twitter</option>
+        <option>YouTube</option>
+      </select>
+    </div>
+    <div class="form-row">
+      <div class="form-group" style="margin-bottom:0">
+        <label class="form-label">Data</label>
+        <input class="form-input" type="text" id="modal-date" value="21/04/2026" readonly>
+      </div>
+      <div class="form-group" style="margin-bottom:0">
+        <label class="form-label">Hora</label>
+        <select class="form-select">
+          <option>07:00</option><option>08:00</option><option>09:00</option>
+          <option>10:00</option><option>12:00</option><option>13:00</option>
+          <option selected>18:00</option><option>19:00</option><option>20:00</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-group" style="margin-top:16px">
+      <label class="form-label">Conteúdo</label>
+      <select class="form-select">
+        <option>Selecionar da biblioteca...</option>
+        <option selected>7 métricas CEO (aprovado)</option>
+        <option>Tour escritório (aprovado)</option>
+        <option>Burnout founder (aprovado)</option>
+      </select>
+      <div class="content-option" style="margin-top:6px">
+        <span>7 métricas CEO</span>
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="var(--brand)" stroke-width="2.5"><path d="M20 6 9 17l-5-5"/></svg>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-outline" onclick="closeModal()">Cancelar</button>
+      <button class="btn-prim" onclick="createSlot()">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
+        Criar slot
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL: CARD DETAIL -->
+<div class="overlay" id="modal-card" onclick="closeCardModal()">
+  <div class="modal" onclick="event.stopPropagation()">
+    <div class="modal-hdr">
+      <div class="modal-title" id="card-detail-title">Post</div>
+      <button class="btn-close" onclick="closeCardModal()">×</button>
+    </div>
+    <div id="card-detail-body"></div>
+    <div class="modal-footer">
+      <button class="btn-outline" onclick="closeCardModal();showToast('Post rejeitado')">Rejeitar</button>
+      <button class="btn-prim" onclick="closeCardModal();showToast('Post agendado para publicação')">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6 9 17l-5-5"/></svg>
+        Agendar
+      </button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+/* VIEW SWITCH */
+function switchView(view, btn) {
+  document.querySelectorAll('.view-tab').forEach(t => t.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('view-week').style.display = view === 'week' ? '' : 'none';
+  document.getElementById('view-month').style.display = view === 'month' ? '' : 'none';
+  document.getElementById('cal-period').textContent = view === 'week' ? '21–27 Abr 2026' : 'Abril 2026';
+}
+
+/* MODALS */
+let currentSlotDay = 0, currentSlotHour = 0;
+function openModal(day, hour) {
+  currentSlotDay = day;
+  currentSlotHour = hour;
+  document.getElementById('modal-date').value = day + '/04/2026';
+  document.getElementById('modal-slot').classList.add('show');
+}
+function closeModal() { document.getElementById('modal-slot').classList.remove('show'); }
+function createSlot() {
+  closeModal();
+  showToast('Slot criado: ' + currentSlotDay + '/04 às ' + currentSlotHour + 'h — rascunho');
+}
+
+function openCardDetail(title, platform, time, status) {
+  const platNames = {linkedin:'LinkedIn',instagram:'Instagram',tiktok:'TikTok',twitter:'X/Twitter'};
+  const statusLabels = {published:'Publicado',scheduled:'Agendado',review:'Ag. revisão',rejected:'Rejeitado',draft:'Rascunho'};
+  const statusColors = {published:'#34C759',scheduled:'#FF9500',review:'#FFD60A',rejected:'var(--brand)',draft:'var(--t3)'};
+  document.getElementById('card-detail-title').textContent = title;
+  document.getElementById('card-detail-body').innerHTML = `
+    <div style="margin-bottom:14px">
+      <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--t3);margin-bottom:4px">Plataforma</div>
+      <div style="font-size:14px;font-weight:600">${platNames[platform]||platform}</div>
+    </div>
+    <div style="margin-bottom:14px">
+      <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--t3);margin-bottom:4px">Horário</div>
+      <div style="font-size:14px;font-family:'JetBrains Mono',monospace">${time}</div>
+    </div>
+    <div style="margin-bottom:14px">
+      <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--t3);margin-bottom:4px">Status</div>
+      <div style="display:inline-flex;align-items:center;gap:6px;padding:3px 10px;border-radius:999px;background:rgba(0,0,0,.05);font-size:12px;font-weight:700;color:${statusColors[status]}">${statusLabels[status]}</div>
+    </div>
+    <div style="display:flex;gap:8px">
+      <button onclick="event.stopPropagation();showToast('Abrindo pipeline...')" style="height:32px;padding:0 12px;border-radius:var(--r8);border:1px solid var(--border);background:var(--surface);font-size:12px;cursor:pointer;font-family:'Inter',sans-serif">Ver no pipeline</button>
+      <button onclick="event.stopPropagation();showToast('Reagendamento: arraste o card')" style="height:32px;padding:0 12px;border-radius:var(--r8);border:1px solid var(--border);background:var(--surface);font-size:12px;cursor:pointer;font-family:'Inter',sans-serif">Reagendar</button>
+    </div>
+  `;
+  document.getElementById('modal-card').classList.add('show');
+}
+function closeCardModal() { document.getElementById('modal-card').classList.remove('show'); }
+
+/* DRAG */
+function drag(el) {
+  el.classList.add('dragging');
+  setTimeout(() => el.classList.remove('dragging'), 500);
+  showToast('Arraste para reagendar o post');
+}
+
+/* APPROVE ALL */
+function approveAll() {
+  showToast('3 rascunhos agendados para publicação');
+}
+
+/* TOAST */
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2500);
+}
+</script>
+</body>
+</html>

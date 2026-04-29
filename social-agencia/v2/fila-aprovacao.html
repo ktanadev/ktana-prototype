@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fila de Aprovação — KTANA Ads</title>
+<link href="https://fonts.googleapis.com/css2?family=Zen+Dots&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  *{margin:0;padding:0;box-sizing:border-box;}
+  :root{
+    --bg:#F5F5F7;--surface:#FFFFFF;--surface-2:#FAFAFA;
+    --text:#1D1D1F;--text-2:#6E6E73;--text-3:#AEAEB2;
+    --border:rgba(0,0,0,0.07);--border-m:rgba(0,0,0,0.12);
+    --brand:#D70030;--brand-dark:#9B0A2A;
+    --sidebar-w:220px;--topbar-h:56px;
+  }
+  body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;min-height:100vh;display:flex;}
+
+  /* SIDEBAR */
+  .sidebar{width:var(--sidebar-w);background:var(--surface);border-right:0.5px solid var(--border);position:fixed;top:0;left:0;bottom:0;display:flex;flex-direction:column;z-index:100;}
+  .sb-logo{padding:18px 18px 16px;border-bottom:0.5px solid var(--border);}
+  .sb-logo .wm{font-family:'Zen Dots',cursive;font-size:15px;color:var(--brand);}
+  .sb-logo .sub{font-size:10px;color:var(--text-3);}
+  .sb-user-block{padding:14px 18px 12px;border-bottom:0.5px solid var(--border);}
+  .sb-user-block .name{font-size:13px;font-weight:600;color:var(--text);}
+  .sb-user-block .role{font-size:11px;color:var(--text-2);margin-top:2px;}
+  .sb-stats{display:flex;gap:16px;margin-top:10px;}
+  .sb-stat .val{font-family:'Zen Dots',cursive;font-size:18px;color:var(--brand);}
+  .sb-stat .lbl{font-size:10px;color:var(--text-3);}
+  .sb-nav{flex:1;padding:12px 10px;overflow-y:auto;}
+  .nav-item{display:flex;align-items:center;gap:9px;padding:8px 10px;border-radius:10px;cursor:pointer;transition:all 200ms;color:var(--text-2);text-decoration:none;font-size:12px;font-weight:500;position:relative;}
+  .nav-item:hover{background:rgba(0,0,0,0.03);color:var(--text);}
+  .nav-item.active{background:rgba(215,0,48,0.07);color:var(--brand);}
+  .nav-item.active::before{content:'';position:absolute;left:0;top:8px;bottom:8px;width:3px;border-radius:0 3px 3px 0;background:var(--brand);}
+  .nav-item svg{width:16px;height:16px;flex-shrink:0;}
+  .nav-badge{font-size:9px;font-weight:700;background:var(--brand);color:#fff;padding:2px 6px;border-radius:100px;margin-left:auto;}
+  .nav-badge.muted{background:rgba(0,0,0,0.07);color:var(--text-2);}
+  .sb-foot{padding:14px 18px;border-top:0.5px solid var(--border);}
+  .back-link{display:flex;align-items:center;gap:7px;font-size:12px;color:var(--text-2);text-decoration:none;transition:color 200ms;}
+  .back-link:hover{color:var(--text);}
+  .back-link svg{width:14px;height:14px;}
+
+  /* MAIN */
+  .main{margin-left:var(--sidebar-w);flex:1;min-height:100vh;display:flex;flex-direction:column;}
+
+  /* TOPBAR */
+  .topbar{height:var(--topbar-h);background:rgba(245,245,247,0.92);backdrop-filter:saturate(180%) blur(12px);border-bottom:0.5px solid var(--border);position:sticky;top:0;z-index:90;display:flex;align-items:center;padding:0 24px;gap:12px;}
+  .topbar h1{font-family:'Zen Dots',cursive;font-size:16px;font-weight:400;color:var(--text);margin-right:auto;}
+  .filter-input{height:34px;background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:0 12px 0 32px;font-family:'Inter',sans-serif;font-size:13px;color:var(--text);outline:none;width:200px;position:relative;transition:border 200ms;}
+  .filter-input:focus{border-color:var(--brand);}
+  .search-wrap{position:relative;}
+  .search-wrap svg{position:absolute;left:9px;top:50%;transform:translateY(-50%);color:var(--text-3);pointer-events:none;}
+  .filter-select{height:34px;background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:0 10px;font-family:'Inter',sans-serif;font-size:12px;color:var(--text);outline:none;cursor:pointer;}
+  .counter-chip{background:rgba(215,0,48,0.08);color:var(--brand);border:1px solid rgba(215,0,48,0.15);border-radius:100px;padding:4px 12px;font-size:12px;font-weight:700;}
+
+  /* KANBAN */
+  .kanban{flex:1;overflow-x:auto;padding:20px 24px;display:flex;gap:14px;align-items:flex-start;}
+  .kanban::-webkit-scrollbar{height:4px;}
+  .kanban::-webkit-scrollbar-thumb{background:var(--border-m);border-radius:2px;}
+  .kb-col{flex:0 0 280px;background:var(--surface-2);border:1px solid var(--border);border-radius:16px;overflow:hidden;}
+  .kb-col-head{padding:12px 14px 10px;display:flex;align-items:center;gap:8px;border-bottom:0.5px solid var(--border);}
+  .kb-col-head .col-bar{width:100%;height:3px;border-radius:0 0 0 0;position:absolute;top:0;left:0;right:0;}
+  .kb-col{position:relative;padding-top:3px;}
+  .kb-col.col-review .top-bar{background:var(--text-3);}
+  .kb-col.col-waiting .top-bar{background:rgba(215,0,48,0.4);}
+  .kb-col.col-approved .top-bar{background:var(--brand);}
+  .kb-col.col-rejected .top-bar{background:rgba(0,0,0,0.2);}
+  .top-bar{position:absolute;top:0;left:0;right:0;height:3px;border-radius:3px 3px 0 0;}
+  .col-title{font-family:'Zen Dots',cursive;font-size:12px;font-weight:400;color:var(--text);}
+  .col-count{font-size:10px;font-weight:700;padding:2px 7px;border-radius:100px;margin-left:auto;}
+  .col-review .col-count{background:rgba(0,0,0,0.07);color:var(--text-2);}
+  .col-waiting .col-count{background:rgba(215,0,48,0.1);color:var(--brand);}
+  .col-approved .col-count{background:rgba(215,0,48,0.08);color:var(--brand);}
+  .col-rejected .col-count{background:rgba(0,0,0,0.05);color:var(--text-3);}
+  .kb-cards{padding:10px 10px 14px;display:flex;flex-direction:column;gap:8px;min-height:200px;}
+
+  /* KANBAN CARD */
+  .kcard{background:var(--surface);border:1px solid var(--border);border-radius:14px;overflow:hidden;cursor:pointer;transition:all 200ms;position:relative;}
+  .kcard:hover{border-color:rgba(215,0,48,0.22);box-shadow:0 4px 20px rgba(0,0,0,0.06);transform:translateY(-1px);}
+  .kcard.selected{border-color:rgba(215,0,48,0.4);box-shadow:0 0 0 2px rgba(215,0,48,0.12);}
+  .kcard-cb{position:absolute;top:10px;right:10px;width:16px;height:16px;border-radius:4px;border:1.5px solid var(--border-m);background:var(--surface);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all 200ms;z-index:1;}
+  .kcard-cb.checked{background:var(--brand);border-color:var(--brand);}
+  .kcard-body{padding:12px 12px 10px;}
+  .kcard-platform-row{display:flex;align-items:center;gap:6px;margin-bottom:7px;}
+  .plt-pill{font-size:10px;font-weight:600;padding:2px 8px;border-radius:100px;}
+  .plt-pill.ig{background:rgba(215,0,48,0.07);color:var(--brand);}
+  .plt-pill.lk{background:rgba(0,0,0,0.06);color:var(--text-2);}
+  .plt-pill.tt{background:rgba(0,0,0,0.05);color:var(--text-3);}
+  .fmt-pill{font-size:10px;color:var(--text-3);background:rgba(0,0,0,0.04);padding:2px 7px;border-radius:100px;}
+  .sla-pill{font-size:10px;font-weight:600;padding:2px 6px;border-radius:100px;margin-left:auto;}
+  .sla-pill.ok{background:rgba(0,0,0,0.05);color:var(--text-3);}
+  .sla-pill.warn{background:rgba(215,0,48,0.08);color:var(--brand);}
+  .sla-pill.crit{background:rgba(215,0,48,0.12);color:var(--brand);animation:blink 1.5s infinite;}
+  @keyframes blink{0%,100%{opacity:1;}50%{opacity:0.5;}}
+  .kcard-title{font-size:13px;font-weight:600;line-height:1.4;margin-bottom:8px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
+  .kcard-foot{display:flex;align-items:center;justify-content:space-between;}
+  .score-pill{font-size:10px;font-weight:700;padding:3px 8px;border-radius:100px;}
+  .score-pill.hi{background:rgba(215,0,48,0.07);color:var(--brand);}
+  .score-pill.md{background:rgba(0,0,0,0.06);color:var(--text-2);}
+  .founder-name{font-size:11px;color:var(--text-3);}
+  .kcard-schedule{padding:7px 12px;border-top:0.5px solid var(--border);font-size:10px;color:var(--text-3);font-family:'JetBrains Mono',monospace;display:flex;align-items:center;gap:6px;}
+  .approved-tag{background:rgba(215,0,48,0.07);color:var(--brand);padding:2px 8px;border-radius:100px;font-size:10px;font-weight:600;}
+  .rejected-card{opacity:0.55;}
+
+  /* BATCH BAR */
+  .batch-bar{position:sticky;bottom:0;background:var(--brand);color:#fff;padding:12px 24px;display:none;align-items:center;gap:14px;}
+  .batch-bar.show{display:flex;}
+  .batch-bar span{font-size:13px;font-weight:600;flex:1;}
+  .batch-dismiss{height:32px;padding:0 14px;border-radius:8px;background:rgba(255,255,255,0.15);color:#fff;font-size:12px;font-weight:600;border:none;cursor:pointer;}
+  .batch-approve-btn{height:32px;padding:0 16px;border-radius:8px;background:#fff;color:var(--brand);font-size:12px;font-weight:700;border:none;cursor:pointer;}
+
+  /* MODAL */
+  .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.35);z-index:500;display:none;align-items:center;justify-content:center;padding:24px;}
+  .modal-overlay.show{display:flex;}
+  .modal{background:var(--surface);border-radius:20px;border:1px solid var(--border);box-shadow:0 16px 60px rgba(0,0,0,0.12);width:100%;max-width:880px;max-height:90vh;display:flex;overflow:hidden;animation:modalIn 300ms cubic-bezier(.32,.72,0,1);}
+  @keyframes modalIn{0%{transform:scale(0.96) translateY(8px);opacity:0;}100%{transform:scale(1) translateY(0);opacity:1;}}
+  .modal-preview{width:55%;background:var(--surface-2);border-right:0.5px solid var(--border);display:flex;flex-direction:column;}
+  .modal-preview-head{padding:14px 18px;border-bottom:0.5px solid var(--border);display:flex;align-items:center;gap:10px;}
+  .modal-preview-head h3{font-family:'Zen Dots',cursive;font-size:14px;font-weight:400;flex:1;}
+  .slide-counter{font-size:11px;color:var(--text-3);font-family:'JetBrains Mono',monospace;}
+  .slides-area{flex:1;padding:18px;overflow-y:auto;display:flex;flex-direction:column;gap:10px;}
+  .slide-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:14px 16px;}
+  .slide-num{font-size:10px;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;color:var(--brand);margin-bottom:6px;}
+  .slide-text{font-size:13px;line-height:1.6;color:var(--text);}
+  .slide-nav{padding:12px 18px;border-top:0.5px solid var(--border);display:flex;align-items:center;justify-content:center;gap:12px;}
+  .slide-nav-btn{width:32px;height:32px;border-radius:8px;border:1px solid var(--border);background:var(--surface);cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--text-2);transition:all 200ms;}
+  .slide-nav-btn:hover{border-color:var(--brand);color:var(--brand);}
+  .slide-dots{display:flex;gap:5px;}
+  .slide-dot{width:6px;height:6px;border-radius:50%;background:var(--text-3);transition:all 200ms;}
+  .slide-dot.active{background:var(--brand);width:16px;border-radius:3px;}
+  .modal-details{width:45%;display:flex;flex-direction:column;}
+  .modal-details-head{padding:14px 18px;border-bottom:0.5px solid var(--border);display:flex;align-items:center;justify-content:space-between;}
+  .modal-details-head h3{font-family:'Zen Dots',cursive;font-size:13px;font-weight:400;}
+  .close-btn{width:28px;height:28px;border-radius:8px;border:1px solid var(--border);background:none;cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--text-2);}
+  .modal-meta{flex:1;overflow-y:auto;padding:16px 18px;}
+  .meta-row{display:flex;align-items:flex-start;gap:10px;margin-bottom:12px;}
+  .meta-label{font-size:11px;font-weight:600;color:var(--text-3);width:80px;flex-shrink:0;padding-top:1px;}
+  .meta-val{font-size:12px;color:var(--text);flex:1;line-height:1.4;}
+  .score-bar-wrap{margin-bottom:14px;}
+  .score-bar-label{display:flex;align-items:center;justify-content:space-between;margin-bottom:4px;}
+  .score-bar-label .lbl{font-size:11px;color:var(--text-2);}
+  .score-bar-label .val{font-size:11px;font-weight:700;color:var(--brand);}
+  .score-bar{height:5px;background:rgba(0,0,0,0.06);border-radius:3px;overflow:hidden;}
+  .score-bar-fill{height:100%;background:linear-gradient(90deg,var(--brand),var(--brand-dark));border-radius:3px;}
+  .divider-line{height:0.5px;background:var(--border);margin:12px 0;}
+  .notes-label{font-size:11px;font-weight:600;color:var(--text-3);margin-bottom:6px;}
+  .notes-ta{width:100%;min-height:72px;background:var(--surface-2);border:1.5px solid var(--border);border-radius:10px;padding:10px 12px;font-family:'Inter',sans-serif;font-size:13px;color:var(--text);resize:none;outline:none;transition:border 200ms;line-height:1.5;}
+  .notes-ta:focus{border-color:var(--brand);}
+  .audit-block{background:var(--surface-2);border-radius:8px;padding:10px 12px;font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--text-3);line-height:1.7;}
+  .modal-footer{padding:14px 18px;border-top:0.5px solid var(--border);display:flex;gap:10px;}
+  .btn-reject{flex:1;height:44px;border-radius:10px;background:transparent;border:1.5px solid var(--border-m);color:var(--text-2);font-family:'Inter',sans-serif;font-size:13px;font-weight:600;cursor:pointer;transition:all 200ms;}
+  .btn-reject:hover{border-color:var(--brand);color:var(--brand);}
+  .btn-approve-modal{flex:2;height:44px;border-radius:10px;background:var(--brand);color:#fff;font-family:'Inter',sans-serif;font-size:13px;font-weight:700;border:none;cursor:pointer;transition:all 200ms;display:flex;align-items:center;justify-content:center;gap:7px;}
+  .btn-approve-modal:hover{background:var(--brand-dark);}
+</style>
+</head>
+<body>
+
+<!-- MODAL -->
+<div class="modal-overlay" id="modal" onclick="if(event.target===this)closeModal()">
+  <div class="modal">
+    <!-- LEFT — PREVIEW -->
+    <div class="modal-preview">
+      <div class="modal-preview-head">
+        <h3 id="modal-title">7 métricas que todo CEO deveria olhar</h3>
+        <span class="slide-counter"><span id="slide-cur">1</span>/<span id="slide-tot">8</span></span>
+      </div>
+      <div class="slides-area" id="slides-area"></div>
+      <div class="slide-nav">
+        <button class="slide-nav-btn" onclick="prevSlide()">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+        </button>
+        <div class="slide-dots" id="slide-dots"></div>
+        <button class="slide-nav-btn" onclick="nextSlide()">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- RIGHT — DETAILS -->
+    <div class="modal-details">
+      <div class="modal-details-head">
+        <h3>Detalhes</h3>
+        <button class="close-btn" onclick="closeModal()">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+      <div class="modal-meta">
+        <div class="meta-row"><span class="meta-label">Plataforma</span><span class="meta-val">Instagram · Carrossel · 8 slides</span></div>
+        <div class="meta-row"><span class="meta-label">Founder</span><span class="meta-val">Marcelo Andrade</span></div>
+        <div class="meta-row"><span class="meta-label">Agente</span><span class="meta-val">Quill — Redator</span></div>
+        <div class="meta-row"><span class="meta-label">Publicação</span><span class="meta-val" style="font-family:'JetBrains Mono',monospace;font-size:11px;">Qua 23 Abr · 18:00</span></div>
+        <div class="meta-row"><span class="meta-label">SLA</span><span class="meta-val"><span class="sla-pill warn" style="font-size:11px;">D+1</span></span></div>
+
+        <div class="divider-line"></div>
+
+        <div class="score-bar-wrap">
+          <div class="score-bar-label"><span class="lbl">Humanidade</span><span class="val">94%</span></div>
+          <div class="score-bar"><div class="score-bar-fill" style="width:94%"></div></div>
+        </div>
+        <div class="score-bar-wrap">
+          <div class="score-bar-label"><span class="lbl">Tom de Voz</span><span class="val">91%</span></div>
+          <div class="score-bar"><div class="score-bar-fill" style="width:91%"></div></div>
+        </div>
+        <div class="score-bar-wrap">
+          <div class="score-bar-label"><span class="lbl">Originalidade</span><span class="val">88%</span></div>
+          <div class="score-bar"><div class="score-bar-fill" style="width:88%"></div></div>
+        </div>
+
+        <div class="divider-line"></div>
+
+        <div class="notes-label">Comentários para o Quill</div>
+        <textarea class="notes-ta" placeholder="Opcional: sugestões para refinar o conteúdo..."></textarea>
+
+        <div class="divider-line"></div>
+
+        <div class="notes-label">Trilha de auditoria</div>
+        <div class="audit-block">
+14:32 Quill gerou conteúdo (v1)<br>
+14:35 Scout validou fontes<br>
+14:36 Score humanidade: 94%<br>
+14:37 Enviado para fila SM
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn-reject" onclick="closeModal()">Rejeitar e devolver</button>
+        <button class="btn-approve-modal" onclick="approveFromModal()">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><path d="M22 4L12 14.01l-3-3"/></svg>
+          Aprovar → enviar para Marcelo
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SIDEBAR -->
+<aside class="sidebar">
+  <div class="sb-logo">
+    <div class="wm">KTANA Ads</div>
+    <div class="sub">Fila de Aprovação</div>
+  </div>
+  <div class="sb-user-block">
+    <div class="name">Camila Lima</div>
+    <div class="role">Social Media · Pleno</div>
+    <div class="sb-stats">
+      <div class="sb-stat"><div class="val">24</div><div class="lbl">founders</div></div>
+      <div class="sb-stat"><div class="val">18</div><div class="lbl">pendentes</div></div>
+      <div class="sb-stat"><div class="val">3</div><div class="lbl">críticos</div></div>
+    </div>
+  </div>
+  <div class="sb-nav">
+    <a class="nav-item" href="dashboard.html">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
+      Dashboard
+    </a>
+    <a class="nav-item active" href="fila-aprovacao.html">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><path d="M22 4L12 14.01l-3-3"/></svg>
+      Aprovações
+      <span class="nav-badge">18</span>
+    </a>
+    <a class="nav-item" href="#" onclick="return false;">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>
+      Founders
+      <span class="nav-badge muted">24</span>
+    </a>
+    <a class="nav-item" href="#" onclick="return false;">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+      Calendário
+    </a>
+  </div>
+  <div class="sb-foot">
+    <a class="back-link" href="dashboard.html">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+      Voltar ao dashboard
+    </a>
+  </div>
+</aside>
+
+<!-- MAIN -->
+<div class="main">
+  <header class="topbar">
+    <h1>Fila de Aprovação</h1>
+    <div class="search-wrap">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+      <input class="filter-input" placeholder="Buscar post ou founder...">
+    </div>
+    <select class="filter-select">
+      <option>Todos os founders</option>
+      <option>Marcelo Andrade</option>
+      <option>João Silva</option>
+      <option>Pedro Mendes</option>
+    </select>
+    <select class="filter-select">
+      <option>Todas plataformas</option>
+      <option>Instagram</option>
+      <option>LinkedIn</option>
+      <option>TikTok</option>
+    </select>
+    <div class="counter-chip">18 pendentes</div>
+  </header>
+
+  <!-- KANBAN -->
+  <div class="kanban" id="kanban">
+
+    <!-- EM REVISÃO -->
+    <div class="kb-col col-review">
+      <div class="top-bar" style="background:var(--text-3);"></div>
+      <div class="kb-col-head">
+        <span class="col-title">Em Revisão</span>
+        <span class="col-count">4</span>
+      </div>
+      <div class="kb-cards">
+
+        <div class="kcard" onclick="openModal(this)">
+          <div class="kcard-cb" onclick="event.stopPropagation();toggleCard(this)"></div>
+          <div class="kcard-body">
+            <div class="kcard-platform-row">
+              <span class="plt-pill ig">Instagram</span>
+              <span class="fmt-pill">Carrossel</span>
+              <span class="sla-pill crit">D+1</span>
+            </div>
+            <div class="kcard-title">7 métricas que todo CEO deveria olhar</div>
+            <div class="kcard-foot">
+              <span class="score-pill hi">94%</span>
+              <span class="founder-name">Marcelo Andrade</span>
+            </div>
+          </div>
+          <div class="kcard-schedule">
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+            Qua 23 Abr · 18:00
+          </div>
+        </div>
+
+        <div class="kcard" onclick="openModal(this)">
+          <div class="kcard-cb" onclick="event.stopPropagation();toggleCard(this)"></div>
+          <div class="kcard-body">
+            <div class="kcard-platform-row">
+              <span class="plt-pill lk">LinkedIn</span>
+              <span class="fmt-pill">Post</span>
+              <span class="sla-pill warn">D+2</span>
+            </div>
+            <div class="kcard-title">Por que eu recusei R$2M de VC e não me arrependo</div>
+            <div class="kcard-foot">
+              <span class="score-pill hi">91%</span>
+              <span class="founder-name">Marcelo Andrade</span>
+            </div>
+          </div>
+          <div class="kcard-schedule">
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+            Qui 24 Abr · 10:00
+          </div>
+        </div>
+
+        <div class="kcard" onclick="openModal(this)">
+          <div class="kcard-cb" onclick="event.stopPropagation();toggleCard(this)"></div>
+          <div class="kcard-body">
+            <div class="kcard-platform-row">
+              <span class="plt-pill ig">Instagram</span>
+              <span class="fmt-pill">Post</span>
+              <span class="sla-pill ok">D+3</span>
+            </div>
+            <div class="kcard-title">3 erros fatais ao delegar — e como nunca mais cometi</div>
+            <div class="kcard-foot">
+              <span class="score-pill md">82%</span>
+              <span class="founder-name">João Silva</span>
+            </div>
+          </div>
+          <div class="kcard-schedule">
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+            Sex 25 Abr · 18:00
+          </div>
+        </div>
+
+        <div class="kcard" onclick="openModal(this)">
+          <div class="kcard-cb" onclick="event.stopPropagation();toggleCard(this)"></div>
+          <div class="kcard-body">
+            <div class="kcard-platform-row">
+              <span class="plt-pill lk">LinkedIn</span>
+              <span class="fmt-pill">Carrossel</span>
+              <span class="sla-pill warn">D+1</span>
+            </div>
+            <div class="kcard-title">Como bootstrappei do zero a R$1M ARR sem nenhum investidor</div>
+            <div class="kcard-foot">
+              <span class="score-pill hi">88%</span>
+              <span class="founder-name">Pedro Mendes</span>
+            </div>
+          </div>
+          <div class="kcard-schedule">
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+            Qui 24 Abr · 19:00
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- AG. FOUNDER -->
+    <div class="kb-col col-waiting">
+      <div class="top-bar" style="background:rgba(215,0,48,0.35);"></div>
+      <div class="kb-col-head">
+        <span class="col-title">Ag. Founder</span>
+        <span class="col-count">2</span>
+      </div>
+      <div class="kb-cards">
+
+        <div class="kcard" onclick="openModal(this)">
+          <div class="kcard-body">
+            <div class="kcard-platform-row">
+              <span class="plt-pill ig">Instagram</span>
+              <span class="fmt-pill">Reel · Avatar</span>
+              <span class="sla-pill crit">D+3</span>
+            </div>
+            <div class="kcard-title">Por que a maioria dos founders falha na hora de comunicar</div>
+            <div class="kcard-foot">
+              <span class="score-pill hi">89%</span>
+              <span class="founder-name">Marcelo Andrade</span>
+            </div>
+          </div>
+          <div class="kcard-schedule" style="justify-content:space-between;">
+            <span style="color:var(--brand);font-size:10px;font-weight:600;">Aguardando 18h</span>
+            <span>Sáb 26 Abr · 18:30</span>
+          </div>
+        </div>
+
+        <div class="kcard" onclick="openModal(this)">
+          <div class="kcard-body">
+            <div class="kcard-platform-row">
+              <span class="plt-pill tt">TikTok</span>
+              <span class="fmt-pill">Vídeo</span>
+              <span class="sla-pill warn">D+2</span>
+            </div>
+            <div class="kcard-title">O dia que perdi um contrato de R$500K por orgulho</div>
+            <div class="kcard-foot">
+              <span class="score-pill hi">92%</span>
+              <span class="founder-name">Ana Lima</span>
+            </div>
+          </div>
+          <div class="kcard-schedule" style="justify-content:space-between;">
+            <span style="color:var(--brand);font-size:10px;font-weight:600;">Aguardando 6h</span>
+            <span>Dom 27 Abr · 20:00</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- APROVADO -->
+    <div class="kb-col col-approved">
+      <div class="top-bar" style="background:var(--brand);"></div>
+      <div class="kb-col-head">
+        <span class="col-title">Aprovado</span>
+        <span class="col-count">1</span>
+      </div>
+      <div class="kb-cards">
+
+        <div class="kcard" onclick="openModal(this)">
+          <div class="kcard-body">
+            <div class="kcard-platform-row">
+              <span class="plt-pill lk">LinkedIn</span>
+              <span class="fmt-pill">Post</span>
+              <span class="approved-tag">Agendado</span>
+            </div>
+            <div class="kcard-title">Bootstrap vs VC — aprendi da forma mais difícil</div>
+            <div class="kcard-foot">
+              <span class="score-pill hi">96%</span>
+              <span class="founder-name">Marcelo Andrade</span>
+            </div>
+          </div>
+          <div class="kcard-schedule">
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><path d="M22 4L12 14.01l-3-3"/></svg>
+            Qua 22 Abr · 10:00
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- REJEITADO -->
+    <div class="kb-col col-rejected">
+      <div class="top-bar" style="background:rgba(0,0,0,0.18);"></div>
+      <div class="kb-col-head">
+        <span class="col-title">Devolvido</span>
+        <span class="col-count">1</span>
+      </div>
+      <div class="kb-cards">
+
+        <div class="kcard rejected-card" onclick="openModal(this)">
+          <div class="kcard-body">
+            <div class="kcard-platform-row">
+              <span class="plt-pill ig">Instagram</span>
+              <span class="fmt-pill">Carrossel</span>
+            </div>
+            <div class="kcard-title">5 hábitos que todo líder de alta performance tem</div>
+            <div class="kcard-foot">
+              <span class="score-pill md">79%</span>
+              <span class="founder-name">João Silva</span>
+            </div>
+          </div>
+          <div class="kcard-schedule">Devolvido ao Quill · v2 pendente</div>
+        </div>
+
+      </div>
+    </div>
+
+  </div><!-- end kanban -->
+
+  <!-- BATCH BAR -->
+  <div class="batch-bar" id="batch-bar">
+    <span id="batch-label">0 selecionados</span>
+    <button class="batch-dismiss" onclick="clearSelection()">Limpar</button>
+    <button class="batch-approve-btn" onclick="batchApprove()">Aprovar e enviar aos founders</button>
+  </div>
+
+</div><!-- end main -->
+
+<script>
+// BATCH SELECT
+let selected = new Set();
+function toggleCard(cb){
+  const card = cb.closest('.kcard');
+  const id = Array.from(document.querySelectorAll('.kcard')).indexOf(card);
+  if(cb.classList.contains('checked')){
+    cb.classList.remove('checked');cb.innerHTML='';card.classList.remove('selected');selected.delete(id);
+  } else {
+    cb.classList.add('checked');cb.innerHTML='<svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>';card.classList.add('selected');selected.add(id);
+  }
+  const bar=document.getElementById('batch-bar');
+  if(selected.size>0){bar.classList.add('show');document.getElementById('batch-label').textContent=selected.size+' selecionado'+(selected.size>1?'s':'');}
+  else bar.classList.remove('show');
+}
+function clearSelection(){
+  selected.clear();
+  document.querySelectorAll('.kcard-cb.checked').forEach(cb=>{cb.classList.remove('checked');cb.innerHTML='';cb.closest('.kcard').classList.remove('selected');});
+  document.getElementById('batch-bar').classList.remove('show');
+}
+function batchApprove(){
+  document.querySelectorAll('.kcard.selected').forEach(c=>{c.style.opacity='0.4';c.style.pointerEvents='none';});
+  clearSelection();
+}
+
+// MODAL
+const slides=[
+  {num:'Slide 1',text:'A maioria dos CEOs acompanha receita. Os melhores acompanham unit economics, LTV:CAC e payback.'},
+  {num:'Slide 2',text:'1ª métrica: LTV:CAC Ratio. Se está abaixo de 3:1, você está queimando caixa sem perceber.'},
+  {num:'Slide 3',text:'2ª métrica: CAC Payback Period. Ideal: < 12 meses. Acima disso, cada novo cliente custa mais do que rende no curto prazo.'},
+  {num:'Slide 4',text:'3ª métrica: Churn por coorte. O churn médio é inútil — o que importa é o comportamento por coorte de entrada.'},
+  {num:'Slide 5',text:'4ª métrica: NRR (Net Revenue Retention). Acima de 100% = expansão natural. Abaixo = vazamento invisível.'},
+  {num:'Slide 6',text:'5ª métrica: Magic Number. Quanto de receita você ganha para cada R$1 gasto em Sales & Marketing? Mínimo 0.75x.'},
+  {num:'Slide 7',text:'6ª métrica: Burn Multiple. ARR novo gerado / caixa queimado. Acima de 2x? Você está destruindo valor.'},
+  {num:'Slide 8',text:'7ª métrica: Rule of 40. Crescimento % + Margem EBITDA %. Abaixo de 40 é sintoma, não causa.'},
+];
+let currentSlide=0;
+
+function openModal(card){
+  const title=card.querySelector('.kcard-title').textContent;
+  document.getElementById('modal-title').textContent=title;
+  document.getElementById('slide-tot').textContent=slides.length;
+  currentSlide=0;
+  renderSlides();
+  document.getElementById('modal').classList.add('show');
+  document.body.style.overflow='hidden';
+}
+function closeModal(){
+  document.getElementById('modal').classList.remove('show');
+  document.body.style.overflow='';
+}
+function renderSlides(){
+  const area=document.getElementById('slides-area');
+  area.innerHTML='';
+  slides.forEach((s,i)=>{
+    const d=document.createElement('div');
+    d.className='slide-card';
+    d.style.display=i===currentSlide?'block':'none';
+    d.innerHTML=`<div class="slide-num">${s.num}</div><div class="slide-text">${s.text}</div>`;
+    area.appendChild(d);
+  });
+  document.getElementById('slide-cur').textContent=currentSlide+1;
+  // dots
+  const dotsEl=document.getElementById('slide-dots');
+  dotsEl.innerHTML='';
+  slides.forEach((_,i)=>{
+    const d=document.createElement('div');d.className='slide-dot'+(i===currentSlide?' active':'');dotsEl.appendChild(d);
+  });
+}
+function nextSlide(){if(currentSlide<slides.length-1){currentSlide++;renderSlides();}}
+function prevSlide(){if(currentSlide>0){currentSlide--;renderSlides();}}
+function approveFromModal(){
+  closeModal();
+  document.querySelectorAll('.col-review .kcard').forEach((c,i)=>{if(i===0){c.style.opacity='0.4';c.style.pointerEvents='none';}});
+}
+
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModal();if(e.key==='ArrowRight')nextSlide();if(e.key==='ArrowLeft')prevSlide();});
+</script>
+</body>
+</html>

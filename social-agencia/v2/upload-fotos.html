@@ -1,0 +1,782 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Upload Fotos — Etapa 2 · KTANA</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Zen+Dots&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:      #0A0A0A;
+    --surface: #1D1D1F;
+    --s2:      #2A2A2D;
+    --s3:      #3A3A3C;
+    --brand:   #D70030;
+    --brand-d: #9B0A2A;
+    --success: #22C55E;
+    --warn:    #FBBF24;
+    --error:   #D70030;
+    --text:    #F5F5F7;
+    --text-2:  #AEAEB2;
+    --text-3:  #6E6E73;
+    --border:  rgba(255,255,255,0.08);
+    --r:       16px;
+    --r-sm:    12px;
+  }
+
+  * { box-sizing:border-box; margin:0; padding:0; -webkit-tap-highlight-color:transparent; }
+
+  body {
+    background: var(--bg);
+    font-family: 'Inter', sans-serif;
+    color: var(--text);
+    min-height: 100dvh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+  }
+
+  .phone-wrap {
+    width: 100%;
+    max-width: 430px;
+    min-height: 100dvh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  @media (min-width: 480px) {
+    body { justify-content: center; padding: 24px 0; }
+    .phone-wrap {
+      min-height: 844px;
+      max-height: 844px;
+      border-radius: 40px;
+      box-shadow: 0 0 0 1px rgba(255,255,255,0.1), 0 8px 32px rgba(0,0,0,0.6);
+      overflow: hidden;
+    }
+  }
+
+  /* ── HEADER ── */
+  .top-bar {
+    background: rgba(10,10,10,0.95);
+    backdrop-filter: saturate(180%) blur(20px);
+    -webkit-backdrop-filter: saturate(180%) blur(20px);
+    border-bottom: 1px solid var(--border);
+    padding: 44px 16px 14px;
+    flex-shrink: 0;
+  }
+
+  .bar-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 14px;
+  }
+
+  .back-btn {
+    width: 32px; height: 32px;
+    background: var(--s2);
+    border: none; border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer; color: var(--text-2);
+  }
+  .back-btn:active { background: var(--s3); }
+
+  .bar-title {
+    flex: 1;
+    font-family: 'Zen Dots', sans-serif;
+    font-size: 14px;
+    color: var(--text);
+  }
+
+  .bar-count {
+    font-size: 11px;
+    color: var(--text-3);
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  /* Mini stepper */
+  .mini-stepper { display:flex; align-items:center; gap:0; }
+  .mini-node {
+    width:20px; height:20px; border-radius:50%;
+    font-size:9px; font-weight:600;
+    display:flex; align-items:center; justify-content:center;
+    flex-shrink:0;
+  }
+  .mn-done { background:var(--success); color:#fff; }
+  .mn-act  { background:var(--brand); color:#fff; box-shadow:0 0 8px rgba(215,0,48,.4); }
+  .mn-pend { background:var(--s3); color:var(--text-3); }
+  .mini-conn { height:2px; flex:1; min-width:12px; }
+  .mc-done { background:var(--success); }
+  .mc-pend { background:var(--s3); }
+  .mc-act  { background:var(--brand); }
+
+  /* ── SCROLL BODY ── */
+  .body-scroll {
+    flex:1;
+    overflow-y:auto;
+    padding: 16px 16px 100px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+  .body-scroll::-webkit-scrollbar { width:3px; }
+  .body-scroll::-webkit-scrollbar-thumb { background:var(--s3); border-radius:3px; }
+
+  /* ── INSTRUCTION ── */
+  .instr-card {
+    background: var(--surface);
+    border-radius: var(--r);
+    border: 1px solid var(--border);
+    padding: 16px;
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+  }
+  .instr-icon {
+    width: 36px; height: 36px;
+    background: rgba(215,0,48,0.12);
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    color: var(--brand);
+    flex-shrink: 0;
+  }
+  .instr-text { flex: 1; }
+  .instr-title { font-size: 14px; font-weight: 600; margin-bottom: 4px; }
+  .instr-sub { font-size: 12px; color: var(--text-2); line-height: 1.5; }
+
+  /* ── DROP ZONE ── */
+  .drop-zone {
+    border: 2px dashed var(--s3);
+    border-radius: var(--r);
+    padding: 32px 16px;
+    text-align: center;
+    cursor: pointer;
+    transition: border-color .25s, background .25s;
+    position: relative;
+    overflow: hidden;
+  }
+  .drop-zone:hover, .drop-zone.dragover {
+    border-color: var(--brand);
+    background: rgba(215,0,48,0.04);
+  }
+
+  .drop-icon {
+    width: 48px; height: 48px;
+    background: var(--s2);
+    border-radius: 14px;
+    display: flex; align-items: center; justify-content: center;
+    margin: 0 auto 14px;
+    color: var(--text-3);
+    transition: color .25s, background .25s;
+  }
+  .drop-zone:hover .drop-icon, .drop-zone.dragover .drop-icon {
+    background: rgba(215,0,48,0.12);
+    color: var(--brand);
+  }
+
+  .drop-title {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 6px;
+  }
+  .drop-sub {
+    font-size: 12px;
+    color: var(--text-3);
+    line-height: 1.5;
+  }
+  .drop-sub span { color: var(--text-2); font-weight: 500; }
+
+  /* Hidden file input */
+  #file-input { display:none; }
+
+  /* ── PROGRESS ── */
+  .progress-section { display: flex; flex-direction: column; gap: 8px; }
+
+  .progress-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .progress-label { font-size: 13px; font-weight: 500; }
+  .progress-value {
+    font-size: 13px;
+    font-family: 'JetBrains Mono', monospace;
+    color: var(--text-2);
+  }
+  .progress-value.done { color: var(--success); }
+
+  .progress-bar-track {
+    height: 6px;
+    background: var(--s2);
+    border-radius: 3px;
+    overflow: hidden;
+  }
+  .progress-bar-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--brand), var(--brand-d));
+    border-radius: 3px;
+    transition: width .4s ease;
+  }
+
+  .progress-hint {
+    font-size: 11px;
+    color: var(--text-3);
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+  .progress-hint.ok { color: var(--success); }
+  .progress-hint.warn-text { color: var(--warn); }
+
+  /* ── PHOTO GRID ── */
+  .grid-section { display: flex; flex-direction: column; gap: 10px; }
+
+  .grid-title {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text-3);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+
+  .photo-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 6px;
+  }
+
+  .photo-thumb {
+    aspect-ratio: 1;
+    border-radius: 8px;
+    background: var(--s2);
+    position: relative;
+    overflow: hidden;
+    border: 1px solid var(--border);
+  }
+
+  .photo-thumb img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  /* Status overlay */
+  .thumb-overlay {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-end;
+    padding: 4px;
+    background: linear-gradient(135deg, rgba(0,0,0,0.3), transparent);
+  }
+
+  .status-dot {
+    width: 16px; height: 16px;
+    border-radius: 50%;
+    border: 1.5px solid rgba(0,0,0,0.3);
+    display: flex; align-items: center; justify-content: center;
+  }
+  .status-ok   { background: var(--success); }
+  .status-warn { background: var(--warn); }
+  .status-err  { background: var(--error); }
+
+  .thumb-placeholder {
+    width: 100%; height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-3);
+    font-size: 10px;
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  /* Shimmer animation for uploading */
+  @keyframes shimmer {
+    0%   { background-position: -200px 0; }
+    100% { background-position: 200px 0; }
+  }
+  .uploading {
+    background: linear-gradient(90deg, var(--s2) 25%, var(--s3) 50%, var(--s2) 75%);
+    background-size: 400px 100%;
+    animation: shimmer 1.4s infinite linear;
+  }
+
+  /* More photos badge */
+  .thumb-more {
+    background: var(--s3);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 2px;
+    aspect-ratio: 1;
+    cursor: pointer;
+    transition: background .2s;
+  }
+  .thumb-more:hover { background: rgba(215,0,48,0.2); }
+  .thumb-more-count { font-size: 16px; font-weight: 700; color: var(--text); }
+  .thumb-more-label { font-size: 9px; color: var(--text-3); }
+
+  /* ── REQUIREMENTS ── */
+  .req-card {
+    background: var(--surface);
+    border-radius: var(--r);
+    border: 1px solid var(--border);
+    padding: 14px 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .req-title { font-size: 12px; font-weight: 600; color: var(--text-3); text-transform: uppercase; letter-spacing: .05em; }
+  .req-item {
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+  }
+  .req-bullet {
+    width: 16px; height: 16px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+    margin-top: 1px;
+  }
+  .req-ok   { background: rgba(34,197,94,.15); color: var(--success); }
+  .req-warn { background: rgba(251,191,36,.12); color: var(--warn); }
+  .req-sub  { font-size: 12px; color: var(--text-2); line-height: 1.4; }
+  .req-sub strong { color: var(--text); }
+
+  /* ── FOOTER BUTTONS ── */
+  .footer-bar {
+    position: fixed;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100%;
+    max-width: 430px;
+    background: rgba(10,10,10,0.97);
+    border-top: 1px solid var(--border);
+    padding: 12px 16px 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+  }
+
+  .btn-primary {
+    width: 100%;
+    padding: 15px;
+    background: linear-gradient(135deg, var(--brand), var(--brand-d));
+    border: none; border-radius: var(--r-sm);
+    color: #fff;
+    font-family: 'Zen Dots', sans-serif;
+    font-size: 13px;
+    letter-spacing: .02em;
+    cursor: pointer;
+    transition: opacity .2s, transform .1s;
+    display: flex; align-items: center; justify-content: center; gap: 8px;
+  }
+  .btn-primary:active { transform: scale(.98); }
+  .btn-primary:disabled {
+    background: var(--s3);
+    cursor: not-allowed;
+    opacity: .6;
+  }
+
+  .btn-row { display: flex; gap: 8px; }
+
+  .btn-ghost-sm {
+    flex: 1;
+    padding: 12px;
+    background: transparent;
+    border: 1px solid var(--border);
+    border-radius: var(--r-sm);
+    color: var(--text-2);
+    font-size: 13px;
+    cursor: pointer;
+    transition: border-color .2s, color .2s;
+    display: flex; align-items: center; justify-content: center; gap: 6px;
+  }
+  .btn-ghost-sm:hover { border-color: rgba(215,0,48,.3); color: var(--text); }
+  .btn-ghost-sm:active { background: rgba(255,255,255,.04); }
+
+  /* ── TOAST ── */
+  .toast {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%) translateY(-80px);
+    background: var(--s2);
+    border: 1px solid var(--border);
+    border-radius: var(--r-sm);
+    padding: 12px 16px;
+    font-size: 13px;
+    color: var(--text);
+    display: flex; align-items: center; gap: 10px;
+    z-index: 100;
+    transition: transform .35s cubic-bezier(.34,1.56,.64,1);
+    box-shadow: 0 8px 32px rgba(0,0,0,.5);
+    white-space: nowrap;
+  }
+  .toast.show { transform: translateX(-50%) translateY(0); }
+  .toast-icon { color: var(--success); flex-shrink: 0; }
+  .toast-icon.wa { color: #25D366; }
+</style>
+</head>
+<body>
+<div class="phone-wrap">
+
+  <!-- HEADER -->
+  <div class="top-bar">
+    <div class="bar-row">
+      <button class="back-btn" onclick="history.back()" title="Voltar">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="15 18 9 12 15 6"/>
+        </svg>
+      </button>
+      <div class="bar-title">Etapa 2 — Fotos</div>
+      <div class="bar-count" id="header-count">24 / 40</div>
+    </div>
+    <!-- Mini stepper: step 1 done, step 2 active -->
+    <div class="mini-stepper">
+      <div class="mini-node mn-done">
+        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="20 6 9 17 4 12"/>
+        </svg>
+      </div>
+      <div class="mini-conn mc-done"></div>
+      <div class="mini-node mn-act">2</div>
+      <div class="mini-conn mc-pend"></div>
+      <div class="mini-node mn-pend">3</div>
+      <div class="mini-conn mc-pend"></div>
+      <div class="mini-node mn-pend">4</div>
+      <div class="mini-conn mc-pend"></div>
+      <div class="mini-node mn-pend">5</div>
+      <div class="mini-conn mc-pend"></div>
+      <div class="mini-node mn-pend">6</div>
+    </div>
+  </div>
+
+  <!-- BODY -->
+  <div class="body-scroll">
+
+    <!-- Instruction -->
+    <div class="instr-card">
+      <div class="instr-icon">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/>
+        </svg>
+      </div>
+      <div class="instr-text">
+        <div class="instr-title">Fotos de referência visual</div>
+        <div class="instr-sub">Envie 40–50 fotos suas: ambientes, eventos, rotina, bastidores. Elas treinam seu clone visual — quanto mais variadas, melhor o resultado.</div>
+      </div>
+    </div>
+
+    <!-- Drop zone -->
+    <div class="drop-zone" id="drop-zone"
+      onclick="document.getElementById('file-input').click()"
+      ondragover="onDragOver(event)"
+      ondragleave="onDragLeave(event)"
+      ondrop="onDrop(event)"
+    >
+      <input type="file" id="file-input" multiple accept="image/jpeg,image/png,image/heic" onchange="onFilePick(event)">
+
+      <div class="drop-icon">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="16 16 12 12 8 16"/><line x1="12" y1="12" x2="12" y2="21"/>
+          <path d="M20.39 18.39A5 5 0 0 0 18 9h-1.26A8 8 0 1 0 3 16.3"/>
+        </svg>
+      </div>
+      <div class="drop-title">Arraste as fotos aqui</div>
+      <div class="drop-sub">ou toque para selecionar<br><span>JPG · PNG · HEIC · Mín. 1024×1024 px</span></div>
+    </div>
+
+    <!-- Progress -->
+    <div class="progress-section">
+      <div class="progress-header">
+        <span class="progress-label">Fotos enviadas</span>
+        <span class="progress-value" id="prog-text">24 / 40</span>
+      </div>
+      <div class="progress-bar-track">
+        <div class="progress-bar-fill" id="prog-fill" style="width:60%"></div>
+      </div>
+      <div class="progress-hint" id="prog-hint">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>
+        </svg>
+        Faltam 16 fotos para liberar a próxima etapa
+      </div>
+    </div>
+
+    <!-- Grid -->
+    <div class="grid-section">
+      <div class="grid-title">Fotos recebidas — <span id="grid-count-label">24 de 40</span></div>
+      <div class="photo-grid" id="photo-grid">
+
+        <!-- Fotos ok (18) -->
+        <!-- Simulated as colored blocks with overlay -->
+        <div class="photo-thumb" style="background:hsl(210,15%,22%)">
+          <div class="thumb-overlay"><div class="status-dot status-ok"><svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div></div>
+        </div>
+        <div class="photo-thumb" style="background:hsl(20,15%,20%)">
+          <div class="thumb-overlay"><div class="status-dot status-ok"><svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div></div>
+        </div>
+        <div class="photo-thumb" style="background:hsl(180,12%,18%)">
+          <div class="thumb-overlay"><div class="status-dot status-ok"><svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div></div>
+        </div>
+        <div class="photo-thumb" style="background:hsl(200,20%,16%)">
+          <div class="thumb-overlay"><div class="status-dot status-ok"><svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div></div>
+        </div>
+        <div class="photo-thumb" style="background:hsl(30,18%,22%)">
+          <div class="thumb-overlay"><div class="status-dot status-ok"><svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div></div>
+        </div>
+        <!-- 1 photo with warning (resolution too small) -->
+        <div class="photo-thumb" style="background:hsl(45,25%,18%); border-color:rgba(251,191,36,.4)">
+          <div class="thumb-overlay"><div class="status-dot status-warn"><svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></div></div>
+          <div style="position:absolute;bottom:0;left:0;right:0;background:rgba(251,191,36,.15);padding:3px 4px;font-size:8px;color:var(--warn);text-align:center;font-family:'JetBrains Mono',monospace">Baixa res</div>
+        </div>
+        <div class="photo-thumb" style="background:hsl(260,10%,20%)">
+          <div class="thumb-overlay"><div class="status-dot status-ok"><svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div></div>
+        </div>
+        <div class="photo-thumb" style="background:hsl(340,15%,18%)">
+          <div class="thumb-overlay"><div class="status-dot status-ok"><svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div></div>
+        </div>
+        <!-- 2 photos uploading -->
+        <div class="photo-thumb uploading"></div>
+        <div class="photo-thumb uploading"></div>
+        <!-- 8 remaining ok -->
+        <div class="photo-thumb" style="background:hsl(150,12%,18%)">
+          <div class="thumb-overlay"><div class="status-dot status-ok"><svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div></div>
+        </div>
+        <div class="photo-thumb" style="background:hsl(220,15%,20%)">
+          <div class="thumb-overlay"><div class="status-dot status-ok"><svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div></div>
+        </div>
+        <div class="photo-thumb" style="background:hsl(10,18%,16%)">
+          <div class="thumb-overlay"><div class="status-dot status-ok"><svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div></div>
+        </div>
+        <div class="photo-thumb" style="background:hsl(190,12%,20%)">
+          <div class="thumb-overlay"><div class="status-dot status-ok"><svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div></div>
+        </div>
+        <!-- "Ver mais" button -->
+        <div class="thumb-more" onclick="simulateMorePhotos()">
+          <div class="thumb-more-count" id="more-count">+11</div>
+          <div class="thumb-more-label">mais</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Requirements -->
+    <div class="req-card">
+      <div class="req-title">Requisitos das fotos</div>
+      <div class="req-item">
+        <div class="req-bullet req-ok">
+          <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="20 6 9 17 4 12"/>
+          </svg>
+        </div>
+        <div class="req-sub"><strong>Formatos aceitos:</strong> JPG, PNG, HEIC</div>
+      </div>
+      <div class="req-item">
+        <div class="req-bullet req-warn">
+          <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="12" y1="9" x2="12" y2="13"/>
+            <line x1="12" y1="17" x2="12.01" y2="17"/>
+          </svg>
+        </div>
+        <div class="req-sub"><strong>Resolução mínima:</strong> 1024 × 1024 px — 1 foto abaixo disso foi rejeitada</div>
+      </div>
+      <div class="req-item">
+        <div class="req-bullet req-ok">
+          <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="20 6 9 17 4 12"/>
+          </svg>
+        </div>
+        <div class="req-sub"><strong>Quantidade mínima:</strong> 40 fotos para liberar a próxima etapa</div>
+      </div>
+      <div class="req-item">
+        <div class="req-bullet req-ok">
+          <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="20 6 9 17 4 12"/>
+          </svg>
+        </div>
+        <div class="req-sub"><strong>Máximo por envio:</strong> 60 arquivos por vez</div>
+      </div>
+    </div>
+
+  </div><!-- /body-scroll -->
+
+  <!-- FOOTER BAR -->
+  <div class="footer-bar">
+    <button class="btn-primary" id="btn-continue" disabled onclick="simulateContinue()">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
+      </svg>
+      Continuar — faltam 16 fotos
+    </button>
+    <div class="btn-row">
+      <button class="btn-ghost-sm" onclick="showToast('defer')">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
+        </svg>
+        Enviar depois
+      </button>
+      <button class="btn-ghost-sm" onclick="showToast('wa')">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#25D366" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+        </svg>
+        Pulse me lembra
+      </button>
+    </div>
+  </div>
+
+</div><!-- /phone-wrap -->
+
+<!-- TOAST -->
+<div class="toast" id="toast">
+  <div class="toast-icon" id="toast-icon">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+      <polyline points="20 6 9 17 4 12"/>
+    </svg>
+  </div>
+  <span id="toast-text">Salvo</span>
+</div>
+
+<script>
+  let photosUploaded = 24;
+  const TARGET = 40;
+
+  function updateProgress(count) {
+    photosUploaded = count;
+    const pct = Math.min(100, Math.round(count / TARGET * 100));
+    const fill = document.getElementById('prog-fill');
+    const text = document.getElementById('prog-text');
+    const hint = document.getElementById('prog-hint');
+    const hdr  = document.getElementById('header-count');
+    const lbl  = document.getElementById('grid-count-label');
+    const btn  = document.getElementById('btn-continue');
+
+    fill.style.width = pct + '%';
+    text.textContent = count + ' / ' + TARGET;
+    hdr.textContent  = count + ' / ' + TARGET;
+    lbl.textContent  = count + ' de ' + TARGET;
+
+    if (count >= TARGET) {
+      text.className = 'progress-value done';
+      hint.className = 'progress-hint ok';
+      hint.innerHTML = `<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Mínimo atingido — pronto para continuar!`;
+      btn.disabled = false;
+      btn.innerHTML = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg> Continuar — ${count} fotos enviadas`;
+    } else {
+      const missing = TARGET - count;
+      text.className = 'progress-value';
+      hint.className = 'progress-hint';
+      hint.innerHTML = `<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg> Faltam ${missing} fotos para liberar a próxima etapa`;
+      btn.disabled = true;
+      btn.innerHTML = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg> Continuar — faltam ${missing} fotos`;
+    }
+  }
+
+  function onDragOver(e) {
+    e.preventDefault();
+    document.getElementById('drop-zone').classList.add('dragover');
+  }
+  function onDragLeave(e) {
+    document.getElementById('drop-zone').classList.remove('dragover');
+  }
+  function onDrop(e) {
+    e.preventDefault();
+    document.getElementById('drop-zone').classList.remove('dragover');
+    const files = e.dataTransfer?.files;
+    if (files && files.length) simulateUpload(files.length);
+  }
+  function onFilePick(e) {
+    const files = e.target.files;
+    if (files && files.length) simulateUpload(files.length);
+  }
+
+  function simulateUpload(count) {
+    const add = Math.min(count, TARGET - photosUploaded);
+    if (add <= 0) { showToast('max'); return; }
+    const grid = document.getElementById('photo-grid');
+    /* Remove "more" button temporarily */
+    const moreBtn = grid.querySelector('.thumb-more');
+    if (moreBtn) grid.removeChild(moreBtn);
+    /* Add shimmer placeholders */
+    for (let i = 0; i < add && i < 4; i++) {
+      const div = document.createElement('div');
+      div.className = 'photo-thumb uploading';
+      div.id = 'upload-' + i;
+      grid.appendChild(div);
+    }
+    if (moreBtn) grid.appendChild(moreBtn);
+    /* Simulate completion */
+    setTimeout(() => {
+      for (let i = 0; i < add && i < 4; i++) {
+        const el = document.getElementById('upload-' + i);
+        if (el) {
+          const hue = Math.round(Math.random() * 360);
+          el.className = 'photo-thumb';
+          el.style.background = `hsl(${hue},12%,18%)`;
+          el.innerHTML = `<div class="thumb-overlay"><div class="status-dot status-ok"><svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div></div>`;
+        }
+      }
+      const newCount = Math.min(photosUploaded + add, 60);
+      updateProgress(newCount);
+      /* Update more badge */
+      const more = grid.querySelector('.thumb-more-count');
+      if (more) {
+        const extras = Math.max(0, newCount - 12);
+        document.getElementById('more-count').textContent = '+' + extras;
+      }
+      showToast('upload', add);
+    }, 1400);
+  }
+
+  function simulateMorePhotos() {
+    simulateUpload(8);
+  }
+
+  function simulateContinue() {
+    showToast('continue');
+  }
+
+  function showToast(type, extra) {
+    const el   = document.getElementById('toast');
+    const icon = document.getElementById('toast-icon');
+    const text = document.getElementById('toast-text');
+
+    if (type === 'defer') {
+      icon.className = 'toast-icon';
+      icon.innerHTML = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>`;
+      text.textContent = 'Lembrete agendado para amanhã às 10h';
+    } else if (type === 'wa') {
+      icon.className = 'toast-icon wa';
+      icon.innerHTML = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>`;
+      text.textContent = 'Pulse vai te lembrar no WhatsApp em 24h';
+    } else if (type === 'max') {
+      icon.className = 'toast-icon';
+      icon.innerHTML = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="20 6 9 17 4 12"/></svg>`;
+      text.textContent = 'Meta de fotos já atingida!';
+    } else if (type === 'continue') {
+      icon.className = 'toast-icon';
+      icon.innerHTML = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>`;
+      text.textContent = 'Etapa 2 concluída! Indo para Estilo Visual…';
+    } else if (type === 'upload') {
+      icon.className = 'toast-icon';
+      icon.innerHTML = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>`;
+      text.textContent = (extra || 1) + ' foto' + (extra !== 1 ? 's' : '') + ' enviada' + (extra !== 1 ? 's' : '') + ' com sucesso';
+    }
+
+    el.classList.add('show');
+    clearTimeout(el._timer);
+    el._timer = setTimeout(() => el.classList.remove('show'), 3200);
+  }
+</script>
+</body>
+</html>

@@ -1,0 +1,1621 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>KTANA — Onboarding do Founder</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Zen+Dots&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+
+    :root {
+      --brand:      #D70030;
+      --brand-dark: #A60028;
+      --black:      #0A0A0A;
+      --dark:       #1D1D1F;
+      --dark2:      #111111;
+      --gray:       #6E6E73;
+      --border:     #2D2D2D;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--black);
+      color: #fff;
+      min-height: 100vh;
+    }
+
+    /* Subtle background */
+    body::before {
+      content: '';
+      position: fixed; inset: 0;
+      background:
+        radial-gradient(ellipse 600px 400px at 30% 20%, rgba(215,0,48,0.03) 0%, transparent 70%),
+        radial-gradient(ellipse 400px 300px at 70% 80%, rgba(215,0,48,0.02) 0%, transparent 70%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* Animations */
+    @keyframes fade-in { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:translateY(0); } }
+    @keyframes slide-up { from { opacity:0; transform:translateY(20px); } to { opacity:1; transform:translateY(0); } }
+    @keyframes bounce-dot {
+      0%, 80%, 100% { transform: translateY(0); }
+      40% { transform: translateY(-6px); }
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    @keyframes glow-pulse {
+      0%, 100% { box-shadow: 0 0 0 3px rgba(215,0,48,0.15); }
+      50% { box-shadow: 0 0 0 6px rgba(215,0,48,0.25); }
+    }
+    @keyframes progress-fill { from { width: 0; } to { width: var(--target-width); } }
+    @keyframes bubble-in-left {
+      from { opacity:0; transform:translateX(-12px); }
+      to { opacity:1; transform:translateX(0); }
+    }
+    @keyframes bubble-in-right {
+      from { opacity:0; transform:translateX(12px); }
+      to { opacity:1; transform:translateX(0); }
+    }
+    @keyframes shake { 0%,100%{transform:translateX(0)} 25%{transform:translateX(-4px)} 75%{transform:translateX(4px)} }
+    @keyframes check-pop { from{transform:scale(0) rotate(-45deg)} to{transform:scale(1) rotate(0)} }
+    @keyframes confetti-fall {
+      from { transform: translateY(-20px) rotate(0deg); opacity:1; }
+      to { transform: translateY(80px) rotate(720deg); opacity:0; }
+    }
+
+    /* Layout */
+    .layout {
+      position: relative;
+      z-index: 1;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 24px 16px;
+    }
+
+    /* Logo header */
+    .top-logo {
+      font-family: 'Zen Dots', sans-serif;
+      font-size: 18px;
+      color: var(--brand);
+      letter-spacing: 0.06em;
+      margin-bottom: 32px;
+      align-self: flex-start;
+      width: 100%;
+      max-width: 640px;
+    }
+
+    /* Main card */
+    .wizard-card {
+      width: 100%;
+      max-width: 640px;
+      background: var(--dark);
+      border-radius: 20px;
+      border: 1px solid var(--border);
+      overflow: hidden;
+      animation: slide-up 0.5s ease forwards;
+    }
+
+    /* Card header with step info */
+    .card-header {
+      padding: 20px 28px 16px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .card-header-title {
+      font-size: 13px;
+      font-weight: 600;
+      color: #8D8D8D;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+    .card-header-step {
+      font-size: 12px;
+      color: #5D5D5D;
+    }
+
+    /* Stepper */
+    .stepper {
+      display: flex;
+      align-items: center;
+      padding: 20px 28px;
+      gap: 0;
+    }
+    .step-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      flex: 1;
+      position: relative;
+    }
+    .step-circle {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      position: relative;
+      z-index: 1;
+      flex-shrink: 0;
+    }
+    .step-circle.future {
+      border: 2px solid #2D2D2D;
+      color: #4D4D4D;
+      background: transparent;
+    }
+    .step-circle.active {
+      background: var(--brand);
+      color: #fff;
+      animation: glow-pulse 2s ease-in-out infinite;
+    }
+    .step-circle.done {
+      background: #22C55E;
+      color: #fff;
+    }
+    .step-label {
+      font-size: 10px;
+      color: #5D5D5D;
+      white-space: nowrap;
+      text-align: center;
+    }
+    .step-label.active { color: var(--brand); font-weight: 600; }
+    .step-label.done { color: #22C55E; }
+    .step-connector {
+      height: 2px;
+      flex: 1;
+      background: #2D2D2D;
+      margin-bottom: 18px;
+      transition: background 0.3s;
+    }
+    .step-connector.done { background: #22C55E; }
+
+    /* Card body */
+    .card-body {
+      padding: 28px;
+    }
+
+    /* ===================== WELCOME SCREEN ===================== */
+    .welcome-title {
+      font-family: 'Zen Dots', sans-serif;
+      font-size: 22px;
+      color: #fff;
+      margin-bottom: 6px;
+    }
+    .welcome-subtitle {
+      font-size: 14px;
+      color: #8D8D8D;
+      margin-bottom: 28px;
+    }
+    .welcome-steps-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-bottom: 28px;
+    }
+    .welcome-step-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 14px;
+      background: #111;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+    }
+    .welcome-step-dot {
+      width: 24px; height: 24px;
+      border-radius: 50%;
+      background: var(--brand);
+      color: #fff;
+      font-size: 11px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .welcome-step-name {
+      font-size: 13px;
+      font-weight: 500;
+      color: #fff;
+      flex: 1;
+    }
+    .welcome-step-time {
+      font-size: 11px;
+      color: #5D5D5D;
+    }
+
+    /* ===================== CHAT SCREEN ===================== */
+    .chat-container {
+      display: flex;
+      flex-direction: column;
+      height: 380px;
+    }
+    .chat-messages {
+      flex: 1;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      padding-right: 4px;
+      scrollbar-width: thin;
+      scrollbar-color: #2D2D2D transparent;
+    }
+    .chat-messages::-webkit-scrollbar { width: 4px; }
+    .chat-messages::-webkit-scrollbar-track { background: transparent; }
+    .chat-messages::-webkit-scrollbar-thumb { background: #2D2D2D; border-radius: 2px; }
+
+    .msg-row {
+      display: flex;
+      gap: 10px;
+      align-items: flex-end;
+    }
+    .msg-row.sensei { animation: bubble-in-left 0.3s ease forwards; }
+    .msg-row.founder { flex-direction: row-reverse; animation: bubble-in-right 0.3s ease forwards; }
+
+    .sensei-avatar {
+      width: 36px; height: 36px;
+      border-radius: 50%;
+      background: #111;
+      border: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .msg-bubble {
+      max-width: 80%;
+      padding: 12px 14px;
+      font-size: 14px;
+      line-height: 1.55;
+    }
+    .msg-bubble.sensei {
+      background: #111;
+      border-left: 3px solid var(--brand);
+      border-radius: 0 12px 12px 12px;
+    }
+    .msg-bubble.founder {
+      background: rgba(215, 0, 48, 0.10);
+      border: 1px solid rgba(215, 0, 48, 0.15);
+      border-radius: 12px 0 12px 12px;
+    }
+    .msg-time {
+      font-size: 11px;
+      color: #4D4D4D;
+      margin-top: 4px;
+      text-align: right;
+      font-family: 'JetBrains Mono', monospace;
+    }
+    .msg-time.sensei { text-align: left; margin-left: 46px; }
+
+    /* Typing indicator */
+    .typing-row { display: flex; gap: 10px; align-items: center; animation: bubble-in-left 0.3s ease; }
+    .typing-bubble {
+      background: #111;
+      border-left: 3px solid var(--brand);
+      border-radius: 0 12px 12px 12px;
+      padding: 12px 16px;
+      display: flex;
+      gap: 5px;
+      align-items: center;
+    }
+    .typing-dot {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: var(--brand);
+    }
+    .typing-dot:nth-child(1) { animation: bounce-dot 1.2s 0ms infinite; }
+    .typing-dot:nth-child(2) { animation: bounce-dot 1.2s 150ms infinite; }
+    .typing-dot:nth-child(3) { animation: bounce-dot 1.2s 300ms infinite; }
+
+    /* Chat footer */
+    .chat-footer {
+      margin-top: 16px;
+      border-top: 1px solid var(--border);
+      padding-top: 14px;
+    }
+    .chat-input-row {
+      display: flex;
+      gap: 10px;
+      align-items: flex-end;
+    }
+    .chat-input {
+      flex: 1;
+      background: #111;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 12px 14px;
+      color: #fff;
+      font-size: 14px;
+      font-family: 'Inter', sans-serif;
+      resize: none;
+      min-height: 48px;
+      max-height: 100px;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    .chat-input::placeholder { color: #4D4D4D; }
+    .chat-input:focus { border-color: var(--brand); box-shadow: 0 0 0 3px rgba(215,0,48,0.1); }
+    .send-btn {
+      width: 48px; height: 48px;
+      border-radius: 12px;
+      background: var(--brand);
+      border: none;
+      color: #fff;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      transition: all 0.2s;
+    }
+    .send-btn:hover { background: var(--brand-dark); transform: scale(1.05); }
+    .send-btn:disabled { opacity: 0.4; cursor: not-allowed; transform: none; }
+    .chat-counter {
+      text-align: center;
+      font-size: 12px;
+      color: #5D5D5D;
+      margin-top: 10px;
+    }
+
+    /* ===================== PHOTO UPLOAD ===================== */
+    .drop-zone {
+      border: 2px dashed #3D3D3D;
+      border-radius: 14px;
+      padding: 36px 24px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      margin-bottom: 20px;
+    }
+    .drop-zone:hover, .drop-zone.drag-over {
+      border-color: var(--brand);
+      background: rgba(215,0,48,0.04);
+    }
+    .drop-zone-icon { margin: 0 auto 12px; color: #5D5D5D; }
+    .drop-zone-title { font-size: 15px; font-weight: 600; margin-bottom: 6px; }
+    .drop-zone-hint { font-size: 12px; color: #5D5D5D; }
+
+    .photo-grid {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 8px;
+      margin-bottom: 20px;
+    }
+    .photo-thumb {
+      width: 100%;
+      aspect-ratio: 1;
+      border-radius: 8px;
+      background: #111;
+      border: 2px solid #22C55E;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 10px;
+      color: #22C55E;
+      position: relative;
+      overflow: hidden;
+      animation: check-pop 0.3s ease forwards;
+    }
+    .photo-thumb.error { border-color: var(--brand); color: var(--brand); }
+    .photo-thumb-label { font-size: 9px; color: #5D5D5D; text-align: center; padding: 2px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+
+    .progress-wrap {
+      margin-bottom: 20px;
+    }
+    .progress-bar-bg {
+      height: 8px;
+      background: #111;
+      border-radius: 4px;
+      overflow: hidden;
+      margin-bottom: 6px;
+    }
+    .progress-bar-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--brand), var(--brand-dark));
+      border-radius: 4px;
+      transition: width 0.4s ease;
+    }
+    .progress-text { font-size: 12px; color: #8D8D8D; }
+
+    .defer-actions {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+    .defer-btn {
+      flex: 1;
+      height: 40px;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      background: transparent;
+      color: #8D8D8D;
+      font-size: 12px;
+      font-family: 'Inter', sans-serif;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .defer-btn:hover { border-color: #5D5D5D; color: #fff; }
+
+    /* ===================== STYLE SELECT ===================== */
+    .style-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+    .style-card {
+      background: #111;
+      border: 2px solid var(--border);
+      border-radius: 12px;
+      padding: 14px 10px;
+      cursor: pointer;
+      text-align: center;
+      transition: all 0.2s ease;
+    }
+    .style-card:hover { border-color: rgba(215,0,48,0.5); transform: translateY(-2px); }
+    .style-card.selected {
+      border-color: var(--brand);
+      background: rgba(215,0,48,0.05);
+      transform: scale(1.02);
+    }
+    .style-card-icon { font-size: 26px; margin-bottom: 8px; }
+    .style-card-name { font-size: 11px; font-weight: 600; color: #fff; margin-bottom: 2px; }
+    .style-card-desc { font-size: 10px; color: #5D5D5D; }
+    .style-card .check-mark {
+      position: absolute;
+      top: 6px; right: 6px;
+      width: 16px; height: 16px;
+      border-radius: 50%;
+      background: var(--brand);
+      color: #fff;
+      font-size: 9px;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .style-card { position: relative; }
+
+    /* ===================== VIDEO / AUDIO UPLOAD ===================== */
+    .upload-instructions {
+      background: #111;
+      border-radius: 12px;
+      padding: 16px;
+      margin-bottom: 20px;
+      border: 1px solid var(--border);
+    }
+    .upload-instructions-title {
+      font-size: 13px;
+      font-weight: 600;
+      margin-bottom: 10px;
+      color: #fff;
+    }
+    .upload-instructions ol {
+      padding-left: 18px;
+      font-size: 13px;
+      color: #8D8D8D;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .upload-zone {
+      border: 2px dashed #3D3D3D;
+      border-radius: 14px;
+      padding: 28px 24px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.25s;
+      margin-bottom: 16px;
+    }
+    .upload-zone:hover { border-color: var(--brand); background: rgba(215,0,48,0.04); }
+    .upload-zone.uploaded { border-color: #22C55E; border-style: solid; background: rgba(34,197,94,0.05); }
+    .upload-success-icon { font-size: 32px; margin-bottom: 8px; }
+    .upload-note { font-size: 12px; color: #5D5D5D; }
+
+    /* ===================== SOCIAL SCREEN ===================== */
+    .social-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+    .social-card {
+      background: #111;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 14px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      transition: all 0.2s;
+    }
+    .social-card.connected { border-color: #22C55E; background: rgba(34,197,94,0.05); }
+    .social-logo {
+      width: 36px; height: 36px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      flex-shrink: 0;
+    }
+    .social-info { flex: 1; min-width: 0; }
+    .social-name { font-size: 13px; font-weight: 600; }
+    .social-status { font-size: 11px; color: #5D5D5D; margin-top: 1px; }
+    .social-status.connected-text { color: #22C55E; }
+    .social-btn {
+      height: 30px;
+      padding: 0 10px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      background: transparent;
+      color: #8D8D8D;
+      font-size: 11px;
+      font-family: 'Inter', sans-serif;
+      cursor: pointer;
+      transition: all 0.2s;
+      white-space: nowrap;
+    }
+    .social-btn:hover { border-color: var(--brand); color: var(--brand); }
+    .social-btn.connect-btn { border-color: var(--brand); color: var(--brand); }
+    .social-btn.connected-btn { border-color: #22C55E; color: #22C55E; }
+
+    /* ===================== COMPLETION SCREEN ===================== */
+    .completion-center {
+      text-align: center;
+      padding: 20px 0 8px;
+    }
+    .completion-emoji { font-size: 56px; margin-bottom: 16px; }
+    .completion-title {
+      font-family: 'Zen Dots', sans-serif;
+      font-size: 22px;
+      margin-bottom: 8px;
+      color: #fff;
+    }
+    .completion-subtitle { font-size: 14px; color: #8D8D8D; margin-bottom: 24px; }
+    .completion-list {
+      text-align: left;
+      background: #111;
+      border-radius: 12px;
+      padding: 16px;
+      margin-bottom: 24px;
+      border: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .completion-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 13px;
+      color: #8D8D8D;
+    }
+    .completion-dot {
+      width: 20px; height: 20px;
+      border-radius: 50%;
+      background: rgba(215,0,48,0.2);
+      border: 1px solid var(--brand);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 10px;
+      color: var(--brand);
+      flex-shrink: 0;
+    }
+
+    /* ===================== SHARED BUTTON ===================== */
+    .btn-primary {
+      width: 100%;
+      height: 52px;
+      border-radius: 14px;
+      border: none;
+      color: #fff;
+      font-size: 15px;
+      font-weight: 700;
+      font-family: 'Zen Dots', sans-serif;
+      cursor: pointer;
+      background: linear-gradient(135deg, var(--brand), var(--brand-dark));
+      transition: all 0.3s cubic-bezier(.32,.72,0,1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      letter-spacing: 0.04em;
+    }
+    .btn-primary:hover:not(:disabled) { transform: scale(1.02); box-shadow: 0 0 28px rgba(215,0,48,0.3); }
+    .btn-primary:active:not(:disabled) { transform: scale(0.98); }
+    .btn-primary:disabled { opacity: 0.4; cursor: not-allowed; }
+
+    /* Confetti */
+    .confetti-piece {
+      position: fixed;
+      width: 8px; height: 8px;
+      border-radius: 2px;
+      animation: confetti-fall 1.5s ease forwards;
+      z-index: 100;
+    }
+
+    /* Nav pills for screen switcher demo */
+    .demo-nav {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+      margin-bottom: 24px;
+      max-width: 640px;
+      width: 100%;
+    }
+    .demo-pill {
+      padding: 4px 12px;
+      border-radius: 20px;
+      border: 1px solid var(--border);
+      background: transparent;
+      color: #5D5D5D;
+      font-size: 11px;
+      cursor: pointer;
+      font-family: 'Inter', sans-serif;
+      transition: all 0.15s;
+    }
+    .demo-pill:hover { border-color: var(--brand); color: var(--brand); }
+    .demo-pill.active { background: rgba(215,0,48,0.1); border-color: var(--brand); color: var(--brand); }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+    }
+
+    @media (max-width: 480px) {
+      .style-grid { grid-template-columns: repeat(2, 1fr); }
+      .photo-grid { grid-template-columns: repeat(4, 1fr); }
+      .social-grid { grid-template-columns: 1fr; }
+      .card-body { padding: 20px 18px; }
+      .stepper { padding: 16px 12px; }
+      .step-label { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="layout">
+  <!-- Logo -->
+  <div class="top-logo" style="display:flex; align-items:center; gap:8px; margin-bottom:16px;">
+    <span>KTANA</span>
+    <span style="font-family:'Inter',sans-serif; font-size:11px; color:#5D5D5D; font-weight:400; letter-spacing:0.02em;">Onboarding do Founder</span>
+  </div>
+
+  <!-- Demo navigation pills -->
+  <div class="demo-nav" id="demo-nav">
+    <button class="demo-pill active" onclick="showScreen('welcome')">Boas-vindas</button>
+    <button class="demo-pill" onclick="showScreen('step1')">Etapa 1 — Chat</button>
+    <button class="demo-pill" onclick="showScreen('step2')">Etapa 2 — Fotos</button>
+    <button class="demo-pill" onclick="showScreen('step3')">Etapa 3 — Estilo</button>
+    <button class="demo-pill" onclick="showScreen('step4')">Etapa 4 — Vídeo</button>
+    <button class="demo-pill" onclick="showScreen('step5')">Etapa 5 — Voz</button>
+    <button class="demo-pill" onclick="showScreen('step6')">Etapa 6 — Redes</button>
+    <button class="demo-pill" onclick="showScreen('complete')">Conclusão</button>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- WELCOME SCREEN                                               -->
+  <!-- ============================================================ -->
+  <div id="screen-welcome" class="wizard-card">
+    <!-- Stepper -->
+    <div class="stepper">
+      <div class="step-item">
+        <div class="step-circle active">1</div>
+        <span class="step-label active">Chat</span>
+      </div>
+      <div class="step-connector"></div>
+      <div class="step-item">
+        <div class="step-circle future">2</div>
+        <span class="step-label">Fotos</span>
+      </div>
+      <div class="step-connector"></div>
+      <div class="step-item">
+        <div class="step-circle future">3</div>
+        <span class="step-label">Estilo</span>
+      </div>
+      <div class="step-connector"></div>
+      <div class="step-item">
+        <div class="step-circle future">4</div>
+        <span class="step-label">Vídeo</span>
+      </div>
+      <div class="step-connector"></div>
+      <div class="step-item">
+        <div class="step-circle future">5</div>
+        <span class="step-label">Voz</span>
+      </div>
+      <div class="step-connector"></div>
+      <div class="step-item">
+        <div class="step-circle future">6</div>
+        <span class="step-label">Redes</span>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="welcome-title">Olá, Marcelo!</div>
+      <p class="welcome-subtitle">Vamos configurar seu posicionamento. Em menos de 48h seu conteúdo entra em produção.</p>
+
+      <div class="welcome-steps-list">
+        <div class="welcome-step-row">
+          <div class="welcome-step-dot">1</div>
+          <div class="welcome-step-name">Chat com Sensei — Conhecendo você</div>
+          <div class="welcome-step-time">~8 min</div>
+        </div>
+        <div class="welcome-step-row">
+          <div class="welcome-step-dot" style="background:#5D5D5D;">2</div>
+          <div class="welcome-step-name">Fotos de referência visual</div>
+          <div class="welcome-step-time">~5 min</div>
+        </div>
+        <div class="welcome-step-row">
+          <div class="welcome-step-dot" style="background:#5D5D5D;">3</div>
+          <div class="welcome-step-name">Estilo visual e posicionamento</div>
+          <div class="welcome-step-time">~3 min</div>
+        </div>
+        <div class="welcome-step-row">
+          <div class="welcome-step-dot" style="background:#5D5D5D;">4</div>
+          <div class="welcome-step-name">Vídeo de treinamento (opcional)</div>
+          <div class="welcome-step-time">~2 min</div>
+        </div>
+        <div class="welcome-step-row">
+          <div class="welcome-step-dot" style="background:#5D5D5D;">5</div>
+          <div class="welcome-step-name">Clone de voz</div>
+          <div class="welcome-step-time">~4 min</div>
+        </div>
+        <div class="welcome-step-row">
+          <div class="welcome-step-dot" style="background:#5D5D5D;">6</div>
+          <div class="welcome-step-name">Conectar redes sociais</div>
+          <div class="welcome-step-time">~3 min</div>
+        </div>
+      </div>
+
+      <button class="btn-primary" onclick="showScreen('step1')">
+        Começar conversa com o Sensei →
+      </button>
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- STEP 1 — CHAT                                                -->
+  <!-- ============================================================ -->
+  <div id="screen-step1" class="wizard-card" style="display:none;">
+    <div class="card-header">
+      <span class="card-header-title">Etapa 1 — Conhecendo você</span>
+      <span class="card-header-step" id="question-counter">Pergunta 1 de 7</span>
+    </div>
+    <!-- Mini-stepper -->
+    <div class="stepper" style="padding:14px 28px;">
+      <div class="step-item"><div class="step-circle active">1</div><span class="step-label active">Chat</span></div>
+      <div class="step-connector"></div>
+      <div class="step-item"><div class="step-circle future">2</div><span class="step-label">Fotos</span></div>
+      <div class="step-connector"></div>
+      <div class="step-item"><div class="step-circle future">3</div><span class="step-label">Estilo</span></div>
+      <div class="step-connector"></div>
+      <div class="step-item"><div class="step-circle future">4</div><span class="step-label">Vídeo</span></div>
+      <div class="step-connector"></div>
+      <div class="step-item"><div class="step-circle future">5</div><span class="step-label">Voz</span></div>
+      <div class="step-connector"></div>
+      <div class="step-item"><div class="step-circle future">6</div><span class="step-label">Redes</span></div>
+    </div>
+    <div class="card-body" style="padding-top:12px;">
+      <div class="chat-container">
+        <!-- Messages -->
+        <div class="chat-messages" id="chat-messages"></div>
+        <!-- Footer -->
+        <div class="chat-footer">
+          <div class="chat-input-row">
+            <textarea
+              id="chat-input"
+              class="chat-input"
+              placeholder="Escreva sua resposta..."
+              rows="1"
+              onkeydown="chatKeydown(event)"
+              oninput="autoResizeTextarea(this)"
+            ></textarea>
+            <button class="send-btn" id="send-btn" onclick="sendMessage()">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <line x1="22" y1="2" x2="11" y2="13"/>
+                <polygon points="22 2 15 22 11 13 2 9 22 2"/>
+              </svg>
+            </button>
+          </div>
+          <div class="chat-counter" id="question-counter-footer">Pergunta 1 de 7 — As respostas ficam salvas automaticamente</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- STEP 2 — FOTOS                                               -->
+  <!-- ============================================================ -->
+  <div id="screen-step2" class="wizard-card" style="display:none;">
+    <div class="card-header">
+      <span class="card-header-title">Etapa 2 — Fotos de referência</span>
+      <span class="card-header-step" id="photos-counter">0 / 40 fotos</span>
+    </div>
+    <div class="stepper" style="padding:14px 28px;">
+      <div class="step-item"><div class="step-circle done">✓</div><span class="step-label done">Chat</span></div>
+      <div class="step-connector done"></div>
+      <div class="step-item"><div class="step-circle active">2</div><span class="step-label active">Fotos</span></div>
+      <div class="step-connector"></div>
+      <div class="step-item"><div class="step-circle future">3</div><span class="step-label">Estilo</span></div>
+      <div class="step-connector"></div>
+      <div class="step-item"><div class="step-circle future">4</div><span class="step-label">Vídeo</span></div>
+      <div class="step-connector"></div>
+      <div class="step-item"><div class="step-circle future">5</div><span class="step-label">Voz</span></div>
+      <div class="step-connector"></div>
+      <div class="step-item"><div class="step-circle future">6</div><span class="step-label">Redes</span></div>
+    </div>
+    <div class="card-body" style="padding-top:12px;">
+      <p style="font-size:13px; color:#8D8D8D; margin-bottom:16px;">
+        Envie <strong style="color:#fff;">40 a 50 fotos</strong> de alta qualidade para treinarmos seu clone visual. Mínimo 1024×1024px.
+      </p>
+
+      <!-- Drop zone -->
+      <div class="drop-zone" id="drop-zone" onclick="document.getElementById('file-input').click()"
+        ondragover="event.preventDefault(); this.classList.add('drag-over')"
+        ondragleave="this.classList.remove('drag-over')"
+        ondrop="handleDrop(event)">
+        <input type="file" id="file-input" multiple accept=".jpg,.jpeg,.png,.heic" style="display:none" onchange="handleFileSelect(event)" />
+        <svg class="drop-zone-icon" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <polyline points="16 16 12 12 8 16"/>
+          <line x1="12" y1="12" x2="12" y2="21"/>
+          <path d="M20.39 18.39A5 5 0 0018 9h-1.26A8 8 0 103 16.3"/>
+        </svg>
+        <div class="drop-zone-title">Arraste as fotos aqui</div>
+        <div class="drop-zone-hint">JPG · PNG · HEIC · Mínimo 1024×1024px</div>
+      </div>
+
+      <!-- Thumbnails grid -->
+      <div class="photo-grid" id="photo-grid"></div>
+
+      <!-- Progress bar -->
+      <div class="progress-wrap" id="progress-wrap" style="display:none;">
+        <div class="progress-bar-bg">
+          <div class="progress-bar-fill" id="progress-fill" style="width:0%;"></div>
+        </div>
+        <div class="progress-text" id="progress-text">0 / 40 fotos enviadas</div>
+      </div>
+
+      <!-- Defer actions -->
+      <div class="defer-actions">
+        <button class="defer-btn" onclick="showToast('Lembrete agendado para 24h.')">Enviar depois</button>
+        <button class="defer-btn" style="border-color: rgba(34,197,94,0.4); color:#22C55E;" onclick="showToast('✓ Pulse vai te lembrar no WhatsApp em 1h.')">
+          Pulse me lembra no WhatsApp
+        </button>
+      </div>
+
+      <button class="btn-primary" id="step2-continue" disabled onclick="showScreen('step3')">
+        Continuar →
+      </button>
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- STEP 3 — ESTILO VISUAL                                       -->
+  <!-- ============================================================ -->
+  <div id="screen-step3" class="wizard-card" style="display:none;">
+    <div class="card-header">
+      <span class="card-header-title">Etapa 3 — Estilo visual</span>
+      <span class="card-header-step">Selecione 1 opção</span>
+    </div>
+    <div class="stepper" style="padding:14px 28px;">
+      <div class="step-item"><div class="step-circle done">✓</div><span class="step-label done">Chat</span></div>
+      <div class="step-connector done"></div>
+      <div class="step-item"><div class="step-circle done">✓</div><span class="step-label done">Fotos</span></div>
+      <div class="step-connector done"></div>
+      <div class="step-item"><div class="step-circle active">3</div><span class="step-label active">Estilo</span></div>
+      <div class="step-connector"></div>
+      <div class="step-item"><div class="step-circle future">4</div><span class="step-label">Vídeo</span></div>
+      <div class="step-connector"></div>
+      <div class="step-item"><div class="step-circle future">5</div><span class="step-label">Voz</span></div>
+      <div class="step-connector"></div>
+      <div class="step-item"><div class="step-circle future">6</div><span class="step-label">Redes</span></div>
+    </div>
+    <div class="card-body" style="padding-top:12px;">
+      <p style="font-size:13px; color:#8D8D8D; margin-bottom:16px;">Como você quer ser visto nas fotos e vídeos?</p>
+      <div class="style-grid" id="style-grid">
+        <div class="style-card" onclick="selectStyle(this,'corporate_premium')">
+          <div class="style-card-icon">🎩</div>
+          <div class="style-card-name">Corporate Premium</div>
+          <div class="style-card-desc">Executivo elegante</div>
+        </div>
+        <div class="style-card" onclick="selectStyle(this,'corporate')">
+          <div class="style-card-icon">💼</div>
+          <div class="style-card-name">Corporate</div>
+          <div class="style-card-desc">Formal clássico</div>
+        </div>
+        <div class="style-card" onclick="selectStyle(this,'lifestyle_casual')">
+          <div class="style-card-icon">🌿</div>
+          <div class="style-card-name">Lifestyle Casual</div>
+          <div class="style-card-desc">Natural e próximo</div>
+        </div>
+        <div class="style-card" onclick="selectStyle(this,'casual')">
+          <div class="style-card-icon">👕</div>
+          <div class="style-card-name">Casual</div>
+          <div class="style-card-desc">Descontraído</div>
+        </div>
+        <div class="style-card" onclick="selectStyle(this,'tech_ceo')">
+          <div class="style-card-icon">💻</div>
+          <div class="style-card-name">Tech CEO</div>
+          <div class="style-card-desc">Inovador e moderno</div>
+        </div>
+        <div class="style-card" onclick="selectStyle(this,'speaker')">
+          <div class="style-card-icon">🎤</div>
+          <div class="style-card-name">Speaker</div>
+          <div class="style-card-desc">Palco e autoridade</div>
+        </div>
+        <div class="style-card" onclick="selectStyle(this,'editorial')">
+          <div class="style-card-icon">📸</div>
+          <div class="style-card-name">Editorial</div>
+          <div class="style-card-desc">Artístico e premium</div>
+        </div>
+        <div class="style-card" onclick="selectStyle(this,'creative')">
+          <div class="style-card-icon">🎨</div>
+          <div class="style-card-name">Criativo</div>
+          <div class="style-card-desc">Autêntico e ousado</div>
+        </div>
+      </div>
+      <button class="btn-primary" id="style-confirm-btn" disabled onclick="showScreen('step4')">
+        Confirmar estilo →
+      </button>
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- STEP 4 — VIDEO                                               -->
+  <!-- ============================================================ -->
+  <div id="screen-step4" class="wizard-card" style="display:none;">
+    <div class="card-header">
+      <span class="card-header-title">Etapa 4 — Vídeo de treinamento</span>
+      <span class="card-header-step" style="color:#F59E0B;">Recomendado</span>
+    </div>
+    <div class="stepper" style="padding:14px 28px;">
+      <div class="step-item"><div class="step-circle done">✓</div><span class="step-label done">Chat</span></div>
+      <div class="step-connector done"></div>
+      <div class="step-item"><div class="step-circle done">✓</div><span class="step-label done">Fotos</span></div>
+      <div class="step-connector done"></div>
+      <div class="step-item"><div class="step-circle done">✓</div><span class="step-label done">Estilo</span></div>
+      <div class="step-connector done"></div>
+      <div class="step-item"><div class="step-circle active">4</div><span class="step-label active">Vídeo</span></div>
+      <div class="step-connector"></div>
+      <div class="step-item"><div class="step-circle future">5</div><span class="step-label">Voz</span></div>
+      <div class="step-connector"></div>
+      <div class="step-item"><div class="step-circle future">6</div><span class="step-label">Redes</span></div>
+    </div>
+    <div class="card-body" style="padding-top:12px;">
+      <div class="upload-instructions">
+        <div class="upload-instructions-title">Como gravar um bom vídeo:</div>
+        <ol>
+          <li>Fique em um ambiente bem iluminado, de frente para uma janela</li>
+          <li>Fale naturalmente por 2 a 4 minutos sobre sua área de atuação</li>
+          <li>Olhe para a câmera e mantenha um tom de conversa</li>
+          <li>Formatos aceitos: MP4, MOV, AVI</li>
+        </ol>
+      </div>
+
+      <div class="upload-zone" id="video-zone" onclick="simulateVideoUpload()">
+        <div id="video-default">
+          <svg style="margin:0 auto 10px; color:#5D5D5D; display:block;" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <polygon points="23 7 16 12 23 17 23 7"/>
+            <rect x="1" y="5" width="15" height="14" rx="2"/>
+          </svg>
+          <div class="drop-zone-title" style="margin-bottom:4px;">Fazer upload do vídeo</div>
+          <div class="upload-note">Mínimo 2 minutos · MP4 / MOV</div>
+        </div>
+        <div id="video-uploaded" style="display:none;">
+          <div class="upload-success-icon">✅</div>
+          <div style="font-size:14px; font-weight:600; color:#22C55E; margin-bottom:4px;">Vídeo recebido</div>
+          <div class="upload-note">treinamento_marcelo.mp4 · 3:24</div>
+        </div>
+      </div>
+
+      <div class="defer-actions" style="margin-bottom:16px;">
+        <button class="defer-btn" onclick="showScreen('step5'); showToast('Vídeo postergado — Pulse vai lembrar em 24h.')">Enviar depois</button>
+      </div>
+
+      <button class="btn-primary" onclick="showScreen('step5')">
+        Continuar →
+      </button>
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- STEP 5 — VOZ                                                 -->
+  <!-- ============================================================ -->
+  <div id="screen-step5" class="wizard-card" style="display:none;">
+    <div class="card-header">
+      <span class="card-header-title">Etapa 5 — Clone de voz</span>
+      <span class="card-header-step" style="color:#F59E0B;">Recomendado</span>
+    </div>
+    <div class="stepper" style="padding:14px 28px;">
+      <div class="step-item"><div class="step-circle done">✓</div><span class="step-label done">Chat</span></div>
+      <div class="step-connector done"></div>
+      <div class="step-item"><div class="step-circle done">✓</div><span class="step-label done">Fotos</span></div>
+      <div class="step-connector done"></div>
+      <div class="step-item"><div class="step-circle done">✓</div><span class="step-label done">Estilo</span></div>
+      <div class="step-connector done"></div>
+      <div class="step-item"><div class="step-circle done">✓</div><span class="step-label done">Vídeo</span></div>
+      <div class="step-connector done"></div>
+      <div class="step-item"><div class="step-circle active">5</div><span class="step-label active">Voz</span></div>
+      <div class="step-connector"></div>
+      <div class="step-item"><div class="step-circle future">6</div><span class="step-label">Redes</span></div>
+    </div>
+    <div class="card-body" style="padding-top:12px;">
+      <div class="upload-instructions">
+        <div class="upload-instructions-title">Como gravar o áudio para o clone:</div>
+        <ol>
+          <li>Ambiente silencioso, sem ruído de fundo</li>
+          <li>Leia o texto em voz alta de forma natural (3-5 min)</li>
+          <li>Mantenha volume e tom constante</li>
+          <li>Formatos: MP3, WAV, M4A</li>
+        </ol>
+      </div>
+
+      <!-- Waveform canvas -->
+      <div id="audio-idle-zone" class="upload-zone" onclick="simulateRecording()" style="padding:20px;">
+        <svg style="margin:0 auto 10px; color:#5D5D5D; display:block;" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/>
+          <path d="M19 10v2a7 7 0 0 1-14 0v-2"/>
+          <line x1="12" y1="19" x2="12" y2="23"/>
+          <line x1="8" y1="23" x2="16" y2="23"/>
+        </svg>
+        <div class="drop-zone-title" style="margin-bottom:4px;">Gravar áudio aqui</div>
+        <div class="upload-note">Ou clique para fazer upload · MP3 / WAV</div>
+      </div>
+
+      <div id="audio-recording" style="display:none; margin-bottom:16px;">
+        <div style="background:#111; border-radius:12px; padding:16px; border:1px solid rgba(215,0,48,0.3); text-align:center;">
+          <div style="display:flex; align-items:center; justify-content:center; gap:8px; margin-bottom:12px;">
+            <div style="width:10px; height:10px; border-radius:50%; background:var(--brand); animation:glow-pulse 1s ease-in-out infinite;"></div>
+            <span style="font-size:14px; font-weight:600;">Gravando...</span>
+            <span id="rec-timer" style="font-family:'JetBrains Mono',monospace; font-size:13px; color:#8D8D8D;">0:00</span>
+          </div>
+          <canvas id="waveform" width="560" height="60" style="width:100%; height:60px; border-radius:8px; background:#0A0A0A;"></canvas>
+          <button onclick="stopRecording()" style="margin-top:12px; height:36px; padding:0 20px; border-radius:8px; border:1px solid var(--brand); background:transparent; color:var(--brand); font-family:'Inter',sans-serif; font-size:13px; cursor:pointer;">Parar gravação</button>
+        </div>
+      </div>
+
+      <div id="audio-done" style="display:none;" class="upload-zone" style="border-color:#22C55E; background:rgba(34,197,94,0.05);">
+        <div class="upload-success-icon">🎙️</div>
+        <div style="font-size:14px; font-weight:600; color:#22C55E; margin-bottom:4px;">Áudio capturado</div>
+        <div class="upload-note">Duração: 3:42 — Qualidade ótima</div>
+      </div>
+
+      <div class="defer-actions" style="margin-bottom:16px;">
+        <button class="defer-btn" onclick="showScreen('step6'); showToast('Áudio postergado — Pulse vai lembrar em 24h.')">Enviar depois</button>
+      </div>
+
+      <button class="btn-primary" onclick="showScreen('step6')">
+        Continuar →
+      </button>
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- STEP 6 — REDES SOCIAIS                                       -->
+  <!-- ============================================================ -->
+  <div id="screen-step6" class="wizard-card" style="display:none;">
+    <div class="card-header">
+      <span class="card-header-title">Etapa 6 — Redes sociais</span>
+      <span class="card-header-step">Última etapa</span>
+    </div>
+    <div class="stepper" style="padding:14px 28px;">
+      <div class="step-item"><div class="step-circle done">✓</div><span class="step-label done">Chat</span></div>
+      <div class="step-connector done"></div>
+      <div class="step-item"><div class="step-circle done">✓</div><span class="step-label done">Fotos</span></div>
+      <div class="step-connector done"></div>
+      <div class="step-item"><div class="step-circle done">✓</div><span class="step-label done">Estilo</span></div>
+      <div class="step-connector done"></div>
+      <div class="step-item"><div class="step-circle done">✓</div><span class="step-label done">Vídeo</span></div>
+      <div class="step-connector done"></div>
+      <div class="step-item"><div class="step-circle done">✓</div><span class="step-label done">Voz</span></div>
+      <div class="step-connector done"></div>
+      <div class="step-item"><div class="step-circle active">6</div><span class="step-label active">Redes</span></div>
+    </div>
+    <div class="card-body" style="padding-top:12px;">
+      <p style="font-size:13px; color:#8D8D8D; margin-bottom:16px;">Conecte suas redes para publicação automática. Você pode pular e deixar sua SM configurar.</p>
+
+      <div class="social-grid">
+        <!-- Instagram -->
+        <div class="social-card" id="sc-instagram">
+          <div class="social-logo" style="background:linear-gradient(135deg,#f09433,#e6683c,#dc2743,#cc2366,#bc1888); border-radius:10px;">📸</div>
+          <div class="social-info">
+            <div class="social-name">Instagram</div>
+            <div class="social-status" id="ss-instagram">Não conectado</div>
+          </div>
+          <button class="social-btn connect-btn" id="sb-instagram" onclick="connectSocial('instagram')">Conectar</button>
+        </div>
+        <!-- LinkedIn -->
+        <div class="social-card" id="sc-linkedin">
+          <div class="social-logo" style="background:#0077B5; border-radius:10px; color:#fff; font-size:14px; font-weight:700;">in</div>
+          <div class="social-info">
+            <div class="social-name">LinkedIn</div>
+            <div class="social-status" id="ss-linkedin">Não conectado</div>
+          </div>
+          <button class="social-btn connect-btn" id="sb-linkedin" onclick="connectSocial('linkedin')">Conectar</button>
+        </div>
+        <!-- TikTok -->
+        <div class="social-card" id="sc-tiktok">
+          <div class="social-logo" style="background:#000; border-radius:10px;">🎵</div>
+          <div class="social-info">
+            <div class="social-name">TikTok</div>
+            <div class="social-status" id="ss-tiktok">Não conectado</div>
+          </div>
+          <button class="social-btn" id="sb-tiktok" onclick="deferSocial('tiktok')">SM configura</button>
+        </div>
+        <!-- YouTube -->
+        <div class="social-card" id="sc-youtube">
+          <div class="social-logo" style="background:#FF0000; border-radius:10px;">▶️</div>
+          <div class="social-info">
+            <div class="social-name">YouTube</div>
+            <div class="social-status" id="ss-youtube">Não conectado</div>
+          </div>
+          <button class="social-btn" id="sb-youtube" onclick="deferSocial('youtube')">SM configura</button>
+        </div>
+        <!-- X -->
+        <div class="social-card" id="sc-x">
+          <div class="social-logo" style="background:#000; border-radius:10px; color:#fff; font-weight:700;">𝕏</div>
+          <div class="social-info">
+            <div class="social-name">X (Twitter)</div>
+            <div class="social-status" id="ss-x">Não conectado</div>
+          </div>
+          <button class="social-btn" id="sb-x" onclick="deferSocial('x')">SM configura</button>
+        </div>
+        <!-- Blog -->
+        <div class="social-card" id="sc-blog">
+          <div class="social-logo" style="background:#21759B; border-radius:10px;">📝</div>
+          <div class="social-info">
+            <div class="social-name">Blog / WordPress</div>
+            <div class="social-status" id="ss-blog">Não conectado</div>
+          </div>
+          <button class="social-btn" id="sb-blog" onclick="deferSocial('blog')">SM configura</button>
+        </div>
+      </div>
+
+      <button class="btn-primary" onclick="completeOnboarding()">
+        Finalizar onboarding ✓
+      </button>
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- COMPLETION SCREEN                                            -->
+  <!-- ============================================================ -->
+  <div id="screen-complete" class="wizard-card" style="display:none;">
+    <div class="stepper" style="padding:20px 28px;">
+      <div class="step-item"><div class="step-circle done">✓</div><span class="step-label done">Chat</span></div>
+      <div class="step-connector done"></div>
+      <div class="step-item"><div class="step-circle done">✓</div><span class="step-label done">Fotos</span></div>
+      <div class="step-connector done"></div>
+      <div class="step-item"><div class="step-circle done">✓</div><span class="step-label done">Estilo</span></div>
+      <div class="step-connector done"></div>
+      <div class="step-item"><div class="step-circle done">✓</div><span class="step-label done">Vídeo</span></div>
+      <div class="step-connector done"></div>
+      <div class="step-item"><div class="step-circle done">✓</div><span class="step-label done">Voz</span></div>
+      <div class="step-connector done"></div>
+      <div class="step-item"><div class="step-circle done">✓</div><span class="step-label done">Redes</span></div>
+    </div>
+    <div class="card-body">
+      <div class="completion-center">
+        <div class="completion-emoji">🎉</div>
+        <div class="completion-title">Tudo pronto, Marcelo!</div>
+        <p class="completion-subtitle">Seu onboarding está completo. A equipe KTANA já está trabalhando no seu Brand Book.</p>
+      </div>
+      <div class="completion-list">
+        <div class="completion-item">
+          <div class="completion-dot">1</div>
+          <span>Brand Book chega no WhatsApp em até 7 dias</span>
+        </div>
+        <div class="completion-item">
+          <div class="completion-dot">2</div>
+          <span>Análise de concorrentes com IA — automática</span>
+        </div>
+        <div class="completion-item">
+          <div class="completion-dot">3</div>
+          <span>Calendário editorial do primeiro mês</span>
+        </div>
+        <div class="completion-item">
+          <div class="completion-dot">4</div>
+          <span>Primeiro lote de posts em produção</span>
+        </div>
+      </div>
+      <div style="background:rgba(34,197,94,0.08); border:1px solid rgba(34,197,94,0.2); border-radius:12px; padding:14px; text-align:center; font-size:13px; color:#22C55E;">
+        ✓ Camila (sua SM) foi notificada e já iniciou a produção
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- Toast -->
+<div id="toast" style="position:fixed; bottom:32px; left:50%; transform:translateX(-50%) translateY(24px); background:#1D1D1F; border:1px solid #3D3D3D; border-radius:12px; padding:12px 20px; font-size:13px; color:#fff; opacity:0; transition:all 0.3s ease; z-index:200; white-space:nowrap; pointer-events:none; max-width:90vw; text-align:center;"></div>
+
+<script>
+  /* ===================== SCREEN ROUTING ===================== */
+  const screens = ['welcome','step1','step2','step3','step4','step5','step6','complete'];
+  let currentScreen = 'welcome';
+
+  function showScreen(name) {
+    screens.forEach(s => {
+      const el = document.getElementById('screen-' + s);
+      if (el) el.style.display = s === name ? '' : 'none';
+    });
+    // Update demo pills
+    document.querySelectorAll('.demo-pill').forEach(p => {
+      p.classList.toggle('active', p.textContent.toLowerCase().includes(name === 'step1' ? 'chat' : name === 'step2' ? 'foto' : name === 'step3' ? 'estilo' : name === 'step4' ? 'vídeo' : name === 'step5' ? 'voz' : name === 'step6' ? 'rede' : name === 'complete' ? 'conclusão' : 'boas'));
+    });
+    currentScreen = name;
+    // Init chat on step1
+    if (name === 'step1' && !chatInitialized) initChat();
+  }
+
+  /* ===================== CHAT LOGIC ===================== */
+  const QUESTIONS = [
+    'Oi, Marcelo! Vou te fazer algumas perguntas para entender seu posicionamento. Pode ser direto — suas respostas ficam salvas.\n\nQual é o nome da sua empresa e o que ela faz?',
+    'Há quanto tempo você atua nessa área? Conte um pouco sobre sua trajetória.',
+    'Quem é o seu cliente ideal? Descreva a pessoa que você quer alcançar em detalhes.',
+    'Qual é o seu maior diferencial competitivo? O que você faz que os outros não fazem (ou não fazem tão bem)?',
+    'Como você prefere ser percebido pelo mercado — qual é a imagem que você quer projetar?',
+    'Cite 3 palavras que resumem sua marca pessoal.',
+    'Última pergunta: o que você quer que as pessoas falem sobre você quando você não está na sala?'
+  ];
+  let chatInitialized = false;
+  let currentQuestion = 0;
+  let isBotTyping = false;
+  let answers = [];
+  let recTimer, recSeconds = 0;
+  let waveAnimFrame;
+
+  function initChat() {
+    chatInitialized = true;
+    const msgs = document.getElementById('chat-messages');
+    msgs.innerHTML = '';
+    currentQuestion = 0;
+    setTimeout(() => showTyping(() => addSenseiMessage(QUESTIONS[0], '09:41'), 1200), 400);
+  }
+
+  function addSenseiMessage(text, time) {
+    const msgs = document.getElementById('chat-messages');
+    const row = document.createElement('div');
+    row.className = 'msg-row sensei';
+    row.innerHTML = `
+      <div class="sensei-avatar">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#D70030" stroke-width="2">
+          <line x1="12" y1="2" x2="12" y2="8"/><line x1="12" y1="16" x2="12" y2="22"/>
+          <line x1="4" y1="8" x2="20" y2="8"/><path d="M7 14 Q12 12 17 14"/>
+        </svg>
+      </div>
+      <div>
+        <div class="msg-bubble sensei">${text.replace(/\n/g,'<br>')}</div>
+        <div class="msg-time sensei">${time}</div>
+      </div>
+    `;
+    msgs.appendChild(row);
+    scrollChat();
+    isBotTyping = false;
+    document.getElementById('chat-input').disabled = false;
+    document.getElementById('send-btn').disabled = false;
+  }
+
+  function addFounderMessage(text) {
+    const msgs = document.getElementById('chat-messages');
+    const now = new Date();
+    const time = `${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}`;
+    const row = document.createElement('div');
+    row.className = 'msg-row founder';
+    row.innerHTML = `
+      <div>
+        <div class="msg-bubble founder">${text}</div>
+        <div class="msg-time">${time}</div>
+      </div>
+    `;
+    msgs.appendChild(row);
+    scrollChat();
+  }
+
+  function showTyping(callback, delay) {
+    const msgs = document.getElementById('chat-messages');
+    const row = document.createElement('div');
+    row.className = 'typing-row';
+    row.id = 'typing-indicator';
+    row.innerHTML = `
+      <div class="sensei-avatar">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#D70030" stroke-width="2">
+          <line x1="12" y1="2" x2="12" y2="8"/><line x1="12" y1="16" x2="12" y2="22"/>
+          <line x1="4" y1="8" x2="20" y2="8"/><path d="M7 14 Q12 12 17 14"/>
+        </svg>
+      </div>
+      <div class="typing-bubble">
+        <div class="typing-dot"></div>
+        <div class="typing-dot"></div>
+        <div class="typing-dot"></div>
+      </div>
+    `;
+    msgs.appendChild(row);
+    scrollChat();
+    setTimeout(() => {
+      const ti = document.getElementById('typing-indicator');
+      if (ti) ti.remove();
+      callback();
+    }, delay);
+  }
+
+  function scrollChat() {
+    const msgs = document.getElementById('chat-messages');
+    setTimeout(() => msgs.scrollTop = msgs.scrollHeight, 50);
+  }
+
+  function sendMessage() {
+    if (isBotTyping) return;
+    const input = document.getElementById('chat-input');
+    const text = input.value.trim();
+    if (text.length < 3) {
+      input.style.animation = 'shake 0.3s ease';
+      setTimeout(() => input.style.animation = '', 300);
+      return;
+    }
+    answers.push(text);
+    addFounderMessage(text);
+    input.value = '';
+    autoResizeTextarea(input);
+    input.disabled = true;
+    document.getElementById('send-btn').disabled = true;
+    isBotTyping = true;
+
+    currentQuestion++;
+    updateQuestionCounter();
+
+    if (currentQuestion >= QUESTIONS.length) {
+      // All done
+      setTimeout(() => showTyping(() => {
+        addSenseiMessage('Perfeito, Marcelo! Aprendi muito sobre você. Essas informações vão guiar toda a sua estratégia de conteúdo. 🎯\n\nVamos para a próxima etapa: upload das suas fotos.', '09:50');
+        setTimeout(() => {
+          document.getElementById('send-btn').disabled = true;
+          document.getElementById('chat-input').disabled = true;
+          document.getElementById('chat-input').placeholder = 'Etapa concluída!';
+          // Show transition button
+          const footer = document.querySelector('.chat-footer');
+          const transBtn = document.createElement('button');
+          transBtn.className = 'btn-primary';
+          transBtn.style.marginTop = '16px';
+          transBtn.textContent = 'Ir para upload de fotos →';
+          transBtn.onclick = () => showScreen('step2');
+          footer.appendChild(transBtn);
+          scrollChat();
+        }, 500);
+      }, 1400), 200);
+    } else {
+      const delay = 800 + Math.random() * 600;
+      setTimeout(() => showTyping(() => addSenseiMessage(QUESTIONS[currentQuestion], '09:4' + (currentQuestion + 2)), delay), 200);
+    }
+  }
+
+  function updateQuestionCounter() {
+    const n = Math.min(currentQuestion + 1, QUESTIONS.length);
+    const total = QUESTIONS.length;
+    document.getElementById('question-counter').textContent = `Pergunta ${n} de ${total}`;
+    document.getElementById('question-counter-footer').textContent = `Pergunta ${n} de ${total} — As respostas ficam salvas automaticamente`;
+  }
+
+  function chatKeydown(e) {
+    if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMessage(); }
+  }
+
+  function autoResizeTextarea(el) {
+    el.style.height = 'auto';
+    el.style.height = Math.min(el.scrollHeight, 100) + 'px';
+  }
+
+  /* ===================== PHOTO UPLOAD ===================== */
+  let photoCount = 0;
+
+  function handleFileSelect(e) {
+    addPhotos(Array.from(e.target.files));
+  }
+
+  function handleDrop(e) {
+    e.preventDefault();
+    document.getElementById('drop-zone').classList.remove('drag-over');
+    addPhotos(Array.from(e.dataTransfer.files));
+  }
+
+  function addPhotos(files) {
+    const grid = document.getElementById('photo-grid');
+    const progressWrap = document.getElementById('progress-wrap');
+    progressWrap.style.display = '';
+
+    files.slice(0, 40 - photoCount).forEach((f, i) => {
+      setTimeout(() => {
+        photoCount++;
+        const thumb = document.createElement('div');
+        const isError = Math.random() < 0.1;
+        thumb.className = 'photo-thumb' + (isError ? ' error' : '');
+        thumb.title = f.name;
+        thumb.innerHTML = isError ? '⚠' : '✓';
+        const label = document.createElement('div');
+        label.className = 'photo-thumb-label';
+        label.textContent = f.name.substring(0, 8);
+        thumb.appendChild(label);
+        grid.appendChild(thumb);
+        updatePhotoProgress();
+      }, i * 80);
+    });
+  }
+
+  function updatePhotoProgress() {
+    const fill = document.getElementById('progress-fill');
+    const text = document.getElementById('progress-text');
+    const counter = document.getElementById('photos-counter');
+    const pct = Math.min((photoCount / 40) * 100, 100);
+    fill.style.width = pct + '%';
+    text.textContent = `${photoCount} / 40 fotos enviadas`;
+    counter.textContent = `${photoCount} / 40 fotos`;
+    if (photoCount >= 40) {
+      document.getElementById('step2-continue').disabled = false;
+      showToast('✓ 40 fotos recebidas! Pode continuar.');
+    }
+  }
+
+  // Demo: click drop zone adds sample photos
+  document.addEventListener('DOMContentLoaded', () => {
+    const dz = document.getElementById('drop-zone');
+    dz.addEventListener('click', (e) => {
+      if (e.target === document.getElementById('file-input')) return;
+      // Simulate adding photos for demo
+      if (photoCount < 40) {
+        const fake = Array.from({length: 8}, (_,i) => ({name: `foto_${photoCount+i+1}.jpg`}));
+        addPhotos(fake);
+      }
+    });
+  });
+
+  /* ===================== STYLE SELECT ===================== */
+  let selectedStyle = null;
+
+  function selectStyle(card, style) {
+    document.querySelectorAll('.style-card').forEach(c => {
+      c.classList.remove('selected');
+      const check = c.querySelector('.check-mark');
+      if (check) check.remove();
+    });
+    card.classList.add('selected');
+    const checkMark = document.createElement('div');
+    checkMark.className = 'check-mark';
+    checkMark.textContent = '✓';
+    card.appendChild(checkMark);
+    selectedStyle = style;
+    document.getElementById('style-confirm-btn').disabled = false;
+    document.getElementById('style-confirm-btn').textContent = `Confirmar: ${card.querySelector('.style-card-name').textContent} →`;
+  }
+
+  /* ===================== VIDEO UPLOAD (demo) ===================== */
+  function simulateVideoUpload() {
+    document.getElementById('video-default').style.display = 'none';
+    document.getElementById('video-uploaded').style.display = '';
+    document.getElementById('video-zone').classList.add('uploaded');
+    showToast('✓ Vídeo recebido e validado — 3min 24s');
+  }
+
+  /* ===================== AUDIO RECORDING (demo) ===================== */
+  function simulateRecording() {
+    document.getElementById('audio-idle-zone').style.display = 'none';
+    document.getElementById('audio-recording').style.display = '';
+    recSeconds = 0;
+    recTimer = setInterval(() => {
+      recSeconds++;
+      const m = String(Math.floor(recSeconds/60)).padStart(1,'0');
+      const s = String(recSeconds%60).padStart(2,'0');
+      document.getElementById('rec-timer').textContent = `${m}:${s}`;
+    }, 1000);
+    startWaveform();
+  }
+
+  function stopRecording() {
+    clearInterval(recTimer);
+    cancelAnimationFrame(waveAnimFrame);
+    document.getElementById('audio-recording').style.display = 'none';
+    document.getElementById('audio-done').style.display = '';
+    showToast('🎙️ Clone de voz capturado com sucesso!');
+  }
+
+  function startWaveform() {
+    const canvas = document.getElementById('waveform');
+    const ctx = canvas.getContext('2d');
+    let phase = 0;
+    function draw() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.strokeStyle = '#D70030';
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      for (let x = 0; x < canvas.width; x++) {
+        const freq = 0.05 + 0.02 * Math.sin(x * 0.01 + phase);
+        const amp = 15 + 10 * Math.sin(x * 0.008 + phase * 1.3);
+        const y = canvas.height / 2 + Math.sin(x * freq + phase) * amp;
+        x === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+      }
+      ctx.stroke();
+      phase += 0.08;
+      waveAnimFrame = requestAnimationFrame(draw);
+    }
+    draw();
+  }
+
+  /* ===================== SOCIAL CONNECT ===================== */
+  function connectSocial(platform) {
+    const card = document.getElementById('sc-' + platform);
+    const status = document.getElementById('ss-' + platform);
+    const btn = document.getElementById('sb-' + platform);
+    card.classList.add('connected');
+    status.textContent = 'Conectado ✓';
+    status.className = 'social-status connected-text';
+    btn.textContent = 'Conectado';
+    btn.className = 'social-btn connected-btn';
+    btn.onclick = null;
+    showToast(`✓ ${platform.charAt(0).toUpperCase() + platform.slice(1)} conectado com sucesso`);
+  }
+
+  function deferSocial(platform) {
+    const status = document.getElementById('ss-' + platform);
+    const btn = document.getElementById('sb-' + platform);
+    status.textContent = 'SM vai configurar';
+    status.style.color = '#F59E0B';
+    btn.textContent = 'Pendente';
+    btn.style.borderColor = '#F59E0B';
+    btn.style.color = '#F59E0B';
+    btn.onclick = null;
+  }
+
+  /* ===================== COMPLETE ===================== */
+  function completeOnboarding() {
+    launchConfetti();
+    setTimeout(() => showScreen('complete'), 400);
+  }
+
+  function launchConfetti() {
+    const colors = ['#D70030','#22C55E','#F59E0B','#3B82F6','#fff'];
+    for (let i = 0; i < 30; i++) {
+      setTimeout(() => {
+        const p = document.createElement('div');
+        p.className = 'confetti-piece';
+        p.style.cssText = `
+          left: ${20 + Math.random()*60}%;
+          top: ${40 + Math.random()*20}%;
+          background: ${colors[Math.floor(Math.random()*colors.length)]};
+          animation-delay: ${Math.random()*0.5}s;
+          animation-duration: ${1.2 + Math.random()*0.8}s;
+        `;
+        document.body.appendChild(p);
+        setTimeout(() => p.remove(), 2000);
+      }, i * 30);
+    }
+  }
+
+  /* ===================== TOAST ===================== */
+  function showToast(msg) {
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    t.style.opacity = '1';
+    t.style.transform = 'translateX(-50%) translateY(0)';
+    clearTimeout(t._timeout);
+    t._timeout = setTimeout(() => {
+      t.style.opacity = '0';
+      t.style.transform = 'translateX(-50%) translateY(24px)';
+    }, 2800);
+  }
+
+  /* ===================== INIT ===================== */
+  // Update demo pills on load
+  document.querySelectorAll('.demo-pill').forEach((p, i) => {
+    const map = ['welcome','step1','step2','step3','step4','step5','step6','complete'];
+    p.onclick = () => showScreen(map[i]);
+  });
+</script>
+</body>
+</html>

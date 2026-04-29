@@ -1,0 +1,1169 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Onboarding Founder — Chat Sensei · KTANA</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Zen+Dots&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  /* ── TOKENS ── */
+  :root {
+    --bg:       #0A0A0A;
+    --surface:  #1D1D1F;
+    --s2:       #2A2A2D;
+    --s3:       #3A3A3C;
+    --brand:    #D70030;
+    --brand-d:  #9B0A2A;
+    --success:  #22C55E;
+    --text:     #F5F5F7;
+    --text-2:   #AEAEB2;
+    --text-3:   #6E6E73;
+    --border:   rgba(255,255,255,0.08);
+    --r:        16px;
+    --r-sm:     12px;
+    --shadow:   0 8px 32px rgba(0,0,0,0.6);
+  }
+
+  * { box-sizing:border-box; margin:0; padding:0; -webkit-tap-highlight-color:transparent; }
+
+  body {
+    background: var(--bg);
+    font-family: 'Inter', sans-serif;
+    color: var(--text);
+    min-height: 100dvh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+  }
+
+  /* ── PHONE SHELL (desktop preview) ── */
+  .phone-wrap {
+    width: 100%;
+    max-width: 430px;
+    min-height: 100dvh;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    overflow: hidden;
+  }
+
+  @media (min-width: 480px) {
+    body { justify-content: center; padding: 24px 0; }
+    .phone-wrap {
+      min-height: 844px;
+      max-height: 844px;
+      border-radius: 40px;
+      box-shadow: 0 0 0 1px rgba(255,255,255,0.1), var(--shadow);
+      overflow: hidden;
+    }
+  }
+
+  /* ── SCREEN MANAGER ── */
+  .screen { display:none; flex-direction:column; height:100%; flex:1; }
+  .screen.active { display:flex; }
+
+  /* ══════════════════════════════════════
+     SCREEN 1 — WELCOME
+  ══════════════════════════════════════ */
+  .welcome-screen {
+    background: var(--bg);
+    padding: 0;
+    flex-direction: column;
+  }
+
+  /* Top area */
+  .welcome-top {
+    padding: 56px 24px 24px;
+    text-align: center;
+  }
+
+  .ktana-logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 40px;
+  }
+
+  .logo-mark {
+    width: 32px; height: 32px;
+    background: var(--brand);
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+  }
+
+  .logo-text {
+    font-family: 'Zen Dots', sans-serif;
+    font-size: 18px;
+    color: var(--text);
+    letter-spacing: 0.05em;
+  }
+
+  /* Welcome card */
+  .welcome-card {
+    margin: 0 16px;
+    background: var(--surface);
+    border-radius: var(--r);
+    border: 1px solid var(--border);
+    padding: 28px 24px 32px;
+  }
+
+  .welcome-greeting {
+    font-family: 'Zen Dots', sans-serif;
+    font-size: 22px;
+    color: var(--text);
+    margin-bottom: 8px;
+    line-height: 1.3;
+  }
+
+  .welcome-greeting span { color: var(--brand); }
+
+  .welcome-subtitle {
+    font-size: 14px;
+    color: var(--text-2);
+    line-height: 1.5;
+    margin-bottom: 28px;
+  }
+
+  /* Step stepper */
+  .stepper {
+    display: flex;
+    align-items: center;
+    margin-bottom: 24px;
+    gap: 0;
+  }
+
+  .step-node {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    flex: 1;
+  }
+
+  .step-circle {
+    width: 28px; height: 28px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 11px;
+    font-weight: 600;
+    position: relative;
+    z-index: 1;
+    transition: background .3s, border-color .3s;
+  }
+
+  .step-circle.done {
+    background: var(--success);
+    color: #fff;
+  }
+  .step-circle.active {
+    background: var(--brand);
+    color: #fff;
+    box-shadow: 0 0 12px rgba(215,0,48,0.4);
+  }
+  .step-circle.pending {
+    background: transparent;
+    border: 2px solid var(--s3);
+    color: var(--text-3);
+  }
+
+  .step-label {
+    font-size: 9px;
+    color: var(--text-3);
+    margin-top: 5px;
+    text-align: center;
+    white-space: nowrap;
+  }
+  .step-node.active-node .step-label { color: var(--brand); }
+  .step-node.done-node .step-label { color: var(--success); }
+
+  .step-connector {
+    height: 2px;
+    flex: 1;
+    background: var(--s3);
+    margin-bottom: 20px;
+    transition: background .3s;
+  }
+  .step-connector.filled { background: var(--success); }
+  .step-connector.active { background: var(--brand); }
+
+  /* Etapa info box */
+  .etapa-info {
+    background: var(--s2);
+    border-radius: var(--r-sm);
+    padding: 14px 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+
+  .etapa-label {
+    font-size: 13px;
+    color: var(--text);
+    font-weight: 500;
+  }
+  .etapa-time {
+    font-size: 12px;
+    color: var(--text-3);
+    display: flex; align-items: center; gap: 5px;
+  }
+
+  .btn-start {
+    width: 100%;
+    padding: 16px;
+    background: linear-gradient(135deg, var(--brand), var(--brand-d));
+    border: none;
+    border-radius: var(--r-sm);
+    color: #fff;
+    font-family: 'Zen Dots', sans-serif;
+    font-size: 14px;
+    letter-spacing: 0.03em;
+    cursor: pointer;
+    transition: opacity .2s, transform .1s;
+    display: flex; align-items: center; justify-content: center; gap: 8px;
+  }
+  .btn-start:active { transform: scale(0.98); opacity: .9; }
+
+  /* Steps list below card */
+  .steps-list {
+    margin: 20px 16px 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .steps-list-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 14px;
+    background: var(--surface);
+    border-radius: 10px;
+    border: 1px solid var(--border);
+  }
+
+  .steps-list-item.item-active {
+    border-color: rgba(215,0,48,0.3);
+    background: rgba(215,0,48,0.05);
+  }
+
+  .step-icon-wrap {
+    width: 32px; height: 32px;
+    border-radius: 8px;
+    background: var(--s2);
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+    color: var(--text-3);
+  }
+  .item-active .step-icon-wrap {
+    background: rgba(215,0,48,0.15);
+    color: var(--brand);
+  }
+
+  .step-info { flex: 1; }
+  .step-name { font-size: 13px; font-weight: 500; color: var(--text); }
+  .step-time-hint { font-size: 11px; color: var(--text-3); margin-top: 1px; }
+
+  .step-status-badge {
+    font-size: 10px;
+    padding: 3px 8px;
+    border-radius: 20px;
+    font-weight: 500;
+  }
+  .badge-now { background: rgba(215,0,48,0.15); color: var(--brand); }
+  .badge-later { background: var(--s2); color: var(--text-3); }
+
+
+  /* ══════════════════════════════════════
+     SCREEN 2 — CHAT
+  ══════════════════════════════════════ */
+  .chat-screen {
+    background: var(--bg);
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+
+  /* Chat header */
+  .chat-header {
+    background: rgba(10,10,10,0.95);
+    backdrop-filter: saturate(180%) blur(20px);
+    -webkit-backdrop-filter: saturate(180%) blur(20px);
+    border-bottom: 1px solid var(--border);
+    padding: 48px 16px 14px;
+    flex-shrink: 0;
+  }
+
+  .chat-header-top {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 14px;
+  }
+
+  .back-btn {
+    width: 32px; height: 32px;
+    background: var(--s2);
+    border: none;
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer;
+    color: var(--text-2);
+    flex-shrink: 0;
+  }
+  .back-btn:active { background: var(--s3); }
+
+  .chat-header-title {
+    flex: 1;
+    font-family: 'Zen Dots', sans-serif;
+    font-size: 14px;
+    color: var(--text);
+  }
+
+  .chat-header-step {
+    font-size: 11px;
+    color: var(--text-3);
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  /* Mini stepper in header */
+  .mini-stepper {
+    display: flex;
+    align-items: center;
+    gap: 0;
+  }
+
+  .mini-node {
+    display: flex; align-items: center; justify-content: center;
+    width: 20px; height: 20px;
+    border-radius: 50%;
+    font-size: 9px;
+    font-weight: 600;
+    flex-shrink: 0;
+  }
+  .mini-node.done  { background: var(--success); color: #fff; }
+  .mini-node.act   { background: var(--brand); color: #fff; box-shadow: 0 0 8px rgba(215,0,48,0.4); }
+  .mini-node.pend  { background: var(--s3); color: var(--text-3); }
+
+  .mini-conn {
+    height: 2px;
+    flex: 1;
+    background: var(--s3);
+    min-width: 12px;
+  }
+  .mini-conn.f { background: var(--success); }
+
+  /* Chat body */
+  .chat-body {
+    flex: 1;
+    overflow-y: auto;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    scroll-behavior: smooth;
+  }
+  .chat-body::-webkit-scrollbar { width: 3px; }
+  .chat-body::-webkit-scrollbar-track { background: transparent; }
+  .chat-body::-webkit-scrollbar-thumb { background: var(--s3); border-radius: 3px; }
+
+  /* Day divider */
+  .chat-divider {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--text-3);
+    font-size: 11px;
+    margin: 4px 0;
+  }
+  .chat-divider::before, .chat-divider::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  /* Message row */
+  .msg-row {
+    display: flex;
+    gap: 8px;
+    align-items: flex-end;
+  }
+  .msg-row.founder-row { justify-content: flex-end; }
+  .msg-row.sensei-row  { justify-content: flex-start; }
+
+  /* Sensei avatar */
+  .sensei-avatar {
+    width: 32px; height: 32px;
+    border-radius: 50%;
+    background: var(--s2);
+    border: 1px solid rgba(215,0,48,0.3);
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+    color: var(--brand);
+  }
+
+  /* Bubbles */
+  .bubble-wrap { display: flex; flex-direction: column; max-width: 78%; }
+  .bubble-name {
+    font-size: 10px;
+    color: var(--text-3);
+    margin-bottom: 3px;
+    padding-left: 14px;
+  }
+  .founder-row .bubble-name { text-align: right; padding-right: 14px; }
+
+  .bubble {
+    padding: 12px 14px;
+    font-size: 14px;
+    line-height: 1.55;
+    color: var(--text);
+    position: relative;
+    word-break: break-word;
+  }
+
+  .bubble-sensei {
+    background: var(--surface);
+    border-left: 3px solid var(--brand);
+    border-radius: 0 var(--r-sm) var(--r-sm) var(--r-sm);
+  }
+
+  .bubble-founder {
+    background: rgba(215,0,48,0.10);
+    border: 1px solid rgba(215,0,48,0.2);
+    border-radius: var(--r-sm) var(--r-sm) 0 var(--r-sm);
+  }
+
+  .bubble-time {
+    font-size: 10px;
+    color: var(--text-3);
+    margin-top: 4px;
+    font-family: 'JetBrains Mono', monospace;
+  }
+  .founder-row .bubble-time { text-align: right; }
+
+  /* Typing indicator */
+  .typing-bubble {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    padding: 14px 16px;
+    background: var(--surface);
+    border-left: 3px solid var(--brand);
+    border-radius: 0 var(--r-sm) var(--r-sm) var(--r-sm);
+    width: fit-content;
+  }
+
+  .dot {
+    width: 7px; height: 7px;
+    border-radius: 50%;
+    background: var(--brand);
+    animation: bounce 1.2s infinite ease-in-out;
+  }
+  .dot:nth-child(2) { animation-delay: .15s; }
+  .dot:nth-child(3) { animation-delay: .30s; }
+
+  @keyframes bounce {
+    0%,60%,100% { transform: translateY(0); opacity:.4; }
+    30%          { transform: translateY(-5px); opacity:1; }
+  }
+
+  /* Chat footer */
+  .chat-footer {
+    background: rgba(10,10,10,0.98);
+    border-top: 1px solid var(--border);
+    padding: 10px 12px 20px;
+    flex-shrink: 0;
+  }
+
+  .chat-footer-counter {
+    text-align: center;
+    font-size: 11px;
+    color: var(--text-3);
+    margin-bottom: 10px;
+    font-family: 'JetBrains Mono', monospace;
+  }
+  .chat-footer-counter span { color: var(--brand); }
+
+  .input-row {
+    display: flex;
+    gap: 8px;
+    align-items: flex-end;
+  }
+
+  .chat-input {
+    flex: 1;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 22px;
+    padding: 12px 16px;
+    color: var(--text);
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    resize: none;
+    outline: none;
+    transition: border-color .2s;
+    max-height: 120px;
+    min-height: 44px;
+    line-height: 1.4;
+  }
+  .chat-input::placeholder { color: var(--text-3); }
+  .chat-input:focus { border-color: rgba(215,0,48,0.5); }
+
+  .send-btn {
+    width: 44px; height: 44px;
+    background: var(--brand);
+    border: none;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer;
+    transition: background .2s, transform .1s;
+    flex-shrink: 0;
+    color: #fff;
+  }
+  .send-btn:hover { background: #c0002a; }
+  .send-btn:active { transform: scale(0.93); }
+  .send-btn:disabled { background: var(--s3); cursor: not-allowed; }
+
+  /* ══════════════════════════════════════
+     SCREEN 3 — STEP COMPLETE
+  ══════════════════════════════════════ */
+  .complete-screen {
+    background: var(--bg);
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 24px;
+    text-align: center;
+  }
+
+  .complete-icon {
+    width: 80px; height: 80px;
+    background: rgba(34,197,94,0.1);
+    border: 2px solid var(--success);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    margin: 0 auto 24px;
+    animation: scale-in .5s cubic-bezier(.34,1.56,.64,1);
+  }
+  @keyframes scale-in {
+    from { transform: scale(0); opacity: 0; }
+    to   { transform: scale(1); opacity: 1; }
+  }
+
+  .complete-title {
+    font-family: 'Zen Dots', sans-serif;
+    font-size: 22px;
+    color: var(--text);
+    margin-bottom: 10px;
+  }
+
+  .complete-subtitle {
+    font-size: 14px;
+    color: var(--text-2);
+    line-height: 1.6;
+    margin-bottom: 32px;
+    max-width: 300px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .complete-steps {
+    width: 100%;
+    background: var(--surface);
+    border-radius: var(--r);
+    border: 1px solid var(--border);
+    overflow: hidden;
+    margin-bottom: 24px;
+  }
+
+  .complete-step-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 16px;
+    border-bottom: 1px solid var(--border);
+  }
+  .complete-step-row:last-child { border-bottom: none; }
+
+  .csr-icon {
+    width: 28px; height: 28px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+  .csr-done  { background: rgba(34,197,94,0.15); color: var(--success); }
+  .csr-next  { background: rgba(215,0,48,0.15);  color: var(--brand); }
+  .csr-later { background: var(--s2); color: var(--text-3); }
+
+  .csr-info { flex: 1; }
+  .csr-name { font-size: 13px; font-weight: 500; }
+  .csr-hint { font-size: 11px; color: var(--text-3); margin-top: 1px; }
+
+  .csr-badge {
+    font-size: 10px;
+    padding: 3px 8px;
+    border-radius: 20px;
+    font-weight: 500;
+  }
+  .csr-badge.done  { background: rgba(34,197,94,0.1); color: var(--success); }
+  .csr-badge.next  { background: rgba(215,0,48,0.15); color: var(--brand); }
+  .csr-badge.later { background: var(--s2); color: var(--text-3); }
+
+  .btn-next-step {
+    width: 100%;
+    padding: 16px;
+    background: linear-gradient(135deg, var(--brand), var(--brand-d));
+    border: none;
+    border-radius: var(--r-sm);
+    color: #fff;
+    font-family: 'Zen Dots', sans-serif;
+    font-size: 14px;
+    cursor: pointer;
+    transition: opacity .2s, transform .1s;
+    display: flex; align-items: center; justify-content: center; gap: 8px;
+    margin-bottom: 12px;
+  }
+  .btn-next-step:active { transform: scale(0.98); }
+
+  .btn-ghost {
+    width: 100%;
+    padding: 14px;
+    background: transparent;
+    border: 1px solid var(--border);
+    border-radius: var(--r-sm);
+    color: var(--text-2);
+    font-size: 14px;
+    cursor: pointer;
+    transition: border-color .2s, color .2s;
+  }
+  .btn-ghost:hover { border-color: rgba(215,0,48,0.3); color: var(--text); }
+</style>
+</head>
+<body>
+<div class="phone-wrap">
+
+  <!-- ═══════════════════════════════
+       SCREEN 1 — WELCOME
+  ═══════════════════════════════ -->
+  <div class="screen welcome-screen active" id="screen-welcome">
+    <div class="welcome-top">
+      <div class="ktana-logo">
+        <div class="logo-mark">
+          <!-- katana icon -->
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="5" y1="19" x2="19" y2="5"/>
+            <polyline points="15 5 19 5 19 9"/>
+            <line x1="7" y1="17" x2="3" y2="21"/>
+          </svg>
+        </div>
+        <span class="logo-text">KTANA</span>
+      </div>
+
+      <div class="welcome-card">
+        <div class="welcome-greeting">Olá, <span>Marcelo!</span></div>
+        <p class="welcome-subtitle">Vamos configurar seu posicionamento. São 6 etapas curtas — você pode pausar e retomar a qualquer momento.</p>
+
+        <!-- Stepper -->
+        <div class="stepper">
+          <div class="step-node active-node">
+            <div class="step-circle active">1</div>
+            <div class="step-label">Chat</div>
+          </div>
+          <div class="step-connector"></div>
+          <div class="step-node">
+            <div class="step-circle pending">2</div>
+            <div class="step-label">Fotos</div>
+          </div>
+          <div class="step-connector"></div>
+          <div class="step-node">
+            <div class="step-circle pending">3</div>
+            <div class="step-label">Estilo</div>
+          </div>
+          <div class="step-connector"></div>
+          <div class="step-node">
+            <div class="step-circle pending">4</div>
+            <div class="step-label">Vídeo</div>
+          </div>
+          <div class="step-connector"></div>
+          <div class="step-node">
+            <div class="step-circle pending">5</div>
+            <div class="step-label">Voz</div>
+          </div>
+          <div class="step-connector"></div>
+          <div class="step-node">
+            <div class="step-circle pending">6</div>
+            <div class="step-label">Redes</div>
+          </div>
+        </div>
+
+        <!-- Current step info -->
+        <div class="etapa-info">
+          <div class="etapa-label">Etapa 1 de 6 — Chat com Sensei</div>
+          <div class="etapa-time">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
+            </svg>
+            5–8 min
+          </div>
+        </div>
+
+        <button class="btn-start" onclick="goToChat()">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+          </svg>
+          Começar conversa com o Sensei
+        </button>
+      </div>
+    </div>
+
+    <!-- Steps overview -->
+    <div class="steps-list">
+      <div class="steps-list-item item-active">
+        <div class="step-icon-wrap">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+          </svg>
+        </div>
+        <div class="step-info">
+          <div class="step-name">Chat com Sensei</div>
+          <div class="step-time-hint">7 perguntas • ~8 min</div>
+        </div>
+        <div class="step-status-badge badge-now">Agora</div>
+      </div>
+
+      <div class="steps-list-item">
+        <div class="step-icon-wrap">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/>
+          </svg>
+        </div>
+        <div class="step-info">
+          <div class="step-name">Fotos de referência</div>
+          <div class="step-time-hint">40–50 fotos • ~5 min</div>
+        </div>
+        <div class="step-status-badge badge-later">Próxima</div>
+      </div>
+
+      <div class="steps-list-item">
+        <div class="step-icon-wrap">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="8" r="6"/><path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"/>
+          </svg>
+        </div>
+        <div class="step-info">
+          <div class="step-name">Estilo visual</div>
+          <div class="step-time-hint">Escolha 1 perfil • ~3 min</div>
+        </div>
+        <div class="step-status-badge badge-later">Pendente</div>
+      </div>
+
+      <div class="steps-list-item">
+        <div class="step-icon-wrap">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/>
+          </svg>
+        </div>
+        <div class="step-info">
+          <div class="step-name">Vídeo de treinamento</div>
+          <div class="step-time-hint">2 min de gravação • ~5 min</div>
+        </div>
+        <div class="step-status-badge badge-later">Pendente</div>
+      </div>
+
+      <div class="steps-list-item">
+        <div class="step-icon-wrap">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/>
+          </svg>
+        </div>
+        <div class="step-info">
+          <div class="step-name">Clone de voz</div>
+          <div class="step-time-hint">3 min de áudio • ~5 min</div>
+        </div>
+        <div class="step-status-badge badge-later">Pendente</div>
+      </div>
+
+      <div class="steps-list-item">
+        <div class="step-icon-wrap">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+          </svg>
+        </div>
+        <div class="step-info">
+          <div class="step-name">Redes sociais</div>
+          <div class="step-time-hint">Conectar perfis • ~5 min</div>
+        </div>
+        <div class="step-status-badge badge-later">Pendente</div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ═══════════════════════════════
+       SCREEN 2 — CHAT
+  ═══════════════════════════════ -->
+  <div class="screen chat-screen" id="screen-chat">
+    <!-- Header -->
+    <div class="chat-header">
+      <div class="chat-header-top">
+        <button class="back-btn" onclick="showScreen('screen-welcome')" title="Voltar">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="15 18 9 12 15 6"/>
+          </svg>
+        </button>
+        <div class="chat-header-title">Etapa 1 — Conhecendo você</div>
+        <div class="chat-header-step" id="step-counter">1 / 7</div>
+      </div>
+      <!-- Mini stepper -->
+      <div class="mini-stepper">
+        <div class="mini-node act" id="ms-1">1</div>
+        <div class="mini-conn" id="mc-12"></div>
+        <div class="mini-node pend" id="ms-2">2</div>
+        <div class="mini-conn" id="mc-23"></div>
+        <div class="mini-node pend" id="ms-3">3</div>
+        <div class="mini-conn" id="mc-34"></div>
+        <div class="mini-node pend" id="ms-4">4</div>
+        <div class="mini-conn" id="mc-45"></div>
+        <div class="mini-node pend" id="ms-5">5</div>
+        <div class="mini-conn" id="mc-56"></div>
+        <div class="mini-node pend" id="ms-6">6</div>
+      </div>
+    </div>
+
+    <!-- Chat body -->
+    <div class="chat-body" id="chat-body">
+      <div class="chat-divider">Hoje, 09:41</div>
+
+      <!-- Sensei initial message -->
+      <div class="msg-row sensei-row">
+        <div class="sensei-avatar">
+          <!-- Katana SVG -->
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="5" y1="19" x2="19" y2="5"/>
+            <polyline points="15 5 19 5 19 9"/>
+            <line x1="7" y1="17" x2="3" y2="21"/>
+          </svg>
+        </div>
+        <div class="bubble-wrap">
+          <div class="bubble-name">Sensei</div>
+          <div class="bubble bubble-sensei">Oi, Marcelo! Sou o Sensei — vou te fazer algumas perguntas para entender seu posicionamento. Pode ser direto nas respostas.<br><br>Vamos começar: <strong>qual é o nome da sua empresa e o que ela faz?</strong></div>
+          <div class="bubble-time">09:41</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="chat-footer">
+      <div class="chat-footer-counter">Pergunta <span id="q-num">1</span> de 7 — As respostas ficam salvas</div>
+      <div class="input-row">
+        <textarea
+          class="chat-input"
+          id="chat-input"
+          placeholder="Escreva sua resposta..."
+          rows="1"
+          onkeydown="handleKey(event)"
+          oninput="autoResize(this)"
+        ></textarea>
+        <button class="send-btn" id="send-btn" onclick="sendMessage()" title="Enviar">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ═══════════════════════════════
+       SCREEN 3 — STEP COMPLETE
+  ═══════════════════════════════ -->
+  <div class="screen complete-screen" id="screen-complete">
+    <div class="complete-icon">
+      <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#22C55E" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="20 6 9 17 4 12"/>
+      </svg>
+    </div>
+
+    <div class="complete-title">Etapa 1 concluída!</div>
+    <p class="complete-subtitle">Excelente, Marcelo. Suas respostas foram salvas. O Brand Book usará tudo isso para construir seu posicionamento.</p>
+
+    <div class="complete-steps">
+      <div class="complete-step-row">
+        <div class="csr-icon csr-done">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="20 6 9 17 4 12"/>
+          </svg>
+        </div>
+        <div class="csr-info">
+          <div class="csr-name">Chat com Sensei</div>
+          <div class="csr-hint">7 perguntas respondidas</div>
+        </div>
+        <div class="csr-badge done">Concluído</div>
+      </div>
+      <div class="complete-step-row">
+        <div class="csr-icon csr-next">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/>
+          </svg>
+        </div>
+        <div class="csr-info">
+          <div class="csr-name">Fotos de referência</div>
+          <div class="csr-hint">Envie 40–50 fotos para treinar seu clone visual</div>
+        </div>
+        <div class="csr-badge next">Próxima</div>
+      </div>
+      <div class="complete-step-row">
+        <div class="csr-icon csr-later">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="8" r="6"/><path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"/>
+          </svg>
+        </div>
+        <div class="csr-info">
+          <div class="csr-name">Estilo visual</div>
+          <div class="csr-hint">Escolha como você quer aparecer nas fotos</div>
+        </div>
+        <div class="csr-badge later">Pendente</div>
+      </div>
+      <div class="complete-step-row">
+        <div class="csr-icon csr-later">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/>
+          </svg>
+        </div>
+        <div class="csr-info">
+          <div class="csr-name">Vídeo de treinamento</div>
+          <div class="csr-hint">2 min para o clone aprender sua fala</div>
+        </div>
+        <div class="csr-badge later">Pendente</div>
+      </div>
+      <div class="complete-step-row">
+        <div class="csr-icon csr-later">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/>
+          </svg>
+        </div>
+        <div class="csr-info">
+          <div class="csr-name">Clone de voz</div>
+          <div class="csr-hint">3 min de áudio para replicar seu tom</div>
+        </div>
+        <div class="csr-badge later">Pendente</div>
+      </div>
+      <div class="complete-step-row">
+        <div class="csr-icon csr-later">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/>
+          </svg>
+        </div>
+        <div class="csr-info">
+          <div class="csr-name">Redes sociais</div>
+          <div class="csr-hint">Conectar Instagram, LinkedIn e mais</div>
+        </div>
+        <div class="csr-badge later">Pendente</div>
+      </div>
+    </div>
+
+    <button class="btn-next-step" onclick="showScreen('screen-welcome')">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/>
+      </svg>
+      Continuar — Enviar fotos
+    </button>
+    <button class="btn-ghost" onclick="showScreen('screen-welcome')">Continuar depois</button>
+  </div>
+
+</div><!-- /phone-wrap -->
+
+<script>
+  /* ── SCRIPT das 7 perguntas ── */
+  const QUESTIONS = [
+    "Qual é o nome da sua empresa e o que ela faz?",
+    "Qual é o seu papel dentro da empresa? Você é fundador, CEO, sócio?",
+    "Quem é o seu cliente ideal? Descreve o perfil: setor, cargo do decisor, principais dores.",
+    "Qual é o maior problema que você resolve para esses clientes? O que muda na vida deles depois que te contratam?",
+    "O que te diferencia dos seus concorrentes? Por que um cliente escolheria você?",
+    "Como você quer ser visto no mercado? Qual imagem e posicionamento você quer projetar?",
+    "Qual é a sua maior conquista profissional até hoje? Algo que conta a história do que você construiu."
+  ];
+
+  const SENSEI_FOLLOWUPS = [
+    "Pode me contar um pouco mais? Precisamos de pelo menos uma frase completa.",
+    "Entendo, mas preciso de mais detalhes. O que exatamente você quis dizer?",
+    "Essa resposta ficou curta demais. Me conta mais sobre isso."
+  ];
+
+  let currentQ = 0;
+  let isTyping  = false;
+  let answers   = [];
+
+  /* ── NAVEGAÇÃO ── */
+  function showScreen(id) {
+    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+    if (id === 'screen-chat') scrollToBottom();
+  }
+
+  function goToChat() {
+    showScreen('screen-chat');
+  }
+
+  /* ── CHAT LOGIC ── */
+  function getTime() {
+    const d = new Date();
+    return d.getHours().toString().padStart(2,'0') + ':' + d.getMinutes().toString().padStart(2,'0');
+  }
+
+  function scrollToBottom() {
+    const body = document.getElementById('chat-body');
+    requestAnimationFrame(() => { body.scrollTop = body.scrollHeight; });
+  }
+
+  function addMessage(role, text) {
+    const body  = document.getElementById('chat-body');
+    const row   = document.createElement('div');
+    const ts    = getTime();
+
+    if (role === 'sensei') {
+      row.className = 'msg-row sensei-row';
+      row.innerHTML = `
+        <div class="sensei-avatar">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="5" y1="19" x2="19" y2="5"/>
+            <polyline points="15 5 19 5 19 9"/>
+            <line x1="7" y1="17" x2="3" y2="21"/>
+          </svg>
+        </div>
+        <div class="bubble-wrap">
+          <div class="bubble-name">Sensei</div>
+          <div class="bubble bubble-sensei">${text}</div>
+          <div class="bubble-time">${ts}</div>
+        </div>`;
+    } else {
+      row.className = 'msg-row founder-row';
+      row.innerHTML = `
+        <div class="bubble-wrap" style="align-items:flex-end">
+          <div class="bubble-name">Você</div>
+          <div class="bubble bubble-founder">${escHtml(text)}</div>
+          <div class="bubble-time">${ts}</div>
+        </div>`;
+    }
+
+    body.appendChild(row);
+    scrollToBottom();
+    return row;
+  }
+
+  function showTyping() {
+    const body = document.getElementById('chat-body');
+    const row  = document.createElement('div');
+    row.className = 'msg-row sensei-row';
+    row.id = 'typing-row';
+    row.innerHTML = `
+      <div class="sensei-avatar">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="5" y1="19" x2="19" y2="5"/>
+          <polyline points="15 5 19 5 19 9"/>
+          <line x1="7" y1="17" x2="3" y2="21"/>
+        </svg>
+      </div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Sensei</div>
+        <div class="typing-bubble">
+          <div class="dot"></div>
+          <div class="dot"></div>
+          <div class="dot"></div>
+        </div>
+      </div>`;
+    body.appendChild(row);
+    scrollToBottom();
+  }
+
+  function removeTyping() {
+    const el = document.getElementById('typing-row');
+    if (el) el.remove();
+  }
+
+  function updateCounter() {
+    const display = Math.min(currentQ + 1, 7);
+    document.getElementById('q-num').textContent   = display;
+    document.getElementById('step-counter').textContent = display + ' / 7';
+  }
+
+  function setInputEnabled(enabled) {
+    const input = document.getElementById('chat-input');
+    const btn   = document.getElementById('send-btn');
+    input.disabled  = !enabled;
+    btn.disabled    = !enabled;
+    if (enabled) input.focus();
+  }
+
+  function sendMessage() {
+    if (isTyping) return;
+    const input = document.getElementById('chat-input');
+    const text  = input.value.trim();
+    if (!text) return;
+    if (text.length < 10) {
+      addMessage('sensei', SENSEI_FOLLOWUPS[Math.floor(Math.random() * SENSEI_FOLLOWUPS.length)]);
+      return;
+    }
+
+    /* Add founder bubble */
+    addMessage('founder', text);
+    input.value = '';
+    input.style.height = '';
+    answers.push({ q: currentQ + 1, a: text });
+    currentQ++;
+
+    setInputEnabled(false);
+    isTyping = true;
+
+    /* Show typing indicator */
+    showTyping();
+    scrollToBottom();
+
+    const delay = 800 + Math.random() * 600;
+    setTimeout(() => {
+      removeTyping();
+
+      if (currentQ >= QUESTIONS.length) {
+        /* All 7 answered */
+        addMessage('sensei', 'Perfeito, Marcelo! Recebi todas as suas respostas. Suas informações foram salvas e o Sensei já começou a construir seu perfil de posicionamento. Vamos para a próxima etapa: envio de fotos!');
+        isTyping = false;
+        setTimeout(() => showScreen('screen-complete'), 2200);
+      } else {
+        addMessage('sensei', QUESTIONS[currentQ]);
+        updateCounter();
+        isTyping = false;
+        setInputEnabled(true);
+      }
+    }, delay);
+  }
+
+  function handleKey(e) {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();
+      sendMessage();
+    }
+  }
+
+  function autoResize(el) {
+    el.style.height = '';
+    el.style.height = Math.min(el.scrollHeight, 120) + 'px';
+  }
+
+  function escHtml(str) {
+    return str
+      .replace(/&/g,'&amp;')
+      .replace(/</g,'&lt;')
+      .replace(/>/g,'&gt;')
+      .replace(/\n/g,'<br>');
+  }
+
+  /* Init */
+  updateCounter();
+</script>
+</body>
+</html>
