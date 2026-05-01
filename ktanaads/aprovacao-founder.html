@@ -1,0 +1,1125 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Aprovação Founder · KTANA</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Zen+Dots&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:       #F5F5F7;
+    --surface:  #FFFFFF;
+    --s2:       #FAFAFA;
+    --brand:    #D70030;
+    --brand-d:  #9B0A2A;
+    --success:  #22C55E;
+    --warn:     #F59E0B;
+    --text:     #1D1D1F;
+    --text-2:   #6E6E73;
+    --text-3:   #AEAEB2;
+    --border:   rgba(0,0,0,0.07);
+    --r:        20px;
+    --r-sm:     12px;
+    --shadow:   0 4px 24px rgba(0,0,0,0.10);
+    --shadow-lg:0 12px 48px rgba(0,0,0,0.18);
+  }
+
+  * { box-sizing:border-box; margin:0; padding:0; -webkit-tap-highlight-color:transparent; }
+  body {
+    background: var(--bg);
+    font-family: 'Inter', sans-serif;
+    color: var(--text);
+    min-height: 100dvh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .phone-wrap {
+    width: 100%;
+    max-width: 430px;
+    min-height: 100dvh;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    overflow: hidden;
+  }
+
+  @media (min-width: 480px) {
+    body { justify-content: center; padding: 24px 0; }
+    .phone-wrap {
+      min-height: 844px;
+      max-height: 844px;
+      border-radius: 40px;
+      box-shadow: 0 0 0 1px rgba(0,0,0,0.08), var(--shadow-lg);
+      overflow: hidden;
+    }
+  }
+
+  /* ── SCREEN SYSTEM ── */
+  .screen { display:none; flex-direction:column; flex:1; }
+  .screen.active { display:flex; }
+
+  /* ══════════════════════════════════════
+     SCREEN A — LIST VIEW (all pending)
+  ══════════════════════════════════════ */
+  .list-screen { background: var(--bg); }
+
+  /* Header */
+  .list-header {
+    background: rgba(245,245,247,0.92);
+    backdrop-filter: saturate(180%) blur(20px);
+    -webkit-backdrop-filter: saturate(180%) blur(20px);
+    border-bottom: 0.5px solid var(--border);
+    padding: 52px 20px 16px;
+  }
+
+  .list-header-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 4px;
+  }
+
+  .header-title {
+    font-family: 'Zen Dots', sans-serif;
+    font-size: 20px;
+    color: var(--text);
+  }
+
+  .header-badge {
+    background: var(--brand);
+    color: #fff;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 4px 10px;
+    border-radius: 20px;
+  }
+
+  .header-sub {
+    font-size: 13px;
+    color: var(--text-2);
+  }
+
+  /* SLA warning bar */
+  .sla-bar {
+    margin: 12px 20px 0;
+    background: rgba(245,158,11,0.08);
+    border: 1px solid rgba(245,158,11,0.25);
+    border-radius: var(--r-sm);
+    padding: 10px 14px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .sla-icon { color: var(--warn); flex-shrink: 0; }
+  .sla-text { font-size: 12px; color: #92400E; line-height: 1.4; }
+  .sla-text strong { color: #78350F; }
+
+  /* Content list */
+  .content-list {
+    flex: 1;
+    overflow-y: auto;
+    padding: 16px 20px 100px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .content-list::-webkit-scrollbar { width: 3px; }
+  .content-list::-webkit-scrollbar-thumb { background: var(--text-3); border-radius: 3px; }
+
+  /* Content card (list item) */
+  .content-card {
+    background: var(--surface);
+    border-radius: var(--r);
+    border: 0.5px solid var(--border);
+    box-shadow: var(--shadow);
+    overflow: hidden;
+    cursor: pointer;
+    transition: transform .15s, box-shadow .15s;
+  }
+  .content-card:active { transform: scale(0.99); }
+
+  .card-preview {
+    width: 100%;
+    height: 180px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .preview-bg {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .preview-platform-pill {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    padding: 5px 10px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 700;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+
+  .preview-score {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    padding: 5px 10px;
+    background: rgba(0,0,0,0.6);
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 700;
+    color: #fff;
+    backdrop-filter: blur(8px);
+  }
+
+  .preview-score.high  { background: rgba(34,197,94,0.75); }
+  .preview-score.med   { background: rgba(245,158,11,0.8); }
+
+  .preview-format-icon {
+    width: 56px; height: 56px;
+    background: rgba(255,255,255,0.15);
+    border-radius: 14px;
+    display: flex; align-items: center; justify-content: center;
+    color: rgba(255,255,255,0.9);
+    backdrop-filter: blur(4px);
+  }
+
+  .card-info {
+    padding: 14px 16px 16px;
+  }
+
+  .card-meta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 6px;
+  }
+
+  .card-format {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--text-2);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .card-time {
+    font-size: 11px;
+    color: var(--text-3);
+    display: flex; align-items: center; gap: 4px;
+  }
+
+  .card-time.urgent { color: var(--warn); }
+
+  .card-title {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 4px;
+    line-height: 1.35;
+  }
+
+  .card-excerpt {
+    font-size: 13px;
+    color: var(--text-2);
+    line-height: 1.5;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    margin-bottom: 14px;
+  }
+
+  .card-actions {
+    display: flex;
+    gap: 8px;
+  }
+
+  .btn-reject {
+    flex: 1;
+    padding: 12px;
+    background: transparent;
+    border: 1px solid var(--border);
+    border-radius: var(--r-sm);
+    color: var(--text-2);
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: border-color .2s, background .2s;
+    display: flex; align-items: center; justify-content: center; gap: 6px;
+  }
+  .btn-reject:hover { border-color: rgba(215,0,48,.4); color: var(--brand); }
+
+  .btn-approve {
+    flex: 2;
+    padding: 12px;
+    background: linear-gradient(135deg, var(--brand), var(--brand-d));
+    border: none;
+    border-radius: var(--r-sm);
+    color: #fff;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: opacity .2s, transform .1s;
+    display: flex; align-items: center; justify-content: center; gap: 6px;
+    box-shadow: 0 4px 12px rgba(215,0,48,0.3);
+  }
+  .btn-approve:active { transform: scale(0.98); }
+
+  /* Batch bar at bottom */
+  .batch-bar-fixed {
+    position: fixed;
+    bottom: 0; left: 50%;
+    transform: translateX(-50%);
+    width: 100%; max-width: 430px;
+    background: rgba(245,245,247,0.97);
+    border-top: 0.5px solid var(--border);
+    padding: 12px 20px 28px;
+    backdrop-filter: blur(20px);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .batch-count {
+    font-size: 13px;
+    color: var(--text-2);
+    flex: 1;
+  }
+
+  .btn-batch {
+    padding: 12px 20px;
+    background: linear-gradient(135deg, var(--brand), var(--brand-d));
+    border: none; border-radius: var(--r-sm);
+    color: #fff; font-weight: 600; font-size: 13px;
+    cursor: pointer;
+    transition: opacity .2s;
+    display: flex; align-items: center; gap: 6px;
+  }
+
+
+  /* ══════════════════════════════════════
+     SCREEN B — DETAIL / PREVIEW
+  ══════════════════════════════════════ */
+  .detail-screen { background: var(--bg); }
+
+  .detail-header {
+    background: rgba(245,245,247,0.92);
+    backdrop-filter: saturate(180%) blur(20px);
+    -webkit-backdrop-filter: saturate(180%) blur(20px);
+    border-bottom: 0.5px solid var(--border);
+    padding: 52px 16px 14px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .detail-back {
+    width: 34px; height: 34px;
+    background: var(--s2);
+    border: 0.5px solid var(--border);
+    border-radius: 9px;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer;
+    color: var(--text-2);
+    flex-shrink: 0;
+  }
+  .detail-back:active { background: var(--bg); }
+
+  .detail-header-info { flex: 1; }
+  .detail-header-title {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--text);
+    line-height: 1.3;
+  }
+  .detail-header-meta {
+    font-size: 12px;
+    color: var(--text-2);
+    margin-top: 2px;
+  }
+
+  .detail-progress {
+    font-size: 11px;
+    color: var(--text-3);
+    font-weight: 600;
+    white-space: nowrap;
+  }
+
+  .detail-body {
+    flex: 1;
+    overflow-y: auto;
+    padding: 16px 16px 100px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+  .detail-body::-webkit-scrollbar { width:3px; }
+  .detail-body::-webkit-scrollbar-thumb { background:var(--text-3); border-radius:3px; }
+
+  /* Post preview card */
+  .post-preview {
+    background: var(--surface);
+    border-radius: var(--r);
+    border: 0.5px solid var(--border);
+    box-shadow: var(--shadow);
+    overflow: hidden;
+  }
+
+  .post-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 14px;
+    border-bottom: 0.5px solid var(--border);
+  }
+
+  .post-avatar {
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--brand), var(--brand-d));
+    display: flex; align-items: center; justify-content: center;
+    color: #fff; font-size: 13px; font-weight: 700;
+    flex-shrink: 0;
+  }
+
+  .post-account { flex: 1; }
+  .post-account-name { font-size: 13px; font-weight: 600; }
+  .post-account-sub  { font-size: 11px; color: var(--text-2); }
+
+  .post-platform-badge {
+    font-size: 10px; font-weight: 700;
+    padding: 4px 8px; border-radius: 6px;
+    color: #fff;
+  }
+
+  .post-media {
+    width: 100%;
+    height: 260px;
+    display: flex; align-items: center; justify-content: center;
+    position: relative;
+  }
+
+  .slide-nav {
+    position: absolute;
+    bottom: 10px; left: 50%;
+    transform: translateX(-50%);
+    display: flex; gap: 5px;
+  }
+
+  .slide-dot {
+    width: 6px; height: 6px; border-radius: 50%;
+    background: rgba(255,255,255,0.5);
+  }
+  .slide-dot.active { background: #fff; width: 18px; border-radius: 3px; }
+
+  .post-caption {
+    padding: 14px;
+  }
+  .post-caption-text {
+    font-size: 14px; line-height: 1.6; color: var(--text);
+  }
+  .post-caption-text strong { font-weight: 600; }
+  .post-hashtags {
+    font-size: 12px; color: #0095F6; margin-top: 6px; line-height: 1.6;
+  }
+  .post-post-time { font-size: 11px; color: var(--text-3); margin-top: 4px; }
+
+  /* Score card */
+  .score-card {
+    background: var(--surface);
+    border-radius: var(--r);
+    border: 0.5px solid var(--border);
+    box-shadow: var(--shadow);
+    padding: 16px;
+    display: flex; gap: 14px; align-items: flex-start;
+  }
+
+  .score-gauge {
+    width: 56px; height: 56px;
+    border-radius: 50%;
+    background: conic-gradient(var(--success) 0% 82%, rgba(0,0,0,0.06) 82% 100%);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 14px; font-weight: 700; color: var(--text);
+    flex-shrink: 0;
+    position: relative;
+  }
+  .score-gauge::before {
+    content: '';
+    position: absolute;
+    inset: 6px;
+    background: var(--surface);
+    border-radius: 50%;
+  }
+  .score-gauge span { position: relative; z-index: 1; }
+
+  .score-info { flex: 1; }
+  .score-label { font-size: 12px; font-weight: 600; color: var(--text-2); text-transform: uppercase; letter-spacing: .05em; margin-bottom: 4px; }
+  .score-desc  { font-size: 13px; color: var(--text-2); line-height: 1.5; }
+
+  /* SM notes */
+  .sm-notes {
+    background: rgba(245,158,11,0.06);
+    border: 1px solid rgba(245,158,11,0.2);
+    border-radius: var(--r);
+    padding: 14px 16px;
+    display: flex; gap: 10px; align-items: flex-start;
+  }
+  .sm-notes-icon { color: var(--warn); flex-shrink: 0; margin-top: 1px; }
+  .sm-notes-text { font-size: 13px; color: var(--text); line-height: 1.5; }
+  .sm-notes-text strong { color: var(--text); }
+  .sm-notes-author { font-size: 11px; color: var(--text-2); margin-top: 4px; }
+
+  /* Footer actions */
+  .detail-footer {
+    position: fixed; bottom: 0; left: 50%; transform: translateX(-50%);
+    width: 100%; max-width: 430px;
+    background: rgba(245,245,247,0.97);
+    border-top: 0.5px solid var(--border);
+    padding: 12px 16px 28px;
+    display: flex; flex-direction: column; gap: 8px;
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+  }
+
+  .detail-btn-approve {
+    width: 100%;
+    padding: 16px;
+    background: linear-gradient(135deg, var(--brand), var(--brand-d));
+    border: none; border-radius: var(--r-sm);
+    color: #fff; font-family: 'Zen Dots', sans-serif; font-size: 14px;
+    cursor: pointer;
+    transition: opacity .2s, transform .1s;
+    display: flex; align-items: center; justify-content: center; gap: 8px;
+    box-shadow: 0 4px 16px rgba(215,0,48,0.3);
+  }
+  .detail-btn-approve:active { transform: scale(.98); }
+
+  .detail-btn-row { display: flex; gap: 8px; }
+
+  .detail-btn-reject {
+    flex: 1;
+    padding: 13px;
+    background: transparent;
+    border: 1px solid var(--border);
+    border-radius: var(--r-sm);
+    color: var(--text-2); font-size: 13px; font-weight: 500;
+    cursor: pointer;
+    transition: border-color .2s, color .2s;
+    display: flex; align-items: center; justify-content: center; gap: 6px;
+  }
+  .detail-btn-reject:hover { border-color: rgba(215,0,48,.4); color: var(--brand); }
+
+  .detail-btn-next {
+    flex: 1;
+    padding: 13px;
+    background: rgba(215,0,48,0.05);
+    border: 1px solid rgba(215,0,48,0.2);
+    border-radius: var(--r-sm);
+    color: var(--brand); font-size: 13px; font-weight: 500;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center; gap: 6px;
+  }
+  .detail-btn-next:hover { background: rgba(215,0,48,0.1); }
+
+
+  /* ══════════════════════════════════════
+     SCREEN C — REJECT MODAL
+  ══════════════════════════════════════ */
+  .reject-screen {
+    background: var(--bg);
+    flex-direction: column;
+    position: relative;
+  }
+
+  .reject-body {
+    flex: 1;
+    padding: 24px 20px;
+    display: flex; flex-direction: column; gap: 16px;
+  }
+
+  .reject-title {
+    font-family: 'Zen Dots', sans-serif;
+    font-size: 18px;
+    color: var(--text);
+  }
+
+  .reject-sub { font-size: 14px; color: var(--text-2); line-height: 1.5; }
+
+  .reason-chips { display:flex; flex-wrap:wrap; gap:8px; }
+  .chip {
+    padding: 8px 14px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    font-size: 13px;
+    color: var(--text-2);
+    cursor: pointer;
+    transition: background .2s, border-color .2s, color .2s;
+  }
+  .chip.active {
+    background: rgba(215,0,48,0.06);
+    border-color: rgba(215,0,48,.4);
+    color: var(--brand);
+  }
+
+  .reject-textarea {
+    width: 100%;
+    min-height: 100px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--r-sm);
+    padding: 12px 14px;
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    color: var(--text);
+    resize: none; outline: none;
+    transition: border-color .2s;
+  }
+  .reject-textarea::placeholder { color: var(--text-3); }
+  .reject-textarea:focus { border-color: rgba(215,0,48,.5); }
+
+  .char-count { text-align: right; font-size: 11px; color: var(--text-3); margin-top: -8px; }
+
+  .reject-footer {
+    padding: 12px 20px 32px;
+    display: flex; gap: 8px;
+    background: rgba(245,245,247,.97);
+    border-top: 0.5px solid var(--border);
+  }
+
+  .btn-cancel-reject {
+    flex: 1; padding: 14px;
+    background: transparent;
+    border: 1px solid var(--border);
+    border-radius: var(--r-sm);
+    color: var(--text-2); font-size: 14px; cursor: pointer;
+  }
+  .btn-confirm-reject {
+    flex: 2; padding: 14px;
+    background: var(--brand);
+    border: none; border-radius: var(--r-sm);
+    color: #fff; font-weight: 600; font-size: 14px; cursor: pointer;
+    transition: opacity .2s;
+  }
+  .btn-confirm-reject:disabled { background: var(--text-3); cursor: not-allowed; }
+
+  /* ══════════════════════════════════════
+     SCREEN D — ALL DONE
+  ══════════════════════════════════════ */
+  .done-screen {
+    background: var(--bg);
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 24px;
+    text-align: center;
+  }
+
+  .done-ring {
+    width: 84px; height: 84px;
+    background: rgba(34,197,94,0.08);
+    border: 2px solid var(--success);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    margin: 0 auto 24px;
+    animation: pop .5s cubic-bezier(.34,1.56,.64,1);
+  }
+  @keyframes pop { from{transform:scale(0);opacity:0;} to{transform:scale(1);opacity:1;} }
+
+  .done-title { font-family:'Zen Dots',sans-serif; font-size:20px; margin-bottom:8px; }
+  .done-sub   { font-size:14px; color:var(--text-2); line-height:1.6; max-width:280px; margin:0 auto 28px; }
+
+  .done-stats {
+    width: 100%;
+    background: var(--surface);
+    border-radius: var(--r);
+    border: 0.5px solid var(--border);
+    box-shadow: var(--shadow);
+    overflow: hidden;
+    margin-bottom: 20px;
+  }
+  .done-stat-row {
+    display: flex; align-items: center; gap: 12px;
+    padding: 14px 16px;
+    border-bottom: 0.5px solid var(--border);
+  }
+  .done-stat-row:last-child { border-bottom: none; }
+  .done-stat-icon { width:28px; height:28px; border-radius:8px; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+  .dsi-green { background:rgba(34,197,94,.1); color:var(--success); }
+  .dsi-red   { background:rgba(215,0,48,.1); color:var(--brand); }
+  .done-stat-label { flex:1; font-size:13px; color:var(--text); }
+  .done-stat-value { font-size:14px; font-weight:700; color:var(--text); }
+
+  .btn-done {
+    width: 100%; padding: 15px;
+    background: linear-gradient(135deg,var(--brand),var(--brand-d));
+    border: none; border-radius: var(--r-sm);
+    color: #fff; font-family:'Zen Dots',sans-serif; font-size:13px;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center; gap: 8px;
+    box-shadow: 0 4px 12px rgba(215,0,48,.3);
+  }
+
+  /* ── TOAST ── */
+  .toast {
+    position: fixed; top:20px; left:50%;
+    transform: translateX(-50%) translateY(-80px);
+    background: var(--text); border-radius: 12px;
+    padding: 12px 16px; font-size:13px; color:#fff;
+    display: flex; align-items:center; gap:10px;
+    z-index:200; transition:transform .35s cubic-bezier(.34,1.56,.64,1);
+    box-shadow: 0 8px 32px rgba(0,0,0,.25);
+    white-space: nowrap;
+  }
+  .toast.show { transform:translateX(-50%) translateY(0); }
+</style>
+</head>
+<body>
+<div class="phone-wrap">
+
+<!-- ══════════════════════════════════════
+     SCREEN A — LIST
+══════════════════════════════════════ -->
+<div class="screen list-screen active" id="screen-list">
+  <div class="list-header">
+    <div class="list-header-row">
+      <div class="header-title">Aprovação</div>
+      <div class="header-badge">3 pendentes</div>
+    </div>
+    <div class="header-sub">Marcelo, revise e aprove abaixo</div>
+  </div>
+
+  <!-- SLA warning -->
+  <div class="sla-bar">
+    <div class="sla-icon">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
+      </svg>
+    </div>
+    <div class="sla-text"><strong>1 post vence hoje (D+2).</strong> Aprovação atrasa a publicação do calendário.</div>
+  </div>
+
+  <div class="content-list">
+
+    <!-- Card 1 — IG Reel (urgent) -->
+    <div class="content-card" onclick="openDetail(0)">
+      <div class="card-preview">
+        <div class="preview-bg" style="background:linear-gradient(135deg,#1a1a2e,#D70030)">
+          <div class="preview-format-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/>
+            </svg>
+          </div>
+        </div>
+        <div class="preview-platform-pill" style="background:linear-gradient(135deg,#833ab4,#fd1d1d)">
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/></svg>
+          Instagram
+        </div>
+        <div class="preview-score high">92% humano</div>
+      </div>
+      <div class="card-info">
+        <div class="card-meta">
+          <span class="card-format">Reel · 60s</span>
+          <span class="card-time urgent">
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            Vence hoje
+          </span>
+        </div>
+        <div class="card-title">CEO aos 28: o que aprendi sobre liderança</div>
+        <div class="card-excerpt">Quando assumi a empresa aos 28 anos, aprendi 3 lições sobre liderança que ninguém me contou...</div>
+        <div class="card-actions">
+          <button class="btn-reject" onclick="event.stopPropagation();openReject(0)">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+            Rejeitar
+          </button>
+          <button class="btn-approve" onclick="event.stopPropagation();doApprove(0)">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+            Aprovar
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Card 2 — LinkedIn Post -->
+    <div class="content-card" onclick="openDetail(1)">
+      <div class="card-preview">
+        <div class="preview-bg" style="background:linear-gradient(135deg,#0077B5,#00A0DC)">
+          <div class="preview-format-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>
+            </svg>
+          </div>
+        </div>
+        <div class="preview-platform-pill" style="background:#0077B5">
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+          LinkedIn
+        </div>
+        <div class="preview-score med">78% humano</div>
+      </div>
+      <div class="card-info">
+        <div class="card-meta">
+          <span class="card-format">Post · Texto longo</span>
+          <span class="card-time">há 6h</span>
+        </div>
+        <div class="card-title">O protocolo que uso antes de toda decisão importante</div>
+        <div class="card-excerpt">Toda vez que preciso tomar uma decisão que afeta a empresa, sigo este protocolo de 4 etapas...</div>
+        <div class="card-actions">
+          <button class="btn-reject" onclick="event.stopPropagation();openReject(1)">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+            Rejeitar
+          </button>
+          <button class="btn-approve" onclick="event.stopPropagation();doApprove(1)">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+            Aprovar
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Card 3 — IG Carrossel -->
+    <div class="content-card" onclick="openDetail(2)">
+      <div class="card-preview">
+        <div class="preview-bg" style="background:linear-gradient(135deg,#2d1b69,#833ab4)">
+          <div class="preview-format-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/>
+            </svg>
+          </div>
+        </div>
+        <div class="preview-platform-pill" style="background:linear-gradient(135deg,#833ab4,#fd1d1d)">
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/></svg>
+          Instagram
+        </div>
+        <div class="preview-score high">88% humano</div>
+      </div>
+      <div class="card-info">
+        <div class="card-meta">
+          <span class="card-format">Carrossel · 8 slides</span>
+          <span class="card-time">há 12h</span>
+        </div>
+        <div class="card-title">7 métricas que todo CEO deveria monitorar</div>
+        <div class="card-excerpt">Depois de 5 anos gerindo uma empresa, identifiquei as métricas que realmente importam para tomar decisões...</div>
+        <div class="card-actions">
+          <button class="btn-reject" onclick="event.stopPropagation();openReject(2)">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+            Rejeitar
+          </button>
+          <button class="btn-approve" onclick="event.stopPropagation();doApprove(2)">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+            Aprovar
+          </button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Batch bar -->
+  <div class="batch-bar-fixed">
+    <span class="batch-count">3 posts aguardam aprovação</span>
+    <button class="btn-batch" onclick="approveAll()">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+      Aprovar todos
+    </button>
+  </div>
+</div><!-- /list -->
+
+
+<!-- ══════════════════════════════════════
+     SCREEN B — DETAIL
+══════════════════════════════════════ -->
+<div class="screen detail-screen" id="screen-detail">
+  <div class="detail-header">
+    <div class="detail-back" onclick="showScreen('screen-list')">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+    </div>
+    <div class="detail-header-info">
+      <div class="detail-header-title" id="detail-title">CEO aos 28</div>
+      <div class="detail-header-meta" id="detail-meta">Instagram Reel · há 3h</div>
+    </div>
+    <div class="detail-progress" id="detail-progress">1 / 3</div>
+  </div>
+
+  <div class="detail-body">
+    <!-- Post preview (IG mockup) -->
+    <div class="post-preview">
+      <div class="post-header">
+        <div class="post-avatar">MO</div>
+        <div class="post-account">
+          <div class="post-account-name">Marcelo Oliveira</div>
+          <div class="post-account-sub">@marcelooliveira · Agora</div>
+        </div>
+        <div class="post-platform-badge" style="background:linear-gradient(135deg,#833ab4,#fd1d1d)">IG</div>
+      </div>
+      <div class="post-media" style="background:linear-gradient(135deg,#1a1a2e,#D70030)">
+        <div style="text-align:center;color:#fff;padding:20px">
+          <div style="font-family:'Zen Dots',sans-serif;font-size:18px;margin-bottom:8px">CEO aos 28</div>
+          <div style="font-size:13px;opacity:.8">3 lições sobre liderança</div>
+        </div>
+        <div class="slide-nav">
+          <div class="slide-dot active"></div>
+          <div class="slide-dot"></div>
+          <div class="slide-dot"></div>
+        </div>
+      </div>
+      <div class="post-caption">
+        <div class="post-caption-text">
+          <strong>CEO aos 28: o que aprendi sobre liderança</strong><br>
+          Quando assumi a empresa aos 28 anos, aprendi 3 lições que ninguém me contou:
+          <br><br>
+          1. Delegar não é perder controle — é multiplicar resultado.<br>
+          2. Conflito evitado hoje vira crise amanhã.<br>
+          3. Quem não mede, não melhora.
+        </div>
+        <div class="post-hashtags">#liderança #CEO #empreendedorismo #gestão</div>
+        <div class="post-post-time">Publicação agendada: amanhã às 08:30</div>
+      </div>
+    </div>
+
+    <!-- Score card -->
+    <div class="score-card">
+      <div class="score-gauge"><span>92</span></div>
+      <div class="score-info">
+        <div class="score-label">Score de Humanidade</div>
+        <div class="score-desc">Conteúdo altamente personalizado com sua voz e histórias reais. Excelente para engajamento orgânico.</div>
+      </div>
+    </div>
+
+    <!-- SM notes -->
+    <div class="sm-notes">
+      <div class="sm-notes-icon">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+      </div>
+      <div class="sm-notes-text">
+        <strong>Nota da Camila (SM):</strong> Revisei o hook e ficou muito bom. A história dos 28 anos é genuína. Aprovado da minha parte!
+        <div class="sm-notes-author">Camila Rocha · há 1h</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="detail-footer">
+    <button class="detail-btn-approve" onclick="doApproveDetail()">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+      Aprovar e publicar no horário
+    </button>
+    <div class="detail-btn-row">
+      <button class="detail-btn-reject" onclick="openReject(0)">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        Rejeitar
+      </button>
+      <button class="detail-btn-next" onclick="showScreen('screen-list')">
+        Próximo
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+      </button>
+    </div>
+  </div>
+</div><!-- /detail -->
+
+
+<!-- ══════════════════════════════════════
+     SCREEN C — REJECT
+══════════════════════════════════════ -->
+<div class="screen reject-screen" id="screen-reject">
+  <div class="detail-header" style="padding:52px 16px 14px">
+    <div class="detail-back" onclick="showScreen('screen-list')">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+    </div>
+    <div class="detail-header-info">
+      <div class="detail-header-title">Rejeitar conteúdo</div>
+      <div class="detail-header-meta">CEO aos 28 · Instagram Reel</div>
+    </div>
+  </div>
+
+  <div class="reject-body">
+    <div class="reject-title">O que precisa melhorar?</div>
+    <div class="reject-sub">O feedback ajuda o agente a recriar com sua voz. Mínimo 10 caracteres.</div>
+
+    <div class="reason-chips">
+      <div class="chip" onclick="selectChip(this,'O hook precisa de mais urgência')">Hook fraco</div>
+      <div class="chip" onclick="selectChip(this,'O tom não combina com minha voz')">Tom inadequado</div>
+      <div class="chip" onclick="selectChip(this,'A história não é precisa')">Informação errada</div>
+      <div class="chip" onclick="selectChip(this,'O CTA precisa ser mais direto')">CTA fraco</div>
+      <div class="chip" onclick="selectChip(this,'A imagem não reflete meu estilo')">Visual errado</div>
+      <div class="chip" onclick="selectChip(this,'Precisa de mais detalhes e exemplos')">Raso demais</div>
+    </div>
+
+    <textarea
+      class="reject-textarea"
+      id="reject-text"
+      placeholder="Descreva o que precisa mudar para eu aprovar..."
+      oninput="updateRejectCount()"
+    ></textarea>
+    <div class="char-count"><span id="r-count">0</span> / 10 caracteres mínimos</div>
+  </div>
+
+  <div class="reject-footer">
+    <button class="btn-cancel-reject" onclick="showScreen('screen-list')">Cancelar</button>
+    <button class="btn-confirm-reject" id="reject-confirm-btn" disabled onclick="confirmReject()">Enviar feedback</button>
+  </div>
+</div><!-- /reject -->
+
+
+<!-- ══════════════════════════════════════
+     SCREEN D — ALL DONE
+══════════════════════════════════════ -->
+<div class="screen done-screen" id="screen-done">
+  <div class="done-ring">
+    <svg width="38" height="38" viewBox="0 0 24 24" fill="none" stroke="#22C55E" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+  </div>
+
+  <div class="done-title">Tudo aprovado!</div>
+  <p class="done-sub">Ótimo, Marcelo. Seu conteúdo está na fila e será publicado nos horários certos.</p>
+
+  <div class="done-stats">
+    <div class="done-stat-row">
+      <div class="done-stat-icon dsi-green">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+      </div>
+      <div class="done-stat-label">Posts aprovados</div>
+      <div class="done-stat-value" id="approved-count">3</div>
+    </div>
+    <div class="done-stat-row">
+      <div class="done-stat-icon dsi-red">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </div>
+      <div class="done-stat-label">Posts rejeitados</div>
+      <div class="done-stat-value" id="rejected-count">0</div>
+    </div>
+    <div class="done-stat-row">
+      <div class="done-stat-icon dsi-green">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+      </div>
+      <div class="done-stat-label">Próxima publicação</div>
+      <div class="done-stat-value">Amanhã 08:30</div>
+    </div>
+  </div>
+
+  <button class="btn-done" onclick="showScreen('screen-list')">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 .49-3.51"/></svg>
+    Recomeçar demonstração
+  </button>
+</div><!-- /done -->
+
+</div><!-- /phone-wrap -->
+
+<!-- TOAST -->
+<div class="toast" id="toast">
+  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#22C55E" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+  <span id="toast-text">OK</span>
+</div>
+
+<script>
+  let approvedCount = 0;
+  let rejectedCount = 0;
+  let pendingCount  = 3;
+  const POSTS = [
+    { title:'CEO aos 28', meta:'Instagram Reel · Vence hoje', progress:'1 / 3' },
+    { title:'O protocolo', meta:'LinkedIn Post · há 6h',        progress:'2 / 3' },
+    { title:'7 métricas', meta:'IG Carrossel · há 12h',         progress:'3 / 3' }
+  ];
+
+  function showScreen(id) {
+    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+    window.scrollTo(0,0);
+  }
+
+  function openDetail(idx) {
+    document.getElementById('detail-title').textContent = POSTS[idx].title;
+    document.getElementById('detail-meta').textContent  = POSTS[idx].meta;
+    document.getElementById('detail-progress').textContent = POSTS[idx].progress;
+    showScreen('screen-detail');
+  }
+
+  function openReject(idx) {
+    document.getElementById('reject-text').value = '';
+    document.getElementById('r-count').textContent = '0';
+    document.getElementById('reject-confirm-btn').disabled = true;
+    document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
+    showScreen('screen-reject');
+  }
+
+  function doApprove(idx) {
+    approvedCount++;
+    pendingCount--;
+    const cards = document.querySelectorAll('.content-card');
+    if (cards[idx]) {
+      cards[idx].style.opacity = '0.4';
+      cards[idx].style.pointerEvents = 'none';
+      cards[idx].style.transform = 'translateX(40px)';
+      cards[idx].style.transition = 'all .3s ease';
+    }
+    showToast('Post aprovado! Entra no calendário.');
+    if (pendingCount === 0) {
+      setTimeout(() => { document.getElementById('approved-count').textContent = approvedCount; showScreen('screen-done'); }, 700);
+    }
+  }
+
+  function doApproveDetail() {
+    approvedCount++;
+    pendingCount--;
+    showToast('Aprovado! Publicação agendada.');
+    if (pendingCount === 0) {
+      setTimeout(() => { document.getElementById('approved-count').textContent = approvedCount; showScreen('screen-done'); }, 700);
+    } else {
+      setTimeout(() => showScreen('screen-list'), 700);
+    }
+  }
+
+  function approveAll() {
+    approvedCount = pendingCount;
+    pendingCount  = 0;
+    document.getElementById('approved-count').textContent = approvedCount;
+    showToast('Todos os 3 posts aprovados!');
+    setTimeout(() => showScreen('screen-done'), 800);
+  }
+
+  function confirmReject() {
+    rejectedCount++;
+    pendingCount--;
+    document.getElementById('rejected-count').textContent = rejectedCount;
+    showToast('Feedback enviado ao agente. Será reprocessado.');
+    if (pendingCount === 0) {
+      setTimeout(() => showScreen('screen-done'), 700);
+    } else {
+      setTimeout(() => showScreen('screen-list'), 700);
+    }
+  }
+
+  function selectChip(chip, text) {
+    document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
+    chip.classList.add('active');
+    const ta = document.getElementById('reject-text');
+    ta.value = text;
+    updateRejectCount();
+  }
+
+  function updateRejectCount() {
+    const val = document.getElementById('reject-text').value;
+    const len = val.trim().length;
+    document.getElementById('r-count').textContent = len;
+    document.getElementById('reject-confirm-btn').disabled = len < 10;
+  }
+
+  function showToast(msg) {
+    const el = document.getElementById('toast');
+    document.getElementById('toast-text').textContent = msg;
+    el.classList.add('show');
+    clearTimeout(el._t);
+    el._t = setTimeout(() => el.classList.remove('show'), 3000);
+  }
+</script>
+</body>
+</html>

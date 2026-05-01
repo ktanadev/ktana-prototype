@@ -1,0 +1,1266 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Setup Wizard — KTANA AI</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Zen+Dots&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --brand: #D70030;
+    --brand-dark: #9B0A2A;
+    --brand-alpha: rgba(215,0,48,0.08);
+    --text-primary: #1D1D1F;
+    --text-secondary: #6E6E73;
+    --text-tertiary: #AEAEB2;
+    --bg: #F5F5F7;
+    --surface: #FFFFFF;
+    --surface-2: #FAFAFA;
+    --border: #E8E8ED;
+    --border-light: #F2F2F7;
+    --shadow-card: 0 1px 3px rgba(0,0,0,0.06), 0 4px 16px rgba(0,0,0,0.04);
+    --shadow-btn: 0 2px 8px rgba(215,0,48,0.28);
+    --r-sm: 8px;
+    --r-md: 12px;
+    --r-lg: 16px;
+    --r-xl: 20px;
+    --r-full: 9999px;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html, body { height:100%; background:var(--bg); font-family:'Inter',sans-serif; color:var(--text-primary); }
+
+  .shell { min-height:100vh; display:flex; flex-direction:column; }
+
+  /* TOP BAR */
+  .topbar {
+    height:56px;
+    background:rgba(245,245,247,0.92);
+    backdrop-filter:saturate(180%) blur(20px);
+    border-bottom:0.5px solid var(--border);
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:0 32px;
+    position:sticky;
+    top:0;
+    z-index:100;
+  }
+  .topbar-logo { font-family:'Zen Dots',sans-serif; font-size:18px; color:var(--brand); letter-spacing:0.02em; }
+  .topbar-logo span { color:var(--text-primary); }
+  .btn-exit {
+    display:flex; align-items:center; gap:6px;
+    font-size:13px; color:var(--text-secondary);
+    background:none; border:none; cursor:pointer;
+    padding:8px 12px; border-radius:var(--r-sm);
+    transition:background .15s, color .15s;
+  }
+  .btn-exit:hover { background:var(--border-light); color:var(--text-primary); }
+
+  /* MAIN */
+  .main { flex:1; display:flex; align-items:flex-start; justify-content:center; padding:40px 24px 60px; }
+  .wizard-container { width:100%; max-width:640px; }
+
+  /* STEPPER */
+  .stepper { display:flex; align-items:center; justify-content:center; margin-bottom:32px; }
+  .step-item { display:flex; flex-direction:column; align-items:center; gap:6px; }
+  .step-dot {
+    width:32px; height:32px; border-radius:50%;
+    border:2px solid var(--border); background:var(--surface);
+    display:flex; align-items:center; justify-content:center;
+    font-size:12px; font-weight:600; color:var(--text-tertiary);
+    transition:all .25s; flex-shrink:0;
+  }
+  .step-dot.done { background:var(--brand); border-color:var(--brand); color:#fff; }
+  .step-dot.active { background:var(--brand); border-color:var(--brand); color:#fff; box-shadow:0 0 0 4px var(--brand-alpha); }
+  .step-label { font-size:10px; font-weight:500; color:var(--text-tertiary); white-space:nowrap; transition:color .25s; }
+  .step-label.active { color:var(--brand); }
+  .step-label.done { color:var(--text-secondary); }
+  .step-connector { width:48px; height:2px; background:var(--border); margin-bottom:18px; transition:background .25s; flex-shrink:0; }
+  .step-connector.done { background:var(--brand); }
+
+  /* CARD */
+  .card { background:var(--surface); border-radius:var(--r-xl); border:0.5px solid var(--border); box-shadow:var(--shadow-card); padding:32px; }
+
+  /* STEP SCREENS */
+  .step-screen { display:none; }
+  .step-screen.active { display:block; }
+
+  /* SECTION HEADER */
+  .section-label { font-size:11px; font-weight:600; letter-spacing:0.08em; text-transform:uppercase; color:var(--brand); margin-bottom:6px; }
+  .section-title { font-family:'Zen Dots',sans-serif; font-size:20px; color:var(--text-primary); line-height:1.3; }
+  .section-desc { font-size:14px; color:var(--text-secondary); margin-top:6px; margin-bottom:24px; line-height:1.5; }
+
+  /* FORM */
+  .form-row { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-bottom:16px; }
+  .form-group { display:flex; flex-direction:column; gap:6px; margin-bottom:16px; }
+  .form-label { font-size:12px; font-weight:600; color:var(--text-secondary); letter-spacing:0.02em; }
+  .form-label .req { color:var(--brand); }
+  .form-input {
+    height:44px; border:1px solid var(--border); border-radius:var(--r-sm);
+    padding:0 12px; font-size:14px; font-family:'Inter',sans-serif;
+    color:var(--text-primary); background:var(--surface);
+    transition:border-color .15s, box-shadow .15s; outline:none; width:100%;
+  }
+  .form-input:focus { border-color:var(--brand); box-shadow:0 0 0 3px var(--brand-alpha); }
+  .form-input::placeholder { color:var(--text-tertiary); }
+  select.form-input {
+    cursor:pointer; appearance:none;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%2386868B' stroke-width='2'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+    background-repeat:no-repeat; background-position:right 12px center; padding-right:36px;
+  }
+
+  /* UPLOAD ZONE */
+  .upload-zone {
+    border:1.5px dashed var(--border); border-radius:var(--r-md);
+    padding:20px; display:flex; align-items:center; gap:16px;
+    cursor:pointer; transition:border-color .15s, background .15s;
+    margin-bottom:4px;
+  }
+  .upload-zone:hover { border-color:var(--brand); background:var(--brand-alpha); }
+  .upload-preview {
+    width:56px; height:56px; border-radius:var(--r-md);
+    background:var(--bg); border:1px solid var(--border);
+    display:flex; align-items:center; justify-content:center;
+    flex-shrink:0; overflow:hidden;
+  }
+  .upload-preview img { width:100%; height:100%; object-fit:cover; }
+  .upload-actions { flex:1; }
+  .upload-actions p { font-size:13px; color:var(--text-secondary); margin-bottom:8px; }
+  .upload-buttons { display:flex; gap:8px; flex-wrap:wrap; }
+  .btn-upload {
+    height:32px; padding:0 12px; border-radius:var(--r-sm);
+    font-size:12px; font-weight:600; cursor:pointer;
+    border:1px solid var(--border); background:var(--surface); color:var(--text-primary);
+    display:flex; align-items:center; gap:6px; transition:all .15s;
+    font-family:'Inter',sans-serif;
+  }
+  .btn-upload:hover { border-color:var(--brand); color:var(--brand); }
+  .btn-upload.ai { border-color:var(--brand); color:var(--brand); background:var(--brand-alpha); }
+  .upload-hint { font-size:11px; color:var(--text-tertiary); margin-top:8px; }
+
+  /* PLAN */
+  .plan-toggle {
+    display:flex; background:var(--bg); border-radius:var(--r-full);
+    padding:4px; margin-bottom:24px; border:1px solid var(--border);
+    width:fit-content; margin-left:auto; margin-right:auto;
+  }
+  .plan-toggle-btn {
+    padding:8px 20px; border-radius:var(--r-full);
+    font-size:13px; font-weight:600; cursor:pointer;
+    border:none; background:none; color:var(--text-secondary);
+    transition:all .2s; white-space:nowrap; font-family:'Inter',sans-serif;
+  }
+  .plan-toggle-btn.active { background:var(--surface); color:var(--text-primary); box-shadow:0 1px 3px rgba(0,0,0,0.1); }
+  .annual-badge {
+    background:var(--brand-alpha); color:var(--brand);
+    font-size:10px; font-weight:700; padding:2px 6px;
+    border-radius:var(--r-full); margin-left:6px;
+  }
+  .plans-grid { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+  .plan-card {
+    border:1.5px solid var(--border); border-radius:var(--r-lg);
+    padding:20px; cursor:pointer; transition:all .2s; position:relative;
+  }
+  .plan-card:hover { border-color:var(--brand); background:var(--brand-alpha); }
+  .plan-card.selected { border-color:var(--brand); background:var(--brand-alpha); }
+  .plan-badge-rec {
+    position:absolute; top:-10px; left:50%; transform:translateX(-50%);
+    background:var(--brand); color:#fff;
+    font-size:10px; font-weight:700; padding:3px 10px;
+    border-radius:var(--r-full); white-space:nowrap;
+  }
+  .plan-name { font-family:'Zen Dots',sans-serif; font-size:14px; color:var(--text-primary); margin-bottom:4px; }
+  .plan-price { font-size:22px; font-weight:700; color:var(--text-primary); line-height:1; margin-bottom:4px; }
+  .plan-price span { font-size:13px; font-weight:400; color:var(--text-secondary); }
+  .plan-founders { font-size:12px; color:var(--text-secondary); margin-bottom:12px; }
+  .plan-features { list-style:none; }
+  .plan-features li { font-size:12px; color:var(--text-secondary); padding:3px 0; display:flex; align-items:flex-start; gap:6px; }
+  .plan-features li svg { flex-shrink:0; margin-top:1px; }
+  .plan-radio {
+    position:absolute; top:16px; right:16px;
+    width:18px; height:18px; border:2px solid var(--border); border-radius:50%;
+    display:flex; align-items:center; justify-content:center; transition:all .2s;
+  }
+  .plan-card.selected .plan-radio { border-color:var(--brand); background:var(--brand); }
+  .plan-card.selected .plan-radio::after { content:''; width:6px; height:6px; border-radius:50%; background:#fff; }
+  .plan-trial-note {
+    font-size:12px; color:var(--text-secondary); text-align:center;
+    margin-top:16px; padding:10px; background:var(--bg); border-radius:var(--r-sm);
+  }
+  .plan-trial-note strong { color:var(--brand); }
+
+  /* INTEGRATIONS */
+  .integration-block { border:1px solid var(--border); border-radius:var(--r-md); overflow:hidden; margin-bottom:16px; }
+  .integration-header {
+    display:flex; align-items:center; gap:12px;
+    padding:16px; background:var(--surface-2); border-bottom:0.5px solid var(--border);
+  }
+  .integration-icon {
+    width:36px; height:36px; border-radius:var(--r-sm);
+    background:var(--bg); border:1px solid var(--border);
+    display:flex; align-items:center; justify-content:center; flex-shrink:0;
+  }
+  .integration-info h4 { font-size:14px; font-weight:600; }
+  .integration-info p { font-size:12px; color:var(--text-secondary); margin-top:2px; }
+  .integration-body { padding:16px; }
+  .radio-option {
+    display:flex; align-items:flex-start; gap:10px;
+    padding:10px 12px; border:1px solid var(--border); border-radius:var(--r-sm);
+    cursor:pointer; margin-bottom:8px; transition:all .15s;
+  }
+  .radio-option:hover { border-color:var(--brand); background:var(--brand-alpha); }
+  .radio-option.selected { border-color:var(--brand); background:var(--brand-alpha); }
+  .radio-dot {
+    width:18px; height:18px; border:2px solid var(--border); border-radius:50%;
+    margin-top:1px; flex-shrink:0; display:flex; align-items:center; justify-content:center;
+    transition:all .2s;
+  }
+  .radio-option.selected .radio-dot { border-color:var(--brand); background:var(--brand); }
+  .radio-option.selected .radio-dot::after { content:''; width:6px; height:6px; border-radius:50%; background:#fff; }
+  .radio-text p { font-size:13px; font-weight:500; }
+  .radio-text small { font-size:12px; color:var(--text-secondary); }
+  .wa-number-row { display:flex; gap:8px; margin-top:12px; }
+  .wa-number-row .form-input { flex:1; }
+  .btn-connect {
+    height:44px; padding:0 16px; border-radius:var(--r-sm);
+    font-size:13px; font-weight:600; cursor:pointer;
+    border:1px solid var(--border); background:var(--surface); color:var(--text-primary);
+    white-space:nowrap; transition:all .15s; display:flex; align-items:center; gap:6px;
+    font-family:'Inter',sans-serif;
+  }
+  .btn-connect:hover { border-color:var(--brand); color:var(--brand); }
+  .btn-connect.primary { background:var(--brand); border-color:var(--brand); color:#fff; box-shadow:var(--shadow-btn); }
+  .btn-connect.primary:hover { background:var(--brand-dark); }
+  .wa-connected {
+    display:none; align-items:center; gap:8px;
+    padding:10px 12px; background:rgba(52,199,89,0.08);
+    border:1px solid rgba(52,199,89,0.3); border-radius:var(--r-sm); margin-top:12px;
+  }
+  .wa-connected.show { display:flex; }
+  .dot-green { width:8px; height:8px; border-radius:50%; background:#34C759; flex-shrink:0; }
+  .wa-connected p { font-size:13px; color:#1a6e2e; font-weight:500; }
+
+  /* WORKING HOURS */
+  .hours-grid { display:flex; flex-direction:column; gap:8px; }
+  .hours-row {
+    display:flex; align-items:center; gap:12px;
+    padding:10px 12px; border:1px solid var(--border);
+    border-radius:var(--r-sm); background:var(--surface-2);
+  }
+  .hours-day { font-size:13px; font-weight:500; width:52px; flex-shrink:0; }
+  .hours-toggle {
+    width:36px; height:20px; border-radius:10px; background:var(--border);
+    position:relative; cursor:pointer; transition:background .2s; flex-shrink:0; border:none;
+  }
+  .hours-toggle.on { background:var(--brand); }
+  .hours-toggle::after {
+    content:''; width:16px; height:16px; border-radius:50%; background:#fff;
+    position:absolute; top:2px; left:2px; transition:transform .2s;
+    box-shadow:0 1px 3px rgba(0,0,0,0.2);
+  }
+  .hours-toggle.on::after { transform:translateX(16px); }
+  .hours-times { display:flex; align-items:center; gap:8px; flex:1; }
+  .hours-input {
+    height:32px; width:80px; border:1px solid var(--border); border-radius:6px;
+    padding:0 8px; font-size:13px; font-family:'JetBrains Mono',monospace;
+    color:var(--text-primary); outline:none; background:var(--surface);
+  }
+  .hours-input:focus { border-color:var(--brand); }
+  .hours-sep { font-size:12px; color:var(--text-tertiary); }
+  .hours-disabled { opacity:0.35; pointer-events:none; }
+
+  /* PHOTO */
+  .photo-upload { display:flex; align-items:center; gap:16px; margin-bottom:16px; }
+  .photo-circle {
+    width:64px; height:64px; border-radius:50%;
+    background:var(--bg); border:2px solid var(--border);
+    display:flex; align-items:center; justify-content:center;
+    flex-shrink:0; overflow:hidden; cursor:pointer; transition:border-color .15s;
+  }
+  .photo-circle:hover { border-color:var(--brand); }
+  .photo-circle img { width:100%; height:100%; object-fit:cover; }
+  .photo-info { flex:1; }
+  .photo-info p { font-size:13px; color:var(--text-secondary); margin-bottom:8px; }
+
+  /* ALERT OPTIONS */
+  .alert-opts { display:flex; flex-direction:column; gap:8px; }
+  .alert-opt {
+    display:flex; align-items:center; gap:10px;
+    padding:12px; border:1px solid var(--border); border-radius:var(--r-sm);
+    cursor:pointer; transition:all .15s;
+  }
+  .alert-opt:hover { border-color:var(--brand); background:var(--brand-alpha); }
+  .alert-opt.selected { border-color:var(--brand); background:var(--brand-alpha); }
+  .alert-opt p { font-size:13px; font-weight:500; }
+  .alert-opt small { font-size:12px; color:var(--text-secondary); }
+
+  /* FOUNDER INVITE */
+  .invite-sent-state { display:none; text-align:center; padding:8px 0; }
+  .invite-sent-state.show { display:block; }
+  .invite-check-circle {
+    width:56px; height:56px; border-radius:50%;
+    background:var(--brand-alpha); border:2px solid var(--brand);
+    display:flex; align-items:center; justify-content:center; margin:0 auto 16px;
+  }
+  .invite-link-box {
+    display:flex; align-items:center; gap:8px;
+    padding:10px 12px; background:var(--bg); border:1px solid var(--border);
+    border-radius:var(--r-sm); margin:16px 0;
+  }
+  .invite-link-text {
+    flex:1; font-family:'JetBrains Mono',monospace; font-size:12px;
+    color:var(--text-secondary); overflow:hidden; text-overflow:ellipsis; white-space:nowrap;
+  }
+  .invite-share-btns { display:flex; gap:8px; justify-content:center; flex-wrap:wrap; }
+
+  /* COMPLETION */
+  .completion-check {
+    width:72px; height:72px; border-radius:50%;
+    background:var(--brand-alpha); border:2px solid var(--brand);
+    display:flex; align-items:center; justify-content:center; margin:0 auto 20px;
+  }
+  .completion-title { font-family:'Zen Dots',sans-serif; font-size:22px; color:var(--text-primary); text-align:center; margin-bottom:8px; }
+  .completion-subtitle { font-size:14px; color:var(--text-secondary); text-align:center; margin-bottom:28px; }
+  .checklist { list-style:none; display:flex; flex-direction:column; gap:8px; margin-bottom:24px; }
+  .checklist-item {
+    display:flex; align-items:flex-start; gap:12px;
+    padding:12px 14px; background:var(--surface-2); border-radius:var(--r-sm); border:0.5px solid var(--border);
+  }
+  .ci-icon {
+    width:28px; height:28px; border-radius:50%;
+    display:flex; align-items:center; justify-content:center; flex-shrink:0; margin-top:1px;
+  }
+  .ci-icon.done { background:var(--brand-alpha); }
+  .ci-icon.pending { background:rgba(255,149,0,0.1); }
+  .ci-text p { font-size:14px; font-weight:500; }
+  .ci-text small { font-size:12px; color:var(--text-secondary); }
+  .next-steps {
+    padding:16px; background:var(--bg); border-radius:var(--r-md); margin-bottom:24px;
+  }
+  .next-steps h4 {
+    font-size:11px; font-weight:600; letter-spacing:0.06em; text-transform:uppercase;
+    color:var(--text-secondary); margin-bottom:10px;
+  }
+  .next-steps ul { list-style:none; display:flex; flex-direction:column; gap:6px; }
+  .next-steps li { font-size:13px; color:var(--text-secondary); display:flex; align-items:flex-start; gap:8px; }
+  .next-steps li span { color:var(--brand); flex-shrink:0; font-weight:600; }
+
+  /* BUTTONS */
+  .btn-primary {
+    width:100%; height:48px; border-radius:var(--r-md);
+    background:linear-gradient(135deg, var(--brand), var(--brand-dark));
+    color:#fff; font-size:15px; font-weight:600; border:none; cursor:pointer;
+    box-shadow:var(--shadow-btn); transition:all .2s;
+    display:flex; align-items:center; justify-content:center; gap:8px;
+    font-family:'Inter',sans-serif; letter-spacing:0.01em;
+  }
+  .btn-primary:hover { transform:translateY(-1px); box-shadow:0 4px 16px rgba(215,0,48,0.36); }
+  .btn-primary:active { transform:translateY(0); }
+  .btn-secondary {
+    height:44px; padding:0 20px; border-radius:var(--r-md);
+    background:var(--surface); color:var(--text-primary);
+    font-size:14px; font-weight:600; border:1px solid var(--border);
+    cursor:pointer; transition:all .15s; font-family:'Inter',sans-serif;
+    display:flex; align-items:center; justify-content:center; gap:8px; flex-shrink:0;
+  }
+  .btn-secondary:hover { border-color:var(--text-secondary); background:var(--bg); }
+  .btn-skip {
+    background:none; border:none; color:var(--text-secondary);
+    font-size:14px; font-weight:500; cursor:pointer; padding:12px;
+    font-family:'Inter',sans-serif; transition:color .15s; text-align:center; width:100%; margin-top:4px;
+  }
+  .btn-skip:hover { color:var(--text-primary); }
+  .step-footer { display:flex; gap:10px; margin-top:24px; }
+  .step-footer .btn-primary { flex:1; }
+
+  /* QR MODAL */
+  .modal-overlay {
+    display:none; position:fixed; inset:0;
+    background:rgba(0,0,0,0.4); z-index:200;
+    align-items:center; justify-content:center;
+  }
+  .modal-overlay.show { display:flex; }
+  .modal-box {
+    background:var(--surface); border-radius:var(--r-xl);
+    padding:32px; width:100%; max-width:380px; text-align:center;
+    box-shadow:0 20px 60px rgba(0,0,0,0.15);
+  }
+  .modal-title { font-family:'Zen Dots',sans-serif; font-size:16px; margin-bottom:8px; }
+  .modal-desc { font-size:13px; color:var(--text-secondary); margin-bottom:20px; line-height:1.5; }
+  .qr-box {
+    width:200px; height:200px; margin:0 auto 16px;
+    background:var(--bg); border:2px solid var(--border); border-radius:var(--r-md);
+    display:flex; align-items:center; justify-content:center;
+  }
+  .qr-grid { display:grid; grid-template-columns:repeat(10,1fr); gap:2px; padding:12px; width:100%; height:100%; }
+  .qr-cell { border-radius:1px; }
+  .countdown-num { font-size:22px; font-weight:700; color:var(--brand); margin-bottom:4px; }
+  .countdown-lbl { font-size:12px; color:var(--text-secondary); margin-bottom:20px; }
+  .modal-footer { display:flex; gap:8px; }
+  .modal-footer button { flex:1; }
+
+  /* TOAST */
+  .toast {
+    position:fixed; bottom:24px; left:50%;
+    transform:translateX(-50%) translateY(80px);
+    background:var(--text-primary); color:#fff;
+    padding:12px 20px; border-radius:var(--r-full);
+    font-size:13px; font-weight:500; z-index:999;
+    transition:transform .3s cubic-bezier(0.34,1.56,0.64,1);
+    white-space:nowrap; pointer-events:none;
+  }
+  .toast.show { transform:translateX(-50%) translateY(0); }
+
+  /* LLM own keys */
+  .llm-own-keys { display:none; margin-top:12px; }
+  .llm-own-keys.show { display:block; }
+</style>
+</head>
+<body>
+<div class="shell">
+
+  <header class="topbar">
+    <div class="topbar-logo">KTANA<span> AI</span></div>
+    <button class="btn-exit" onclick="confirmExit()">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/>
+      </svg>
+      Sair do setup
+    </button>
+  </header>
+
+  <main class="main">
+    <div class="wizard-container">
+
+      <!-- STEPPER -->
+      <div class="stepper" id="stepper">
+        <div class="step-item">
+          <div class="step-dot active" id="dot-1">1</div>
+          <div class="step-label active" id="lbl-1">Agência</div>
+        </div>
+        <div class="step-connector" id="conn-1"></div>
+        <div class="step-item">
+          <div class="step-dot" id="dot-2">2</div>
+          <div class="step-label" id="lbl-2">Plano</div>
+        </div>
+        <div class="step-connector" id="conn-2"></div>
+        <div class="step-item">
+          <div class="step-dot" id="dot-3">3</div>
+          <div class="step-label" id="lbl-3">Integrações</div>
+        </div>
+        <div class="step-connector" id="conn-3"></div>
+        <div class="step-item">
+          <div class="step-dot" id="dot-4">4</div>
+          <div class="step-label" id="lbl-4">Perfil SM</div>
+        </div>
+        <div class="step-connector" id="conn-4"></div>
+        <div class="step-item">
+          <div class="step-dot" id="dot-5">5</div>
+          <div class="step-label" id="lbl-5">Founder</div>
+        </div>
+      </div>
+
+      <!-- ═══ STEP 1 — AGÊNCIA ═══ -->
+      <div class="step-screen active" id="step-1">
+        <div class="card">
+          <div class="section-label">Etapa 1 de 5</div>
+          <div class="section-title">Configure sua agência</div>
+          <div class="section-desc">Estas informações identificam sua agência e aparecem nos contatos com founders.</div>
+
+          <div class="form-group">
+            <label class="form-label">Nome da agência <span class="req">*</span></label>
+            <input type="text" class="form-input" placeholder="Agência Digital Silva" value="Agência Horizonte" id="agency-name">
+          </div>
+
+          <div class="form-row">
+            <div class="form-group" style="margin-bottom:0">
+              <label class="form-label">CNPJ <span style="font-weight:400;color:var(--text-tertiary)">(opcional)</span></label>
+              <input type="text" class="form-input" placeholder="XX.XXX.XXX/0001-XX" value="32.451.890/0001-44">
+            </div>
+            <div class="form-group" style="margin-bottom:0">
+              <label class="form-label">Site <span style="font-weight:400;color:var(--text-tertiary)">(opcional)</span></label>
+              <input type="text" class="form-input" placeholder="agenciasilva.com.br" value="agenciahorizonte.com.br">
+            </div>
+          </div>
+
+          <div style="margin-top:16px;margin-bottom:16px;">
+            <label class="form-label" style="display:block;margin-bottom:8px;">Logo da agência</label>
+            <div class="upload-zone" onclick="triggerLogo()">
+              <div class="upload-preview" id="logo-preview">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#AEAEB2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                  <rect width="18" height="18" x="3" y="3" rx="2"/><circle cx="9" cy="9" r="2"/>
+                  <path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/>
+                </svg>
+              </div>
+              <div class="upload-actions">
+                <p>Arraste ou clique para fazer upload do logo</p>
+                <div class="upload-buttons">
+                  <button class="btn-upload" onclick="event.stopPropagation();triggerLogo()">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M17 8l-5-5-5 5M12 3v12"/>
+                    </svg>
+                    Fazer upload
+                  </button>
+                  <button class="btn-upload ai" onclick="event.stopPropagation();showToast('Gerando logo com IA...')">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2z"/><path d="m8 12 3 3 5-5"/>
+                    </svg>
+                    Gerar com IA →
+                  </button>
+                </div>
+                <p class="upload-hint">Máx 300KB · JPG, PNG, SVG</p>
+              </div>
+            </div>
+            <input type="file" accept="image/*" id="logo-input" style="display:none" onchange="previewLogo(this)">
+          </div>
+
+          <div class="form-row">
+            <div class="form-group" style="margin-bottom:0">
+              <label class="form-label">Fuso horário <span class="req">*</span></label>
+              <select class="form-input">
+                <option selected>América/São Paulo</option>
+                <option>América/Manaus</option>
+                <option>América/Belém</option>
+                <option>América/Fortaleza</option>
+                <option>América/Recife</option>
+              </select>
+            </div>
+            <div class="form-group" style="margin-bottom:0">
+              <label class="form-label">Idioma <span class="req">*</span></label>
+              <select class="form-input">
+                <option selected>Português (BR)</option>
+                <option>English</option>
+                <option>Español</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="step-footer">
+            <button class="btn-primary" onclick="goStep(2)">
+              Continuar
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ═══ STEP 2 — PLANO ═══ -->
+      <div class="step-screen" id="step-2">
+        <div class="card">
+          <div class="section-label">Etapa 2 de 5</div>
+          <div class="section-title">Escolha seu plano</div>
+          <div class="section-desc">Todos os planos incluem 14 dias grátis. Cancele quando quiser.</div>
+
+          <div class="plan-toggle">
+            <button class="plan-toggle-btn active" id="tmthl" onclick="setBilling('monthly')">Mensal</button>
+            <button class="plan-toggle-btn" id="tmanul" onclick="setBilling('annual')">
+              Anual <span class="annual-badge">-20%</span>
+            </button>
+          </div>
+
+          <div class="plans-grid">
+            <div class="plan-card" id="pc-starter" onclick="selPlan('starter')">
+              <div class="plan-radio"></div>
+              <div class="plan-name">Starter</div>
+              <div class="plan-price" id="pp-starter">R$297<span>/mês</span></div>
+              <div class="plan-founders">Até 5 founders</div>
+              <ul class="plan-features">
+                <li><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#34C759" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>3 agentes ativos</li>
+                <li><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#34C759" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>WhatsApp compartilhado</li>
+                <li><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#34C759" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Créditos IA inclusos</li>
+              </ul>
+            </div>
+
+            <div class="plan-card recommended selected" id="pc-growth" onclick="selPlan('growth')">
+              <div class="plan-badge-rec">Recomendado</div>
+              <div class="plan-radio"></div>
+              <div class="plan-name">Growth</div>
+              <div class="plan-price" id="pp-growth">R$797<span>/mês</span></div>
+              <div class="plan-founders">Até 20 founders</div>
+              <ul class="plan-features">
+                <li><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#34C759" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>10 agentes ativos</li>
+                <li><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#34C759" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Modo Autônomo</li>
+                <li><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#34C759" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>R$200 créditos IA/mês</li>
+              </ul>
+            </div>
+
+            <div class="plan-card" id="pc-scale" onclick="selPlan('scale')">
+              <div class="plan-radio"></div>
+              <div class="plan-name">Scale</div>
+              <div class="plan-price" id="pp-scale">R$1.497<span>/mês</span></div>
+              <div class="plan-founders">Até 50 founders</div>
+              <ul class="plan-features">
+                <li><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#34C759" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Agentes ilimitados</li>
+                <li><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#34C759" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>White-label</li>
+                <li><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#34C759" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>R$500 créditos IA/mês</li>
+              </ul>
+            </div>
+
+            <div class="plan-card" id="pc-enterprise" onclick="selPlan('enterprise')">
+              <div class="plan-radio"></div>
+              <div class="plan-name">Enterprise</div>
+              <div class="plan-price" id="pp-enterprise">Sob<span> consulta</span></div>
+              <div class="plan-founders">Founders ilimitados</div>
+              <ul class="plan-features">
+                <li><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#34C759" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Multi-agência</li>
+                <li><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#34C759" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>SLA dedicado</li>
+                <li><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#34C759" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Treinamento incluso</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="plan-trial-note">Todos os planos incluem <strong>14 dias grátis</strong>. Sem cobrança imediata.</div>
+
+          <div class="step-footer">
+            <button class="btn-secondary" onclick="goStep(1)">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+              Voltar
+            </button>
+            <button class="btn-primary" onclick="goStep(3)">
+              Começar com 14 dias grátis
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ═══ STEP 3 — INTEGRAÇÕES ═══ -->
+      <div class="step-screen" id="step-3">
+        <div class="card">
+          <div class="section-label">Etapa 3 de 5</div>
+          <div class="section-title">Conectar ferramentas</div>
+          <div class="section-desc">As 2 integrações abaixo são necessárias para operar. Você pode configurar depois.</div>
+
+          <!-- WhatsApp -->
+          <div class="integration-block">
+            <div class="integration-header">
+              <div class="integration-icon">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#D70030" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+                </svg>
+              </div>
+              <div class="integration-info">
+                <h4>WhatsApp — Comunicação com founders</h4>
+                <p>Mensagens automáticas dos agentes para os founders</p>
+              </div>
+            </div>
+            <div class="integration-body">
+              <div class="radio-option selected" id="wa-shared" onclick="selWA('shared')">
+                <div class="radio-dot"></div>
+                <div class="radio-text">
+                  <p>Via número da agência
+                    <span style="font-size:10px;background:var(--brand-alpha);color:var(--brand);padding:2px 6px;border-radius:4px;font-weight:700;margin-left:6px;">Recomendado</span>
+                  </p>
+                  <small>Todos os founders recebem de um número único da agência</small>
+                </div>
+              </div>
+              <div class="radio-option" id="wa-dedicated" onclick="selWA('dedicated')">
+                <div class="radio-dot"></div>
+                <div class="radio-text">
+                  <p>Via número dedicado por founder (Evolution API)</p>
+                  <small>+R$30/founder/mês — cada founder recebe de um número exclusivo</small>
+                </div>
+              </div>
+
+              <div style="margin-top:16px">
+                <label class="form-label" style="display:block;margin-bottom:6px;">Número WhatsApp da agência</label>
+                <div class="wa-number-row">
+                  <input type="text" class="form-input" placeholder="+55 11 99999-9999" value="+55 11 97830-2241" id="wa-num">
+                  <button class="btn-connect primary" onclick="openQR()">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                      <rect width="5" height="5" x="3" y="3" rx="1"/><rect width="5" height="5" x="16" y="3" rx="1"/>
+                      <rect width="5" height="5" x="3" y="16" rx="1"/><path d="M21 16h-3a2 2 0 0 0-2 2v3M11 3H9v2M3 11v2M11 11h2v2h-2zM16 11h2M11 16v5M21 21v-5M16 16h5"/>
+                    </svg>
+                    QR Code
+                  </button>
+                  <button class="btn-connect" onclick="showToast('Abrindo Meta Business Suite...')">Meta API</button>
+                </div>
+                <div class="wa-connected" id="wa-ok">
+                  <div class="dot-green"></div>
+                  <p>WhatsApp conectado: +55 11 97830-2241</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- LLM -->
+          <div class="integration-block">
+            <div class="integration-header">
+              <div class="integration-icon">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#D70030" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M12 2a8 8 0 0 1 8 8v12l-4-4H4a2 2 0 0 1-2-2V10a8 8 0 0 1 8-8z"/>
+                  <path d="M8 10h8M8 14h5"/>
+                </svg>
+              </div>
+              <div class="integration-info">
+                <h4>Modelo de IA — O cérebro dos agentes</h4>
+                <p>Define como os agentes pensam e geram conteúdo</p>
+              </div>
+            </div>
+            <div class="integration-body">
+              <div class="radio-option selected" id="llm-plan" onclick="selLLM('plan')">
+                <div class="radio-dot"></div>
+                <div class="radio-text">
+                  <p>Usar créditos do plano
+                    <span style="font-size:10px;background:var(--brand-alpha);color:var(--brand);padding:2px 6px;border-radius:4px;font-weight:700;margin-left:6px;">Zero config</span>
+                  </p>
+                  <small>R$200/mês incluso · Excedente: R$0,08/1K tokens</small>
+                </div>
+              </div>
+              <div class="radio-option" id="llm-own" onclick="selLLM('own')">
+                <div class="radio-dot"></div>
+                <div class="radio-text">
+                  <p>Minha própria API key</p>
+                  <small>Configure sua chave Anthropic ou OpenAI — mais controle de custos</small>
+                </div>
+              </div>
+              <div class="llm-own-keys" id="llm-keys">
+                <div class="form-row" style="margin-bottom:0">
+                  <div class="form-group" style="margin-bottom:0">
+                    <label class="form-label">Chave Anthropic</label>
+                    <input type="password" class="form-input" placeholder="sk-ant-...">
+                  </div>
+                  <div class="form-group" style="margin-bottom:0">
+                    <label class="form-label">Chave OpenAI</label>
+                    <input type="password" class="form-input" placeholder="sk-...">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="step-footer">
+            <button class="btn-secondary" onclick="goStep(2)">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+              Voltar
+            </button>
+            <button class="btn-primary" onclick="goStep(4)">
+              Continuar
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </button>
+          </div>
+          <button class="btn-skip" onclick="goStep(4)">Configurar integrações depois →</button>
+        </div>
+      </div>
+
+      <!-- ═══ STEP 4 — PERFIL SM ═══ -->
+      <div class="step-screen" id="step-4">
+        <div class="card">
+          <div class="section-label">Etapa 4 de 5</div>
+          <div class="section-title">Seu perfil de Social Media</div>
+          <div class="section-desc">Configure como você vai operar dentro da plataforma.</div>
+
+          <div class="photo-upload">
+            <div class="photo-circle" onclick="triggerPhoto()" id="photo-circle">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#AEAEB2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>
+              </svg>
+            </div>
+            <div class="photo-info">
+              <p>Foto de perfil (opcional) — aparece nos contatos com founders</p>
+              <button class="btn-upload" onclick="triggerPhoto()">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M17 8l-5-5-5 5M12 3v12"/>
+                </svg>
+                Fazer upload
+              </button>
+            </div>
+          </div>
+          <input type="file" accept="image/*" id="photo-input" style="display:none" onchange="previewPhoto(this)">
+
+          <div class="form-row">
+            <div class="form-group" style="margin-bottom:0">
+              <label class="form-label">Nome completo <span class="req">*</span></label>
+              <input type="text" class="form-input" placeholder="Rafael Silva" value="Rafael Silva">
+            </div>
+            <div class="form-group" style="margin-bottom:0">
+              <label class="form-label">WhatsApp pessoal</label>
+              <input type="text" class="form-input" placeholder="+55 11 99999-9999" value="+55 11 98721-3300">
+            </div>
+          </div>
+
+          <div style="margin-top:16px;margin-bottom:16px">
+            <label class="form-label" style="display:block;margin-bottom:8px">Horário de trabalho</label>
+            <div class="hours-grid">
+              <div class="hours-row">
+                <span class="hours-day">Seg–Sex</span>
+                <button class="hours-toggle on" onclick="toggleHrs(this)"></button>
+                <div class="hours-times">
+                  <input type="time" class="hours-input" value="09:00">
+                  <span class="hours-sep">até</span>
+                  <input type="time" class="hours-input" value="18:00">
+                </div>
+              </div>
+              <div class="hours-row">
+                <span class="hours-day">Sábado</span>
+                <button class="hours-toggle on" onclick="toggleHrs(this)"></button>
+                <div class="hours-times">
+                  <input type="time" class="hours-input" value="09:00">
+                  <span class="hours-sep">até</span>
+                  <input type="time" class="hours-input" value="13:00">
+                </div>
+              </div>
+              <div class="hours-row">
+                <span class="hours-day">Domingo</span>
+                <button class="hours-toggle" onclick="toggleHrs(this)"></button>
+                <div class="hours-times hours-disabled">
+                  <input type="time" class="hours-input" value="09:00" disabled>
+                  <span class="hours-sep">até</span>
+                  <input type="time" class="hours-input" value="18:00" disabled>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <label class="form-label" style="display:block;margin-bottom:8px">Alertas urgentes</label>
+          <div class="alert-opts">
+            <div class="alert-opt selected" id="al-auto" onclick="selAlert('auto')">
+              <div class="radio-dot" id="al-dot-auto"></div>
+              <div>
+                <p>Apenas modo autônomo</p>
+                <small>Notificado só quando um founder entra em modo autônomo</small>
+              </div>
+            </div>
+            <div class="alert-opt" id="al-always" onclick="selAlert('always')">
+              <div class="radio-dot" id="al-dot-always"></div>
+              <div>
+                <p>Sempre</p>
+                <small>Notificado para toda atividade urgente dos founders</small>
+              </div>
+            </div>
+            <div class="alert-opt" id="al-never" onclick="selAlert('never')">
+              <div class="radio-dot" id="al-dot-never"></div>
+              <div>
+                <p>Nunca</p>
+                <small>Sem notificações urgentes — apenas checar o dashboard</small>
+              </div>
+            </div>
+          </div>
+
+          <div class="step-footer" style="margin-top:24px">
+            <button class="btn-secondary" onclick="goStep(3)">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+              Voltar
+            </button>
+            <button class="btn-primary" onclick="goStep(5)">
+              Salvar e continuar
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ═══ STEP 5 — PRIMEIRO FOUNDER ═══ -->
+      <div class="step-screen" id="step-5">
+        <div class="card">
+          <div class="section-label">Etapa 5 de 5 — Opcional</div>
+          <div class="section-title">Adicionar primeiro founder</div>
+          <div class="section-desc">Convide o primeiro cliente. Ele receberá o link de onboarding via WhatsApp e e-mail.</div>
+
+          <div id="founder-form">
+            <div class="form-row">
+              <div class="form-group" style="margin-bottom:0">
+                <label class="form-label">Nome do founder <span class="req">*</span></label>
+                <input type="text" class="form-input" placeholder="Pedro Souza" id="founder-name">
+              </div>
+              <div class="form-group" style="margin-bottom:0">
+                <label class="form-label">Empresa</label>
+                <input type="text" class="form-input" placeholder="Souza Distribuidora" id="founder-co">
+              </div>
+            </div>
+            <div class="form-row" style="margin-top:16px">
+              <div class="form-group" style="margin-bottom:0">
+                <label class="form-label">E-mail</label>
+                <input type="email" class="form-input" placeholder="pedro@empresa.com.br" id="founder-email">
+              </div>
+              <div class="form-group" style="margin-bottom:0">
+                <label class="form-label">WhatsApp</label>
+                <input type="text" class="form-input" placeholder="+55 11 99999-9999" id="founder-wa">
+              </div>
+            </div>
+
+            <div class="step-footer" style="margin-top:24px">
+              <button class="btn-secondary" onclick="goStep(4)">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+                Voltar
+              </button>
+              <button class="btn-primary" onclick="sendInvite()">
+                Enviar link de onboarding
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+              </button>
+            </div>
+          </div>
+
+          <div class="invite-sent-state" id="invite-sent">
+            <div class="invite-check-circle">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#D70030" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+            </div>
+            <p style="font-size:16px;font-weight:600;margin-bottom:6px">Convite enviado!</p>
+            <p style="font-size:14px;color:var(--text-secondary)">Pedro Souza receberá o link via WhatsApp e e-mail.</p>
+            <div class="invite-link-box">
+              <span class="invite-link-text">https://app.ktana.ai/onboarding?token=4f8e2d9a1b7c3e6f...</span>
+              <button style="flex-shrink:0;background:none;border:none;cursor:pointer;color:var(--brand);padding:4px;" onclick="showToast('Link copiado!')">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                  <rect width="14" height="14" x="8" y="8" rx="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/>
+                </svg>
+              </button>
+            </div>
+            <div class="invite-share-btns">
+              <button class="btn-upload" onclick="showToast('Abrindo WhatsApp...')">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                WhatsApp
+              </button>
+              <button class="btn-upload" onclick="showToast('Link copiado!')">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+                Copiar link
+              </button>
+              <button class="btn-upload" onclick="showToast('Enviando por e-mail...')">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+                E-mail
+              </button>
+            </div>
+            <button class="btn-primary" style="margin-top:20px" onclick="goCompletion()">
+              Ver resumo final
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </button>
+          </div>
+
+          <button class="btn-skip" id="skip-btn" onclick="goCompletion()">Pular — adicionar founders depois →</button>
+        </div>
+      </div>
+
+      <!-- ═══ CONCLUSÃO ═══ -->
+      <div class="step-screen" id="step-done">
+        <div class="card">
+          <div class="completion-check">
+            <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#D70030" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+          </div>
+          <div class="completion-title">Agência Configurada</div>
+          <div class="completion-subtitle">Agência Horizonte está pronta para operar.</div>
+
+          <ul class="checklist">
+            <li class="checklist-item">
+              <div class="ci-icon done">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#D70030" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+              </div>
+              <div class="ci-text">
+                <p>Dados da agência salvos</p>
+                <small>Agência Horizonte · agenciahorizonte.com.br</small>
+              </div>
+            </li>
+            <li class="checklist-item">
+              <div class="ci-icon done">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#D70030" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+              </div>
+              <div class="ci-text">
+                <p>Plano Growth ativo (trial 14 dias)</p>
+                <small>Sem cobrança até 09/Mai/2026</small>
+              </div>
+            </li>
+            <li class="checklist-item">
+              <div class="ci-icon done">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#D70030" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+              </div>
+              <div class="ci-text">
+                <p>WhatsApp conectado: +55 11 97830-2241</p>
+                <small>Via número da agência · compartilhado</small>
+              </div>
+            </li>
+            <li class="checklist-item">
+              <div class="ci-icon done">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#D70030" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+              </div>
+              <div class="ci-text">
+                <p>IA: créditos do plano ativados</p>
+                <small>R$200/mês incluso · Claude + GPT-4o</small>
+              </div>
+            </li>
+            <li class="checklist-item">
+              <div class="ci-icon done">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#D70030" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+              </div>
+              <div class="ci-text">
+                <p>SM configurado: Rafael Silva</p>
+                <small>Seg–Sex 09:00–18:00 · Sáb 09:00–13:00</small>
+              </div>
+            </li>
+            <li class="checklist-item" id="founder-ci">
+              <div class="ci-icon pending">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#FF9500" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/>
+                </svg>
+              </div>
+              <div class="ci-text" id="founder-ci-text">
+                <p>Primeiro founder: aguardando onboarding</p>
+                <small>Adicione founders no dashboard</small>
+              </div>
+            </li>
+          </ul>
+
+          <div class="next-steps">
+            <h4>Próximos passos</h4>
+            <ul>
+              <li><span>→</span> Pedro precisa completar o onboarding (link enviado)</li>
+              <li><span>→</span> Configure mais integrações em Vault → Serviços Externos</li>
+              <li><span>→</span> Adicione mais SMs em Configurações → Equipe</li>
+            </ul>
+          </div>
+
+          <button class="btn-primary" onclick="showToast('Abrindo dashboard...')">
+            Ir para o Dashboard
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </main>
+</div>
+
+<!-- QR MODAL -->
+<div class="modal-overlay" id="qr-modal" onclick="closeQROut(event)">
+  <div class="modal-box">
+    <div class="modal-title">Escanear QR Code</div>
+    <div class="modal-desc">Abra o WhatsApp no celular → Configurações → Aparelhos conectados → Conectar aparelho</div>
+    <div class="qr-box">
+      <div class="qr-grid" id="qr-grid"></div>
+    </div>
+    <div class="countdown-num" id="cdown">60</div>
+    <div class="countdown-lbl">segundos para expirar</div>
+    <div class="modal-footer">
+      <button class="btn-secondary" onclick="closeQR()">Fechar</button>
+      <button class="btn-primary" style="height:44px;font-size:14px" onclick="simConnect()">Simular conexão</button>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<script>
+  let cur = 1;
+  let billing = 'monthly';
+  let foundInvited = false;
+  let cdTimer = null;
+
+  const priceMap = {
+    monthly: { starter:'R$297', growth:'R$797', scale:'R$1.497' },
+    annual:  { starter:'R$238', growth:'R$638', scale:'R$1.198' }
+  };
+
+  /* ── STEP NAV ── */
+  function goStep(n) {
+    const from = document.getElementById('step-' + cur);
+    const to   = document.getElementById('step-' + n);
+    if (from) from.classList.remove('active');
+    if (to)   to.classList.add('active');
+    updateStepper(n);
+    cur = n;
+    window.scrollTo({ top:0, behavior:'smooth' });
+  }
+
+  function updateStepper(active) {
+    for (let i = 1; i <= 5; i++) {
+      const dot  = document.getElementById('dot-' + i);
+      const lbl  = document.getElementById('lbl-' + i);
+      const conn = document.getElementById('conn-' + i);
+      dot.classList.remove('done','active');
+      lbl.classList.remove('done','active');
+      if (conn) conn.classList.remove('done');
+      if (i < active) {
+        dot.classList.add('done');
+        dot.innerHTML = '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>';
+        lbl.classList.add('done');
+        if (conn) conn.classList.add('done');
+      } else if (i === active) {
+        dot.classList.add('active');
+        dot.textContent = String(i);
+        lbl.classList.add('active');
+      } else {
+        dot.textContent = String(i);
+      }
+    }
+  }
+
+  function goCompletion() {
+    const prev = document.getElementById('step-' + cur);
+    if (prev) prev.classList.remove('active');
+    document.getElementById('step-done').classList.add('active');
+    document.getElementById('stepper').style.display = 'none';
+    if (foundInvited) {
+      const ci = document.getElementById('founder-ci');
+      const ciText = document.getElementById('founder-ci-text');
+      ci.querySelector('.ci-icon').className = 'ci-icon done';
+      ci.querySelector('.ci-icon').innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#D70030" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>';
+      ciText.innerHTML = '<p>Primeiro founder: link enviado para Pedro Souza</p><small>Aguardando onboarding ser completado</small>';
+    }
+    window.scrollTo({ top:0, behavior:'smooth' });
+  }
+
+  /* ── BILLING TOGGLE ── */
+  function setBilling(type) {
+    billing = type;
+    document.getElementById('tmthl').classList.toggle('active', type === 'monthly');
+    document.getElementById('tmanul').classList.toggle('active', type === 'annual');
+    const p = priceMap[type];
+    ['starter','growth','scale'].forEach(plan => {
+      const el = document.getElementById('pp-' + plan);
+      if (el && p[plan]) el.innerHTML = p[plan] + '<span>/mês</span>';
+    });
+  }
+
+  function selPlan(plan) {
+    document.querySelectorAll('.plan-card').forEach(c => c.classList.remove('selected'));
+    document.getElementById('pc-' + plan).classList.add('selected');
+  }
+
+  /* ── WHATSAPP ── */
+  function selWA(mode) {
+    ['shared','dedicated'].forEach(m => {
+      document.getElementById('wa-' + m).classList.toggle('selected', m === mode);
+    });
+  }
+
+  /* ── LLM ── */
+  function selLLM(mode) {
+    ['plan','own'].forEach(m => {
+      document.getElementById('llm-' + m).classList.toggle('selected', m === mode);
+    });
+    document.getElementById('llm-keys').classList.toggle('show', mode === 'own');
+  }
+
+  /* ── HOURS TOGGLE ── */
+  function toggleHrs(btn) {
+    const on = btn.classList.toggle('on');
+    const times = btn.nextElementSibling;
+    if (times) {
+      times.classList.toggle('hours-disabled', !on);
+      times.querySelectorAll('input').forEach(inp => { inp.disabled = !on; });
+    }
+  }
+
+  /* ── ALERTS ── */
+  function selAlert(type) {
+    ['auto','always','never'].forEach(t => {
+      const opt = document.getElementById('al-' + t);
+      const dot = document.getElementById('al-dot-' + t);
+      const active = t === type;
+      opt.classList.toggle('selected', active);
+      if (active) {
+        dot.style.cssText = 'width:18px;height:18px;border:2px solid var(--brand);border-radius:50%;background:var(--brand);display:flex;align-items:center;justify-content:center;';
+        dot.innerHTML = '<div style="width:6px;height:6px;border-radius:50%;background:#fff"></div>';
+      } else {
+        dot.style.cssText = 'width:18px;height:18px;border:2px solid var(--border);border-radius:50%;background:transparent;';
+        dot.innerHTML = '';
+      }
+    });
+  }
+  /* init active radio dot */
+  window.addEventListener('DOMContentLoaded', () => {
+    const dot = document.getElementById('al-dot-auto');
+    dot.style.cssText = 'width:18px;height:18px;border:2px solid var(--brand);border-radius:50%;background:var(--brand);display:flex;align-items:center;justify-content:center;';
+    dot.innerHTML = '<div style="width:6px;height:6px;border-radius:50%;background:#fff"></div>';
+  });
+
+  /* ── FOUNDER INVITE ── */
+  function sendInvite() {
+    const name = document.getElementById('founder-name').value.trim();
+    if (!name) { showToast('Informe o nome do founder'); return; }
+    foundInvited = true;
+    document.getElementById('founder-form').style.display = 'none';
+    document.getElementById('invite-sent').classList.add('show');
+    document.getElementById('skip-btn').style.display = 'none';
+    showToast('Convite enviado para ' + name + '!');
+  }
+
+  /* ── UPLOAD ── */
+  function triggerLogo()  { document.getElementById('logo-input').click(); }
+  function triggerPhoto() { document.getElementById('photo-input').click(); }
+
+  function previewLogo(inp) {
+    if (!inp.files[0]) return;
+    const r = new FileReader();
+    r.onload = e => {
+      document.getElementById('logo-preview').innerHTML = '<img src="' + e.target.result + '" alt="Logo">';
+    };
+    r.readAsDataURL(inp.files[0]);
+  }
+
+  function previewPhoto(inp) {
+    if (!inp.files[0]) return;
+    const r = new FileReader();
+    r.onload = e => {
+      document.getElementById('photo-circle').innerHTML = '<img src="' + e.target.result + '" alt="Foto">';
+    };
+    r.readAsDataURL(inp.files[0]);
+  }
+
+  /* ── QR CODE ── */
+  function openQR() {
+    buildQR();
+    document.getElementById('qr-modal').classList.add('show');
+    startCd();
+  }
+  function closeQR() {
+    document.getElementById('qr-modal').classList.remove('show');
+    if (cdTimer) clearInterval(cdTimer);
+  }
+  function closeQROut(e) { if (e.target.id === 'qr-modal') closeQR(); }
+
+  function buildQR() {
+    const g = document.getElementById('qr-grid');
+    g.innerHTML = '';
+    /* deterministic QR-like pattern */
+    const p = [1,1,1,1,1,1,1,0,1,0,1,0,0,0,0,0,1,0,0,1,1,0,1,1,1,0,1,0,1,0,
+               1,0,1,1,1,0,1,0,0,1,1,0,1,1,1,0,1,0,1,0,1,0,0,0,0,0,1,0,0,1,
+               1,1,1,1,1,1,1,0,1,0,0,0,0,0,0,0,0,0,0,1,1,0,1,1,0,0,1,0,1,0,
+               0,1,0,0,1,0,0,1,0,1];
+    p.forEach(v => {
+      const c = document.createElement('div');
+      c.className = 'qr-cell';
+      c.style.background = v ? '#1D1D1F' : 'transparent';
+      g.appendChild(c);
+    });
+  }
+
+  let secs = 60;
+  function startCd() {
+    secs = 60;
+    document.getElementById('cdown').textContent = secs;
+    if (cdTimer) clearInterval(cdTimer);
+    cdTimer = setInterval(() => {
+      secs--;
+      const el = document.getElementById('cdown');
+      if (el) el.textContent = secs;
+      if (secs <= 0) {
+        clearInterval(cdTimer);
+        document.getElementById('qr-grid').innerHTML = '';
+        document.getElementById('cdown').textContent = '—';
+        document.querySelector('.countdown-lbl').textContent = 'QR expirado';
+      }
+    }, 1000);
+  }
+
+  function simConnect() {
+    clearInterval(cdTimer);
+    closeQR();
+    document.getElementById('wa-ok').classList.add('show');
+    showToast('WhatsApp conectado com sucesso!');
+  }
+
+  /* ── EXIT ── */
+  function confirmExit() { showToast('Progresso salvo. Retorne para continuar.'); }
+
+  /* ── TOAST ── */
+  let tTimer = null;
+  function showToast(msg) {
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    t.classList.add('show');
+    if (tTimer) clearTimeout(tTimer);
+    tTimer = setTimeout(() => t.classList.remove('show'), 2800);
+  }
+</script>
+</body>
+</html>

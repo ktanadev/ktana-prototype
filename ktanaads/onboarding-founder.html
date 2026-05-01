@@ -1,0 +1,636 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Onboarding Founder — KTANA Ads</title>
+<link href="https://fonts.googleapis.com/css2?family=Zen+Dots&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  *{margin:0;padding:0;box-sizing:border-box;}
+  :root{
+    --bg:#F5F5F7;--surface:#FFFFFF;--surface-2:#FAFAFA;
+    --text:#1D1D1F;--text-2:#6E6E73;--text-3:#AEAEB2;
+    --border:rgba(0,0,0,0.07);--border-m:rgba(0,0,0,0.12);
+    --brand:#D70030;--brand-dark:#9B0A2A;
+    --shadow-card:0 4px 32px rgba(0,0,0,0.06);
+    --shadow-btn:0 4px 14px rgba(215,0,48,0.18);
+    --r:14px;--rlg:20px;
+  }
+  body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;min-height:100vh;display:flex;flex-direction:column;align-items:center;}
+
+  /* DEMO NAV */
+  .demo-nav{position:fixed;top:0;left:0;right:0;z-index:999;background:rgba(245,245,247,0.88);backdrop-filter:saturate(180%) blur(16px);border-bottom:0.5px solid rgba(0,0,0,0.07);padding:8px 20px;display:flex;gap:6px;justify-content:center;flex-wrap:wrap;}
+  .demo-nav a{font-size:11px;color:var(--text-2);text-decoration:none;padding:4px 10px;border-radius:6px;border:1px solid var(--border);transition:all 200ms;}
+  .demo-nav a:hover{color:var(--text);border-color:rgba(215,0,48,0.3);}
+  .demo-nav a.active{background:rgba(215,0,48,0.08);color:var(--brand);border-color:rgba(215,0,48,0.2);}
+
+  /* MOBILE SHELL */
+  .shell{margin-top:52px;width:100%;max-width:430px;min-height:calc(100vh - 52px);display:flex;flex-direction:column;}
+  .screen{display:none;flex-direction:column;flex:1;}
+  .screen.active{display:flex;}
+
+  /* TOPBAR */
+  .s-top{background:rgba(245,245,247,0.94);backdrop-filter:saturate(180%) blur(12px);border-bottom:0.5px solid var(--border);padding:12px 20px 10px;position:sticky;top:52px;z-index:90;}
+  .s-top .logo{font-family:'Zen Dots',cursive;font-size:15px;color:var(--brand);margin-bottom:10px;}
+  .s-top .step-lbl{font-size:11px;color:var(--text-3);margin-bottom:7px;}
+
+  /* STEPPER */
+  .stepper{display:flex;align-items:center;width:100%;}
+  .step-item{display:flex;flex-direction:column;align-items:center;flex:1;position:relative;}
+  .step-item:not(:last-child)::after{content:'';position:absolute;top:10px;left:calc(50% + 10px);right:calc(-50% + 10px);height:1.5px;background:var(--border);}
+  .step-item.done:not(:last-child)::after{background:var(--brand);}
+  .step-dot{width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;border:1.5px solid var(--text-3);background:var(--bg);color:var(--text-3);position:relative;z-index:1;}
+  .step-item.done .step-dot{background:var(--brand);border-color:var(--brand);color:#fff;}
+  .step-item.active .step-dot{background:var(--surface);border-color:var(--brand);color:var(--brand);box-shadow:0 0 0 3px rgba(215,0,48,0.12);}
+  .step-lbl-txt{font-size:9px;color:var(--text-3);margin-top:3px;}
+  .step-item.active .step-lbl-txt,.step-item.done .step-lbl-txt{color:var(--brand);}
+  .progress-line{height:2px;background:var(--border);border-radius:1px;margin-top:8px;overflow:hidden;}
+  .progress-fill{height:100%;background:linear-gradient(90deg,var(--brand),var(--brand-dark));border-radius:1px;transition:width 500ms ease;}
+
+  /* BODY */
+  .s-body{flex:1;padding:20px;overflow-y:auto;padding-bottom:80px;}
+  .s-body::-webkit-scrollbar{width:0;}
+
+  /* WELCOME */
+  .welcome-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--rlg);box-shadow:var(--shadow-card);padding:28px 24px;}
+  .w-greeting{font-size:22px;font-weight:700;margin-bottom:4px;}
+  .w-greeting span{color:var(--brand);}
+  .w-sub{font-size:13px;color:var(--text-2);line-height:1.6;margin-bottom:20px;}
+  .eta-badge{display:inline-flex;align-items:center;gap:7px;background:rgba(215,0,48,0.06);border:1px solid rgba(215,0,48,0.14);border-radius:100px;padding:6px 14px;font-size:12px;color:var(--brand);margin-bottom:20px;}
+  .eta-badge svg{width:13px;height:13px;}
+  .steps-list{display:flex;flex-direction:column;gap:8px;margin-bottom:24px;}
+  .step-row{display:flex;align-items:center;gap:12px;padding:10px 14px;background:var(--surface-2);border-radius:12px;border:1px solid var(--border);}
+  .step-row .n{width:22px;height:22px;border-radius:50%;background:rgba(215,0,48,0.08);color:var(--brand);font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+  .step-row .info .title{font-size:12px;font-weight:600;}
+  .step-row .info .est{font-size:11px;color:var(--text-3);}
+  .step-row .req{font-size:10px;font-weight:600;padding:2px 8px;border-radius:100px;background:rgba(215,0,48,0.07);color:var(--brand);}
+
+  /* BUTTONS */
+  .btn{width:100%;height:48px;border-radius:var(--r);font-family:'Inter',sans-serif;font-size:14px;font-weight:700;border:none;cursor:pointer;transition:all 200ms;display:flex;align-items:center;justify-content:center;gap:8px;}
+  .btn-primary{background:var(--brand);color:#fff;box-shadow:var(--shadow-btn);}
+  .btn-primary:hover{background:var(--brand-dark);transform:translateY(-1px);}
+  .btn-primary:active{transform:translateY(0);}
+  .btn-primary:disabled{opacity:0.45;cursor:not-allowed;transform:none;}
+  .btn-outline{background:var(--surface);color:var(--text-2);border:1.5px solid var(--border);}
+  .btn-outline:hover{border-color:var(--border-m);}
+  .btn-loading{position:relative;pointer-events:none;}
+  .btn-loading>*{opacity:0;}
+  .btn-loading::after{content:'';position:absolute;width:18px;height:18px;border:2.5px solid rgba(255,255,255,0.3);border-top-color:#fff;border-radius:50%;animation:spin 0.7s linear infinite;}
+  @keyframes spin{to{transform:rotate(360deg);}}
+
+  /* CHAT */
+  .chat-area{flex:1;overflow-y:auto;padding:16px 20px;display:flex;flex-direction:column;gap:14px;scroll-behavior:smooth;}
+  .chat-area::-webkit-scrollbar{width:0;}
+  .msg-row{display:flex;gap:9px;align-items:flex-start;}
+  .msg-row.me{flex-direction:row-reverse;}
+  .av{width:30px;height:30px;border-radius:50%;background:rgba(215,0,48,0.08);border:1.5px solid rgba(215,0,48,0.15);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:var(--brand);flex-shrink:0;}
+  .bubble{max-width:78%;border-radius:16px;padding:11px 13px;font-size:13px;line-height:1.55;}
+  .bubble.ai{background:var(--surface);border:1px solid var(--border);border-top-left-radius:4px;color:var(--text);}
+  .bubble.me{background:var(--brand);color:#fff;border-top-right-radius:4px;}
+  .msg-time{font-size:10px;color:var(--text-3);margin-top:3px;font-family:'JetBrains Mono',monospace;}
+  .msg-row.me .msg-time{text-align:right;}
+  .typing{display:flex;gap:4px;align-items:center;padding:14px;}
+  .typing-dot{width:6px;height:6px;border-radius:50%;background:var(--text-3);animation:tdot 1.2s infinite;}
+  .typing-dot:nth-child(2){animation-delay:0.2s;}
+  .typing-dot:nth-child(3){animation-delay:0.4s;}
+  @keyframes tdot{0%,60%,100%{transform:translateY(0);}30%{transform:translateY(-5px);}}
+  .chat-foot{padding:10px 20px 14px;background:var(--bg);border-top:0.5px solid var(--border);}
+  .chat-input-row{display:flex;gap:9px;align-items:flex-end;}
+  .chat-inp{flex:1;min-height:44px;max-height:100px;background:var(--surface);border:1.5px solid var(--border);border-radius:22px;padding:10px 16px;font-family:'Inter',sans-serif;font-size:14px;color:var(--text);resize:none;outline:none;transition:border 200ms;line-height:1.5;}
+  .chat-inp:focus{border-color:var(--brand);}
+  .chat-inp::placeholder{color:var(--text-3);}
+  .send-btn{width:44px;height:44px;border-radius:50%;background:var(--brand);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all 150ms;}
+  .send-btn:hover{background:var(--brand-dark);}
+  .send-btn:active{transform:scale(0.95);}
+  .q-progress{height:2px;background:var(--border);border-radius:1px;margin-top:8px;overflow:hidden;}
+  .q-fill{height:100%;background:var(--brand);border-radius:1px;transition:width 400ms ease;}
+  .q-counter{font-size:10px;color:var(--text-3);text-align:center;margin-top:5px;}
+
+  /* PHOTOS */
+  .upload-zone{border:2px dashed var(--border-m);border-radius:16px;padding:28px 20px;display:flex;flex-direction:column;align-items:center;gap:10px;cursor:pointer;transition:all 200ms;background:rgba(255,255,255,0.6);}
+  .upload-zone:hover,.upload-zone.drag{border-color:var(--brand);background:rgba(215,0,48,0.02);}
+  .upload-zone h3{font-size:14px;font-weight:600;color:var(--text);}
+  .upload-zone p{font-size:12px;color:var(--text-3);text-align:center;}
+  .upload-btn-sm{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:8px 16px;font-size:12px;cursor:pointer;transition:border 200ms;font-family:'Inter',sans-serif;color:var(--text);}
+  .upload-btn-sm:hover{border-color:var(--brand);}
+  .photo-counter{display:flex;align-items:center;justify-content:space-between;margin-bottom:4px;}
+  .photo-progress{height:5px;background:var(--border);border-radius:3px;overflow:hidden;margin-bottom:12px;}
+  .photo-fill{height:100%;background:linear-gradient(90deg,var(--brand),var(--brand-dark));border-radius:3px;transition:width 300ms ease;width:0;}
+  .photo-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;}
+  .photo-thumb{aspect-ratio:1;border-radius:8px;background:var(--surface-2);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:18px;overflow:hidden;position:relative;cursor:default;}
+
+  /* STYLE CARDS */
+  .style-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:20px;}
+  .style-card{background:var(--surface);border:2px solid var(--border);border-radius:14px;padding:16px 14px;cursor:pointer;transition:all 200ms;text-align:center;position:relative;}
+  .style-card:hover{border-color:rgba(215,0,48,0.25);}
+  .style-card.sel{border-color:var(--brand);background:rgba(215,0,48,0.03);}
+  .style-check{position:absolute;top:8px;right:8px;width:16px;height:16px;border-radius:50%;background:var(--brand);display:none;align-items:center;justify-content:center;}
+  .style-card.sel .style-check{display:flex;}
+  .style-icon{width:32px;height:32px;border-radius:10px;background:rgba(215,0,48,0.07);display:flex;align-items:center;justify-content:center;margin:0 auto 8px;}
+  .style-name{font-size:13px;font-weight:600;margin-bottom:3px;}
+  .style-desc{font-size:11px;color:var(--text-3);line-height:1.4;}
+
+  /* VIDEO */
+  .video-zone{border:2px dashed var(--border-m);border-radius:16px;padding:36px 20px;display:flex;flex-direction:column;align-items:center;gap:12px;cursor:pointer;transition:border 200ms;background:rgba(255,255,255,0.6);}
+  .video-zone:hover{border-color:var(--brand);}
+  .tip-box{background:rgba(215,0,48,0.05);border:1px solid rgba(215,0,48,0.14);border-radius:12px;padding:12px 16px;font-size:12px;color:var(--text-2);line-height:1.6;}
+  .tip-box strong{color:var(--brand);}
+  .video-uploaded{background:var(--surface);border:1px solid var(--border);border-radius:14px;overflow:hidden;display:none;}
+  .video-thumb{background:var(--surface-2);aspect-ratio:16/9;display:flex;align-items:center;justify-content:center;position:relative;}
+  .play-btn{width:48px;height:48px;border-radius:50%;background:var(--brand);display:flex;align-items:center;justify-content:center;}
+  .video-meta{padding:12px 16px;display:flex;align-items:center;gap:10px;}
+  .video-meta .name{font-size:13px;font-weight:600;flex:1;}
+  .video-meta .size{font-size:11px;color:var(--text-3);font-family:'JetBrains Mono',monospace;}
+  .video-ok{font-size:11px;font-weight:600;color:var(--brand);}
+
+  /* VOICE */
+  .reading-text{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:16px;font-size:13px;color:var(--text-2);line-height:1.7;margin-bottom:14px;}
+  .reading-label{font-size:10px;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;color:var(--text-3);margin-bottom:6px;font-family:'JetBrains Mono',monospace;}
+  .waveform-wrap{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:16px;display:flex;flex-direction:column;align-items:center;gap:12px;}
+  .rec-btn{width:56px;height:56px;border-radius:50%;background:var(--brand);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all 200ms;box-shadow:var(--shadow-btn);}
+  .rec-btn.recording{animation:ring 1.5s infinite;}
+  @keyframes ring{0%{box-shadow:0 0 0 0 rgba(215,0,48,0.4);}70%{box-shadow:0 0 0 12px rgba(215,0,48,0);}100%{box-shadow:0 0 0 0 rgba(215,0,48,0);}}
+  .rec-label{font-size:12px;color:var(--text-3);}
+
+  /* SOCIAL */
+  .social-row{display:flex;align-items:center;gap:12px;background:var(--surface);border-radius:14px;border:1px solid var(--border);padding:14px 16px;margin-bottom:10px;transition:border 200ms;}
+  .social-row.connected{border-color:rgba(215,0,48,0.2);}
+  .social-logo{width:34px;height:34px;border-radius:10px;background:rgba(215,0,48,0.07);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+  .social-info{flex:1;}
+  .social-name{font-size:13px;font-weight:600;}
+  .social-handle{font-size:11px;color:var(--text-3);}
+  .social-connect-btn{height:30px;padding:0 12px;border-radius:8px;font-size:12px;font-weight:600;cursor:pointer;border:none;transition:all 200ms;}
+  .social-connect-btn.c{background:var(--brand);color:#fff;}
+  .social-connect-btn.connected{background:rgba(215,0,48,0.08);color:var(--brand);border:1px solid rgba(215,0,48,0.2);}
+  .social-connect-btn.skip{background:transparent;color:var(--text-3);border:1px solid var(--border);}
+
+  /* COMPLETE */
+  .complete-body{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:32px 24px;gap:20px;}
+  .complete-icon{width:64px;height:64px;border-radius:50%;background:rgba(215,0,48,0.07);border:1.5px solid rgba(215,0,48,0.2);display:flex;align-items:center;justify-content:center;color:var(--brand);animation:popIn 500ms cubic-bezier(.32,.72,0,1);}
+  @keyframes popIn{0%{transform:scale(0.5);opacity:0;}100%{transform:scale(1);opacity:1;}}
+  .complete-title{font-family:'Zen Dots',cursive;font-size:22px;font-weight:400;color:var(--text);text-align:center;}
+  .complete-sub{font-size:13px;color:var(--text-2);text-align:center;line-height:1.6;max-width:300px;}
+  .next-steps{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:18px;width:100%;}
+  .next-steps h4{font-size:11px;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;color:var(--text-3);margin-bottom:12px;}
+  .next-item{display:flex;align-items:flex-start;gap:9px;margin-bottom:8px;}
+  .next-item .dot{width:6px;height:6px;border-radius:50%;background:var(--brand);flex-shrink:0;margin-top:5px;}
+  .next-item p{font-size:12px;color:var(--text);line-height:1.5;}
+
+  /* BOTTOM FIXED */
+  .fixed-bottom{position:fixed;bottom:0;left:0;right:0;max-width:430px;margin:0 auto;background:rgba(245,245,247,0.96);backdrop-filter:saturate(180%) blur(12px);border-top:0.5px solid var(--border);padding:10px 20px 18px;display:flex;flex-direction:column;gap:8px;}
+
+  @media(min-width:431px){.shell,.fixed-bottom{margin-left:auto;margin-right:auto;}.demo-nav{justify-content:center;}}
+</style>
+</head>
+<body>
+
+<nav class="demo-nav">
+  <a href="auth.html">Login</a>
+  <a href="dashboard.html">Dashboard</a>
+  <a href="fila-aprovacao.html">Fila SM</a>
+  <a href="onboarding-founder.html" class="active">Onboarding</a>
+  <a href="area-founder.html">Área Founder</a>
+</nav>
+
+<div class="shell">
+
+  <!-- ░░ WELCOME ░░ -->
+  <div class="screen active" id="sc-welcome">
+    <div class="s-top">
+      <div class="logo">KTANA Ads</div>
+      <div class="step-lbl">Configuração do seu posicionamento</div>
+      <div class="stepper" id="stepper-welcome">
+        <div class="step-item active"><div class="step-dot">1</div><div class="step-lbl-txt">Chat</div></div>
+        <div class="step-item"><div class="step-dot">2</div><div class="step-lbl-txt">Fotos</div></div>
+        <div class="step-item"><div class="step-dot">3</div><div class="step-lbl-txt">Estilo</div></div>
+        <div class="step-item"><div class="step-dot">4</div><div class="step-lbl-txt">Vídeo</div></div>
+        <div class="step-item"><div class="step-dot">5</div><div class="step-lbl-txt">Voz</div></div>
+        <div class="step-item"><div class="step-dot">6</div><div class="step-lbl-txt">Redes</div></div>
+      </div>
+    </div>
+    <div class="s-body">
+      <div class="welcome-card">
+        <div class="w-greeting">Olá, <span>Marcelo!</span></div>
+        <div class="w-sub">Vamos configurar seu posicionamento digital. O Sensei vai te guiar por 6 etapas simples — você pode pausar e retomar a qualquer momento.</div>
+
+        <div class="eta-badge">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
+          25–35 minutos no total
+        </div>
+
+        <div class="steps-list">
+          <div class="step-row"><div class="n">1</div><div class="info"><div class="title">Conversa com o Sensei</div><div class="est">5–8 min · Seu perfil e posicionamento</div></div><div class="req">Obrigatório</div></div>
+          <div class="step-row"><div class="n">2</div><div class="info"><div class="title">Fotos de referência</div><div class="est">5–10 min · 40–50 fotos suas</div></div><div class="req">Obrigatório</div></div>
+          <div class="step-row"><div class="n">3</div><div class="info"><div class="title">Estilo de conteúdo</div><div class="est">2 min · Tom e formato preferido</div></div></div>
+          <div class="step-row"><div class="n">4</div><div class="info"><div class="title">Vídeo de apresentação</div><div class="est">3–5 min · Para seu avatar digital</div></div></div>
+          <div class="step-row"><div class="n">5</div><div class="info"><div class="title">Clone de voz</div><div class="est">3 min · Leia um texto</div></div></div>
+          <div class="step-row"><div class="n">6</div><div class="info"><div class="title">Redes sociais</div><div class="est">2 min · Conectar suas contas</div></div></div>
+        </div>
+
+        <button class="btn btn-primary" onclick="showSc('sc-chat');initChat()">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+          Começar conversa com o Sensei
+        </button>
+        <div style="text-align:center;font-size:11px;color:var(--text-3);margin-top:10px;">Acesso via magic link · Progresso salvo automaticamente</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ░░ CHAT ░░ -->
+  <div class="screen" id="sc-chat">
+    <div class="s-top">
+      <div class="logo">KTANA Ads</div>
+      <div class="step-lbl">Etapa 1 de 6 — Conhecendo você</div>
+      <div class="stepper">
+        <div class="step-item done"><div class="step-dot"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></div><div class="step-lbl-txt">Chat</div></div>
+        <div class="step-item active"><div class="step-dot">2</div><div class="step-lbl-txt">Fotos</div></div>
+        <div class="step-item"><div class="step-dot">3</div><div class="step-lbl-txt">Estilo</div></div>
+        <div class="step-item"><div class="step-dot">4</div><div class="step-lbl-txt">Vídeo</div></div>
+        <div class="step-item"><div class="step-dot">5</div><div class="step-lbl-txt">Voz</div></div>
+        <div class="step-item"><div class="step-dot">6</div><div class="step-lbl-txt">Redes</div></div>
+      </div>
+      <div class="q-progress"><div class="q-fill" id="q-fill" style="width:0%"></div></div>
+      <div class="q-counter" id="q-counter">Pergunta 1 de 7</div>
+    </div>
+    <div class="chat-area" id="chat-area"></div>
+    <div class="chat-foot">
+      <div class="chat-input-row">
+        <textarea class="chat-inp" id="chat-inp" placeholder="Escreva sua resposta..." rows="1"></textarea>
+        <button class="send-btn" onclick="sendMsg()" id="send-btn">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ░░ PHOTOS ░░ -->
+  <div class="screen" id="sc-photos">
+    <div class="s-top">
+      <div class="logo">KTANA Ads</div>
+      <div class="step-lbl">Etapa 2 de 6 — Fotos de referência</div>
+      <div class="stepper">
+        <div class="step-item done"><div class="step-dot"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></div><div class="step-lbl-txt">Chat</div></div>
+        <div class="step-item done"><div class="step-dot"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></div><div class="step-lbl-txt">Fotos</div></div>
+        <div class="step-item active"><div class="step-dot">3</div><div class="step-lbl-txt">Estilo</div></div>
+        <div class="step-item"><div class="step-dot">4</div><div class="step-lbl-txt">Vídeo</div></div>
+        <div class="step-item"><div class="step-dot">5</div><div class="step-lbl-txt">Voz</div></div>
+        <div class="step-item"><div class="step-dot">6</div><div class="step-lbl-txt">Redes</div></div>
+      </div>
+    </div>
+    <div class="s-body">
+      <p style="font-size:13px;color:var(--text-2);text-align:center;margin-bottom:16px;line-height:1.5;">Envie 40–50 fotos suas. Ambientes variados e boa iluminação funcionam melhor.</p>
+      <div class="upload-zone" onclick="simulateUpload()" id="upload-zone">
+        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="color:var(--text-3);"><polyline points="16 16 12 12 8 16"/><line x1="12" y1="12" x2="12" y2="21"/><path d="M20.39 18.39A5 5 0 0018 9h-1.26A8 8 0 103 16.3"/></svg>
+        <h3>Arraste as fotos aqui</h3>
+        <p>Fotos em boa luz, sem filtros pesados<br>JPG, PNG, HEIC</p>
+        <div class="upload-btn-sm">Selecionar do celular</div>
+      </div>
+      <div style="display:flex;align-items:center;justify-content:space-between;margin:14px 0 6px;">
+        <span style="font-size:12px;color:var(--text-2);">Enviadas: <strong id="pc" style="color:var(--brand);">0</strong> / mínimo 40</span>
+        <span style="font-size:11px;color:var(--text-3);" id="ps">—</span>
+      </div>
+      <div class="photo-progress"><div class="photo-fill" id="pf"></div></div>
+      <div class="photo-grid" id="photo-grid"></div>
+      <div style="height:80px;"></div>
+    </div>
+    <div class="fixed-bottom">
+      <button class="btn btn-outline" style="height:40px;font-size:13px;" onclick="">Pulse me lembra amanhã</button>
+      <button class="btn btn-primary" id="photos-next" disabled onclick="showSc('sc-style')">
+        Continuar → Estilo
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- ░░ STYLE ░░ -->
+  <div class="screen" id="sc-style">
+    <div class="s-top">
+      <div class="logo">KTANA Ads</div>
+      <div class="step-lbl">Etapa 3 de 6 — Estilo de conteúdo</div>
+      <div class="stepper">
+        <div class="step-item done"><div class="step-dot"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></div><div class="step-lbl-txt">Chat</div></div>
+        <div class="step-item done"><div class="step-dot"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></div><div class="step-lbl-txt">Fotos</div></div>
+        <div class="step-item done"><div class="step-dot"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></div><div class="step-lbl-txt">Estilo</div></div>
+        <div class="step-item active"><div class="step-dot">4</div><div class="step-lbl-txt">Vídeo</div></div>
+        <div class="step-item"><div class="step-dot">5</div><div class="step-lbl-txt">Voz</div></div>
+        <div class="step-item"><div class="step-dot">6</div><div class="step-lbl-txt">Redes</div></div>
+      </div>
+    </div>
+    <div class="s-body">
+      <p style="font-size:13px;color:var(--text-2);text-align:center;margin-bottom:16px;">Escolha até 2 estilos que mais representam sua comunicação</p>
+      <div class="style-grid">
+        <div class="style-card" onclick="toggleStyle(this)">
+          <div class="style-check"><svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></div>
+          <div class="style-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="color:var(--brand)"><path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/><path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/></svg></div>
+          <div class="style-name">Educativo</div>
+          <div class="style-desc">Ensina conceitos e frameworks do setor</div>
+        </div>
+        <div class="style-card sel" onclick="toggleStyle(this)">
+          <div class="style-check"><svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></div>
+          <div class="style-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="color:var(--brand)"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg></div>
+          <div class="style-name">Autoridade</div>
+          <div class="style-desc">Posição de especialista e opiniões fortes</div>
+        </div>
+        <div class="style-card" onclick="toggleStyle(this)">
+          <div class="style-check"><svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></div>
+          <div class="style-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="color:var(--brand)"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg></div>
+          <div class="style-name">Storytelling</div>
+          <div class="style-desc">Histórias reais, bastidores, jornada</div>
+        </div>
+        <div class="style-card" onclick="toggleStyle(this)">
+          <div class="style-check"><svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></div>
+          <div class="style-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="color:var(--brand)"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+          <div class="style-name">Cases</div>
+          <div class="style-desc">Resultados reais, números, provas sociais</div>
+        </div>
+        <div class="style-card" onclick="toggleStyle(this)">
+          <div class="style-check"><svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></div>
+          <div class="style-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="color:var(--brand)"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg></div>
+          <div class="style-name">Analítico</div>
+          <div class="style-desc">Dados, tendências, análises de mercado</div>
+        </div>
+        <div class="style-card" onclick="toggleStyle(this)">
+          <div class="style-check"><svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></div>
+          <div class="style-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="color:var(--brand)"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg></div>
+          <div class="style-name">Inspiracional</div>
+          <div class="style-desc">Motivação, propósito, mindset de crescimento</div>
+        </div>
+      </div>
+      <div style="height:80px;"></div>
+    </div>
+    <div class="fixed-bottom">
+      <button class="btn btn-primary" onclick="showSc('sc-video')">
+        Continuar → Vídeo
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- ░░ VIDEO ░░ -->
+  <div class="screen" id="sc-video">
+    <div class="s-top">
+      <div class="logo">KTANA Ads</div>
+      <div class="step-lbl">Etapa 4 de 6 — Vídeo de apresentação</div>
+      <div class="stepper">
+        <div class="step-item done"><div class="step-dot"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></div><div class="step-lbl-txt">Chat</div></div>
+        <div class="step-item done"><div class="step-dot"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></div><div class="step-lbl-txt">Fotos</div></div>
+        <div class="step-item done"><div class="step-dot"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></div><div class="step-lbl-txt">Estilo</div></div>
+        <div class="step-item done"><div class="step-dot"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></div><div class="step-lbl-txt">Vídeo</div></div>
+        <div class="step-item active"><div class="step-dot">5</div><div class="step-lbl-txt">Voz</div></div>
+        <div class="step-item"><div class="step-dot">6</div><div class="step-lbl-txt">Redes</div></div>
+      </div>
+    </div>
+    <div class="s-body">
+      <div class="tip-box" style="margin-bottom:16px;"><strong>Dica:</strong> Grave 2–5 min falando sobre sua empresa, desafios e conquistas. Fundo neutro, iluminação frontal. Este vídeo treina seu avatar digital.</div>
+      <div class="video-zone" id="vzone" onclick="simVideo()">
+        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="color:var(--text-3);"><path d="M22.54 6.42a2.78 2.78 0 00-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46a2.78 2.78 0 00-1.95 1.96A29 29 0 001 12a29 29 0 00.46 5.58 2.78 2.78 0 001.95 1.95C5.12 20 12 20 12 20s6.88 0 8.59-.47a2.78 2.78 0 001.95-1.95A29 29 0 0023 12a29 29 0 00-.46-5.58z"/><polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02"/></svg>
+        <h3 style="font-size:14px;">Enviar vídeo de apresentação</h3>
+        <p style="font-size:12px;color:var(--text-3);">MP4, MOV · máx 500MB · 2–10 min</p>
+        <div class="upload-btn-sm">Gravar ou selecionar</div>
+      </div>
+      <div class="video-uploaded" id="vuploaded">
+        <div class="video-thumb"><div class="play-btn"><svg width="18" height="18" viewBox="0 0 24 24" fill="white"><polygon points="5 3 19 12 5 21 5 3"/></svg></div><div style="position:absolute;bottom:8px;right:10px;font-size:10px;font-family:'JetBrains Mono',monospace;color:rgba(0,0,0,0.5);">02:47</div></div>
+        <div class="video-meta"><div class="name">apresentacao_marcelo.mp4</div><div class="size">87 MB</div><div class="video-ok">Enviado</div></div>
+      </div>
+      <div style="height:90px;"></div>
+    </div>
+    <div class="fixed-bottom">
+      <button class="btn btn-outline" style="height:40px;font-size:13px;" onclick="showSc('sc-voice')">Pular — farei depois</button>
+      <button class="btn btn-primary" onclick="showSc('sc-voice')">
+        Continuar → Voz
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- ░░ VOICE ░░ -->
+  <div class="screen" id="sc-voice">
+    <div class="s-top">
+      <div class="logo">KTANA Ads</div>
+      <div class="step-lbl">Etapa 5 de 6 — Clone de voz</div>
+      <div class="stepper">
+        <div class="step-item done"><div class="step-dot"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></div><div class="step-lbl-txt">Chat</div></div>
+        <div class="step-item done"><div class="step-dot"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></div><div class="step-lbl-txt">Fotos</div></div>
+        <div class="step-item done"><div class="step-dot"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></div><div class="step-lbl-txt">Estilo</div></div>
+        <div class="step-item done"><div class="step-dot"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></div><div class="step-lbl-txt">Vídeo</div></div>
+        <div class="step-item done"><div class="step-dot"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></div><div class="step-lbl-txt">Voz</div></div>
+        <div class="step-item active"><div class="step-dot">6</div><div class="step-lbl-txt">Redes</div></div>
+      </div>
+    </div>
+    <div class="s-body">
+      <div class="reading-label">Texto para leitura</div>
+      <div class="reading-text">"Há cinco anos decidi abandonar o emprego estável para abrir minha própria empresa. Naquela época, muita gente achou loucura. Hoje, nosso time tem vinte pessoas e atendemos mais de trezentos clientes em todo o Brasil. A jornada não foi linear — enfrentei crises, pivôs, e momentos em que pensei em desistir. Mas cada obstáculo me ensinou algo que nenhuma faculdade poderia ter ensinado."</div>
+      <div class="waveform-wrap">
+        <canvas id="waveform" width="340" height="60" style="width:100%;border-radius:8px;"></canvas>
+        <button class="rec-btn" id="rec-btn" onclick="toggleRec()">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1a3 3 0 00-3 3v8a3 3 0 006 0V4a3 3 0 00-3-3z"/><path d="M19 10v2a7 7 0 01-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
+        </button>
+        <div class="rec-label" id="rec-label">Toque para gravar</div>
+      </div>
+      <div style="height:90px;"></div>
+    </div>
+    <div class="fixed-bottom">
+      <button class="btn btn-outline" style="height:40px;font-size:13px;" onclick="showSc('sc-social')">Pular — farei depois</button>
+      <button class="btn btn-primary" onclick="showSc('sc-social')">
+        Continuar → Redes sociais
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- ░░ SOCIAL ░░ -->
+  <div class="screen" id="sc-social">
+    <div class="s-top">
+      <div class="logo">KTANA Ads</div>
+      <div class="step-lbl">Etapa 6 de 6 — Redes sociais</div>
+      <div class="stepper">
+        <div class="step-item done"><div class="step-dot"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></div><div class="step-lbl-txt">Chat</div></div>
+        <div class="step-item done"><div class="step-dot"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></div><div class="step-lbl-txt">Fotos</div></div>
+        <div class="step-item done"><div class="step-dot"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></div><div class="step-lbl-txt">Estilo</div></div>
+        <div class="step-item done"><div class="step-dot"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></div><div class="step-lbl-txt">Vídeo</div></div>
+        <div class="step-item done"><div class="step-dot"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></div><div class="step-lbl-txt">Voz</div></div>
+        <div class="step-item done"><div class="step-dot"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></div><div class="step-lbl-txt">Redes</div></div>
+      </div>
+    </div>
+    <div class="s-body">
+      <p style="font-size:13px;color:var(--text-2);text-align:center;margin-bottom:16px;">Conecte as redes onde quer publicar. Pode fazer agora ou depois.</p>
+      <div class="social-row connected">
+        <div class="social-logo"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="color:var(--brand);"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg></div>
+        <div class="social-info"><div class="social-name">Instagram</div><div class="social-handle">@marceloceo · 12.4K seguidores</div></div>
+        <button class="social-connect-btn connected">Conectado</button>
+      </div>
+      <div class="social-row connected">
+        <div class="social-logo"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="color:var(--brand);"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg></div>
+        <div class="social-info"><div class="social-name">LinkedIn</div><div class="social-handle">Marcelo Andrade · 8.7K conexões</div></div>
+        <button class="social-connect-btn connected">Conectado</button>
+      </div>
+      <div class="social-row">
+        <div class="social-logo"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="color:var(--text-3);"><path d="M22.54 6.42a2.78 2.78 0 00-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46a2.78 2.78 0 00-1.95 1.96A29 29 0 001 12a29 29 0 00.46 5.58 2.78 2.78 0 001.95 1.95C5.12 20 12 20 12 20s6.88 0 8.59-.47a2.78 2.78 0 001.95-1.95A29 29 0 0023 12a29 29 0 00-.46-5.58z"/><polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02"/></svg></div>
+        <div class="social-info"><div class="social-name">YouTube</div><div class="social-handle">Não conectado</div></div>
+        <button class="social-connect-btn skip">Depois</button>
+      </div>
+      <div class="social-row">
+        <div class="social-logo"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="color:var(--text-3);"><path d="M23 3a10.9 10.9 0 01-3.14 1.53 4.48 4.48 0 00-7.86 3v1A10.66 10.66 0 013 4s-4 9 5 13a11.64 11.64 0 01-7 2c9 5 20 0 20-11.5a4.5 4.5 0 00-.08-.83A7.72 7.72 0 0023 3z"/></svg></div>
+        <div class="social-info"><div class="social-name">X (Twitter)</div><div class="social-handle">Não conectado</div></div>
+        <button class="social-connect-btn skip">Depois</button>
+      </div>
+      <div style="height:80px;"></div>
+    </div>
+    <div class="fixed-bottom">
+      <button class="btn btn-primary" onclick="showSc('sc-complete')">
+        Finalizar configuração
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><path d="M22 4L12 14.01l-3-3"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- ░░ COMPLETE ░░ -->
+  <div class="screen" id="sc-complete">
+    <div class="complete-body">
+      <div class="complete-icon">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><path d="M22 4L12 14.01l-3-3"/></svg>
+      </div>
+      <div class="complete-title">Tudo pronto!</div>
+      <p class="complete-sub">Seu perfil foi configurado. O Quill já está criando seus primeiros conteúdos. Em até 48h você receberá posts para aprovar.</p>
+      <div class="next-steps">
+        <h4>O que acontece agora</h4>
+        <div class="next-item"><div class="dot"></div><p>Canvas cria seu Brand Book visual (≤ 24h)</p></div>
+        <div class="next-item"><div class="dot"></div><p>Quill produz os primeiros 5 posts (≤ 48h)</p></div>
+        <div class="next-item"><div class="dot"></div><p>Pulse te envia via WhatsApp para aprovar</p></div>
+        <div class="next-item"><div class="dot"></div><p>Director agenda nas melhores janelas</p></div>
+      </div>
+      <button class="btn btn-primary" style="margin-top:8px;" onclick="window.location.href='area-founder.html'">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        Ir para minha área
+      </button>
+    </div>
+  </div>
+
+</div>
+
+<script>
+function showSc(id){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  window.scrollTo(0,0);
+}
+
+// CHAT
+const questions=[
+  "Oi, Marcelo! Vou te fazer algumas perguntas para entender seu posicionamento.\n\nQual é o nome da sua empresa e o que ela faz em uma frase?",
+  "Qual é o seu maior diferencial como founder? O que você faz que seus concorrentes não fazem?",
+  "Para quem você vende? Descreva seu cliente ideal em detalhes.",
+  "Qual é o maior resultado que você já entregou para um cliente? Números se tiver.",
+  "Quais assuntos você domina e poderia falar por horas sem preparação?",
+  "Como você prefere se comunicar: direto e objetivo, ou com narrativa e histórias?",
+  "Última: tem algum tema que você quer evitar no conteúdo? Assuntos pessoais, políticos, religiosos..."
+];
+let curQ=0,inited=false,typing=false;
+
+function initChat(){
+  if(inited)return;inited=true;
+  setTimeout(()=>addAI(questions[0]),500);
+}
+function addAI(txt){
+  const a=document.getElementById('chat-area');
+  const d=document.createElement('div');d.className='msg-row';
+  d.innerHTML=`<div class="av">S</div><div><div class="bubble ai">${txt.replace(/\n/g,'<br>')}</div><div class="msg-time">${now()}</div></div>`;
+  a.appendChild(d);a.scrollTop=a.scrollHeight;
+}
+function addMe(txt){
+  const a=document.getElementById('chat-area');
+  const d=document.createElement('div');d.className='msg-row me';
+  d.innerHTML=`<div class="av" style="background:rgba(215,0,48,0.08);border-color:rgba(215,0,48,0.18);">M</div><div><div class="bubble me">${txt}</div><div class="msg-time">${now()}</div></div>`;
+  a.appendChild(d);a.scrollTop=a.scrollHeight;
+}
+function showTyping(){
+  const a=document.getElementById('chat-area');
+  const d=document.createElement('div');d.className='msg-row';d.id='typing';
+  d.innerHTML=`<div class="av">S</div><div class="bubble ai" style="padding:14px 16px;"><div class="typing"><div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div></div></div>`;
+  a.appendChild(d);a.scrollTop=a.scrollHeight;
+}
+function hideTyping(){const t=document.getElementById('typing');if(t)t.remove();}
+function now(){const n=new Date();return n.getHours().toString().padStart(2,'0')+':'+n.getMinutes().toString().padStart(2,'0');}
+
+function sendMsg(){
+  if(typing)return;
+  const inp=document.getElementById('chat-inp');const txt=inp.value.trim();if(!txt)return;
+  addMe(txt);inp.value='';inp.style.height='auto';typing=true;curQ++;
+  const pct=Math.min(100,Math.round((curQ/7)*100));
+  document.getElementById('q-fill').style.width=pct+'%';
+  document.getElementById('q-counter').textContent=curQ<7?`Pergunta ${curQ+1} de 7`:'Conversa concluída';
+  setTimeout(()=>{
+    showTyping();
+    setTimeout(()=>{
+      hideTyping();
+      if(curQ<questions.length)addAI(questions[curQ]);
+      else{addAI('Perfeito, Marcelo! Já tenho tudo que preciso. Vamos para as fotos.');setTimeout(()=>showSc('sc-photos'),2000);}
+      typing=false;
+    },1300);
+  },500);
+}
+
+const inp=document.getElementById('chat-inp');
+if(inp){
+  inp.addEventListener('input',function(){this.style.height='auto';this.style.height=Math.min(this.scrollHeight,100)+'px';});
+  inp.addEventListener('keydown',function(e){if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendMsg();}});
+}
+
+// PHOTOS
+let photoCount=0;
+function simulateUpload(){
+  const n=Math.floor(Math.random()*7)+4;
+  for(let i=0;i<n;i++)setTimeout(()=>{photoCount++;addThumb();updateCounter();},i*70);
+}
+function addThumb(){
+  const g=document.getElementById('photo-grid');
+  const d=document.createElement('div');d.className='photo-thumb';
+  d.style.background=`hsl(${Math.random()*30+5},15%,${Math.floor(Math.random()*15+82)}%)`;
+  g.appendChild(d);
+}
+function updateCounter(){
+  document.getElementById('pc').textContent=photoCount;
+  const pct=Math.min(100,Math.round((photoCount/40)*100));
+  document.getElementById('pf').style.width=pct+'%';
+  const btn=document.getElementById('photos-next');
+  if(photoCount>=40){document.getElementById('ps').textContent='Mínimo atingido';document.getElementById('ps').style.color='var(--brand)';btn.disabled=false;}
+  else{document.getElementById('ps').textContent=(40-Math.max(0,photoCount))+' faltam';}
+}
+
+// STYLE
+let selStyles=1;
+function toggleStyle(el){
+  if(el.classList.contains('sel')){el.classList.remove('sel');selStyles--;}
+  else if(selStyles<2){el.classList.add('sel');selStyles++;}
+}
+
+// VIDEO
+function simVideo(){document.getElementById('vzone').style.display='none';document.getElementById('vuploaded').style.display='block';}
+
+// VOICE
+let recording=false,rafId=null;
+function toggleRec(){
+  recording=!recording;
+  const btn=document.getElementById('rec-btn');const lbl=document.getElementById('rec-label');
+  if(recording){btn.classList.add('recording');lbl.textContent='Gravando...';lbl.style.color='var(--brand)';drawWave();}
+  else{btn.classList.remove('recording');lbl.textContent='Gravado com sucesso';lbl.style.color='var(--brand)';cancelAnimationFrame(rafId);drawFlat();}
+}
+function drawWave(){
+  const c=document.getElementById('waveform');if(!c)return;
+  const ctx=c.getContext('2d');let t=0;
+  function f(){
+    ctx.clearRect(0,0,c.width,c.height);
+    ctx.strokeStyle='#D70030';ctx.lineWidth=1.5;ctx.beginPath();
+    for(let x=0;x<c.width;x++){const y=c.height/2+Math.sin(x/10+t)*14+Math.sin(x/5+t*1.8)*7;if(x===0)ctx.moveTo(x,y);else ctx.lineTo(x,y);}
+    ctx.stroke();t+=0.1;if(recording)rafId=requestAnimationFrame(f);
+  }f();
+}
+function drawFlat(){
+  const c=document.getElementById('waveform');if(!c)return;
+  const ctx=c.getContext('2d');ctx.clearRect(0,0,c.width,c.height);
+  ctx.strokeStyle='var(--brand)';ctx.lineWidth=1.5;ctx.beginPath();ctx.moveTo(0,c.height/2);ctx.lineTo(c.width,c.height/2);ctx.stroke();
+}
+document.addEventListener('DOMContentLoaded',()=>drawFlat());
+</script>
+</body>
+</html>

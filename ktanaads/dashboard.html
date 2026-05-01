@@ -1,0 +1,1085 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dashboard Agência — KTANA Marketing OS</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Zen+Dots&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#F5F5F7;
+  --surface:#FFFFFF;
+  --surface-2:#FAFAFA;
+  --text:#1D1D1F;
+  --text-2:#6E6E73;
+  --text-3:#AEAEB2;
+  --border:rgba(0,0,0,0.07);
+  --border-md:rgba(0,0,0,0.12);
+  --brand:#D70030;
+  --brand-dark:#9B0A2A;
+  --brand-a04:rgba(215,0,48,0.04);
+  --brand-a08:rgba(215,0,48,0.08);
+  --brand-a14:rgba(215,0,48,0.14);
+  --brand-a20:rgba(215,0,48,0.20);
+  --shadow-sm:0 1px 8px rgba(0,0,0,0.06);
+  --shadow-md:0 4px 20px rgba(0,0,0,0.08);
+  --shadow-btn:0 4px 14px rgba(215,0,48,0.22);
+  --r8:8px;--r12:12px;--r14:14px;--r16:16px;--r20:20px;--r980:980px;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html,body{height:100%;overflow:hidden;}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);display:flex;flex-direction:column;}
+
+/* ── Demo nav ── */
+.demo-nav{
+  background:rgba(245,245,247,0.92);
+  backdrop-filter:saturate(180%) blur(20px);
+  border-bottom:0.5px solid rgba(0,0,0,0.08);
+  padding:6px 16px;
+  display:flex;gap:6px;flex-wrap:wrap;justify-content:center;
+  flex-shrink:0;z-index:100;
+}
+.demo-nav a{font-size:11px;font-weight:500;color:var(--text-2);text-decoration:none;padding:4px 9px;border-radius:var(--r980);border:1px solid var(--border-md);background:var(--surface);transition:all .15s;}
+.demo-nav a:hover{color:var(--brand);border-color:var(--brand-a20);}
+.demo-nav a.active{background:var(--brand);color:#fff;border-color:transparent;}
+
+/* ── Shell ── */
+.shell{display:flex;flex:1;overflow:hidden;}
+
+/* ── Sidebar ── */
+.sidebar{
+  width:240px;min-width:240px;
+  background:var(--surface);
+  border-right:0.5px solid var(--border);
+  display:flex;flex-direction:column;
+  height:100%;overflow-y:auto;
+}
+.sidebar::-webkit-scrollbar{width:3px;}
+.sidebar::-webkit-scrollbar-thumb{background:var(--border-md);}
+.sb-header{
+  padding:16px 20px 14px;
+  border-bottom:0.5px solid var(--border);
+  display:flex;align-items:center;justify-content:space-between;
+  flex-shrink:0;
+}
+.sb-logo{font-family:'Zen Dots',sans-serif;font-size:18px;color:var(--brand);}
+.sb-agency{font-size:11px;color:var(--text-3);margin-top:1px;}
+.sb-nav{flex:1;padding:10px 0;}
+.sb-section-label{font-size:9px;font-weight:600;text-transform:uppercase;letter-spacing:.1em;color:var(--text-3);padding:10px 16px 3px;}
+.sb-item{
+  display:flex;align-items:center;gap:10px;
+  padding:9px 16px;
+  font-size:13px;color:var(--text-2);
+  cursor:pointer;position:relative;
+  transition:all .15s;
+  min-height:44px;
+}
+.sb-item:hover{background:var(--brand-a04);color:var(--text);}
+.sb-item.active{background:var(--brand-a08);color:var(--brand);}
+.sb-item.active::before{content:'';position:absolute;left:0;top:6px;bottom:6px;width:3px;border-radius:0 3px 3px 0;background:var(--brand);}
+.sb-item svg{min-width:16px;color:currentColor;}
+.sb-badge{margin-left:auto;background:var(--brand);color:#fff;font-size:9px;font-weight:700;min-width:18px;height:18px;border-radius:var(--r980);display:flex;align-items:center;justify-content:center;padding:0 4px;}
+.sb-item-warn .sb-badge{background:rgba(0,0,0,0.12);color:var(--text-2);}
+.sb-footer{
+  padding:12px 16px 16px;
+  border-top:0.5px solid var(--border);
+  flex-shrink:0;
+}
+.sb-user{display:flex;align-items:center;gap:10px;cursor:pointer;padding:6px 8px;border-radius:var(--r12);transition:background .15s;}
+.sb-user:hover{background:var(--brand-a04);}
+.sb-avatar{width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,var(--brand),var(--brand-dark));display:flex;align-items:center;justify-content:center;font-family:'Zen Dots',sans-serif;font-size:12px;color:#fff;flex-shrink:0;}
+.sb-user-name{font-size:12px;font-weight:600;color:var(--text);}
+.sb-user-role{font-size:10px;color:var(--text-3);}
+.notif-btn{position:relative;width:32px;height:32px;border-radius:50%;background:var(--bg);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--text-2);margin-left:auto;transition:all .15s;}
+.notif-btn:hover{border-color:var(--brand-a20);color:var(--brand);}
+.notif-dot{position:absolute;top:5px;right:5px;width:7px;height:7px;background:var(--brand);border-radius:50%;border:1.5px solid var(--surface);}
+
+/* ── Main area ── */
+.main{flex:1;display:flex;flex-direction:column;overflow:hidden;min-width:0;}
+
+/* ── KPI Bar (Zone 1) ── */
+.kpi-bar{
+  background:var(--surface);
+  border-bottom:0.5px solid var(--border);
+  padding:0 24px;
+  display:flex;
+  flex-shrink:0;
+}
+.kpi-card{
+  flex:1;
+  padding:12px 16px 12px 0;
+  border-right:0.5px solid var(--border);
+  min-width:0;
+}
+.kpi-card:last-child{border-right:none;padding-right:0;}
+.kpi-card:first-child{padding-left:0;}
+.kpi-card+.kpi-card{padding-left:16px;}
+.kpi-label{font-size:10px;font-weight:500;text-transform:uppercase;letter-spacing:.07em;color:var(--text-3);margin-bottom:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.kpi-val{font-family:'Zen Dots',sans-serif;font-size:22px;color:var(--text);line-height:1;margin-bottom:3px;}
+.kpi-val.brand{color:var(--brand);}
+.kpi-delta{font-size:11px;display:flex;align-items:center;gap:3px;}
+.delta-up{color:var(--brand);}
+.delta-warn{color:var(--text-2);}
+.delta-neutral{color:var(--text-3);}
+.stale-badge{font-size:9px;background:rgba(0,0,0,0.05);color:var(--text-3);padding:1px 6px;border-radius:var(--r980);margin-left:auto;align-self:flex-start;margin-top:14px;white-space:nowrap;}
+
+/* ── Content area (Zones 2+3) ── */
+.content-area{
+  flex:1;
+  display:grid;
+  grid-template-columns:5fr 7fr;
+  gap:0;
+  overflow:hidden;
+  min-height:0;
+}
+
+/* ── Zone 2 ── */
+.zone-2{
+  border-right:0.5px solid var(--border);
+  display:flex;flex-direction:column;
+  overflow-y:auto;
+  padding:16px;
+  gap:12px;
+}
+.zone-2::-webkit-scrollbar{width:4px;}
+.zone-2::-webkit-scrollbar-thumb{background:var(--border-md);border-radius:2px;}
+
+/* ── Zone 3 ── */
+.zone-3{
+  display:flex;flex-direction:column;
+  overflow:hidden;
+  padding:16px;
+}
+
+/* ── Block headers ── */
+.block{
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:var(--r16);
+  overflow:hidden;
+}
+.block-header{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:12px 16px;
+  border-bottom:0.5px solid var(--border);
+}
+.block-title{font-size:12px;font-weight:600;color:var(--text);display:flex;align-items:center;gap:7px;}
+.block-title svg{color:var(--brand);}
+.block-count{
+  padding:2px 7px;border-radius:var(--r980);
+  font-size:10px;font-weight:700;
+}
+.bc-critical{background:var(--brand);color:#fff;}
+.bc-neutral{background:rgba(0,0,0,0.06);color:var(--text-2);}
+.block-link{font-size:11px;color:var(--brand);font-weight:500;cursor:pointer;}
+
+/* ── Urgency items ── */
+.urgency-list{display:flex;flex-direction:column;gap:0;}
+.urgency-item{
+  padding:10px 16px;
+  border-bottom:0.5px solid var(--border);
+  display:flex;align-items:flex-start;gap:10px;
+}
+.urgency-item:last-child{border-bottom:none;}
+.urgency-icon{
+  width:28px;height:28px;min-width:28px;
+  border-radius:var(--r8);
+  display:flex;align-items:center;justify-content:center;
+  margin-top:1px;
+}
+.ui-critical{background:var(--brand-a08);}
+.ui-critical svg{color:var(--brand);}
+.ui-high{background:rgba(0,0,0,0.05);}
+.ui-high svg{color:var(--text-2);}
+.ui-medium{background:rgba(0,0,0,0.04);}
+.ui-medium svg{color:var(--text-3);}
+.urgency-body{flex:1;min-width:0;}
+.urgency-name{font-size:12px;font-weight:600;color:var(--text);margin-bottom:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.urgency-desc{font-size:11px;color:var(--text-2);margin-bottom:7px;line-height:1.4;}
+.urgency-days{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--text-3);background:rgba(0,0,0,0.04);padding:1px 6px;border-radius:var(--r980);display:inline-block;margin-bottom:6px;}
+.urgency-actions{display:flex;gap:6px;flex-wrap:wrap;}
+.btn-urg{
+  font-size:11px;font-weight:600;padding:5px 10px;border-radius:var(--r980);cursor:pointer;border:none;transition:all .15s;display:flex;align-items:center;gap:4px;
+}
+.btn-urg-primary{background:var(--brand);color:#fff;box-shadow:0 2px 8px rgba(215,0,48,0.18);}
+.btn-urg-primary:hover{background:var(--brand-dark);}
+.btn-urg-secondary{background:var(--surface);color:var(--text-2);border:1px solid var(--border-md);}
+.btn-urg-secondary:hover{border-color:var(--brand-a20);color:var(--brand);}
+
+/* ── Approval queue ── */
+.approval-list{display:flex;flex-direction:column;}
+.approval-item{
+  padding:9px 16px;
+  border-bottom:0.5px solid var(--border);
+  display:flex;align-items:center;gap:10px;
+  cursor:pointer;transition:background .15s;
+}
+.approval-item:last-child{border-bottom:none;}
+.approval-item:hover{background:var(--brand-a04);}
+.approval-item.selected{background:var(--brand-a04);}
+.ai-check{
+  width:18px;height:18px;min-width:18px;
+  border:1.5px solid var(--border-md);
+  border-radius:5px;
+  display:flex;align-items:center;justify-content:center;
+  transition:all .15s;
+  cursor:pointer;
+}
+.ai-check.checked{background:var(--brand);border-color:var(--brand);}
+.ai-check.checked svg{display:block;}
+.ai-check svg{display:none;color:#fff;}
+.ai-founder{font-size:12px;font-weight:600;color:var(--text);min-width:0;flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.ai-type{font-size:9px;font-weight:500;padding:2px 6px;border-radius:var(--r980);background:rgba(0,0,0,0.06);color:var(--text-2);}
+.ai-score{
+  font-size:10px;font-weight:700;padding:2px 7px;border-radius:var(--r980);white-space:nowrap;
+}
+.score-hi{background:var(--brand-a08);color:var(--brand);}
+.score-md{background:rgba(0,0,0,0.05);color:var(--text-2);}
+.ai-btns{display:flex;gap:4px;}
+.ai-btn{
+  width:26px;height:26px;border-radius:50%;border:1px solid var(--border-md);
+  background:var(--surface);display:flex;align-items:center;justify-content:center;
+  cursor:pointer;color:var(--text-2);transition:all .15s;font-size:11px;
+}
+.ai-btn:hover{border-color:var(--brand-a20);color:var(--brand);}
+.ai-btn-approve:hover{background:var(--brand);border-color:var(--brand);color:#fff;}
+
+/* Batch bar */
+.batch-bar{
+  display:none;
+  align-items:center;gap:10px;
+  padding:10px 16px;
+  background:var(--brand-a04);
+  border-top:0.5px solid var(--brand-a14);
+}
+.batch-bar.show{display:flex;}
+.batch-count{font-size:12px;font-weight:600;color:var(--brand);}
+.btn-batch{
+  background:var(--brand);color:#fff;border:none;
+  padding:7px 14px;border-radius:var(--r980);
+  font-size:12px;font-weight:600;cursor:pointer;
+  box-shadow:var(--shadow-btn);transition:all .15s;
+  display:flex;align-items:center;gap:5px;
+}
+.btn-batch:hover{background:var(--brand-dark);}
+.btn-batch-sec{
+  background:transparent;color:var(--text-2);border:1px solid var(--border-md);
+  padding:7px 12px;border-radius:var(--r980);font-size:12px;cursor:pointer;
+}
+
+/* Founder phases */
+.phases-body{padding:12px 16px;display:flex;flex-direction:column;gap:8px;}
+.phase-item{display:flex;align-items:center;gap:10px;}
+.phase-label{font-size:11px;font-weight:500;color:var(--text-2);min-width:96px;}
+.phase-track{flex:1;height:5px;background:rgba(0,0,0,0.06);border-radius:3px;overflow:hidden;}
+.phase-fill{height:100%;background:linear-gradient(90deg,var(--brand),var(--brand-dark));border-radius:3px;transition:width .8s ease;}
+.phase-count{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--text-3);min-width:20px;text-align:right;}
+.autonomous-banner{
+  margin:0 16px 12px;
+  padding:10px 14px;
+  background:var(--brand-a04);
+  border:1px solid var(--brand-a14);
+  border-radius:var(--r12);
+  display:flex;align-items:center;gap:10px;
+}
+.auto-icon{width:28px;height:28px;background:var(--brand-a08);border-radius:var(--r8);display:flex;align-items:center;justify-content:center;color:var(--brand);flex-shrink:0;}
+.auto-text{flex:1;}
+.auto-title{font-size:12px;font-weight:600;color:var(--brand);}
+.auto-sub{font-size:11px;color:var(--text-2);}
+.auto-link{font-size:11px;font-weight:600;color:var(--brand);cursor:pointer;text-decoration:underline;text-underline-offset:2px;}
+
+/* ── Zone 3 — Feed ── */
+.feed-header{
+  display:flex;align-items:center;justify-content:space-between;
+  margin-bottom:10px;flex-shrink:0;
+}
+.feed-title{font-family:'Zen Dots',sans-serif;font-size:15px;color:var(--text);display:flex;align-items:center;gap:8px;}
+.live-dot{width:7px;height:7px;border-radius:50%;background:var(--brand);animation:pulse-dot 2s ease-in-out infinite;}
+@keyframes pulse-dot{0%,100%{opacity:1;transform:scale(1);}50%{opacity:.4;transform:scale(.8);}}
+
+.feed-tabs{display:flex;gap:0;background:var(--surface);border:1px solid var(--border);border-radius:var(--r12);padding:3px;margin-bottom:10px;flex-shrink:0;}
+.ftab{flex:1;padding:6px 0;font-size:11px;font-weight:500;color:var(--text-2);border-radius:var(--r8);cursor:pointer;text-align:center;transition:all .2s;}
+.ftab.active{background:var(--brand);color:#fff;}
+
+.feed-list{
+  flex:1;overflow-y:auto;
+  display:flex;flex-direction:column;gap:6px;
+  padding-right:4px;
+}
+.feed-list::-webkit-scrollbar{width:4px;}
+.feed-list::-webkit-scrollbar-thumb{background:var(--border-md);border-radius:2px;}
+
+.feed-item{
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:var(--r12);
+  padding:10px 14px;
+  display:flex;align-items:flex-start;gap:10px;
+  transition:box-shadow .15s;
+}
+.feed-item:hover{box-shadow:var(--shadow-sm);}
+.feed-time{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--text-3);min-width:38px;padding-top:1px;}
+.feed-agent-badge{
+  font-size:9px;font-weight:700;padding:2px 7px;border-radius:var(--r980);
+  white-space:nowrap;flex-shrink:0;margin-top:1px;
+}
+.agent-quill{background:rgba(124,58,237,0.1);color:#7C3AED;}
+.agent-scout{background:rgba(37,99,235,0.08);color:var(--text-2);}
+.agent-sentinela{background:var(--brand-a08);color:var(--brand);}
+.agent-pulse{background:rgba(0,0,0,0.06);color:var(--text-2);}
+.agent-director{background:rgba(0,0,0,0.05);color:var(--text-2);}
+.agent-canvas{background:rgba(0,0,0,0.05);color:var(--text-2);}
+.agent-system{background:rgba(0,0,0,0.04);color:var(--text-3);}
+.feed-body{flex:1;min-width:0;}
+.feed-founder{font-size:12px;font-weight:600;color:var(--text);}
+.feed-desc{font-size:11px;color:var(--text-2);line-height:1.4;margin-top:1px;}
+.feed-sev{width:7px;height:7px;border-radius:50%;flex-shrink:0;margin-top:4px;}
+.sev-info{background:var(--text-3);}
+.sev-warn{background:var(--text-2);}
+.sev-critical{background:var(--brand);}
+.feed-score{font-size:10px;font-weight:600;color:var(--brand);background:var(--brand-a08);padding:1px 6px;border-radius:var(--r980);}
+
+.btn-load-more{
+  width:100%;padding:9px 0;margin-top:6px;flex-shrink:0;
+  background:var(--surface);border:1px solid var(--border-md);
+  border-radius:var(--r12);font-size:12px;font-weight:500;color:var(--text-2);
+  cursor:pointer;transition:all .15s;display:flex;align-items:center;justify-content:center;gap:5px;
+}
+.btn-load-more:hover{border-color:var(--brand-a20);color:var(--brand);}
+
+/* ── Notification popover ── */
+.notif-popover{
+  position:absolute;top:44px;right:0;
+  width:340px;
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:var(--r20);
+  box-shadow:var(--shadow-md);
+  z-index:200;
+  display:none;
+  overflow:hidden;
+}
+.notif-popover.open{display:block;}
+.notif-pop-header{padding:14px 16px 10px;border-bottom:0.5px solid var(--border);display:flex;align-items:center;justify-content:space-between;}
+.notif-pop-title{font-size:13px;font-weight:600;color:var(--text);}
+.notif-pop-mark{font-size:11px;color:var(--brand);cursor:pointer;}
+.notif-pop-list{max-height:320px;overflow-y:auto;}
+.notif-pop-item{padding:12px 16px;border-bottom:0.5px solid var(--border);cursor:pointer;transition:background .15s;display:flex;gap:10px;align-items:flex-start;}
+.notif-pop-item:hover{background:var(--brand-a04);}
+.notif-pop-item:last-child{border-bottom:none;}
+.npi-dot{width:7px;height:7px;border-radius:50%;background:var(--brand);margin-top:4px;flex-shrink:0;}
+.npi-dot.read{background:transparent;}
+.npi-body{flex:1;}
+.npi-title{font-size:12px;font-weight:600;color:var(--text);}
+.npi-sub{font-size:11px;color:var(--text-2);margin-top:1px;line-height:1.4;}
+.npi-time{font-size:10px;color:var(--text-3);margin-top:3px;}
+.notif-pop-footer{padding:10px 16px;border-top:0.5px solid var(--border);display:flex;gap:8px;}
+.btn-notif-all{flex:1;padding:8px 0;background:var(--bg);border:1px solid var(--border-md);border-radius:var(--r980);font-size:11px;color:var(--text-2);cursor:pointer;transition:all .15s;text-align:center;}
+.btn-notif-all:hover{border-color:var(--brand-a20);color:var(--brand);}
+.notif-wrap{position:relative;}
+.notif-badge-count{position:absolute;top:-4px;right:-4px;background:var(--brand);color:#fff;font-size:9px;font-weight:700;min-width:16px;height:16px;border-radius:var(--r980);display:flex;align-items:center;justify-content:center;padding:0 3px;border:1.5px solid var(--surface);}
+
+/* ── Toast ── */
+#toast{
+  position:fixed;bottom:20px;right:20px;z-index:500;
+  background:var(--text);color:#fff;
+  padding:10px 18px;border-radius:var(--r980);
+  font-size:12px;font-weight:500;
+  opacity:0;transform:translateY(8px);
+  transition:all .25s;pointer-events:none;
+}
+#toast.show{opacity:1;transform:translateY(0);}
+
+/* ── Responsive ── */
+@media(max-width:900px){
+  .content-area{grid-template-columns:1fr;}
+  .zone-3{display:none;}
+}
+@media(max-width:700px){
+  .sidebar{display:none;}
+}
+</style>
+</head>
+<body>
+
+<!-- Demo nav -->
+<nav class="demo-nav">
+  <a href="auth.html">Auth</a>
+  <a href="dashboard.html" class="active">Dashboard</a>
+  <a href="fila-aprovacao.html">Fila Aprovação</a>
+  <a href="founders.html">Founders</a>
+  <a href="area-founder.html">Área Founder</a>
+  <a href="design-system.html">Design System</a>
+</nav>
+
+<div class="shell">
+  <!-- ── Sidebar ── -->
+  <aside class="sidebar">
+    <div class="sb-header">
+      <div>
+        <div class="sb-logo">KTANA</div>
+        <div class="sb-agency">Agência Horizonte</div>
+      </div>
+      <div class="notif-wrap" style="position:relative;">
+        <button class="notif-btn" onclick="toggleNotif(event)">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+        </button>
+        <span class="notif-badge-count" id="notif-count">3</span>
+        <!-- Notification popover -->
+        <div class="notif-popover" id="notif-popover">
+          <div class="notif-pop-header">
+            <span class="notif-pop-title">Notificações</span>
+            <span class="notif-pop-mark" onclick="markAllRead()">Marcar todas como lidas</span>
+          </div>
+          <div class="notif-pop-list">
+            <div class="notif-pop-item">
+              <div class="npi-dot"></div>
+              <div class="npi-body">
+                <div class="npi-title">Pedro Souza — Modo Autônomo ativo</div>
+                <div class="npi-sub">Founder em modo autônomo há 12 dias sem interação</div>
+                <div class="npi-time">agora</div>
+              </div>
+            </div>
+            <div class="notif-pop-item">
+              <div class="npi-dot"></div>
+              <div class="npi-body">
+                <div class="npi-title">7 peças aguardando aprovação</div>
+                <div class="npi-sub">Fila de aprovação acima do limite — revisar hoje</div>
+                <div class="npi-time">há 2h</div>
+              </div>
+            </div>
+            <div class="notif-pop-item">
+              <div class="npi-dot"></div>
+              <div class="npi-body">
+                <div class="npi-title">TechBR Blog — novo anúncio detectado</div>
+                <div class="npi-sub">Sentinela detectou nova campanha do concorrente</div>
+                <div class="npi-time">há 3h</div>
+              </div>
+            </div>
+            <div class="notif-pop-item">
+              <div class="npi-dot read"></div>
+              <div class="npi-body">
+                <div class="npi-title" style="color:var(--text-2);font-weight:500;">Ana Costa — Reel aprovado pelo founder</div>
+                <div class="npi-sub">Aprovação recebida via WhatsApp</div>
+                <div class="npi-time">há 5h</div>
+              </div>
+            </div>
+          </div>
+          <div class="notif-pop-footer">
+            <button class="btn-notif-all">Ver todas as notificações</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <nav class="sb-nav">
+      <div class="sb-section-label">Operação</div>
+      <div class="sb-item active">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+        Dashboard
+      </div>
+      <div class="sb-item" onclick="window.location.href='founders.html'">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        Founders
+        <span class="sb-badge">18</span>
+      </div>
+      <div class="sb-item" onclick="window.location.href='fila-aprovacao.html'">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+        Aprovações
+        <span class="sb-badge">7</span>
+      </div>
+      <div class="sb-item">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+        Calendário
+      </div>
+      <div class="sb-item">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+        Concorrentes
+      </div>
+
+      <div class="sb-section-label" style="margin-top:8px;">Inteligência</div>
+      <div class="sb-item">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="3"/></svg>
+        Agentes
+        <span class="sb-badge sb-item-warn" style="background:rgba(0,0,0,0.08);color:var(--text-2);">1</span>
+      </div>
+      <div class="sb-item">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        Brand Book
+      </div>
+      <div class="sb-item">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+        Battle Plan
+      </div>
+
+      <div class="sb-section-label" style="margin-top:8px;">Agência</div>
+      <div class="sb-item">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
+        Setup Agência
+      </div>
+      <div class="sb-item">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M4.93 4.93a10 10 0 0 0 0 14.14"/></svg>
+        Configurações
+      </div>
+    </nav>
+
+    <div class="sb-footer">
+      <div class="sb-user">
+        <div class="sb-avatar">R</div>
+        <div>
+          <div class="sb-user-name">Rafael Silva</div>
+          <div class="sb-user-role">Social Media Manager</div>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ── Main ── -->
+  <main class="main">
+    <!-- Zone 1 — KPI Bar -->
+    <div class="kpi-bar">
+      <div class="kpi-card">
+        <div class="kpi-label">Founders ativos</div>
+        <div class="kpi-val brand" id="kpi-founders">0</div>
+        <div class="kpi-delta delta-up">
+          <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="18 15 12 9 6 15"/></svg>
+          +3 este mês
+        </div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">Posts / semana</div>
+        <div class="kpi-val" id="kpi-posts">0</div>
+        <div class="kpi-delta delta-up">
+          <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="18 15 12 9 6 15"/></svg>
+          +12% vs semana ant.
+        </div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">Agentes rodando</div>
+        <div class="kpi-val" id="kpi-agents">0</div>
+        <div class="kpi-delta delta-warn">
+          <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+          1 em warning
+        </div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">MRR</div>
+        <div class="kpi-val brand" id="kpi-mrr">R$0</div>
+        <div class="kpi-delta delta-up">
+          <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="18 15 12 9 6 15"/></svg>
+          +8% vs mês ant.
+        </div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">Engajamento</div>
+        <div class="kpi-val" id="kpi-eng">0%</div>
+        <div class="kpi-delta delta-up">
+          <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="18 15 12 9 6 15"/></svg>
+          +0.3pp
+        </div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">Score humanidade</div>
+        <div class="kpi-val brand" id="kpi-hum">0%</div>
+        <div class="kpi-delta delta-up">
+          <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="18 15 12 9 6 15"/></svg>
+          +2pp
+        </div>
+      </div>
+      <span class="stale-badge">Atualizado há 2m</span>
+    </div>
+
+    <!-- Zones 2 + 3 -->
+    <div class="content-area">
+
+      <!-- ── Zone 2 ── -->
+      <div class="zone-2">
+
+        <!-- 2A — Urgências -->
+        <div class="block">
+          <div class="block-header">
+            <div class="block-title">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+              Urgências
+            </div>
+            <span class="block-count bc-critical" id="urg-count">4</span>
+          </div>
+          <div class="urgency-list" id="urgency-list">
+            <!-- critical -->
+            <div class="urgency-item">
+              <div class="urgency-icon ui-critical">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+              </div>
+              <div class="urgency-body">
+                <div class="urgency-name">Pedro Souza</div>
+                <span class="urgency-days">Autônomo há 12 dias</span>
+                <div class="urgency-desc">Founder em modo autônomo sem qualquer interação.</div>
+                <div class="urgency-actions">
+                  <button class="btn-urg btn-urg-primary" onclick="showToast('WhatsApp aberto para Pedro Souza')">
+                    <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                    Contatar
+                  </button>
+                  <button class="btn-urg btn-urg-secondary">Ver workspace</button>
+                </div>
+              </div>
+            </div>
+            <!-- high -->
+            <div class="urgency-item">
+              <div class="urgency-icon ui-high">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+              </div>
+              <div class="urgency-body">
+                <div class="urgency-name">Ana Costa</div>
+                <div class="urgency-desc">3 posts aguardando aprovação há mais de 24h.</div>
+                <div class="urgency-actions">
+                  <button class="btn-urg btn-urg-primary" onclick="showToast('Redirecionando para aprovações de Ana Costa...');setTimeout(()=>window.location.href='fila-aprovacao.html',800)">Aprovar agora</button>
+                </div>
+              </div>
+            </div>
+            <!-- high -->
+            <div class="urgency-item">
+              <div class="urgency-icon ui-high">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+              </div>
+              <div class="urgency-body">
+                <div class="urgency-name">Carla Mendes</div>
+                <span class="urgency-days">Fotos pendentes há 5 dias</span>
+                <div class="urgency-desc">Upload de fotos não concluído. Produção bloqueada.</div>
+                <div class="urgency-actions">
+                  <button class="btn-urg btn-urg-primary" onclick="showToast('WhatsApp aberto para Carla Mendes')">
+                    <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                    Cobrar via WA
+                  </button>
+                </div>
+              </div>
+            </div>
+            <!-- medium -->
+            <div class="urgency-item">
+              <div class="urgency-icon ui-medium">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+              </div>
+              <div class="urgency-body">
+                <div class="urgency-name">João Martins</div>
+                <div class="urgency-desc">Battle Plan novo gerado — aguardando revisão.</div>
+                <div class="urgency-actions">
+                  <button class="btn-urg btn-urg-secondary">Ver plano</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 2B — Aprovações -->
+        <div class="block">
+          <div class="block-header">
+            <div class="block-title">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+              Fila de Aprovação
+            </div>
+            <div style="display:flex;align-items:center;gap:8px;">
+              <span class="block-count bc-neutral" id="approval-count">7</span>
+              <span class="block-link" onclick="window.location.href='fila-aprovacao.html'">Ver fila</span>
+            </div>
+          </div>
+          <div class="approval-list" id="approval-list">
+            <div class="approval-item" onclick="toggleSelect(this,'ap1')">
+              <div class="ai-check" id="ap1"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></div>
+              <span class="ai-founder">João Martins</span>
+              <span class="ai-type">Carrossel</span>
+              <span class="ai-score score-hi">94%</span>
+              <div class="ai-btns">
+                <button class="ai-btn ai-btn-approve" onclick="event.stopPropagation();approveOne(this,'ap1')" title="Aprovar">
+                  <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                </button>
+                <button class="ai-btn" onclick="event.stopPropagation();showToast('Ajuste solicitado')" title="Ajuste">
+                  <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+                </button>
+              </div>
+            </div>
+            <div class="approval-item" onclick="toggleSelect(this,'ap2')">
+              <div class="ai-check" id="ap2"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></div>
+              <span class="ai-founder">Ana Costa</span>
+              <span class="ai-type">Reels</span>
+              <span class="ai-score score-hi">91%</span>
+              <div class="ai-btns">
+                <button class="ai-btn ai-btn-approve" onclick="event.stopPropagation();approveOne(this,'ap2')" title="Aprovar">
+                  <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                </button>
+                <button class="ai-btn" onclick="event.stopPropagation();showToast('Ajuste solicitado')" title="Ajuste">
+                  <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+                </button>
+              </div>
+            </div>
+            <div class="approval-item" onclick="toggleSelect(this,'ap3')">
+              <div class="ai-check" id="ap3"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></div>
+              <span class="ai-founder">Carlos Ferreira</span>
+              <span class="ai-type">Feed</span>
+              <span class="ai-score score-hi">88%</span>
+              <div class="ai-btns">
+                <button class="ai-btn ai-btn-approve" onclick="event.stopPropagation();approveOne(this,'ap3')" title="Aprovar">
+                  <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                </button>
+                <button class="ai-btn" onclick="event.stopPropagation();showToast('Ajuste solicitado')" title="Ajuste">
+                  <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+                </button>
+              </div>
+            </div>
+            <div class="approval-item" onclick="toggleSelect(this,'ap4')">
+              <div class="ai-check" id="ap4"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></div>
+              <span class="ai-founder">Marcos Dias</span>
+              <span class="ai-type">LinkedIn</span>
+              <span class="ai-score score-hi">96%</span>
+              <div class="ai-btns">
+                <button class="ai-btn ai-btn-approve" onclick="event.stopPropagation();approveOne(this,'ap4')" title="Aprovar">
+                  <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                </button>
+                <button class="ai-btn" onclick="event.stopPropagation();showToast('Ajuste solicitado')" title="Ajuste">
+                  <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+                </button>
+              </div>
+            </div>
+            <div class="approval-item" onclick="toggleSelect(this,'ap5')">
+              <div class="ai-check" id="ap5"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></div>
+              <span class="ai-founder">Luisa Andrade</span>
+              <span class="ai-type">Stories</span>
+              <span class="ai-score score-md">78%</span>
+              <div class="ai-btns">
+                <button class="ai-btn ai-btn-approve" onclick="event.stopPropagation();approveOne(this,'ap5')" title="Aprovar">
+                  <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                </button>
+                <button class="ai-btn" onclick="event.stopPropagation();showToast('Ajuste solicitado')" title="Ajuste">
+                  <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+                </button>
+              </div>
+            </div>
+            <div class="approval-item" onclick="toggleSelect(this,'ap6')">
+              <div class="ai-check" id="ap6"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></div>
+              <span class="ai-founder">Roberto Lima</span>
+              <span class="ai-type">Carrossel</span>
+              <span class="ai-score score-md">83%</span>
+              <div class="ai-btns">
+                <button class="ai-btn ai-btn-approve" onclick="event.stopPropagation();approveOne(this,'ap6')" title="Aprovar">
+                  <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                </button>
+                <button class="ai-btn" onclick="event.stopPropagation();showToast('Ajuste solicitado')" title="Ajuste">
+                  <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+                </button>
+              </div>
+            </div>
+            <div class="approval-item" onclick="toggleSelect(this,'ap7')">
+              <div class="ai-check" id="ap7"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></div>
+              <span class="ai-founder">Fernanda Rocha</span>
+              <span class="ai-type">Reels</span>
+              <span class="ai-score score-hi">90%</span>
+              <div class="ai-btns">
+                <button class="ai-btn ai-btn-approve" onclick="event.stopPropagation();approveOne(this,'ap7')" title="Aprovar">
+                  <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                </button>
+                <button class="ai-btn" onclick="event.stopPropagation();showToast('Ajuste solicitado')" title="Ajuste">
+                  <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+                </button>
+              </div>
+            </div>
+          </div>
+          <!-- Batch bar -->
+          <div class="batch-bar" id="batch-bar">
+            <span class="batch-count" id="batch-count">0 selecionados</span>
+            <button class="btn-batch" onclick="batchApprove()">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+              Aprovar selecionados
+            </button>
+            <button class="btn-batch-sec" onclick="clearSelection()">Limpar</button>
+          </div>
+        </div>
+
+        <!-- 2C — Status por fase -->
+        <div class="block">
+          <div class="block-header">
+            <div class="block-title">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+              Status por Fase
+            </div>
+          </div>
+          <div class="autonomous-banner">
+            <div class="auto-icon">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            </div>
+            <div class="auto-text">
+              <div class="auto-title">Modo Autônomo — 1 founder</div>
+              <div class="auto-sub">Pedro Souza · 12 dias · <span class="auto-link" onclick="showToast('Abrindo workspace de Pedro Souza...')">Ver workspace</span></div>
+            </div>
+          </div>
+          <div class="phases-body">
+            <div class="phase-item">
+              <span class="phase-label">F1 — Onboarding</span>
+              <div class="phase-track"><div class="phase-fill" data-pct="100"></div></div>
+              <span class="phase-count">3</span>
+            </div>
+            <div class="phase-item">
+              <span class="phase-label">F2 — Brand Book</span>
+              <div class="phase-track"><div class="phase-fill" data-pct="83"></div></div>
+              <span class="phase-count">5</span>
+            </div>
+            <div class="phase-item">
+              <span class="phase-label">F3 — Conteúdo</span>
+              <div class="phase-track"><div class="phase-fill" data-pct="67"></div></div>
+              <span class="phase-count">4</span>
+            </div>
+            <div class="phase-item">
+              <span class="phase-label">F4 — Distribuição</span>
+              <div class="phase-track"><div class="phase-fill" data-pct="50"></div></div>
+              <span class="phase-count">4</span>
+            </div>
+            <div class="phase-item">
+              <span class="phase-label">F5 — Escala</span>
+              <div class="phase-track"><div class="phase-fill" data-pct="33"></div></div>
+              <span class="phase-count">2</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── Zone 3 — Motor Autopilot Feed ── -->
+      <div class="zone-3">
+        <div class="feed-header">
+          <div class="feed-title">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="3"/></svg>
+            Motor Autopilot
+            <div class="live-dot"></div>
+          </div>
+        </div>
+        <div class="feed-tabs">
+          <div class="ftab active" onclick="switchTab(this,'today')">Hoje</div>
+          <div class="ftab" onclick="switchTab(this,'yesterday')">Ontem</div>
+          <div class="ftab" onclick="switchTab(this,'week')">Esta semana</div>
+        </div>
+        <div class="feed-list" id="feed-list">
+          <div class="feed-item">
+            <span class="feed-time">09:47</span>
+            <span class="feed-agent-badge agent-quill">Quill</span>
+            <div class="feed-body">
+              <div class="feed-founder">João Martins</div>
+              <div class="feed-desc">Gerou carrossel "7 métricas que todo CEO precisa" para Instagram</div>
+            </div>
+            <span class="feed-score">94%</span>
+            <div class="feed-sev sev-info"></div>
+          </div>
+          <div class="feed-item">
+            <span class="feed-time">09:32</span>
+            <span class="feed-agent-badge agent-scout">Scout</span>
+            <div class="feed-body">
+              <div class="feed-founder">Ana Costa</div>
+              <div class="feed-desc">Análise competitiva atualizada — 3 novos insights identificados</div>
+            </div>
+            <div class="feed-sev sev-info"></div>
+          </div>
+          <div class="feed-item">
+            <span class="feed-time">09:18</span>
+            <span class="feed-agent-badge agent-sentinela">Sentinela</span>
+            <div class="feed-body">
+              <div class="feed-founder">Carlos Ferreira</div>
+              <div class="feed-desc">TechBR Blog atingiu 72/100 de ameaça — novo anúncio detectado</div>
+            </div>
+            <div class="feed-sev sev-warn"></div>
+          </div>
+          <div class="feed-item">
+            <span class="feed-time">09:05</span>
+            <span class="feed-agent-badge agent-pulse">Pulse</span>
+            <div class="feed-body">
+              <div class="feed-founder">Pedro Souza</div>
+              <div class="feed-desc">Lembrete enviado via WhatsApp — aguardando resposta do founder</div>
+            </div>
+            <div class="feed-sev sev-warn"></div>
+          </div>
+          <div class="feed-item">
+            <span class="feed-time">08:55</span>
+            <span class="feed-agent-badge agent-director">Director</span>
+            <div class="feed-body">
+              <div class="feed-founder">Carlos Ferreira</div>
+              <div class="feed-desc">Avatar CEO gerado com sucesso — 4 variações disponíveis</div>
+            </div>
+            <div class="feed-sev sev-info"></div>
+          </div>
+          <div class="feed-item">
+            <span class="feed-time">08:40</span>
+            <span class="feed-agent-badge agent-quill">Quill</span>
+            <div class="feed-body">
+              <div class="feed-founder">Marcos Dias</div>
+              <div class="feed-desc">Post LinkedIn "Automação inteligente" gerado — humanidade A+</div>
+            </div>
+            <span class="feed-score">96%</span>
+            <div class="feed-sev sev-info"></div>
+          </div>
+          <div class="feed-item">
+            <span class="feed-time">08:22</span>
+            <span class="feed-agent-badge agent-canvas">Canvas</span>
+            <div class="feed-body">
+              <div class="feed-founder">Ana Costa</div>
+              <div class="feed-desc">Template de carrossel aplicado com elementos da marca</div>
+            </div>
+            <div class="feed-sev sev-info"></div>
+          </div>
+          <div class="feed-item">
+            <span class="feed-time">08:00</span>
+            <span class="feed-agent-badge agent-system">Sistema</span>
+            <div class="feed-body">
+              <div class="feed-founder">—</div>
+              <div class="feed-desc">Dashboard stats refreshed — 18 founders ativos</div>
+            </div>
+            <div class="feed-sev sev-info"></div>
+          </div>
+        </div>
+        <button class="btn-load-more" onclick="loadMoreFeed()">
+          Carregar mais
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+        </button>
+      </div>
+    </div>
+  </main>
+</div>
+
+<!-- Toast -->
+<div id="toast"></div>
+
+<script>
+/* KPI counters */
+function animCount(id,target,fmt){
+  const el=document.getElementById(id);
+  const dur=1000;const s=performance.now();
+  function step(now){
+    const p=Math.min((now-s)/dur,1);
+    const ease=p<.5?2*p*p:((-1+(4-2*p)*p));
+    const v=Math.round(ease*target);
+    el.textContent=fmt?fmt(v):v;
+    if(p<1)requestAnimationFrame(step);
+  }
+  requestAnimationFrame(step);
+}
+window.addEventListener('load',()=>{
+  animCount('kpi-founders',18);
+  animCount('kpi-posts',142);
+  animCount('kpi-agents',7);
+  animCount('kpi-mrr',26400,v=>'R$'+v.toLocaleString('pt-BR'));
+  animCount('kpi-eng',42,v=>(v/10).toFixed(1)+'%');
+  animCount('kpi-hum',93,v=>v+'%');
+  /* animate phase bars */
+  setTimeout(()=>{
+    document.querySelectorAll('.phase-fill[data-pct]').forEach(el=>{
+      el.style.width=el.dataset.pct+'%';
+    });
+  },400);
+});
+
+/* Notification toggle */
+let notifOpen=false;
+function toggleNotif(e){
+  e.stopPropagation();
+  notifOpen=!notifOpen;
+  document.getElementById('notif-popover').classList.toggle('open',notifOpen);
+}
+document.addEventListener('click',()=>{
+  if(notifOpen){notifOpen=false;document.getElementById('notif-popover').classList.remove('open');}
+});
+function markAllRead(){
+  document.querySelectorAll('.npi-dot').forEach(d=>d.classList.add('read'));
+  document.getElementById('notif-count').style.display='none';
+  showToast('Todas as notificações marcadas como lidas');
+}
+
+/* Approval multi-select */
+const selected=new Set();
+function toggleSelect(item,id){
+  const check=document.getElementById(id);
+  if(selected.has(id)){selected.delete(id);check.classList.remove('checked');item.classList.remove('selected');}
+  else{selected.add(id);check.classList.add('checked');item.classList.add('selected');}
+  updateBatchBar();
+}
+function updateBatchBar(){
+  const bar=document.getElementById('batch-bar');
+  const cnt=document.getElementById('batch-count');
+  cnt.textContent=selected.size+' selecionado'+(selected.size!==1?'s':'');
+  bar.classList.toggle('show',selected.size>0);
+}
+function approveOne(btn,id){
+  const item=btn.closest('.approval-item');
+  item.style.transition='opacity .3s,max-height .4s';
+  item.style.opacity='0';
+  setTimeout(()=>{item.style.maxHeight='0';item.style.overflow='hidden';item.style.paddingTop='0';item.style.paddingBottom='0';},100);
+  setTimeout(()=>item.remove(),500);
+  selected.delete(id);updateBatchBar();
+  const cnt=parseInt(document.getElementById('approval-count').textContent);
+  document.getElementById('approval-count').textContent=Math.max(0,cnt-1);
+  showToast('Post aprovado com sucesso');
+}
+function batchApprove(){
+  const n=selected.size;
+  selected.forEach(id=>{
+    const item=document.getElementById(id)?.closest('.approval-item');
+    if(item){item.style.opacity='0';setTimeout(()=>item.remove(),400);}
+  });
+  selected.clear();updateBatchBar();
+  const cnt=parseInt(document.getElementById('approval-count').textContent);
+  document.getElementById('approval-count').textContent=Math.max(0,cnt-n);
+  showToast(n+' posts aprovados com sucesso');
+}
+function clearSelection(){selected.clear();document.querySelectorAll('.ai-check.checked').forEach(c=>{c.classList.remove('checked');c.closest('.approval-item')?.classList.remove('selected');});updateBatchBar();}
+
+/* Feed tabs */
+const feedData={
+  today:[
+    {t:'09:47',agent:'Quill',aClass:'agent-quill',founder:'João Martins',desc:'Gerou carrossel "7 métricas que todo CEO precisa" para Instagram',score:'94%',sev:'info'},
+    {t:'09:32',agent:'Scout',aClass:'agent-scout',founder:'Ana Costa',desc:'Análise competitiva atualizada — 3 novos insights identificados',score:null,sev:'info'},
+    {t:'09:18',agent:'Sentinela',aClass:'agent-sentinela',founder:'Carlos Ferreira',desc:'TechBR Blog atingiu 72/100 de ameaça — novo anúncio detectado',score:null,sev:'warn'},
+    {t:'09:05',agent:'Pulse',aClass:'agent-pulse',founder:'Pedro Souza',desc:'Lembrete enviado via WhatsApp — aguardando resposta',score:null,sev:'warn'},
+    {t:'08:55',agent:'Director',aClass:'agent-director',founder:'Carlos Ferreira',desc:'Avatar CEO gerado com sucesso — 4 variações disponíveis',score:null,sev:'info'},
+    {t:'08:40',agent:'Quill',aClass:'agent-quill',founder:'Marcos Dias',desc:'Post LinkedIn "Automação inteligente" — humanidade A+',score:'96%',sev:'info'},
+    {t:'08:22',agent:'Canvas',aClass:'agent-canvas',founder:'Ana Costa',desc:'Template de carrossel aplicado com elementos da marca',score:null,sev:'info'},
+    {t:'08:00',agent:'Sistema',aClass:'agent-system',founder:'—',desc:'Dashboard stats refreshed — 18 founders ativos',score:null,sev:'info'},
+  ],
+  yesterday:[
+    {t:'18:30',agent:'Quill',aClass:'agent-quill',founder:'Luisa Andrade',desc:'Gerou 3 Stories para Instagram — campanha de produto',score:'88%',sev:'info'},
+    {t:'16:12',agent:'Sentinela',aClass:'agent-sentinela',founder:'Roberto Lima',desc:'Concorrente "MarketingPro" lançou nova campanha de Google Ads',score:null,sev:'warn'},
+    {t:'14:45',agent:'Scout',aClass:'agent-scout',founder:'Marcos Dias',desc:'Relatório semanal de concorrentes gerado e enviado',score:null,sev:'info'},
+    {t:'11:20',agent:'Pulse',aClass:'agent-pulse',founder:'Ana Costa',desc:'Founder aprovou 2 posts via WhatsApp (+2 agendados)',score:null,sev:'info'},
+    {t:'09:05',agent:'Director',aClass:'agent-director',founder:'Fernanda Rocha',desc:'Onboarding concluído — Battle Plan inicial gerado',score:null,sev:'info'},
+  ],
+  week:[
+    {t:'Seg',agent:'Sistema',aClass:'agent-system',founder:'—',desc:'Semana iniciada — 18 founders ativos, 142 posts na fila',score:null,sev:'info'},
+    {t:'Ter',agent:'Quill',aClass:'agent-quill',founder:'5 founders',desc:'42 peças geradas no total para a semana',score:'91%',sev:'info'},
+    {t:'Qua',agent:'Sentinela',aClass:'agent-sentinela',founder:'Carlos Ferreira',desc:'Alert crítico: TechBR lançou campanha agressiva',score:null,sev:'warn'},
+    {t:'Qui',agent:'Scout',aClass:'agent-scout',founder:'3 founders',desc:'Análise de concorrentes semanal — 12 insights novos',score:null,sev:'info'},
+    {t:'Sex',agent:'Pulse',aClass:'agent-pulse',founder:'João Martins',desc:'8 lembretes enviados — taxa de resposta 87%',score:null,sev:'info'},
+  ]
+};
+function renderFeed(key){
+  const list=document.getElementById('feed-list');
+  const items=feedData[key]||feedData.today;
+  list.innerHTML=items.map(i=>`
+    <div class="feed-item">
+      <span class="feed-time">${i.t}</span>
+      <span class="feed-agent-badge ${i.aClass}">${i.agent}</span>
+      <div class="feed-body">
+        <div class="feed-founder">${i.founder}</div>
+        <div class="feed-desc">${i.desc}</div>
+      </div>
+      ${i.score?`<span class="feed-score">${i.score}`:''}
+      <div class="feed-sev sev-${i.sev}"></div>
+    </div>`).join('');
+}
+function switchTab(tab,key){
+  document.querySelectorAll('.ftab').forEach(t=>t.classList.remove('active'));
+  tab.classList.add('active');renderFeed(key);
+}
+function loadMoreFeed(){showToast('Carregando mais eventos...');}
+
+/* Toast */
+function showToast(msg){
+  const t=document.getElementById('toast');
+  t.textContent=msg;t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),2200);
+}
+</script>
+</body>
+</html>

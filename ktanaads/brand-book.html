@@ -1,0 +1,909 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Brand Book — KTANA AI</title>
+<link href="https://fonts.googleapis.com/css2?family=Zen+Dots&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --brand:#D70030; --brand-dark:#9B0A2A; --brand-alpha:rgba(215,0,48,0.10);
+  --t1:#1D1D1F; --t2:#6E6E73; --t3:#AEAEB2;
+  --bg:#F5F5F7; --surface:#FFFFFF; --s2:#FAFAFA; --s3:#F0F0F5;
+  --border:#E8E8ED; --border-l:#F2F2F7;
+  --shadow:0 1px 3px rgba(0,0,0,0.06),0 4px 16px rgba(0,0,0,0.04);
+  --sbtn:0 2px 8px rgba(215,0,48,0.28);
+  --r8:8px; --r12:12px; --r16:16px; --rF:9999px;
+  /* Brand book dark zone */
+  --bb-bg:#0A0A0A; --bb-s1:#1D1D1F; --bb-s2:#2D2D2D; --bb-t1:#F5F5F7; --bb-t2:#AEAEB2; --bb-t3:#6E6E73;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%;background:var(--bg);font-family:'Inter',sans-serif;color:var(--t1)}
+
+/* ── DEMO NAV ── */
+.demo-nav{position:fixed;top:0;left:0;right:0;z-index:9999;background:rgba(215,0,48,0.96);backdrop-filter:blur(10px);padding:8px 16px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.demo-nav span{font-size:11px;font-weight:700;color:rgba(255,255,255,0.6);letter-spacing:.05em;margin-right:4px}
+.demo-nav a{font-size:11px;color:#fff;text-decoration:none;padding:3px 10px;border-radius:20px;background:rgba(255,255,255,0.15);white-space:nowrap}
+.demo-nav a:hover{background:rgba(255,255,255,0.25)}
+.demo-nav a.cur{background:rgba(255,255,255,0.3);font-weight:700}
+
+/* ── SCREEN SWITCH ── */
+.screen{display:none}
+.screen.active{display:flex;flex-direction:column;height:100vh;padding-top:36px}
+
+/* ═══════════════════════════════════════════
+   SCREEN 1 — SM BRAND BOOK EDITOR (DESKTOP)
+═══════════════════════════════════════════ */
+#screen-sm .shell{display:flex;flex:1;overflow:hidden}
+
+/* SIDEBAR */
+.sidebar{width:240px;background:var(--surface);border-right:.5px solid var(--border);display:flex;flex-direction:column;flex-shrink:0;overflow-y:auto}
+.sb-logo{padding:20px 20px 16px;border-bottom:.5px solid var(--border)}
+.sb-logo-name{font-family:'Zen Dots',sans-serif;font-size:16px;color:var(--brand)}
+.sb-logo-name span{color:var(--t1)}
+.sb-agency{font-size:11px;color:var(--t3);margin-top:2px}
+.sb-group{padding:16px 12px 8px}
+.sb-group-label{font-size:10px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--t3);padding:0 8px;margin-bottom:4px}
+.sb-item{display:flex;align-items:center;gap:10px;padding:9px 10px;border-radius:var(--r8);font-size:13px;color:var(--t2);cursor:pointer;transition:all .15s;text-decoration:none}
+.sb-item svg{flex-shrink:0;opacity:.6}
+.sb-item:hover{background:var(--s2);color:var(--t1)}
+.sb-item:hover svg{opacity:.9}
+.sb-item.active{background:var(--brand-alpha);color:var(--brand);font-weight:600}
+.sb-item.active svg{opacity:1;stroke:var(--brand)}
+.sb-badge{margin-left:auto;min-width:18px;height:18px;padding:0 5px;border-radius:var(--rF);background:var(--brand);color:#fff;font-size:10px;font-weight:700;display:flex;align-items:center;justify-content:center}
+.sb-avatar{margin-top:auto;padding:16px;border-top:.5px solid var(--border);display:flex;align-items:center;gap:10px}
+.sb-av-pic{width:32px;height:32px;border-radius:50%;background:var(--brand-alpha);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:var(--brand);flex-shrink:0}
+.sb-av-name{font-size:13px;font-weight:600}
+.sb-av-role{font-size:11px;color:var(--t3)}
+
+/* MAIN */
+.main{flex:1;display:flex;flex-direction:column;overflow:hidden;background:var(--bg)}
+
+/* TOPBAR */
+.topbar{height:56px;background:var(--surface);border-bottom:.5px solid var(--border);display:flex;align-items:center;padding:0 20px;gap:12px;flex-shrink:0}
+.tb-breadcrumb{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--t2)}
+.tb-breadcrumb a{color:var(--brand);text-decoration:none;font-weight:500}
+.tb-breadcrumb svg{opacity:.4}
+.tb-actions{margin-left:auto;display:flex;align-items:center;gap:8px}
+.btn-icon{width:36px;height:36px;border-radius:var(--r8);background:var(--s2);border:.5px solid var(--border);display:flex;align-items:center;justify-content:center;cursor:pointer}
+.btn-icon:hover{background:var(--s3)}
+
+/* BRAND BOOK STICKY HEADER */
+.bb-header{background:var(--bb-bg);padding:16px 24px;flex-shrink:0}
+.bb-hdr-row1{display:flex;align-items:center;gap:12px;margin-bottom:10px}
+.bb-hdr-name{font-family:'Zen Dots',sans-serif;font-size:18px;color:var(--bb-t1)}
+.bb-version{font-size:11px;font-weight:700;color:var(--bb-t3);background:var(--bb-s2);padding:2px 8px;border-radius:var(--rF);letter-spacing:.04em}
+.bb-save{font-size:12px;display:flex;align-items:center;gap:4px;margin-left:auto}
+.bb-save.saved{color:#34C759}
+.bb-save.saving{color:#64AEFF;animation:blink 1.2s infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.4}}
+.bb-hdr-row2{display:flex;align-items:center;gap:12px}
+.bb-status-badge{display:inline-flex;align-items:center;gap:6px;height:24px;padding:0 10px;border-radius:var(--rF);font-size:11px;font-weight:700;letter-spacing:.04em}
+.bb-status-badge .dot{width:6px;height:6px;border-radius:50%;flex-shrink:0}
+.bbs-sm_review{background:rgba(251,191,36,.15);color:#FBBF24}
+.bbs-sm_review .dot{background:#FBBF24}
+.bbs-founder_approval{background:rgba(249,115,22,.15);color:#F97316}
+.bbs-founder_approval .dot{background:#F97316}
+.bbs-approved{background:rgba(34,197,94,.15);color:#22C55E}
+.bbs-approved .dot{background:#22C55E}
+.bbs-draft{background:rgba(107,114,128,.15);color:#9CA3AF}
+.bbs-draft .dot{background:#6B6B6B}
+.btn-send-approval{margin-left:auto;height:32px;padding:0 16px;border-radius:var(--r8);background:linear-gradient(135deg,var(--brand),var(--brand-dark));color:#fff;font-size:13px;font-weight:600;border:none;cursor:pointer;font-family:'Inter',sans-serif;box-shadow:var(--sbtn);display:flex;align-items:center;gap:6px;transition:opacity .15s}
+.btn-send-approval:hover{opacity:.88}
+.bb-completion{background:var(--bb-s1);padding:12px 24px;border-bottom:1px solid var(--bb-s2);flex-shrink:0}
+.bb-comp-row{display:flex;align-items:center;gap:10px}
+.bb-comp-label{font-size:12px;color:var(--bb-t2)}
+.bb-comp-bar{flex:1;height:4px;background:var(--bb-s2);border-radius:var(--rF);overflow:hidden}
+.bb-comp-fill{height:100%;background:linear-gradient(90deg,var(--brand),var(--brand-dark));border-radius:var(--rF);transition:width .4s ease}
+.bb-comp-pct{font-size:12px;font-weight:700;color:var(--bb-t1);min-width:36px;text-align:right}
+.bb-comp-warn{font-size:11px;color:var(--brand);margin-left:8px}
+
+/* BRAND BOOK CONTENT AREA */
+.bb-content{flex:1;overflow-y:auto;background:var(--bb-bg);padding:0 0 40px}
+
+/* ACCORDION SECTIONS */
+.bb-section{border-bottom:1px solid var(--bb-s2)}
+.bb-sec-hdr{display:flex;align-items:center;padding:16px 24px;cursor:pointer;transition:background .15s;user-select:none}
+.bb-sec-hdr:hover{background:var(--bb-s1)}
+.bb-sec-num{width:24px;height:24px;border-radius:50%;border:1.5px solid var(--bb-t3);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:var(--bb-t3);flex-shrink:0;margin-right:10px;transition:all .2s}
+.bb-sec-hdr.open .bb-sec-num{border-color:var(--brand);color:var(--brand)}
+.bb-sec-title{font-size:14px;font-weight:600;color:var(--bb-t1)}
+.bb-sec-pct{margin-left:8px;font-size:12px;color:var(--bb-t3)}
+.bb-sec-pct.ok{color:#34C759}
+.bb-sec-pct.warn{color:#FF9500}
+.bb-sec-chevron{margin-left:auto;transition:transform .2s;color:var(--bb-t3)}
+.bb-sec-hdr.open .bb-sec-chevron{transform:rotate(180deg)}
+.bb-sec-body{display:none;padding:0 24px 24px;border-left:3px solid var(--brand)}
+.bb-sec-body.open{display:block}
+
+/* FIELDS IN BRAND BOOK */
+.bb-field-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--bb-t3);margin-bottom:6px}
+.bb-field-label .req{color:var(--brand)}
+.bb-field-group{margin-bottom:20px}
+.bb-grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:20px}
+.bb-grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:20px}
+.bb-grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:20px}
+.bb-card{background:var(--bb-s1);border:1px solid var(--bb-s2);border-radius:var(--r12);padding:14px}
+.bb-card-title{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--bb-t3);margin-bottom:8px}
+.bb-textarea{width:100%;background:var(--bb-s2);border:1px solid var(--bb-s2);border-radius:var(--r8);padding:10px 12px;font-size:13px;color:var(--bb-t1);font-family:'Inter',sans-serif;resize:none;min-height:70px;outline:none;transition:border-color .15s}
+.bb-textarea:focus{border-color:var(--brand)}
+.bb-textarea.required-empty{border-color:var(--brand)}
+.bb-input{width:100%;background:transparent;border:none;border-bottom:1px dashed var(--bb-s2);padding:4px 0;font-size:13px;color:var(--bb-t1);font-family:'Inter',sans-serif;outline:none;transition:border-color .15s}
+.bb-input:focus{border-bottom-color:var(--brand)}
+.bb-req-warn{font-size:11px;color:var(--brand);margin-top:4px;display:flex;align-items:center;gap:4px}
+
+/* ARCHETYPE GRID */
+.archetype-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:20px}
+.arch-card{background:var(--bb-s1);border:1.5px solid var(--bb-s2);border-radius:var(--r8);padding:12px 8px;cursor:pointer;transition:all .15s;text-align:center}
+.arch-card:hover{border-color:var(--bb-t3)}
+.arch-card.selected{border-color:var(--brand);background:rgba(215,0,48,.08)}
+.arch-icon{width:32px;height:32px;border-radius:50%;background:var(--bb-s2);display:flex;align-items:center;justify-content:center;margin:0 auto 8px;font-size:14px;font-weight:700;color:var(--bb-t2)}
+.arch-card.selected .arch-icon{background:var(--brand-alpha);color:var(--brand)}
+.arch-name{font-size:11px;font-weight:600;color:var(--bb-t2)}
+.arch-card.selected .arch-name{color:var(--bb-t1)}
+
+/* CHIPS */
+.chips-wrap{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px}
+.chip{height:30px;padding:0 14px;border-radius:var(--rF);border:1px solid var(--bb-s2);background:var(--bb-s1);font-size:12px;font-weight:500;color:var(--bb-t2);cursor:pointer;transition:all .15s;display:flex;align-items:center;gap:6px}
+.chip:hover{border-color:var(--bb-t3)}
+.chip.selected{background:rgba(215,0,48,.12);border-color:var(--brand);color:var(--brand)}
+.chip-counter{font-size:11px;color:var(--bb-t3);margin-bottom:12px}
+.chip-counter.max{color:var(--brand)}
+
+/* RADIO */
+.radio-group{display:flex;flex-direction:column;gap:10px}
+.radio-opt{display:flex;align-items:center;gap:10px;cursor:pointer}
+.radio-circle{width:16px;height:16px;border-radius:50%;border:2px solid var(--bb-s2);flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:border-color .15s}
+.radio-opt.selected .radio-circle{border-color:var(--brand)}
+.radio-dot{width:7px;height:7px;border-radius:50%;background:var(--brand);display:none}
+.radio-opt.selected .radio-dot{display:block}
+.radio-label{font-size:13px;color:var(--bb-t2)}
+.radio-opt.selected .radio-label{color:var(--bb-t1);font-weight:500}
+
+/* COMPASS */
+.compass-wrap{background:var(--bb-s1);border:1px solid var(--bb-s2);border-radius:var(--r12);padding:14px;margin-bottom:20px;font-size:13px;color:var(--bb-t2);line-height:2}
+.compass-wrap .bb-input{display:inline-block;width:auto;min-width:100px}
+
+/* TAGS */
+.tags-wrap{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:8px}
+.tag{height:26px;padding:0 10px;border-radius:var(--rF);background:var(--bb-s2);border:1px solid var(--bb-s2);font-size:12px;color:var(--bb-t2);display:flex;align-items:center;gap:6px}
+.tag-rm{cursor:pointer;color:var(--bb-t3);font-size:14px;transition:color .1s}
+.tag-rm:hover{color:var(--brand)}
+
+/* SLIDERS */
+.slider-row{display:flex;align-items:center;gap:12px;margin-bottom:10px}
+.slider-lbl{font-size:12px;color:var(--bb-t2);width:100px;flex-shrink:0}
+.slider-track{flex:1}
+.slider-track input[type=range]{width:100%;height:4px;-webkit-appearance:none;appearance:none;background:var(--bb-s2);border-radius:var(--rF);outline:none}
+.slider-track input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:14px;height:14px;border-radius:50%;background:var(--brand);cursor:pointer}
+.slider-val{font-size:12px;font-weight:700;color:var(--bb-t1);min-width:36px;text-align:right;font-family:'JetBrains Mono',monospace}
+.slider-sum{font-size:12px;font-weight:700;margin-top:8px}
+.slider-sum.ok{color:#34C759}
+.slider-sum.err{color:var(--brand)}
+
+/* BB FOOTER */
+.bb-footer{background:var(--bb-s1);border-top:1px solid var(--bb-s2);padding:16px 24px;display:flex;align-items:center;gap:12px;flex-shrink:0}
+.btn-history{height:36px;padding:0 14px;border-radius:var(--r8);background:transparent;border:1px solid var(--bb-s2);color:var(--bb-t2);font-size:13px;font-weight:500;cursor:pointer;font-family:'Inter',sans-serif;display:flex;align-items:center;gap:6px}
+.btn-history:hover{border-color:var(--bb-t3);color:var(--bb-t1)}
+.btn-gen-ai{height:36px;padding:0 14px;border-radius:var(--r8);background:var(--brand-alpha);border:1px solid rgba(215,0,48,.3);color:var(--brand);font-size:13px;font-weight:600;cursor:pointer;font-family:'Inter',sans-serif;display:flex;align-items:center;gap:6px}
+.btn-gen-ai:hover{background:rgba(215,0,48,.16)}
+
+/* ═══════════════════════════════════════
+   SCREEN 2 — FOUNDER APPROVAL (MOBILE)
+═══════════════════════════════════════ */
+#screen-founder{background:#0A0A0A;justify-content:center;align-items:center;min-height:100vh}
+.phone-wrap{width:390px;max-width:100%;background:#0A0A0A;border-radius:40px;border:1px solid #2D2D2D;overflow:hidden;box-shadow:0 40px 100px rgba(0,0,0,.8);max-height:844px;overflow-y:auto;display:flex;flex-direction:column}
+.phone-logo{padding:24px 20px 16px;display:flex;align-items:center;gap:10px;border-bottom:1px solid #2D2D2D}
+.phone-logo-name{font-family:'Zen Dots',sans-serif;font-size:14px;color:var(--brand)}
+.phone-logo-name span{color:#F5F5F7}
+.phone-version{font-size:11px;color:#6E6E73;margin-left:auto}
+.approval-content{padding:20px;flex:1;overflow-y:auto}
+.approval-greeting{margin-bottom:20px}
+.approval-greeting h2{font-family:'Zen Dots',sans-serif;font-size:20px;color:#F5F5F7;margin-bottom:8px}
+.approval-greeting p{font-size:14px;color:#AEAEB2;line-height:1.5}
+.approval-card{background:#1D1D1F;border:1px solid #2D2D2D;border-radius:var(--r12);padding:16px;margin-bottom:12px}
+.approval-card h3{font-size:12px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:#6E6E73;margin-bottom:12px}
+.approval-item{display:flex;gap:8px;margin-bottom:8px;font-size:13px;color:#AEAEB2;line-height:1.4}
+.approval-item:last-child{margin-bottom:0}
+.approval-item-label{color:#6E6E73;font-size:12px;min-width:80px}
+.approval-item-value{color:#F5F5F7;flex:1}
+.approval-actions{padding:16px 20px;border-top:1px solid #2D2D2D;display:flex;flex-direction:column;gap:10px;flex-shrink:0}
+.btn-approve{width:100%;height:56px;border-radius:var(--r12);background:linear-gradient(135deg,var(--brand),var(--brand-dark));color:#fff;font-family:'Zen Dots',sans-serif;font-size:16px;border:none;cursor:pointer;box-shadow:0 4px 20px rgba(215,0,48,.4);transition:all .2s;display:flex;align-items:center;justify-content:center;gap:10px}
+.btn-approve:hover{transform:translateY(-1px);box-shadow:0 6px 24px rgba(215,0,48,.5)}
+.btn-suggest{width:100%;height:44px;border-radius:var(--r12);background:transparent;border:1px solid #2D2D2D;color:#AEAEB2;font-size:14px;font-weight:500;cursor:pointer;font-family:'Inter',sans-serif;transition:all .2s}
+.btn-suggest:hover{border-color:#AEAEB2;color:#F5F5F7}
+/* Suggestion area */
+.suggest-area{display:none;padding:0 20px 16px}
+.suggest-area.show{display:block}
+.suggest-textarea{width:100%;background:#1D1D1F;border:1px solid #3D3D3D;border-radius:var(--r8);padding:12px;font-size:14px;color:#F5F5F7;font-family:'Inter',sans-serif;resize:none;min-height:80px;outline:none}
+.suggest-textarea:focus{border-color:var(--brand)}
+.btn-send-suggest{margin-top:8px;width:100%;height:40px;border-radius:var(--r8);background:var(--brand);color:#fff;font-size:14px;font-weight:600;border:none;cursor:pointer;font-family:'Inter',sans-serif}
+
+/* APPROVED STATE */
+.approval-done{padding:40px 20px;text-align:center;flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;display:none}
+.approval-done.show{display:flex}
+.approval-done-icon{width:72px;height:72px;border-radius:50%;background:rgba(34,197,94,.15);border:2px solid #22C55E;display:flex;align-items:center;justify-content:center;margin:0 auto 20px}
+.approval-done h2{font-family:'Zen Dots',sans-serif;font-size:20px;color:#F5F5F7;margin-bottom:10px}
+.approval-done p{font-size:14px;color:#AEAEB2}
+
+/* TOAST */
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:#1D1D1F;border:1px solid #2D2D2D;border-radius:var(--r12);padding:12px 20px;font-size:13px;color:#F5F5F7;box-shadow:0 8px 32px rgba(0,0,0,.5);opacity:0;transition:opacity .3s;pointer-events:none;z-index:9999;white-space:nowrap}
+.toast.show{opacity:1}
+</style>
+</head>
+<body>
+
+<!-- DEMO NAV -->
+<div class="demo-nav">
+  <span>KTANA v2</span>
+  <a href="index.html">Index</a>
+  <a href="auth.html">Auth</a>
+  <a href="dashboard.html">Dashboard</a>
+  <a href="founders.html">Founders</a>
+  <a href="brand-book.html" class="cur">Brand Book</a>
+  <a href="fila-aprovacao.html">Fila SM</a>
+  <a href="aprovacao-founder.html">Aprov. Founder</a>
+  <a href="pipeline-kanban.html">Kanban</a>
+  <a href="calendario.html">Calendário</a>
+  <a href="concorrentes.html">Concorrentes</a>
+  <a href="status-agentes.html">Agentes</a>
+</div>
+
+<!-- SCREEN TAB BAR -->
+<div style="position:fixed;top:36px;left:0;right:0;z-index:998;background:var(--surface);border-bottom:1px solid var(--border);display:flex;height:40px">
+  <button onclick="showScreen('screen-sm')" id="tab-sm" style="flex:1;border:none;background:none;font-size:12px;font-weight:600;color:var(--brand);border-bottom:2px solid var(--brand);cursor:pointer;font-family:'Inter',sans-serif">SM — Editor Brand Book (Desktop)</button>
+  <button onclick="showScreen('screen-founder')" id="tab-founder" style="flex:1;border:none;background:none;font-size:12px;font-weight:600;color:var(--t2);border-bottom:2px solid transparent;cursor:pointer;font-family:'Inter',sans-serif">Founder — Aprovação (Mobile)</button>
+</div>
+
+<!-- ═══ SCREEN 1: SM EDITOR ═══ -->
+<div class="screen active" id="screen-sm" style="padding-top:76px">
+  <div class="shell">
+
+    <!-- SIDEBAR -->
+    <div class="sidebar">
+      <div class="sb-logo">
+        <div class="sb-logo-name">KTANA<span> AI</span></div>
+        <div class="sb-agency">Agência Rafael</div>
+      </div>
+
+      <div class="sb-group">
+        <div class="sb-group-label">Principal</div>
+        <a class="sb-item" href="dashboard.html">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+          Dashboard
+        </a>
+        <a class="sb-item active" href="founders.html">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+          Founders
+          <span class="sb-badge">18</span>
+        </a>
+        <a class="sb-item" href="pipeline-kanban.html">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="4" height="18" rx="1"/><rect x="10" y="3" width="4" height="12" rx="1"/><rect x="17" y="3" width="4" height="8" rx="1"/></svg>
+          Pipeline
+        </a>
+        <a class="sb-item" href="fila-aprovacao.html">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+          Aprovações
+          <span class="sb-badge">7</span>
+        </a>
+      </div>
+
+      <div class="sb-group">
+        <div class="sb-group-label">Ferramentas</div>
+        <a class="sb-item" href="calendario.html">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+          Calendário
+        </a>
+        <a class="sb-item" href="concorrentes.html">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 20V10M12 20V4M6 20v-6"/></svg>
+          Concorrentes
+        </a>
+        <a class="sb-item" href="status-agentes.html">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M4.22 4.22l2.12 2.12M17.66 17.66l2.12 2.12M2 12h3M19 12h3M4.22 19.78l2.12-2.12M17.66 6.34l2.12-2.12"/></svg>
+          Agentes
+        </a>
+      </div>
+
+      <div class="sb-avatar">
+        <div class="sb-av-pic">C</div>
+        <div>
+          <div class="sb-av-name">Camila SM</div>
+          <div class="sb-av-role">Social Media</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- MAIN AREA -->
+    <div class="main">
+      <!-- TOPBAR -->
+      <div class="topbar">
+        <div class="tb-breadcrumb">
+          <a href="founders.html">Founders</a>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 18 6-6-6-6"/></svg>
+          <span>Marcelo Oliveira</span>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 18 6-6-6-6"/></svg>
+          <span style="color:var(--t1);font-weight:600">Brand Book</span>
+        </div>
+        <div class="tb-actions">
+          <div class="btn-icon" title="Histórico de versões">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--t2)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/><path d="M12 7v5l4 2"/></svg>
+          </div>
+          <div class="btn-icon" title="Configurações">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--t2)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M12 2a10 10 0 0 0-6.88 17.29M12 22a10 10 0 0 0 6.88-17.29"/></svg>
+          </div>
+        </div>
+      </div>
+
+      <!-- BRAND BOOK DARK HEADER -->
+      <div class="bb-header">
+        <div class="bb-hdr-row1">
+          <div class="bb-hdr-name">Marcelo Oliveira — Brand Book</div>
+          <div class="bb-version">v2</div>
+          <div class="bb-save saved" id="save-indicator">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+            Salvo
+          </div>
+        </div>
+        <div class="bb-hdr-row2">
+          <div class="bb-status-badge bbs-sm_review" id="bb-status">
+            <span class="dot"></span>
+            Aguardando revisão SM
+          </div>
+          <button class="btn-send-approval" onclick="sendForApproval()">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2 11 13"/><path d="m22 2-7 20-4-9-9-4 20-7z"/></svg>
+            Enviar p/ founder
+          </button>
+        </div>
+      </div>
+      <div class="bb-completion">
+        <div class="bb-comp-row">
+          <div class="bb-comp-label">Completude</div>
+          <div class="bb-comp-bar"><div class="bb-comp-fill" style="width:87%"></div></div>
+          <div class="bb-comp-pct">87%</div>
+          <div class="bb-comp-warn">13% ausente</div>
+        </div>
+      </div>
+
+      <!-- BRAND BOOK CONTENT -->
+      <div class="bb-content">
+
+        <!-- SECTION 1: POSICIONAMENTO -->
+        <div class="bb-section">
+          <div class="bb-sec-hdr open" onclick="toggleSection(this)">
+            <div class="bb-sec-num">1</div>
+            <div class="bb-sec-title">Posicionamento Estratégico</div>
+            <div class="bb-sec-pct ok">92% ✓</div>
+            <svg class="bb-sec-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+          </div>
+          <div class="bb-sec-body open">
+            <div class="bb-field-label">Público-alvo</div>
+            <div class="bb-grid2">
+              <div class="bb-card">
+                <div class="bb-card-title">Demográfico</div>
+                <textarea class="bb-textarea" style="min-height:56px" oninput="triggerSave()">CEOs SaaS B2B
+30-50 anos, R$5M-50M rec.</textarea>
+              </div>
+              <div class="bb-card">
+                <div class="bb-card-title">Comportamental</div>
+                <textarea class="bb-textarea" style="min-height:56px" oninput="triggerSave()">Pesquisa no Google, consome podcasts B2B</textarea>
+              </div>
+              <div class="bb-card">
+                <div class="bb-card-title">Desejos</div>
+                <textarea class="bb-textarea" style="min-height:56px" oninput="triggerSave()">Escalar sem levantar série A</textarea>
+              </div>
+              <div class="bb-card">
+                <div class="bb-card-title">Dores</div>
+                <textarea class="bb-textarea" style="min-height:56px" oninput="triggerSave()">CAC alto, MRR imprevisível</textarea>
+              </div>
+            </div>
+
+            <div class="bb-field-group">
+              <div class="bb-field-label">Tese Central <span class="req">* obrigatório</span></div>
+              <textarea id="central-thesis" class="bb-textarea" style="min-height:80px" oninput="triggerSave();checkThesis()">Você não precisa de investidor pra escalar. Métricas corretas + margem saudável = crescimento sustentável.</textarea>
+            </div>
+
+            <div class="bb-field-group">
+              <div class="bb-field-label">Arquétipo de Marca</div>
+              <div class="archetype-grid">
+                <div class="arch-card selected" onclick="selectArchetype(this,'Herói')"><div class="arch-icon">H</div><div class="arch-name">Herói</div></div>
+                <div class="arch-card" onclick="selectArchetype(this,'Sábio')"><div class="arch-icon">S</div><div class="arch-name">Sábio</div></div>
+                <div class="arch-card" onclick="selectArchetype(this,'Criador')"><div class="arch-icon">C</div><div class="arch-name">Criador</div></div>
+                <div class="arch-card" onclick="selectArchetype(this,'Explorador')"><div class="arch-icon">E</div><div class="arch-name">Explorador</div></div>
+                <div class="arch-card" onclick="selectArchetype(this,'Rebelde')"><div class="arch-icon">R</div><div class="arch-name">Rebelde</div></div>
+                <div class="arch-card" onclick="selectArchetype(this,'Mago')"><div class="arch-icon">M</div><div class="arch-name">Mago</div></div>
+                <div class="arch-card" onclick="selectArchetype(this,'Prestativo')"><div class="arch-icon">P</div><div class="arch-name">Prestativo</div></div>
+                <div class="arch-card" onclick="selectArchetype(this,'Inocente')"><div class="arch-icon">I</div><div class="arch-name">Inocente</div></div>
+                <div class="arch-card" onclick="selectArchetype(this,'Bobo')"><div class="arch-icon">B</div><div class="arch-name">Bobo</div></div>
+                <div class="arch-card" onclick="selectArchetype(this,'Amante')"><div class="arch-icon">A</div><div class="arch-name">Amante</div></div>
+                <div class="arch-card" onclick="selectArchetype(this,'Governante')"><div class="arch-icon">G</div><div class="arch-name">Governante</div></div>
+                <div class="arch-card" onclick="selectArchetype(this,'Cara Comum')"><div class="arch-icon">CC</div><div class="arch-name">Cara Comum</div></div>
+              </div>
+            </div>
+
+            <div class="bb-field-group">
+              <div class="bb-field-label">Bússola de Posicionamento</div>
+              <div class="compass-wrap">
+                Para <input class="bb-input" value="CEOs SaaS B2B" style="width:130px" oninput="triggerSave()"> que querem <input class="bb-input" value="escalar sem levantar série A" style="width:180px" oninput="triggerSave()">,<br>
+                <input class="bb-input" value="Marcelo" style="width:80px" oninput="triggerSave()"> é <input class="bb-input" value="consultor de unit metrics" style="width:170px" oninput="triggerSave()"> que <input class="bb-input" value="transforma dados em decisões de escala" style="width:210px" oninput="triggerSave()">.<br>
+                Diferente de <input class="bb-input" value="aceleradoras" style="width:110px" oninput="triggerSave()">, entrega <input class="bb-input" value="resultado em 90 dias sem equity" style="width:200px" oninput="triggerSave()">.
+              </div>
+            </div>
+
+            <div class="bb-field-group">
+              <div class="bb-field-label">Tipo de Posicionamento</div>
+              <div class="radio-group">
+                <div class="radio-opt selected" onclick="selectRadio(this)">
+                  <div class="radio-circle"><div class="radio-dot"></div></div>
+                  <div class="radio-label">Founder — fala como pessoa, humaniza a marca</div>
+                </div>
+                <div class="radio-opt" onclick="selectRadio(this)">
+                  <div class="radio-circle"><div class="radio-dot"></div></div>
+                  <div class="radio-label">Especialista — fala como autoridade técnica</div>
+                </div>
+                <div class="radio-opt" onclick="selectRadio(this)">
+                  <div class="radio-circle"><div class="radio-dot"></div></div>
+                  <div class="radio-label">Empresa — fala como marca institucional</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- SECTION 2: TOM DE VOZ -->
+        <div class="bb-section">
+          <div class="bb-sec-hdr" onclick="toggleSection(this)">
+            <div class="bb-sec-num">2</div>
+            <div class="bb-sec-title">Tom de Voz</div>
+            <div class="bb-sec-pct warn">75% ⚠</div>
+            <svg class="bb-sec-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+          </div>
+          <div class="bb-sec-body">
+            <div class="bb-field-label">Adjetivos de Tom <span style="color:var(--bb-t3);font-weight:400;text-transform:none;letter-spacing:0">(máx 5)</span></div>
+            <div class="chips-wrap" id="adjectives-chips">
+              <div class="chip selected" onclick="toggleChip(this)">Direto <span>×</span></div>
+              <div class="chip selected" onclick="toggleChip(this)">Provocador <span>×</span></div>
+              <div class="chip selected" onclick="toggleChip(this)">Data-driven <span>×</span></div>
+              <div class="chip" onclick="toggleChip(this)">Educativo</div>
+              <div class="chip" onclick="toggleChip(this)">Empático</div>
+              <div class="chip" onclick="toggleChip(this)">Urgente</div>
+              <div class="chip" onclick="toggleChip(this)">Técnico</div>
+              <div class="chip" onclick="toggleChip(this)">Inspiracional</div>
+              <div class="chip" onclick="toggleChip(this)">Irreverente</div>
+              <div class="chip" onclick="toggleChip(this)">Formal</div>
+              <div class="chip" onclick="toggleChip(this)">Íntimo</div>
+              <div class="chip" onclick="toggleChip(this)">Descontraído</div>
+            </div>
+            <div class="chip-counter" id="adj-counter">3/5 adjetivos selecionados</div>
+
+            <div class="bb-field-group">
+              <div class="bb-field-label">O que NUNCA fazer</div>
+              <textarea class="bb-textarea" oninput="triggerSave()" style="min-height:72px">Nunca usar jargão de startup. Nunca prometer resultado vago. Nunca tom institucional.</textarea>
+            </div>
+
+            <div class="bb-field-group">
+              <div class="bb-field-label">Referências Humanas (soa como...)</div>
+              <div class="tags-wrap" id="refs-tags">
+                <div class="tag">Alex Hormozi <span class="tag-rm" onclick="this.parentNode.remove()">×</span></div>
+                <div class="tag">Gary Vaynerchuk <span class="tag-rm" onclick="this.parentNode.remove()">×</span></div>
+              </div>
+              <input type="text" placeholder="+ Adicionar referência (Enter)" onkeydown="addTag(event,'refs-tags')" style="background:var(--bb-s2);border:1px solid var(--bb-s2);border-radius:var(--r8);padding:6px 10px;font-size:12px;color:var(--bb-t1);font-family:'Inter',sans-serif;outline:none;width:220px">
+            </div>
+
+            <div class="bb-field-group">
+              <div class="bb-field-label">Exemplos de Copy Aprovados</div>
+              <div class="bb-card" style="margin-bottom:8px">
+                <div style="font-size:13px;color:var(--bb-t2);font-style:italic">"Você não precisa de série A. Precisa de unit economics saudáveis."</div>
+              </div>
+              <button onclick="showToast('Campo de adição aberto')" style="background:transparent;border:1px dashed var(--bb-s2);border-radius:var(--r8);padding:8px 14px;font-size:12px;color:var(--bb-t3);cursor:pointer;font-family:'Inter',sans-serif">+ Adicionar exemplo aprovado</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- SECTION 3: IDENTIDADE VISUAL -->
+        <div class="bb-section">
+          <div class="bb-sec-hdr" onclick="toggleSection(this)">
+            <div class="bb-sec-num">3</div>
+            <div class="bb-sec-title">Identidade Visual</div>
+            <div class="bb-sec-pct ok">100% ✓</div>
+            <svg class="bb-sec-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+          </div>
+          <div class="bb-sec-body">
+            <div class="bb-field-label">Paleta de Cores</div>
+            <div style="display:flex;gap:10px;margin-bottom:20px;flex-wrap:wrap">
+              <div style="text-align:center">
+                <div style="width:48px;height:48px;border-radius:10px;background:#1D1D1F;border:1px solid var(--bb-s2);margin:0 auto 6px;cursor:pointer"></div>
+                <div style="font-size:10px;color:var(--bb-t3)">Primária</div>
+                <div style="font-size:10px;font-family:'JetBrains Mono',monospace;color:var(--bb-t2)">#1D1D1F</div>
+              </div>
+              <div style="text-align:center">
+                <div style="width:48px;height:48px;border-radius:10px;background:#D70030;border:1px solid var(--bb-s2);margin:0 auto 6px;cursor:pointer"></div>
+                <div style="font-size:10px;color:var(--bb-t3)">Acento</div>
+                <div style="font-size:10px;font-family:'JetBrains Mono',monospace;color:var(--bb-t2)">#D70030</div>
+              </div>
+              <div style="text-align:center">
+                <div style="width:48px;height:48px;border-radius:10px;background:#F5F5F7;border:1px solid var(--bb-s2);margin:0 auto 6px;cursor:pointer"></div>
+                <div style="font-size:10px;color:var(--bb-t3)">Fundo claro</div>
+                <div style="font-size:10px;font-family:'JetBrains Mono',monospace;color:var(--bb-t2)">#F5F5F7</div>
+              </div>
+              <div style="text-align:center">
+                <div style="width:48px;height:48px;border-radius:10px;background:#0A0A0A;border:1px solid var(--bb-s2);margin:0 auto 6px;cursor:pointer"></div>
+                <div style="font-size:10px;color:var(--bb-t3)">Fundo escuro</div>
+                <div style="font-size:10px;font-family:'JetBrains Mono',monospace;color:var(--bb-t2)">#0A0A0A</div>
+              </div>
+            </div>
+
+            <div class="bb-grid2" style="margin-bottom:20px">
+              <div>
+                <div class="bb-field-label">Estilo fotográfico</div>
+                <select style="width:100%;background:var(--bb-s2);border:1px solid var(--bb-s2);border-radius:var(--r8);padding:8px 10px;font-size:13px;color:var(--bb-t1);font-family:'Inter',sans-serif;outline:none" onchange="triggerSave()">
+                  <option selected>Corporate Premium</option>
+                  <option>Tech CEO</option>
+                  <option>Editorial</option>
+                  <option>Speaker</option>
+                </select>
+              </div>
+              <div>
+                <div class="bb-field-label">Estilo de carrossel</div>
+                <select style="width:100%;background:var(--bb-s2);border:1px solid var(--bb-s2);border-radius:var(--r8);padding:8px 10px;font-size:13px;color:var(--bb-t1);font-family:'Inter',sans-serif;outline:none" onchange="triggerSave()">
+                  <option selected>Minimalista</option>
+                  <option>Tipográfico</option>
+                  <option>Colorido</option>
+                  <option>Imagens reais</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- SECTION 4: LINHA EDITORIAL -->
+        <div class="bb-section">
+          <div class="bb-sec-hdr" onclick="toggleSection(this)">
+            <div class="bb-sec-num">4</div>
+            <div class="bb-sec-title">Linha Editorial</div>
+            <div class="bb-sec-pct ok">80% ✓</div>
+            <svg class="bb-sec-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+          </div>
+          <div class="bb-sec-body">
+            <div class="bb-field-label">Mix de Conteúdo</div>
+            <div class="slider-row">
+              <div class="slider-lbl">Provocativo</div>
+              <div class="slider-track"><input type="range" min="0" max="100" value="40" oninput="updateSlider(this,'v-provocativo')"></div>
+              <div class="slider-val" id="v-provocativo">40%</div>
+            </div>
+            <div class="slider-row">
+              <div class="slider-lbl">Educacional</div>
+              <div class="slider-track"><input type="range" min="0" max="100" value="30" oninput="updateSlider(this,'v-educacional')"></div>
+              <div class="slider-val" id="v-educacional">30%</div>
+            </div>
+            <div class="slider-row">
+              <div class="slider-lbl">Bastidores</div>
+              <div class="slider-track"><input type="range" min="0" max="100" value="15" oninput="updateSlider(this,'v-bastidores')"></div>
+              <div class="slider-val" id="v-bastidores">15%</div>
+            </div>
+            <div class="slider-row">
+              <div class="slider-lbl">Opinião</div>
+              <div class="slider-track"><input type="range" min="0" max="100" value="10" oninput="updateSlider(this,'v-opiniao')"></div>
+              <div class="slider-val" id="v-opiniao">10%</div>
+            </div>
+            <div class="slider-row">
+              <div class="slider-lbl">Case</div>
+              <div class="slider-track"><input type="range" min="0" max="100" value="5" oninput="updateSlider(this,'v-case')"></div>
+              <div class="slider-val" id="v-case">5%</div>
+            </div>
+            <div class="slider-sum ok" id="slider-sum">Soma: 100% ✓</div>
+
+            <div class="bb-field-group" style="margin-top:16px">
+              <div class="bb-field-label">Pilares de Conteúdo <span style="color:var(--bb-t3);font-weight:400;text-transform:none;letter-spacing:0">(máx 5)</span></div>
+              <div class="tags-wrap" id="pillars-tags">
+                <div class="tag">Unit Economics <span class="tag-rm" onclick="this.parentNode.remove()">×</span></div>
+                <div class="tag">Escala eficiente <span class="tag-rm" onclick="this.parentNode.remove()">×</span></div>
+                <div class="tag">Gestão de produto <span class="tag-rm" onclick="this.parentNode.remove()">×</span></div>
+              </div>
+              <input type="text" placeholder="+ Adicionar pilar (Enter)" onkeydown="addTag(event,'pillars-tags')" style="background:var(--bb-s2);border:1px solid var(--bb-s2);border-radius:var(--r8);padding:6px 10px;font-size:12px;color:var(--bb-t1);font-family:'Inter',sans-serif;outline:none;width:220px">
+            </div>
+          </div>
+        </div>
+
+        <!-- SECTION 5: CONTEXTO DO NEGÓCIO -->
+        <div class="bb-section">
+          <div class="bb-sec-hdr" onclick="toggleSection(this)">
+            <div class="bb-sec-num">5</div>
+            <div class="bb-sec-title">Contexto do Negócio</div>
+            <div class="bb-sec-pct ok">88% ✓</div>
+            <svg class="bb-sec-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+          </div>
+          <div class="bb-sec-body">
+            <div class="bb-field-group">
+              <div class="bb-field-label">Descrição do Produto/Serviço</div>
+              <textarea class="bb-textarea" oninput="triggerSave()" style="min-height:80px">Consultoria de unit economics para CEOs de SaaS B2B. Metodologia em 90 dias para transformar métricas em decisões de escala sem buscar investimento.</textarea>
+            </div>
+
+            <div class="bb-field-group">
+              <div class="bb-field-label">Diferenciais Únicos</div>
+              <div style="display:flex;flex-direction:column;gap:8px">
+                <div style="display:flex;align-items:center;gap:10px">
+                  <span style="width:20px;height:20px;border-radius:50%;background:var(--bb-s2);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:var(--bb-t3);flex-shrink:0">1</span>
+                  <input class="bb-input" value="Foco em eficiência, não em fundraising" oninput="triggerSave()" style="flex:1">
+                </div>
+                <div style="display:flex;align-items:center;gap:10px">
+                  <span style="width:20px;height:20px;border-radius:50%;background:var(--bb-s2);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:var(--bb-t3);flex-shrink:0">2</span>
+                  <input class="bb-input" value="Metodologia proprietária de unit economics" oninput="triggerSave()" style="flex:1">
+                </div>
+                <div style="display:flex;align-items:center;gap:10px">
+                  <span style="width:20px;height:20px;border-radius:50%;background:var(--bb-s2);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:var(--bb-t3);flex-shrink:0">3</span>
+                  <input class="bb-input" value="Resultado garantido em 90 dias ou reembolso" oninput="triggerSave()" style="flex:1">
+                </div>
+              </div>
+            </div>
+
+            <div class="bb-field-group">
+              <div class="bb-field-label">CTAs por Objetivo</div>
+              <div style="display:flex;flex-direction:column;gap:10px">
+                <div>
+                  <div style="font-size:11px;color:var(--bb-t3);margin-bottom:4px">Para gerar leads:</div>
+                  <input class="bb-input" value="Baixe o calculador de unit economics gratuito →" oninput="triggerSave()">
+                </div>
+                <div>
+                  <div style="font-size:11px;color:var(--bb-t3);margin-bottom:4px">Para vender:</div>
+                  <input class="bb-input" value="Agende uma sessão estratégica de 30 min →" oninput="triggerSave()">
+                </div>
+                <div>
+                  <div style="font-size:11px;color:var(--bb-t3);margin-bottom:4px">Para reforçar autoridade:</div>
+                  <input class="bb-input" value="Leia o case completo — R$2M em eficiência →" oninput="triggerSave()">
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div><!-- bb-content -->
+
+      <!-- FOOTER -->
+      <div class="bb-footer">
+        <button class="btn-history" onclick="showToast('Histórico de versões (v1, v2)')">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/><path d="M12 7v5l4 2"/></svg>
+          Histórico de versões
+        </button>
+        <button class="btn-gen-ai" onclick="showToast('Gerando nova versão com Claude Opus...')">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M4.22 4.22l2.12 2.12M17.66 17.66l2.12 2.12"/></svg>
+          Gerar nova versão IA
+        </button>
+      </div>
+    </div><!-- main -->
+  </div><!-- shell -->
+</div><!-- screen-sm -->
+
+<!-- ═══ SCREEN 2: FOUNDER APPROVAL ═══ -->
+<div class="screen" id="screen-founder">
+  <div class="phone-wrap">
+    <div class="phone-logo">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--brand)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="m8 6 4-4 4 4"/><path d="M12 2v10.3"/><path d="M4.93 11.93A10 10 0 1 0 19.07 11.93"/></svg>
+      <div class="phone-logo-name">KTANA<span> AI</span></div>
+      <div class="phone-version">Brand Book · Versão 2</div>
+    </div>
+
+    <div class="approval-content" id="approval-main">
+      <div class="approval-greeting">
+        <h2>Olá, Marcelo!</h2>
+        <p>Sua agência preparou seu Brand Book. Confira abaixo e diga se está correto.</p>
+      </div>
+
+      <div class="approval-card">
+        <h3>Quem você é</h3>
+        <div class="approval-item">
+          <div class="approval-item-label">Arquétipo</div>
+          <div class="approval-item-value">Herói</div>
+        </div>
+        <div class="approval-item">
+          <div class="approval-item-label">Posicionamento</div>
+          <div class="approval-item-value">Founder — fala como pessoa</div>
+        </div>
+        <div class="approval-item">
+          <div class="approval-item-label">Tese central</div>
+          <div class="approval-item-value">"Você não precisa de investidor pra escalar."</div>
+        </div>
+        <div class="approval-item">
+          <div class="approval-item-label">Tom de voz</div>
+          <div class="approval-item-value">Direto, Provocador, Data-driven</div>
+        </div>
+      </div>
+
+      <div class="approval-card">
+        <h3>Seu público</h3>
+        <div class="approval-item">
+          <div class="approval-item-label">Perfil</div>
+          <div class="approval-item-value">CEOs SaaS B2B, 30-50 anos, R$5M-50M de receita</div>
+        </div>
+        <div class="approval-item">
+          <div class="approval-item-label">Desejo</div>
+          <div class="approval-item-value">Escalar sem levantar série A</div>
+        </div>
+        <div class="approval-item">
+          <div class="approval-item-label">Dor principal</div>
+          <div class="approval-item-value">CAC alto e MRR imprevisível</div>
+        </div>
+      </div>
+
+      <div class="approval-card">
+        <h3>O que você nunca faz</h3>
+        <div class="approval-item" style="display:block">
+          <div class="approval-item-value">Jargão de startup, promessas vagas, tom institucional</div>
+        </div>
+      </div>
+
+      <div class="approval-card">
+        <h3>Seus pilares de conteúdo</h3>
+        <div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:4px">
+          <span style="background:rgba(215,0,48,.12);color:var(--brand);padding:4px 10px;border-radius:var(--rF);font-size:12px">Unit Economics</span>
+          <span style="background:rgba(215,0,48,.12);color:var(--brand);padding:4px 10px;border-radius:var(--rF);font-size:12px">Escala eficiente</span>
+          <span style="background:rgba(215,0,48,.12);color:var(--brand);padding:4px 10px;border-radius:var(--rF);font-size:12px">Gestão de produto</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="approval-done" id="approval-done">
+      <div class="approval-done-icon">
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#22C55E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+      </div>
+      <h2>Brand Book aprovado!</h2>
+      <p>Sua produção de conteúdo começa em breve. A agência foi notificada.</p>
+    </div>
+
+    <div class="suggest-area" id="suggest-area">
+      <textarea class="suggest-textarea" id="suggest-text" placeholder="Descreva suas sugestões ou correções..."></textarea>
+      <button class="btn-send-suggest" onclick="sendSuggestions()">Enviar sugestões</button>
+    </div>
+
+    <div class="approval-actions" id="approval-actions">
+      <button class="btn-approve" onclick="approveBook()">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+        Está perfeito! Aprovar
+      </button>
+      <button class="btn-suggest" id="suggest-btn" onclick="toggleSuggest()">Tenho sugestões →</button>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<script>
+/* ── SCREEN SWITCH ── */
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  document.getElementById('tab-sm').style.color = id === 'screen-sm' ? 'var(--brand)' : 'var(--t2)';
+  document.getElementById('tab-sm').style.borderBottomColor = id === 'screen-sm' ? 'var(--brand)' : 'transparent';
+  document.getElementById('tab-founder').style.color = id === 'screen-founder' ? 'var(--brand)' : 'var(--t2)';
+  document.getElementById('tab-founder').style.borderBottomColor = id === 'screen-founder' ? 'var(--brand)' : 'transparent';
+}
+
+/* ── ACCORDION ── */
+function toggleSection(hdr) {
+  const body = hdr.nextElementSibling;
+  const isOpen = hdr.classList.contains('open');
+  hdr.classList.toggle('open', !isOpen);
+  body.classList.toggle('open', !isOpen);
+}
+
+/* ── ARCHETYPE SELECT ── */
+function selectArchetype(card, name) {
+  document.querySelectorAll('.arch-card').forEach(c => c.classList.remove('selected'));
+  card.classList.add('selected');
+  triggerSave();
+}
+
+/* ── RADIO ── */
+function selectRadio(opt) {
+  const group = opt.closest('.radio-group');
+  group.querySelectorAll('.radio-opt').forEach(o => o.classList.remove('selected'));
+  opt.classList.add('selected');
+  triggerSave();
+}
+
+/* ── CHIPS ── */
+let adjCount = 3;
+function toggleChip(chip) {
+  const isSelected = chip.classList.contains('selected');
+  if (!isSelected && adjCount >= 5) {
+    showToast('Limite de 5 adjetivos atingido');
+    const counter = document.getElementById('adj-counter');
+    counter.classList.add('max');
+    setTimeout(() => counter.classList.remove('max'), 2000);
+    return;
+  }
+  chip.classList.toggle('selected', !isSelected);
+  chip.innerHTML = isSelected ? chip.textContent.trim().replace(' ×','') : chip.textContent.trim() + ' <span>×</span>';
+  adjCount += isSelected ? -1 : 1;
+  const counter = document.getElementById('adj-counter');
+  counter.textContent = adjCount + '/5 adjetivos selecionados';
+  counter.classList.toggle('max', adjCount >= 5);
+  triggerSave();
+}
+
+/* ── TAGS ── */
+function addTag(e, wrapperId) {
+  if (e.key !== 'Enter') return;
+  const val = e.target.value.trim();
+  if (!val) return;
+  const wrap = document.getElementById(wrapperId);
+  const tag = document.createElement('div');
+  tag.className = 'tag';
+  tag.innerHTML = val + ' <span class="tag-rm" onclick="this.parentNode.remove()">×</span>';
+  wrap.appendChild(tag);
+  e.target.value = '';
+  triggerSave();
+}
+
+/* ── SLIDERS ── */
+function updateSlider(input, valId) {
+  document.getElementById(valId).textContent = input.value + '%';
+  const vals = document.querySelectorAll('.slider-track input[type=range]');
+  const sum = Array.from(vals).reduce((s, i) => s + parseInt(i.value), 0);
+  const sumEl = document.getElementById('slider-sum');
+  sumEl.textContent = 'Soma: ' + sum + '%' + (sum === 100 ? ' ✓' : ' — ajuste para 100%');
+  sumEl.className = 'slider-sum ' + (sum === 100 ? 'ok' : 'err');
+  triggerSave();
+}
+
+/* ── AUTOSAVE ── */
+let saveTimer;
+function triggerSave() {
+  const ind = document.getElementById('save-indicator');
+  ind.className = 'bb-save saving';
+  ind.innerHTML = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg> Salvando...';
+  clearTimeout(saveTimer);
+  saveTimer = setTimeout(() => {
+    ind.className = 'bb-save saved';
+    ind.innerHTML = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg> Salvo';
+  }, 1000);
+}
+
+/* ── THESIS CHECK ── */
+function checkThesis() {
+  const ta = document.getElementById('central-thesis');
+  ta.classList.toggle('required-empty', !ta.value.trim());
+}
+
+/* ── SEND FOR APPROVAL ── */
+function sendForApproval() {
+  const badge = document.getElementById('bb-status');
+  badge.className = 'bb-status-badge bbs-founder_approval';
+  badge.innerHTML = '<span class="dot"></span> Aguardando founder';
+  showToast('Brand Book enviado para Marcelo via WhatsApp');
+}
+
+/* ── FOUNDER APPROVAL ── */
+function approveBook() {
+  document.getElementById('approval-main').style.display = 'none';
+  document.getElementById('approval-actions').style.display = 'none';
+  document.getElementById('suggest-area').style.display = 'none';
+  document.getElementById('approval-done').style.display = 'flex';
+}
+
+function toggleSuggest() {
+  const area = document.getElementById('suggest-area');
+  const btn = document.getElementById('suggest-btn');
+  const showing = area.classList.contains('show');
+  area.classList.toggle('show', !showing);
+  btn.textContent = showing ? 'Tenho sugestões →' : 'Cancelar';
+}
+
+function sendSuggestions() {
+  const text = document.getElementById('suggest-text').value.trim();
+  if (text.length < 5) { showToast('Descreva sua sugestão'); return; }
+  showToast('Sugestões enviadas para a agência');
+  document.getElementById('suggest-area').classList.remove('show');
+  document.getElementById('suggest-btn').textContent = 'Tenho sugestões →';
+}
+
+/* ── TOAST ── */
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2500);
+}
+</script>
+</body>
+</html>

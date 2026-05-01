@@ -1,0 +1,1305 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Agentes do Sistema — KTANA</title>
+<link href="https://fonts.googleapis.com/css2?family=Zen+Dots&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:#F5F5F7; --surface:#FFFFFF; --surface2:#F9F9FB; --border:#E5E5EA;
+  --t1:#1D1D1F; --t2:#3C3C43; --t3:#6B6B70; --t4:#AEAEB2;
+  --brand:#D70030; --brand-dark:#9B0A2A; --brand-alpha:rgba(215,0,48,.08);
+  --green:#22C55E; --green-bg:rgba(34,197,94,.1);
+  --amber:#F59E0B; --amber-bg:rgba(245,158,11,.1);
+  --red:#EF4444; --red-bg:rgba(239,68,68,.1);
+  --blue:#3B82F6; --blue-bg:rgba(59,130,246,.1);
+  --purple:#8B5CF6; --purple-bg:rgba(139,92,246,.1);
+  --teal:#0EA5E9; --teal-bg:rgba(14,165,233,.1);
+  --r4:4px; --r8:8px; --r12:12px; --r16:16px;
+  --sidebar:240px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--t1);min-height:100vh;display:flex;flex-direction:column}
+
+/* DEMO NAV */
+.demo-nav{background:#1D1D1F;padding:0 16px;height:36px;display:flex;align-items:center;gap:8px;flex-shrink:0;position:sticky;top:0;z-index:9999}
+.demo-nav span{color:#6B6B70;font-size:11px;font-family:'Inter',sans-serif}
+.demo-nav a{color:#AEAEB2;font-size:11px;text-decoration:none;padding:3px 8px;border-radius:4px;border:1px solid #3A3A3C;white-space:nowrap}
+.demo-nav a:hover{background:#2C2C2E;color:#fff}
+.demo-nav a.current{background:var(--brand);color:#fff;border-color:var(--brand)}
+
+/* APP SHELL */
+.app{display:flex;flex:1;overflow:hidden;height:calc(100vh - 36px)}
+
+/* SIDEBAR */
+.sidebar{width:var(--sidebar);background:var(--surface);border-right:1px solid var(--border);display:flex;flex-direction:column;flex-shrink:0;overflow-y:auto}
+.sb-logo{padding:20px 16px 16px;border-bottom:1px solid var(--border)}
+.sb-logo-mark{font-family:'Zen Dots',sans-serif;font-size:18px;color:var(--brand);letter-spacing:-.5px}
+.sb-logo-sub{font-size:10px;color:var(--t3);margin-top:2px;letter-spacing:.5px;text-transform:uppercase}
+.sb-section{padding:12px 8px 4px}
+.sb-label{font-size:10px;font-weight:600;color:var(--t4);letter-spacing:.8px;text-transform:uppercase;padding:0 8px;margin-bottom:4px}
+.sb-item{display:flex;align-items:center;gap:10px;padding:8px 10px;border-radius:var(--r8);cursor:pointer;color:var(--t2);font-size:13px;font-weight:500;transition:background .15s}
+.sb-item:hover{background:var(--bg)}
+.sb-item.active{background:var(--brand-alpha);color:var(--brand)}
+.sb-item svg{flex-shrink:0;opacity:.7}
+.sb-item.active svg{opacity:1}
+.sb-badge{margin-left:auto;background:var(--brand);color:#fff;font-size:10px;font-weight:700;padding:2px 6px;border-radius:10px}
+.sb-badge.amber{background:var(--amber)}
+
+/* MAIN */
+.main{flex:1;display:flex;flex-direction:column;overflow:hidden}
+.topbar{height:56px;background:var(--surface);border-bottom:1px solid var(--border);display:flex;align-items:center;padding:0 24px;gap:12px;flex-shrink:0}
+.topbar-title{font-family:'Zen Dots',sans-serif;font-size:14px;color:var(--t1)}
+.topbar-sep{color:var(--border);font-size:18px}
+.topbar-sub{font-size:13px;color:var(--t3)}
+.topbar-right{margin-left:auto;display:flex;align-items:center;gap:8px}
+.content{flex:1;overflow-y:auto;padding:24px}
+
+/* VIEWS */
+.view{display:none;flex-direction:column;gap:20px}
+.view.active{display:flex}
+
+/* ALERT BANNER */
+.alert-banner{background:rgba(239,68,68,.06);border:1px solid rgba(239,68,68,.3);border-radius:var(--r12);padding:12px 16px;display:flex;align-items:center;gap:12px}
+.alert-dot{width:8px;height:8px;border-radius:50%;background:var(--red);flex-shrink:0;animation:pulse-red 2s infinite}
+@keyframes pulse-red{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.6;transform:scale(1.3)}}
+.alert-text{font-size:13px;color:var(--t1);font-weight:500}
+.alert-text span{color:var(--red)}
+.alert-link{margin-left:auto;font-size:12px;color:var(--red);cursor:pointer;font-weight:600;white-space:nowrap;text-decoration:underline}
+
+/* STATS CARDS */
+.stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.stat-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r12);padding:16px}
+.stat-card-label{font-size:11px;color:var(--t3);font-weight:500;text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px}
+.stat-card-value{font-family:'Zen Dots',sans-serif;font-size:24px;color:var(--t1)}
+.stat-card-value.green{color:var(--green)}
+.stat-card-value.amber{color:var(--amber)}
+.stat-card-value.red{color:var(--red)}
+.stat-card-sub{font-size:11px;color:var(--t3);margin-top:4px}
+
+/* TOOLBAR */
+.toolbar{background:var(--surface);border:1px solid var(--border);border-radius:var(--r12);padding:12px 16px;display:flex;align-items:center;gap:12px}
+.search-wrap{display:flex;align-items:center;gap:8px;background:var(--bg);border:1px solid var(--border);border-radius:var(--r8);padding:8px 12px;flex:1;max-width:280px}
+.search-wrap input{border:none;background:transparent;font-size:13px;color:var(--t1);outline:none;width:100%}
+.search-wrap input::placeholder{color:var(--t4)}
+.filter-select{background:var(--bg);border:1px solid var(--border);border-radius:var(--r8);padding:8px 12px;font-size:13px;color:var(--t2);cursor:pointer;outline:none}
+.toolbar-right{margin-left:auto;display:flex;align-items:center;gap:8px}
+.ts-text{font-size:12px;color:var(--t4);font-family:'JetBrains Mono',monospace}
+
+/* BUTTONS */
+.btn{display:inline-flex;align-items:center;gap:6px;padding:8px 14px;border-radius:var(--r8);font-size:13px;font-weight:600;cursor:pointer;border:none;transition:all .15s;white-space:nowrap}
+.btn-brand{background:var(--brand);color:#fff}
+.btn-brand:hover{background:var(--brand-dark)}
+.btn-ghost{background:transparent;color:var(--t2);border:1px solid var(--border)}
+.btn-ghost:hover{background:var(--bg)}
+.btn-ghost-red{background:transparent;color:var(--red);border:1px solid rgba(239,68,68,.3)}
+.btn-ghost-red:hover{background:var(--red-bg)}
+.btn-sm{padding:5px 10px;font-size:12px}
+.btn-icon{padding:7px;border-radius:var(--r8);background:transparent;border:1px solid var(--border);cursor:pointer;display:inline-flex;align-items:center;justify-content:center;color:var(--t3)}
+.btn-icon:hover{background:var(--bg)}
+
+/* AGENT TABLE */
+.agents-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r12);overflow:hidden}
+.agents-table{width:100%;border-collapse:collapse}
+.agents-table th{text-align:left;font-size:11px;font-weight:600;color:var(--t3);text-transform:uppercase;letter-spacing:.5px;padding:10px 16px;background:var(--surface2);border-bottom:1px solid var(--border)}
+.agents-table td{padding:14px 16px;border-bottom:1px solid var(--border);vertical-align:middle}
+.agents-table tr:last-child td{border-bottom:none}
+.agents-table tr.row-error{background:rgba(239,68,68,.04)}
+.agents-table tr.row-running{background:rgba(245,158,11,.03)}
+.agents-table tr:hover:not(.row-error):not(.row-running){background:var(--surface2)}
+
+/* AGENT IDENTITY */
+.agent-id{display:flex;align-items:center;gap:10px}
+.agent-avatar{width:36px;height:36px;border-radius:var(--r8);background:var(--brand-alpha);display:flex;align-items:center;justify-content:center;flex-shrink:0;color:var(--brand)}
+.agent-avatar.av-foundation{background:var(--blue-bg);color:var(--blue)}
+.agent-avatar.av-strategy{background:var(--purple-bg);color:var(--purple)}
+.agent-avatar.av-production{background:rgba(249,115,22,.1);color:#F97316}
+.agent-avatar.av-distribution{background:var(--teal-bg);color:var(--teal)}
+.agent-avatar.av-monitoring{background:rgba(107,107,112,.1);color:var(--t3)}
+.agent-avatar.av-error{background:var(--red-bg);color:var(--red)}
+.agent-name{font-size:14px;font-weight:600;color:var(--t1);cursor:pointer}
+.agent-name:hover{color:var(--brand);text-decoration:underline}
+.agent-role{font-size:11px;color:var(--t3);margin-top:2px}
+
+/* LAYER BADGE */
+.layer-badge{display:inline-flex;align-items:center;font-size:11px;font-weight:600;padding:3px 8px;border-radius:10px}
+.layer-foundation{background:var(--blue-bg);color:#1D5DB8}
+.layer-strategy{background:var(--purple-bg);color:#5B21B6}
+.layer-production{background:rgba(249,115,22,.1);color:#C2410C}
+.layer-distribution{background:var(--teal-bg);color:#0369A1}
+.layer-monitoring{background:rgba(107,107,112,.1);color:#4B5563}
+
+/* STATUS BADGE */
+.status-badge{display:inline-flex;align-items:center;gap:5px;font-size:12px;font-weight:600;padding:4px 10px;border-radius:10px}
+.status-badge::before{content:'';width:6px;height:6px;border-radius:50%;flex-shrink:0}
+.s-online{background:var(--green-bg);color:#166534}
+.s-online::before{background:var(--green)}
+.s-running{background:var(--amber-bg);color:#92400E}
+.s-running::before{background:var(--amber);animation:pulse-amber 1.5s infinite}
+@keyframes pulse-amber{0%,100%{opacity:1}50%{opacity:.4}}
+.s-error{background:var(--red-bg);color:#991B1B}
+.s-error::before{background:var(--red);animation:pulse-red 1.5s infinite}
+.s-offline{background:rgba(107,107,112,.1);color:#4B5563}
+.s-offline::before{background:var(--t4)}
+
+/* MODEL BADGE */
+.model-badge{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--t3);background:var(--bg);border:1px solid var(--border);padding:2px 7px;border-radius:4px}
+
+/* JOBS / COST */
+.jobs-count{font-family:'JetBrains Mono',monospace;font-size:13px;color:var(--t2);font-weight:500}
+.jobs-count.has-jobs{color:var(--amber);font-weight:700}
+.last-run{font-size:12px;color:var(--t3);font-family:'JetBrains Mono',monospace}
+.cost-val{font-family:'JetBrains Mono',monospace;font-size:13px;color:var(--t2);font-weight:500}
+
+/* ACTIONS */
+.actions-cell{display:flex;align-items:center;gap:6px}
+
+/* DETAIL VIEW */
+.detail-header{background:var(--surface);border:1px solid var(--border);border-radius:var(--r12);padding:24px}
+.detail-back{display:inline-flex;align-items:center;gap:6px;font-size:13px;color:var(--t3);cursor:pointer;margin-bottom:16px;padding:0}
+.detail-back:hover{color:var(--brand)}
+.detail-agent-row{display:flex;align-items:center;gap:16px}
+.detail-avatar{width:56px;height:56px;border-radius:var(--r12);background:rgba(249,115,22,.1);display:flex;align-items:center;justify-content:center;flex-shrink:0;color:#F97316}
+.detail-name{font-family:'Zen Dots',sans-serif;font-size:20px;color:var(--t1)}
+.detail-meta{display:flex;align-items:center;gap:8px;margin-top:6px;flex-wrap:wrap}
+.detail-actions{margin-left:auto;display:flex;gap:8px}
+.detail-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:20px;padding-top:20px;border-top:1px solid var(--border)}
+.ds-item{display:flex;flex-direction:column;gap:4px}
+.ds-label{font-size:11px;color:var(--t3);text-transform:uppercase;letter-spacing:.5px;font-weight:600}
+.ds-value{font-size:16px;font-weight:700;color:var(--t1)}
+.ds-value.mono{font-family:'JetBrains Mono',monospace;font-size:14px}
+
+/* TABS */
+.tabs-bar{display:flex;gap:0;border-bottom:1px solid var(--border);background:var(--surface)}
+.tab-btn{padding:12px 20px;font-size:13px;font-weight:500;color:var(--t3);cursor:pointer;border:none;background:transparent;border-bottom:2px solid transparent;margin-bottom:-1px;transition:all .15s}
+.tab-btn.active{color:var(--brand);border-bottom-color:var(--brand);font-weight:600}
+.tab-btn:hover:not(.active){color:var(--t2)}
+.tab-panel{display:none;padding:20px}
+.tab-panel.active{display:block}
+.tabs-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r12);overflow:hidden}
+
+/* LOGS TABLE */
+.logs-filter-bar{display:flex;gap:8px;margin-bottom:16px;align-items:center}
+.logs-table{width:100%;border-collapse:collapse;font-size:13px}
+.logs-table th{font-size:11px;font-weight:600;color:var(--t3);text-transform:uppercase;letter-spacing:.5px;padding:8px 12px;text-align:left;border-bottom:1px solid var(--border)}
+.logs-table td{padding:10px 12px;border-bottom:1px solid var(--border);color:var(--t2)}
+.logs-table tr:last-child td{border-bottom:none}
+.logs-table tr:hover{background:var(--bg)}
+.log-status{display:inline-flex;align-items:center;gap:4px;font-size:11px;font-weight:600;padding:2px 8px;border-radius:6px}
+.ls-completed{background:var(--green-bg);color:#166534}
+.ls-failed{background:var(--red-bg);color:#991B1B}
+.ls-started{background:var(--amber-bg);color:#92400E}
+.mono{font-family:'JetBrains Mono',monospace}
+.log-expand-btn{background:none;border:none;cursor:pointer;color:var(--t4);padding:2px}
+.log-expand-btn:hover{color:var(--t2)}
+.log-detail-row{display:none}
+.log-detail-row.open{display:table-row}
+.log-detail-inner{background:var(--bg);padding:12px;border-radius:var(--r8);font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--t2);line-height:1.6;white-space:pre-wrap;border:1px solid var(--border);max-height:160px;overflow-y:auto}
+
+/* PAGINATION */
+.pagination{display:flex;align-items:center;justify-content:space-between;padding-top:12px;margin-top:12px;border-top:1px solid var(--border)}
+.page-info{font-size:12px;color:var(--t3)}
+.page-btns{display:flex;gap:4px}
+.page-btn{padding:6px 12px;font-size:12px;border:1px solid var(--border);background:var(--surface);border-radius:6px;cursor:pointer;color:var(--t2)}
+.page-btn:hover{background:var(--bg)}
+.page-btn.active{background:var(--brand);color:#fff;border-color:var(--brand)}
+
+/* COST TAB */
+.cost-cards{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:20px}
+.cost-card{background:var(--bg);border:1px solid var(--border);border-radius:var(--r8);padding:14px}
+.cost-card-label{font-size:11px;color:var(--t3);font-weight:600;text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px}
+.cost-card-value{font-family:'Zen Dots',sans-serif;font-size:22px;color:var(--t1)}
+.cost-card-value.brand{color:var(--brand)}
+.bar-chart-wrap{margin-top:4px}
+.bar-chart-title{font-size:12px;font-weight:600;color:var(--t2);margin-bottom:12px}
+.bar-chart{display:flex;align-items:flex-end;gap:6px;height:80px}
+.bar-day{display:flex;flex-direction:column;align-items:center;gap:4px;flex:1}
+.bar-fill{width:100%;background:linear-gradient(180deg,var(--brand),var(--brand-dark));border-radius:3px 3px 0 0;min-height:3px}
+.bar-label{font-size:10px;color:var(--t4);font-family:'JetBrains Mono',monospace}
+.bar-val{font-size:9px;color:var(--t3)}
+
+/* CONFIG TAB */
+.config-section{margin-bottom:20px}
+.config-section-title{font-size:13px;font-weight:600;color:var(--t1);margin-bottom:12px;padding-bottom:8px;border-bottom:1px solid var(--border)}
+.config-field{margin-bottom:14px}
+.config-label{font-size:12px;font-weight:600;color:var(--t2);margin-bottom:6px;display:flex;align-items:center;gap:6px}
+.config-input{width:100%;padding:9px 12px;border:1px solid var(--border);border-radius:var(--r8);font-size:13px;color:var(--t1);background:var(--bg);outline:none;transition:border-color .15s}
+.config-input:focus{border-color:var(--brand);background:var(--surface)}
+.config-input[disabled]{background:var(--border);color:var(--t4);cursor:not-allowed}
+.config-range{width:100%;accent-color:var(--brand)}
+.config-range-row{display:flex;align-items:center;gap:10px}
+.config-range-val{font-family:'JetBrains Mono',monospace;font-size:13px;color:var(--t2);min-width:32px}
+.locked-badge{display:inline-flex;align-items:center;gap:4px;font-size:10px;background:rgba(107,107,112,.1);color:var(--t3);padding:2px 8px;border-radius:6px;font-weight:600}
+.config-footer{display:flex;align-items:center;justify-content:space-between;padding-top:16px;border-top:1px solid var(--border)}
+.config-history{font-size:11px;color:var(--t3)}
+.history-item{display:flex;align-items:center;gap:6px;padding:6px 0;border-bottom:1px solid var(--border);font-size:12px;color:var(--t3)}
+.history-item:last-child{border-bottom:none}
+.history-who{color:var(--t2);font-weight:500}
+
+/* ERROR MODAL */
+.overlay{position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:1000;display:none;align-items:center;justify-content:center}
+.overlay.open{display:flex}
+.modal-box{background:var(--surface);border-radius:var(--r16);padding:24px;width:580px;max-width:95vw;max-height:80vh;display:flex;flex-direction:column;gap:16px;box-shadow:0 24px 60px rgba(0,0,0,.2)}
+.modal-header{display:flex;align-items:center;justify-content:space-between}
+.modal-title{font-size:15px;font-weight:700;color:var(--t1);display:flex;align-items:center;gap:8px}
+.modal-title .err-dot{width:8px;height:8px;border-radius:50%;background:var(--red)}
+.modal-close{width:28px;height:28px;border-radius:6px;background:var(--bg);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--t3)}
+.modal-meta{font-size:12px;color:var(--t3);display:flex;gap:16px}
+.stack-trace{background:#0A0A0A;border-radius:var(--r8);padding:16px;overflow-y:auto;max-height:240px;flex-shrink:0}
+.stack-trace pre{font-family:'JetBrains Mono',monospace;font-size:11px;color:#E5E5EA;line-height:1.7;white-space:pre-wrap;word-break:break-all}
+.stack-trace pre .err-line{color:#FF6B6B}
+.stack-trace pre .at-line{color:#888}
+.modal-footer{display:flex;gap:8px;justify-content:flex-end}
+
+/* CONFIG SLIDEOVER */
+.slideover{position:fixed;top:0;right:0;bottom:0;width:420px;background:var(--surface);border-left:1px solid var(--border);z-index:900;transform:translateX(100%);transition:transform .3s cubic-bezier(.4,0,.2,1);display:flex;flex-direction:column;box-shadow:-8px 0 32px rgba(0,0,0,.12)}
+.slideover.open{transform:translateX(0)}
+.so-backdrop{position:fixed;inset:0;background:rgba(0,0,0,.2);z-index:899;display:none}
+.so-backdrop.open{display:block}
+.so-header{padding:20px 24px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
+.so-title{font-size:15px;font-weight:700;color:var(--t1)}
+.so-subtitle{font-size:12px;color:var(--t3);margin-top:2px}
+.so-body{flex:1;overflow-y:auto;padding:20px 24px}
+.so-footer{padding:16px 24px;border-top:1px solid var(--border);display:flex;gap:8px;flex-shrink:0}
+.save-confirm{display:none;align-items:center;gap:6px;font-size:12px;color:var(--green);font-weight:600}
+.save-confirm.show{display:flex}
+
+/* TOAST */
+.toast{position:fixed;bottom:24px;right:24px;background:#1D1D1F;color:#fff;padding:12px 16px;border-radius:var(--r12);font-size:13px;font-weight:500;z-index:2000;transform:translateY(80px);opacity:0;transition:all .3s cubic-bezier(.4,0,.2,1);display:flex;align-items:center;gap:8px;max-width:320px;box-shadow:0 8px 24px rgba(0,0,0,.3)}
+.toast.show{transform:translateY(0);opacity:1}
+.toast-dot{width:6px;height:6px;border-radius:50%;background:var(--green);flex-shrink:0}
+.toast-dot.brand{background:var(--brand)}
+
+/* RECOVERY STATE */
+.row-recovered td{transition:background .8s ease}
+
+/* RESPONSIVE COLUMN HIDE */
+@media(max-width:1100px){.col-cost{display:none}}
+</style>
+</head>
+<body>
+
+<!-- DEMO NAV -->
+<nav class="demo-nav">
+  <span>KTANA v2 ·</span>
+  <a href="design-system.html">Design</a>
+  <a href="auth.html">Auth</a>
+  <a href="dashboard.html">Dashboard</a>
+  <a href="fila-aprovacao.html">Fila</a>
+  <a href="onboarding-founder.html">Onboarding</a>
+  <a href="area-founder.html">Founder</a>
+  <a href="founders.html">Founders</a>
+  <a href="setup-wizard.html">Setup</a>
+  <a href="upload-fotos.html">Fotos</a>
+  <a href="pipeline-kanban.html">Pipeline</a>
+  <a href="brand-book.html">Brand Book</a>
+  <a href="calendario.html">Calendário</a>
+  <a href="concorrentes.html">Concorrentes</a>
+  <a href="status-agentes.html" class="current">Agentes</a>
+</nav>
+
+<div class="app">
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="sb-logo">
+      <div class="sb-logo-mark">KTANA</div>
+      <div class="sb-logo-sub">Agência Admin</div>
+    </div>
+    <div class="sb-section">
+      <div class="sb-label">Principal</div>
+      <div class="sb-item">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+        Dashboard
+      </div>
+      <div class="sb-item">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        Founders
+        <span class="sb-badge">8</span>
+      </div>
+      <div class="sb-item">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+        Pipeline
+      </div>
+    </div>
+    <div class="sb-section">
+      <div class="sb-label">Conteúdo</div>
+      <div class="sb-item">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+        Fila de Aprovação
+        <span class="sb-badge amber">7</span>
+      </div>
+      <div class="sb-item">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+        Calendário
+      </div>
+      <div class="sb-item">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        Concorrentes
+      </div>
+    </div>
+    <div class="sb-section">
+      <div class="sb-label">Sistema</div>
+      <div class="sb-item active">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/></svg>
+        Agentes
+        <span class="sb-badge" style="background:var(--red)">1</span>
+      </div>
+      <div class="sb-item">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+        Brand Books
+      </div>
+      <div class="sb-item">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+        Relatórios
+      </div>
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <div class="main">
+    <div class="topbar">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--brand)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/></svg>
+      <span class="topbar-title">Agentes</span>
+      <span class="topbar-sep">/</span>
+      <span class="topbar-sub" id="topbar-context">Sistema</span>
+      <div class="topbar-right">
+        <button class="btn btn-ghost btn-sm" onclick="openConfigPanel('quill')">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93A10 10 0 1 0 4.93 19.07M19.07 4.93L21 3"/></svg>
+          Configurar agente
+        </button>
+        <button class="btn btn-brand btn-sm" onclick="triggerAgent()">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+          Trigger Manual
+        </button>
+      </div>
+    </div>
+
+    <div class="content">
+
+      <!-- VIEW: LIST -->
+      <div class="view active" id="view-list">
+
+        <!-- ALERT BANNER -->
+        <div class="alert-banner">
+          <div class="alert-dot"></div>
+          <div>
+            <div class="alert-text"><span>Canvas</span> está em erro há <span>1h 12min</span> — Replicate timeout</div>
+            <div style="font-size:11px;color:var(--t3);margin-top:2px">Falha detectada às 13:43 · 2 jobs pendentes na fila</div>
+          </div>
+          <button class="alert-link" onclick="openErrorModal()">Ver erro &rarr;</button>
+        </div>
+
+        <!-- STATS -->
+        <div class="stats-row">
+          <div class="stat-card">
+            <div class="stat-card-label">Total de Agentes</div>
+            <div class="stat-card-value">10</div>
+            <div class="stat-card-sub">Sistema completo</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-card-label">Online</div>
+            <div class="stat-card-value green">8</div>
+            <div class="stat-card-sub">80% operacional</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-card-label">Em execução</div>
+            <div class="stat-card-value amber">1</div>
+            <div class="stat-card-sub">Estrategista · 1 plano</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-card-label">Em erro</div>
+            <div class="stat-card-value red">1</div>
+            <div class="stat-card-sub">Canvas · há 1h 12min</div>
+          </div>
+        </div>
+
+        <!-- TOOLBAR -->
+        <div class="toolbar">
+          <div class="search-wrap">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--t4)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            <input type="text" placeholder="Buscar agente...">
+          </div>
+          <select class="filter-select">
+            <option>Todas as camadas</option>
+            <option>Foundation</option>
+            <option>Estratégia</option>
+            <option>Produção</option>
+            <option>Distribuição</option>
+            <option>Monitoramento</option>
+          </select>
+          <select class="filter-select">
+            <option>Todos os status</option>
+            <option>Online</option>
+            <option>Rodando</option>
+            <option>Erro</option>
+            <option>Offline</option>
+          </select>
+          <div class="toolbar-right">
+            <span class="ts-text" id="ts-label">Atualizado há 0s</span>
+            <button class="btn-icon" onclick="refreshTable()" title="Atualizar">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
+            </button>
+          </div>
+        </div>
+
+        <!-- TABLE -->
+        <div class="agents-card">
+          <table class="agents-table">
+            <thead>
+              <tr>
+                <th style="width:220px">Agente</th>
+                <th style="width:110px">Camada</th>
+                <th style="width:120px">Status</th>
+                <th style="width:140px">Jobs ativos</th>
+                <th style="width:110px">Último run</th>
+                <th style="width:100px" class="col-cost">Custo/mês</th>
+                <th>Ações</th>
+              </tr>
+            </thead>
+            <tbody id="agents-tbody">
+
+              <!-- Sensei -->
+              <tr>
+                <td>
+                  <div class="agent-id">
+                    <div class="agent-avatar av-foundation">
+                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                    </div>
+                    <div>
+                      <div class="agent-name" onclick="openDetail('sensei')">Sensei</div>
+                      <div class="agent-role">Entrevistador · Onboarding</div>
+                    </div>
+                  </div>
+                </td>
+                <td><span class="layer-badge layer-foundation">Foundation</span></td>
+                <td><span class="status-badge s-online">Online</span></td>
+                <td><span class="jobs-count has-jobs">2 entrevistas</span></td>
+                <td><span class="last-run">há 5min</span></td>
+                <td class="col-cost"><span class="cost-val">$0.42</span></td>
+                <td>
+                  <div class="actions-cell">
+                    <span class="model-badge">sonnet-4.6</span>
+                    <button class="btn btn-ghost btn-sm" onclick="openConfigPanel('sensei')">Config</button>
+                  </div>
+                </td>
+              </tr>
+
+              <!-- Scout -->
+              <tr>
+                <td>
+                  <div class="agent-id">
+                    <div class="agent-avatar av-foundation">
+                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                    </div>
+                    <div>
+                      <div class="agent-name" onclick="openDetail('scout')">Scout</div>
+                      <div class="agent-role">Sentinela Analítico · Intel</div>
+                    </div>
+                  </div>
+                </td>
+                <td><span class="layer-badge layer-foundation">Foundation</span></td>
+                <td><span class="status-badge s-online">Online</span></td>
+                <td><span class="jobs-count">—</span></td>
+                <td><span class="last-run">há 2h</span></td>
+                <td class="col-cost"><span class="cost-val">$1.28</span></td>
+                <td>
+                  <div class="actions-cell">
+                    <span class="model-badge">sonnet-4.6</span>
+                    <button class="btn btn-ghost btn-sm" onclick="openConfigPanel('scout')">Config</button>
+                  </div>
+                </td>
+              </tr>
+
+              <!-- Estrategista -->
+              <tr class="row-running">
+                <td>
+                  <div class="agent-id">
+                    <div class="agent-avatar av-strategy">
+                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                    </div>
+                    <div>
+                      <div class="agent-name" onclick="openDetail('estrategista')">Estrategista</div>
+                      <div class="agent-role">Plano editorial · Meta Ads</div>
+                    </div>
+                  </div>
+                </td>
+                <td><span class="layer-badge layer-strategy">Estratégia</span></td>
+                <td><span class="status-badge s-running">Rodando</span></td>
+                <td><span class="jobs-count has-jobs">1 plano</span></td>
+                <td><span class="last-run">há 30min</span></td>
+                <td class="col-cost"><span class="cost-val" style="color:var(--amber)">$4.15</span></td>
+                <td>
+                  <div class="actions-cell">
+                    <span class="model-badge">opus-4.7</span>
+                    <button class="btn btn-ghost btn-sm" onclick="openConfigPanel('estrategista')">Config</button>
+                  </div>
+                </td>
+              </tr>
+
+              <!-- Cloner -->
+              <tr>
+                <td>
+                  <div class="agent-id">
+                    <div class="agent-avatar av-strategy">
+                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                    </div>
+                    <div>
+                      <div class="agent-name" onclick="openDetail('cloner')">Cloner</div>
+                      <div class="agent-role">Engenharia reversa · Nicho</div>
+                    </div>
+                  </div>
+                </td>
+                <td><span class="layer-badge layer-strategy">Estratégia</span></td>
+                <td><span class="status-badge s-online">Online</span></td>
+                <td><span class="jobs-count">—</span></td>
+                <td><span class="last-run">há 3h</span></td>
+                <td class="col-cost"><span class="cost-val" style="color:var(--amber)">$3.87</span></td>
+                <td>
+                  <div class="actions-cell">
+                    <span class="model-badge">opus-4.7</span>
+                    <button class="btn btn-ghost btn-sm" onclick="openConfigPanel('cloner')">Config</button>
+                  </div>
+                </td>
+              </tr>
+
+              <!-- Quill -->
+              <tr>
+                <td>
+                  <div class="agent-id">
+                    <div class="agent-avatar av-production">
+                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+                    </div>
+                    <div>
+                      <div class="agent-name" onclick="openDetail('quill')">Quill</div>
+                      <div class="agent-role">Copy Writer · Multiformat</div>
+                    </div>
+                  </div>
+                </td>
+                <td><span class="layer-badge layer-production">Produção</span></td>
+                <td><span class="status-badge s-online">Online</span></td>
+                <td><span class="jobs-count has-jobs">5 cópias</span></td>
+                <td><span class="last-run">há 8min</span></td>
+                <td class="col-cost"><span class="cost-val">$0.89</span></td>
+                <td>
+                  <div class="actions-cell">
+                    <span class="model-badge">sonnet-4.6</span>
+                    <button class="btn btn-ghost btn-sm" onclick="openConfigPanel('quill')">Config</button>
+                  </div>
+                </td>
+              </tr>
+
+              <!-- Canvas (ERROR) -->
+              <tr class="row-error" id="canvas-row">
+                <td>
+                  <div class="agent-id">
+                    <div class="agent-avatar av-error">
+                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 8v4"/><path d="M12 16h.01"/></svg>
+                    </div>
+                    <div>
+                      <div class="agent-name" onclick="openDetail('canvas')" style="color:var(--red)">Canvas</div>
+                      <div class="agent-role">Designer · Brief visual</div>
+                    </div>
+                  </div>
+                </td>
+                <td><span class="layer-badge layer-production">Produção</span></td>
+                <td><span class="status-badge s-error">Erro</span></td>
+                <td><span class="jobs-count" style="color:var(--red)">2 pendentes</span></td>
+                <td><span class="last-run" style="color:var(--red)">há 1h 12min</span></td>
+                <td class="col-cost"><span class="cost-val">$0.00</span></td>
+                <td>
+                  <div class="actions-cell">
+                    <span class="model-badge">sonnet-4.6</span>
+                    <button class="btn btn-ghost-red btn-sm" onclick="openErrorModal()">Ver erro</button>
+                  </div>
+                </td>
+              </tr>
+
+              <!-- Director -->
+              <tr>
+                <td>
+                  <div class="agent-id">
+                    <div class="agent-avatar av-production">
+                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg>
+                    </div>
+                    <div>
+                      <div class="agent-name" onclick="openDetail('director')">Director</div>
+                      <div class="agent-role">Roteirista · Avatar HeyGen</div>
+                    </div>
+                  </div>
+                </td>
+                <td><span class="layer-badge layer-production">Produção</span></td>
+                <td><span class="status-badge s-online">Online</span></td>
+                <td><span class="jobs-count has-jobs">1 vídeo</span></td>
+                <td><span class="last-run">há 22min</span></td>
+                <td class="col-cost"><span class="cost-val">$1.54</span></td>
+                <td>
+                  <div class="actions-cell">
+                    <span class="model-badge">sonnet-4.6</span>
+                    <button class="btn btn-ghost btn-sm" onclick="openConfigPanel('director')">Config</button>
+                  </div>
+                </td>
+              </tr>
+
+              <!-- Pulse -->
+              <tr>
+                <td>
+                  <div class="agent-id">
+                    <div class="agent-avatar av-distribution">
+                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.92 13a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.83 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l.91-.91a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 17z"/></svg>
+                    </div>
+                    <div>
+                      <div class="agent-name" onclick="openDetail('pulse')">Pulse</div>
+                      <div class="agent-role">SM Founder · WhatsApp</div>
+                    </div>
+                  </div>
+                </td>
+                <td><span class="layer-badge layer-distribution">Distribuição</span></td>
+                <td><span class="status-badge s-online">Online</span></td>
+                <td><span class="jobs-count has-jobs">3 chats ativos</span></td>
+                <td><span class="last-run">há 1min</span></td>
+                <td class="col-cost"><span class="cost-val">$0.12</span></td>
+                <td>
+                  <div class="actions-cell">
+                    <span class="model-badge">haiku-4.5</span>
+                    <button class="btn btn-ghost btn-sm" onclick="openConfigPanel('pulse')">Config</button>
+                  </div>
+                </td>
+              </tr>
+
+              <!-- Sentinela -->
+              <tr>
+                <td>
+                  <div class="agent-id">
+                    <div class="agent-avatar av-monitoring">
+                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                    </div>
+                    <div>
+                      <div class="agent-name" onclick="openDetail('sentinela')">Sentinela</div>
+                      <div class="agent-role">Monitor · Performance 4h</div>
+                    </div>
+                  </div>
+                </td>
+                <td><span class="layer-badge layer-monitoring">Monitoramento</span></td>
+                <td><span class="status-badge s-online">Online</span></td>
+                <td><span class="jobs-count">—</span></td>
+                <td><span class="last-run">há 47min</span></td>
+                <td class="col-cost"><span class="cost-val">$0.08</span></td>
+                <td>
+                  <div class="actions-cell">
+                    <span class="model-badge">haiku-4.5</span>
+                    <button class="btn btn-ghost btn-sm" onclick="openConfigPanel('sentinela')">Config</button>
+                  </div>
+                </td>
+              </tr>
+
+              <!-- Metrics -->
+              <tr>
+                <td>
+                  <div class="agent-id">
+                    <div class="agent-avatar av-monitoring">
+                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+                    </div>
+                    <div>
+                      <div class="agent-name" onclick="openDetail('metrics')">Metrics</div>
+                      <div class="agent-role">KPIs · Relatórios semanais</div>
+                    </div>
+                  </div>
+                </td>
+                <td><span class="layer-badge layer-monitoring">Monitoramento</span></td>
+                <td><span class="status-badge s-online">Online</span></td>
+                <td><span class="jobs-count">—</span></td>
+                <td><span class="last-run">há 2h</span></td>
+                <td class="col-cost"><span class="cost-val">$0.19</span></td>
+                <td>
+                  <div class="actions-cell">
+                    <span class="model-badge">haiku-4.5</span>
+                    <button class="btn btn-ghost btn-sm" onclick="openConfigPanel('metrics')">Config</button>
+                  </div>
+                </td>
+              </tr>
+
+            </tbody>
+          </table>
+        </div>
+
+        <!-- TOTAL COST ROW -->
+        <div style="display:flex;justify-content:flex-end;padding:0 4px">
+          <div style="font-size:12px;color:var(--t3)">Total consumido em abril/2026: <span style="font-family:'JetBrains Mono',monospace;font-weight:700;color:var(--t1)">$12.54</span></div>
+        </div>
+
+      </div><!-- /view-list -->
+
+      <!-- VIEW: DETAIL -->
+      <div class="view" id="view-detail">
+
+        <!-- DETAIL HEADER -->
+        <div class="detail-header">
+          <button class="detail-back btn" onclick="backToList()">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+            Voltar para Agentes
+          </button>
+          <div class="detail-agent-row">
+            <div class="detail-avatar" id="detail-avatar">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+            </div>
+            <div>
+              <div class="detail-name" id="detail-name">Quill</div>
+              <div class="detail-meta">
+                <span class="layer-badge layer-production" id="detail-layer">Produção</span>
+                <span class="status-badge s-online" id="detail-status">Online</span>
+                <span class="model-badge" id="detail-model">sonnet-4.6</span>
+              </div>
+            </div>
+            <div class="detail-actions">
+              <button class="btn btn-ghost btn-sm" onclick="openConfigPanel('quill')">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93A10 10 0 1 0 4.93 19.07M19.07 4.93L21 3"/></svg>
+                Configurar
+              </button>
+              <button class="btn btn-brand btn-sm" id="trigger-btn" onclick="triggerAgent()">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                Trigger Manual
+              </button>
+            </div>
+          </div>
+          <div class="detail-stats">
+            <div class="ds-item">
+              <div class="ds-label">Jobs este mês</div>
+              <div class="ds-value" id="detail-jobs">247</div>
+            </div>
+            <div class="ds-item">
+              <div class="ds-label">Custo abril</div>
+              <div class="ds-value mono" id="detail-cost">$0.89</div>
+            </div>
+            <div class="ds-item">
+              <div class="ds-label">Taxa de erro</div>
+              <div class="ds-value" id="detail-errrate">1.2%</div>
+            </div>
+            <div class="ds-item">
+              <div class="ds-label">Duração média</div>
+              <div class="ds-value mono" id="detail-avgdur">4.3s</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- TABS -->
+        <div class="tabs-card">
+          <div class="tabs-bar">
+            <button class="tab-btn active" onclick="switchDetailTab(this,'tab-logs')">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline;margin-right:4px"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+              Logs de Execução
+            </button>
+            <button class="tab-btn" onclick="switchDetailTab(this,'tab-cost')">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline;margin-right:4px"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+              Custo e Uso
+            </button>
+            <button class="tab-btn" onclick="switchDetailTab(this,'tab-config')">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline;margin-right:4px"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93A10 10 0 1 0 4.93 19.07M19.07 4.93L21 3"/></svg>
+              Configuração
+            </button>
+          </div>
+
+          <!-- TAB LOGS -->
+          <div class="tab-panel active" id="tab-logs">
+            <div class="logs-filter-bar">
+              <select class="filter-select" style="font-size:12px;padding:6px 10px">
+                <option>Todos os status</option>
+                <option>Concluído</option>
+                <option>Falhou</option>
+                <option>Iniciado</option>
+              </select>
+              <input type="date" class="filter-select" value="2026-04-01" style="font-size:12px;padding:6px 10px">
+              <input type="date" class="filter-select" value="2026-04-25" style="font-size:12px;padding:6px 10px">
+              <div style="margin-left:auto;font-size:12px;color:var(--t3)">247 execuções no período</div>
+            </div>
+            <table class="logs-table">
+              <thead>
+                <tr>
+                  <th style="width:32px"></th>
+                  <th>Data / Hora</th>
+                  <th>Tipo</th>
+                  <th>Founder</th>
+                  <th>Status</th>
+                  <th>Tokens</th>
+                  <th>Custo</th>
+                  <th>Duração</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr onclick="toggleLogRow(this)">
+                  <td><button class="log-expand-btn"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></button></td>
+                  <td class="mono" style="font-size:12px">25/04 14:52:03</td>
+                  <td style="font-size:12px">copy_generation</td>
+                  <td style="font-size:12px;color:var(--t2)">Marcelo Rezende</td>
+                  <td><span class="log-status ls-completed">Concluído</span></td>
+                  <td class="mono" style="font-size:12px">1.240</td>
+                  <td class="mono" style="font-size:12px">$0.004</td>
+                  <td class="mono" style="font-size:12px">3.8s</td>
+                </tr>
+                <tr class="log-detail-row"><td colspan="8"><div class="log-detail-inner">{"input":{"type":"reels","platform":"instagram","founder_id":"mrc-001","brief":"Lançamento do curso de finanças pessoais"},"output":{"hooks":3,"body":"texto gerado...","cta":"Acesse agora","hashtags":["#financas","#investimentos","#liberdade"]}}</div></td></tr>
+
+                <tr onclick="toggleLogRow(this)">
+                  <td><button class="log-expand-btn"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></button></td>
+                  <td class="mono" style="font-size:12px">25/04 14:48:17</td>
+                  <td style="font-size:12px">copy_generation</td>
+                  <td style="font-size:12px;color:var(--t2)">Ana Coelho</td>
+                  <td><span class="log-status ls-completed">Concluído</span></td>
+                  <td class="mono" style="font-size:12px">987</td>
+                  <td class="mono" style="font-size:12px">$0.003</td>
+                  <td class="mono" style="font-size:12px">2.9s</td>
+                </tr>
+                <tr class="log-detail-row"><td colspan="8"><div class="log-detail-inner">{"input":{"type":"carrossel","platform":"linkedin","founder_id":"ana-002"},"output":{"slides":5,"titles":["Por que 90% falha","O método correto","Resultado real"],"cta":"Conecte-se"}}</div></td></tr>
+
+                <tr onclick="toggleLogRow(this)">
+                  <td><button class="log-expand-btn"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></button></td>
+                  <td class="mono" style="font-size:12px">25/04 14:31:55</td>
+                  <td style="font-size:12px">rewrite</td>
+                  <td style="font-size:12px;color:var(--t2)">Carlos Henrique</td>
+                  <td><span class="log-status ls-failed" style="font-size:11px">Falhou</span></td>
+                  <td class="mono" style="font-size:12px">0</td>
+                  <td class="mono" style="font-size:12px">$0.000</td>
+                  <td class="mono" style="font-size:12px">—</td>
+                </tr>
+                <tr class="log-detail-row"><td colspan="8"><div class="log-detail-inner">{"error":"max_reescritas_exceeded","limit":3,"attempts":3,"message":"Número máximo de reescritas atingido para este conteúdo"}</div></td></tr>
+
+                <tr onclick="toggleLogRow(this)">
+                  <td><button class="log-expand-btn"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></button></td>
+                  <td class="mono" style="font-size:12px">25/04 13:58:44</td>
+                  <td style="font-size:12px">copy_generation</td>
+                  <td style="font-size:12px;color:var(--t2)">Patrícia Lima</td>
+                  <td><span class="log-status ls-completed">Concluído</span></td>
+                  <td class="mono" style="font-size:12px">1.502</td>
+                  <td class="mono" style="font-size:12px">$0.005</td>
+                  <td class="mono" style="font-size:12px">5.1s</td>
+                </tr>
+                <tr class="log-detail-row"><td colspan="8"><div class="log-detail-inner">{"input":{"type":"thread","platform":"twitter","founder_id":"pat-004"},"output":{"tweets":7,"theme":"crescimento orgânico","engagement_hooks":3}}</div></td></tr>
+
+                <tr onclick="toggleLogRow(this)">
+                  <td><button class="log-expand-btn"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></button></td>
+                  <td class="mono" style="font-size:12px">25/04 13:22:10</td>
+                  <td style="font-size:12px">copy_generation</td>
+                  <td style="font-size:12px;color:var(--t2)">Rodrigo Matos</td>
+                  <td><span class="log-status ls-completed">Concluído</span></td>
+                  <td class="mono" style="font-size:12px">876</td>
+                  <td class="mono" style="font-size:12px">$0.003</td>
+                  <td class="mono" style="font-size:12px">3.2s</td>
+                </tr>
+                <tr class="log-detail-row"><td colspan="8"><div class="log-detail-inner">{"input":{"type":"post","platform":"instagram"},"output":{"caption":"copy gerada...","hashtags_count":22}}</div></td></tr>
+              </tbody>
+            </table>
+            <div class="pagination">
+              <div class="page-info">Mostrando 1–20 de 247</div>
+              <div class="page-btns">
+                <button class="page-btn">← Anterior</button>
+                <button class="page-btn active">1</button>
+                <button class="page-btn">2</button>
+                <button class="page-btn">3</button>
+                <button class="page-btn">...</button>
+                <button class="page-btn">13</button>
+                <button class="page-btn">Próxima →</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- TAB COST -->
+          <div class="tab-panel" id="tab-cost">
+            <div class="cost-cards">
+              <div class="cost-card">
+                <div class="cost-card-label">Total abril</div>
+                <div class="cost-card-value brand">$0.89</div>
+              </div>
+              <div class="cost-card">
+                <div class="cost-card-label">Jobs totais</div>
+                <div class="cost-card-value">247</div>
+              </div>
+              <div class="cost-card">
+                <div class="cost-card-label">Custo médio/job</div>
+                <div class="cost-card-value">$0.0036</div>
+              </div>
+              <div class="cost-card">
+                <div class="cost-card-label">Taxa de erro</div>
+                <div class="cost-card-value">1.2%</div>
+              </div>
+            </div>
+            <div class="bar-chart-wrap">
+              <div class="bar-chart-title">Custo diário — últimos 7 dias</div>
+              <div class="bar-chart">
+                <div class="bar-day"><div class="bar-fill" style="height:32%"></div><div class="bar-label">19</div><div class="bar-val">$0.11</div></div>
+                <div class="bar-day"><div class="bar-fill" style="height:48%"></div><div class="bar-label">20</div><div class="bar-val">$0.15</div></div>
+                <div class="bar-day"><div class="bar-fill" style="height:20%"></div><div class="bar-label">21</div><div class="bar-val">$0.06</div></div>
+                <div class="bar-day"><div class="bar-fill" style="height:55%"></div><div class="bar-label">22</div><div class="bar-val">$0.18</div></div>
+                <div class="bar-day"><div class="bar-fill" style="height:42%"></div><div class="bar-label">23</div><div class="bar-val">$0.14</div></div>
+                <div class="bar-day"><div class="bar-fill" style="height:38%"></div><div class="bar-label">24</div><div class="bar-val">$0.12</div></div>
+                <div class="bar-day"><div class="bar-fill" style="height:25%"></div><div class="bar-label">25</div><div class="bar-val">$0.08</div></div>
+              </div>
+            </div>
+            <div style="margin-top:20px;padding-top:16px;border-top:1px solid var(--border)">
+              <div class="bar-chart-title" style="margin-bottom:12px">Tokens consumidos</div>
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+                <div style="background:var(--bg);border:1px solid var(--border);border-radius:var(--r8);padding:12px">
+                  <div style="font-size:11px;color:var(--t3);font-weight:600;text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px">Input tokens</div>
+                  <div style="font-family:'JetBrains Mono',monospace;font-size:16px;color:var(--t1);font-weight:700">184.320</div>
+                </div>
+                <div style="background:var(--bg);border:1px solid var(--border);border-radius:var(--r8);padding:12px">
+                  <div style="font-size:11px;color:var(--t3);font-weight:600;text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px">Output tokens</div>
+                  <div style="font-family:'JetBrains Mono',monospace;font-size:16px;color:var(--t1);font-weight:700">67.440</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- TAB CONFIG -->
+          <div class="tab-panel" id="tab-config">
+            <div class="config-section">
+              <div class="config-section-title">Configurações de execução</div>
+              <div class="config-field">
+                <div class="config-label">
+                  Modelo
+                  <span class="locked-badge">
+                    <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                    Apenas Admin
+                  </span>
+                </div>
+                <input class="config-input" value="claude-sonnet-4-6" disabled>
+              </div>
+              <div class="config-field">
+                <div class="config-label">Tom padrão</div>
+                <input class="config-input" id="cfg-tom" value="Persuasivo, direto e com storytelling emocional" placeholder="Descreva o tom de voz do agente...">
+              </div>
+              <div class="config-field">
+                <div class="config-label">Max reescritas por conteúdo</div>
+                <input class="config-input" type="number" id="cfg-max-rew" value="3" min="1" max="10" style="max-width:100px">
+              </div>
+              <div class="config-field">
+                <div class="config-label">Temperatura (criatividade)</div>
+                <div class="config-range-row">
+                  <span class="config-range-val" id="cfg-temp-val">0.7</span>
+                  <input class="config-range" type="range" id="cfg-temp" min="0" max="1" step="0.1" value="0.7" oninput="document.getElementById('cfg-temp-val').textContent=this.value">
+                  <span style="font-size:11px;color:var(--t4)">1.0</span>
+                </div>
+              </div>
+              <div class="config-field">
+                <div class="config-label">Max tokens por execução</div>
+                <input class="config-input" type="number" id="cfg-max-tok" value="2000" min="100" max="8000" style="max-width:120px">
+              </div>
+            </div>
+            <div class="config-section">
+              <div class="config-section-title">Histórico de alterações</div>
+              <div class="history-item">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="var(--t4)" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                <span class="history-who">Rafael</span>
+                <span>alterou tom para "mais direto e provocativo"</span>
+                <span style="margin-left:auto;font-family:'JetBrains Mono',monospace;font-size:11px">há 2 dias</span>
+              </div>
+              <div class="history-item">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="var(--t4)" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                <span class="history-who">Camila</span>
+                <span>ajustou temperatura de 0.5 para 0.7</span>
+                <span style="margin-left:auto;font-family:'JetBrains Mono',monospace;font-size:11px">há 5 dias</span>
+              </div>
+              <div class="history-item">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="var(--t4)" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                <span class="history-who">Sistema</span>
+                <span>config padrão aplicada no setup inicial</span>
+                <span style="margin-left:auto;font-family:'JetBrains Mono',monospace;font-size:11px">14/04</span>
+              </div>
+            </div>
+            <div class="config-footer">
+              <div class="config-history">Preview: configuração aplicada nas próximas execuções</div>
+              <button class="btn btn-brand" onclick="saveDetailConfig()">Salvar configuração</button>
+            </div>
+          </div>
+
+        </div><!-- /tabs-card -->
+      </div><!-- /view-detail -->
+
+    </div><!-- /content -->
+  </div><!-- /main -->
+</div><!-- /app -->
+
+<!-- ERROR MODAL -->
+<div class="overlay" id="error-overlay" onclick="if(event.target===this)closeErrorModal()">
+  <div class="modal-box" onclick="event.stopPropagation()">
+    <div class="modal-header">
+      <div class="modal-title">
+        <div class="err-dot"></div>
+        Canvas — Erro de execução
+      </div>
+      <button class="modal-close" onclick="closeErrorModal()">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+    <div class="modal-meta">
+      <span>Detectado: 25/04/2026 13:43:08</span>
+      <span>Em erro há: <strong style="color:var(--red)">1h 12min</strong></span>
+      <span>Jobs pendentes: <strong>2</strong></span>
+    </div>
+    <div class="stack-trace">
+      <pre><span class="err-line">ReplicateAPIError: Request timed out after 60000ms
+  job_id: img-gen-7f3a91b4
+  model: stability-ai/sdxl
+  prompt: "Foto profissional, luz natural, escritório moderno..."</span>
+<span class="at-line">    at ReplicateClient.generate (/app/services/replicate.ts:84:13)
+    at CanvasAgent.generateImage (/app/agents/canvas/index.ts:127:9)
+    at processJob (/app/workers/canvas.worker.ts:43:5)
+    at Worker.run (/app/lib/bullmq-worker.ts:22:3)</span>
+<span class="err-line">
+Retry attempts exhausted: 3/3
+Last attempt: 25/04/2026 14:02:41 — timeout 60000ms</span>
+<span class="at-line">    at RetryHandler.fail (/app/lib/retry.ts:61:9)
+    at CanvasAgent.handleError (/app/agents/canvas/index.ts:198:11)</span></pre>
+    </div>
+    <div style="background:var(--amber-bg);border:1px solid rgba(245,158,11,.3);border-radius:var(--r8);padding:10px 14px;font-size:12px;color:#92400E">
+      <strong>Causa provável:</strong> Instabilidade da API Replicate (status.replicate.com). Aguardar normalização ou reenviar os jobs com fallback para fal.ai.
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost" onclick="closeErrorModal()">Fechar</button>
+      <button class="btn btn-brand" onclick="resubmitJobs()" id="resubmit-btn">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 .49-4.49L1 10"/></svg>
+        Reenviar 2 jobs
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- CONFIG SLIDE-OVER BACKDROP -->
+<div class="so-backdrop" id="so-backdrop" onclick="closeConfigPanel()"></div>
+
+<!-- CONFIG SLIDE-OVER -->
+<div class="slideover" id="config-slideover">
+  <div class="so-header">
+    <div>
+      <div class="so-title" id="so-title">Configurar Quill</div>
+      <div class="so-subtitle" id="so-subtitle">Sonnet 4.6 · Camada de Produção</div>
+    </div>
+    <button class="modal-close" onclick="closeConfigPanel()">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </button>
+  </div>
+  <div class="so-body">
+    <div class="config-section">
+      <div class="config-section-title">Configurações gerais</div>
+      <div class="config-field">
+        <div class="config-label">
+          Modelo
+          <span class="locked-badge">
+            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+            Apenas Admin
+          </span>
+        </div>
+        <input class="config-input" id="so-model" value="claude-sonnet-4-6" disabled>
+      </div>
+      <div class="config-field">
+        <div class="config-label">Tom padrão</div>
+        <textarea class="config-input" id="so-tom" rows="2" style="resize:vertical" oninput="markDirty()">Persuasivo, direto e com storytelling emocional</textarea>
+      </div>
+      <div class="config-field">
+        <div class="config-label">Temperatura</div>
+        <div class="config-range-row">
+          <span class="config-range-val" id="so-temp-val">0.7</span>
+          <input class="config-range" type="range" id="so-temp" min="0" max="1" step="0.1" value="0.7" oninput="document.getElementById('so-temp-val').textContent=this.value;markDirty()">
+          <span style="font-size:11px;color:var(--t4)">1.0</span>
+        </div>
+      </div>
+      <div class="config-field">
+        <div class="config-label">Max reescritas</div>
+        <input class="config-input" type="number" id="so-max-rew" value="3" min="1" max="10" style="max-width:100px" oninput="markDirty()">
+      </div>
+      <div class="config-field">
+        <div class="config-label">Max tokens</div>
+        <input class="config-input" type="number" id="so-max-tok" value="2000" min="100" max="8000" style="max-width:120px" oninput="markDirty()">
+      </div>
+    </div>
+    <div style="background:var(--bg);border:1px solid var(--border);border-radius:var(--r8);padding:12px;font-size:12px;color:var(--t3)">
+      Esta configuração será aplicada nas próximas execuções deste agente para sua agência. Alterações no modelo requerem permissão de Admin.
+    </div>
+  </div>
+  <div class="so-footer">
+    <div class="save-confirm" id="save-confirm">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+      Config salva — próximas execuções usarão esta configuração
+    </div>
+    <button class="btn btn-ghost" onclick="closeConfigPanel()" style="margin-left:auto">Cancelar</button>
+    <button class="btn btn-brand" onclick="saveConfig()" id="save-btn">Salvar</button>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast">
+  <div class="toast-dot" id="toast-dot"></div>
+  <span id="toast-msg"></span>
+</div>
+
+<script>
+// TIMESTAMP UPDATE
+let tsSeconds = 0;
+setInterval(() => {
+  tsSeconds++;
+  const el = document.getElementById('ts-label');
+  if(tsSeconds < 60) el.textContent = `Atualizado há ${tsSeconds}s`;
+  else el.textContent = `Atualizado há ${Math.floor(tsSeconds/60)}min`;
+}, 1000);
+
+// REFRESH
+function refreshTable() {
+  tsSeconds = 0;
+  showToast('Dados atualizados', false);
+}
+
+// VIEW SWITCHING
+function openDetail(agentKey) {
+  const data = {
+    sensei:      {name:'Sensei',role:'Entrevistador · Onboarding',layer:'Foundation',layerCls:'layer-foundation',status:'s-online',statusLabel:'Online',model:'sonnet-4.6',jobs:89,cost:'$0.42',errrate:'0.0%',avgdur:'12.1s'},
+    scout:       {name:'Scout',role:'Sentinela Analítico',layer:'Foundation',layerCls:'layer-foundation',status:'s-online',statusLabel:'Online',model:'sonnet-4.6',jobs:12,cost:'$1.28',errrate:'0.0%',avgdur:'45.3s'},
+    estrategista:{name:'Estrategista',role:'Plano editorial · Meta Ads',layer:'Estratégia',layerCls:'layer-strategy',status:'s-running',statusLabel:'Rodando',model:'opus-4.7',jobs:7,cost:'$4.15',errrate:'0.0%',avgdur:'3m 12s'},
+    cloner:      {name:'Cloner',role:'Engenharia reversa · Nicho',layer:'Estratégia',layerCls:'layer-strategy',status:'s-online',statusLabel:'Online',model:'opus-4.7',jobs:5,cost:'$3.87',errrate:'0.0%',avgdur:'4m 08s'},
+    quill:       {name:'Quill',role:'Copy Writer · Multiformat',layer:'Produção',layerCls:'layer-production',status:'s-online',statusLabel:'Online',model:'sonnet-4.6',jobs:247,cost:'$0.89',errrate:'1.2%',avgdur:'4.3s'},
+    canvas:      {name:'Canvas',role:'Designer · Brief visual',layer:'Produção',layerCls:'layer-production',status:'s-error',statusLabel:'Erro',model:'sonnet-4.6',jobs:34,cost:'$0.00',errrate:'8.8%',avgdur:'—'},
+    director:    {name:'Director',role:'Roteirista · Avatar HeyGen',layer:'Produção',layerCls:'layer-production',status:'s-online',statusLabel:'Online',model:'sonnet-4.6',jobs:18,cost:'$1.54',errrate:'5.6%',avgdur:'2m 44s'},
+    pulse:       {name:'Pulse',role:'SM Founder · WhatsApp',layer:'Distribuição',layerCls:'layer-distribution',status:'s-online',statusLabel:'Online',model:'haiku-4.5',jobs:412,cost:'$0.12',errrate:'0.2%',avgdur:'0.8s'},
+    sentinela:   {name:'Sentinela',role:'Monitor · Performance 4h',layer:'Monitoramento',layerCls:'layer-monitoring',status:'s-online',statusLabel:'Online',model:'haiku-4.5',jobs:180,cost:'$0.08',errrate:'0.0%',avgdur:'2.1s'},
+    metrics:     {name:'Metrics',role:'KPIs · Relatórios semanais',layer:'Monitoramento',layerCls:'layer-monitoring',status:'s-online',statusLabel:'Online',model:'haiku-4.5',jobs:24,cost:'$0.19',errrate:'0.0%',avgdur:'8.4s'},
+  };
+  const d = data[agentKey] || data.quill;
+  document.getElementById('detail-name').textContent = d.name;
+  document.getElementById('detail-layer').className = 'layer-badge ' + d.layerCls;
+  document.getElementById('detail-layer').textContent = d.layer;
+  document.getElementById('detail-status').className = 'status-badge ' + d.status;
+  document.getElementById('detail-status').textContent = d.statusLabel;
+  document.getElementById('detail-model').textContent = d.model;
+  document.getElementById('detail-jobs').textContent = d.jobs;
+  document.getElementById('detail-cost').textContent = d.cost;
+  document.getElementById('detail-errrate').textContent = d.errrate;
+  document.getElementById('detail-avgdur').textContent = d.avgdur;
+  document.getElementById('topbar-context').textContent = d.name;
+  if(agentKey==='canvas') {
+    document.getElementById('trigger-btn').disabled = false;
+  }
+  document.getElementById('view-list').classList.remove('active');
+  document.getElementById('view-detail').classList.add('active');
+}
+
+function backToList() {
+  document.getElementById('view-detail').classList.remove('active');
+  document.getElementById('view-list').classList.add('active');
+  document.getElementById('topbar-context').textContent = 'Sistema';
+}
+
+// DETAIL TABS
+function switchDetailTab(btn, panelId) {
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById(panelId).classList.add('active');
+}
+
+// LOG EXPAND
+function toggleLogRow(row) {
+  const next = row.nextElementSibling;
+  if(!next || !next.classList.contains('log-detail-row')) return;
+  next.classList.toggle('open');
+  const btn = row.querySelector('.log-expand-btn svg');
+  if(btn) btn.style.transform = next.classList.contains('open') ? 'rotate(180deg)' : '';
+}
+
+// ERROR MODAL
+function openErrorModal() {
+  document.getElementById('error-overlay').classList.add('open');
+}
+function closeErrorModal() {
+  document.getElementById('error-overlay').classList.remove('open');
+}
+function resubmitJobs() {
+  const btn = document.getElementById('resubmit-btn');
+  btn.textContent = 'Reenviando...';
+  btn.disabled = true;
+  setTimeout(() => {
+    closeErrorModal();
+    // Simulate recovery
+    const row = document.getElementById('canvas-row');
+    row.classList.remove('row-error');
+    row.querySelector('.status-badge').className = 'status-badge s-running';
+    row.querySelector('.status-badge').textContent = 'Rodando';
+    row.querySelector('.agent-name').style.color = '';
+    row.querySelector('.last-run').style.color = '';
+    row.querySelector('.agent-avatar').className = 'agent-avatar av-production';
+    row.querySelector('.agent-avatar').innerHTML = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>';
+    row.querySelector('.actions-cell').innerHTML = '<span class="model-badge">sonnet-4.6</span><button class="btn btn-ghost btn-sm" onclick="openConfigPanel(\'canvas\')">Config</button>';
+    showToast('2 jobs reenviados — Job ID: bq_7f3a91b4', false);
+    // Update stats
+    document.querySelector('.stat-card-value.red').textContent = '0';
+    document.querySelector('.stat-card-value.amber').textContent = '2';
+    // Hide alert banner
+    document.querySelector('.alert-banner').style.display = 'none';
+    // Update sidebar badge
+    document.querySelector('.sb-item.active .sb-badge').style.background = 'var(--amber)';
+    document.querySelector('.sb-item.active .sb-badge').textContent = '0';
+    btn.textContent = 'Reenviar 2 jobs';
+    btn.disabled = false;
+  }, 1400);
+}
+
+// CONFIG SLIDEOVER
+let isDirty = false;
+function openConfigPanel(agentKey) {
+  const names = {
+    sensei:'Sensei',scout:'Scout',estrategista:'Estrategista',cloner:'Cloner',
+    quill:'Quill',canvas:'Canvas',director:'Director',
+    pulse:'Pulse',sentinela:'Sentinela',metrics:'Metrics'
+  };
+  const models = {
+    estrategista:'claude-opus-4-7',cloner:'claude-opus-4-7',
+    pulse:'claude-haiku-4-5',sentinela:'claude-haiku-4-5',metrics:'claude-haiku-4-5'
+  };
+  const name = names[agentKey]||agentKey;
+  const model = models[agentKey]||'claude-sonnet-4-6';
+  document.getElementById('so-title').textContent = 'Configurar ' + name;
+  document.getElementById('so-subtitle').textContent = model + ' · Agência KTANA Demo';
+  document.getElementById('so-model').value = model;
+  document.getElementById('save-confirm').classList.remove('show');
+  isDirty = false;
+  document.getElementById('so-backdrop').classList.add('open');
+  document.getElementById('config-slideover').classList.add('open');
+}
+function closeConfigPanel() {
+  document.getElementById('so-backdrop').classList.remove('open');
+  document.getElementById('config-slideover').classList.remove('open');
+}
+function markDirty() { isDirty = true; }
+function saveConfig() {
+  const btn = document.getElementById('save-btn');
+  btn.textContent = 'Salvando...';
+  btn.disabled = true;
+  setTimeout(() => {
+    btn.textContent = 'Salvar';
+    btn.disabled = false;
+    document.getElementById('save-confirm').classList.add('show');
+    showToast('Config salva — próximas execuções usarão esta configuração', false);
+    isDirty = false;
+  }, 900);
+}
+
+// DETAIL CONFIG SAVE
+function saveDetailConfig() {
+  showToast('Configuração salva com sucesso', false);
+}
+
+// TRIGGER
+function triggerAgent() {
+  showToast('Job enfileirado — ID: bq_' + Math.random().toString(36).substr(2,8), false);
+}
+
+// TOAST
+let toastTimer;
+function showToast(msg, isError) {
+  const t = document.getElementById('toast');
+  const dot = document.getElementById('toast-dot');
+  document.getElementById('toast-msg').textContent = msg;
+  dot.className = 'toast-dot' + (isError ? ' brand' : '');
+  t.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => t.classList.remove('show'), 3200);
+}
+</script>
+</body>
+</html>

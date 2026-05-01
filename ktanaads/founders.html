@@ -1,0 +1,913 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Founders — KTANA AI</title>
+<link href="https://fonts.googleapis.com/css2?family=Zen+Dots&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --brand:#D70030; --brand-dark:#9B0A2A; --brand-alpha:rgba(215,0,48,0.08);
+  --t1:#1D1D1F; --t2:#6E6E73; --t3:#AEAEB2;
+  --bg:#F5F5F7; --surface:#FFFFFF; --s2:#FAFAFA;
+  --border:#E8E8ED; --border-l:#F2F2F7;
+  --shadow:0 1px 3px rgba(0,0,0,0.06),0 4px 16px rgba(0,0,0,0.04);
+  --sbtn:0 2px 8px rgba(215,0,48,0.28);
+  --r8:8px; --r12:12px; --r16:16px; --r20:20px; --rF:9999px;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%;background:var(--bg);font-family:'Inter',sans-serif;color:var(--t1)}
+
+/* ── SHELL ── */
+.shell{display:flex;height:100vh;overflow:hidden}
+
+/* ── SIDEBAR ── */
+.sidebar{width:240px;background:var(--surface);border-right:0.5px solid var(--border);display:flex;flex-direction:column;flex-shrink:0;overflow-y:auto}
+.sb-logo{padding:20px 20px 16px;border-bottom:0.5px solid var(--border)}
+.sb-logo-name{font-family:'Zen Dots',sans-serif;font-size:16px;color:var(--brand)}
+.sb-logo-name span{color:var(--t1)}
+.sb-agency{font-size:11px;color:var(--t3);margin-top:2px}
+.sb-group{padding:16px 12px 8px}
+.sb-group-label{font-size:10px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--t3);padding:0 8px;margin-bottom:4px}
+.sb-item{display:flex;align-items:center;gap:10px;padding:9px 10px;border-radius:var(--r8);cursor:pointer;color:var(--t2);font-size:13px;font-weight:500;transition:all .15s;text-decoration:none}
+.sb-item:hover{background:var(--bg);color:var(--t1)}
+.sb-item.active{background:var(--brand-alpha);color:var(--brand)}
+.sb-item.active svg{stroke:var(--brand)}
+.sb-badge{margin-left:auto;background:var(--brand);color:#fff;font-size:10px;font-weight:700;padding:2px 6px;border-radius:var(--r8)}
+.sb-footer{margin-top:auto;padding:16px;border-top:0.5px solid var(--border);display:flex;align-items:center;gap:10px}
+.sb-avatar{width:32px;height:32px;border-radius:50%;background:var(--brand);color:#fff;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;flex-shrink:0}
+.sb-user p{font-size:13px;font-weight:600}
+.sb-user small{font-size:11px;color:var(--t3)}
+
+/* ── MAIN ── */
+.main{flex:1;display:flex;flex-direction:column;overflow:hidden}
+
+/* ── TOPBAR ── */
+.topbar{height:52px;background:rgba(245,245,247,0.92);backdrop-filter:saturate(180%) blur(20px);border-bottom:0.5px solid var(--border);display:flex;align-items:center;gap:12px;padding:0 24px;flex-shrink:0}
+.topbar-title{font-family:'Zen Dots',sans-serif;font-size:15px;color:var(--t1);flex:1}
+.topbar-breadcrumb{font-size:13px;color:var(--t2);cursor:pointer;display:flex;align-items:center;gap:6px;transition:color .15s}
+.topbar-breadcrumb:hover{color:var(--brand)}
+
+/* ── VIEW SWITCHER ── */
+.view{display:none;flex:1;overflow:hidden}
+.view.active{display:flex;flex-direction:column}
+
+/* ── LIST VIEW ── */
+.list-header{padding:20px 24px 0;display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
+.list-title{font-family:'Zen Dots',sans-serif;font-size:20px}
+.btn-add{height:40px;padding:0 16px;border-radius:var(--r8);background:linear-gradient(135deg,var(--brand),var(--brand-dark));color:#fff;font-size:13px;font-weight:600;border:none;cursor:pointer;box-shadow:var(--sbtn);display:flex;align-items:center;gap:6px;font-family:'Inter',sans-serif;transition:all .2s}
+.btn-add:hover{transform:translateY(-1px)}
+
+.filters-bar{padding:12px 24px;display:flex;align-items:center;gap:10px;flex-shrink:0;border-bottom:0.5px solid var(--border)}
+.search-input{flex:1;max-width:280px;height:36px;border:1px solid var(--border);border-radius:var(--r8);padding:0 12px 0 36px;font-size:13px;font-family:'Inter',sans-serif;color:var(--t1);background:var(--surface);outline:none;transition:border-color .15s}
+.search-input:focus{border-color:var(--brand)}
+.search-wrap{position:relative;flex:1;max-width:280px}
+.search-wrap svg{position:absolute;left:10px;top:50%;transform:translateY(-50%);pointer-events:none}
+.filter-select{height:36px;padding:0 28px 0 10px;border:1px solid var(--border);border-radius:var(--r8);font-size:13px;font-family:'Inter',sans-serif;color:var(--t1);background:var(--surface);outline:none;cursor:pointer;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 24 24' fill='none' stroke='%2386868B' stroke-width='2'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 8px center;transition:border-color .15s}
+.filter-select:focus{border-color:var(--brand)}
+.filter-count{font-size:12px;color:var(--t3);margin-left:auto}
+
+.list-body{flex:1;overflow-y:auto;padding:16px 24px 24px}
+.founder-list{display:flex;flex-direction:column;gap:8px}
+
+/* FOUNDER CARD */
+.fc{background:var(--surface);border:0.5px solid var(--border);border-radius:var(--r12);padding:16px 20px;display:flex;align-items:center;gap:16px;transition:all .2s;cursor:default}
+.fc:hover{border-color:rgba(215,0,48,0.2);box-shadow:var(--shadow)}
+.fc-avatar{width:44px;height:44px;border-radius:50%;background:var(--brand-alpha);border:1.5px solid rgba(215,0,48,0.2);display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:700;color:var(--brand);flex-shrink:0;overflow:hidden}
+.fc-avatar img{width:100%;height:100%;object-fit:cover}
+.fc-info{flex:1;min-width:0}
+.fc-name{font-size:14px;font-weight:600;margin-bottom:3px}
+.fc-sub{font-size:12px;color:var(--t2);margin-bottom:8px}
+.fc-badges{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.badge{height:20px;padding:0 8px;border-radius:var(--r8);font-size:10px;font-weight:700;display:inline-flex;align-items:center;gap:4px;white-space:nowrap}
+.badge-phase{background:var(--bg);border:0.5px solid var(--border);color:var(--t2)}
+.badge-active{background:rgba(52,199,89,0.1);color:#1a7a32}
+.badge-autopilot{background:rgba(52,199,89,0.1);color:#1a7a32}
+.badge-unresponsive{background:rgba(255,149,0,0.1);color:#a05c00}
+.badge-autonomous{background:var(--brand-alpha);color:var(--brand)}
+.badge-blocked{background:rgba(215,0,48,0.12);color:var(--brand)}
+.badge-onboarding{background:var(--bg);border:0.5px solid var(--border);color:var(--t2)}
+.badge-dot{width:5px;height:5px;border-radius:50%}
+.fc-metrics{display:flex;align-items:center;gap:16px;flex-shrink:0;text-align:right}
+.fc-metric p{font-size:13px;font-weight:600;color:var(--t1)}
+.fc-metric small{font-size:11px;color:var(--t3)}
+.btn-workspace{height:36px;padding:0 14px;border-radius:var(--r8);background:var(--surface);border:1px solid var(--border);font-size:13px;font-weight:600;color:var(--t1);cursor:pointer;display:flex;align-items:center;gap:6px;transition:all .15s;font-family:'Inter',sans-serif;white-space:nowrap;flex-shrink:0}
+.btn-workspace:hover{border-color:var(--brand);color:var(--brand)}
+
+/* EMPTY STATE */
+.empty-state{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:60px 24px;text-align:center}
+.empty-state p{font-size:15px;font-weight:600;margin-bottom:6px}
+.empty-state small{font-size:13px;color:var(--t3);margin-bottom:20px}
+
+/* ── WORKSPACE VIEW ── */
+.ws-header{padding:16px 24px;border-bottom:0.5px solid var(--border);flex-shrink:0}
+.ws-title-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+.ws-name{font-family:'Zen Dots',sans-serif;font-size:20px}
+.ws-actions{display:flex;gap:8px}
+.btn-sm{height:36px;padding:0 14px;border-radius:var(--r8);font-size:13px;font-weight:600;cursor:pointer;border:1px solid var(--border);background:var(--surface);color:var(--t1);font-family:'Inter',sans-serif;transition:all .15s;display:flex;align-items:center;gap:6px}
+.btn-sm:hover{border-color:var(--t2)}
+.btn-sm.red{background:linear-gradient(135deg,var(--brand),var(--brand-dark));color:#fff;border-color:var(--brand);box-shadow:var(--sbtn)}
+.ws-meta{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.ws-meta-item{font-size:13px;color:var(--t2);display:flex;align-items:center;gap:6px}
+.ws-meta-sep{width:1px;height:14px;background:var(--border)}
+
+/* TABS */
+.tabs-bar{display:flex;padding:0 24px;border-bottom:0.5px solid var(--border);gap:0;flex-shrink:0}
+.tab-btn{height:44px;padding:0 18px;font-size:13px;font-weight:500;color:var(--t2);border:none;background:none;cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-0.5px;transition:all .15s;font-family:'Inter',sans-serif;white-space:nowrap}
+.tab-btn:hover{color:var(--t1)}
+.tab-btn.active{color:var(--brand);border-bottom-color:var(--brand);font-weight:600}
+.tab-content{flex:1;overflow-y:auto;padding:24px}
+.tab-panel{display:none}
+.tab-panel.active{display:block}
+
+/* VISAO GERAL */
+.vg-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:20px}
+.vg-card{background:var(--surface);border:0.5px solid var(--border);border-radius:var(--r12);padding:20px}
+.vg-card-title{font-size:11px;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;color:var(--t3);margin-bottom:14px}
+.cap-item{display:flex;align-items:center;gap:10px;padding:7px 0;border-bottom:0.5px solid var(--border-l);font-size:13px}
+.cap-item:last-child{border-bottom:none}
+.cap-icon{width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.cap-icon.ok{background:rgba(52,199,89,0.1)}
+.cap-icon.wait{background:var(--bg)}
+.metrics-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.metric-box{background:var(--bg);border-radius:var(--r8);padding:12px}
+.metric-box .val{font-size:22px;font-weight:700;line-height:1}
+.metric-box .lbl{font-size:11px;color:var(--t3);margin-top:4px}
+.metric-box .delta{font-size:11px;margin-top:2px}
+.delta-up{color:#1a7a32} .delta-dn{color:var(--brand)}
+.timeline-title{font-size:11px;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;color:var(--t3);margin-bottom:12px}
+.tl-item{display:flex;align-items:flex-start;gap:12px;padding:10px 0;border-bottom:0.5px solid var(--border-l)}
+.tl-item:last-child{border-bottom:none}
+.tl-dot{width:28px;height:28px;border-radius:50%;background:var(--bg);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px}
+.tl-text p{font-size:13px;font-weight:500}
+.tl-text small{font-size:12px;color:var(--t3)}
+
+/* BRAND BOOK */
+.bb-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.bb-block{background:var(--surface);border:0.5px solid var(--border);border-radius:var(--r12);padding:20px}
+.bb-label{font-size:10px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--t3);margin-bottom:8px}
+.bb-val{font-size:14px;line-height:1.5}
+.archetype-pill{display:inline-flex;align-items:center;gap:8px;padding:8px 16px;border-radius:var(--r8);background:var(--brand-alpha);border:1px solid rgba(215,0,48,0.2);font-size:14px;font-weight:600;color:var(--brand)}
+.pillars-list{display:flex;flex-direction:column;gap:6px}
+.pillar-item{display:flex;align-items:center;gap:8px;font-size:13px;padding:8px 10px;background:var(--bg);border-radius:var(--r8)}
+.pillar-n{width:20px;height:20px;border-radius:50%;background:var(--brand);color:#fff;font-size:10px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+
+/* CONTEUDO */
+.content-table{width:100%;border-collapse:collapse}
+.content-table th{font-size:11px;font-weight:600;letter-spacing:0.04em;text-transform:uppercase;color:var(--t3);text-align:left;padding:10px 12px;border-bottom:0.5px solid var(--border)}
+.content-table td{padding:12px 12px;border-bottom:0.5px solid var(--border-l);font-size:13px;vertical-align:middle}
+.score-badge{height:22px;padding:0 8px;border-radius:var(--rF);font-size:11px;font-weight:700;display:inline-flex;align-items:center}
+.score-high{background:rgba(52,199,89,0.1);color:#1a7a32}
+.score-mid{background:rgba(255,149,0,0.1);color:#a05c00}
+.score-low{background:rgba(215,0,48,0.1);color:var(--brand)}
+.status-pill{height:20px;padding:0 8px;border-radius:var(--r8);font-size:10px;font-weight:700;display:inline-flex;align-items:center}
+.sp-pending{background:var(--bg);border:0.5px solid var(--border);color:var(--t2)}
+.sp-approved{background:rgba(52,199,89,0.1);color:#1a7a32}
+.sp-review{background:var(--brand-alpha);color:var(--brand)}
+
+/* CONCORRENTES */
+.comp-item{display:flex;align-items:center;gap:14px;padding:14px;background:var(--surface);border:0.5px solid var(--border);border-radius:var(--r12);margin-bottom:8px}
+.comp-avatar{width:40px;height:40px;border-radius:50%;background:var(--bg);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:13px;font-weight:700;color:var(--t2)}
+.comp-info{flex:1}
+.comp-info p{font-size:14px;font-weight:600}
+.comp-info small{font-size:12px;color:var(--t3)}
+.threat-bar{width:80px;height:6px;border-radius:var(--rF);background:var(--bg);overflow:hidden}
+.threat-fill{height:100%;border-radius:var(--rF);background:linear-gradient(90deg,var(--brand),var(--brand-dark))}
+
+/* CONFIG */
+.config-section{background:var(--surface);border:0.5px solid var(--border);border-radius:var(--r12);padding:20px;margin-bottom:16px}
+.config-section h3{font-size:13px;font-weight:600;margin-bottom:16px;padding-bottom:10px;border-bottom:0.5px solid var(--border)}
+.form-row-2{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px}
+.fg{display:flex;flex-direction:column;gap:5px;margin-bottom:14px}
+.fg:last-child{margin-bottom:0}
+.flbl{font-size:11px;font-weight:600;color:var(--t2)}
+.finp{height:40px;border:1px solid var(--border);border-radius:var(--r8);padding:0 12px;font-size:13px;font-family:'Inter',sans-serif;color:var(--t1);background:var(--surface);outline:none;width:100%;transition:border-color .15s}
+.finp:focus{border-color:var(--brand)}
+.danger-zone{background:rgba(215,0,48,0.04);border:1px solid rgba(215,0,48,0.15);border-radius:var(--r12);padding:20px}
+.danger-zone h3{font-size:13px;font-weight:600;color:var(--brand);margin-bottom:6px}
+.danger-zone p{font-size:13px;color:var(--t2);margin-bottom:14px}
+.btn-danger{height:40px;padding:0 16px;border-radius:var(--r8);background:none;border:1px solid var(--brand);color:var(--brand);font-size:13px;font-weight:600;cursor:pointer;font-family:'Inter',sans-serif;transition:all .15s}
+.btn-danger:hover{background:var(--brand);color:#fff}
+
+/* ── MODALS ── */
+.overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.4);z-index:200;align-items:center;justify-content:center}
+.overlay.show{display:flex}
+.modal{background:var(--surface);border-radius:var(--r20);padding:28px;width:100%;max-width:480px;box-shadow:0 20px 60px rgba(0,0,0,0.15);max-height:90vh;overflow-y:auto}
+.modal-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px}
+.modal-title{font-family:'Zen Dots',sans-serif;font-size:16px}
+.btn-close{width:28px;height:28px;border-radius:50%;border:1px solid var(--border);background:var(--surface);cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--t2);transition:all .15s}
+.btn-close:hover{background:var(--bg);color:var(--t1)}
+.modal-footer{display:flex;gap:10px;margin-top:20px}
+.modal-footer .btn-prim{flex:1;height:44px;border-radius:var(--r8);background:linear-gradient(135deg,var(--brand),var(--brand-dark));color:#fff;font-size:14px;font-weight:600;border:none;cursor:pointer;font-family:'Inter',sans-serif;box-shadow:var(--sbtn)}
+.modal-footer .btn-sec{height:44px;padding:0 16px;border-radius:var(--r8);background:var(--surface);color:var(--t1);font-size:14px;font-weight:600;border:1px solid var(--border);cursor:pointer;font-family:'Inter',sans-serif}
+.sm-warn{display:flex;align-items:center;gap:8px;padding:8px 10px;background:rgba(255,149,0,0.08);border:1px solid rgba(255,149,0,0.3);border-radius:var(--r8);font-size:12px;color:#a05c00;margin-top:8px}
+.invite-link{display:flex;align-items:center;gap:8px;padding:10px 12px;background:var(--bg);border:1px solid var(--border);border-radius:var(--r8);margin-bottom:10px}
+.invite-link-txt{flex:1;font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--t2);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.send-btns{display:flex;gap:8px;flex-wrap:wrap}
+.btn-send{height:32px;padding:0 12px;border-radius:var(--r8);border:1px solid var(--border);background:var(--surface);font-size:12px;font-weight:600;cursor:pointer;font-family:'Inter',sans-serif;display:flex;align-items:center;gap:6px;transition:all .15s;color:var(--t1)}
+.btn-send:hover{border-color:var(--brand);color:var(--brand)}
+
+/* ARCHIVE MODAL */
+.archive-modal{max-width:380px}
+.archive-warn{padding:12px;background:rgba(215,0,48,0.06);border-radius:var(--r8);font-size:13px;color:var(--brand);margin-bottom:16px;line-height:1.5}
+.confirm-label{font-size:12px;color:var(--t2);margin-bottom:6px}
+.confirm-label strong{color:var(--t1)}
+
+/* TOAST */
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--t1);color:#fff;padding:12px 20px;border-radius:var(--rF);font-size:13px;font-weight:500;z-index:999;transition:transform .3s cubic-bezier(0.34,1.56,0.64,1);white-space:nowrap;pointer-events:none}
+.toast.show{transform:translateX(-50%) translateY(0)}
+
+/* select fix */
+select.finp{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 24 24' fill='none' stroke='%2386868B' stroke-width='2'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 10px center;padding-right:28px;cursor:pointer}
+</style>
+</head>
+<body>
+<div class="shell">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="sb-logo">
+      <div class="sb-logo-name">KTANA<span> AI</span></div>
+      <div class="sb-agency">Agência Horizonte</div>
+    </div>
+    <div class="sb-group">
+      <div class="sb-group-label">Operação</div>
+      <a class="sb-item" href="dashboard.html">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect width="7" height="7" x="3" y="3" rx="1"/><rect width="7" height="7" x="14" y="3" rx="1"/><rect width="7" height="7" x="14" y="14" rx="1"/><rect width="7" height="7" x="3" y="14" rx="1"/></svg>
+        Dashboard
+      </a>
+      <a class="sb-item active" href="founders.html">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        Founders
+        <span class="sb-badge">18</span>
+      </a>
+      <a class="sb-item" href="fila-aprovacao.html">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+        Fila de Aprovação
+        <span class="sb-badge">7</span>
+      </a>
+    </div>
+    <div class="sb-group">
+      <div class="sb-group-label">Inteligência</div>
+      <a class="sb-item" href="pipeline-kanban.html">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect width="6" height="14" x="2" y="5" rx="1"/><rect width="6" height="9" x="9" y="10" rx="1"/><rect width="6" height="17" x="16" y="2" rx="1"/></svg>
+        Pipeline
+      </a>
+      <a class="sb-item" href="calendario.html">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="4" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+        Calendário
+      </a>
+    </div>
+    <div class="sb-footer">
+      <div class="sb-avatar">R</div>
+      <div class="sb-user">
+        <p>Rafael Silva</p>
+        <small>Social Media</small>
+      </div>
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <main class="main">
+
+    <!-- TOPBAR -->
+    <div class="topbar">
+      <span id="topbar-content">
+        <span class="topbar-title">FOUNDERS</span>
+      </span>
+    </div>
+
+    <!-- ═══ LIST VIEW ═══ -->
+    <div class="view active" id="view-list">
+      <div class="list-header">
+        <div class="list-title">Founders</div>
+        <button class="btn-add" onclick="openAddModal()">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5v14"/></svg>
+          Adicionar Founder
+        </button>
+      </div>
+
+      <div class="filters-bar">
+        <div class="search-wrap">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#AEAEB2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+          <input type="text" class="search-input" placeholder="Buscar founders..." oninput="filterList(this.value)" id="search-inp">
+        </div>
+        <select class="filter-select" onchange="filterList()">
+          <option value="">Fase: Todas</option>
+          <option>F1 Diagnóstico</option>
+          <option>F2 Identidade</option>
+          <option>F3 Produção IA</option>
+          <option>F4 Produção</option>
+          <option>F5 Métricas</option>
+        </select>
+        <select class="filter-select" onchange="filterList()">
+          <option value="">Status: Todos</option>
+          <option>Ativo</option>
+          <option>Autônomo</option>
+          <option>Sem Resposta</option>
+          <option>Bloqueado</option>
+          <option>Onboarding</option>
+        </select>
+        <select class="filter-select" onchange="filterList()">
+          <option value="">SM: Todos</option>
+          <option>Rafael Silva</option>
+          <option>Ana Lima</option>
+          <option>João Santos</option>
+        </select>
+        <span class="filter-count" id="count-label">18 founders</span>
+      </div>
+
+      <div class="list-body">
+        <div class="founder-list" id="founder-list">
+
+          <!-- FOUNDER 1 -->
+          <div class="fc" data-name="João Mendes" data-phase="F4" data-status="autopilot">
+            <div class="fc-avatar">JM</div>
+            <div class="fc-info">
+              <div class="fc-name">João Mendes · CEO — Mendes Tech</div>
+              <div class="fc-sub">SM: Ana Lima · Última atividade: há 2 horas</div>
+              <div class="fc-badges">
+                <span class="badge badge-phase">F4 PRODUÇÃO</span>
+                <span class="badge badge-autopilot"><span class="badge-dot" style="background:#34C759"></span>AUTOPILOT</span>
+              </div>
+            </div>
+            <div class="fc-metrics">
+              <div class="fc-metric"><p>23</p><small>posts/mês</small></div>
+              <div class="fc-metric"><p>4.8%</p><small>engaj.</small></div>
+            </div>
+            <button class="btn-workspace" onclick="openWorkspace('joao-mendes')">
+              Workspace
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </button>
+          </div>
+
+          <!-- FOUNDER 2 -->
+          <div class="fc" data-name="Ana Costa" data-phase="F4" data-status="unresponsive">
+            <div class="fc-avatar">AC</div>
+            <div class="fc-info">
+              <div class="fc-name">Ana Costa · Fundadora — NutriVida</div>
+              <div class="fc-sub">SM: João Santos · Última atividade: há 3 dias</div>
+              <div class="fc-badges">
+                <span class="badge badge-phase">F4 PRODUÇÃO</span>
+                <span class="badge badge-unresponsive"><span class="badge-dot" style="background:#FF9500"></span>SEM RESPOSTA 3d</span>
+              </div>
+            </div>
+            <div class="fc-metrics">
+              <div class="fc-metric"><p>14</p><small>posts/mês</small></div>
+              <div class="fc-metric"><p>3</p><small>aguardando</small></div>
+            </div>
+            <button class="btn-workspace" onclick="openWorkspace('ana-costa')">
+              Workspace
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </button>
+          </div>
+
+          <!-- FOUNDER 3 -->
+          <div class="fc" data-name="Pedro Souza" data-phase="F4" data-status="autonomous">
+            <div class="fc-avatar">PS</div>
+            <div class="fc-info">
+              <div class="fc-name">Pedro Souza · Diretor — Construtech</div>
+              <div class="fc-sub">SM: Ana Lima · Autônomo há 12 dias</div>
+              <div class="fc-badges">
+                <span class="badge badge-phase">F4 PRODUÇÃO</span>
+                <span class="badge badge-autonomous"><span class="badge-dot" style="background:var(--brand)"></span>AUTÔNOMO 12d</span>
+              </div>
+            </div>
+            <div class="fc-metrics">
+              <div class="fc-metric"><p>14</p><small>publicados</small></div>
+              <div class="fc-metric"><p>4.2%</p><small>engaj.</small></div>
+            </div>
+            <button class="btn-workspace" onclick="openWorkspace('pedro-souza')">
+              Workspace
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </button>
+          </div>
+
+          <!-- FOUNDER 4 -->
+          <div class="fc" data-name="Carla Mendonça" data-phase="F2" data-status="onboarding">
+            <div class="fc-avatar">CM</div>
+            <div class="fc-info">
+              <div class="fc-name">Carla Mendonça · CEO — Carla Moda</div>
+              <div class="fc-sub">SM: não atribuído · Onboarding 60%</div>
+              <div class="fc-badges">
+                <span class="badge badge-phase">F2 IDENTIDADE</span>
+                <span class="badge badge-onboarding">AGUARD. FOTOS</span>
+              </div>
+            </div>
+            <div class="fc-metrics">
+              <div class="fc-metric"><p>60%</p><small>onboarding</small></div>
+              <div class="fc-metric"><p>0/40</p><small>fotos</small></div>
+            </div>
+            <button class="btn-workspace" onclick="openWorkspace('carla-mendonca')">
+              Workspace
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </button>
+          </div>
+
+          <!-- FOUNDER 5 -->
+          <div class="fc" data-name="Ricardo Alves" data-phase="F1" data-status="blocked">
+            <div class="fc-avatar">RA</div>
+            <div class="fc-info">
+              <div class="fc-name">Ricardo Alves · Fundador — Alves Contabilidade</div>
+              <div class="fc-sub">SM: João Santos · Convite enviado há 5 dias</div>
+              <div class="fc-badges">
+                <span class="badge badge-phase">F1 DIAGNÓSTICO</span>
+                <span class="badge badge-blocked"><span class="badge-dot" style="background:var(--brand)"></span>BLOQUEADO</span>
+              </div>
+            </div>
+            <div class="fc-metrics">
+              <div class="fc-metric"><p>20%</p><small>onboarding</small></div>
+              <div class="fc-metric"><p>5d</p><small>s/ resposta</small></div>
+            </div>
+            <button class="btn-workspace" onclick="openWorkspace('ricardo-alves')">
+              Workspace
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </button>
+          </div>
+
+          <!-- FOUNDER 6 -->
+          <div class="fc" data-name="Marcos Oliveira" data-phase="F4" data-status="active">
+            <div class="fc-avatar">MO</div>
+            <div class="fc-info">
+              <div class="fc-name">Marcos Oliveira · CEO — TechStart Brasil</div>
+              <div class="fc-sub">SM: Rafael Silva · Última atividade: há 1 hora</div>
+              <div class="fc-badges">
+                <span class="badge badge-phase">F4 PRODUÇÃO</span>
+                <span class="badge badge-active"><span class="badge-dot" style="background:#34C759"></span>ATIVO</span>
+              </div>
+            </div>
+            <div class="fc-metrics">
+              <div class="fc-metric"><p>19</p><small>posts/mês</small></div>
+              <div class="fc-metric"><p>5.1%</p><small>engaj.</small></div>
+            </div>
+            <button class="btn-workspace" onclick="openWorkspace('marcos-oliveira')">
+              Workspace
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </button>
+          </div>
+
+          <!-- FOUNDER 7 -->
+          <div class="fc" data-name="Luisa Ferreira" data-phase="F3" data-status="active">
+            <div class="fc-avatar">LF</div>
+            <div class="fc-info">
+              <div class="fc-name">Luisa Ferreira · Fundadora — Espaço Wellness</div>
+              <div class="fc-sub">SM: Ana Lima · Última atividade: há 4 horas</div>
+              <div class="fc-badges">
+                <span class="badge badge-phase">F3 PRODUÇÃO IA</span>
+                <span class="badge badge-active"><span class="badge-dot" style="background:#34C759"></span>ATIVO</span>
+              </div>
+            </div>
+            <div class="fc-metrics">
+              <div class="fc-metric"><p>8</p><small>posts/mês</small></div>
+              <div class="fc-metric"><p>78%</p><small>score</small></div>
+            </div>
+            <button class="btn-workspace" onclick="openWorkspace('luisa-ferreira')">
+              Workspace
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </button>
+          </div>
+
+          <!-- FOUNDER 8 -->
+          <div class="fc" data-name="Roberto Nunes" data-phase="F5" data-status="autopilot">
+            <div class="fc-avatar">RN</div>
+            <div class="fc-info">
+              <div class="fc-name">Roberto Nunes · CEO — Nunes Advocacia</div>
+              <div class="fc-sub">SM: Rafael Silva · Modo autônomo há 32 dias</div>
+              <div class="fc-badges">
+                <span class="badge badge-phase">F5 MÉTRICAS</span>
+                <span class="badge badge-autopilot"><span class="badge-dot" style="background:#34C759"></span>AUTOPILOT</span>
+              </div>
+            </div>
+            <div class="fc-metrics">
+              <div class="fc-metric"><p>28</p><small>posts/mês</small></div>
+              <div class="fc-metric"><p>6.3%</p><small>engaj.</small></div>
+            </div>
+            <button class="btn-workspace" onclick="openWorkspace('roberto-nunes')">
+              Workspace
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </button>
+          </div>
+
+        </div>
+
+        <div id="empty-state" style="display:none">
+          <div class="empty-state">
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#AEAEB2" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" style="margin-bottom:16px"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+            <p>Nenhum founder encontrado</p>
+            <small>Tente ajustar os filtros ou</small>
+            <button class="btn-add" style="margin-top:8px" onclick="openAddModal()">Adicionar Founder</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ WORKSPACE VIEW ═══ -->
+    <div class="view" id="view-workspace">
+      <div class="ws-header">
+        <div class="ws-title-row">
+          <div class="ws-name" id="ws-name">João Mendes</div>
+          <div class="ws-actions">
+            <button class="btn-sm" onclick="showToast('Abrindo Chat Pulse...')">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+              Chat Pulse
+            </button>
+            <button class="btn-sm" onclick="showToast('Enviando conteúdo...')">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2 11 13M22 2 15 22 11 13 2 9l20-7z"/></svg>
+              Enviar conteúdo
+            </button>
+            <button class="btn-sm" onclick="showToast('Gerando relatório...')">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M16 13H8M16 17H8M10 9H8"/></svg>
+              Ver relatório
+            </button>
+          </div>
+        </div>
+        <div class="ws-meta" id="ws-meta">
+          <span class="ws-meta-item">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 7H4a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2z"/><path d="M16 3h-8v4h8V3z"/></svg>
+            CEO — Mendes Tech
+          </span>
+          <span class="ws-meta-sep"></span>
+          <span class="ws-meta-item">SM: Ana Lima</span>
+          <span class="ws-meta-sep"></span>
+          <span class="badge badge-phase">F4 PRODUÇÃO</span>
+          <span class="badge badge-autopilot"><span class="badge-dot" style="background:#34C759"></span>AUTOPILOT</span>
+        </div>
+      </div>
+
+      <!-- TABS BAR -->
+      <div class="tabs-bar">
+        <button class="tab-btn active" onclick="switchTab('visao-geral',this)">Visão Geral</button>
+        <button class="tab-btn" onclick="switchTab('brand-book',this)">Brand Book</button>
+        <button class="tab-btn" onclick="switchTab('conteudo',this)">Conteúdo</button>
+        <button class="tab-btn" onclick="switchTab('concorrentes',this)">Concorrentes</button>
+        <button class="tab-btn" onclick="switchTab('configuracoes',this)">Configurações</button>
+      </div>
+
+      <!-- TAB CONTENT -->
+      <div class="tab-content">
+
+        <!-- VISAO GERAL -->
+        <div class="tab-panel active" id="tab-visao-geral">
+          <div class="vg-grid">
+            <div class="vg-card">
+              <div class="vg-card-title">Capacidades</div>
+              <div class="cap-item"><div class="cap-icon ok"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#34C759" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></div>Brand Book aprovado</div>
+              <div class="cap-item"><div class="cap-icon ok"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#34C759" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></div>Fotos enviadas (47 fotos)</div>
+              <div class="cap-item"><div class="cap-icon ok"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#34C759" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></div>Avatar de vídeo ativo</div>
+              <div class="cap-item"><div class="cap-icon ok"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#34C759" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></div>Clone de voz treinado</div>
+              <div class="cap-item"><div class="cap-icon ok"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#34C759" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></div>Instagram conectado</div>
+              <div class="cap-item"><div class="cap-icon ok"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#34C759" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></div>LinkedIn conectado</div>
+              <div class="cap-item"><div class="cap-icon wait"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#AEAEB2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg></div>TikTok: pendente</div>
+              <div class="cap-item"><div class="cap-icon wait"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#AEAEB2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg></div>YouTube: pendente</div>
+            </div>
+            <div class="vg-card">
+              <div class="vg-card-title">Produção este mês</div>
+              <div class="metrics-grid">
+                <div class="metric-box"><div class="val">23</div><div class="lbl">Posts publicados</div><div class="delta delta-up">+3 vs mês anterior</div></div>
+                <div class="metric-box"><div class="val">93%</div><div class="lbl">Score médio</div><div class="delta delta-up">+2pp</div></div>
+                <div class="metric-box"><div class="val">4.8%</div><div class="lbl">Engajamento médio</div><div class="delta delta-up">acima da meta</div></div>
+                <div class="metric-box"><div class="val">+420</div><div class="lbl">Novos seguidores</div><div class="delta delta-up">+18%</div></div>
+              </div>
+              <div style="margin-top:12px;padding-top:12px;border-top:0.5px solid var(--border-l)">
+                <div class="metric-box" style="background:var(--brand-alpha);border:1px solid rgba(215,0,48,0.1)">
+                  <div class="val" style="color:var(--brand)">5</div>
+                  <div class="lbl">Posts aguardando aprovação</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="vg-card" style="margin-bottom:0">
+            <div class="timeline-title">Linha do Tempo</div>
+            <div class="tl-item">
+              <div class="tl-dot"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#34C759" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></div>
+              <div class="tl-text"><p>Carrossel LinkedIn publicado</p><small>21 Abr · 14:32 · Quill</small></div>
+            </div>
+            <div class="tl-item">
+              <div class="tl-dot"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#34C759" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></div>
+              <div class="tl-text"><p>Reel Instagram aprovado por João</p><small>20 Abr · 10:15 · founder</small></div>
+            </div>
+            <div class="tl-item">
+              <div class="tl-dot"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#FF9500" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg></div>
+              <div class="tl-text"><p>3 posts enviados para aprovação</p><small>19 Abr · 09:00 · Quill</small></div>
+            </div>
+            <div class="tl-item">
+              <div class="tl-dot"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="var(--brand)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg></div>
+              <div class="tl-text"><p>Análise semanal de concorrentes</p><small>18 Abr · 08:00 · Sentinela</small></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- BRAND BOOK -->
+        <div class="tab-panel" id="tab-brand-book">
+          <div class="bb-grid">
+            <div class="bb-block">
+              <div class="bb-label">Arquétipo</div>
+              <div class="archetype-pill">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2z"/><path d="m8 12 3 3 5-5"/></svg>
+                Sábio (Sage)
+              </div>
+            </div>
+            <div class="bb-block">
+              <div class="bb-label">Tom de voz</div>
+              <div class="bb-val" style="font-size:13px;color:var(--t2);line-height:1.6">Direto · Provocador · Data-driven · Sem jargão corporativo</div>
+            </div>
+            <div class="bb-block" style="grid-column:1/-1">
+              <div class="bb-label">Tese Central</div>
+              <div class="bb-val" style="font-size:14px;color:var(--t1);line-height:1.6">"Empresas que não usam tecnologia agora pagarão o dobro para se adaptar em 2 anos. A pergunta não é se você vai digitalizar — é se vai ser a seu tempo ou o da concorrência."</div>
+            </div>
+            <div class="bb-block" style="grid-column:1/-1">
+              <div class="bb-label">Pilares de conteúdo</div>
+              <div class="pillars-list">
+                <div class="pillar-item"><div class="pillar-n">1</div>Transformação Digital para PMEs</div>
+                <div class="pillar-item"><div class="pillar-n">2</div>Cases de Sucesso com dados reais</div>
+                <div class="pillar-item"><div class="pillar-n">3</div>Tecnologia acessível</div>
+                <div class="pillar-item"><div class="pillar-n">4</div>Liderança e gestão moderna</div>
+                <div class="pillar-item"><div class="pillar-n">5</div>Erros comuns de gestores</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- CONTEUDO -->
+        <div class="tab-panel" id="tab-conteudo">
+          <table class="content-table">
+            <thead>
+              <tr>
+                <th>Conteúdo</th>
+                <th>Plataforma</th>
+                <th>Score</th>
+                <th>Status</th>
+                <th>Data</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td style="font-weight:500">5 erros que impedem sua empresa de crescer</td><td style="color:var(--t2)">LinkedIn</td><td><span class="score-badge score-high">96%</span></td><td><span class="status-pill sp-pending">Aguardando</span></td><td style="color:var(--t3);font-size:12px">Hoje</td></tr>
+              <tr><td style="font-weight:500">Como reduzir custos sem demitir ninguém</td><td style="color:var(--t2)">Instagram</td><td><span class="score-badge score-high">91%</span></td><td><span class="status-pill sp-pending">Aguardando</span></td><td style="color:var(--t3);font-size:12px">Hoje</td></tr>
+              <tr><td style="font-weight:500">Case: Mendes Tech +300% em 6 meses</td><td style="color:var(--t2)">LinkedIn</td><td><span class="score-badge score-high">94%</span></td><td><span class="status-pill sp-review">Em revisão</span></td><td style="color:var(--t3);font-size:12px">Ontem</td></tr>
+              <tr><td style="font-weight:500">Reel: A decisão que mudou tudo</td><td style="color:var(--t2)">Instagram</td><td><span class="score-badge score-mid">82%</span></td><td><span class="status-pill sp-approved">Aprovado</span></td><td style="color:var(--t3);font-size:12px">21 Abr</td></tr>
+              <tr><td style="font-weight:500">Carrossel: 3 sistemas que toda PME precisa</td><td style="color:var(--t2)">LinkedIn</td><td><span class="score-badge score-high">89%</span></td><td><span class="status-pill sp-approved">Publicado</span></td><td style="color:var(--t3);font-size:12px">20 Abr</td></tr>
+              <tr><td style="font-weight:500">Post: O futuro da gestão é agora</td><td style="color:var(--t2)">Instagram</td><td><span class="score-badge score-high">93%</span></td><td><span class="status-pill sp-approved">Publicado</span></td><td style="color:var(--t3);font-size:12px">19 Abr</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- CONCORRENTES -->
+        <div class="tab-panel" id="tab-concorrentes">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">
+            <p style="font-size:14px;font-weight:600">6 concorrentes mapeados</p>
+            <button class="btn-sm" onclick="showToast('Adicionando concorrente...')">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5v14"/></svg>
+              Adicionar
+            </button>
+          </div>
+          <div class="comp-item">
+            <div class="comp-avatar">TP</div>
+            <div class="comp-info"><p>TechPrime BR</p><small>@techprimebr · 42k seguidores</small></div>
+            <div style="text-align:right">
+              <div style="font-size:11px;color:var(--t3);margin-bottom:4px">Ameaça</div>
+              <div class="threat-bar"><div class="threat-fill" style="width:80%"></div></div>
+            </div>
+          </div>
+          <div class="comp-item">
+            <div class="comp-avatar">DI</div>
+            <div class="comp-info"><p>Digital Inova</p><small>@digitalinova · 28k seguidores</small></div>
+            <div style="text-align:right">
+              <div style="font-size:11px;color:var(--t3);margin-bottom:4px">Ameaça</div>
+              <div class="threat-bar"><div class="threat-fill" style="width:55%"></div></div>
+            </div>
+          </div>
+          <div class="comp-item">
+            <div class="comp-avatar">GS</div>
+            <div class="comp-info"><p>Gestão Smart</p><small>@gestaosmart · 15k seguidores</small></div>
+            <div style="text-align:right">
+              <div style="font-size:11px;color:var(--t3);margin-bottom:4px">Ameaça</div>
+              <div class="threat-bar"><div class="threat-fill" style="width:35%"></div></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- CONFIGURAÇÕES -->
+        <div class="tab-panel" id="tab-configuracoes">
+          <div class="config-section">
+            <h3>Dados do founder</h3>
+            <div class="form-row-2">
+              <div class="fg"><label class="flbl">Nome completo</label><input type="text" class="finp" value="João Mendes"></div>
+              <div class="fg"><label class="flbl">Empresa</label><input type="text" class="finp" value="Mendes Tech"></div>
+            </div>
+            <div class="form-row-2">
+              <div class="fg"><label class="flbl">E-mail</label><input type="email" class="finp" value="joao@mendestech.com.br"></div>
+              <div class="fg"><label class="flbl">WhatsApp</label><input type="text" class="finp" value="+55 11 99231-4450"></div>
+            </div>
+            <div class="fg"><label class="flbl">Nicho / Segmento</label><input type="text" class="finp" value="Tecnologia B2B / PME"></div>
+            <div class="fg"><label class="flbl">Tom de voz</label><input type="text" class="finp" value="Direto, Provocador, Data-driven"></div>
+            <button class="btn-sm red" style="margin-top:4px" onclick="showToast('Dados salvos com sucesso!')">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+              Salvar alterações
+            </button>
+          </div>
+          <div class="config-section">
+            <h3>SM responsável</h3>
+            <div class="fg"><label class="flbl">SM Atual</label>
+              <select class="finp">
+                <option selected>Ana Lima</option>
+                <option>Rafael Silva</option>
+                <option>João Santos</option>
+              </select>
+            </div>
+            <button class="btn-sm" onclick="showToast('SM alterado com sucesso!')">Transferir founder</button>
+          </div>
+          <div class="danger-zone">
+            <h3>Zona de risco</h3>
+            <p>Arquivar este founder remove-o da lista ativa. Os dados e histórico são preservados.</p>
+            <button class="btn-danger" onclick="openArchiveModal()">Arquivar founder</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<!-- ═══ ADD FOUNDER MODAL ═══ -->
+<div class="overlay" id="add-modal" onclick="closeModalOut(event,'add-modal')">
+  <div class="modal">
+    <div class="modal-hdr">
+      <div class="modal-title">Novo Founder</div>
+      <button class="btn-close" onclick="closeModal('add-modal')">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
+      </button>
+    </div>
+
+    <div class="form-row-2">
+      <div class="fg"><label class="flbl">Nome completo *</label><input type="text" class="finp" placeholder="Pedro Souza" id="new-name"></div>
+      <div class="fg"><label class="flbl">Empresa</label><input type="text" class="finp" placeholder="Souza Distribuidora"></div>
+    </div>
+    <div class="form-row-2">
+      <div class="fg"><label class="flbl">E-mail *</label><input type="email" class="finp" placeholder="pedro@empresa.com.br"></div>
+      <div class="fg"><label class="flbl">WhatsApp *</label><input type="tel" class="finp" placeholder="+55 11 99999-9999"></div>
+    </div>
+    <div class="fg"><label class="flbl">Nicho / Segmento</label><input type="text" class="finp" placeholder="Ex: Varejo, Saúde, Tecnologia"></div>
+    <div class="fg">
+      <label class="flbl">SM responsável *</label>
+      <select class="finp" id="sm-select" onchange="checkCapacity()">
+        <option value="">Selecionar SM</option>
+        <option value="rafael" data-pct="72">Rafael Silva (14/20 founders)</option>
+        <option value="ana" data-pct="95">Ana Lima (19/20 founders)</option>
+        <option value="joao" data-pct="60">João Santos (12/20 founders)</option>
+      </select>
+      <div class="sm-warn" id="sm-warn" style="display:none">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#a05c00" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3z"/><path d="M12 9v4M12 17h.01"/></svg>
+        <span id="sm-warn-text">Ana Lima está 95% da capacidade (19/20 founders)</span>
+      </div>
+    </div>
+
+    <div style="margin-bottom:12px">
+      <label class="flbl" style="display:block;margin-bottom:6px">Link de onboarding</label>
+      <div class="invite-link">
+        <span class="invite-link-txt">https://app.ktana.ai/onboarding/4f8e2d9a1b7c3e6f9d2a...</span>
+        <button style="background:none;border:none;cursor:pointer;color:var(--brand);padding:2px 4px" onclick="showToast('Link copiado!')">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+        </button>
+      </div>
+      <div class="send-btns">
+        <button class="btn-send" onclick="showToast('Abrindo WhatsApp...')">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+          Enviar WA
+        </button>
+        <button class="btn-send" onclick="showToast('E-mail enviado!')">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+          Enviar Email
+        </button>
+        <button class="btn-send" onclick="showToast('Link copiado!')">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+          Copiar link
+        </button>
+      </div>
+    </div>
+
+    <div class="modal-footer">
+      <button class="btn-sec" onclick="closeModal('add-modal')">Cancelar</button>
+      <button class="btn-prim" onclick="createFounder()">Criar e enviar convite</button>
+    </div>
+  </div>
+</div>
+
+<!-- ARCHIVE MODAL -->
+<div class="overlay" id="archive-modal" onclick="closeModalOut(event,'archive-modal')">
+  <div class="modal archive-modal">
+    <div class="modal-hdr">
+      <div class="modal-title">Arquivar founder</div>
+      <button class="btn-close" onclick="closeModal('archive-modal')">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
+      </button>
+    </div>
+    <div class="archive-warn">
+      Esta ação remove João Mendes da lista ativa. O histórico de conteúdo e métricas é preservado e acessível via filtro "Arquivados".
+    </div>
+    <div class="fg">
+      <label class="confirm-label">Para confirmar, digite o nome: <strong>João Mendes</strong></label>
+      <input type="text" class="finp" placeholder="João Mendes" id="archive-confirm" oninput="checkArchiveConfirm()">
+    </div>
+    <div class="modal-footer">
+      <button class="btn-sec" onclick="closeModal('archive-modal')">Cancelar</button>
+      <button class="btn-prim" id="archive-btn" style="background:linear-gradient(135deg,#b00,#800);opacity:0.4;cursor:not-allowed" disabled onclick="doArchive()">Arquivar</button>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<script>
+  const founders = document.querySelectorAll('.fc');
+
+  /* ── NAV ── */
+  function openWorkspace(id) {
+    document.getElementById('view-list').classList.remove('active');
+    document.getElementById('view-workspace').classList.add('active');
+    document.getElementById('topbar-content').innerHTML = '<span class="topbar-breadcrumb" onclick="backToList()"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg> Founders</span>';
+    switchTab('visao-geral', document.querySelector('.tab-btn'));
+  }
+
+  function backToList() {
+    document.getElementById('view-workspace').classList.remove('active');
+    document.getElementById('view-list').classList.add('active');
+    document.getElementById('topbar-content').innerHTML = '<span class="topbar-title">FOUNDERS</span>';
+  }
+
+  /* ── TABS ── */
+  function switchTab(name, btn) {
+    document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById('tab-' + name).classList.add('active');
+    if (btn) btn.classList.add('active');
+  }
+
+  /* ── FILTER ── */
+  function filterList() {
+    const q = (document.getElementById('search-inp').value || '').toLowerCase();
+    let visible = 0;
+    founders.forEach(fc => {
+      const name = fc.dataset.name.toLowerCase();
+      const show = !q || name.includes(q);
+      fc.style.display = show ? '' : 'none';
+      if (show) visible++;
+    });
+    document.getElementById('count-label').textContent = visible + ' founders';
+    document.getElementById('empty-state').style.display = visible === 0 ? 'block' : 'none';
+  }
+
+  /* ── MODALS ── */
+  function openAddModal() { document.getElementById('add-modal').classList.add('show'); }
+  function openArchiveModal() { document.getElementById('archive-modal').classList.add('show'); }
+  function closeModal(id) { document.getElementById(id).classList.remove('show'); }
+  function closeModalOut(e, id) { if (e.target.id === id) closeModal(id); }
+
+  function checkCapacity() {
+    const sel = document.getElementById('sm-select');
+    const opt = sel.options[sel.selectedIndex];
+    const pct = parseInt(opt.dataset.pct || '0');
+    const warn = document.getElementById('sm-warn');
+    if (pct >= 80) {
+      warn.style.display = 'flex';
+      document.getElementById('sm-warn-text').textContent = opt.text.split('(')[0].trim() + ' está ' + pct + '% da capacidade';
+    } else {
+      warn.style.display = 'none';
+    }
+  }
+
+  function createFounder() {
+    const name = document.getElementById('new-name').value.trim();
+    if (!name) { showToast('Informe o nome do founder'); return; }
+    closeModal('add-modal');
+    showToast('Founder criado e convite enviado!');
+  }
+
+  function checkArchiveConfirm() {
+    const val = document.getElementById('archive-confirm').value;
+    const btn = document.getElementById('archive-btn');
+    const match = val.toLowerCase() === 'joão mendes';
+    btn.disabled = !match;
+    btn.style.opacity = match ? '1' : '0.4';
+    btn.style.cursor = match ? 'pointer' : 'not-allowed';
+  }
+
+  function doArchive() {
+    closeModal('archive-modal');
+    backToList();
+    showToast('João Mendes arquivado com sucesso');
+  }
+
+  /* ── TOAST ── */
+  let tt = null;
+  function showToast(msg) {
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    t.classList.add('show');
+    if (tt) clearTimeout(tt);
+    tt = setTimeout(() => t.classList.remove('show'), 2800);
+  }
+</script>
+</body>
+</html>
